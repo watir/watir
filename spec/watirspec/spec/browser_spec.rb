@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/spec_helper.rb'
+require File.dirname(__FILE__) + '/spec_helper'
 
 describe "Browser" do
 
@@ -6,51 +6,8 @@ describe "Browser" do
     @browser = Browser.new(WatirSpec.browser_options)
   end
 
-  describe "#new" do
-    it "raises TypeError if argument is not a Hash" do
-      lambda { Browser.new(:foo) }.should raise_error(TypeError)
-    end
-
-    it "raises ArgumentError if given bad arguments for :render key" do
-      lambda { Browser.new(:render => :foo) }.should raise_error(ArgumentError)
-    end
-
-    it "raises ArgumentError if given bad arguments for :browser key" do
-      lambda { Browser.new(:browser => 'foo') }.should raise_error(ArgumentError)
-    end
-
-    it "raises ArgumentError if given an unknown option" do
-      lambda { Browser.new(:foo => 1) }.should raise_error(ArgumentError)
-    end
-
-    it "should hold the init options" do
-      @browser.options.should == WatirSpec.browser_options
-    end
-
-    it "should use the specified proxy" do
-      received = false
-      blk      = lambda { received = true }
-      s = WEBrick::HTTPProxyServer.new(:Port => 2001, :ProxyContentHandler => blk)
-      Thread.new { s.start }
-
-      b = Browser.new(WatirSpec.browser_options.merge(:proxy => "localhost:2001"))
-      b.goto(WatirSpec.host)
-      s.shutdown
-
-      received.should be_true
-    end
-
-    it "should use the specified user agent" do
-      b = Browser.new(WatirSpec.browser_options.merge(:user_agent => "Celerity"))
-      b.goto(WatirSpec.host + "/header_echo")
-      b.text.should include(%q["user-agent"=>["Celerity"]])
-    end
-
-  end
-
   describe "#exists?" do
     it "returns true if we are at a page" do
-      @browser.should_not exist
       @browser.goto(WatirSpec.files + "/non_control_elements.html")
       @browser.should exist
     end
@@ -65,14 +22,6 @@ describe "Browser" do
     it "returns the html of the page" do
       @browser.goto(WatirSpec.files + "/non_control_elements.html")
       @browser.html.should == File.read(File.dirname(__FILE__) + "/html/non_control_elements.html")
-    end
-
-    %w(shift_jis iso-2022-jp euc-jp).each do |charset|
-      it "returns decoded #{charset.upcase} when :charset specified" do
-        browser = Browser.new(WatirSpec.browser_options.merge(:charset => charset.upcase))
-        browser.goto(WatirSpec.files + "/#{charset}_text.html")
-        browser.html.should =~ /本日は晴天なり。/ # Browser#text is automagically transcoded into the right charset, but Browser#html isn't.
-      end
     end
   end
 
@@ -102,50 +51,6 @@ describe "Browser" do
       @browser.goto(WatirSpec.host + "/plain_text")
       @browser.text.strip.should == 'This is text/plain'
     end
-
-# disabled for CI - need fix from HtmlUnit
-#     it "returns a text representation including newlines" do
-#       @browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
-#       @browser.text.should == <<-TEXT
-# Forms with input elementsUser administration
-#
-# Add user
-#
-# Personal informationFirst name
-#
-# Last name
-#
-# Email address
-#
-# Country  Denmark Norway Sweden United Kingdom USA
-#
-# Occupation
-#
-# Species
-#
-# Personal code
-#
-# Languages  Danish English Norwegian Swedish
-#
-# Portrait
-#
-# Dental records   Login informationUsername (max 20 characters)  0
-#
-# Password
-#
-# Role  Administrator Moderator Regular user  Interests Books  Bowling  Cars  Dancing  Dentistry   Food  Preferences
-#
-# Do you want to recieve our newslettter?
-#
-#  Yes  No  Certainly  Absolutely  Nah  Actions  Button 2
-#
-# Delete user
-#
-# Username  Username 1 Username 2 Username 3
-#
-# Comment Default comment.
-# TEXT
-#     end
   end
 
   describe "#url" do
@@ -158,7 +63,9 @@ describe "Browser" do
   describe "#document" do
     it "returns the underlying object" do
       @browser.goto(WatirSpec.files + "/non_control_elements.html")
-      if RUBY_PLATFORM =~ /java/
+      
+      case @browser.class.name
+      when "Celerity::Browser"
         @browser.document.should be_instance_of(Java::ComGargoylesoftwareHtmlunitHtml::HtmlHtml)
       else
         @browser.document.should be_instance_of(WIN32OLE)
@@ -166,33 +73,6 @@ describe "Browser" do
     end
   end
 
-  describe "#response_headers" do
-    it "returns the response headers (as a hash)" do
-      @browser.goto(WatirSpec.host + "/non_control_elements.html")
-      @browser.response_headers.should be_kind_of(Hash)
-      @browser.response_headers['Date'].should be_kind_of(String)
-      @browser.response_headers['Content-Type'].should be_kind_of(String)
-    end
-  end
-
-  describe "#content_type" do
-    it "returns the content type" do
-      @browser.goto(WatirSpec.host + "/non_control_elements.html")
-      @browser.content_type.should =~ /\w+\/\w+/
-    end
-  end
-
-
-  describe "#io" do
-    it "returns the io object of the content" do
-      @browser.goto(WatirSpec.files + "/non_control_elements.html")
-      @browser.io.should be_kind_of(IO)
-      @browser.io.read.should == File.read("#{File.dirname(__FILE__)}/html/non_control_elements.html")
-    end
-  end
-
-
-  # Manipulation methods
   describe ".start" do
     it "goes to the given URL and return an instance of itself" do
       @browser = Browser.start(WatirSpec.files + "/non_control_elements.html")
@@ -211,10 +91,6 @@ describe "Browser" do
 
     it "goes to the given url without raising errors" do
       lambda { @browser.goto(WatirSpec.files + "/non_control_elements.html") }.should_not raise_error
-    end
-
-    it "raises UnexpectedPageException if the content type is not understood" do
-      lambda { @browser.goto(WatirSpec.host + "/octet_stream") }.should raise_error(UnexpectedPageException)
     end
 
     it "updates the page when location is changed with setTimeout + window.location" do
@@ -243,60 +119,6 @@ describe "Browser" do
     end
   end
 
-  describe "#cookies" do
-    it "returns set cookies as a Ruby hash" do
-      cookies = @browser.cookies
-      cookies.should be_instance_of(Hash)
-      cookies.should be_empty
-
-      @browser.goto(WatirSpec.host + "/set_cookie")
-
-      cookies = @browser.cookies
-      cookies.size.should == 1
-      cookies['localhost']['monster'].should == "/"
-    end
-  end
-
-  describe "#clear_cookies" do
-    it "clears all cookies" do
-      @browser.cookies.should be_empty
-      @browser.goto(WatirSpec.host + "/set_cookie")
-      @browser.cookies.size.should == 1
-      @browser.clear_cookies
-      @browser.cookies.should be_empty
-    end
-  end
-
-  describe "add_cookie" do
-    it "adds a cookie with the given domain, name and value" do
-      @browser.add_cookie("example.com", "foo", "bar")
-      cookies = @browser.cookies
-      cookies.should be_instance_of(Hash)
-      cookies.should have_key('example.com')
-      cookies['example.com']['foo'].should == 'bar'
-
-      @browser.clear_cookies
-    end
-
-    it "adds a cookie with the specified options" do
-      @browser.add_cookie("example.com", "foo", "bar", :path => "/foobar", :max_age => 1000)
-      cookies = @browser.cookies
-      cookies.should be_instance_of(Hash)
-      cookies['example.com']['foo'].should == 'bar'
-    end
-  end
-
-  describe "remove_cookie" do
-    it "removes the cookie for the given domain and name" do
-      @browser.goto(WatirSpec.host + "/set_cookie")
-      @browser.remove_cookie("localhost", "monster")
-      @browser.cookies.should be_empty
-    end
-
-    it "raises an error if no such cookie exists" do
-      lambda { @browser.remove_cookie("bogus.com", "bar") }.should raise_error(CookieNotFoundError)
-    end
-  end
 
   describe "#back and #forward" do
     it "goes to the previous page" do
@@ -339,42 +161,6 @@ describe "Browser" do
     end
   end
 
-  describe "#wait" do
-    it "should wait for javascript timers to finish" do
-      alerts = 0
-      @browser.add_listener(:alert) { alerts += 1 }
-      @browser.goto(WatirSpec.files + "/timeout.html")
-      @browser.div(:id, 'alert').click
-      @browser.wait.should be_true
-      alerts.should == 1
-    end
-  end
-
-  describe "#wait_while" do
-    it "waits until the specified condition becomes false" do
-      @browser.goto(WatirSpec.files + "/timeout.html")
-      @browser.div(:id, "change").click
-      @browser.wait_while { @browser.contains_text("Trigger change") }
-      @browser.div(:id, "change").text.should == "all done"
-    end
-
-    it "returns the value returned from the block" do
-      @browser.wait_while { false }.should == false
-    end
-  end
-
-  describe "#wait_until" do
-    it "waits until the condition becomes true" do
-      @browser.goto(WatirSpec.files + "/timeout.html")
-      @browser.div(:id, "change").click
-      @browser.wait_until { @browser.contains_text("all done") }
-    end
-
-    it "returns the value returned from the block" do
-      @browser.wait_until { true }.should == true
-    end
-
-  end
 
   # Other
   describe "#contains_text" do
@@ -413,35 +199,25 @@ describe "Browser" do
     end
 
     it "finds submit buttons matching the given xpath" do
-      e = @browser.element_by_xpath("//input[@type='submit']")
-      e.should exist
+      @browser.element_by_xpath("//input[@type='submit']").should exist
     end
 
     it "finds reset buttons matching the given xpath" do
-      e = @browser.element_by_xpath("//input[@type='reset']")
-      e.should exist
+      @browser.element_by_xpath("//input[@type='reset']").should exist
     end
 
     it "finds image buttons matching the given xpath" do
-      e = @browser.element_by_xpath("//input[@type='image']")
-      e.should exist
+      @browser.element_by_xpath("//input[@type='image']").should exist
     end
 
     it "finds the element matching the given xpath" do
-      e = @browser.element_by_xpath("//input[@type='password']")
-      e.should exist
+      @browser.element_by_xpath("//input[@type='password']").should exist
     end
 
     it "will not find elements that doesn't exist" do
       e = @browser.element_by_xpath("//input[@type='foobar']")
       e.should_not exist
       lambda { e.set('foo') }.should raise_error(UnknownObjectException)
-    end
-
-    it "returns usable elements even though they're not supported" do
-      el = @browser.element_by_xpath("//link")
-      el.should be_instance_of(Celerity::Element)
-      el.rel.should == "stylesheet"
     end
   end
 
@@ -468,16 +244,20 @@ describe "Browser" do
 
     it "runs the given proc on each page load" do
       output = ''
-      proc = Proc.new { |ie| output << ie.text }
+      proc = Proc.new { |browser| output << browser.text }
+      
       @browser.add_checker(proc)
       @browser.goto(WatirSpec.files + "/non_control_elements.html")
+      
       output.should include('Dubito, ergo cogito, ergo sum')
     end
 
     it "runs the given block on each page load" do
       output = ''
-      @browser.add_checker { |ie| output << ie.text }
+      
+      @browser.add_checker { |browser| output << browser.text }
       @browser.goto(WatirSpec.files + "/non_control_elements.html")
+      
       output.should include('Dubito, ergo cogito, ergo sum')
     end
   end
@@ -485,7 +265,7 @@ describe "Browser" do
   describe "#disable_checker" do
     it "removes a previously added checker" do
       output = ''
-      checker = lambda { |ie| output << ie.text }
+      checker = lambda { |browser| output << browser.text }
 
       @browser.add_checker(checker)
       @browser.goto(WatirSpec.files + "/non_control_elements.html")
@@ -497,73 +277,10 @@ describe "Browser" do
     end
   end
 
-  describe "#focused_element" do
-    it "returns the element that currently has the focus" do
-      @browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
-      @browser.focused_element.id.should == "new_user_first_name"
-    end
-  end
-
-  describe "#status_code" do
-    it "returns the status code of the last request" do
-      @browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
-      @browser.status_code.should == 200
-
-      @browser.goto(WatirSpec.host + "/doesnt_exist")
-      @browser.status_code.should == 404
-    end
-  end
-
-  describe "#status_code_exceptions" do
-    it "raises status code exceptions if set to true" do
-      @browser.status_code_exceptions = true
-      lambda do
-        @browser.goto(WatirSpec.host + "/doesnt_exist")
-      end.should raise_error(NavigationException)
-    end
-  end
-
-  describe "#javascript_exceptions" do
-    it "raises javascript exceptions if set to true" do
-      @browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
-      @browser.javascript_exceptions = true
-      lambda do
-        @browser.execute_script("no_such_function()")
-      end.should raise_error
-    end
-  end
-
-  describe "#add_listener" do
-    it "should click OK for confirm() calls" do
-      @browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
-      @browser.add_listener(:confirm) {  }
-      @browser.execute_script("confirm()").should == true
-    end
-  end
-
-  describe "#confirm" do
-    it "clicks 'OK' for a confirm() call" do
-      @browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
-
-      @browser.confirm(true) do
-        @browser.execute_script('confirm()').should be_true
-      end
-    end
-
-    it "clicks 'cancel' for a confirm() call" do
-      @browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
-
-      @browser.confirm(false) do
-        @browser.execute_script('confirm()').should be_false
-      end
-    end
-  end
-
   it "raises UnknownObjectException when trying to access DOM elements on plain/text-page" do
     @browser.goto(WatirSpec.host + "/plain_text")
     lambda { @browser.div(:id, 'foo').id }.should raise_error(UnknownObjectException)
   end
-
 
   after :all do
     @browser.close

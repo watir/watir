@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/spec_helper.rb'
+require File.dirname(__FILE__) + '/spec_helper'
 
 describe "H1s", "H2s", "H3s", "H4s", "H5s", "H6s" do
 
