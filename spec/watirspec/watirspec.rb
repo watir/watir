@@ -10,7 +10,7 @@ module WatirSpec
     end
     
     def files
-      "file://#{@html}"
+      "file://#{html}"
     end
     
     def host
