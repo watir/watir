@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/spec_helper.rb'
 describe "Browser" do
 
   before :all do
-    @browser = Browser.new(BROWSER_OPTIONS)
+    @browser = Browser.new(WatirSpec.browser_options)
   end
 
   describe "#credentials=" do

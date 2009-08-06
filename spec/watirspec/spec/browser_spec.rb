@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/spec_helper.rb'
 describe "Browser" do
 
   before :all do
-    @browser = Browser.new(BROWSER_OPTIONS)
+    @browser = Browser.new(WatirSpec.browser_options)
   end
 
   describe "#new" do
@@ -24,7 +24,7 @@ describe "Browser" do
     end
 
     it "should hold the init options" do
-      @browser.options.should == BROWSER_OPTIONS
+      @browser.options.should == WatirSpec.browser_options
     end
 
     it "should use the specified proxy" do
@@ -33,7 +33,7 @@ describe "Browser" do
       s = WEBrick::HTTPProxyServer.new(:Port => 2001, :ProxyContentHandler => blk)
       Thread.new { s.start }
 
-      b = Browser.new(BROWSER_OPTIONS.merge(:proxy => "localhost:2001"))
+      b = Browser.new(WatirSpec.browser_options.merge(:proxy => "localhost:2001"))
       b.goto(WatirSpec.host)
       s.shutdown
 
@@ -41,7 +41,7 @@ describe "Browser" do
     end
 
     it "should use the specified user agent" do
-      b = Browser.new(BROWSER_OPTIONS.merge(:user_agent => "Celerity"))
+      b = Browser.new(WatirSpec.browser_options.merge(:user_agent => "Celerity"))
       b.goto(WatirSpec.host + "/header_echo")
       b.text.should include(%q["user-agent"=>["Celerity"]])
     end
@@ -69,7 +69,7 @@ describe "Browser" do
 
     %w(shift_jis iso-2022-jp euc-jp).each do |charset|
       it "returns decoded #{charset.upcase} when :charset specified" do
-        browser = Browser.new(BROWSER_OPTIONS.merge(:charset => charset.upcase))
+        browser = Browser.new(WatirSpec.browser_options.merge(:charset => charset.upcase))
         browser.goto(WatirSpec.files + "/#{charset}_text.html")
         browser.html.should =~ /本日は晴天なり。/ # Browser#text is automagically transcoded into the right charset, but Browser#html isn't.
       end
@@ -402,7 +402,7 @@ describe "Browser" do
     end
 
     it "does not raise error on a blank page" do
-      @browser = Browser.new(BROWSER_OPTIONS)
+      @browser = Browser.new(WatirSpec.browser_options)
       lambda { @browser.contains_text('') }.should_not raise_error
     end
   end

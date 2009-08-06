@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/spec_helper.rb'
 describe "DefaultViewer" do
 
   before :all do
-    @browser = Browser.new(BROWSER_OPTIONS)
+    @browser = Browser.new(WatirSpec.browser_options)
     @browser.goto(WatirSpec.files + "/definition_lists.html")
   end
 

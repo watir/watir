@@ -3,6 +3,8 @@ require "sinatra"
 
 module WatirSpec
   class << self
+    attr_accessor :browser_options
+    
     def html
       File.expand_path("#{File.dirname(__FILE__)}/spec/html")
     end

@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/spec_helper.rb'
 describe "IE" do
 
   before :each do
-    @browser = Browser.new(BROWSER_OPTIONS)
+    @browser = Browser.new(WatirSpec.browser_options)
   end
 
   # Class methods
@@ -85,7 +85,7 @@ end
 describe "Button" do
 
   before :all do
-    @browser = Browser.new(BROWSER_OPTIONS)
+    @browser = Browser.new(WatirSpec.browser_options)
   end
 
   before :each do
@@ -104,7 +104,7 @@ end
 describe "Link" do
 
   before :all do
-    @browser = Browser.new(BROWSER_OPTIONS)
+    @browser = Browser.new(WatirSpec.browser_options)
   end
 
   before :each do
@@ -123,7 +123,7 @@ end
 describe "Image" do
 
   before :all do
-    @browser = Browser.new(BROWSER_OPTIONS)
+    @browser = Browser.new(WatirSpec.browser_options)
   end
 
   before :each do
@@ -161,7 +161,7 @@ end
 
 describe "RadioCheckCommon" do
   before :all do
-    @browser = Browser.new(BROWSER_OPTIONS)
+    @browser = Browser.new(WatirSpec.browser_options)
   end
 
   before :each do
@@ -197,7 +197,7 @@ end
 describe "SelectList" do
 
   before :all do
-    @browser = Browser.new(BROWSER_OPTIONS)
+    @browser = Browser.new(WatirSpec.browser_options)
   end
 
   before :each do
@@ -237,7 +237,7 @@ end
 describe "TextField" do
 
   before :all do
-    @browser = Browser.new(BROWSER_OPTIONS)
+    @browser = Browser.new(WatirSpec.browser_options)
   end
 
   before :each do

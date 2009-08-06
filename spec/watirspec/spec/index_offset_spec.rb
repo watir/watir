@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/spec_helper.rb'
 describe "Celerity.index_offset" do
 
   before :all do
-    @browser = Browser.new(BROWSER_OPTIONS)
+    @browser = Browser.new(WatirSpec.browser_options)
     @browser.goto(WatirSpec.files + "/non_control_elements.html")
     
     Celerity.index_offset = 0
