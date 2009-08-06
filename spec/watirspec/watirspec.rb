@@ -81,6 +81,7 @@ module WatirSpec
       auth = Rack::Auth::Basic::Request.new(env)
       
       unless auth.provided? && auth.credentials == %w[foo bar]
+        header 'WWW-Authenticate' => %(Basic realm="localhost")
         halt 401, 'Authorization Required'
       end
       
