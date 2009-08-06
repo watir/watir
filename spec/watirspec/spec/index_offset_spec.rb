@@ -4,7 +4,7 @@ describe "Celerity.index_offset" do
 
   before :all do
     @browser = Browser.new(BROWSER_OPTIONS)
-    @browser.goto(HTML_DIR + "/non_control_elements.html")
+    @browser.goto(WatirSpec.files + "/non_control_elements.html")
     
     Celerity.index_offset = 0
   end

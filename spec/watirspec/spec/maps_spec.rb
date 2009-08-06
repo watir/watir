@@ -7,7 +7,7 @@ describe "Maps" do
   end
 
   before :each do
-    @browser.goto(HTML_DIR + "/images.html")
+    @browser.goto(WatirSpec.files + "/images.html")
   end
 
   describe "#length" do

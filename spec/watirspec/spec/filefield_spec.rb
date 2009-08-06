@@ -6,7 +6,7 @@ describe "FileField" do
   end
 
   before :each do
-    @browser.goto(HTML_DIR + "/forms_with_input_elements.html")
+    @browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
   end
 
   describe "#exist?" do
@@ -108,7 +108,7 @@ describe "FileField" do
 
   describe "#set" do
     it "is able to set a file path in the field and click the upload button and fire the onchange event" do
-      @browser.goto(TEST_HOST + "/forms_with_input_elements.html")
+      @browser.goto(WatirSpec.host + "/forms_with_input_elements.html")
 
       alerts = []
       @browser.add_listener(:alert) { |_, msg| alerts << msg }

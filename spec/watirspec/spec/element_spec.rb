@@ -7,7 +7,7 @@ describe "Element" do
   end
 
   before :each do
-    @browser.goto(HTML_DIR + "/forms_with_input_elements.html")
+    @browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
   end
 
   describe ".new" do
@@ -126,9 +126,9 @@ describe "Element" do
 
 #   describe "#html" do
 #     it "returns the descriptive (actual) html for the image element" do
-#       @browser.goto(HTML_DIR + "/images.html")
+#       @browser.goto(WatirSpec.files + "/images.html")
 #       @browser.image(:id, 'non_self_closing').html.chomp.should == '<img src="images/1.gif" alt="1" id="non_self_closing"></img>'
-#       @browser.goto(HTML_DIR + "/non_control_elements.html")
+#       @browser.goto(WatirSpec.files + "/non_control_elements.html")
 #       @browser.div(:id, 'html_test').html.chomp.should ==
 # '<div id="html_test" class=some_class title = "This is a title">
 #     asdf
@@ -139,7 +139,7 @@ describe "Element" do
 # disabled for CI - need fix from HtmlUnit
   # describe "#text" do
   #   it "returns a text representation including newlines" do
-  #     @browser.goto(HTML_DIR + "/forms_with_input_elements.html")
+  #     @browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
   #     @browser.form(:id, "delete_user").text.should == "Username  Username 1 Username 2 Username 3 \nComment Default comment."
   #   end
   # end

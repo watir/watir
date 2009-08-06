@@ -7,7 +7,7 @@ describe "Button" do
   end
 
   before :each do
-    @browser.goto(HTML_DIR + "/forms_with_input_elements.html")
+    @browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
   end
 
   # Exists method
@@ -66,7 +66,7 @@ describe "Button" do
     end
     
     # it "locates the correct button when there are duplicate ids and user disambiguates by parent" do
-    #   @browser.goto(HTML_DIR + "/buttons_with_duplicate_ids.html")
+    #   @browser.goto(WatirSpec.files + "/buttons_with_duplicate_ids.html")
     #   @browser.form(:name, "bar-form").button(:id, 'next').parent.name.should == "bar-form"
     # end
   end
@@ -225,7 +225,7 @@ describe "Button" do
   # Manipulation methods
   describe "#click" do
     it "clicks the button if it exists" do
-      @browser.goto(TEST_HOST + "/forms_with_input_elements.html")
+      @browser.goto(WatirSpec.host + "/forms_with_input_elements.html")
       @browser.button(:id, 'new_user_submit').click
       @browser.text.should include("You posted the following content:")
     end

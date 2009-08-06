@@ -6,7 +6,7 @@ describe "Frame" do
   end
 
   before :each do
-   @browser.goto(HTML_DIR + "/frames.html")
+   @browser.goto(WatirSpec.files + "/frames.html")
   end
 
   it "handles crossframe javascript" do
@@ -32,7 +32,7 @@ describe "Frame" do
     end
 
     it "returns true if the iframe exists" do
-      @browser.goto(HTML_DIR + "/iframes.html")
+      @browser.goto(WatirSpec.files + "/iframes.html")
       @browser.frame(:id, "frame_1").should exist
       @browser.frame(:id, /frame/).should exist
       @browser.frame(:name, "frame1").should exist
@@ -47,7 +47,7 @@ describe "Frame" do
 
     it "returns true if the element exists (default how = :name)" do
       @browser.frame("frame1").should exist
-      @browser.goto(HTML_DIR + "/iframes.html")
+      @browser.goto(WatirSpec.files + "/iframes.html")
       @browser.frame("frame1").should exist
     end
 
@@ -137,7 +137,7 @@ describe "Frame" do
 
   describe "#elements_by_xpath" do
     before :each do
-      @browser.goto(HTML_DIR + "/iframes.html")
+      @browser.goto(WatirSpec.files + "/iframes.html")
     end
 
     it "returns an Array of matching elements" do

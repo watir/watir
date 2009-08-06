@@ -7,7 +7,7 @@ describe "Tables" do
   end
 
   before :each do
-    @browser.goto(HTML_DIR + "/tables.html")
+    @browser.goto(WatirSpec.files + "/tables.html")
   end
 
   describe "#length" do

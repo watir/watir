@@ -7,7 +7,7 @@ describe "Dd" do
   end
 
   before :each do
-    @browser.goto(HTML_DIR + "/definition_lists.html")
+    @browser.goto(WatirSpec.files + "/definition_lists.html")
   end
 
 

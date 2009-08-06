@@ -7,7 +7,7 @@ describe "Link" do
   end
 
   before :each do
-    @browser.goto(HTML_DIR + "/non_control_elements.html")
+    @browser.goto(WatirSpec.files + "/non_control_elements.html")
   end
 
   # Exists method
@@ -90,7 +90,7 @@ describe "Link" do
 
   describe "absolute_url" do
     it "returns the absolute URL for a link with a relative href attribute" do
-      @browser.link(:index, 2).absolute_url.should include("#{HTML_DIR}/non_control_elements.html".gsub("file://", ''))
+      @browser.link(:index, 2).absolute_url.should include("#{WatirSpec.files}/non_control_elements.html".gsub("file://", ''))
     end
   end
 

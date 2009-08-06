@@ -6,7 +6,7 @@ describe "Form" do
   end
 
   before :each do
-   @browser.goto(HTML_DIR + "/forms_with_input_elements.html")
+   @browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
   end
 
   describe "#exists" do

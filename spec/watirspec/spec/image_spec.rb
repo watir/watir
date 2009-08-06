@@ -7,7 +7,7 @@ describe "Image" do
   end
 
   before :each do
-    @browser.goto(HTML_DIR + "/images.html")
+    @browser.goto(WatirSpec.files + "/images.html")
   end
 
   # Exists method
@@ -147,7 +147,7 @@ describe "Image" do
   # File methods
   describe "#file_created_date" do
     it "returns the date the image was created as reported by the file system" do
-      @browser.goto(TEST_HOST + "/images.html")
+      @browser.goto(WatirSpec.host + "/images.html")
       image = @browser.image(:index, 2)
       path = File.dirname(__FILE__) + "/html/#{image.src}"
       image.file_created_date.to_i.should == File.mtime(path).to_i
@@ -156,7 +156,7 @@ describe "Image" do
 
   describe "#file_size" do
     it "returns the file size of the image if the image exists" do
-      @browser.image(:id, 'square').file_size.should == File.size("#{HTML_DIR}/images/square.jpg".sub("file://", ''))
+      @browser.image(:id, 'square').file_size.should == File.size("#{WatirSpec.files}/images/square.jpg".sub("file://", ''))
     end
 
     it "raises UnknownObjectException if the image doesn't exist" do

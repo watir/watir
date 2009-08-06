@@ -7,7 +7,7 @@ describe "Div" do
   end
 
   before :each do
-    @browser.goto(HTML_DIR + "/non_control_elements.html")
+    @browser.goto(WatirSpec.files + "/non_control_elements.html")
   end
 
 
@@ -52,7 +52,7 @@ describe "Div" do
     end
     
     # it "locates the correct button when there are duplicate ids and user disambiguates by parent" do
-    #   @browser.goto(HTML_DIR + "/buttons_with_duplicate_ids.html")
+    #   @browser.goto(WatirSpec.files + "/buttons_with_duplicate_ids.html")
     #   @browser.form(:name, "bar-form").div(:id, "name").parent.name.should == "bar-form"
     # end
     
@@ -92,7 +92,7 @@ describe "Div" do
     end
 
     it "should take all conditions into account when locating by id" do
-      @browser.goto HTML_DIR + "/multiple_ids.html"
+      @browser.goto WatirSpec.files + "/multiple_ids.html"
       @browser.div(:id => "multiple", :class => "bar").class_name.should == "bar"
     end
   end
@@ -205,7 +205,7 @@ describe "Div" do
   describe "#right_click" do
     it "fires the oncontextmenu event" do
       right_clicked = false
-      @browser.goto(HTML_DIR + "/right_click.html")
+      @browser.goto(WatirSpec.files + "/right_click.html")
       @browser.add_listener(:alert) { right_clicked = true }
       @browser.div(:id, "click").right_click
       right_clicked.should be_true

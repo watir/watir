@@ -7,7 +7,7 @@ describe "H1s", "H2s", "H3s", "H4s", "H5s", "H6s" do
   end
 
   before :each do
-    @browser.goto(HTML_DIR + "/non_control_elements.html")
+    @browser.goto(WatirSpec.files + "/non_control_elements.html")
   end
 
   describe "#length" do

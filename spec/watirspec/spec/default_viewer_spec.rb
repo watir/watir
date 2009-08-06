@@ -4,7 +4,7 @@ describe "DefaultViewer" do
 
   before :all do
     @browser = Browser.new(BROWSER_OPTIONS)
-    @browser.goto(HTML_DIR + "/definition_lists.html")
+    @browser.goto(WatirSpec.files + "/definition_lists.html")
   end
 
   describe ".save" do
