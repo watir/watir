@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>Forms with input elements</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="this is a test page for forms with input elements" />
+    <link rel="stylesheet" href="/bogus.css" type="text/css" media="screen" title="no title" charset="utf-8">
+  </head>
+  <body onload="document.forms[0].elements[0].focus()">
+    <h1><a href="">User administration</a></h1>
+    <h2>Add user</h2>
+    <form enctype="multipart/form-data" action="post_to_me" method="post" name="user_new" id="new_user" class="user">
+        <fieldset>
+            <legend>Personal information</legend>
+            <label for="new_user_first_name" id="first_label" onclick="alert('label')">First name</label>
+            <input name="new_user_first_name" id="new_user_first_name" class="name" /> <br />
+            <label for="new_user_last_name">Last name</label>
+            <input type="no_such_type" name="new_user_last_name" id="new_user_last_name" class="name" /> <br />
+            <label for="new_user_email">Email address</label>
+            <input type="text" name="new_user_email" id="new_user_email" /> <br />
+            <label for="new_user_country">Country</label>
+            <select name="new_user_country" id="new_user_country" class="country">
+                <option class="scandinavia" value="1">Denmark</option>
+                <option id="nor" class="scandinavia" value="2" selected="selected">Norway</option>
+                <option class="scandinavia" value="3">Sweden</option>
+                <option value="4">United Kingdom</option>
+                <option value="5">USA</option>
+                <option label="Germany" />
+            </select> <br />
+            <label for="new_user_occupation">Occupation</label>
+            <input type="text" name="new_user_occupation" id="new_user_occupation" value="Developer" onfocus="document.getElementById('onfocus_test').innerHTML = 'changed by onfocus event'"/> <br />
+            <label for="new_user_species">Species</label>
+            <input type="text" name="new_user_species" id="new_user_species" value="Homo sapiens sapiens" disabled="disabled" /> <br />
+            <label for="new_user_code">Personal code</label>
+            <input type="text" title="Your personal code" name="new_user_code" id="new_user_code" value="HE2FF8" readonly="readonly" /> <br  />
+            <label for="new_user_languages">Languages</label>
+            <select name="new_user_languages" id="new_user_languages" multiple="multiple" onchange="alert('changed language');">
+                <option id="danish">Danish</option>
+                <option selected="selected">English</option>
+                <option selected="selected">Norwegian</option>
+                <option>Swedish</option>
+            </select> <br />
+            <label for="new_user_portrait">Portrait</label>
+            <input type="file" name="new_user_portrait" id="new_user_portrait" class="portrait" title="Smile!" onchange="alert(this.value)" /> <br />
+            <!-- <input type="file" name="new_user_portrait" id="new_user_portrait" class="portrait" title="Smile!" onchange="document.getElementById('changed_language').innerHTML = 'File onchange triggered'" /> <br /> -->
+            <label for="new_user_portrait">Dental records</label>
+            <input type="file" name="new_user_teeth" id="new_user_teeth" title="Smile here too!" />
+        </fieldset>
+        <fieldset>
+            <legend>Login information</legend>
+            <label for="new_user_username">Username (max 20 characters)</label>
+            <input type="text" name="new_user_username" id="new_user_username" maxlength="20" size="20" onkeypress="var elem = document.getElementById('current_length'); elem.innerHTML = parseInt(elem.innerHTML)+1"/> <span id="current_length">0</span><br />
+            <label for="new_user_password">Password</label>
+            <input type="password" name="new_user_password" id="new_user_password" /> <br />
+            <label for="new_user_role">Role</label>
+            <select name="new_user_role" id="new_user_role" disabled="disabled">
+                <option>Administrator</option>
+                <option>Moderator</option>
+                <option>Regular user</option>
+            </select>
+        </fieldset>
+        <fieldset>
+            <legend>Interests</legend>
+            <input type="checkbox" name="new_user_interests" id="new_user_interests_books" value="books" checked="checked" /> <label for="new_user_interests_books">Books</label>
+            <input type="checkbox" name="new_user_interests" value="bowling" /> <label>Bowling</label>
+            <input type="checkbox" name="new_user_interests" id="new_user_interests_cars" value="cars" /> <label for="new_user_interests_cars">Cars</label>
+            <input type="checkbox" name="new_user_interests" id="new_user_interests_dancing" value="dancing" class="fun" title="Dancing is fun!" /> <label for="new_user_interests_dancing">Dancing</label>
+            <input type="checkbox" name="new_user_interests" id="new_user_interests_dentistry" value="dentistry" disabled="disabled" /> <label for="new_user_interests_dentistry">Dentistry</label>
+            <input type="hidden" name="new_user_interests" id="new_user_interests_dolls" value="dolls" class="fun" />
+            <input type="checkbox" id="new_user_interests_food" value="food" /> <label for="new_user_interests_food">Food</label>
+        </fieldset>
+        <fieldset>
+            <legend>Preferences</legend>
+            <p>Do you want to recieve our newslettter?</p>
+            <input type="radio" name="new_user_newsletter" id="new_user_newsletter_yes" value="yes" checked="checked" class="huge" onclick="alert('clicked: ' + this.id)"/>
+            <label for="new_user_newsletter_yes">Yes</label>
+            <input type="radio" name="new_user_newsletter" id="new_user_newsletter_no" value="no" title="Traitor!" onclick="alert('clicked: ' + this.id)" />
+            <label for="new_user_newsletter_no">No</label>
+            <input type="radio" name="new_user_newsletter" value="certainly" onchange="alert('changed: ' + this.name)"/>
+            <label>Certainly</label>
+            <input type="radio" id="new_user_newsletter_absolutely" value="absolutely" />
+            <label for="new_user_newsletter_absolutely">Absolutely</label>
+            <input type="radio" name="new_user_newsletter" id="new_user_newsletter_nah" value="nah" disabled="disabled" />
+            <label for="new_user_newsletter_nah">Nah</label>
+        </fieldset>
+        <fieldset>
+            <legend>Actions</legend>
+            <input type="submit" title="Submit the form" name="new_user_submit" id="new_user_submit" value="Submit" />
+            <input type="reset" name="new_user_reset" id="new_user_reset" value="Reset" />
+            <input type="button" name="new_user_button" id="new_user_button" alt="Create a new user" value="Button" onclick="this.value = 'new_value_set_by_onclick_event'" />
+            <button name="new_user_button_2">Button 2</button>
+            <input type="image" class="image" name="new_user_image" src="images/button.jpg" alt="Submittable button" />
+            <input type="submit" name="new_user_submit_disabled" id="disabled_button" value="Disabled" disabled="disabled" />
+            <input type="checkbox" name="new_user_submit_disabled" id="toggle_button_checkbox" onclick="var elem = document.getElementById('disabled_button'); elem.disabled = !elem.disabled" />
+        </fieldset>
+    </form>
+    <h2>Delete user</h2>
+    <form id="delete_user" action="tables.html">
+        <fieldset>
+            <label for="delete_user_username">Username</label>
+            <select name="delete_user_username" id="delete_user_username">
+                <option value=""></option>
+                <option selected="selected">Username 1</option>
+                <option>Username 2</option>
+                <option onclick="elem = document.getElementById('delete_user_comment'); elem.value = 'Don\'t do it!'; elem.style.color = 'red';">Username 3</option>
+            </select> <br />
+            <label for="delete_user_comment">Comment</label>
+            <textarea name="delete_user_comment" id="delete_user_comment">Default comment.</textarea> <br />
+            <input type="submit" name="delete_user_submit" id="delete_user_submit" value="Delete" style="border: 4px solid red;" />
+        </fieldset>
+    </form>
+
+  <!-- testing popup windows  -->
+        <input type="button" name="new_popup_window" value="Open window" id="new_popup_window" onclick="window.open('tables.html')">
+
+        <!-- used for testing javascript events and styles -->
+        <div id="changed_language" style="visibility: hidden;">
+          <div id="hidden_parent"></div>
+        </div>
+        <div id="wants_newsletter" style="display: none;"></div>
+        <div id="onfocus_test"></div>
+
+  </body>
+</html>
