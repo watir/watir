@@ -19,4 +19,4 @@ else
   raise Errno::ENOENT, hook
 end
 
-WatirSpec::Server.run!
+Thread.new { WatirSpec::Server.run! }
