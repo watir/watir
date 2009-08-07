@@ -245,15 +245,6 @@ describe "Browser" do
       
       output.should include('Dubito, ergo cogito, ergo sum')
     end
-
-    it "runs the given block on each page load" do
-      output = ''
-      
-      browser.add_checker { |browser| output << browser.text }
-      browser.goto(WatirSpec.files + "/non_control_elements.html")
-      
-      output.should include('Dubito, ergo cogito, ergo sum')
-    end
   end
 
   describe "#disable_checker" do
