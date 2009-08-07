@@ -49,6 +49,7 @@ module WatirSpec
     set :run,         false
     set :environment, :production
     set :port,        3000
+    set :server,      %w[mongrel webrick]
 
     get '/' do
       self.class.name
@@ -161,4 +162,10 @@ module WatirSpec
   end # SpecHelper
 end # WatirSpec
 
-WatirSpec::SpecHelper.execute
+if __FILE__ == $0
+  WatirSpec::Server.run!
+else
+  WatirSpec::SpecHelper.execute
+end
+
+
