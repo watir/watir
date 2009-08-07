@@ -131,6 +131,4 @@ describe "Dt" do
     end
   end
 
-  
-
 end

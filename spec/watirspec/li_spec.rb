@@ -128,6 +128,4 @@ describe "Li" do
     end
   end
 
-  
-
 end

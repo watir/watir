@@ -31,6 +31,4 @@ describe "Tables" do
     end
   end
 
-  
-
 end

@@ -189,6 +189,4 @@ describe "Link" do
 
   end
 
-  
-
 end

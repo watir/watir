@@ -47,6 +47,4 @@ describe "TableCells" do
     end
   end
 
-  
-
 end

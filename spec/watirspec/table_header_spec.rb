@@ -90,6 +90,4 @@ describe "TableHeader" do
     end
   end
 
-  
-
 end

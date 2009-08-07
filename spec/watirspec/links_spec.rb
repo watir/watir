@@ -36,6 +36,4 @@ describe "Links" do
     end
   end
 
-  
-
 end

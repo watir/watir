@@ -46,6 +46,4 @@ describe "TableBodies" do
       end
     end
 
-  
-
 end

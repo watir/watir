@@ -29,6 +29,4 @@ describe "Divs" do
     end
   end
 
-  
-
 end

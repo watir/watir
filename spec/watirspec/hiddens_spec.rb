@@ -29,6 +29,4 @@ describe "Hiddens" do
     end
   end
 
-  
-
 end

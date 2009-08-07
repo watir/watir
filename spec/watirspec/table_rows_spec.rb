@@ -47,6 +47,4 @@ describe "TableRows" do
     end
   end
 
-  
-
 end

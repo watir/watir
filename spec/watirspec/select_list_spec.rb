@@ -308,6 +308,4 @@ describe "SelectList" do
     end
   end
 
-  
-
 end

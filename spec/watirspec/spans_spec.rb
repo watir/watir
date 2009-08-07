@@ -53,6 +53,4 @@ describe "Spans" do
     end
   end
 
-  
-
 end

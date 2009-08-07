@@ -44,6 +44,4 @@ describe "TableFooters" do
       end
     end
 
-  
-
 end

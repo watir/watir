@@ -29,6 +29,4 @@ describe "CheckBoxes" do
     end
   end
 
-  
-
 end

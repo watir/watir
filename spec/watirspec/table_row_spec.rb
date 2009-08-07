@@ -95,6 +95,4 @@ describe "TableRow" do
     end
   end
 
-  
-
 end

@@ -29,6 +29,4 @@ describe "FileFields" do
     end
   end
 
-  
-
 end

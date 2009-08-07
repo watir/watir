@@ -320,6 +320,4 @@ describe "TextField" do
     end
   end
 
-  
-
 end

@@ -268,6 +268,4 @@ describe "Browser" do
     lambda { browser.div(:id, 'foo').id }.should raise_error(UnknownObjectException)
   end
 
-  
-
 end

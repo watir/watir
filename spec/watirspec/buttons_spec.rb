@@ -41,6 +41,4 @@ describe "Buttons" do
     end
   end
 
-  
-
 end

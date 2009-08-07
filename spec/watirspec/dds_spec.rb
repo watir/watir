@@ -29,6 +29,4 @@ describe "Dds" do
     end
   end
 
-  
-
 end

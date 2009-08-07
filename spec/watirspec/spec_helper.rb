@@ -158,8 +158,6 @@ module WatirSpec
         $stderr.puts "not running WatirSpec::Server"
       end
     end
-
-
   end # SpecHelper
 end # WatirSpec
 

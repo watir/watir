@@ -29,6 +29,4 @@ describe "Labels" do
     end
   end
 
-  
-
 end

@@ -91,6 +91,4 @@ describe "Map" do
     end
   end
 
-  
-
 end

@@ -131,6 +131,4 @@ describe "Dd" do
     end
   end
 
-  
-
 end

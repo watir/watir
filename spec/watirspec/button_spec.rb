@@ -61,7 +61,7 @@ describe "Button" do
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
       lambda { browser.button(:no_such_how, 'some_value').exists? }.should raise_error(MissingWayOfFindingObjectException)
     end
-    
+
     # it "locates the correct button when there are duplicate ids and user disambiguates by parent" do
     #   browser.goto(WatirSpec.files + "/buttons_with_duplicate_ids.html")
     #   browser.form(:name, "bar-form").button(:id, 'next').parent.name.should == "bar-form"
@@ -242,5 +242,5 @@ describe "Button" do
     end
   end
 
-  
+
 end

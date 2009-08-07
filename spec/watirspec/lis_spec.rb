@@ -29,6 +29,4 @@ describe "Lis" do
     end
   end
 
-  
-
 end

@@ -145,6 +145,4 @@ describe "Option" do
     end
   end
 
-  
-
 end

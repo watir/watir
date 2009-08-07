@@ -71,6 +71,4 @@ describe "TableCell" do
     end
   end
 
-  
-
 end

@@ -30,6 +30,4 @@ describe "Forms" do
     end
   end
 
-  
-
 end

@@ -298,6 +298,4 @@ describe "Radio" do
     end
   end
 
-  
-
 end

@@ -172,6 +172,4 @@ describe "Span" do
     end
   end
 
-  
-
 end

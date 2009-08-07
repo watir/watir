@@ -124,6 +124,4 @@ describe "Pre" do
     end
   end
 
-  
-
 end

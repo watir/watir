@@ -29,6 +29,4 @@ describe "Ps" do
     end
   end
 
-  
-
 end

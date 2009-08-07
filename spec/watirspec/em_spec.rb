@@ -105,6 +105,4 @@ describe "Em" do
     end
   end
 
-  
-
 end

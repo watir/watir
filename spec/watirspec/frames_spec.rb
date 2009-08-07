@@ -61,6 +61,4 @@ describe "Frames" do
     end
   end
 
-  
-
 end

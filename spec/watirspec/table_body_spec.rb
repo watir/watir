@@ -98,6 +98,4 @@ describe "TableBody" do
     end
   end
 
-  
-
 end

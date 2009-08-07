@@ -32,6 +32,4 @@ describe "Radios" do
     end
   end
 
-  
-
 end

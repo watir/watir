@@ -77,6 +77,4 @@ describe "Ul" do
     end
   end
 
-  
-
 end

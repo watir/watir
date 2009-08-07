@@ -18,6 +18,4 @@ describe "Meta" do
       browser.meta('http-equiv', "Content-Type").content.should == "text/html; charset=utf-8"
     end
   end
-  
-
 end

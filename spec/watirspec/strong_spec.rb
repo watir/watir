@@ -90,6 +90,4 @@ describe "Strong" do
   end
 
   # Other
-  
-
 end

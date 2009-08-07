@@ -29,6 +29,4 @@ describe "Images" do
     end
   end
 
-  
-
 end

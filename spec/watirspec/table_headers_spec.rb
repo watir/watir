@@ -44,6 +44,4 @@ describe "TableHeaders" do
       end
     end
 
-  
-
 end

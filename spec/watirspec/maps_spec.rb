@@ -29,6 +29,4 @@ describe "Maps" do
     end
   end
 
-  
-
 end

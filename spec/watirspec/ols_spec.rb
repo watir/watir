@@ -29,6 +29,4 @@ describe "Ols" do
     end
   end
 
-  
-
 end

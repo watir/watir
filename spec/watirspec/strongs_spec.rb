@@ -30,6 +30,4 @@ describe "Strongs" do
     end
   end
 
-  
-
 end

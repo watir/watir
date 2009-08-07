@@ -29,6 +29,4 @@ describe "Uls" do
     end
   end
 
-  
-
 end

@@ -27,6 +27,4 @@ describe "Metas" do
     end
   end
 
-  
-
 end
