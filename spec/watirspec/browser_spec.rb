@@ -64,7 +64,7 @@ describe "Browser" do
       when "Celerity::Browser"
         browser.document.should be_instance_of(Java::ComGargoylesoftwareHtmlunitHtml::HtmlHtml)
       else
-        browser.document.should be_instance_of(WIN32OLE)
+        browser.document.should_not be_nil
       end
     end
   end
