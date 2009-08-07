@@ -7,7 +7,7 @@ require "sinatra"
 
 module WatirSpec
   class << self
-    attr_accessor :browser_options, :autorun
+    attr_accessor :browser_args
 
     def html
       File.expand_path("#{File.dirname(__FILE__)}/html")
@@ -127,8 +127,8 @@ module WatirSpec
 
       Spec::Runner.configure do |config|
         config.include(Module.new { attr_reader :browser })
-        if WatirSpec.browser_options
-          config.before(:all) { @browser = Browser.new(*WatirSpec.browser_options) }
+        if WatirSpec.browser_args
+          config.before(:all) { @browser = Browser.new(*WatirSpec.browser_args) }
         else
           config.before(:all) { @browser = Browser.new }
         end
