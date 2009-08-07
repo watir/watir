@@ -1,3 +1,4 @@
+# encoding: utf-8
 require File.dirname(__FILE__) + '/spec_helper'
 
 describe "CheckBox" do
@@ -289,4 +290,3 @@ describe "CheckBox" do
 
   
 end
-

@@ -1,3 +1,4 @@
+# encoding: utf-8
 require File.dirname(__FILE__) + '/spec_helper'
 
 describe "Ps" do
@@ -31,4 +32,3 @@ describe "Ps" do
   
 
 end
-

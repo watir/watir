@@ -1,3 +1,4 @@
+# encoding: utf-8
 require File.dirname(__FILE__) + '/spec_helper'
 
 describe "H1", "H2", "H3", "H4", "H5", "H6" do

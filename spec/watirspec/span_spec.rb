@@ -1,3 +1,4 @@
+# encoding: utf-8
 require File.dirname(__FILE__) + '/spec_helper'
 
 describe "Span" do
@@ -174,4 +175,3 @@ describe "Span" do
   
 
 end
-

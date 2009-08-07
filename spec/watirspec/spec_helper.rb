@@ -1,3 +1,4 @@
+# encoding: utf-8
 begin
   require "rubygems"
 rescue LoadError
@@ -167,5 +168,3 @@ if __FILE__ == $0
 else
   WatirSpec::SpecHelper.execute
 end
-
-

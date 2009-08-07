@@ -1,3 +1,4 @@
+# encoding: utf-8
 require File.dirname(__FILE__) + '/spec_helper'
 
 describe "Metas" do
@@ -29,4 +30,3 @@ describe "Metas" do
   
 
 end
-

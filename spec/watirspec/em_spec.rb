@@ -1,3 +1,4 @@
+# encoding: utf-8
 require File.dirname(__FILE__) + '/spec_helper'
 
 describe "Em" do
@@ -107,4 +108,3 @@ describe "Em" do
   
 
 end
-

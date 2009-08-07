@@ -1,3 +1,4 @@
+# encoding: utf-8
 require File.dirname(__FILE__) + '/spec_helper'
 
 describe "Div" do
@@ -231,4 +232,3 @@ describe "Div" do
   
 
 end
-

@@ -1,3 +1,4 @@
+# encoding: utf-8
 require File.dirname(__FILE__) + '/spec_helper'
 
 describe "Strong" do
@@ -92,4 +93,3 @@ describe "Strong" do
   
 
 end
-

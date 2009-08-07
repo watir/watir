@@ -1,3 +1,4 @@
+# encoding: utf-8
 require File.dirname(__FILE__) + '/spec_helper'
 
 describe "Label" do
@@ -78,4 +79,3 @@ describe "Label" do
 
   
 end
-
