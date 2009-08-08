@@ -27,6 +27,16 @@ module WatirSpec
     class << self
       attr_accessor :autorun
 
+      def run_async
+        if RUBY_PLATFORM =~ /java/
+          Thread.new { run! }
+          sleep 0.1 until WatirSpec::Server.running?
+        else
+          fork { run! }
+          sleep 1
+        end
+      end
+
       def run!
         handler = detect_rack_handler
         handler.run(self, :Host => host, :Port => port) { @running = true }
@@ -152,8 +162,7 @@ module WatirSpec
 
     def start_server
       if WatirSpec::Server.should_run?
-        Thread.new { WatirSpec::Server.run! }
-        sleep 0.1 until WatirSpec::Server.running?
+        WatirSpec::Server.run_async
       else
         $stderr.puts "not running WatirSpec::Server"
       end
