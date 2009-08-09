@@ -46,28 +46,23 @@ module WatirSpec
         if WatirSpec.platform == :java
           Thread.new { run! }
           sleep 0.1 until WatirSpec::Server.running?
-        elsif
-          r, w = IO.pipe
+        else
+          pid = fork { run! }
 
-          pid = fork do
-             w.close
+          # is this really necessary?
+          at_exit do
+            begin
+              Process::kill 0, pid
+              alive = true
+            rescue Errno::ESRCH
+              alive = false
+            end
 
-             Thread.new do
-                begin
-                   r.read
-                rescue Exception
-                   Kernel.exit
-                end
-             end
-
-             run!
-
-             exit
+            if alive
+              Process.kill(9, pid)
+            end
           end
 
-          p :server_pid => pid
-
-          r.close
           sleep 1
         end
       end
