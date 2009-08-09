@@ -2,7 +2,7 @@
 require File.dirname(__FILE__) + '/spec_helper'
 
 describe "Dds" do
-  
+
   before :each do
     browser.goto(WatirSpec.files + "/definition_lists.html")
   end

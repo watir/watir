@@ -145,7 +145,7 @@ describe "Image" do
 end
 
 describe "RadioCheckCommon" do
-  
+
   before :each do
     browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
   end

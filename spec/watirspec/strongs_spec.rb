@@ -2,7 +2,7 @@
 require File.dirname(__FILE__) + '/spec_helper'
 
 describe "Strongs" do
-  
+
   before :each do
     browser.goto(WatirSpec.files + "/non_control_elements.html")
   end

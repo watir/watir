@@ -34,7 +34,7 @@ describe "Browser" do
     it "returns the current value of window.status" do
       browser.goto(WatirSpec.files + "/non_control_elements.html")
 
-      # for firefox, this needs to be enabled in 
+      # for firefox, this needs to be enabled in
       # Preferences -> Content -> Advanced -> Change status bar text
       browser.execute_script "window.status = 'All done!';"
       browser.status.should == "All done!"
@@ -64,7 +64,7 @@ describe "Browser" do
   describe "#document" do
     it "returns the underlying object" do
       browser.goto(WatirSpec.files + "/non_control_elements.html")
-      
+
       case browser.class.name
       when "Celerity::Browser"
         browser.document.should be_instance_of(Java::ComGargoylesoftwareHtmlunitHtml::HtmlHtml)
@@ -246,10 +246,10 @@ describe "Browser" do
     it "runs the given proc on each page load" do
       output = ''
       proc = Proc.new { |browser| output << browser.text }
-      
+
       browser.add_checker(proc)
       browser.goto(WatirSpec.files + "/non_control_elements.html")
-      
+
       output.should include('Dubito, ergo cogito, ergo sum')
     end
   end

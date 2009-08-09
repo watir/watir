@@ -48,7 +48,7 @@ describe "Element" do
       browser.div(:id, "onfocus_test").text.should == "changed by onfocus event"
     end
   end
-  
+
   describe "#parent" do
     it "gets the parent of this element" do
       browser.text_field(:id, "new_user_email").parent.should be_instance_of(Form)

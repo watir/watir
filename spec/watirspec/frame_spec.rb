@@ -2,7 +2,7 @@
 require File.dirname(__FILE__) + '/spec_helper'
 
 describe "Frame" do
-  
+
   before :each do
    browser.goto(WatirSpec.files + "/frames.html")
   end

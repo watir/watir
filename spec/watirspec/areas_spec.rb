@@ -28,5 +28,5 @@ describe "Areas" do
       end
     end
   end
-  
+
 end

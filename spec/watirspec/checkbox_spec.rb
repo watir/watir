@@ -288,5 +288,5 @@ describe "CheckBox" do
     end
   end
 
-  
+
 end

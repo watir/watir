@@ -2,7 +2,7 @@
 require File.dirname(__FILE__) + '/spec_helper'
 
 describe "FileField" do
-  
+
   before :each do
     browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
   end

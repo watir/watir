@@ -115,5 +115,5 @@ describe "Hidden" do
     end
   end
 
-  
+
 end
