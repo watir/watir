@@ -223,11 +223,13 @@ describe "Browser" do
 
     it "returns an Array of matching elements" do
       objects = browser.elements_by_xpath("//*[@type='text']")
+      objects.should be_kind_of(Array)
       objects.size.should == 6
     end
 
     it "returns an empty Array if there are no matching elements" do
       objects = browser.elements_by_xpath("//*[@type='foobar']")
+      objects.should be_kind_of(Array)
       objects.size.should == 0
     end
   end
