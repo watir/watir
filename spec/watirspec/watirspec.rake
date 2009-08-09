@@ -1,3 +1,29 @@
+begin
+  require 'spec'
+rescue LoadError
+  begin 
+    require 'rubygems'
+    require 'spec'
+    require 'spec/rake/spectask'
+  rescue LoadError
+      puts <<-EOS
+    To use rspec for testing you must install rspec gem:
+        gem install rspec
+    EOS
+      exit(0)
+  end
+end
+
+
+
+namespace :watirspec do
+  desc "Run the specs under spec/"
+  Spec::Rake::SpecTask.new(:run) do |t|
+    t.spec_files = FileList["#{File.dirname(__FILE__)}/*_spec.rb"]
+  end
+end
+
+
 namespace :watirspec do
   def spec_watir; File.dirname(__FILE__); end
 
