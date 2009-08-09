@@ -8,7 +8,7 @@ require "sinatra"
 
 module WatirSpec
   class << self
-    attr_accessor :browser_args
+    attr_accessor :browser_args, :persistent_browser
 
     def html
       File.expand_path("#{File.dirname(__FILE__)}/html")
@@ -168,15 +168,26 @@ module WatirSpec
     def configure
       Thread.abort_on_exception = true
 
-      Spec::Runner.configure do |config|
-        config.include(Module.new do
-          def browser; $browser; end
-        end)
-      end
+      if WatirSpec.persistent_browser == false
+        Spec::Runner.configure do |config|
+          config.include(Module.new { def browser; @browser; end })
 
-      args     = WatirSpec.browser_args
-      $browser = args ? Browser.new(*args) : Browser.new
-      at_exit { $browser.close }
+          config.before(:all) do
+            @browser = WatirSpec::SpecHelper.new_browser
+          end
+
+          config.after(:all) do
+            @browser.close if @browser
+          end
+        end
+      else
+        Spec::Runner.configure do |config|
+          config.include(Module.new { def browser; $browser; end })
+        end
+
+        $browser = new_browser
+        at_exit { $browser.close }
+      end
     end
 
     def load_requires
@@ -196,6 +207,11 @@ module WatirSpec
       else
         $stderr.puts "not running WatirSpec::Server"
       end
+    end
+
+    def new_browser
+      args     = WatirSpec.browser_args
+      $browser = args ? Browser.new(*args) : Browser.new
     end
   end # SpecHelper
 end # WatirSpec

@@ -24,9 +24,11 @@ Here's an example:
     Browser = WatirImpl::Browser
     include WatirImpl::Exception
 
-    WatirSpec.browser_args     = [:some, :arguments] # will be passed to Browser.new
+    WatirSpec.browser_args       = [:some, :arguments] # will be passed to Browser.new
+    WatirSpec.persistent_browser = false               # defaults to true, but can be disabled if needed
+    WatirSpec::Server.autorun    = false               # defaults to true, but can be disabled if needed
 
-    WatirSpec::Server.autorun  = false               # defaults to true, but can be disabled if needed
-    WatirSpec::Server.get("/my_route") { "content" } # add routes to the server for implementation-specific specs
-Implementation-specific specs should be placed at the root of the _spec/_ folder. 
+    WatirSpec::Server.get("/my_route") { "content" }   # add routes to the server for implementation-specific specs
+
+Implementation-specific specs should be placed at the root of the _spec/_ folder.
 To use the setup code from watirspec, simply require `"watirspec/spec_helper"` (which in turn will load your `spec/spec_helper.rb`).
