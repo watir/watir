@@ -25,13 +25,6 @@ describe "Element" do
     end
   end
 
-  describe "#locate" do
-    it "raises ArgumentError when used with :object and the object given isn't an HtmlElement subclass" do
-      lambda { Link.new(browser, :object, "foo").locate }.should raise_error(ArgumentError)
-    end
-
-  end
-
   describe "#focus" do
     it "fires the onfocus event for the given element" do
       tf = browser.text_field(:id, "new_user_occupation")
