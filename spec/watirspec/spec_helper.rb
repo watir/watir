@@ -43,7 +43,8 @@ module WatirSpec
       attr_accessor :autorun
 
       def run_async
-        if WatirSpec.platform == :java
+        case WatirSpec.platform
+        when :java, :windows
           Thread.new { run! }
           sleep 0.1 until WatirSpec::Server.running?
         else
@@ -114,12 +115,12 @@ module WatirSpec
       content_type 'text/html; charset=UTF-8'
       <<-HTML
       <html>
-      <head>
-      <meta http-equiv="Content-type" content="text/html; charset=iso-8859-1" />
-      </head>
-      <body>
-      <h1>ø</h1>
-      </body>
+        <head>
+          <meta http-equiv="Content-type" content="text/html; charset=iso-8859-1" />
+        </head>
+        <body>
+          <h1>ø</h1>
+        </body>
       </html>
       HTML
     end
