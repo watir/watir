@@ -36,5 +36,5 @@ To use the setup code from watirspec, simply require `"watirspec/spec_helper"` (
 Where
 -----
 
-Source @ http://github.com/jarib/watirspec/tree/master
-Issues @ http://github.com/jarib/watirspec/issues
+* Source : [GitHub](http://github.com/jarib/watirspec/tree/master)
+* Issues : [GitHub](http://github.com/jarib/watirspec/issues)
