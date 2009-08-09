@@ -21,6 +21,21 @@ module WatirSpec
     def host
       "http://#{Server.host}:#{Server.port}"
     end
+
+    def platform
+      @platform ||= case RUBY_PLATFORM
+                    when /java/
+                      :java
+                    when /mswin|msys/
+                      :windows
+                    when /darwin/
+                      :macosx
+                    when /linux/
+                      :linux
+                    else
+                      RUBY_PLATFORM
+                    end
+    end
   end # class << WatirSpec
 
   class Server < Sinatra::Base
@@ -28,11 +43,31 @@ module WatirSpec
       attr_accessor :autorun
 
       def run_async
-        if RUBY_PLATFORM =~ /java/
+        if WatirSpec.platform == :java
           Thread.new { run! }
           sleep 0.1 until WatirSpec::Server.running?
-        else
-          fork { run! }
+        elsif
+          r, w = IO.pipe
+
+          pid = fork do
+             w.close
+
+             Thread.new do
+                begin
+                   r.read
+                rescue Exception
+                   Kernel.exit
+                end
+             end
+
+             run!
+
+             exit
+          end
+
+          p :server_pid => pid
+
+          r.close
           sleep 1
         end
       end
@@ -151,7 +186,7 @@ module WatirSpec
 
     def load_requires
       require "fileutils"
-      
+
       # load spec_helper from containing folder, if it exists
       hook = File.expand_path("#{File.dirname(__FILE__)}/../spec_helper.rb")
       raise(Errno::ENOENT, hook) unless File.exist?(hook)
