@@ -116,11 +116,6 @@ describe "FileField" do
       browser.button(:name, "new_user_submit").click
     end
 
-    it "sends content as correct content type for common file types" do
-      browser.file_field(:name, "new_user_portrait").set("foo.doc")
-      obj = browser.file_field(:name, "new_user_portrait").locate
-      obj.getContentType.should == "application/msword"
-    end
   end
 
 end
