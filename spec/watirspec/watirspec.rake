@@ -4,7 +4,6 @@ rescue LoadError
   begin 
     require 'rubygems'
     require 'spec'
-    require 'spec/rake/spectask'
   rescue LoadError
       puts <<-EOS
     To use rspec for testing you must install rspec gem:
@@ -14,8 +13,7 @@ rescue LoadError
   end
 end
 
-
-
+require 'spec/rake/spectask'
 namespace :watirspec do
   desc "Run the specs under spec/"
   Spec::Rake::SpecTask.new(:run) do |t|
