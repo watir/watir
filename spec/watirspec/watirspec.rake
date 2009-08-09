@@ -15,7 +15,7 @@ end
 
 require 'spec/rake/spectask'
 namespace :watirspec do
-  desc "Run the specs under spec/"
+  desc "Run the specs under #{File.dirname(__FILE__)}"
   Spec::Rake::SpecTask.new(:run) do |t|
     t.spec_files = FileList["#{File.dirname(__FILE__)}/*_spec.rb"]
   end
