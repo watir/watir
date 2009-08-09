@@ -1,0 +1,1 @@
+* Fix specs that use Celerity's add_listener(:alert) to verify event handling.
