@@ -1,12 +1,6 @@
 namespace :watirspec do
   def spec_watir; File.dirname(__FILE__); end
 
-  desc 'Set up the watirspec submodule'
-  task :init do
-    sh "git submodule init"
-    sh "git submodule update"
-  end
-
   #
   # stolen from rubinius
   #
