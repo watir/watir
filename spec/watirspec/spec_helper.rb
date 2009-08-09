@@ -90,6 +90,7 @@ module WatirSpec
     set :static,      true
     set :run,         false
     set :environment, :production
+    set :host,        "localhost" if WatirSpec.platform == :windows
     set :port,        3000
     set :server,      %w[mongrel webrick]
 
