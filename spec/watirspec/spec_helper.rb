@@ -36,6 +36,12 @@ module WatirSpec
                       RUBY_PLATFORM
                     end
     end
+
+    def new_browser
+      args     = WatirSpec.browser_args
+      args ? Browser.new(*args) : Browser.new
+    end
+
   end # class << WatirSpec
 
   class Server < Sinatra::Base
@@ -174,7 +180,7 @@ module WatirSpec
           config.include(Module.new { def browser; @browser; end })
 
           config.before(:all) do
-            @browser = WatirSpec::SpecHelper.new_browser
+            @browser = WatirSpec.new_browser
           end
 
           config.after(:all) do
@@ -186,7 +192,7 @@ module WatirSpec
           config.include(Module.new { def browser; $browser; end })
         end
 
-        $browser = new_browser
+        $browser = WatirSpec.new_browser
         at_exit { $browser.close }
       end
     end
@@ -208,11 +214,6 @@ module WatirSpec
       else
         $stderr.puts "not running WatirSpec::Server"
       end
-    end
-
-    def new_browser
-      args     = WatirSpec.browser_args
-      $browser = args ? Browser.new(*args) : Browser.new
     end
   end # SpecHelper
 end # WatirSpec
