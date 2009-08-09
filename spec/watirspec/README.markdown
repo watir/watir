@@ -32,3 +32,9 @@ Here's an example:
 
 Implementation-specific specs should be placed at the root of the _spec/_ folder.
 To use the setup code from watirspec, simply require `"watirspec/spec_helper"` (which in turn will load your `spec/spec_helper.rb`).
+
+Where
+-----
+
+Source @ http://github.com/jarib/watirspec/tree/master
+Issues @ http://github.com/jarib/watirspec/issues

@@ -75,7 +75,7 @@ module WatirSpec
           # is this really necessary?
           at_exit do
             begin
-              Process::kill 0, pid
+              Process.kill 0, pid
               alive = true
             rescue Errno::ESRCH
               alive = false

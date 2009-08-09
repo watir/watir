@@ -1,2 +1,0 @@
-* Fix specs that use Celerity's add_listener(:alert) to verify event handling.
-* Use win32-process's Process.create if the server thread causes trouble on windows.
