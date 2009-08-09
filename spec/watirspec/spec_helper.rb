@@ -42,6 +42,22 @@ module WatirSpec
       args ? Browser.new(*args) : Browser.new
     end
 
+    def ruby
+      if @ruby.nil?
+        if defined?(Gem)
+          @ruby = Gem.ruby
+        else
+          require "rbconfig"
+          rb = File.join(RbConfig::CONFIG.values_at('BINDIR', 'RUBY_INSTALL_NAME').compact)
+          ext = RbConfig::CONFIG['EXEEXT']
+
+          @ruby = "#{rb}#{ext}"
+        end
+      end
+
+      @ruby
+    end
+
   end # class << WatirSpec
 
   class Server < Sinatra::Base
