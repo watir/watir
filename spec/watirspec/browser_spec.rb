@@ -33,6 +33,9 @@ describe "Browser" do
   describe "#status" do
     it "returns the current value of window.status" do
       browser.goto(WatirSpec.files + "/non_control_elements.html")
+
+      # for firefox, this needs to be enabled in 
+      # Preferences -> Content -> Advanced -> Change status bar text
       browser.execute_script "window.status = 'All done!';"
       browser.status.should == "All done!"
     end
