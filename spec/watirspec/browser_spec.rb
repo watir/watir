@@ -10,8 +10,9 @@ describe "Browser" do
     end
 
     it "returns false after IE#close" do
-      browser.close
-      browser.should_not exist
+      b = WatirSpec.new_browser
+      b.close
+      b.should_not exist
     end
   end
 
