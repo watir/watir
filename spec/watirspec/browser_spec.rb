@@ -184,7 +184,7 @@ describe "Browser" do
     end
 
     it "does not raise error on a blank page" do
-      browser = Browser.new(*WatirSpec.browser_args)
+      browser = WatirSpec.new_browser
       lambda { browser.contains_text('') }.should_not raise_error
     end
   end
