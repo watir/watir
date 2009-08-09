@@ -168,15 +168,14 @@ module WatirSpec
       Thread.abort_on_exception = true
 
       Spec::Runner.configure do |config|
-        config.include(Module.new { attr_reader :browser })
-        if WatirSpec.browser_args
-          config.before(:all) { @browser = Browser.new(*WatirSpec.browser_args) }
-        else
-          config.before(:all) { @browser = Browser.new }
-        end
-
-        config.after(:all) { @browser.close }
+        config.include(Module.new do
+          def browser; $browser; end
+        end)
       end
+
+      args     = WatirSpec.browser_args
+      $browser = args ? Browser.new(*args) : Browser.new
+      at_exit { $browser.close }
     end
 
     def load_requires
