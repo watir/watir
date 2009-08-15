@@ -26,7 +26,7 @@ module WatirSpec
       @platform ||= case RUBY_PLATFORM
                     when /java/
                       :java
-                    when /mswin|msys/
+                    when /mswin|msys|mingw32/
                       :windows
                     when /darwin/
                       :macosx
