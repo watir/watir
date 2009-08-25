@@ -203,13 +203,6 @@ describe "SelectList" do
     end
   end
 
-  describe "#select_value" do
-    it "behaves like #select" do
-      browser.select_list(:name, "new_user_country").select_value("Denmark")
-      browser.select_list(:name, "new_user_country").getSelectedItems.should == ["Denmark"]
-    end
-  end
-
 end
 
 describe "TextField" do

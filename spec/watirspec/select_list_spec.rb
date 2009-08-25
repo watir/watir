@@ -293,13 +293,19 @@ describe "SelectList" do
       lambda { browser.select_list(:name, "new_user_country").select("missing_option") }.should raise_error(NoValueFoundException)
       lambda { browser.select_list(:name, "new_user_country").select(/missing_option/) }.should raise_error(NoValueFoundException)
     end
-  end
+   end
 
   describe "#select_value" do
-    it "selects the given item" do
+    it "selects the item by value string" do
       browser.select_list(:name, "new_user_languages").clear_selection
-      browser.select_list(:name, "new_user_languages").select("Swedish")
-      browser.select_list(:name, "new_user_languages").selected_options.should == ["Swedish"]
+      browser.select_list(:name, "new_user_languages").select_value("2")
+      browser.select_list(:name, "new_user_languages").selected_options.should == %w[English]
+    end
+
+    it "selects the items by value regexp" do
+      browser.select_list(:name, "new_user_languages").clear_selection
+      browser.select_list(:name, "new_user_languages").select_value(/1|3/)
+      browser.select_list(:name, "new_user_languages").selected_options.should == %w[Danish Norwegian]
     end
 
     it "raises NoValueFoundException if the option doesn't exist" do
