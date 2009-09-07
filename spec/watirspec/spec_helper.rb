@@ -66,12 +66,23 @@ module WatirSpec
 
       def run_async
         case WatirSpec.platform
-        when :java, :windows
+        when :java
           Thread.new { run! }
           sleep 0.1 until WatirSpec::Server.running?
+        when :windows
+          require "win32/process"
+          pid = Process.create(
+            :app_name        => "#{WatirSpec.ruby} #{__FILE__}",
+            :process_inherit => true,
+            :thread_inherit  => true,
+            :inherit         => true
+          ).process_id
         else
           pid = fork { run! }
+          sleep 1
+        end
 
+        if pid
           # is this really necessary?
           at_exit do
             begin
@@ -85,8 +96,6 @@ module WatirSpec
               Process.kill(9, pid)
             end
           end
-
-          sleep 1
         end
       end
 
