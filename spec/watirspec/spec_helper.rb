@@ -187,6 +187,20 @@ module WatirSpec
 
   module SpecHelper
 
+    module BrowserHelper
+      def browser; @browser; end
+    end
+
+    module PersistentBrowserHelper
+      def browser; $browser; end
+    end
+
+    module MessagesHelper
+      def messages
+        browser.div(:id, 'messages').divs.map { |d| d.text }
+      end
+    end
+
     module_function
 
     def execute
@@ -198,29 +212,19 @@ module WatirSpec
     def configure
       Thread.abort_on_exception = true
 
-      if WatirSpec.persistent_browser == false
-        Spec::Runner.configure do |config|
-          config.include(Module.new { def browser; @browser; end })
-
-          config.before(:all) do
-            @browser = WatirSpec.new_browser
-          end
-
-          config.after(:all) do
-            @browser.close if @browser
-          end
-        end
-      else
-        Spec::Runner.configure do |config|
-          config.include(Module.new { def browser; $browser; end })
-        end
-
-        $browser = WatirSpec.new_browser
-        at_exit { $browser.close }
-      end
-
       Spec::Runner.configure do |config|
-        config.include(Module.new { def messages; browser.div(:id, 'messages').divs.map { |d| d.text }; end})
+        config.include(MessagesHelper)
+
+        if WatirSpec.persistent_browser == false
+          config.include(BrowserHelper)
+
+          config.before(:all) { @browser = WatirSpec.new_browser }
+          config.after(:all)  { @browser.close if @browser       }
+        else
+          config.include(PersistentBrowserHelper)
+          $browser = WatirSpec.new_browser
+          at_exit { $browser.close }
+        end
       end
     end
 
