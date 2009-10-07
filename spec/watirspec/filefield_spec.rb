@@ -108,9 +108,11 @@ describe "FileField" do
     it "is able to set a file path in the field and click the upload button and fire the onchange event" do
       browser.goto("#{WatirSpec.host}/forms_with_input_elements.html")
 
-      browser.file_field(:name, "new_user_portrait").set(__FILE__)
-      browser.file_field(:name, "new_user_portrait").value.should == __FILE__
-      messages.first.should == __FILE__
+      path = File.expand_path(__FILE__)
+
+      browser.file_field(:name, "new_user_portrait").set path
+      browser.file_field(:name, "new_user_portrait").value.should == path
+      messages.first.should == path
       browser.button(:name, "new_user_submit").click
     end
 
