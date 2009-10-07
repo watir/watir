@@ -2,15 +2,10 @@
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <title>Right Click Test</title>
-    <script type="text/javascript" charset="utf-8">
-      function rightClickTest (e) {
-        alert('rightClick');
-      }
-      
-      document.oncontextmenu = rightClickTest;
-    </script>
+    <script src="javascript/helpers.js" type="text/javascript" charset="utf-8"></script>
   </head>
   <body>
-    <div id="click">Right click!</div>
+    <div id="messages"></div>
+    <div id="click" oncontextmenu='WatirSpec.addMessage("right-clicked")'>Right click!</div>
   </body>
 </html>

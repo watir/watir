@@ -38,7 +38,7 @@ module WatirSpec
     end
 
     def new_browser
-      args     = WatirSpec.browser_args
+      args = WatirSpec.browser_args
       args ? Browser.new(*args) : Browser.new
     end
 
@@ -84,7 +84,7 @@ module WatirSpec
 
         if pid
           # is this really necessary?
-          at_exit do
+          at_exit {
             begin
               Process.kill 0, pid
               alive = true
@@ -92,10 +92,8 @@ module WatirSpec
               alive = false
             end
 
-            if alive
-              Process.kill(9, pid)
-            end
-          end
+            Process.kill(9, pid) if alive
+          }
         end
       end
 
@@ -219,6 +217,10 @@ module WatirSpec
 
         $browser = WatirSpec.new_browser
         at_exit { $browser.close }
+      end
+
+      Spec::Runner.configure do |config|
+        config.include(Module.new { def messages; browser.div(:id, 'messages').divs.map { |d| d.text }; end})
       end
     end
 

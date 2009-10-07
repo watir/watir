@@ -37,10 +37,8 @@ describe "TableRow" do
 
   describe "#click" do
     it "fires the rows's onclick event" do
-      clicked = []
-      browser.add_listener(:alert) { |page, msg| clicked << msg }
       browser.row(:id, 'inner_first').click
-      clicked.should include('tr')
+      messages.should include('tr')
     end
   end
 

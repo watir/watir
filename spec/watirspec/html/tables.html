@@ -5,6 +5,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     </head>
     <body>
+        <div id="messages"></div>
         <h1>Tables</h1>
         <h2>Semantic table</h2>
         <table cellspacing="0" cellpadding="5" rules="groups" frame="box" border="1" id="axis_example" summary="Hugh Laurie made more money than Gregory House in both March and April of 2008.">
@@ -84,9 +85,9 @@
                 </td>
                 <td id="t1_r2_c2">
                     Table 1, Row 2, Cell 2
-                    <table border="1" id="inner" onclick="alert('table')">
-                        <tr id="inner_first" onclick="alert('tr')">
-                            <td id="t2_r1_c1" onclick="alert('td')">
+                    <table border="1" id="inner" onclick="WatirSpec.addMessage('table')">
+                        <tr id="inner_first" onclick="WatirSpec.addMessage('tr')">
+                            <td id="t2_r1_c1" onclick="WatirSpec.addMessage('td')">
                                 Table 2, Row 1, Cell 1
                             </td>
                             <td>

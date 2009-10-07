@@ -191,20 +191,16 @@ describe "Div" do
 
   describe "#double_click" do
     it "fires the ondblclick event" do
-      double_clicked = false
-      browser.add_listener(:alert) { double_clicked = true }
       browser.div(:id, 'html_test').double_click
-      double_clicked.should be_true
+      messages.should include('double clicked')
     end
   end
 
   describe "#right_click" do
     it "fires the oncontextmenu event" do
-      right_clicked = false
       browser.goto(WatirSpec.files + "/right_click.html")
-      browser.add_listener(:alert) { right_clicked = true }
       browser.div(:id, "click").right_click
-      right_clicked.should be_true
+      messages.first.should == 'right-clicked'
     end
   end
 

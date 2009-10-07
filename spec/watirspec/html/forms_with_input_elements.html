@@ -5,14 +5,16 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="description" content="this is a test page for forms with input elements" />
     <link rel="stylesheet" href="/bogus.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <script src="javascript/helpers.js" type="text/javascript" charset="utf-8"></script>
   </head>
   <body onload="document.forms[0].elements[0].focus()">
+    <div id="messages"></div>
     <h1><a href="">User administration</a></h1>
     <h2>Add user</h2>
     <form enctype="multipart/form-data" action="post_to_me" method="post" name="user_new" id="new_user" class="user">
         <fieldset>
             <legend>Personal information</legend>
-            <label for="new_user_first_name" id="first_label" onclick="alert('label')">First name</label>
+            <label for="new_user_first_name" id="first_label" onclick="WatirSpec.addMessage('label')">First name</label>
             <input name="new_user_first_name" id="new_user_first_name" class="name" /> <br />
             <label for="new_user_last_name">Last name</label>
             <input type="no_such_type" name="new_user_last_name" id="new_user_last_name" class="name" /> <br />
@@ -34,14 +36,14 @@
             <label for="new_user_code">Personal code</label>
             <input type="text" title="Your personal code" name="new_user_code" id="new_user_code" value="HE2FF8" readonly="readonly" /> <br  />
             <label for="new_user_languages">Languages</label>
-            <select name="new_user_languages" id="new_user_languages" multiple="multiple" onchange="alert('changed language');">
+            <select name="new_user_languages" id="new_user_languages" multiple="multiple" onchange="WatirSpec.addMessage('changed language');">
                 <option id="danish" value="1">Danish</option>
                 <option selected="selected" value="2">English</option>
                 <option selected="selected" value="3">Norwegian</option>
                 <option>Swedish</option>
             </select> <br />
             <label for="new_user_portrait">Portrait</label>
-            <input type="file" name="new_user_portrait" id="new_user_portrait" class="portrait" title="Smile!" onchange="alert(this.value)" /> <br />
+            <input type="file" name="new_user_portrait" id="new_user_portrait" class="portrait" title="Smile!" onchange="WatirSpec.addMessage(this.value)" /> <br />
             <!-- <input type="file" name="new_user_portrait" id="new_user_portrait" class="portrait" title="Smile!" onchange="document.getElementById('changed_language').innerHTML = 'File onchange triggered'" /> <br /> -->
             <label for="new_user_portrait">Dental records</label>
             <input type="file" name="new_user_teeth" id="new_user_teeth" title="Smile here too!" />
@@ -72,11 +74,11 @@
         <fieldset>
             <legend>Preferences</legend>
             <p>Do you want to recieve our newslettter?</p>
-            <input type="radio" name="new_user_newsletter" id="new_user_newsletter_yes" value="yes" checked="checked" class="huge" onclick="alert('clicked: ' + this.id)"/>
+            <input type="radio" name="new_user_newsletter" id="new_user_newsletter_yes" value="yes" checked="checked" class="huge" onclick="WatirSpec.addMessage('clicked: ' + this.id)"/>
             <label for="new_user_newsletter_yes">Yes</label>
-            <input type="radio" name="new_user_newsletter" id="new_user_newsletter_no" value="no" title="Traitor!" onclick="alert('clicked: ' + this.id)" />
+            <input type="radio" name="new_user_newsletter" id="new_user_newsletter_no" value="no" title="Traitor!" onclick="WatirSpec.addMessage('clicked: ' + this.id)" />
             <label for="new_user_newsletter_no">No</label>
-            <input type="radio" name="new_user_newsletter" value="certainly" onchange="alert('changed: ' + this.name)"/>
+            <input type="radio" name="new_user_newsletter" value="certainly" onchange="WatirSpec.addMessage('changed: ' + this.name)"/>
             <label>Certainly</label>
             <input type="radio" id="new_user_newsletter_absolutely" value="absolutely" />
             <label for="new_user_newsletter_absolutely">Absolutely</label>

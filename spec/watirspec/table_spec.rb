@@ -51,10 +51,8 @@ describe "Table" do
 
   describe "#click" do
     it "fires the table's onclick event" do
-      clicked = nil
-      browser.add_listener(:alert) { |page, msg| clicked = msg }
       browser.table(:id, 'inner').click
-      clicked.should == 'table'
+      messages.first.should == 'table'
     end
   end
 

@@ -3,6 +3,7 @@
   <head>
     <title>Non-control elements</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="javascript/helpers.js" type="text/javascript" charset="utf-8"></script>
   </head>
   <body>
     <div></div>
@@ -60,7 +61,7 @@
             </pre>
             <h2>PHP Hello World</h2>
             <pre class="php">
-                &lt;?php 
+                &lt;?php
                     echo "Hello, World!\n";
                 ?&gt;
             </pre>
@@ -96,7 +97,7 @@
                 >.                               Print newline
             </pre>
         </div>
-        <div id="html_test" class=some_class title="This is a title" ondblclick="alert('double clicked')">
+        <div id="html_test" class=some_class title="This is a title" ondblclick="WatirSpec.addMessage('double clicked')">
             <h1 id="header1">Header 1</h1>
             <h2 id="header2">Header 2</h2>
             <h3 id="header3">Header 3</h3>
@@ -111,5 +112,7 @@
         <a href="strip_space ">Space should be stripped from href</a>
         <div id="hidden" style="display: none;">Not shown</div>
     </div>
+
+    <div id="messages"></div>
   </body>
 </html>
