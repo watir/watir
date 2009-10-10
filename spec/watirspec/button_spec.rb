@@ -203,22 +203,6 @@ describe "Button" do
     end
   end
 
-  # Celerity API
-  describe "#click_and_attach" do
-    it "returns a new browser instance with the popup page" do
-      b = browser.button(:name, 'new_popup_window').click_and_attach
-      b.should_not == browser
-      b.title.should == "Tables"
-      browser.title.should == "Forms with input elements"
-    end
-
-    it "returns a new browser with same log_level as original" do
-      b = browser.button(:name, 'new_popup_window').click_and_attach
-      b.should_not == browser
-      b.log_level.should == browser.log_level
-    end
-  end
-
   # Manipulation methods
   describe "#click" do
     it "clicks the button if it exists" do
