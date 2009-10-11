@@ -1,32 +1,34 @@
 # encoding: utf-8
 require File.dirname(__FILE__) + '/spec_helper'
 
-describe "Uls" do
+bug "WTR-332", :watir do
+  describe "Uls" do
 
-  before :each do
-    browser.goto(WatirSpec.files + "/non_control_elements.html")
-  end
-
-  describe "#length" do
-    it "returns the number of uls" do
-      browser.uls.length.should == 2
+    before :each do
+      browser.goto(WatirSpec.files + "/non_control_elements.html")
     end
-  end
 
-  describe "#[]" do
-    it "returns the ul at the given index" do
-      browser.uls[1].id.should == "navbar"
-    end
-  end
-
-  describe "#each" do
-    it "iterates through uls correctly" do
-      browser.uls.each_with_index do |ul, index|
-        ul.name.should == browser.ul(:index, index+1).name
-        ul.id.should == browser.ul(:index, index+1).id
-        ul.value.should == browser.ul(:index, index+1).value
+    describe "#length" do
+      it "returns the number of uls" do
+        browser.uls.length.should == 2
       end
     end
-  end
 
+    describe "#[]" do
+      it "returns the ul at the given index" do
+        browser.uls[1].id.should == "navbar"
+      end
+    end
+
+    describe "#each" do
+      it "iterates through uls correctly" do
+        browser.uls.each_with_index do |ul, index|
+          ul.name.should == browser.ul(:index, index+1).name
+          ul.id.should == browser.ul(:index, index+1).id
+          ul.value.should == browser.ul(:index, index+1).value
+        end
+      end
+    end
+
+  end
 end

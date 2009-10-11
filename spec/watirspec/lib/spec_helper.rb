@@ -21,6 +21,7 @@ module WatirSpec
       load_requires
       configure
       start_server
+      add_guard_hook
     end
 
     def configure
@@ -66,6 +67,11 @@ module WatirSpec
       else
         $stderr.puts "not running WatirSpec::Server"
       end
+    end
+
+    def add_guard_hook
+      return if WatirSpec.unguarded?
+      at_exit { WatirSpec::Guards.report }
     end
 
   end # SpecHelper
