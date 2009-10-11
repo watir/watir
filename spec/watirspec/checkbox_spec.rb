@@ -273,20 +273,4 @@ describe "CheckBox" do
     end
   end
 
-  describe "#get_state" do
-    it "returns true if the checkbox is set" do
-      browser.checkbox(:id, "new_user_interests_books").get_state.should be_true
-    end
-
-    it "returns false if the checkbox is unset" do
-      browser.checkbox(:id, "new_user_interests_cars").get_state.should be_false
-    end
-
-    it "raises UnknownObjectException if the checkbox doesn't exist" do
-      lambda {   browser.checkbox(:name, "no_such_name").get_state  }.should raise_error(UnknownObjectException)
-      lambda {   browser.checkbox(:xpath, "//input[@name='no_such_name']").get_state  }.should raise_error(UnknownObjectException)
-    end
-  end
-
-
 end

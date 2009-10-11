@@ -277,19 +277,4 @@ describe "Radio" do
     end
   end
 
-  describe "#get_state" do
-    it "returns true if the radio is set" do
-      browser.radio(:id, "new_user_newsletter_yes").get_state.should be_true
-    end
-
-    it "returns false if the radio is unset" do
-      browser.radio(:id, "new_user_newsletter_no").get_state.should be_false
-    end
-
-    it "raises UnknownObjectException if the radio doesn't exist" do
-      lambda { browser.radio(:name, "no_such_name").get_state }.should raise_error(UnknownObjectException)
-      lambda { browser.radio(:xpath, "//input[@name='no_such_name']").get_state }.should raise_error(UnknownObjectException)
-    end
-  end
-
 end
