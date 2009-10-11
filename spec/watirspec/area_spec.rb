@@ -40,7 +40,7 @@ describe "Area" do
       browser.area(:title, "no_such_title").should_not exist
       browser.area(:title, /no_such_title/).should_not exist
 
-      bug "WTR-342" :watir do
+      bug "WTR-342", :watir do
         browser.area(:url, "no_such_href").should_not exist
         browser.area(:url, /no_such_href/).should_not exist
       end
