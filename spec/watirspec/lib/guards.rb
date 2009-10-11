@@ -21,7 +21,7 @@ module WatirSpec
         else
           puts
           gs.each do |guard_name, data|
-            puts "\t#{guard_name.ljust(20)}: #{data.inspect}"
+            puts "\t#{guard_name.to_s.ljust(20)}: #{data.inspect}"
           end
         end
       end
