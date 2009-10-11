@@ -33,4 +33,6 @@ module WatirSpec
   end
 end
 
-Object.extend(WatirSpec::Guards)
+class Object
+  include WatirSpec::Guards
+end
