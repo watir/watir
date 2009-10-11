@@ -1,7 +1,7 @@
 # encoding: utf-8
 require File.dirname(__FILE__) + '/spec_helper'
 
-describe "Ul" do
+describe "Ol" do
 
   before :each do
     browser.goto(WatirSpec.files + "/non_control_elements.html")

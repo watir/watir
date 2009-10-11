@@ -7,7 +7,7 @@ describe "Form" do
    browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
   end
 
-  describe "#exists" do
+  describe "#exists?" do
     it "returns true if the form exists" do
       browser.form(:id, 'new_user').should exist
       browser.form(:id, /new_user/).should exist

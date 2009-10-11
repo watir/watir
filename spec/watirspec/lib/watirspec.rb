@@ -1,6 +1,6 @@
 module WatirSpec
   class << self
-    attr_accessor :browser_args, :persistent_browser, :ungarded
+    attr_accessor :browser_args, :persistent_browser, :unguarded
 
     def html
       File.expand_path("#{File.dirname(__FILE__)}/../html")
@@ -14,8 +14,8 @@ module WatirSpec
       "http://#{Server.host}:#{Server.port}"
     end
 
-    def ungarded?
-      @ungarded ||= false
+    def unguarded?
+      @unguarded ||= false
     end
 
     def platform
