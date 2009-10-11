@@ -265,9 +265,11 @@ describe "TextField" do
       browser.text_field(:id, "delete_user_comment").value.should == 'Hello Cruel World'
     end
 
-    it "fires events" do
-      browser.text_field(:id, "new_user_username").set("Hello World")
-      browser.span(:id, "current_length").text.should == "11"
+    bug "WTR-341", :watir do
+      it "fires events" do
+        browser.text_field(:id, "new_user_username").set("Hello World")
+        browser.span(:id, "current_length").text.should == "11"
+      end
     end
 
     it "sets the value of a password field" do
