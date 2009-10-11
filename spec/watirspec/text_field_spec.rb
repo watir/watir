@@ -185,12 +185,12 @@ describe "TextField" do
   describe "#append" do
     it "appends the text to the text field" do
       browser.text_field(:name, "new_user_occupation").append(" Append This")
-      browser.text_field(:name, "new_user_occupation").get_contents.should == "Developer Append This"
+      browser.text_field(:name, "new_user_occupation").value.should == "Developer Append This"
     end
 
     it "appends multi-byte characters" do
       browser.text_field(:name, "new_user_occupation").append(" ĳĳ")
-      browser.text_field(:name, "new_user_occupation").get_contents.should == "Developer ĳĳ"
+      browser.text_field(:name, "new_user_occupation").value.should == "Developer ĳĳ"
     end
 
     it "raises ObjectReadOnlyException if the object is read only" do
@@ -209,9 +209,9 @@ describe "TextField" do
   describe "#clear" do
     it "removes all text from the text field" do
       browser.text_field(:name, "new_user_occupation").clear
-      browser.text_field(:name, "new_user_occupation").get_contents.should be_empty
+      browser.text_field(:name, "new_user_occupation").value.should be_empty
       browser.text_field(:id, "delete_user_comment").clear
-      browser.text_field(:id, "delete_user_comment").get_contents.should be_empty
+      browser.text_field(:id, "delete_user_comment").value.should be_empty
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -233,20 +233,6 @@ describe "TextField" do
     end
   end
 
-  describe "#get_contents" do
-    it "returns the contents of the text field" do
-      browser.text_field(:name, "new_user_occupation").get_contents.should == "Developer"
-    end
-
-    it "raises UnknownObjectException when accessing a non-existing element" do
-      lambda { browser.text_field(:name, "no_such_name").get_contents }.should raise_error(UnknownObjectException)
-    end
-
-    it "raises UnknownObjectException if the text field doesn't exist" do
-      lambda { browser.text_field(:id, "no_such_id").get_contents }.should raise_error(UnknownObjectException)
-    end
-  end
-
   describe "#value=" do
     it "sets the value of the element" do
       browser.text_field(:id, 'new_user_email').value = 'Hello Cruel World'
@@ -255,7 +241,7 @@ describe "TextField" do
 
     it "is able to set multi-byte characters" do
       browser.text_field(:name, "new_user_occupation").value = "ĳĳ"
-      browser.text_field(:name, "new_user_occupation").get_contents.should == "ĳĳ"
+      browser.text_field(:name, "new_user_occupation").value.should == "ĳĳ"
     end
 
     it "sets the value of a textarea element" do
@@ -296,7 +282,7 @@ describe "TextField" do
 
     it "is able to set multi-byte characters" do
       browser.text_field(:name, "new_user_occupation").set("ĳĳ")
-      browser.text_field(:name, "new_user_occupation").get_contents.should == "ĳĳ"
+      browser.text_field(:name, "new_user_occupation").value.should == "ĳĳ"
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
