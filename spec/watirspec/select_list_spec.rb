@@ -188,7 +188,7 @@ describe "SelectList" do
     end
 
     it "raises UnknownObjectException if the select list doesn't exist" do
-      lambda { browser.select_list(:name, 'no_such_name').clear_selection }.should raise_error(UnknownObjectException)
+      lambda { browser.select_list(:name, 'no_such_name').clear }.should raise_error(UnknownObjectException)
     end
   end
 
@@ -239,20 +239,20 @@ describe "SelectList" do
     end
 
     it "selects multiple items using :name and a String" do
-      browser.select_list(:name, "new_user_languages").clear_selection
+      browser.select_list(:name, "new_user_languages").clear
       browser.select_list(:name, "new_user_languages").select("Danish")
       browser.select_list(:name, "new_user_languages").select("Swedish")
       browser.select_list(:name, "new_user_languages").selected_options.should == ["Danish", "Swedish"]
     end
 
     it "selects multiple items using :name and a Regexp" do
-      browser.select_list(:name, "new_user_languages").clear_selection
+      browser.select_list(:name, "new_user_languages").clear
       browser.select_list(:name, "new_user_languages").select(/ish/)
       browser.select_list(:name, "new_user_languages").selected_options.should == ["Danish", "English", "Swedish"]
     end
 
     it "selects multiple items using :xpath" do
-      browser.select_list(:xpath, "//select[@name='new_user_languages']").clear_selection
+      browser.select_list(:xpath, "//select[@name='new_user_languages']").clear
       browser.select_list(:xpath, "//select[@name='new_user_languages']").select(/ish/)
       browser.select_list(:xpath, "//select[@name='new_user_languages']").selected_options.should == ["Danish", "English", "Swedish"]
     end
@@ -276,7 +276,7 @@ describe "SelectList" do
     end
 
     it "doesn't fire onchange event when selecting an already selected item" do
-      browser.select_list(:id, "new_user_languages").clear_selection # removes the two pre-selected options
+      browser.select_list(:id, "new_user_languages").clear # removes the two pre-selected options
       browser.select_list(:id, "new_user_languages").select("English")
       messages.size.should == 3
 
@@ -292,13 +292,13 @@ describe "SelectList" do
 
   describe "#select_value" do
     it "selects the item by value string" do
-      browser.select_list(:name, "new_user_languages").clear_selection
+      browser.select_list(:name, "new_user_languages").clear
       browser.select_list(:name, "new_user_languages").select_value("2")
       browser.select_list(:name, "new_user_languages").selected_options.should == %w[English]
     end
 
     it "selects the items by value regexp" do
-      browser.select_list(:name, "new_user_languages").clear_selection
+      browser.select_list(:name, "new_user_languages").clear
       browser.select_list(:name, "new_user_languages").select_value(/1|3/)
       browser.select_list(:name, "new_user_languages").selected_options.should == %w[Danish Norwegian]
     end

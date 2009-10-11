@@ -163,7 +163,7 @@ describe "SelectList" do
   end
 
   describe "#clearSelection" do
-    it "behaves like #clear_selection" do
+    it "behaves like #clear" do
       browser.select_list(:name, "new_user_languages").clearSelection
       browser.select_list(:name, "new_user_languages").getSelectedItems.should be_empty
     end
