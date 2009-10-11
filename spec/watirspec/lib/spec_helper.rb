@@ -50,6 +50,14 @@ module WatirSpec
       require hook
       require "fileutils"
       require "spec"
+
+      begin
+        require "ruby-debug"
+        Debugger.start
+        Debugger.settings[:autoeval] = true
+        Debugger.settings[:autolist] = 1
+      rescue LoadError
+      end
     end
 
     def start_server
