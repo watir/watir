@@ -12,14 +12,6 @@ describe "IE" do
     Browser.should respond_to("speed=")
   end
 
-  it "responds to .set_fast_speed" do
-    Browser.should respond_to("set_fast_speed")
-  end
-
-  it "responds to .set_slow_speed" do
-    Browser.should respond_to("set_slow_speed")
-  end
-
   it "responds to .attach_timeout" do
     Browser.should respond_to("attach_timeout")
   end
@@ -28,20 +20,12 @@ describe "IE" do
     Browser.should respond_to("attach_timeout=")
   end
 
-  it "responds to .reset_attach_timeout" do
-    Browser.should respond_to("reset_attach_timeout")
-  end
-
   it "responds to .visible" do
     Browser.should respond_to("visible")
   end
 
   it "responds to .each" do
     Browser.should respond_to("each")
-  end
-
-  it "responds to .quit" do
-    Browser.should respond_to("quit")
   end
 
   it "responds to .start" do
@@ -121,12 +105,6 @@ describe "Image" do
     end
   end
 
-  describe "#has_loaded?" do
-    it "behaves like #loaded" do
-      browser.image(:name, 'circle').has_loaded?.should be_true
-    end
-  end
-
   describe "#fileSize" do
     it "behaves like #file_size" do
       browser.image(:id, 'square').fileSize.should == 788
@@ -150,21 +128,9 @@ describe "RadioCheckCommon" do
     browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
   end
 
-  describe "#is_set?" do
-    it "behaves like #set?" do
-      browser.radio(:id, "new_user_newsletter_yes").is_set?.should be_true
-    end
-  end
-
   describe "#isSet?" do
     it "behaves like #set?" do
       browser.radio(:id, "new_user_newsletter_yes").isSet?.should be_true
-    end
-  end
-
-  describe "#get_state" do
-    it "behaves like #set?" do
-      browser.checkbox(:id, "new_user_interests_books").get_state.should be_true
     end
   end
 
