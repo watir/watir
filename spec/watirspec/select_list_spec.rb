@@ -160,8 +160,10 @@ describe "SelectList" do
       lambda { browser.select_list(:name, 'no_such_name').options }.should raise_error(UnknownObjectException)
     end
 
-    it "returns all the options as an Array" do
-      browser.select_list(:name, "new_user_country").options.should == ["Denmark" ,"Norway" , "Sweden" , "United Kingdom", "USA", "Germany"]
+    bug "WTR-339", :watir
+      it "returns all the options as an Array" do
+        browser.select_list(:name, "new_user_country").options.should == ["Denmark" ,"Norway" , "Sweden" , "United Kingdom", "USA", "Germany"]
+      end
     end
   end
 

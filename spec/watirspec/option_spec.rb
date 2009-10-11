@@ -87,13 +87,13 @@ describe "Option" do
   end
 
   describe "#select" do
-    it "shoulds be able to select the chosen option (page context)" do
+    it "selects the chosen option (page context)" do
       browser.select_list(:name, "new_user_country").clear
       browser.option(:text, "Denmark").select
       browser.select_list(:name, "new_user_country").selected_options.should == ["Denmark"]
     end
 
-    it "shoulds be able to select the chosen option (select_list context)" do
+    it "selects the chosen option (select_list context)" do
       browser.select_list(:name, "new_user_country").clear
       browser.select_list(:name, "new_user_country").option(:text, "Denmark").select
       browser.select_list(:name, "new_user_country").selected_options.should == ["Denmark"]
@@ -111,14 +111,16 @@ describe "Option" do
       end
     end
 
-    it "fires onclick event (page context)" do
-      browser.option(:text, "Username 3").select
-      browser.text_field(:id, 'delete_user_comment').value.should == 'Don\'t do it!'
-    end
+    bug "WTR-335", :watir do
+      it "fires onclick event (page context)" do
+        browser.option(:text, "Username 3").select
+        browser.text_field(:id, 'delete_user_comment').value.should == 'Don\'t do it!'
+      end
 
-    it "fires onclick event (select_list context)" do
-      browser.select_list(:id, 'delete_user_username').option(:text, "Username 3").select
-      browser.text_field(:id, 'delete_user_comment').value.should == 'Don\'t do it!'
+      it "fires onclick event (select_list context)" do
+        browser.select_list(:id, 'delete_user_username').option(:text, "Username 3").select
+        browser.text_field(:id, 'delete_user_comment').value.should == 'Don\'t do it!'
+      end
     end
 
     it "raises UnknownObjectException if the option does not exist (page context)" do
