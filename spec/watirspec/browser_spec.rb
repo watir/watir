@@ -197,20 +197,22 @@ describe "Browser" do
       browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
     end
 
-    it "finds submit buttons matching the given xpath" do
-      browser.element_by_xpath("//input[@type='submit']").should exist
-    end
+    bug "WTR-343" do
+      it "finds submit buttons matching the given xpath" do
+        browser.element_by_xpath("//input[@type='submit']").should exist
+      end
 
-    it "finds reset buttons matching the given xpath" do
-      browser.element_by_xpath("//input[@type='reset']").should exist
-    end
+      it "finds reset buttons matching the given xpath" do
+        browser.element_by_xpath("//input[@type='reset']").should exist
+      end
 
-    it "finds image buttons matching the given xpath" do
-      browser.element_by_xpath("//input[@type='image']").should exist
-    end
+      it "finds image buttons matching the given xpath" do
+        browser.element_by_xpath("//input[@type='image']").should exist
+      end
 
-    it "finds the element matching the given xpath" do
-      browser.element_by_xpath("//input[@type='password']").should exist
+      it "finds the element matching the given xpath" do
+        browser.element_by_xpath("//input[@type='password']").should exist
+      end
     end
 
     bug "WTR-327", :watir do
@@ -227,10 +229,12 @@ describe "Browser" do
       browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
     end
 
-    it "returns an Array of matching elements" do
-      objects = browser.elements_by_xpath("//*[@type='text']")
-      objects.should be_kind_of(Array)
-      objects.size.should == 6
+    bug "WTR-344", :watir do
+      it "returns an Array of matching elements" do
+        objects = browser.elements_by_xpath("//*[@type='text']")
+        objects.should be_kind_of(Array)
+        objects.size.should == 6
+      end
     end
 
     bug "WTR-328", :watir do

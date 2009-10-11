@@ -114,11 +114,19 @@ describe "Button" do
   end
 
   describe "#style" do
-    it "returns the style attribute if the button exists" do
-      browser.button(:id, 'delete_user_submit').style.should == "border: 4px solid red;"
+    deviates_on :watir do
+      it "returns the style attribute if the button exists" do
+        browser.button(:id, 'delete_user_submit').style.should == "border-right: red 4px solid; border-top: red 4px solid; border-left: red 4px solid; border-bottom: red 4px solid"
+      end
     end
 
-    it "returns an empty string if the element exists and the attribute doesn't" do
+    not_compliant_on :watir do
+      it "returns the style attribute if the button exists" do
+        browser.button(:id, 'delete_user_submit').style.should == "border: 4px solid red;"
+      end
+    end
+
+    it "returns an empty string if the element exists and the attribute doesn't exist" do
       browser.button(:id, 'new_user_submit').style.should == ""
     end
 
