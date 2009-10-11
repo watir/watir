@@ -161,8 +161,10 @@ describe "Image" do
   end
 
   describe "#height" do
-    it "returns the height of the image if the image exists" do
-      browser.image(:id, 'square').height.should == 88
+    not_compliant_on :watir do
+      it "returns the height of the image if the image exists" do
+        browser.image(:id, 'square').height.should == 88
+      end
     end
 
     it "raises UnknownObjectException if the image doesn't exist" do
@@ -171,8 +173,10 @@ describe "Image" do
   end
 
   describe "#width" do
-    it "returns the width of the image if the image exists" do
-      browser.image(:id, 'square').width.should == 88
+    not_compliant_on :watir do
+      it "returns the width of the image if the image exists" do
+        browser.image(:id, 'square').width.should == 88
+      end
     end
 
     it "raises UnknownObjectException if the image doesn't exist" do

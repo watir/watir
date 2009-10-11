@@ -16,8 +16,14 @@ describe "Area" do
       browser.area(:name, /NCE/).should exist
       browser.area(:title, "Tables").should exist
       browser.area(:title, /Tables/).should exist
-      browser.area(:url, "tables.html").should exist
-      browser.area(:url, /tables/).should exist
+
+      bug "WTR-342", :watir do
+        browser.area(:url, "tables.html").should exist
+        browser.area(:url, /tables/).should exist
+      end
+
+      browser.area(:href, "tables.html").should exist
+      browser.area(:href, /tables/).should exist
       browser.area(:index, 1).should exist
       browser.area(:xpath, "//area[@id='NCE']").should exist
     end
@@ -33,8 +39,14 @@ describe "Area" do
       browser.area(:name, /no_such_id/).should_not exist
       browser.area(:title, "no_such_title").should_not exist
       browser.area(:title, /no_such_title/).should_not exist
-      browser.area(:url, "no_such_href").should_not exist
-      browser.area(:url, /no_such_href/).should_not exist
+
+      bug "WTR-342" :watir do
+        browser.area(:url, "no_such_href").should_not exist
+        browser.area(:url, /no_such_href/).should_not exist
+      end
+
+      browser.area(:href, "tables.html").should exist
+      browser.area(:href, /tables/).should exist
       browser.area(:index, 1337).should_not exist
       browser.area(:xpath, "//area[@id='no_such_id']").should_not exist
     end

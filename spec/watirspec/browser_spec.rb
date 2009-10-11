@@ -83,7 +83,7 @@ describe "Browser" do
   end
 
   describe "#goto" do
-    it "adds http:// to URLs with no protocol specified" do
+    it "adds http:// to URLs with no URL scheme specified" do
       url = WatirSpec.host[%r{http://(.*)}, 1]
       url.should_not be_nil
       browser.goto(url)
