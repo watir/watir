@@ -11,7 +11,7 @@ module WatirSpec
         when :windows
           require "win32/process"
           pid = Process.create(
-            :app_name        => "#{WatirSpec.ruby} #{__FILE__}",
+            :app_name        => "#{WatirSpec.ruby} #{File.dirname(__FILE__)}/../spec_helper.rb",
             :process_inherit => true,
             :thread_inherit  => true,
             :inherit         => true
