@@ -203,10 +203,13 @@ describe "Image" do
 
   describe "#save" do
     it "saves an image to file" do
-      file = "sample.img.dat"
-      browser.image(:index, 2).save(file)
-      File.exist?(file).should be_true
-      File.delete(file)
+      file = "#{File.expand_path Dir.pwd}/sample.img.dat"
+      begin
+        browser.image(:index, 2).save(file)
+        File.exist?(file).should be_true
+      ensure
+        File.delete(file) if File.exist?(file)
+      end
     end
   end
 

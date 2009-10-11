@@ -213,10 +213,12 @@ describe "Browser" do
       browser.element_by_xpath("//input[@type='password']").should exist
     end
 
-    it "will not find elements that doesn't exist" do
-      e = browser.element_by_xpath("//input[@type='foobar']")
-      e.should_not exist
-      lambda { e.set('foo') }.should raise_error(UnknownObjectException)
+    bug "WTR-327", :watir do
+      it "will not find elements that doesn't exist" do
+        e = browser.element_by_xpath("//input[@type='foobar']")
+        e.should_not exist
+        lambda { e.set('foo') }.should raise_error(UnknownObjectException)
+      end
     end
   end
 
@@ -231,10 +233,12 @@ describe "Browser" do
       objects.size.should == 6
     end
 
-    it "returns an empty Array if there are no matching elements" do
-      objects = browser.elements_by_xpath("//*[@type='foobar']")
-      objects.should be_kind_of(Array)
-      objects.size.should == 0
+    bug "WTR-328", :watir do
+      it "returns an empty Array if there are no matching elements" do
+        objects = browser.elements_by_xpath("//*[@type='foobar']")
+        objects.should be_kind_of(Array)
+        objects.size.should == 0
+      end
     end
   end
 

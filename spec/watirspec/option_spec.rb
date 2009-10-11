@@ -9,8 +9,11 @@ describe "Option" do
 
   describe "#exists?" do
     it "returns true if the element exists (page context)" do
-      browser.option(:id, "nor").should exist
-      browser.option(:id, /nor/).should exist
+      bug "WTR-330", :watir do
+        browser.option(:id, "nor").should exist
+        browser.option(:id, /nor/).should exist
+      end
+
       browser.option(:value, "2").should exist
       browser.option(:value, /2/).should exist
       browser.option(:text, "Norway").should exist
@@ -21,8 +24,11 @@ describe "Option" do
     end
 
     it "returns true if the element exists (select_list context)" do
-      browser.select_list(:name, "new_user_country").option(:id, "nor").should exist
-      browser.select_list(:name, "new_user_country").option(:id, /nor/).should exist
+      bug "WTR-330", :watir do
+        browser.select_list(:name, "new_user_country").option(:id, "nor").should exist
+        browser.select_list(:name, "new_user_country").option(:id, /nor/).should exist
+      end
+
       browser.select_list(:name, "new_user_country").option(:value, "2").should exist
       browser.select_list(:name, "new_user_country").option(:value, /2/).should exist
       browser.select_list(:name, "new_user_country").option(:text, "Norway").should exist
@@ -40,8 +46,11 @@ describe "Option" do
     end
 
     it "returns false if the element does not exist (page context)" do
-      browser.option(:id, "no_such_id").should_not exist
-      browser.option(:id, /no_such_id/).should_not exist
+      bug "WTR-330", :watir do
+        browser.option(:id, "no_such_id").should_not exist
+        browser.option(:id, /no_such_id/).should_not exist
+      end
+
       browser.option(:value, "no_such_value").should_not exist
       browser.option(:value, /no_such_value/).should_not exist
       browser.option(:text, "no_such_text").should_not exist
@@ -52,8 +61,11 @@ describe "Option" do
     end
 
     it "returns false if the element does not exist (select_list context)" do
-      browser.select_list(:name, "new_user_country").option(:id, "no_such_id").should_not exist
-      browser.select_list(:name, "new_user_country").option(:id, /no_such_id/).should_not exist
+      bug "WTR-330", :watir do
+        browser.select_list(:name, "new_user_country").option(:id, "no_such_id").should_not exist
+        browser.select_list(:name, "new_user_country").option(:id, /no_such_id/).should_not exist
+      end
+
       browser.select_list(:name, "new_user_country").option(:value, "no_such_value").should_not exist
       browser.select_list(:name, "new_user_country").option(:value, /no_such_value/).should_not exist
       browser.select_list(:name, "new_user_country").option(:text, "no_such_text").should_not exist
@@ -87,14 +99,16 @@ describe "Option" do
       browser.select_list(:name, "new_user_country").selected_options.should == ["Denmark"]
     end
 
-    it "selects the option when found by text (page context)" do
-      browser.option(:text, 'Sweden').select
-      browser.option(:text, 'Sweden').should be_selected
-    end
+    bug "WTR-329", :watir do
+      it "selects the option when found by text (page context)" do
+        browser.option(:text, 'Sweden').select
+        browser.option(:text, 'Sweden').should be_selected
+      end
 
-    it "selects the option when found by text (select_list context)" do
-      browser.select_list(:name, 'new_user_country').option(:text, 'Sweden').select
-      browser.select_list(:name, 'new_user_country').option(:text, 'Sweden').should be_selected
+      it "selects the option when found by text (select_list context)" do
+        browser.select_list(:name, 'new_user_country').option(:text, 'Sweden').select
+        browser.select_list(:name, 'new_user_country').option(:text, 'Sweden').should be_selected
+      end
     end
 
     it "fires onclick event (page context)" do
@@ -126,22 +140,25 @@ describe "Option" do
     end
   end
 
-  describe "#class_name" do
-    it "is able to get attributes (page context)" do
-      browser.option(:text, 'Sweden').class_name.should == "scandinavia"
-    end
 
-    it "is able to get attributes (select_list context)" do
-      browser.select_list(:name, "new_user_country").option(:text , 'Sweden').class_name.should == "scandinavia"
+  bug "WTR-331", :watir do
+    describe "#class_name" do
+      it "is able to get attributes (page context)" do
+        browser.option(:text, 'Sweden').class_name.should == "scandinavia"
+      end
+
+      it "is able to get attributes (select_list context)" do
+        browser.select_list(:name, "new_user_country").option(:text , 'Sweden').class_name.should == "scandinavia"
+      end
     end
   end
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.option(:index, 1).should respond_to(:class_name)
-      browser.option(:index, 1).should respond_to(:id)
-      browser.option(:index, 1).should respond_to(:text)
-      browser.option(:index, 1).should respond_to(:name)
+      browser.select_list(:name, "new_user_country").option(:text, 'Sweden').should respond_to(:class_name)
+      browser.select_list(:name, "new_user_country").option(:text, 'Sweden').should respond_to(:id)
+      browser.select_list(:name, "new_user_country").option(:text, 'Sweden').should respond_to(:text)
+      browser.select_list(:name, "new_user_country").option(:text, 'Sweden').should respond_to(:name)
     end
   end
 
