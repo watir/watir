@@ -1,6 +1,6 @@
 module WatirSpec
   class << self
-    attr_accessor :browser_args, :persistent_browser
+    attr_accessor :browser_args, :persistent_browser, :ungarded
 
     def html
       File.expand_path("#{File.dirname(__FILE__)}/../html")
@@ -12,6 +12,10 @@ module WatirSpec
 
     def host
       "http://#{Server.host}:#{Server.port}"
+    end
+
+    def ungarded?
+      @ungarded ||= false
     end
 
     def platform
@@ -27,6 +31,19 @@ module WatirSpec
                     else
                       RUBY_PLATFORM
                     end
+    end
+
+    def implementation
+      @implementation ||= case Browser.name
+                          when "Watir::IE"
+                            :watir
+                          when "Watir::Firefox", "FireWatir::Firefox"
+                            :firewatir
+                          when "Celerity::Browser"
+                            :celerity
+                          else
+                            :unknown
+                          end
     end
 
     def new_browser
