@@ -8,7 +8,7 @@ describe "Image" do
   end
 
   # Exists method
-  describe "#exists" do
+  describe "#exists?" do
     it "returns true when the image exists" do
       browser.image(:id, 'square').should exist
       browser.image(:id, /square/).should exist
