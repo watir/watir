@@ -21,7 +21,7 @@ describe "Image" do
       browser.image(:title, 'Circle').should exist
     end
 
-    it "returns true if the element exists (default how = :id)" do
+    it "returns true if the element exists (default how = :src)" do
       browser.image("images/circle.jpg").should exist
     end
 
