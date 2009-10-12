@@ -25,7 +25,7 @@ describe "Image" do
       browser.image("images/circle.jpg").should exist
     end
 
-    it "returns false when the image exists" do
+    it "returns false when the image doesn't exist" do
       browser.image(:id, 'no_such_id').should_not exist
       browser.image(:id, /no_such_id/).should_not exist
       browser.image(:name, 'no_such_name').should_not exist
