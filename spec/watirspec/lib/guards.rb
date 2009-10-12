@@ -28,19 +28,19 @@ module WatirSpec
     end
 
     def deviates_on(*impls)
-      Guards.record :deviates_on, impls, :file => caller.first
+      Guards.record :deviates, impls, :file => caller.first
       return yield if WatirSpec.unguarded?
       yield if impls.include? WatirSpec.implementation
     end
 
     def not_compliant_on(*impls)
-      Guards.record :not_compliant_on, impls, :file => caller.first
+      Guards.record :not_compliant, impls, :file => caller.first
       return yield if WatirSpec.unguarded?
       yield unless impls.include? WatirSpec.implementation
     end
 
     def compliant_on(*impls)
-      Guards.record :compliant_on, impls, :file => caller.first
+      Guards.record :compliant, impls, :file => caller.first
       return yield if WatirSpec.unguarded?
       yield if impls.include? WatirSpec.implementation
     end
