@@ -7,7 +7,7 @@ describe "TableBody" do
     browser.goto(WatirSpec.files + "/tables.html")
   end
 
-  describe "#exists" do
+  describe "#exists?" do
     it "returns true if the table body exists (page context)" do
       browser.body(:id, 'first').should exist
       browser.body(:id, /first/).should exist
@@ -31,7 +31,7 @@ describe "TableBody" do
       browser.table(:index, 1).body("first").should exist
     end
 
-    it "returns false if the table body exists (page context)" do
+    it "returns false if the table body doesn't exist (page context)" do
       browser.body(:id, 'no_such_id').should_not exist
       browser.body(:id, /no_such_id/).should_not exist
       browser.body(:name, 'no_such_name').should_not exist
@@ -40,7 +40,7 @@ describe "TableBody" do
       browser.body(:xpath, "//tbody[@id='no_such_id']").should_not exist
     end
 
-    it "returns false if the table body exists (table context)" do
+    it "returns false if the table body doesn't exist (table context)" do
       browser.table(:index, 1).body(:id, 'no_such_id').should_not exist
       browser.table(:index, 1).body(:id, /no_such_id/).should_not exist
       browser.table(:index, 1).body(:name, 'no_such_name').should_not exist

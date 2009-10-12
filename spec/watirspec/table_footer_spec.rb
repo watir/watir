@@ -7,7 +7,7 @@ describe "TableFooter" do
     browser.goto(WatirSpec.files + "/tables.html")
   end
 
-  describe "#exists" do
+  describe "#exists?" do
     it "returns true if the table tfoot exists (page context)" do
       browser.tfoot(:id, 'tax_totals').should exist
       browser.tfoot(:id, /tax_totals/).should exist
@@ -27,14 +27,14 @@ describe "TableFooter" do
       browser.table(:index, 1).tfoot("tax_totals").should exist
     end
 
-    it "returns false if the table tfoot exists (page context)" do
+    it "returns false if the table tfoot doesn't exist (page context)" do
       browser.tfoot(:id, 'no_such_id').should_not exist
       browser.tfoot(:id, /no_such_id/).should_not exist
       browser.tfoot(:index, 1337).should_not exist
       browser.tfoot(:xpath, "//tfoot[@id='no_such_id']").should_not exist
     end
 
-    it "returns false if the table tfoot exists (table context)" do
+    it "returns false if the table tfoot doesn't exist (table context)" do
       browser.table(:index, 1).tfoot(:id, 'no_such_id').should_not exist
       browser.table(:index, 1).tfoot(:id, /no_such_id/).should_not exist
       browser.table(:index, 1).tfoot(:index, 1337).should_not exist

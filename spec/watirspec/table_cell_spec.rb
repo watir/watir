@@ -8,7 +8,7 @@ describe "TableCell" do
   end
 
   # Exists
-  describe "#exists" do
+  describe "#exists?" do
     it "returns true when the table cell exists" do
       browser.cell(:id, 't1_r2_c1').should exist
       browser.cell(:id, /t1_r2_c1/).should exist

@@ -19,7 +19,7 @@ describe "TableRow" do
       browser.row("outer_last").should exist
     end
 
-    it "returns false if the table row exists" do
+    it "returns false if the table row doesn't exist" do
       browser.row(:id, "no_such_id").should_not exist
       browser.row(:id, /no_such_id/).should_not exist
       browser.row(:index, 1337).should_not exist

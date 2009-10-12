@@ -7,7 +7,7 @@ describe "TableHeader" do
     browser.goto(WatirSpec.files + "/tables.html")
   end
 
-  describe "#exists" do
+  describe "#exists?" do
     it "returns true if the table theader exists (page context)" do
       browser.thead(:id, 'tax_headers').should exist
       browser.thead(:id, /tax_headers/).should exist
@@ -27,14 +27,14 @@ describe "TableHeader" do
       browser.table(:index, 1).thead("tax_headers").should exist
     end
 
-    it "returns false if the table theader exists (page context)" do
+    it "returns false if the table theader doesn't exist (page context)" do
       browser.thead(:id, 'no_such_id').should_not exist
       browser.thead(:id, /no_such_id/).should_not exist
       browser.thead(:index, 1337).should_not exist
       browser.thead(:xpath, "//thead[@id='no_such_id']").should_not exist
     end
 
-    it "returns false if the table theader exists (table context)" do
+    it "returns false if the table theader doesn't exist (table context)" do
       browser.table(:index, 1).thead(:id, 'no_such_id').should_not exist
       browser.table(:index, 1).thead(:id, /no_such_id/).should_not exist
       browser.table(:index, 1).thead(:index, 1337).should_not exist
