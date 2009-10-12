@@ -197,7 +197,7 @@ describe "Browser" do
       browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
     end
 
-    bug "WTR-343" do
+    bug "WTR-343", :watir do
       it "finds submit buttons matching the given xpath" do
         browser.element_by_xpath("//input[@type='submit']").should exist
       end
