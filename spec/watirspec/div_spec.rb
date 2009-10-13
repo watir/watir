@@ -110,9 +110,20 @@ describe "Div" do
   end
 
   describe "#style" do
-    it "returns the style attribute if the element exists" do
-      browser.div(:id, 'best_language').style.should == "color: red; text-decoration: underline; cursor: pointer;"
+    not_compliant_on :watir do
+      it "returns the style attribute if the element exists" do
+        browser.div(:id, 'best_language').style.should == "color: red; text-decoration: underline; cursor: pointer;"
+      end
     end
+
+    deviates_on :watir do
+      it "returns the style attribute if the element exists" do
+        # just different order and missing semicolon here
+        browser.div(:id, 'best_language').style.should == "cursor: pointer; color: red; text-decoration: underline"
+      end
+    end
+
+
 
     it "returns an empty string if the element exists but the attribute doesn't" do
       browser.div(:id, 'promo').style.should == ""
@@ -134,8 +145,10 @@ describe "Div" do
       browser.div(:index, 1).text.strip.should == ""
     end
 
-    it "returns an empty string if the div is hidden" do
-      browser.div(:id, 'hidden').text.should == ""
+    deviates_on :celerity do
+      it "returns an empty string if the div is hidden" do
+        browser.div(:id, 'hidden').text.should == ""
+      end
     end
 
     it "raises UnknownObjectException if the element does not exist" do
@@ -217,13 +230,15 @@ describe "Div" do
   end
 
   describe "#to_s" do
-    it "returns a human readable representation of the element" do
-      browser.div(:id, 'footer').to_s.should ==
+    bug "WTR-350", :watir do
+      it "returns a human readable representation of the element" do
+        browser.div(:id, 'footer').to_s.should ==
 %q{tag:          div
   id:           footer
   title:        Closing remarks
   class:        profile
   text:         This is a footer.}
+      end
     end
   end
 

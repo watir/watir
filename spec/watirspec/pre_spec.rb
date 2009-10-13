@@ -115,8 +115,10 @@ describe "Pre" do
 
   # Other
   describe "#to_s" do
-    it "returns a human readable representation of the element" do
-      browser.pre(:index, 1).to_s.should == "tag:          pre"
+    bug "WTR-350", :watir do
+      it "returns a human readable representation of the element" do
+        browser.pre(:index, 1).to_s.should == "tag:          pre"
+      end
     end
 
     it "raises UnknownObjectException if the p doesn't exist" do

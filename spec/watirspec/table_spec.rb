@@ -57,9 +57,11 @@ describe "Table" do
   end
 
   describe "#row_count" do
-    it "counts the number of rows correctly" do
-      browser.table(:id, 'inner').row_count.should == 1
-      browser.table(:id, 'outer').row_count.should == 3
+    bug "WTR-354", :watir do
+      it "counts the number of rows correctly" do
+        browser.table(:id, 'inner').row_count.should == 1
+        browser.table(:id, 'outer').row_count.should == 3
+      end
     end
 
     it "raises an UnknownObjectException if the table doesn't exist" do

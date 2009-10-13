@@ -8,9 +8,11 @@ describe "TableRows" do
   end
 
   describe "#length" do
-    it "returns the correct number of cells (table context)" do
-      browser.table(:id, 'inner').rows.length.should == 1
-      browser.table(:id, 'outer').rows.length.should == 3
+    bug "WTR-354", :watir do
+      it "returns the correct number of cells (table context)" do
+        browser.table(:id, 'inner').rows.length.should == 1
+        browser.table(:id, 'outer').rows.length.should == 3
+      end
     end
 
     it "returns the correct number of cells (page context)" do

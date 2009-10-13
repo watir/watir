@@ -11,8 +11,12 @@ describe "Form" do
     it "returns true if the form exists" do
       browser.form(:id, 'new_user').should exist
       browser.form(:id, /new_user/).should exist
-      browser.form(:class, 'user').should exist
-      browser.form(:class, /user/).should exist
+
+      bug "WTR-355", :watir do
+        browser.form(:class, 'user').should exist
+        browser.form(:class, /user/).should exist
+      end
+
       browser.form(:method, 'post').should exist
       browser.form(:method, /post/).should exist
       browser.form(:action, 'post_to_me').should exist
@@ -28,8 +32,12 @@ describe "Form" do
     it "returns false if the form doesn't exist" do
       browser.form(:id, 'no_such_id').should_not exist
       browser.form(:id, /no_such_id/).should_not exist
-      browser.form(:class, 'no_such_class').should_not exist
-      browser.form(:class, /no_such_class/).should_not exist
+
+      bug "WTR-355", :watir do
+        browser.form(:class, 'no_such_class').should_not exist
+        browser.form(:class, /no_such_class/).should_not exist
+      end
+
       browser.form(:method, 'no_such_method').should_not exist
       browser.form(:method, /no_such_method/).should_not exist
       browser.form(:action, 'no_such_action').should_not exist
@@ -38,8 +46,10 @@ describe "Form" do
       browser.form(:xpath, "//form[@id='no_such_id']").should_not exist
     end
 
-    it "raises TypeError when 'what' argument is invalid" do
-      lambda { browser.form(:id, 3.14).exists? }.should raise_error(TypeError)
+    bug "WTR-356", :watir do
+      it "raises TypeError when 'what' argument is invalid" do
+        lambda { browser.form(:id, 3.14).exists? }.should raise_error(TypeError)
+      end
     end
 
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do

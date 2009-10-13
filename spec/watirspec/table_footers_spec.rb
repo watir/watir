@@ -1,33 +1,34 @@
 # encoding: utf-8
 require File.dirname(__FILE__) + '/spec_helper'
 
-describe "TableFooters" do
+bug "WTR-358", :watir do
 
-  before :each do
-    browser.goto(WatirSpec.files + "/tables.html")
-  end
-
-  describe "#length" do
-    it "returns the correct number of table tfoots (page context)" do
-      browser.tfoots.length.should == 1
+  describe "TableFooters" do
+    before :each do
+      browser.goto(WatirSpec.files + "/tables.html")
     end
 
-    it "returns the correct number of table tfoots (table context)" do
-      browser.table(:index, 1).tfoots.length.should == 1
-    end
-  end
+    describe "#length" do
+      it "returns the correct number of table tfoots (page context)" do
+        browser.tfoots.length.should == 1
+      end
 
-  describe "#[]" do
-    it "returns the row at the given index (page context)" do
-      browser.tfoots[1].id.should == "tax_totals"
+      it "returns the correct number of table tfoots (table context)" do
+        browser.table(:index, 1).tfoots.length.should == 1
+      end
     end
 
-    it "returns the row at the given index (table context)" do
-      browser.table(:index, 1).tfoots[1].id.should == "tax_totals"
-    end
-  end
+    describe "#[]" do
+      it "returns the row at the given index (page context)" do
+        browser.tfoots[1].id.should == "tax_totals"
+      end
 
-  describe "#each" do
+      it "returns the row at the given index (table context)" do
+        browser.table(:index, 1).tfoots[1].id.should == "tax_totals"
+      end
+    end
+
+    describe "#each" do
       it "iterates through table tfoots correctly (page context)" do
         browser.tfoots.each_with_index do |tfoot, index|
           tfoot.name.should == browser.tfoot(:index, index+1).name
@@ -43,5 +44,6 @@ describe "TableFooters" do
         end
       end
     end
+  end
 
 end

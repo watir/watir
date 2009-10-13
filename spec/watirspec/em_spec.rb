@@ -95,13 +95,15 @@ describe "Em" do
   end
 
   describe "#to_s" do
-    it "returns a human readable representation of the element" do
-      browser.em(:id, 'important-id').to_s.should ==
+    bug "WTR-350", :watir do
+      it "returns a human readable representation of the element" do
+        browser.em(:id, 'important-id').to_s.should ==
 %q{tag:          em
   class:        important-class
   id:           important-id
   title:        ergo cogito
   text:         ergo cogito}
+      end
     end
   end
 

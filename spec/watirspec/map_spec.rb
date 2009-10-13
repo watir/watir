@@ -80,10 +80,12 @@ describe "Map" do
 
   # Other
   describe "#to_s" do
-    it "returns a human readable representation of the element" do
-      browser.map(:index, 1).to_s.should == "tag:          map\n" +
-                                      "  id:           triangle_map\n" +
-                                      "  name:         triangle_map"
+    bug "WTR-350", :watir do
+      it "returns a human readable representation of the element" do
+        browser.map(:index, 1).to_s.should == "tag:          map\n" +
+                                        "  id:           triangle_map\n" +
+                                        "  name:         triangle_map"
+      end
     end
 
     it "raises UnknownObjectException if the p doesn't exist" do

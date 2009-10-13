@@ -76,17 +76,21 @@ describe "Image" do
   end
 
   describe "#fileSize" do
-    it "behaves like #file_size" do
-      browser.image(:id, 'square').fileSize.should == 788
+    bug "WTR-346", :watir do
+      it "behaves like #file_size" do
+        browser.image(:id, 'square').fileSize.should == 788
+      end
     end
   end
 
   describe "#fileCreatedDate" do
-    it "behaves like #file_created_date" do
-      browser.goto(WatirSpec.host + "/images.html")
-      image = browser.image(:index, 2)
-      path = File.dirname(__FILE__) + "/html/#{image.src}"
-      image.file_created_date.to_i.should == File.mtime(path).to_i
+    bug "WTR-347", :watir do
+      it "behaves like #file_created_date" do
+        browser.goto(WatirSpec.host + "/images.html")
+        image = browser.image(:index, 2)
+        path = File.dirname(__FILE__) + "/html/#{image.src}"
+        image.file_created_date.to_i.should == File.mtime(path).to_i
+      end
     end
   end
 
@@ -128,7 +132,8 @@ describe "SelectList" do
   describe "#getAllContents" do
     it "behaves like #options" do
       expected = ["Denmark" ,"Norway" , "Sweden" , "United Kingdom", "USA", "Germany"]
-      browser.select_list(:name, "new_user_country").getAllContents.should == expected
+      sl = browser.select_list(:name, "new_user_country")
+      sl.getAllContents.should == sl.options
     end
   end
 

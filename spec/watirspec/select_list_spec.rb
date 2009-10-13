@@ -247,16 +247,18 @@ describe "SelectList" do
       browser.select_list(:name, "new_user_languages").selected_options.should == ["Danish", "Swedish"]
     end
 
-    it "selects multiple items using :name and a Regexp" do
-      browser.select_list(:name, "new_user_languages").clear
-      browser.select_list(:name, "new_user_languages").select(/ish/)
-      browser.select_list(:name, "new_user_languages").selected_options.should == ["Danish", "English", "Swedish"]
-    end
+    bug "WTR-362", :watir do
+      it "selects multiple items using :name and a Regexp" do
+        browser.select_list(:name, "new_user_languages").clear
+        browser.select_list(:name, "new_user_languages").select(/ish/)
+        browser.select_list(:name, "new_user_languages").selected_options.should == ["Danish", "English", "Swedish"]
+      end
 
-    it "selects multiple items using :xpath" do
-      browser.select_list(:xpath, "//select[@name='new_user_languages']").clear
-      browser.select_list(:xpath, "//select[@name='new_user_languages']").select(/ish/)
-      browser.select_list(:xpath, "//select[@name='new_user_languages']").selected_options.should == ["Danish", "English", "Swedish"]
+      it "selects multiple items using :xpath" do
+        browser.select_list(:xpath, "//select[@name='new_user_languages']").clear
+        browser.select_list(:xpath, "//select[@name='new_user_languages']").select(/ish/)
+        browser.select_list(:xpath, "//select[@name='new_user_languages']").selected_options.should == ["Danish", "English", "Swedish"]
+      end
     end
 
     it "selects empty options" do
@@ -264,12 +266,14 @@ describe "SelectList" do
       browser.select_list(:id, "delete_user_username").selected_options.should == [""]
     end
 
-    it "returns the value selected" do
-      browser.select_list(:name, "new_user_languages").select("Danish").should == "Danish"
-    end
+    bug "WTR-363", :watir do
+      it "returns the value selected" do
+        browser.select_list(:name, "new_user_languages").select("Danish").should == "Danish"
+      end
 
-    it "returns the first matching value if there are multiple matches" do
-      browser.select_list(:name, "new_user_languages").select(/ish/).should == "Danish"
+      it "returns the first matching value if there are multiple matches" do
+        browser.select_list(:name, "new_user_languages").select(/ish/).should == "Danish"
+      end
     end
 
     it "fires onchange event when selecting an item" do
@@ -277,13 +281,15 @@ describe "SelectList" do
       messages.should == ['changed language']
     end
 
-    it "doesn't fire onchange event when selecting an already selected item" do
-      browser.select_list(:id, "new_user_languages").clear # removes the two pre-selected options
-      browser.select_list(:id, "new_user_languages").select("English")
-      messages.size.should == 3
+    bug "WTR-364", :watir do
+      it "doesn't fire onchange event when selecting an already selected item" do
+        browser.select_list(:id, "new_user_languages").clear # removes the two pre-selected options
+        browser.select_list(:id, "new_user_languages").select("English")
+        messages.size.should == 3
 
-      browser.select_list(:id, "new_user_languages").select("English")
-      messages.size.should == 3
+        browser.select_list(:id, "new_user_languages").select("English")
+        messages.size.should == 3
+      end
     end
 
     it "raises NoValueFoundException if the option doesn't exist" do
@@ -299,10 +305,12 @@ describe "SelectList" do
       browser.select_list(:name, "new_user_languages").selected_options.should == %w[English]
     end
 
-    it "selects the items by value regexp" do
-      browser.select_list(:name, "new_user_languages").clear
-      browser.select_list(:name, "new_user_languages").select_value(/1|3/)
-      browser.select_list(:name, "new_user_languages").selected_options.should == %w[Danish Norwegian]
+    bug "WTR-362", :watir do
+      it "selects the items by value regexp" do
+        browser.select_list(:name, "new_user_languages").clear
+        browser.select_list(:name, "new_user_languages").select_value(/1|3/)
+        browser.select_list(:name, "new_user_languages").selected_options.should == %w[Danish Norwegian]
+      end
     end
 
     it "raises NoValueFoundException if the option doesn't exist" do

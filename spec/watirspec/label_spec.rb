@@ -16,10 +16,12 @@ describe "Label" do
       browser.label(:text, /First name/).should exist
       browser.label(:index, 1).should exist
       browser.label(:xpath, "//label[@id='first_label']").should exist
-     end
+    end
 
-    it "returns true if the element exists (default how = :text)" do
-      browser.label("First name").should exist
+    bug "WTR-361", :watir do
+      it "returns true if the element exists (default how = :text)" do
+        browser.label("First name").should exist
+      end
     end
 
     it "returns false if the element does not exist" do

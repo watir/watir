@@ -104,8 +104,16 @@ describe "Button" do
   end
 
   describe "#src" do
-    it "returns the url for the button image" do
-      browser.button(:name, "new_user_image").src.should == "images/button.jpg"
+    not_compliant_on :watir do
+      it "returns the src attribute for the button image" do
+        browser.button(:name, "new_user_image").src.should == "images/button.jpg"
+      end
+    end
+
+    deviates_on :watir do
+      it "returns the full url for the button image" do
+        browser.button(:name, "new_user_image").src.should =~ "file:///#{File.dirname(__FILE__)}/images/button.jpg"
+      end
     end
 
     it "raises UnknownObjectException if the button does not exist" do

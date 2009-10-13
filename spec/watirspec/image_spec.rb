@@ -14,15 +14,21 @@ describe "Image" do
       browser.image(:id, /square/).should exist
       browser.image(:name, 'circle').should exist
       browser.image(:name, /circle/).should exist
-      browser.image(:src, 'images/circle.jpg').should exist
+
+      bug "WTR-347", :watir do
+        browser.image(:src, 'images/circle.jpg').should exist
+      end
+
       browser.image(:src, /circle/).should exist
       browser.image(:alt, 'circle').should exist
       browser.image(:alt, /cir/).should exist
       browser.image(:title, 'Circle').should exist
     end
 
-    it "returns true if the element exists (default how = :src)" do
-      browser.image("images/circle.jpg").should exist
+    bug "WTR-347", :watir do
+      it "returns true if the element exists (default how = :src)" do
+        browser.image("images/circle.jpg").should exist
+      end
     end
 
     it "returns false when the image doesn't exist" do
@@ -141,18 +147,23 @@ describe "Image" do
   end
 
   # File methods
-  describe "#file_created_date" do
-    it "returns the date the image was created as reported by the file system" do
-      browser.goto(WatirSpec.host + "/images.html")
-      image = browser.image(:index, 2)
-      path = File.dirname(__FILE__) + "/html/#{image.src}"
-      image.file_created_date.to_i.should == File.mtime(path).to_i
+  bug "WTR-347", :watir do
+    describe "#file_created_date" do
+      it "returns the date the image was created as reported by the file system" do
+        browser.goto(WatirSpec.host + "/images.html")
+        image = browser.image(:index, 2)
+        path = "#{File.dirname(__FILE__)}/html/#{image.src}"
+        image.file_created_date.to_i.should == File.mtime(path).to_i
+      end
     end
   end
 
-  describe "#file_size" do
-    it "returns the file size of the image if the image exists" do
-      browser.image(:id, 'square').file_size.should == File.size("#{WatirSpec.files}/images/square.jpg".sub("file://", ''))
+
+  bug "WTR-346", :watir do
+    describe "#file_size" do
+      it "returns the file size of the image if the image exists" do
+        browser.image(:id, 'square').file_size.should == File.size("#{WatirSpec.files}/images/square.jpg".sub("file://", ''))
+      end
     end
 
     it "raises UnknownObjectException if the image doesn't exist" do

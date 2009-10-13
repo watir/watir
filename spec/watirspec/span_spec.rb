@@ -160,11 +160,13 @@ describe "Span" do
   end
 
   describe "#to_s" do
-    it "returns a human readable representation of the element" do
-      browser.span(:index, 2).to_s.should == "tag:          span\n" +
-                                      "  name:         invalid_attribute\n" +
-                                      "  value:        invalid_attribute\n" +
-                                      "  text:         Sed pretium metus et quam. Nullam odio dolor, vestibulum non, tempor ut, vehicula sed, sapien. Vestibulum placerat ligula at quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas."
+    bug "WTR-350", :watir do
+      it "returns a human readable representation of the element" do
+        browser.span(:index, 2).to_s.should == "tag:          span\n" +
+                                        "  name:         invalid_attribute\n" +
+                                        "  value:        invalid_attribute\n" +
+                                        "  text:         Sed pretium metus et quam. Nullam odio dolor, vestibulum non, tempor ut, vehicula sed, sapien. Vestibulum placerat ligula at quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas."
+      end
     end
 
     it "raises UnknownObjectException if the p doesn't exist" do

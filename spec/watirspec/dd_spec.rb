@@ -121,13 +121,15 @@ describe "Dd" do
   end
 
   describe "#to_s" do
-    it "returns a human readable representation of the element" do
-      browser.dd(:id, 'someone').to_s.should ==
+    bug "WTR-350", :watir do
+      it "returns a human readable representation of the element" do
+        browser.dd(:id, 'someone').to_s.should ==
 %q{tag:          dd
   id:           someone
   class:        name
   title:        someone
   text:         John Doe}
+      end
     end
   end
 
