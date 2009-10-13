@@ -85,12 +85,6 @@ describe "Link" do
     end
   end
 
-  describe "absolute_url" do
-    it "returns the absolute URL for a link with a relative href attribute" do
-      browser.link(:index, 2).absolute_url.should include("#{WatirSpec.files}/non_control_elements.html".gsub("file://", ''))
-    end
-  end
-
   describe "#url" do
     it "returns the href attribute" do
       browser.link(:index, 2).url.should match(/non_control_elements/)
