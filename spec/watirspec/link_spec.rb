@@ -24,8 +24,10 @@ describe "Link" do
       browser.link(:xpath, "//a[@id='link_2']").should exist
     end
 
-    it "returns true if the element exists (default how = :href)" do
-      browser.link(/input_elements/).should exist
+    bug "WTR-365", :watir do
+      it "returns true if the element exists (default how = :href)" do
+        browser.link(/input_elements/).should exist
+      end
     end
 
     it "strips spaces from URL attributes when locating elements" do
@@ -85,9 +87,11 @@ describe "Link" do
     end
   end
 
-  describe "#url" do
-    it "returns the href attribute" do
-      browser.link(:index, 2).url.should match(/non_control_elements/)
+  bug "WTR-366", :watir do
+    describe "#url" do
+      it "returns the href attribute" do
+        browser.link(:index, 2).url.should match(/non_control_elements/)
+      end
     end
   end
 
