@@ -112,7 +112,7 @@ describe "Button" do
 
     deviates_on :watir do
       it "returns the full url for the button image" do
-        browser.button(:name, "new_user_image").src.should =~ "file:///#{File.dirname(__FILE__)}/images/button.jpg"
+        browser.button(:name, "new_user_image").src.should == "file:///#{File.dirname(__FILE__)}/images/button.jpg"
       end
     end
 
