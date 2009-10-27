@@ -98,7 +98,7 @@ describe "Option" do
   describe "#select" do
     bug "WTR-367", :watir do
       it "selects the chosen option (page context)" do
-        browser.select_list(:name, "new_user_country").clear_selection
+        browser.select_list(:name, "new_user_country").clear
         browser.option(:text, "Denmark").select
         browser.select_list(:name, "new_user_country").selected_options.should == ["Denmark"]
       end
