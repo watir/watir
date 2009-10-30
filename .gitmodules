@@ -1,0 +1,3 @@
+[submodule "spec/watirspec"]
+	path = spec/watirspec
+	url = git://github.com/jarib/watirspec.git

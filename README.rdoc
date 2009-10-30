@@ -1,6 +1,6 @@
 = watir2
 
-Description goes here.
+Spike of a Watir implementation built on WebDriver's Ruby bindings.
 
 == Note on Patches/Pull Requests
  
