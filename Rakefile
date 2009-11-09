@@ -11,6 +11,7 @@ begin
     gem.homepage = "http://github.com/jarib/watir2"
     gem.authors = ["Jari Bakken"]
     gem.add_development_dependency "rspec"
+    gem.add_development_dependency "webidl"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
@@ -31,6 +32,21 @@ Spec::Rake::SpecTask.new(:rcov) do |spec|
 end
 
 task :spec => :check_dependencies
+
+namespace :html5 do
+  task :extract do
+    raise NotImplementedError
+    # http://dev.w3.org/html5/spec/Overview.html
+  end
+
+  desc 'Re-enerate the base Watir element classes from the spec '
+  task :generate do
+    require "support/html5/watir_visitor"
+    code = WatirVisitor.generate_from("support/html5/html5.idl")
+
+    File.open("lib/watir/elements/generated.rb", "w") { |file| file << code }
+  end
+end
 
 task :default => :spec
 
