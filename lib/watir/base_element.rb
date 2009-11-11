@@ -23,7 +23,7 @@ module Watir
         when :int
           define_int_attribute(method_name_for(name), name)
         else
-          $stderr.puts "treating #{type.inspect} as string for now"
+          # $stderr.puts "treating #{type.inspect} as string for now"
         end
       end
 

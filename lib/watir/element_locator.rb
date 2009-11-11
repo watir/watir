@@ -2,72 +2,54 @@ module Watir
   class ElementLocator
     include Watir::Exceptions
 
+    WD_FINDERS =  [ :class, :class_name, :id, :link_text, :link,
+                    :partial_link_text, :name, :tag_name, :xpath ]
+
     def initialize(driver, selector)
       @driver   = driver
       @selector = selector.dup
     end
 
     def locate
-      @tag_name = @selector.delete(:tag_name) || raise("no tag name?")
-      @tag_name = @tag_name.to_s
-
       if @selector.size == 1
-        single_selector_locate
+        how, what = @selector.shift
+        find_first_by(how, what)
       else
-        multi_selector_locate
+        raise @selector.inspect
       end
+    rescue WebDriver::Error::WebDriverError
+      nil
     end
 
-    def single_selector_locate
-      how, what = @selector.shift
-
+    def find_first_by(how, what)
       check_type what
 
-      case how.to_sym
-      when :id
-        element_by_id what
-      when :name
-        element_by_name what
+      if WD_FINDERS.include?(how)
+        wd_find_first_by(how, what)
       else
-        raise UnknownWayOfFindingObjectException
+        raise NotImplementedError, "find by attribute"
       end
     end
 
-    def multi_selector_locate
-      raise NotImplementedError
-    end
-
-    def element_by_id(what)
+    def wd_find_first_by(how, what)
       if what.kind_of? String
-        element = @driver.find_element(:id, what) # TODO: rescue?
-        return element if element.tag_name == @tag_name
-      end
-
-      if what.kind_of?(Regexp)
-        elements = @driver.find_elements(:tag_name, @tag_name).find { |e| what =~ e.attribute(:id) }
+        @driver.find_element(how, what)
       else
-        @driver.find_elements(:id, what).find { |e| e.tag_name == @tag_name }
+        elements = @driver.find_elements(:xpath, '//*')
+        elements.find { |e| get =~ what }
       end
     end
 
-    def element_by_name(what)
-      if what.kind_of?(String)
-        element = @driver.find_element(:name, what) # TODO: rescue?
-        return element if element.tag_name == @tag_name
-      end
-
-      if what.kind_of?(Regexp)
-        elements = @driver.find_elements(:tag_name, @tag_name).find { |e| what =~ e.attribute(:name) }
-      else
-        @driver.find_elements(:name, what).find { |e| e.tag_name == @tag_name }
-      end
+    def wd_find_all_by(how, what)
+      @driver.find_elements(how, what)
     end
+
 
     def check_type(what)
       unless [String, Regexp].any? { |t| what.kind_of? t }
         raise TypeError, "expected String or Regexp, got #{what.inspect}:#{what.class}"
       end
     end
-
+    #
   end # ElementLocator
 end # Watir
