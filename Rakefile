@@ -10,6 +10,7 @@ begin
     gem.email = "jari.bakken@gmail.com"
     gem.homepage = "http://github.com/jarib/watir2"
     gem.authors = ["Jari Bakken"]
+    gem.add_dependency "selenium-webdriver"
     gem.add_development_dependency "rspec"
     gem.add_development_dependency "webidl"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings

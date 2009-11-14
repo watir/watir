@@ -1,4 +1,4 @@
-require "webdriver"
+require "selenium-webdriver"
 require "json"
 
 require "watir/exceptions"
