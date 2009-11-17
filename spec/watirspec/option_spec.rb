@@ -41,13 +41,6 @@ describe "Option" do
       browser.select_list(:name, "new_user_country").option(:label, "Germany").should exist
     end
 
-    it "returns true if the element exists (default how = :text)" do
-      bug "WTR-367", :watir do
-        browser.option("Swedish").should exist
-      end
-      browser.select_list(:name, "new_user_languages").option("Swedish").should exist
-    end
-
     bug "WTR-367", :watir do
       it "returns false if the element does not exist (page context)" do
         bug "WTR-330", :watir do
@@ -83,7 +76,7 @@ describe "Option" do
       bug "WTR-367", :watir do
         lambda { browser.option(:id, 3.14).exists? }.should raise_error(TypeError)
       end
-      
+
       lambda { browser.select_list(:name, "new_user_country").option(:id, 3.14).exists? }.should raise_error(TypeError)
     end
 

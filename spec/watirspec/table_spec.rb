@@ -16,10 +16,6 @@ describe "Table" do
       browser.table(:xpath, "//table[@id='axis_example']").should exist
     end
 
-    it "returns true if the element exists (default how = :id)" do
-      browser.table("axis_example").should exist
-    end
-
     it "returns false if the table does not exist" do
       browser.table(:id, 'no_such_id').should_not exist
       browser.table(:id, /no_such_id/).should_not exist

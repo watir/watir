@@ -23,11 +23,6 @@ bug "WTR-357", :watir do
         browser.table(:index, 0).thead(:xpath, "//thead[@id='tax_headers']").should exist
       end
 
-      it "returns true if the element exists (default how = :id)" do
-        browser.thead("tax_headers").should exist
-        browser.table(:index, 0).thead("tax_headers").should exist
-      end
-
       it "returns false if the table theader doesn't exist (page context)" do
         browser.thead(:id, 'no_such_id').should_not exist
         browser.thead(:id, /no_such_id/).should_not exist

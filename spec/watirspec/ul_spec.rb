@@ -16,10 +16,6 @@ describe "Ul" do
       browser.ul(:xpath, "//ul[@id='navbar']").should exist
     end
 
-    it "returns true if the element exists (default how = :id)" do
-      browser.ul("navbar").should exist
-    end
-
     it "returns false if the 'ul' doesn't exist" do
       browser.ul(:id, "no_such_id").should_not exist
       browser.ul(:id, /no_such_id/).should_not exist

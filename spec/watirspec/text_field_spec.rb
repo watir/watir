@@ -26,10 +26,6 @@ describe "TextField" do
       browser.text_field(:label, /(Last|First) name/).should exist
      end
 
-    it "returns true if the element exists (default how = :name)" do
-      browser.text_field("new_user_email").should exist
-    end
-
     it "returns true if the element exists (no type attribute)" do
       browser.text_field(:id, 'new_user_first_name').should exist
     end

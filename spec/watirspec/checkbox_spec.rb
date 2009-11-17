@@ -26,10 +26,6 @@ describe "CheckBox" do
       browser.checkbox(:xpath, "//input[@id='new_user_interests_books']").should exist
     end
 
-    it "returns true if the element exists (default how = :name)" do
-      browser.checkbox("new_user_interests").should exist
-    end
-
     it "returns true if the checkbox button exists (search by name and value)" do
       browser.checkbox(:name, "new_user_interests", 'cars').should exist
       browser.checkbox(:xpath, "//input[@name='new_user_interests' and @value='cars']").set

@@ -17,10 +17,6 @@ bug "WTR-333", :watir do
         browser.ol(:xpath, "//ol[@id='favorite_compounds']").should exist
       end
 
-      it "returns true if the element exists (default how = :id)" do
-        browser.ol("favorite_compounds").should exist
-      end
-
       it "returns false if the 'ol' doesn't exist" do
         browser.ol(:id, "no_such_id").should_not exist
         browser.ol(:id, /no_such_id/).should_not exist

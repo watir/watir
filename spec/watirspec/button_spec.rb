@@ -33,10 +33,6 @@ describe "Button" do
       browser.button(:caption, /Button 2/).should exist
     end
 
-    it "returns true if the button exists (default how = :value)" do
-      browser.button("Submit").should exist
-    end
-
     it "returns false if the button doesn't exist" do
       browser.button(:id, "no_such_id").should_not exist
       browser.button(:id, /no_such_id/).should_not exist

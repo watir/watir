@@ -20,10 +20,6 @@ describe "Span" do
       browser.span(:xpath, "//span[@id='lead']").should exist
     end
 
-    it "returns true if the element exists (default how = :id)" do
-      browser.span("lead").should exist
-    end
-
     it "returns false if the element doesn't exist" do
       browser.span(:id, "no_such_id").should_not exist
       browser.span(:id, /no_such_id/).should_not exist

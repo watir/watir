@@ -25,12 +25,6 @@ describe "Image" do
       browser.image(:title, 'Circle').should exist
     end
 
-    bug "WTR-347", :watir do
-      it "returns true if the element exists (default how = :src)" do
-        browser.image("images/circle.jpg").should exist
-      end
-    end
-
     it "returns false when the image doesn't exist" do
       browser.image(:id, 'no_such_id').should_not exist
       browser.image(:id, /no_such_id/).should_not exist

@@ -15,10 +15,6 @@ describe "TableRow" do
       browser.row(:xpath, "//tr[@id='outer_first']")
     end
 
-    it "returns true if the element exists (default how = :id)" do
-      browser.row("outer_last").should exist
-    end
-
     it "returns false if the table row doesn't exist" do
       browser.row(:id, "no_such_id").should_not exist
       browser.row(:id, /no_such_id/).should_not exist

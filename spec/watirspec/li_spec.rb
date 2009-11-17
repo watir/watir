@@ -20,10 +20,6 @@ describe "Li" do
       browser.li(:xpath, "//li[@id='non_link_1']").should exist
     end
 
-    it "returns true if the element exists (default how = :id)" do
-      browser.li("non_link_1").should exist
-    end
-
     it "returns false if the 'li' doesn't exist" do
       browser.li(:id, "no_such_id").should_not exist
       browser.li(:id, /no_such_id/).should_not exist

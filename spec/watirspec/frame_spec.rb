@@ -43,12 +43,6 @@ describe "Frame" do
         browser.frame(:xpath, "//iframe[@id='frame_1']").should exist
       end
 
-      it "returns true if the element exists (default how = :name)" do
-        browser.frame("frame1").should exist
-        browser.goto(WatirSpec.files + "/iframes.html")
-        browser.frame("frame1").should exist
-      end
-
       it "returns false if the frame doesn't exist" do
         browser.frame(:id, "no_such_id").should_not exist
         browser.frame(:id, /no_such_id/).should_not exist

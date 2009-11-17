@@ -20,10 +20,6 @@ describe "Pre" do
       browser.pre(:xpath, "//pre[@id='rspec']").should exist
     end
 
-    it "returns true if the element exists (default how = :id)" do
-      browser.pre("rspec").should exist
-    end
-
     it "returns false if the 'p' doesn't exist" do
       browser.pre(:id, "no_such_id").should_not exist
       browser.pre(:id, /no_such_id/).should_not exist

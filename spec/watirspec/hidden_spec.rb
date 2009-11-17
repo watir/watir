@@ -25,10 +25,6 @@ describe "Hidden" do
       browser.hidden(:xpath, "//input[@id='new_user_interests_dolls']").should exist
      end
 
-    it "returns true if the element exists (default how = :name)" do
-      browser.hidden("new_user_interests").should exist
-    end
-
     it "returns false if the element does not exist" do
       browser.hidden(:id, 'no_such_id').should_not exist
       browser.hidden(:id, /no_such_id/).should_not exist

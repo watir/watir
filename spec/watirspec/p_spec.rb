@@ -20,10 +20,6 @@ describe "P" do
       browser.p(:xpath, "//p[@id='lead']").should exist
     end
 
-    it "returns true if the element exists (default how = :id)" do
-      browser.p("lead").should exist
-    end
-
     it "returns false if the 'p' doesn't exist" do
       browser.p(:id, "no_such_id").should_not exist
       browser.p(:id, /no_such_id/).should_not exist

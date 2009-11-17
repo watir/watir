@@ -19,10 +19,6 @@ describe "H1", "H2", "H3", "H4", "H5", "H6" do
       browser.h1(:xpath, "//h1[@id='first_header']").should exist
     end
 
-    it "returns true if the element exists (default how = :id)" do
-      browser.h1("first_header").should exist
-    end
-
     it "returns true if the element exists" do
       browser.h1(:id, "no_such_id").should_not exist
       browser.h1(:id, /no_such_id/).should_not exist
