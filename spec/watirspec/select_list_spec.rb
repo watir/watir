@@ -21,7 +21,7 @@ describe "SelectList" do
       browser.select_list(:text, /Norway/).should exist
       browser.select_list(:class, 'country').should exist
       browser.select_list(:class, /country/).should exist
-      browser.select_list(:index, 1).should exist
+      browser.select_list(:index, 0).should exist
       browser.select_list(:xpath, "//select[@id='new_user_country']").should exist
     end
 
@@ -66,7 +66,7 @@ describe "SelectList" do
 
   describe "#id" do
     it "returns the id of the element" do
-      browser.select_list(:index, 1).id.should == "new_user_country"
+      browser.select_list(:index, 0).id.should == "new_user_country"
     end
 
     it "raises UnknownObjectException if the select list doesn't exist" do
@@ -76,7 +76,7 @@ describe "SelectList" do
 
   describe "#name" do
     it "returns the name of the element" do
-      browser.select_list(:index, 1).name.should == "new_user_country"
+      browser.select_list(:index, 0).name.should == "new_user_country"
     end
 
     it "raises UnknownObjectException if the select list doesn't exist" do
@@ -86,8 +86,8 @@ describe "SelectList" do
 
   describe "#type" do
     it "returns the type of the element" do
-      browser.select_list(:index, 1).type.should == "select-one"
-      browser.select_list(:index, 2).type.should == "select-multiple"
+      browser.select_list(:index, 0).type.should == "select-one"
+      browser.select_list(:index, 1).type.should == "select-multiple"
     end
 
     it "raises UnknownObjectException if the select list doesn't exist" do
@@ -97,9 +97,9 @@ describe "SelectList" do
 
   describe "#value" do
     it "returns the value of the selected option" do
-      browser.select_list(:index, 1).value.should == "2"
-      browser.select_list(:index, 1).select(/Sweden/)
-      browser.select_list(:index, 1).value.should == "3"
+      browser.select_list(:index, 0).value.should == "2"
+      browser.select_list(:index, 0).select(/Sweden/)
+      browser.select_list(:index, 0).value.should == "3"
     end
 
     it "raises UnknownObjectException if the select list doesn't exist" do
@@ -109,11 +109,11 @@ describe "SelectList" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.select_list(:index, 1).should respond_to(:class_name)
-      browser.select_list(:index, 1).should respond_to(:id)
-      browser.select_list(:index, 1).should respond_to(:name)
-      browser.select_list(:index, 1).should respond_to(:type)
-      browser.select_list(:index, 1).should respond_to(:value)
+      browser.select_list(:index, 0).should respond_to(:class_name)
+      browser.select_list(:index, 0).should respond_to(:id)
+      browser.select_list(:index, 0).should respond_to(:name)
+      browser.select_list(:index, 0).should respond_to(:type)
+      browser.select_list(:index, 0).should respond_to(:value)
     end
   end
 
@@ -134,11 +134,11 @@ describe "SelectList" do
 
   describe "#disabled?" do
     it "returns true if the select list is disabled" do
-      browser.select_list(:index, 3).should be_disabled
+      browser.select_list(:index, 2).should be_disabled
     end
 
     it "returns false if the select list is enabled" do
-      browser.select_list(:index, 1).should_not be_disabled
+      browser.select_list(:index, 0).should_not be_disabled
     end
 
     it "shoulds raise UnknownObjectException when the select list does not exist" do

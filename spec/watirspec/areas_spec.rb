@@ -15,16 +15,16 @@ describe "Areas" do
 
   describe "#[]" do
     it "returns the area at the given index" do
-      browser.areas[1].id.should == "NCE"
+      browser.areas[0].id.should == "NCE"
     end
   end
 
   describe "#each" do
     it "iterates through areas correctly" do
       browser.areas.each_with_index do |a, index|
-        a.name.should == browser.area(:index, index+1).name
-        a.id.should == browser.area(:index, index+1).id
-        a.value.should == browser.area(:index, index+1).value
+        a.name.should == browser.area(:index, index).name
+        a.id.should == browser.area(:index, index).id
+        a.value.should == browser.area(:index, index).value
       end
     end
   end

@@ -15,7 +15,7 @@ describe "Links" do
 
   describe "#[]" do
     it "returns the link at the given index" do
-      browser.links[3].id.should == "link_3"
+      browser.links[2].id.should == "link_3"
     end
 
     it "returns a Link object also when the index is out of bounds" do
@@ -25,14 +25,11 @@ describe "Links" do
 
   describe "#each" do
     it "iterates through links correctly" do
-      index = 0
-      browser.links.each do |c|
-        index += 1
+      browser.links.each_with_index do |c, index|
         c.name.should == browser.link(:index, index).name
         c.id.should == browser.link(:index, index).id
         c.value.should == browser.link(:index, index).value
       end
-      browser.links.length.should == index
     end
   end
 

@@ -12,7 +12,7 @@ describe "Table" do
     it "returns true if the table exists" do
       browser.table(:id, 'axis_example').should exist
       browser.table(:id, /axis_example/).should exist
-      browser.table(:index, 1).should exist
+      browser.table(:index, 0).should exist
       browser.table(:xpath, "//table[@id='axis_example']").should exist
     end
 
@@ -72,9 +72,9 @@ describe "Table" do
 
   describe "#row_values" do
     it "gets row values" do
-      browser.table(:id, 'outer').row_values(1).should == ["Table 1, Row 1, Cell 1", "Table 1, Row 1, Cell 2"]
-      browser.table(:id, 'inner').row_values(1).should == ["Table 2, Row 1, Cell 1", "Table 2, Row 1, Cell 2"]
-      browser.table(:id, 'outer').row_values(3).should == ["Table 1, Row 3, Cell 1", "Table 1, Row 3, Cell 2"]
+      browser.table(:id, 'outer').row_values(0).should == ["Table 1, Row 1, Cell 1", "Table 1, Row 1, Cell 2"]
+      browser.table(:id, 'inner').row_values(0).should == ["Table 2, Row 1, Cell 1", "Table 2, Row 1, Cell 2"]
+      browser.table(:id, 'outer').row_values(2).should == ["Table 1, Row 3, Cell 1", "Table 1, Row 3, Cell 2"]
     end
   end
 
@@ -92,8 +92,8 @@ describe "Table" do
 
   describe "#column_values" do
     it "gets column values" do
-      browser.table(:id, 'inner').column_values(1).should == ["Table 2, Row 1, Cell 1"]
-      browser.table(:id, 'outer').column_values(1).should == ["Table 1, Row 1, Cell 1", "Table 1, Row 2, Cell 1", "Table 1, Row 3, Cell 1"]
+      browser.table(:id, 'inner').column_values(0).should == ["Table 2, Row 1, Cell 1"]
+      browser.table(:id, 'outer').column_values(0).should == ["Table 1, Row 1, Cell 1", "Table 1, Row 2, Cell 1", "Table 1, Row 3, Cell 1"]
     end
 
     it "raises UnknownCellException when trying to locate non-existing cell" do
@@ -103,9 +103,9 @@ describe "Table" do
 
   describe "#[]" do
     it "returns the nth child row" do
-      browser.table(:id, 'outer')[1].id.should == "outer_first"
-      browser.table(:id, 'inner')[1].id.should == "inner_first"
-      browser.table(:id, 'outer')[3].id.should == "outer_last"
+      browser.table(:id, 'outer')[0].id.should == "outer_first"
+      browser.table(:id, 'inner')[0].id.should == "inner_first"
+      browser.table(:id, 'outer')[2].id.should == "outer_last"
     end
     it "raises UnknownRowException if the index is out of bounds" do
       lambda { browser.table(:id, 'outer')[1337] }.should raise_error(UnknownRowException)
@@ -114,9 +114,9 @@ describe "Table" do
 
   describe "#child_row" do
     it "returns the nth child row" do
-      browser.table(:id, 'outer').child_row(1).id.should == "outer_first"
-      browser.table(:id, 'inner').child_row(1).id.should == "inner_first"
-      browser.table(:id, 'outer').child_row(3).id.should == "outer_last"
+      browser.table(:id, 'outer').child_row(0).id.should == "outer_first"
+      browser.table(:id, 'inner').child_row(0).id.should == "inner_first"
+      browser.table(:id, 'outer').child_row(2).id.should == "outer_last"
     end
     it "raises UnknownRowException if the index is out of bounds" do
       lambda { browser.table(:id, 'outer').child_row(1337) }.should raise_error(UnknownRowException)
@@ -125,7 +125,7 @@ describe "Table" do
 
   describe "#child_cell" do
     it "returns the nth child row" do
-      browser.table(:id, 'outer').child_cell(5).text.should == "Table 1, Row 3, Cell 1"
+      browser.table(:id, 'outer').child_cell(4).text.should == "Table 1, Row 3, Cell 1"
     end
     it "raises UnknownCellException if the index is out of bounds" do
       lambda { browser.table(:id, 'outer').child_cell(1337) }.should raise_error(UnknownCellException)
@@ -143,18 +143,18 @@ describe "Table" do
 
   describe "#body" do
     it "returns the correct instance of TableBody" do
-      body = browser.table(:index, 1).body(:id, 'first')
+      body = browser.table(:index, 0).body(:id, 'first')
       body.should be_instance_of(TableBody)
-      body[1][1].text.should == "March 2008"
+      body[0][0].text.should == "March 2008"
     end
   end
 
   describe "#bodies" do
     it "returns the correct instance of TableBodies" do
-      bodies = browser.table(:index, 1).bodies
+      bodies = browser.table(:index, 0).bodies
       bodies.should be_instance_of(TableBodies)
-      bodies[1].id.should == "first"
-      bodies[2].id.should == "second"
+      bodies[0].id.should == "first"
+      bodies[1].id.should == "second"
     end
   end
 

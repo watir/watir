@@ -22,11 +22,11 @@ describe "TableRows" do
 
   describe "#[]" do
     it "returns the row at the given index (table context)" do
-      browser.table(:id, 'outer').rows[1].id.should == "outer_first"
+      browser.table(:id, 'outer').rows[0].id.should == "outer_first"
     end
 
     it "returns the row at the given index (page context)" do
-      browser.rows[1].id.should == "thead_row_1"
+      browser.rows[0].id.should == "thead_row_1"
     end
   end
 
@@ -35,16 +35,16 @@ describe "TableRows" do
       # rows inside a table
       inner_table = browser.table(:id, 'inner')
       inner_table.rows.each_with_index do |r, index|
-        r.name.should == inner_table.row(:index, index+1).name
-        r.id.should == inner_table.row(:index, index+1).id
-        r.value.should == inner_table.row(:index, index+1).value
+        r.name.should == inner_table.row(:index, index).name
+        r.id.should == inner_table.row(:index, index).id
+        r.value.should == inner_table.row(:index, index).value
       end
       # rows inside a table (should not include rows inside a table inside a table)
       outer_table = browser.table(:id, 'outer')
       outer_table.rows.each_with_index do |r, index|
-        r.name.should == outer_table.row(:index, index+1).name
-        r.id.should == outer_table.row(:index, index+1).id
-        r.value.should == outer_table.row(:index, index+1).value
+        r.name.should == outer_table.row(:index, index).name
+        r.id.should == outer_table.row(:index, index).id
+        r.value.should == outer_table.row(:index, index).value
       end
     end
   end

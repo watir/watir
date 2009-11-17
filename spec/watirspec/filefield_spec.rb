@@ -15,7 +15,7 @@ describe "FileField" do
       browser.file_field(:name, /new_user_portrait/).should exist
       browser.file_field(:class, 'portrait').should exist
       browser.file_field(:class, /portrait/).should exist
-      browser.file_field(:index, 1).should exist
+      browser.file_field(:index, 0).should exist
       browser.file_field(:xpath, "//input[@id='new_user_portrait']").should exist
     end
 
@@ -47,7 +47,7 @@ describe "FileField" do
 
   describe "#class_name" do
     it "returns the class attribute if the text field exists" do
-      browser.file_field(:index, 1).class_name.should == "portrait"
+      browser.file_field(:index, 0).class_name.should == "portrait"
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -57,7 +57,7 @@ describe "FileField" do
 
   describe "#id" do
     it "returns the id attribute if the text field exists" do
-      browser.file_field(:index, 1).id.should == "new_user_portrait"
+      browser.file_field(:index, 0).id.should == "new_user_portrait"
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -67,7 +67,7 @@ describe "FileField" do
 
   describe "#name" do
     it "returns the name attribute if the text field exists" do
-      browser.file_field(:index, 1).name.should == "new_user_portrait"
+      browser.file_field(:index, 0).name.should == "new_user_portrait"
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -83,7 +83,7 @@ describe "FileField" do
 
   describe "#type" do
     it "returns the type attribute if the text field exists" do
-      browser.file_field(:index, 1).type.should == "file"
+      browser.file_field(:index, 0).type.should == "file"
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -93,12 +93,12 @@ describe "FileField" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.file_field(:index, 1).should respond_to(:class_name)
-      browser.file_field(:index, 1).should respond_to(:id)
-      browser.file_field(:index, 1).should respond_to(:name)
-      browser.file_field(:index, 1).should respond_to(:title)
-      browser.file_field(:index, 1).should respond_to(:type)
-      browser.file_field(:index, 1).should respond_to(:value)
+      browser.file_field(:index, 0).should respond_to(:class_name)
+      browser.file_field(:index, 0).should respond_to(:id)
+      browser.file_field(:index, 0).should respond_to(:name)
+      browser.file_field(:index, 0).should respond_to(:title)
+      browser.file_field(:index, 0).should respond_to(:type)
+      browser.file_field(:index, 0).should respond_to(:value)
     end
   end
 

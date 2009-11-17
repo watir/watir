@@ -19,7 +19,7 @@ describe "Option" do
         browser.option(:text, "Norway").should exist
         browser.option(:text, /Norway/).should exist
         browser.option(:class, "scandinavia").should exist
-        browser.option(:index, 2).should exist
+        browser.option(:index, 1).should exist
         browser.option(:xpath, "//option[@id='nor']").should exist
       end
     end
@@ -35,7 +35,7 @@ describe "Option" do
       browser.select_list(:name, "new_user_country").option(:text, "Norway").should exist
       browser.select_list(:name, "new_user_country").option(:text, /Norway/).should exist
       browser.select_list(:name, "new_user_country").option(:class, "scandinavia").should exist
-      browser.select_list(:name, "new_user_country").option(:index, 2).should exist
+      browser.select_list(:name, "new_user_country").option(:index, 1).should exist
       browser.select_list(:name, "new_user_country").option(:xpath, "//option[@id='nor']").should exist
       browser.select_list(:name, "new_user_country").option(:xpath, "//option[@id='nor']").should exist
       browser.select_list(:name, "new_user_country").option(:label, "Germany").should exist
@@ -98,7 +98,7 @@ describe "Option" do
   describe "#select" do
     bug "WTR-367", :watir do
       it "selects the chosen option (page context)" do
-        browser.select_list(:name, "new_user_country").clear_selection
+        browser.select_list(:name, "new_user_country").clear
         browser.option(:text, "Denmark").select
         browser.select_list(:name, "new_user_country").selected_options.should == ["Denmark"]
       end

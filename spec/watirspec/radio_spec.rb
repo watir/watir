@@ -21,7 +21,7 @@ describe "Radio" do
       # browser.radio(:text, /yes/).should exist
       browser.radio(:class, "huge").should exist
       browser.radio(:class, /huge/).should exist
-      browser.radio(:index, 1).should exist
+      browser.radio(:index, 0).should exist
       browser.radio(:xpath, "//input[@id='new_user_newsletter_yes']").should exist
     end
 
@@ -87,11 +87,11 @@ describe "Radio" do
 
   describe "#id" do
     it "returns the id attribute if the radio exists and has an attribute" do
-      browser.radio(:index, 1).id.should == "new_user_newsletter_yes"
+      browser.radio(:index, 0).id.should == "new_user_newsletter_yes"
     end
 
     it "returns an emptry string if the radio exists and the attribute doesn't" do
-      browser.radio(:index, 3).id.should == ""
+      browser.radio(:index, 2).id.should == ""
     end
 
     it "raises UnknownObjectException if the radio doesn't exist" do
@@ -129,7 +129,7 @@ describe "Radio" do
 
   describe "#type" do
     it "returns the type attribute if the radio exists" do
-      browser.radio(:index, 1).type.should == "radio"
+      browser.radio(:index, 0).type.should == "radio"
     end
 
     it "raises UnknownObjectException if the radio doesn't exist" do
@@ -149,12 +149,12 @@ describe "Radio" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.radio(:index, 1).should respond_to(:class_name)
-      browser.radio(:index, 1).should respond_to(:id)
-      browser.radio(:index, 1).should respond_to(:name)
-      browser.radio(:index, 1).should respond_to(:title)
-      browser.radio(:index, 1).should respond_to(:type)
-      browser.radio(:index, 1).should respond_to(:value)
+      browser.radio(:index, 0).should respond_to(:class_name)
+      browser.radio(:index, 0).should respond_to(:id)
+      browser.radio(:index, 0).should respond_to(:name)
+      browser.radio(:index, 0).should respond_to(:title)
+      browser.radio(:index, 0).should respond_to(:type)
+      browser.radio(:index, 0).should respond_to(:value)
     end
   end
 

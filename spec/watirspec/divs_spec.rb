@@ -15,16 +15,16 @@ describe "Divs" do
 
   describe "#[]" do
     it "returns the div at the given index" do
-      browser.divs[2].id.should == "outer_container"
+      browser.divs[1].id.should == "outer_container"
     end
   end
 
   describe "#each" do
     it "iterates through divs correctly" do
       browser.divs.each_with_index do |d, index|
-        d.name.should == browser.div(:index, index+1).name
-        d.id.should == browser.div(:index, index+1).id
-        d.class_name.should == browser.div(:index, index+1).class_name
+        d.name.should == browser.div(:index, index).name
+        d.id.should == browser.div(:index, index).id
+        d.class_name.should == browser.div(:index, index).class_name
       end
     end
   end

@@ -17,20 +17,20 @@ describe "Buttons" do
 
   describe "#[]" do
     it "returns the button at the given index" do
-      browser.buttons[1].title.should == "Submit the form"
+      browser.buttons[0].title.should == "Submit the form"
     end
   end
 
   describe "#first" do
     it "returns the first element in the collection" do
-      browser.buttons.first.value.should == browser.buttons[1].value
+      browser.buttons.first.value.should == browser.buttons[0].value
     end
   end
 
   describe "#last" do
     bug "WTR-349", :watir do
       it "returns the last element in the collection" do
-        browser.buttons.last.value.should == browser.buttons[0].value
+        browser.buttons.last.value.should == browser.buttons[-1].value
       end
     end
   end
@@ -38,9 +38,9 @@ describe "Buttons" do
   describe "#each" do
     it "iterates through buttons correctly" do
       browser.buttons.each_with_index do |b, index|
-        b.name.should == browser.button(:index, index+1).name
-        b.id.should == browser.button(:index, index+1).id
-        b.value.should == browser.button(:index, index+1).value
+        b.name.should == browser.button(:index, index).name
+        b.id.should == browser.button(:index, index).id
+        b.value.should == browser.button(:index, index).value
       end
     end
   end

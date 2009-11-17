@@ -61,7 +61,7 @@ describe "Image" do
     end
 
     it "returns an empty string if the image exists and the attribute doesn't" do
-      browser.image(:index, 1).alt.should == ""
+      browser.image(:index, 0).alt.should == ""
     end
 
     it "raises UnknownObjectException if the image doesn't exist" do
@@ -75,7 +75,7 @@ describe "Image" do
     end
 
     it "returns an empty string if the image exists and the attribute doesn't" do
-      browser.image(:index, 1).id.should == ""
+      browser.image(:index, 0).id.should == ""
     end
 
     it "raises UnknownObjectException if the image doesn't exist" do
@@ -89,7 +89,7 @@ describe "Image" do
     end
 
     it "returns an empty string if the image exists and the attribute doesn't" do
-      browser.image(:index, 1).name.should == ""
+      browser.image(:index, 0).name.should == ""
     end
 
     it "raises UnknownObjectException if the image doesn't exist" do
@@ -103,7 +103,7 @@ describe "Image" do
     end
 
     it "returns an empty string if the image exists and the attribute doesn't" do
-      browser.image(:index, 1).src.should == ""
+      browser.image(:index, 0).src.should == ""
     end
 
     it "raises UnknownObjectException if the image doesn't exist" do
@@ -117,7 +117,7 @@ describe "Image" do
     end
 
     it "returns an empty string if the image exists and the attribute doesn't" do
-      browser.image(:index, 1).title.should == ""
+      browser.image(:index, 0).title.should == ""
     end
 
     it "raises UnknownObjectException if the image doesn't exist" do
@@ -127,12 +127,12 @@ describe "Image" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.image(:index, 1).should respond_to(:class_name)
-      browser.image(:index, 1).should respond_to(:id)
-      browser.image(:index, 1).should respond_to(:name)
-      browser.image(:index, 1).should respond_to(:style)
-      browser.image(:index, 1).should respond_to(:text)
-      browser.image(:index, 1).should respond_to(:value)
+      browser.image(:index, 0).should respond_to(:class_name)
+      browser.image(:index, 0).should respond_to(:id)
+      browser.image(:index, 0).should respond_to(:name)
+      browser.image(:index, 0).should respond_to(:style)
+      browser.image(:index, 0).should respond_to(:text)
+      browser.image(:index, 0).should respond_to(:value)
     end
   end
 
@@ -151,7 +151,7 @@ describe "Image" do
     describe "#file_created_date" do
       it "returns the date the image was created as reported by the file system" do
         browser.goto(WatirSpec.host + "/images.html")
-        image = browser.image(:index, 2)
+        image = browser.image(:index, 1)
         path = "#{File.dirname(__FILE__)}/html/#{image.src}"
         image.file_created_date.to_i.should == File.mtime(path).to_i
       end
@@ -221,7 +221,7 @@ describe "Image" do
       it "saves the image to a file" do
         file = "#{File.expand_path Dir.pwd}/sample.img.dat"
         begin
-          browser.image(:index, 2).save(file)
+          browser.image(:index, 1).save(file)
           File.exist?(file).should be_true
         ensure
           File.delete(file) if File.exist?(file)

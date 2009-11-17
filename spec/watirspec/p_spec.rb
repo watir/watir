@@ -16,7 +16,7 @@ describe "P" do
       browser.p(:text, /Dubito, ergo cogito, ergo sum/).should exist
       browser.p(:class, "lead").should exist
       browser.p(:class, /lead/).should exist
-      browser.p(:index, 1).should exist
+      browser.p(:index, 0).should exist
       browser.p(:xpath, "//p[@id='lead']").should exist
     end
 
@@ -47,11 +47,11 @@ describe "P" do
   # Attribute methods
   describe "#class_name" do
     it "returns the class attribute" do
-      browser.p(:index, 1).class_name.should == 'lead'
+      browser.p(:index, 0).class_name.should == 'lead'
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.p(:index, 3).class_name.should == ''
+      browser.p(:index, 2).class_name.should == ''
     end
 
     it "raises UnknownObjectException if the p doesn't exist" do
@@ -61,11 +61,11 @@ describe "P" do
 
   describe "#id" do
     it "returns the id attribute" do
-      browser.p(:index, 1).id.should == "lead"
+      browser.p(:index, 0).id.should == "lead"
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.p(:index, 3).id.should == ''
+      browser.p(:index, 2).id.should == ''
     end
 
     it "raises UnknownObjectException if the p doesn't exist" do
@@ -76,11 +76,11 @@ describe "P" do
 
   describe "#name" do
     it "returns the name attribute" do
-      browser.p(:index, 2).name.should == "invalid_attribute"
+      browser.p(:index, 1).name.should == "invalid_attribute"
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.p(:index, 3).name.should == ''
+      browser.p(:index, 2).name.should == ''
     end
 
     it "raises UnknownObjectException if the p doesn't exist" do
@@ -91,11 +91,11 @@ describe "P" do
 
   describe "#title" do
     it "returns the title attribute" do
-      browser.p(:index, 1).title.should == 'Lorem ipsum'
+      browser.p(:index, 0).title.should == 'Lorem ipsum'
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.p(:index, 3).title.should == ''
+      browser.p(:index, 2).title.should == ''
     end
 
     it "raises UnknownObjectException if the p doesn't exist" do
@@ -106,11 +106,11 @@ describe "P" do
 
   describe "#text" do
     it "returns the text of the p" do
-      browser.p(:index, 2).text.should == 'Sed pretium metus et quam. Nullam odio dolor, vestibulum non, tempor ut, vehicula sed, sapien. Vestibulum placerat ligula at quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.'
+      browser.p(:index, 1).text.should == 'Sed pretium metus et quam. Nullam odio dolor, vestibulum non, tempor ut, vehicula sed, sapien. Vestibulum placerat ligula at quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.'
     end
 
     it "returns an empty string if the element doesn't contain any text" do
-      browser.p(:index, 5).text.should == ''
+      browser.p(:index, 4).text.should == ''
     end
 
     it "raises UnknownObjectException if the p doesn't exist" do
@@ -121,11 +121,11 @@ describe "P" do
 
   describe "#value" do
     it "returns the value attribute" do
-      browser.p(:index, 2).value.should == "invalid_attribute"
+      browser.p(:index, 1).value.should == "invalid_attribute"
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.p(:index, 3).value.should == ''
+      browser.p(:index, 2).value.should == ''
     end
 
     it "raises UnknownObjectException if the p doesn't exist" do
@@ -136,19 +136,19 @@ describe "P" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.p(:index, 1).should respond_to(:class_name)
-      browser.p(:index, 1).should respond_to(:id)
-      browser.p(:index, 1).should respond_to(:name)
-      browser.p(:index, 1).should respond_to(:title)
-      browser.p(:index, 1).should respond_to(:text)
-      browser.p(:index, 1).should respond_to(:value)
+      browser.p(:index, 0).should respond_to(:class_name)
+      browser.p(:index, 0).should respond_to(:id)
+      browser.p(:index, 0).should respond_to(:name)
+      browser.p(:index, 0).should respond_to(:title)
+      browser.p(:index, 0).should respond_to(:text)
+      browser.p(:index, 0).should respond_to(:value)
     end
   end
 
   # Other
   describe "#to_s" do
     it "returns a human readable representation of the element" do
-      browser.p(:index, 1).to_s.should == "tag:          p\n" +
+      browser.p(:index, 0).to_s.should == "tag:          p\n" +
                                       "  id:           lead\n" +
                                       "  class:        lead\n" +
                                       "  title:        Lorem ipsum\n" +

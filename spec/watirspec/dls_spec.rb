@@ -15,16 +15,16 @@ describe "Dls" do
 
   describe "#[]" do
     it "returns the dl at the given index" do
-      browser.dls[1].id.should == "experience-list"
+      browser.dls[0].id.should == "experience-list"
     end
   end
 
   describe "#each" do
     it "iterates through dls correctly" do
       browser.dls.each_with_index do |d, index|
-        d.text.should == browser.dl(:index, index+1).text
-        d.id.should == browser.dl(:index, index+1).id
-        d.class_name.should == browser.dl(:index, index+1).class_name
+        d.text.should == browser.dl(:index, index).text
+        d.id.should == browser.dl(:index, index).id
+        d.class_name.should == browser.dl(:index, index).class_name
       end
     end
   end

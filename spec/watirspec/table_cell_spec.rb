@@ -14,7 +14,7 @@ describe "TableCell" do
       browser.cell(:id, /t1_r2_c1/).should exist
       browser.cell(:text, 'Table 1, Row 3, Cell 1').should exist
       browser.cell(:text, /Table 1/).should exist
-      browser.cell(:index, 1).should exist
+      browser.cell(:index, 0).should exist
       browser.cell(:xpath, "//td[@id='t1_r2_c1']").should exist
     end
 
@@ -64,8 +64,8 @@ describe "TableCell" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.cell(:index, 1).should respond_to(:text)
-      browser.cell(:index, 1).should respond_to(:colspan)
+      browser.cell(:index, 0).should respond_to(:text)
+      browser.cell(:index, 0).should respond_to(:colspan)
     end
   end
 

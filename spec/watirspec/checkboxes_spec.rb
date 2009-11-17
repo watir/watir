@@ -15,16 +15,16 @@ describe "CheckBoxes" do
 
   describe "#[]" do
     it "returns the checkbox at the given index" do
-      browser.checkboxes[1].id.should == "new_user_interests_books"
+      browser.checkboxes[0].id.should == "new_user_interests_books"
     end
   end
 
   describe "#each" do
     it "iterates through checkboxes correctly" do
       browser.checkboxes.each_with_index do |c, index|
-        c.name.should == browser.checkbox(:index, index+1).name
-        c.id.should == browser.checkbox(:index, index+1).id
-        c.value.should == browser.checkbox(:index, index+1).value
+        c.name.should == browser.checkbox(:index, index).name
+        c.id.should == browser.checkbox(:index, index).id
+        c.value.should == browser.checkbox(:index, index).value
       end
     end
   end

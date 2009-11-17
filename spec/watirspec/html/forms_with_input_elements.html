@@ -51,7 +51,7 @@
         <fieldset>
             <legend>Login information</legend>
             <label for="new_user_username">Username (max 20 characters)</label>
-            <input type="text" name="new_user_username" id="new_user_username" maxlength="20" size="20" onkeypress="var elem = document.getElementById('current_length'); elem.innerHTML = parseInt(elem.innerHTML)+1"/> <span id="current_length">0</span><br />
+            <input type="text" name="new_user_username" id="new_user_username" maxlength="20" size="20" onkeyup="document.getElementById('current_length').innerHTML = this.value.length"/> <span id="current_length">0</span><br />
             <label for="new_user_password">Password</label>
             <input type="password" name="new_user_password" id="new_user_password" /> <br />
             <label for="new_user_role">Role</label>

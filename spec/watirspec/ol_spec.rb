@@ -13,7 +13,7 @@ bug "WTR-333", :watir do
       it "returns true if the 'ol' exists" do
         browser.ol(:id, "favorite_compounds").should exist
         browser.ol(:id, /favorite_compounds/).should exist
-        browser.ol(:index, 1).should exist
+        browser.ol(:index, 0).should exist
         browser.ol(:xpath, "//ol[@id='favorite_compounds']").should exist
       end
 
@@ -48,7 +48,7 @@ bug "WTR-333", :watir do
       end
 
       it "returns an empty string if the element exists and the attribute doesn't" do
-        browser.ol(:index, 2).class_name.should == ''
+        browser.ol(:index, 1).class_name.should == ''
       end
 
       it "raises UnknownObjectException if the ol doesn't exist" do
@@ -62,7 +62,7 @@ bug "WTR-333", :watir do
       end
 
       it "returns an empty string if the element exists and the attribute doesn't" do
-        browser.ol(:index, 2).id.should == ''
+        browser.ol(:index, 1).id.should == ''
       end
 
       it "raises UnknownObjectException if the ol doesn't exist" do
@@ -73,8 +73,8 @@ bug "WTR-333", :watir do
 
     describe "#respond_to?" do
       it "returns true for all attribute methods" do
-        browser.ol(:index, 1).should respond_to(:class_name)
-        browser.ol(:index, 1).should respond_to(:id)
+        browser.ol(:index, 0).should respond_to(:class_name)
+        browser.ol(:index, 0).should respond_to(:id)
       end
     end
 

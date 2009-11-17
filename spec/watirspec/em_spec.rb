@@ -13,7 +13,7 @@ describe "Em" do
       browser.em(:id, "important-id").should exist
       browser.em(:class, "important-class").should exist
       browser.em(:xpath, "//em[@id='important-id']").should exist
-      browser.em(:index, 1).should exist
+      browser.em(:index, 0).should exist
     end
 
     it "returns false if the element does not exist" do
@@ -76,11 +76,11 @@ describe "Em" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.em(:index, 1).should respond_to(:id)
-      browser.em(:index, 1).should respond_to(:class_name)
-      browser.em(:index, 1).should respond_to(:style)
-      browser.em(:index, 1).should respond_to(:text)
-      browser.em(:index, 1).should respond_to(:title)
+      browser.em(:index, 0).should respond_to(:id)
+      browser.em(:index, 0).should respond_to(:class_name)
+      browser.em(:index, 0).should respond_to(:style)
+      browser.em(:index, 0).should respond_to(:text)
+      browser.em(:index, 0).should respond_to(:title)
     end
   end
 

@@ -10,7 +10,7 @@ describe "Element" do
   describe ".new" do
     it "finds elements matching the conditions when given a hash of :how => 'what' arguments" do
       browser.checkbox(:name => 'new_user_interests', :title => 'Dancing is fun!').value.should == 'dancing'
-      browser.text_field(:class_name => 'name', :index => 2).id.should == 'new_user_last_name'
+      browser.text_field(:class_name => 'name', :index => 1).id.should == 'new_user_last_name'
     end
 
     it "raises UnknownObjectException with a sane error message when given a hash of :how => 'what' arguments (non-existing object)" do

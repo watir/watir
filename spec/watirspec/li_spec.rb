@@ -16,7 +16,7 @@ describe "Li" do
       browser.li(:text, /Non-link 3/).should exist
       browser.li(:class, "nonlink").should exist
       browser.li(:class, /nonlink/).should exist
-      browser.li(:index, 1).should exist
+      browser.li(:index, 0).should exist
       browser.li(:xpath, "//li[@id='non_link_1']").should exist
     end
 
@@ -51,7 +51,7 @@ describe "Li" do
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.li(:index, 1).class_name.should == ''
+      browser.li(:index, 0).class_name.should == ''
     end
 
     it "raises UnknownObjectException if the li doesn't exist" do
@@ -65,7 +65,7 @@ describe "Li" do
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.li(:index, 1).id.should == ''
+      browser.li(:index, 0).id.should == ''
     end
 
     it "raises UnknownObjectException if the li doesn't exist" do
@@ -80,7 +80,7 @@ describe "Li" do
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.li(:index, 1).title.should == ''
+      browser.li(:index, 0).title.should == ''
     end
 
     it "raises UnknownObjectException if the li doesn't exist" do
@@ -95,7 +95,7 @@ describe "Li" do
     end
 
     it "returns an empty string if the element doesn't contain any text" do
-      browser.li(:index, 1).text.should == ''
+      browser.li(:index, 0).text.should == ''
     end
 
     it "raises UnknownObjectException if the li doesn't exist" do
@@ -106,10 +106,10 @@ describe "Li" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.li(:index, 1).should respond_to(:class_name)
-      browser.li(:index, 1).should respond_to(:id)
-      browser.li(:index, 1).should respond_to(:text)
-      browser.li(:index, 1).should respond_to(:title)
+      browser.li(:index, 0).should respond_to(:class_name)
+      browser.li(:index, 0).should respond_to(:id)
+      browser.li(:index, 0).should respond_to(:text)
+      browser.li(:index, 0).should respond_to(:title)
     end
   end
 

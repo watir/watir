@@ -22,7 +22,7 @@ describe "CheckBox" do
       # browser.checkbox(:text, /books/).should exist
       browser.checkbox(:class, "fun").should exist
       browser.checkbox(:class, /fun/).should exist
-      browser.checkbox(:index, 1).should exist
+      browser.checkbox(:index, 0).should exist
       browser.checkbox(:xpath, "//input[@id='new_user_interests_books']").should exist
     end
 
@@ -89,11 +89,11 @@ describe "CheckBox" do
 
   describe "#id" do
     it "returns the id attribute if the checkbox exists and has an attribute" do
-      browser.checkbox(:index, 1).id.should == "new_user_interests_books"
+      browser.checkbox(:index, 0).id.should == "new_user_interests_books"
     end
 
     it "returns an emptry string if the checkbox exists and the attribute doesn't" do
-      browser.checkbox(:index, 2).id.should == ""
+      browser.checkbox(:index, 1).id.should == ""
     end
 
     it "raises UnknownObjectException if the checkbox doesn't exist" do
@@ -131,7 +131,7 @@ describe "CheckBox" do
 
   describe "#type" do
     it "returns the type attribute if the checkbox exists" do
-      browser.checkbox(:index, 1).type.should == "checkbox"
+      browser.checkbox(:index, 0).type.should == "checkbox"
     end
 
     it "raises UnknownObjectException if the checkbox doesn't exist" do
@@ -151,12 +151,12 @@ describe "CheckBox" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.checkbox(:index, 1).should respond_to(:class_name)
-      browser.checkbox(:index, 1).should respond_to(:id)
-      browser.checkbox(:index, 1).should respond_to(:name)
-      browser.checkbox(:index, 1).should respond_to(:title)
-      browser.checkbox(:index, 1).should respond_to(:type)
-      browser.checkbox(:index, 1).should respond_to(:value)
+      browser.checkbox(:index, 0).should respond_to(:class_name)
+      browser.checkbox(:index, 0).should respond_to(:id)
+      browser.checkbox(:index, 0).should respond_to(:name)
+      browser.checkbox(:index, 0).should respond_to(:title)
+      browser.checkbox(:index, 0).should respond_to(:type)
+      browser.checkbox(:index, 0).should respond_to(:value)
     end
   end
 

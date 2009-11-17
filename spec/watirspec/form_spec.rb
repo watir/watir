@@ -21,7 +21,7 @@ describe "Form" do
       browser.form(:method, /post/).should exist
       browser.form(:action, 'post_to_me').should exist
       browser.form(:action, /to_me/).should exist
-      browser.form(:index, 1).should exist
+      browser.form(:index, 0).should exist
       browser.form(:xpath, "//form[@id='new_user']").should exist
     end
 

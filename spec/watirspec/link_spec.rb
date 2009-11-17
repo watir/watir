@@ -20,7 +20,7 @@ describe "Link" do
       browser.link(:text, /Link 2/i).should exist
       browser.link(:url, 'non_control_elements.html').should exist
       browser.link(:url, /non_control_elements.html/).should exist
-      browser.link(:index, 2).should exist
+      browser.link(:index, 1).should exist
       browser.link(:xpath, "//a[@id='link_2']").should exist
     end
 
@@ -61,11 +61,11 @@ describe "Link" do
   # Attribute methods
   describe "#class_name" do
     it "returns the type attribute if the link exists" do
-      browser.link(:index, 2).class_name.should == "external"
+      browser.link(:index, 1).class_name.should == "external"
     end
 
     it "returns an empty string if the link exists and the attribute doesn't" do
-      browser.link(:index, 1).class_name.should == ''
+      browser.link(:index, 0).class_name.should == ''
     end
 
     it "raises an UnknownObjectException if the link doesn't exist" do
@@ -75,11 +75,11 @@ describe "Link" do
 
   describe "#href" do
     it "returns the href attribute if the link exists" do
-      browser.link(:index, 2).href.should match(/non_control_elements/)
+      browser.link(:index, 1).href.should match(/non_control_elements/)
     end
 
     it "returns an empty string if the link exists and the attribute doesn't" do
-      browser.link(:index, 1).href.should == ""
+      browser.link(:index, 0).href.should == ""
     end
 
     it "raises an UnknownObjectException if the link doesn't exist" do
@@ -90,18 +90,18 @@ describe "Link" do
   bug "WTR-366", :watir do
     describe "#url" do
       it "returns the href attribute" do
-        browser.link(:index, 2).url.should match(/non_control_elements/)
+        browser.link(:index, 1).url.should match(/non_control_elements/)
       end
     end
   end
 
   describe "#id" do
     it "returns the id attribute if the link exists" do
-      browser.link(:index, 2).id.should == "link_2"
+      browser.link(:index, 1).id.should == "link_2"
     end
 
     it "returns an empty string if the link exists and the attribute doesn't" do
-      browser.link(:index, 1).id.should == ""
+      browser.link(:index, 0).id.should == ""
     end
 
     it "raises an UnknownObjectException if the link doesn't exist" do
@@ -111,11 +111,11 @@ describe "Link" do
 
   describe "#name" do
     it "returns the name attribute if the link exists" do
-      browser.link(:index, 3).name.should == "bad_attribute"
+      browser.link(:index, 2).name.should == "bad_attribute"
     end
 
     it "returns an empty string if the link exists and the attribute doesn't" do
-      browser.link(:index, 1).name.should == ''
+      browser.link(:index, 0).name.should == ''
     end
 
     it "raises an UnknownObjectException if the link doesn't exist" do
@@ -125,11 +125,11 @@ describe "Link" do
 
   describe "#text" do
     it "returns the link text" do
-      browser.link(:index, 2).text.should == "Link 2"
+      browser.link(:index, 1).text.should == "Link 2"
     end
 
     it "returns an empty string if the link exists and contains no text" do
-      browser.link(:index, 1).text.should == ""
+      browser.link(:index, 0).text.should == ""
     end
 
     it "raises an UnknownObjectException if the link doesn't exist" do
@@ -139,11 +139,11 @@ describe "Link" do
 
   describe "#title" do
     it "returns the type attribute if the link exists" do
-      browser.link(:index, 2).title.should == "link_title_2"
+      browser.link(:index, 1).title.should == "link_title_2"
     end
 
     it "returns an empty string if the link exists and the attribute doesn't" do
-      browser.link(:index, 1).title.should == ""
+      browser.link(:index, 0).title.should == ""
     end
 
     it "raises an UnknownObjectException if the link doesn't exist" do
@@ -153,14 +153,14 @@ describe "Link" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.link(:index, 1).should respond_to(:class_name)
-      browser.link(:index, 1).should respond_to(:href)
-      browser.link(:index, 1).should respond_to(:url)
-      browser.link(:index, 1).should respond_to(:id)
-      browser.link(:index, 1).should respond_to(:name)
-      browser.link(:index, 1).should respond_to(:style)
-      browser.link(:index, 1).should respond_to(:text)
-      browser.link(:index, 1).should respond_to(:title)
+      browser.link(:index, 0).should respond_to(:class_name)
+      browser.link(:index, 0).should respond_to(:href)
+      browser.link(:index, 0).should respond_to(:url)
+      browser.link(:index, 0).should respond_to(:id)
+      browser.link(:index, 0).should respond_to(:name)
+      browser.link(:index, 0).should respond_to(:style)
+      browser.link(:index, 0).should respond_to(:text)
+      browser.link(:index, 0).should respond_to(:title)
     end
   end
 
@@ -177,7 +177,7 @@ describe "Link" do
     end
 
     it "finds an existing link by (:index, Integer) and click it" do
-      browser.link(:index, 3).click
+      browser.link(:index, 2).click
       browser.text.include?("User administration").should be_true
     end
 

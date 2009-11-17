@@ -15,16 +15,16 @@ describe "Dds" do
 
   describe "#[]" do
     it "returns the dd at the given index" do
-      browser.dds[2].title.should == "education"
+      browser.dds[1].title.should == "education"
     end
   end
 
   describe "#each" do
     it "iterates through dds correctly" do
       browser.dds.each_with_index do |d, index|
-        d.name.should == browser.dd(:index, index+1).name
-        d.id.should == browser.dd(:index, index+1).id
-        d.class_name.should == browser.dd(:index, index+1).class_name
+        d.name.should == browser.dd(:index, index).name
+        d.id.should == browser.dd(:index, index).id
+        d.class_name.should == browser.dd(:index, index).class_name
       end
     end
   end

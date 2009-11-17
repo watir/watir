@@ -15,16 +15,16 @@ describe "FileFields" do
 
   describe "#[]" do
     it "returns the file field at the given index" do
-      browser.file_fields[1].id.should == "new_user_portrait"
+      browser.file_fields[0].id.should == "new_user_portrait"
     end
   end
 
   describe "#each" do
     it "iterates through file fields correctly" do
       browser.file_fields.each_with_index do |f, index|
-        f.name.should == browser.file_field(:index, index+1).name
-        f.id.should ==  browser.file_field(:index, index+1).id
-        f.value.should == browser.file_field(:index, index+1).value
+        f.name.should == browser.file_field(:index, index).name
+        f.id.should ==  browser.file_field(:index, index).id
+        f.value.should == browser.file_field(:index, index).value
       end
     end
   end

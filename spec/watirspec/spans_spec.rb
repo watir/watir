@@ -15,16 +15,16 @@ describe "Spans" do
 
   describe "#[]" do
     it "returns the p at the given index" do
-      browser.spans[1].id.should == "lead"
+      browser.spans[0].id.should == "lead"
     end
   end
 
   describe "#each" do
     it "iterates through spans correctly" do
       browser.spans.each_with_index do |s, index|
-        s.name.should == browser.span(:index, index+1).name
-        s.id.should == browser.span(:index, index+1).id
-        s.value.should == browser.span(:index, index+1).value
+        s.name.should == browser.span(:index, index).name
+        s.id.should == browser.span(:index, index).id
+        s.value.should == browser.span(:index, index).value
       end
     end
   end

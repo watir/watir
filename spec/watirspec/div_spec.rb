@@ -18,7 +18,7 @@ describe "Div" do
       browser.div(:text, /This is a footer\./).should exist
       browser.div(:class, "profile").should exist
       browser.div(:class, /profile/).should exist
-      browser.div(:index, 1).should exist
+      browser.div(:index, 0).should exist
       browser.div(:xpath, "//div[@id='header']").should exist
     end
 
@@ -74,11 +74,11 @@ describe "Div" do
 
   describe "#id" do
     it "returns the id attribute if the element exists" do
-      browser.div(:index, 2).id.should == "outer_container"
+      browser.div(:index, 1).id.should == "outer_container"
     end
 
     it "returns an empty string if the element exists, but the attribute doesn't" do
-      browser.div(:index, 1).id.should == ""
+      browser.div(:index, 0).id.should == ""
     end
 
     it "raises UnknownObjectException if the element does not exist" do
@@ -99,7 +99,7 @@ describe "Div" do
     end
 
     it "returns an empty string if the element exists but the attribute doesn't" do
-      browser.div(:index, 1).name.should == ""
+      browser.div(:index, 0).name.should == ""
     end
 
     it "raises UnknownObjectException if the element does not exist" do
@@ -142,7 +142,7 @@ describe "Div" do
     end
 
     it "returns an empty string if the element exists but contains no text" do
-      browser.div(:index, 1).text.strip.should == ""
+      browser.div(:index, 0).text.strip.should == ""
     end
 
     deviates_on :celerity do
@@ -165,7 +165,7 @@ describe "Div" do
     end
 
     it "returns an empty string if the element exists but the attribute doesn't" do
-      browser.div(:index, 1).value.should == ""
+      browser.div(:index, 0).value.should == ""
     end
 
     it "raises UnknownObjectException if the element does not exist" do
@@ -177,12 +177,12 @@ describe "Div" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.div(:index, 1).should respond_to(:class_name)
-      browser.div(:index, 1).should respond_to(:id)
-      browser.div(:index, 1).should respond_to(:name)
-      browser.div(:index, 1).should respond_to(:style)
-      browser.div(:index, 1).should respond_to(:text)
-      browser.div(:index, 1).should respond_to(:value)
+      browser.div(:index, 0).should respond_to(:class_name)
+      browser.div(:index, 0).should respond_to(:id)
+      browser.div(:index, 0).should respond_to(:name)
+      browser.div(:index, 0).should respond_to(:style)
+      browser.div(:index, 0).should respond_to(:text)
+      browser.div(:index, 0).should respond_to(:value)
     end
   end
 

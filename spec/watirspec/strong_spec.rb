@@ -16,7 +16,7 @@ describe "Strong" do
       browser.strong(:text, /Dubito, ergo cogito, ergo sum/).should exist
       browser.strong(:class, "descartes").should exist
       browser.strong(:class, /descartes/).should exist
-      browser.strong(:index, 1).should exist
+      browser.strong(:index, 0).should exist
       browser.strong(:xpath, "//strong[@id='descartes']").should exist
     end
 
@@ -47,11 +47,11 @@ describe "Strong" do
   # Attribute methods
   describe "#class_name" do
     it "returns the class attribute" do
-      browser.strong(:index, 1).class_name.should == 'descartes'
+      browser.strong(:index, 0).class_name.should == 'descartes'
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.strong(:index, 2).class_name.should == ''
+      browser.strong(:index, 1).class_name.should == ''
     end
 
     it "raises UnknownObjectException if the element doesn't exist" do
@@ -61,7 +61,7 @@ describe "Strong" do
 
   describe "#id" do
     it "returns the id attribute" do
-      browser.strong(:index, 1).id.should == "descartes"
+      browser.strong(:index, 0).id.should == "descartes"
     end
 
     it "raises UnknownObjectException if the element doesn't exist" do
@@ -72,7 +72,7 @@ describe "Strong" do
 
   describe "#text" do
     it "returns the text of the element" do
-      browser.strong(:index, 1).text.should == "Dubito, ergo cogito, ergo sum."
+      browser.strong(:index, 0).text.should == "Dubito, ergo cogito, ergo sum."
     end
 
     it "raises UnknownObjectException if the element doesn't exist" do
@@ -83,9 +83,9 @@ describe "Strong" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.strong(:index, 1).should respond_to(:class_name)
-      browser.strong(:index, 1).should respond_to(:id)
-      browser.strong(:index, 1).should respond_to(:text)
+      browser.strong(:index, 0).should respond_to(:class_name)
+      browser.strong(:index, 0).should respond_to(:id)
+      browser.strong(:index, 0).should respond_to(:text)
     end
   end
 

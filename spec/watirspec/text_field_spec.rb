@@ -20,7 +20,7 @@ describe "TextField" do
       browser.text_field(:text, /Developer/).should exist
       browser.text_field(:class, 'name').should exist
       browser.text_field(:class, /name/).should exist
-      browser.text_field(:index, 1).should exist
+      browser.text_field(:index, 0).should exist
       browser.text_field(:xpath, "//input[@id='new_user_email']").should exist
       browser.text_field(:label, "First name").should exist
       browser.text_field(:label, /(Last|First) name/).should exist
@@ -67,7 +67,7 @@ describe "TextField" do
   # Attribute methods
   describe "#id" do
     it "returns the id attribute if the text field exists" do
-      browser.text_field(:index, 4).id.should == "new_user_occupation"
+      browser.text_field(:index, 3).id.should == "new_user_occupation"
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -77,7 +77,7 @@ describe "TextField" do
 
   describe "#name" do
     it "returns the name attribute if the text field exists" do
-      browser.text_field(:index, 4).name.should == "new_user_occupation"
+      browser.text_field(:index, 3).name.should == "new_user_occupation"
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -97,7 +97,7 @@ describe "TextField" do
 
   describe "#type" do
     it "returns the type attribute if the text field exists" do
-      browser.text_field(:index, 4).type.should == "text"
+      browser.text_field(:index, 3).type.should == "text"
     end
 
     it "returns 'text' if the type attribute is invalid" do
@@ -116,7 +116,7 @@ describe "TextField" do
   describe "#value" do
     it "returns the value attribute if the text field exists" do
       browser.text_field(:name, "new_user_occupation").value.should == "Developer"
-      browser.text_field(:index, 4).value.should == "Developer"
+      browser.text_field(:index, 3).value.should == "Developer"
       browser.text_field(:name, /new_user_occupation/i).value.should == "Developer"
     end
 
@@ -127,12 +127,12 @@ describe "TextField" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.text_field(:index, 1).should respond_to(:class_name)
-      browser.text_field(:index, 1).should respond_to(:id)
-      browser.text_field(:index, 1).should respond_to(:name)
-      browser.text_field(:index, 1).should respond_to(:title)
-      browser.text_field(:index, 1).should respond_to(:type)
-      browser.text_field(:index, 1).should respond_to(:value)
+      browser.text_field(:index, 0).should respond_to(:class_name)
+      browser.text_field(:index, 0).should respond_to(:id)
+      browser.text_field(:index, 0).should respond_to(:name)
+      browser.text_field(:index, 0).should respond_to(:title)
+      browser.text_field(:index, 0).should respond_to(:type)
+      browser.text_field(:index, 0).should respond_to(:value)
     end
   end
 
@@ -158,7 +158,7 @@ describe "TextField" do
     end
 
     it "returns false if the text field is enabled" do
-      browser.text_field(:index, 1).should_not be_disabled
+      browser.text_field(:index, 0).should_not be_disabled
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do

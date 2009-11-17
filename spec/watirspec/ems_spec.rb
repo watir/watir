@@ -15,16 +15,16 @@ describe "Ems" do
 
   describe "#[]" do
     it "returns the em at the given index" do
-      browser.ems[1].id.should == "important-id"
+      browser.ems[0].id.should == "important-id"
     end
   end
 
   describe "#each" do
     it "iterates through ems correctly" do
       browser.ems.each_with_index do |e, index|
-        e.text.should == browser.em(:index, index+1).text
-        e.id.should == browser.em(:index, index+1).id
-        e.class_name.should == browser.em(:index, index+1).class_name
+        e.text.should == browser.em(:index, index).text
+        e.id.should == browser.em(:index, index).id
+        e.class_name.should == browser.em(:index, index).class_name
       end
     end
   end

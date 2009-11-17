@@ -13,7 +13,7 @@ describe "Dt" do
       browser.dt(:id, "experience").should exist
       browser.dt(:class, "current-industry").should exist
       browser.dt(:xpath, "//dt[@id='experience']").should exist
-      browser.dt(:index, 1).should exist
+      browser.dt(:index, 0).should exist
     end
 
     it "returns false if the element does not exist" do
@@ -88,11 +88,11 @@ describe "Dt" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.dt(:index, 1).should respond_to(:id)
-      browser.dt(:index, 1).should respond_to(:class_name)
-      browser.dt(:index, 1).should respond_to(:style)
-      browser.dt(:index, 1).should respond_to(:text)
-      browser.dt(:index, 1).should respond_to(:title)
+      browser.dt(:index, 0).should respond_to(:id)
+      browser.dt(:index, 0).should respond_to(:class_name)
+      browser.dt(:index, 0).should respond_to(:style)
+      browser.dt(:index, 0).should respond_to(:text)
+      browser.dt(:index, 0).should respond_to(:title)
     end
   end
 

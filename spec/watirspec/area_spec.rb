@@ -24,7 +24,7 @@ describe "Area" do
         browser.area(:href, /tables/).should exist
       end
 
-      browser.area(:index, 1).should exist
+      browser.area(:index, 0).should exist
       browser.area(:xpath, "//area[@id='NCE']").should exist
     end
 
@@ -63,11 +63,11 @@ describe "Area" do
   # Attribute methods
   describe "#id" do
     it "returns the id attribute" do
-      browser.area(:index, 1).id.should == "NCE"
+      browser.area(:index, 0).id.should == "NCE"
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.area(:index, 3).id.should == ''
+      browser.area(:index, 2).id.should == ''
     end
 
     it "raises UnknownObjectException if the area doesn't exist" do
@@ -79,11 +79,11 @@ describe "Area" do
 
   describe "#name" do
     it "returns the name attribute" do
-      browser.area(:index, 1).name.should == "NCE"
+      browser.area(:index, 0).name.should == "NCE"
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.area(:index, 3).name.should == ''
+      browser.area(:index, 2).name.should == ''
     end
 
     it "raises UnknownObjectException if the area doesn't exist" do
@@ -94,8 +94,8 @@ describe "Area" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.area(:index, 1).should respond_to(:id)
-      browser.area(:index, 1).should respond_to(:name)
+      browser.area(:index, 0).should respond_to(:id)
+      browser.area(:index, 0).should respond_to(:name)
     end
   end
 

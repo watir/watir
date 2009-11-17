@@ -87,7 +87,7 @@ describe "Image" do
     bug "WTR-347", :watir do
       it "behaves like #file_created_date" do
         browser.goto(WatirSpec.host + "/images.html")
-        image = browser.image(:index, 2)
+        image = browser.image(:index, 1)
         path = File.dirname(__FILE__) + "/html/#{image.src}"
         image.file_created_date.to_i.should == File.mtime(path).to_i
       end

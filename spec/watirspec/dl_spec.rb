@@ -13,7 +13,7 @@ describe "Dl" do
       browser.dl(:id, "experience-list").should exist
       browser.dl(:class, "list").should exist
       browser.dl(:xpath, "//dl[@id='experience-list']").should exist
-      browser.dl(:index, 1).should exist
+      browser.dl(:index, 0).should exist
     end
 
     it "returns false if the element does not exist" do
@@ -88,11 +88,11 @@ describe "Dl" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.dl(:index, 1).should respond_to(:id)
-      browser.dl(:index, 1).should respond_to(:class_name)
-      browser.dl(:index, 1).should respond_to(:style)
-      browser.dl(:index, 1).should respond_to(:text)
-      browser.dl(:index, 1).should respond_to(:title)
+      browser.dl(:index, 0).should respond_to(:id)
+      browser.dl(:index, 0).should respond_to(:class_name)
+      browser.dl(:index, 0).should respond_to(:style)
+      browser.dl(:index, 0).should respond_to(:text)
+      browser.dl(:index, 0).should respond_to(:title)
     end
   end
 

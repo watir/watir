@@ -16,7 +16,7 @@ bug "WTR-345", :watir do
 
     describe "#[]" do
       it "returns the h1 at the given index" do
-        browser.h1s[1].id.should == "first_header"
+        browser.h1s[0].id.should == "first_header"
       end
     end
 
@@ -25,9 +25,9 @@ bug "WTR-345", :watir do
         lengths = (1..6).collect do |i|
           collection = browser.send(:"h#{i}s")
           collection.each_with_index do |h, index|
-            h.name.should == browser.send(:"h#{i}", :index, index+1).name
-            h.id.should == browser.send(:"h#{i}", :index, index+1).id
-            h.value.should == browser.send(:"h#{i}", :index, index+1).value
+            h.name.should == browser.send(:"h#{i}", :index, index).name
+            h.id.should == browser.send(:"h#{i}", :index, index).id
+            h.value.should == browser.send(:"h#{i}", :index, index).value
           end
           collection.length
         end

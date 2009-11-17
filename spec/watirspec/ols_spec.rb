@@ -15,16 +15,16 @@ describe "Ols" do
 
   describe "#[]" do
     it "returns the ol at the given index" do
-      browser.ols[1].id.should == "favorite_compounds"
+      browser.ols[0].id.should == "favorite_compounds"
     end
   end
 
   describe "#each" do
     it "iterates through ols correctly" do
       browser.ols.each_with_index do |ul, index|
-        ul.name.should == browser.ol(:index, index+1).name
-        ul.id.should == browser.ol(:index, index+1).id
-        ul.value.should == browser.ol(:index, index+1).value
+        ul.name.should == browser.ol(:index, index).name
+        ul.id.should == browser.ol(:index, index).id
+        ul.value.should == browser.ol(:index, index).value
       end
     end
   end

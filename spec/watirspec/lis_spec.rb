@@ -14,17 +14,17 @@ describe "Lis" do
   end
 
   describe "#[]" do
-    it "returns the p at the given index" do
-      browser.lis[5].id.should == "non_link_1"
+    it "returns the li at the given index" do
+      browser.lis[4].id.should == "non_link_1"
     end
   end
 
   describe "#each" do
     it "iterates through lis correctly" do
       browser.lis.each_with_index do |l, index|
-        l.name.should == browser.li(:index, index+1).name
-        l.id.should == browser.li(:index, index+1).id
-        l.value.should == browser.li(:index, index+1).value
+        l.name.should == browser.li(:index, index).name
+        l.id.should == browser.li(:index, index).id
+        l.value.should == browser.li(:index, index).value
       end
     end
   end

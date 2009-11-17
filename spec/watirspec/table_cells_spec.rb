@@ -16,8 +16,8 @@ describe "TableCells" do
 #
 #  describe "#[]" do
 #    it "returns the row at the given index" do
-#      browser.table(:id, 'outer').cells[1].text.should == "Table 1, Row 1, Cell 1"
-#      browser.table(:id, 'inner').cells[1].text.should == "Table 2, Row 1, Cell 1"
+#      browser.table(:id, 'outer').cells[0].text.should == "Table 1, Row 1, Cell 1"
+#      browser.table(:id, 'inner').cells[0].text.should == "Table 2, Row 1, Cell 1"
 #      browser.table(:id, 'outer').cells[6].text.should == "Table 1, Row 3, Cell 2"
 #    end
 #  end
@@ -26,23 +26,23 @@ describe "TableCells" do
     it "iterates through cells correctly" do
       # All cells on the page
       browser.cells.each_with_index do |c, index|
-        c.name.should == browser.cell(:index, index+1).name
-        c.id.should == browser.cell(:index, index+1).id
-        c.value.should == browser.cell(:index, index+1).value
+        c.name.should == browser.cell(:index, index).name
+        c.id.should == browser.cell(:index, index).id
+        c.value.should == browser.cell(:index, index).value
       end
       # Cells inside a table
       inner_table = browser.table(:id, 'inner')
       inner_table.cells.each_with_index do |c, index|
-        c.name.should == inner_table.cell(:index, index+1).name
-        c.id.should == inner_table.cell(:index, index+1).id
-        c.value.should == inner_table.cell(:index, index+1).value
+        c.name.should == inner_table.cell(:index, index).name
+        c.id.should == inner_table.cell(:index, index).id
+        c.value.should == inner_table.cell(:index, index).value
       end
       # Cells inside a table (should not include cells inside a table inside a table)
       outer_table = browser.table(:id, 'outer')
       outer_table.cells.each_with_index do |c, index|
-        c.name.should == outer_table.cell(:index, index+1).name
-        c.id.should == outer_table.cell(:index, index+1).id
-        c.value.should == outer_table.cell(:index, index+1).value
+        c.name.should == outer_table.cell(:index, index).name
+        c.id.should == outer_table.cell(:index, index).id
+        c.value.should == outer_table.cell(:index, index).value
       end
     end
   end

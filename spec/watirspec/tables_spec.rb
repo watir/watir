@@ -15,18 +15,18 @@ describe "Tables" do
 
   describe "#[]" do
     it "returns the p at the given index" do
-      browser.tables[1].id.should == "axis_example"
-      browser.tables[2].id.should == "outer"
-      browser.tables[3].id.should == "inner"
+      browser.tables[0].id.should == "axis_example"
+      browser.tables[1].id.should == "outer"
+      browser.tables[2].id.should == "inner"
     end
   end
 
   describe "#each" do
     it "iterates through tables correctly" do
       browser.tables.each_with_index do |t, index|
-        t.name.should == browser.table(:index, index+1).name
-        t.id.should == browser.table(:index, index+1).id
-        t.value.should == browser.table(:index, index+1).value
+        t.name.should == browser.table(:index, index).name
+        t.id.should == browser.table(:index, index).id
+        t.value.should == browser.table(:index, index).value
       end
     end
   end
