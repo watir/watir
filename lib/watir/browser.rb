@@ -34,10 +34,14 @@ module Watir
       @driver.find_element(:xpath, "//html").text
     end
 
+    def html
+      @driver.page_source
+    end
+
     private
 
     def assert_exists
-      true # TIDI: assert browser is open
+      true # TODO: assert browser is open
     end
 
   end # Browser

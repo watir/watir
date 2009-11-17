@@ -116,24 +116,7 @@ module Watir
 
     def html
       assert_exists
-
-      # this would ideally be in WebDriver
-      method = case driver.bridge.browser
-               when :firefox
-                 'textContent'
-               when :internet_explorer
-                 'outerHTML' # ??
-               when :chrome
-                 'innerHTML'
-               when :remote
-                 # hmm
-                 raise NotImplementedError
-               else
-                 raise NotImplementedError
-               end
-
-
-      driver.execute_script("return arguments[0].#{method}", @element)
+      driver.execute_script("return arguments[0].outerHTML", @element)
     end
 
     def driver
