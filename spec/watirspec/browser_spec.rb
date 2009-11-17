@@ -9,10 +9,12 @@ describe "Browser" do
       browser.should exist
     end
 
-    it "returns false after IE#close" do
-      b = WatirSpec.new_browser
-      b.close
-      b.should_not exist
+    not_compliant_on :watir2 do
+      it "returns false after IE#close" do
+        b = WatirSpec.new_browser
+        b.close
+        b.should_not exist
+      end
     end
   end
 
@@ -198,9 +200,11 @@ describe "Browser" do
       browser.contains_text(/no_such_text/).should be_nil
     end
 
-    it "does not raise error on a blank page" do
-      browser = WatirSpec.new_browser
-      lambda { browser.contains_text('') }.should_not raise_error
+    not_compliant_on :watir2 do
+      it "does not raise error on a blank page" do
+        browser = WatirSpec.new_browser
+        lambda { browser.contains_text('') }.should_not raise_error
+      end
     end
   end
 
