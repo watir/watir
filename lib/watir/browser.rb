@@ -5,7 +5,7 @@ module Watir
     attr_reader :driver
 
     def initialize(browser)
-      @driver = WebDriver::Driver.for browser.to_sym
+      @driver = WebDriver.for browser.to_sym
     end
 
     def goto(url)

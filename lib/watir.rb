@@ -10,4 +10,6 @@ require "watir/base_element"
 require "watir/elements/generated"
 require "watir/elements/text_field"
 
-
+module Watir
+  include Selenium
+end
