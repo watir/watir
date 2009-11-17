@@ -4,6 +4,7 @@ require "json"
 require "watir/exceptions"
 require "watir/container"
 require "watir/element_locator"
+require "watir/xpath_builder"
 require "watir/browser"
 
 require "watir/base_element"

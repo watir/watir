@@ -109,7 +109,12 @@ class WatirVisitor < WebIDL::RubySexpVisitor
   end
 
   def paramify(str)
-    classify(str).snake_case
+    param = classify(str)
+    if param =~ /(.+)List/
+      param = "#{$1}l"
+    end
+
+    param.snake_case
   end
 
   def pluralize(name)

@@ -5,17 +5,27 @@ module Watir
     attr_reader :driver
 
     def initialize(browser)
-      @driver = WebDriver.for browser.to_sym
+      @driver         = WebDriver.for browser.to_sym
+      @error_checkers = []
     end
 
     def goto(url)
       # TODO: fix url
       @driver.navigate.to url
+      run_checkers
       url
     end
 
     def close
       @driver.quit # TODO: close vs quit
+    end
+
+    def back
+      @driver.navigate.back
+    end
+
+    def forward
+      @driver.navigate.forward
     end
 
     def url
@@ -38,10 +48,37 @@ module Watir
       @driver.page_source
     end
 
+    def element_by_xpath(xpath)
+      BaseElement.new(self, :xpath, xpath)
+    end
+
+    def elements_by_xpath(xpath)
+      # TODO: find the correct element class
+      @driver.find_elements(:xpath, xpath).map { |e| BaseElement.new(self, :element, e) }
+    end
+
+    def add_checker(checker = nil, &block)
+      if block_given?
+        @error_checkers << block
+      elsif Proc === checker
+        @error_checkers << checker
+      else
+        raise ArgumentError, "argument must be a Proc or block"
+      end
+    end
+
+    def disable_checker(checker)
+      @error_checkers.delete(checker)
+    end
+
     private
 
     def assert_exists
       true # TODO: assert browser is open
+    end
+
+    def run_checkers
+      @error_checkers.each { |e| e[self] }
     end
 
   end # Browser

@@ -78,11 +78,13 @@ module Watir
       end
     end # class << self
 
-    def initialize(parent, selector)
-      raise TypeError, "expected Hash, got #{selector.inspect}" unless selector.kind_of?(Hash)
-
+    def initialize(parent, *selectors)
       @parent   = parent
-      @selector = selector.merge(self.class.default_selector)
+      @selector = extract_selector(selectors).merge(self.class.default_selector)
+
+      if @selector.has_key?(:element)
+        @element = @selector[:element]
+      end
     end
 
     def exists?
@@ -102,6 +104,7 @@ module Watir
       assert_exists
       assert_enabled
       @element.click
+      run_checkers
     end
 
     def value
@@ -150,6 +153,24 @@ module Watir
       raise ObjectDisabledException unless @element.enabled?
     end
 
+    def extract_selector(selectors)
+      case selectors.size
+      when 2
+        { selectors[0] => selectors[1] }
+      when 1
+        unless selectors.first.is_a? Hash
+          raise ArgumentError, "expected Hash or (:how, 'what')"
+        end
+
+        selectors.first
+      else
+        raise ArgumentError, "wrong number of arguments (#{selectors.size} for 2)"
+      end
+    end
+
+    def run_checkers
+      @parent.run_checkers
+    end
+
   end # BaseElement
 end # Watir
-
