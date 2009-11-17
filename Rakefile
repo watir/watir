@@ -4,16 +4,17 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "watir2"
-    gem.summary = %Q{TODO: one-line summary of your gem}
+    gem.name        = "watir2"
+    gem.summary     = %Q{TODO: one-line summary of your gem}
     gem.description = %Q{TODO: longer description of your gem}
-    gem.email = "jari.bakken@gmail.com"
-    gem.homepage = "http://github.com/jarib/watir2"
-    gem.authors = ["Jari Bakken"]
+    gem.email       = "jari.bakken@gmail.com"
+    gem.homepage    = "http://github.com/jarib/watir2"
+    gem.authors     = ["Jari Bakken"]
+
     gem.add_dependency "selenium-webdriver"
+
     gem.add_development_dependency "rspec"
     gem.add_development_dependency "webidl"
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
@@ -37,7 +38,9 @@ task :spec => :check_dependencies
 namespace :html5 do
   task :extract do
     raise NotImplementedError
-    # http://dev.w3.org/html5/spec/Overview.html
+    require 'support/html5/idl_extractor'
+    idl = IdlExtractor.new("http://dev.w3.org/html5/spec/Overview.html")
+    idl.write_to "support/html5/html5.idl"
   end
 
   desc 'Re-enerate the base Watir element classes from the spec '
