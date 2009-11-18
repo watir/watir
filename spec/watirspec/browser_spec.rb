@@ -175,39 +175,6 @@ describe "Browser" do
     end
   end
 
-  # Other
-  describe "#contains_text" do
-    before :each do
-      browser.goto(WatirSpec.files + "/non_control_elements.html")
-    end
-
-    it "raises ArgumentError when called with no arguments" do
-      lambda { browser.contains_text }.should raise_error(ArgumentError)
-    end
-
-    it "raises TypeError when called with wrong arguments" do
-      lambda { browser.contains_text(nil) }.should raise_error(TypeError)
-      lambda { browser.contains_text(42) }.should raise_error(TypeError)
-    end
-
-    it "returns the index if the given text exists" do
-        browser.contains_text('Dubito, ergo cogito, ergo sum.').should be_instance_of(Fixnum)
-        browser.contains_text(/Dubito.*sum./).should_not be_nil
-    end
-
-    it "returns nil if the text doesn't exist" do
-      browser.contains_text('no_such_text').should be_nil
-      browser.contains_text(/no_such_text/).should be_nil
-    end
-
-    not_compliant_on :watir2 do
-      it "does not raise error on a blank page" do
-        browser = WatirSpec.new_browser
-        lambda { browser.contains_text('') }.should_not raise_error
-      end
-    end
-  end
-
   describe "#element_by_xpath" do
     before :each do
       browser.goto(WatirSpec.files + "/forms_with_input_elements.html")

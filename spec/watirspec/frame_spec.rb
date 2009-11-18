@@ -99,17 +99,6 @@ describe "Frame" do
     browser.frame(:index, 0).text_field(:name, 'senderElement').value.should == "new value"
   end
 
-  describe "#contains_text" do
-    it "finds text in a frame" do
-      browser.frame(:name, 'frame1').contains_text('Suspendisse sit amet nisi.').should be_instance_of(Fixnum)
-    end
-
-    it "raises TypeError when given an invalid argument" do
-      lambda { browser.frame(:name, 'frame1').contains_text(3.14) }.should raise_error(TypeError)
-    end
-  end
-
-
   not_compliant_on :watir do
     describe "#execute_script" do
       it "executes the given javascript in the specified frame" do
