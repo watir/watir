@@ -132,6 +132,11 @@ module Watir
       @element
     end
 
+    def visible?
+      assert_exists
+      @element.visible?
+    end
+
     private
 
     #

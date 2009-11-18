@@ -2,864 +2,864 @@
 module Watir
   class HTMLElement < BaseElement
     identifier(:tag_name => :html_element)
-    
+
     container_method(:html_element)
-    
+
     collection_method(:html_elements)
-    
+
     attributes(:token_list => ([:class_list, :item_prop]), :string => ([:innerhtml, :outerhtml, :id, :title, :lang, :dir, :class_name, :item_type, :item_id, :item_ref, :item_value, :access_key, :access_key_label, :content_editable, :spellcheck, :command_type, :label, :icon]), :string_map => ([:dataset]), :properties_collection => ([:properties]), :style => ([:style]), :int => ([:tab_index]), :html_element => ([:context_menu]), :function => ([:onabort, :onblur, :oncanplay, :oncanplaythrough, :onchange, :onclick, :oncontextmenu, :ondblclick, :ondrag, :ondragend, :ondragenter, :ondragleave, :ondragover, :ondragstart, :ondrop, :ondurationchange, :onemptied, :onended, :onerror, :onfocus, :onformchange, :onforminput, :oninput, :oninvalid, :onkeydown, :onkeypress, :onkeyup, :onload, :onloadeddata, :onloadedmetadata, :onloadstart, :onmousedown, :onmousemove, :onmouseout, :onmouseover, :onmouseup, :onmousewheel, :onpause, :onplay, :onplaying, :onprogress, :onratechange, :onreadystatechange, :onscroll, :onseeked, :onseeking, :onselect, :onshow, :onstalled, :onsubmit, :onsuspend, :ontimeupdate, :onvolumechange, :onwaiting]), :bool => ([:item_scope, :hidden, :draggable, :is_content_editable, :disabled, :checked]))
   end
-  
+
   class Input < HTMLElement
     identifier(:tag_name => :input)
-    
+
     container_method(:input)
-    
+
     collection_method(:inputs)
-    
+
     attributes(:string => ([:accept, :alt, :form_action, :form_enctype, :form_method, :form_target, :height, :max, :min, :name, :pattern, :placeholder, :src, :step, :type, :default_value, :value, :width, :validity, :validation_message]), :float => ([:value_as_number]), :date => ([:value_as_date]), :int => ([:max_length, :size, :selection_start, :selection_end]), :list => ([:files, :labels]), :html_element => ([:form, :list, :selected_option]), :bool => ([:autocomplete, :autofocus, :default_checked, :checked, :disabled, :form_no_validate, :indeterminate, :multiple, :read_only, :required, :will_validate]))
   end
-  
-  
-  
+
+
+
   class DataList < HTMLElement
     identifier(:tag_name => :data_list)
-    
+
     container_method(:data_list)
-    
+
     collection_method(:data_lists)
-    
+
     attributes(:html_collection => ([:options]))
   end
-  
+
   class Object < HTMLElement
     identifier(:tag_name => :object)
-    
+
     container_method(:object)
-    
+
     collection_method(:objects)
-    
+
     attributes(:string => ([:data, :type, :name, :use_map, :width, :height, :content_window, :validity, :validation_message]), :document => ([:content_document]), :html_element => ([:form]), :bool => ([:will_validate]))
   end
-  
+
   class DList < HTMLElement
     identifier(:tag_name => :dl)
-    
+
     container_method(:dl)
-    
+
     collection_method(:dls)
-    
+
     # do nothing
   end
-  
+
   class LI < HTMLElement
     identifier(:tag_name => :li)
-    
+
     container_method(:li)
-    
+
     collection_method(:lis)
-    
+
     attributes(:int => ([:value]))
   end
-  
+
   class HR < HTMLElement
     identifier(:tag_name => :hr)
-    
+
     container_method(:hr)
-    
+
     collection_method(:hrs)
-    
+
     # do nothing
   end
-  
+
   class Button < HTMLElement
     identifier(:tag_name => :button)
-    
+
     container_method(:button)
-    
+
     collection_method(:buttons)
-    
+
     attributes(:string => ([:form_action, :form_enctype, :form_method, :form_no_validate, :form_target, :name, :type, :value, :validity, :validation_message]), :list => ([:labels]), :html_element => ([:form]), :bool => ([:autofocus, :disabled, :will_validate]))
   end
-  
+
   class TableRow < HTMLElement
     identifier(:tag_name => :table_row)
-    
+
     container_method(:table_row)
-    
+
     collection_method(:table_rows)
-    
+
     attributes(:int => ([:row_index, :section_row_index]), :html_collection => ([:cells]))
   end
-  
+
   class TableSection < HTMLElement
     identifier(:tag_name => :table_section)
-    
+
     container_method(:table_section)
-    
+
     collection_method(:table_sections)
-    
+
     attributes(:html_collection => ([:rows]))
   end
-  
+
   class Area < HTMLElement
     identifier(:tag_name => :area)
-    
+
     container_method(:area)
-    
+
     collection_method(:areas)
-    
+
     attributes(:token_list => ([:rel_list]), :string => ([:alt, :coords, :shape, :href, :target, :ping, :rel, :media, :hreflang, :type, :protocol, :host, :hostname, :port, :pathname, :search, :hash]))
   end
-  
+
   class Anchor < HTMLElement
     identifier(:tag_name => :anchor)
-    
+
     container_method(:anchor)
-    
+
     collection_method(:anchors)
-    
+
     attributes(:token_list => ([:rel_list]), :string => ([:href, :target, :ping, :rel, :media, :hreflang, :type, :protocol, :host, :hostname, :port, :pathname, :search, :hash]))
   end
-  
+
   class Pre < HTMLElement
     identifier(:tag_name => :pre)
-    
+
     container_method(:pre)
-    
+
     collection_method(:pres)
-    
+
     # do nothing
   end
-  
+
   class Details < HTMLElement
     identifier(:tag_name => :details)
-    
+
     container_method(:details)
-    
+
     collection_method(:details)
-    
+
     attributes(:bool => ([:open]))
   end
-  
+
   class OptGroup < HTMLElement
     identifier(:tag_name => :opt_group)
-    
+
     container_method(:opt_group)
-    
+
     collection_method(:opt_groups)
-    
+
     attributes(:string => ([:label]), :bool => ([:disabled]))
   end
-  
+
   class TableCol < HTMLElement
     identifier(:tag_name => :table_col)
-    
+
     container_method(:table_col)
-    
+
     collection_method(:table_cols)
-    
+
     attributes(:int => ([:span]))
   end
-  
+
   class Embed < HTMLElement
     identifier(:tag_name => :embed)
-    
+
     container_method(:embed)
-    
+
     collection_method(:embeds)
-    
+
     attributes(:string => ([:src, :type, :width, :height]))
   end
-  
-  class Link < HTMLElement
-    identifier(:tag_name => :link)
-    
-    container_method(:link)
-    
-    collection_method(:links)
-    
-    attributes(:token_list => ([:rel_list]), :string => ([:href, :rel, :media, :hreflang, :type, :sizes]), :bool => ([:disabled]))
-  end
-  
-  
-  
+
+  # class Link < HTMLElement
+  #   identifier(:tag_name => :link)
+  #
+  #   container_method(:link)
+  #
+  #   collection_method(:links)
+  #
+  #   attributes(:token_list => ([:rel_list]), :string => ([:href, :rel, :media, :hreflang, :type, :sizes]), :bool => ([:disabled]))
+  # end
+
+
+
   class Html < HTMLElement
     identifier(:tag_name => :html)
-    
+
     container_method(:html)
-    
+
     collection_method(:htmls)
-    
+
     # do nothing
   end
-  
+
   class Option < HTMLElement
     identifier(:tag_name => :option)
-    
+
     container_method(:option)
-    
+
     collection_method(:options)
-    
+
     attributes(:string => ([:label, :value, :text]), :int => ([:index]), :html_element => ([:form]), :bool => ([:disabled, :default_selected, :selected]))
   end
-  
+
   class Legend < HTMLElement
     identifier(:tag_name => :legend)
-    
+
     container_method(:legend)
-    
+
     collection_method(:legends)
-    
+
     attributes(:html_element => ([:form]))
   end
-  
+
   class Form < HTMLElement
     identifier(:tag_name => :form)
-    
+
     container_method(:form)
-    
+
     collection_method(:forms)
-    
+
     attributes(:string => ([:accept_charset, :action, :enctype, :method, :name, :target]), :int => ([:length]), :html_collection => ([:elements]), :bool => ([:autocomplete, :no_validate]))
   end
-  
+
   class Param < HTMLElement
     identifier(:tag_name => :param)
-    
+
     container_method(:param)
-    
+
     collection_method(:params)
-    
+
     attributes(:string => ([:name, :value]))
   end
-  
+
   class IFrame < HTMLElement
     identifier(:tag_name => :i_frame)
-    
+
     container_method(:i_frame)
-    
+
     collection_method(:i_frames)
-    
+
     attributes(:string => ([:src, :name, :sandbox, :width, :height, :content_window]), :document => ([:content_document]), :bool => ([:seamless]))
   end
-  
+
   class Image < HTMLElement
     identifier(:tag_name => :image)
-    
+
     container_method(:image)
-    
+
     collection_method(:images)
-    
+
     attributes(:string => ([:alt, :src, :use_map]), :int => ([:width, :height, :natural_width, :natural_height]), :bool => ([:is_map, :complete]))
   end
-  
+
   class Progress < HTMLElement
     identifier(:tag_name => :progress)
-    
+
     container_method(:progress)
-    
+
     collection_method(:progress)
-    
+
     attributes(:float => ([:value, :max, :position]))
   end
-  
+
   class Time < HTMLElement
     identifier(:tag_name => :time)
-    
+
     container_method(:time)
-    
+
     collection_method(:times)
-    
+
     attributes(:string => ([:date_time]), :date => ([:value_as_date]), :bool => ([:pub_date]))
   end
-  
+
   class UList < HTMLElement
     identifier(:tag_name => :ul)
-    
+
     container_method(:ul)
-    
+
     collection_method(:uls)
-    
+
     # do nothing
   end
-  
+
   class Quote < HTMLElement
     identifier(:tag_name => :quote)
-    
+
     container_method(:quote)
-    
+
     collection_method(:quotes)
-    
+
     attributes(:string => ([:cite]))
   end
-  
+
   class Style < HTMLElement
     identifier(:tag_name => :style)
-    
+
     container_method(:style)
-    
+
     collection_method(:styles)
-    
+
     attributes(:string => ([:media, :type]), :bool => ([:disabled, :scoped]))
   end
-  
-  
-  
+
+
+
   class Output < HTMLElement
     identifier(:tag_name => :output)
-    
+
     container_method(:output)
-    
+
     collection_method(:outputs)
-    
+
     attributes(:string => ([:html_for, :name, :type, :default_value, :value, :validity, :validation_message]), :html_element => ([:form]), :bool => ([:will_validate]))
   end
-  
+
   class TableCaption < HTMLElement
     identifier(:tag_name => :table_caption)
-    
+
     container_method(:table_caption)
-    
+
     collection_method(:table_captions)
-    
+
     # do nothing
   end
-  
+
   class Table < HTMLElement
     identifier(:tag_name => :table)
-    
+
     container_method(:table)
-    
+
     collection_method(:tables)
-    
+
     attributes(:string => ([:summary]), :html_element => ([:caption, :t_head, :t_foot]), :html_collection => ([:t_bodies, :rows]))
   end
-  
+
   class Paragraph < HTMLElement
     identifier(:tag_name => :paragraph)
-    
+
     container_method(:paragraph)
-    
+
     collection_method(:paragraphs)
-    
+
     # do nothing
   end
-  
+
   class Body < HTMLElement
     identifier(:tag_name => :body)
-    
+
     container_method(:body)
-    
+
     collection_method(:bodys)
-    
+
     attributes(:function => ([:onafterprint, :onbeforeprint, :onbeforeunload, :onblur, :onerror, :onfocus, :onhashchange, :onload, :onmessage, :onoffline, :ononline, :onpopstate, :onpagehide, :onpageshow, :onredo, :onresize, :onstorage, :onundo, :onunload]))
   end
-  
+
   class Head < HTMLElement
     identifier(:tag_name => :head)
-    
+
     container_method(:head)
-    
+
     collection_method(:heads)
-    
+
     # do nothing
   end
-  
+
   class Map < HTMLElement
     identifier(:tag_name => :map)
-    
+
     container_method(:map)
-    
+
     collection_method(:maps)
-    
+
     attributes(:string => ([:name]), :html_collection => ([:areas, :images]))
   end
-  
+
   class Div < HTMLElement
     identifier(:tag_name => :div)
-    
+
     container_method(:div)
-    
+
     collection_method(:divs)
-    
+
     # do nothing
   end
-  
+
   class TextArea < HTMLElement
     identifier(:tag_name => :text_area)
-    
+
     container_method(:text_area)
-    
+
     collection_method(:text_areas)
-    
+
     attributes(:string => ([:name, :placeholder, :wrap, :type, :default_value, :value, :validity, :validation_message]), :list => ([:labels]), :int => ([:cols, :max_length, :rows, :text_length, :selection_start, :selection_end]), :html_element => ([:form]), :bool => ([:autofocus, :disabled, :read_only, :required, :will_validate]))
   end
-  
-  
-  
+
+
+
   class Canvas < HTMLElement
     identifier(:tag_name => :canvas)
-    
+
     container_method(:canvas)
-    
+
     collection_method(:canvas)
-    
+
     attributes(:int => ([:width, :height]))
   end
-  
+
   class BR < HTMLElement
     identifier(:tag_name => :br)
-    
+
     container_method(:br)
-    
+
     collection_method(:brs)
-    
+
     # do nothing
   end
-  
+
   class Title < HTMLElement
     identifier(:tag_name => :title)
-    
+
     container_method(:title)
-    
+
     collection_method(:titles)
-    
+
     attributes(:string => ([:text]))
   end
-  
+
   class Meter < HTMLElement
     identifier(:tag_name => :meter)
-    
+
     container_method(:meter)
-    
+
     collection_method(:meters)
-    
+
     attributes(:float => ([:value, :min, :max, :low, :high, :optimum]))
   end
-  
+
   class Heading < HTMLElement
     identifier(:tag_name => :heading)
-    
+
     container_method(:heading)
-    
+
     collection_method(:headings)
-    
+
     # do nothing
   end
-  
+
   class Base < HTMLElement
     identifier(:tag_name => :base)
-    
+
     container_method(:base)
-    
+
     collection_method(:bases)
-    
+
     attributes(:string => ([:href, :target]))
   end
-  
+
   class Unknown < HTMLElement
     identifier(:tag_name => :unknown)
-    
+
     container_method(:unknown)
-    
+
     collection_method(:unknowns)
-    
+
     # do nothing
   end
-  
+
   class Select < HTMLElement
     identifier(:tag_name => :select)
-    
+
     container_method(:select)
-    
+
     collection_method(:selects)
-    
+
     attributes(:string => ([:name, :type, :value, :validity, :validation_message]), :list => ([:labels]), :int => ([:size, :length, :selected_index]), :html_element => ([:form]), :html_collection => ([:options, :selected_options]), :bool => ([:autofocus, :disabled, :multiple, :will_validate]))
   end
-  
+
   class Label < HTMLElement
     identifier(:tag_name => :label)
-    
+
     container_method(:label)
-    
+
     collection_method(:labels)
-    
+
     attributes(:string => ([:html_for]), :html_element => ([:form, :control]))
   end
-  
+
   class Keygen < HTMLElement
     identifier(:tag_name => :keygen)
-    
+
     container_method(:keygen)
-    
+
     collection_method(:keygens)
-    
+
     attributes(:string => ([:challenge, :keytype, :name, :type, :validity, :validation_message]), :list => ([:labels]), :html_element => ([:form]), :bool => ([:autofocus, :disabled, :will_validate]))
   end
-  
+
   class FieldSet < HTMLElement
     identifier(:tag_name => :field_set)
-    
+
     container_method(:field_set)
-    
+
     collection_method(:field_sets)
-    
+
     attributes(:string => ([:name, :type, :validity, :validation_message]), :html_element => ([:form]), :html_collection => ([:elements]), :bool => ([:disabled, :will_validate]))
   end
-  
+
   class Source < HTMLElement
     identifier(:tag_name => :source)
-    
+
     container_method(:source)
-    
+
     collection_method(:sources)
-    
+
     attributes(:string => ([:src, :type, :media]))
   end
-  
+
   class Span < HTMLElement
     identifier(:tag_name => :span)
-    
+
     container_method(:span)
-    
+
     collection_method(:spans)
-    
+
     # do nothing
   end
-  
+
   class OList < HTMLElement
     identifier(:tag_name => :o_list)
-    
+
     container_method(:o_list)
-    
+
     collection_method(:o_lists)
-    
+
     attributes(:int => ([:start]), :bool => ([:reversed]))
   end
-end# from extras: 
+end# from extras:
 
 # Autogenerated from the HTML5 specification. Edits may be lost.
 module Watir
-  
-  
+
+
   class Dd < HTMLElement
     identifier(:tag_name => :dd)
-    
+
     container_method(:dd)
-    
+
     collection_method(:dds)
-    
+
     # do nothing
   end
-  
+
   class Address < HTMLElement
     identifier(:tag_name => :address)
-    
+
     container_method(:address)
-    
+
     collection_method(:address)
-    
+
     # do nothing
   end
-  
+
   class Nav < HTMLElement
     identifier(:tag_name => :nav)
-    
+
     container_method(:nav)
-    
+
     collection_method(:navs)
-    
+
     # do nothing
   end
-  
-  
-  
+
+
+
   class Sub < HTMLElement
     identifier(:tag_name => :sub)
-    
+
     container_method(:sub)
-    
+
     collection_method(:subs)
-    
+
     # do nothing
   end
-  
+
   class Sup < HTMLElement
     identifier(:tag_name => :sup)
-    
+
     container_method(:sup)
-    
+
     collection_method(:sups)
-    
+
     # do nothing
   end
-  
+
   class Bdo < HTMLElement
     identifier(:tag_name => :bdo)
-    
+
     container_method(:bdo)
-    
+
     collection_method(:bdos)
-    
+
     # do nothing
   end
-  
+
   class Rp < HTMLElement
     identifier(:tag_name => :rp)
-    
+
     container_method(:rp)
-    
+
     collection_method(:rps)
-    
+
     # do nothing
   end
-  
+
   class Rt < HTMLElement
     identifier(:tag_name => :rt)
-    
+
     container_method(:rt)
-    
+
     collection_method(:rts)
-    
+
     # do nothing
   end
-  
+
   class Mark < HTMLElement
     identifier(:tag_name => :mark)
-    
+
     container_method(:mark)
-    
+
     collection_method(:marks)
-    
+
     # do nothing
   end
-  
+
   class Kbd < HTMLElement
     identifier(:tag_name => :kbd)
-    
+
     container_method(:kbd)
-    
+
     collection_method(:kbds)
-    
+
     # do nothing
   end
-  
+
   class Dfn < HTMLElement
     identifier(:tag_name => :dfn)
-    
+
     container_method(:dfn)
-    
+
     collection_method(:dfns)
-    
+
     # do nothing
   end
-  
+
   class Cite < HTMLElement
     identifier(:tag_name => :cite)
-    
+
     container_method(:cite)
-    
+
     collection_method(:cites)
-    
+
     # do nothing
   end
-  
-  
-  
+
+
+
   class B < HTMLElement
     identifier(:tag_name => :b)
-    
+
     container_method(:b)
-    
+
     collection_method(:bs)
-    
+
     # do nothing
   end
-  
+
   class Noscript < HTMLElement
     identifier(:tag_name => :noscript)
-    
+
     container_method(:noscript)
-    
+
     collection_method(:noscripts)
-    
+
     # do nothing
   end
-  
+
   class Figure < HTMLElement
     identifier(:tag_name => :figure)
-    
+
     container_method(:figure)
-    
+
     collection_method(:figures)
-    
+
     # do nothing
   end
-  
+
   class Code < HTMLElement
     identifier(:tag_name => :code)
-    
+
     container_method(:code)
-    
+
     collection_method(:codes)
-    
+
     # do nothing
   end
-  
-  
-  
+
+
+
   class Strong < HTMLElement
     identifier(:tag_name => :strong)
-    
+
     container_method(:strong)
-    
+
     collection_method(:strongs)
-    
+
     # do nothing
   end
-  
+
   class Header < HTMLElement
     identifier(:tag_name => :header)
-    
+
     container_method(:header)
-    
+
     collection_method(:headers)
-    
+
     # do nothing
   end
-  
+
   class Hgroup < HTMLElement
     identifier(:tag_name => :hgroup)
-    
+
     container_method(:hgroup)
-    
+
     collection_method(:hgroups)
-    
+
     # do nothing
   end
-  
+
   class Aside < HTMLElement
     identifier(:tag_name => :aside)
-    
+
     container_method(:aside)
-    
+
     collection_method(:asides)
-    
+
     # do nothing
   end
-  
+
   class Samp < HTMLElement
     identifier(:tag_name => :samp)
-    
+
     container_method(:samp)
-    
+
     collection_method(:samps)
-    
+
     # do nothing
   end
-  
+
   class Section < HTMLElement
     identifier(:tag_name => :section)
-    
+
     container_method(:section)
-    
+
     collection_method(:sections)
-    
+
     # do nothing
   end
-  
+
   class Dt < HTMLElement
     identifier(:tag_name => :dt)
-    
+
     container_method(:dt)
-    
+
     collection_method(:dts)
-    
+
     # do nothing
   end
-  
-  
-  
+
+
+
   class I < HTMLElement
     identifier(:tag_name => :i)
-    
+
     container_method(:i)
-    
+
     collection_method(:is)
-    
+
     # do nothing
   end
-  
+
   class Var < HTMLElement
     identifier(:tag_name => :var)
-    
+
     container_method(:var)
-    
+
     collection_method(:vars)
-    
+
     # do nothing
   end
-  
+
   class Abbr < HTMLElement
     identifier(:tag_name => :abbr)
-    
+
     container_method(:abbr)
-    
+
     collection_method(:abbrs)
-    
+
     # do nothing
   end
-  
+
   class Small < HTMLElement
     identifier(:tag_name => :small)
-    
+
     container_method(:small)
-    
+
     collection_method(:smalls)
-    
+
     # do nothing
   end
-  
+
   class Footer < HTMLElement
     identifier(:tag_name => :footer)
-    
+
     container_method(:footer)
-    
+
     collection_method(:footers)
-    
+
     # do nothing
   end
-  
+
   class Ruby < HTMLElement
     identifier(:tag_name => :ruby)
-    
+
     container_method(:ruby)
-    
+
     collection_method(:rubys)
-    
+
     # do nothing
   end
-  
+
   class Article < HTMLElement
     identifier(:tag_name => :article)
-    
+
     container_method(:article)
-    
+
     collection_method(:articles)
-    
+
     # do nothing
   end
-  
-  
-  
+
+
+
   class Em < HTMLElement
     identifier(:tag_name => :em)
-    
+
     container_method(:em)
-    
+
     collection_method(:ems)
-    
+
     # do nothing
   end
 end

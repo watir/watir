@@ -14,6 +14,7 @@ require "watir/elements/checkbox"
 require "watir/elements/file_field"
 require "watir/elements/headings"
 require "watir/elements/hidden"
+require "watir/elements/link"
 require "watir/elements/radio"
 require "watir/elements/text_field"
 
