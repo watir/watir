@@ -41,7 +41,7 @@ module Watir
     end
 
     def text
-      @driver.find_element(:xpath, "//html").text
+      @driver.find_element(:tag_name, "body").text
     end
 
     def html
