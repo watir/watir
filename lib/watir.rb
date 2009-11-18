@@ -9,6 +9,12 @@ require "watir/browser"
 
 require "watir/base_element"
 require "watir/elements/generated"
+
+require "watir/elements/checkbox"
+require "watir/elements/file_field"
+require "watir/elements/headings"
+require "watir/elements/hidden"
+require "watir/elements/radio"
 require "watir/elements/text_field"
 
 module Watir

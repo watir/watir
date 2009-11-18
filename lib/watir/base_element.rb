@@ -1,6 +1,7 @@
 module Watir
   class BaseElement
     include Exceptions
+    include Container
 
     class << self
 

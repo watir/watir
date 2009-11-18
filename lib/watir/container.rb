@@ -6,9 +6,5 @@ module Watir
       end
     end
 
-    def text_field(*args)
-      TextField.new(self, *args)
-    end
-
   end # Container
 end # Watir

@@ -59,6 +59,11 @@ module Watir
     end
 
     def find_by_multiple
+      @selector.each do |how, what|
+        check_type what
+      end
+
+
       xpath = @selector[:xpath] || XPathBuilder.build_from(@selector)
       if xpath
         @driver.find_element(:xpath, xpath)

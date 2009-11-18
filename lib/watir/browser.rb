@@ -48,7 +48,13 @@ module Watir
       @driver.page_source
     end
 
+    def execute_script(script, *args)
+      args.map! { |e| e.kind_of?(Watir::BaseElement) ? e.element : e }
+      @driver.execute_script(script, *args)
+    end
+
     def element_by_xpath(xpath)
+      # TODO: find the correct element class
       BaseElement.new(self, :xpath, xpath)
     end
 
@@ -71,14 +77,14 @@ module Watir
       @error_checkers.delete(checker)
     end
 
+    def run_checkers
+      @error_checkers.each { |e| e[self] }
+    end
+
     private
 
     def assert_exists
       true # TODO: assert browser is open
-    end
-
-    def run_checkers
-      @error_checkers.each { |e| e[self] }
     end
 
   end # Browser
