@@ -144,15 +144,17 @@ module Watir
     #
 
     def assert_exists
-      begin
-        @element ||= ElementLocator.new(@parent.driver, @selector).locate
-      rescue WebDriver::Error::WebDriverError => wde
-        @element = nil
-      end
-
+      @element = locate
+      
       unless @element
         raise UnknownObjectException, "Unable to locate element, using #{@selector.inspect}"
       end
+    end
+    
+    def locate
+      ElementLocator.new(@parent.driver, @selector).locate
+    rescue WebDriver::Error::WebDriverError => wde
+      nil
     end
 
     def assert_enabled
