@@ -48,6 +48,10 @@ module Watir
       @driver.page_source
     end
 
+    def refresh
+      execute_script 'location.reload(true)'
+    end
+
     def execute_script(script, *args)
       args.map! { |e| e.kind_of?(Watir::BaseElement) ? e.element : e }
       @driver.execute_script(script, *args)

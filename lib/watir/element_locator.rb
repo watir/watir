@@ -60,7 +60,14 @@ module Watir
 
     def find_by_multiple
       @selector.each do |how, what|
-        check_type what
+        case how
+        when :tag_name
+          raise TypeError, "expected Symbol, got #{what.class}" unless what.kind_of?(Symbol)
+        when :index
+          raise TypeError, "expected Fixnum, got #{what.class}" unless what.kind_of?(Fixnum)
+        else
+          check_type what
+        end
       end
 
 

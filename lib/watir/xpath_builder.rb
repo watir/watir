@@ -2,17 +2,17 @@ module Watir
   class XPathBuilder
 
     class << self
-      def build_from(selector)
-        return if selector.values.any? { |e| e.kind_of? Regexp }
-          
-        xpath = "//"
-        xpath << (selector.delete(:tag_name) || '*').to_s
+      def build_from(selectors)
+        return if selectors.values.any? { |e| e.kind_of? Regexp }
 
-        idx = selector.delete(:index)
-        
+        xpath = "//"
+        xpath << (selectors.delete(:tag_name) || '*').to_s
+
+        idx = selectors.delete(:index)
+
         # the remaining entries should be attributes
-        unless selector.empty?
-          xpath << "[" << selector.map { |key, val| "@#{key}=#{val.to_s.inspect}" }.join(" and ") << "]"
+        unless selectors.empty?
+          xpath << "[" << selectors.map { |key, val| "@#{key}=#{val.to_s.inspect}" }.join(" and ") << "]"
         end
 
         if idx
