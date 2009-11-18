@@ -3,15 +3,20 @@ module Watir
 
     class << self
       def build_from(selector)
+        return if selector.values.any? { |e| e.kind_of? Regexp }
+          
         xpath = "//"
         xpath << (selector.delete(:tag_name) || '*').to_s
 
         idx = selector.delete(:index)
+        
         # the remaining entries should be attributes
-        xpath << "[" << selector.map { |key, val| "@#{key}=#{val.to_s.inspect}" }.join(" and ") << "]"
+        unless selector.empty?
+          xpath << "[" << selector.map { |key, val| "@#{key}=#{val.to_s.inspect}" }.join(" and ") << "]"
+        end
 
         if idx
-          xpath << "[#{idx}]"
+          xpath << "[#{idx + 1}]"
         end
 
         xpath

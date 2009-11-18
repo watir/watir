@@ -10,7 +10,11 @@ Debugger.settings[:autolist] = 1
 
 class WatirVisitor < WebIDL::RubySexpVisitor
 
-  CLASSES = {}
+  SPECIALS = {
+    'DList' => 'dl',
+    'UList' => 'ul',
+    'Olist' => 'ol'
+  }
 
   def self.generate_from(file)
     result = []
@@ -72,6 +76,16 @@ class WatirVisitor < WebIDL::RubySexpVisitor
       name
     end
   end
+  
+  def paramify(str)
+    param = classify(str)
+    if SPECIALS.has_key?(param)
+      SPECIALS[param]
+    else
+      param.snake_case
+    end
+  end
+  
 
   def attributes_call(attributes)
     return if attributes.empty?
@@ -106,15 +120,6 @@ class WatirVisitor < WebIDL::RubySexpVisitor
 
   def call(name, args)
     [:call, nil, name.to_sym, [:arglist] + args]
-  end
-
-  def paramify(str)
-    param = classify(str)
-    if param =~ /(.+)List/
-      param = "#{$1}l"
-    end
-
-    param.snake_case
   end
 
   def pluralize(name)

@@ -5,40 +5,59 @@ require "ruby-debug"
 
 class IdlExtractor
   def initialize(url)
-    @doc = Nokogiri.HTML(open(url))
+    @doc    = Nokogiri.HTML(open(url))
+    @idls   = {}
+    @extras = {}
+    extract
   end
 
-  def write_to(filepath)
-    idls = parse_idls
-    pp idls
+  def write_idl_to(filepath)
     File.open(filepath, "w") do |file|
-      idls.each { |idl| file.puts(idl) }
+      @idls.values.each { |idl| file.puts(idl) }
+    end
+  end
+  
+  def write_extras_to(filepath)
+    File.open(filepath, "w") do |file|
+      @extras.values.each { |extra| file.puts(extra) }
     end
   end
 
-  def parse_idls
-    element_headers = @doc.search('//h4').select { |e| e['id'] =~ /^the-.+-elements?$/ }
+  def extract
+    # get the HTMLElement interface, which doesn't follow the normal structure
+    unless html_header = @doc.search("//h4[@id='elements-in-the-dom']").first
+      raise "could not find header with id 'elements-in-the-dom' (for HTMLElement)"
+    end
+    
+    idl = html_header.xpath("following-sibling::pre[@class='idl']").first.text
+    @idls['htmlelement'] = "// HTMLElement\n#{idl}" 
+    
+    # then get all the others
+    element_headers = @doc.search('//h4').select { |e| e['id'] =~ /the-.+-element/ }
+    raise "no elements found in the spec!" if element_headers.empty?
     element_headers.map { |e| extract_idl_from(e) }
   end
 
+
   def extract_idl_from(node)
-    idl = []
-    idl << "// #{node['id']}"
-
     dl = node.xpath("following-sibling::dl[@class='element' and position()=1]").first
-    raise "could not find 'DOM interface' section for #{node.inspect}" unless dl
-
-    if idl_node = dl.css("pre.idl").first
-      idl << idl_node.text
-    else
-      if dl.css("dt ~ dd").last.text =~ /HTML\w+/
-        idl << "// Uses #{$&}"
-      else
-        raise "could not find IDL for #{dl.inspect}"
-      end
+    unless dl
+      short_id = node['id'][/^the-.+-element/, 0]
+      $stderr.puts "could not find 'DOM interface' section for #{node['id']}"
+      $stderr.puts "   already have #{short_id}" if @idls.has_key?(short_id) || @extras.has_key?(short_id) 
+      return
     end
 
-    idl.join("\n")
+    if idl_node = dl.css("pre.idl").first
+      @idls[node['id']] = "// #{node['id']}\n" << idl_node.text
+    else
+      if extra_node = dl.css("dt ~ dd").last
+        @extras[node['id']] = "// #{node['id']}\n" << extra_node.text
+      else
+        raise "could not find IDL section for #{node['id']}"
+      end
+    end
   end
-end
+  
+end # IdlExtractor
 

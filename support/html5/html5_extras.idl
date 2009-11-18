@@ -1,0 +1,75 @@
+// the-thead-element
+interface HTMLTheadElement : HTMLTableSectionElement {};   
+   
+   
+// the-dd-element
+interface HTMLDdElement : HTMLElement {}; 
+// the-address-element
+interface HTMLAddressElement : HTMLElement {}; 
+// the-nav-element
+interface HTMLNavElement : HTMLElement {}; 
+// the-tfoot-element
+interface HTMLTFootElement : HTMLTableSectionElement {}; 
+// the-sub-and-sup-elements
+interface HTMLSubElement : HTMLElement {}; 
+interface HTMLSupElement : HTMLElement {}; 
+// the-bdo-element
+interface HTMLBdoElement : HTMLElement {}; 
+// the-rp-element
+interface HTMLRpElement : HTMLElement {}; 
+// the-rt-element
+interface HTMLRtElement : HTMLElement {}; 
+// the-mark-element
+interface HTMLMarkElement : HTMLElement {}; 
+// the-kbd-element
+interface HTMLKbdElement : HTMLElement {}; 
+// the-dfn-element
+interface HTMLDfnElement : HTMLElement {}; 
+// the-cite-element
+interface HTMLCiteElement : HTMLElement {}; 
+// the-ins-element
+interface HTMLInsElement : HTMLModElement {}; 
+// the-b-element
+interface HTMLBElement : HTMLElement {}; 
+// the-noscript-element
+interface HTMLNoscriptElement : HTMLElement {}; 
+// the-figure-element
+interface HTMLFigureElement : HTMLElement {}; 
+// the-code-element
+interface HTMLCodeElement : HTMLElement {}; 
+// the-q-element
+interface HTMLQElement : HTMLQuoteElement {}; 
+// the-strong-element
+interface HTMLStrongElement : HTMLElement {}; 
+// the-header-element
+interface HTMLHeaderElement : HTMLElement {}; 
+// the-hgroup-element
+interface HTMLHgroupElement : HTMLElement {}; 
+// the-aside-element
+interface HTMLAsideElement : HTMLElement {}; 
+// the-samp-element
+interface HTMLSampElement : HTMLElement {}; 
+// the-section-element
+interface HTMLSectionElement : HTMLElement {}; 
+// the-dt-element
+interface HTMLDtElement : HTMLElement {}; 
+// the-col-element
+interface HTMLColElement : HTMLTableColElement {}; 
+// the-i-element
+interface HTMLIElement : HTMLElement {}; 
+// the-var-element
+interface HTMLVarElement : HTMLElement {}; 
+// the-abbr-element
+interface HTMLAbbrElement : HTMLElement {}; 
+// the-small-element
+interface HTMLSmallElement : HTMLElement {}; 
+// the-footer-element
+interface HTMLFooterElement : HTMLElement {}; 
+// the-ruby-element
+interface HTMLRubyElement : HTMLElement {}; 
+// the-article-element
+interface HTMLArticleElement : HTMLElement {}; 
+// the-del-element
+interface HTMLDelElement : HTMLModElement {}; 
+// the-em-element
+interface HTMLEmElement : HTMLElement {}; 

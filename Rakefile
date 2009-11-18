@@ -36,18 +36,31 @@ end
 task :spec => :check_dependencies
 
 namespace :html5 do
+  IDL_PATH    = "support/html5/html5.idl"
+  EXTRAS_PATH = "support/html5/html5_extras.idl"
+  SPEC_URI    = "http://dev.w3.org/html5/spec/Overview.html"
+  
   task :extract do
-    raise NotImplementedError
     require 'support/html5/idl_extractor'
-    idl = IdlExtractor.new("http://dev.w3.org/html5/spec/Overview.html")
-    idl.write_to "support/html5/html5.idl"
+
+    idl = IdlExtractor.new(SPEC_URI)
+    idl.write_idl_to IDL_PATH
+    idl.write_extras_to "#{EXTRAS_PATH}.txt"
+
+    puts "\n\n"
+    puts "Some HTML elements does not have an interface declaration defined in the spec."
+    puts "You will need to create the IDL by hand and remove the .txt extension from #{EXTRAS_PATH}.txt before running the html5:generate task."
   end
 
   desc 'Re-enerate the base Watir element classes from the spec '
   task :generate do
     require "support/html5/watir_visitor"
-    code = WatirVisitor.generate_from("support/html5/html5.idl")
-
+    raise Errno::ENOENT, EXTRAS_PATH unless File.exist?(EXTRAS_PATH)
+    
+    code = WatirVisitor.generate_from(IDL_PATH)
+    code << "# from extras: \n\n"
+    code << WatirVisitor.generate_from(EXTRAS_PATH)
+    
     File.open("lib/watir/elements/generated.rb", "w") { |file| file << code }
   end
 end

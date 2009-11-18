@@ -60,7 +60,11 @@ module Watir
 
     def find_by_multiple
       xpath = @selector[:xpath] || XPathBuilder.build_from(@selector)
-      @driver.find_element(:xpath, xpath)
+      if xpath
+        @driver.find_element(:xpath, xpath)
+      else
+        raise NotImplementedError, 'regexp locator support'
+      end
     end
 
 
