@@ -4,8 +4,17 @@ module Watir
 
     attr_reader :driver
 
+    class << self
+      def start(url, browser = :firefox)
+        b = new(browser)
+        b.goto url
+
+        b
+      end
+    end
+
     def initialize(browser)
-      @driver         = WebDriver.for browser.to_sym
+      @driver         = Selenium::WebDriver.for browser.to_sym
       @error_checkers = []
     end
 

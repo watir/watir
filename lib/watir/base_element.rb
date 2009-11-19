@@ -2,6 +2,7 @@ module Watir
   class BaseElement
     include Exceptions
     include Container
+    include Selenium
 
     class << self
 
