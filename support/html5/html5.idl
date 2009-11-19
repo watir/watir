@@ -109,7 +109,9 @@ interface HTMLElement : Element {
            attribute Function onwaiting;
 };
 
+
 // the-input-element
+[TagName=input]
 interface HTMLInputElement : HTMLElement {
            attribute DOMString accept;
            attribute DOMString alt;
@@ -164,15 +166,24 @@ interface HTMLInputElement : HTMLElement {
            attribute unsigned long selectionEnd;
   void setSelectionRange(in unsigned long start, in unsigned long end);
 };
+
+
 // the-th-element
+[TagName=th]
 interface HTMLTableHeaderCellElement : HTMLTableCellElement {
            attribute DOMString scope;
 };
+
+
 // the-datalist-element
+[TagName=datalist]
 interface HTMLDataListElement : HTMLElement {
   readonly attribute HTMLCollection options;
 };
+
+
 // the-object-element
+[TagName=object]
 interface HTMLObjectElement : HTMLElement {
            attribute DOMString data;
            attribute DOMString type;
@@ -190,15 +201,27 @@ interface HTMLObjectElement : HTMLElement {
   boolean checkValidity();
   void setCustomValidity(in DOMString error);
 };
+
+
 // the-dl-element
+[TagName=dl]
 interface HTMLDListElement : HTMLElement {};
+
+
 // the-li-element
+[TagName=li]
 interface HTMLLIElement : HTMLElement {
            attribute long value;
 };
+
+
 // the-hr-element
+[TagName=hr]
 interface HTMLHRElement : HTMLElement {};
+
+
 // the-button-element
+[TagName=button]
 interface HTMLButtonElement : HTMLElement {
            attribute boolean autofocus;
            attribute boolean disabled;
@@ -220,7 +243,10 @@ interface HTMLButtonElement : HTMLElement {
 
   readonly attribute NodeList labels;
 };
+
+
 // the-tr-element
+[TagName=tr]
 interface HTMLTableRowElement : HTMLElement {
   readonly attribute long rowIndex;
   readonly attribute long sectionRowIndex;
@@ -228,13 +254,19 @@ interface HTMLTableRowElement : HTMLElement {
   HTMLElement insertCell(in optional long index);
   void deleteCell(in long index);
 };
+
+
 // the-tbody-element
+[TagName=tbody]
 interface HTMLTableSectionElement : HTMLElement {
   readonly attribute HTMLCollection rows;
   HTMLElement insertRow(in optional long index);
   void deleteRow(in long index);
 };
+
+
 // the-area-element
+[TagName=area]
 interface HTMLAreaElement : HTMLElement {
            attribute DOMString alt;
            attribute DOMString coords;
@@ -257,7 +289,10 @@ interface HTMLAreaElement : HTMLElement {
            attribute DOMString search;
            attribute DOMString hash;
 };
+
+
 // the-a-element
+[TagName=a]
 interface HTMLAnchorElement : HTMLElement {
   stringifier attribute DOMString href;
            attribute DOMString target;
@@ -277,29 +312,47 @@ interface HTMLAnchorElement : HTMLElement {
            attribute DOMString search;
            attribute DOMString hash;
 };
+
+
 // the-pre-element
+[TagName=pre]
 interface HTMLPreElement : HTMLElement {};
+
+
 // the-details-element
+[TagName=details]
 interface HTMLDetailsElement : HTMLElement {
            attribute boolean open;
 };
+
+
 // the-optgroup-element
+[TagName=optgroup]
 interface HTMLOptGroupElement : HTMLElement {
            attribute boolean disabled;
            attribute DOMString label;
 };
+
+
 // the-colgroup-element
+[TagName=colgroup]
 interface HTMLTableColElement : HTMLElement {
            attribute unsigned long span;
 };
+
+
 // the-embed-element
+[TagName=embed]
 interface HTMLEmbedElement : HTMLElement {
            attribute DOMString src;
            attribute DOMString type;
            attribute DOMString width;
            attribute DOMString height;
 };
+
+
 // the-link-element
+[TagName=link]
 interface HTMLLinkElement : HTMLElement {
            attribute boolean disabled;
            attribute DOMString href;
@@ -311,10 +364,16 @@ interface HTMLLinkElement : HTMLElement {
            attribute DOMString sizes;
 };
 HTMLLinkElement implements LinkStyle;
+
+
 // the-html-element-0
+[TagName=html]
 interface HTMLHtmlElement : HTMLElement {};
+
+
 // the-option-element
-[NamedConstructor=Option(),
+[TagName=option,
+ NamedConstructor=Option(),
  NamedConstructor=Option(in DOMString text),
  NamedConstructor=Option(in DOMString text, in DOMString value),
  NamedConstructor=Option(in DOMString text, in DOMString value, in boolean defaultSelected),
@@ -330,12 +389,17 @@ interface HTMLOptionElement : HTMLElement {
            attribute DOMString text;
   readonly attribute long index;
 };
+
+
 // the-legend-element
+[TagName=legend]
 interface HTMLLegendElement : HTMLElement {
   readonly attribute HTMLFormElement form;
 };
+
+
 // the-form-element
-[OverrideBuiltins]
+[TagName=form,OverrideBuiltins]
 interface HTMLFormElement : HTMLElement {
            attribute DOMString acceptCharset;
            attribute DOMString action;
@@ -358,12 +422,18 @@ interface HTMLFormElement : HTMLElement {
   void dispatchFormInput();
   void dispatchFormChange();
 };
+
+
 // the-param-element
+[TagName=param]
 interface HTMLParamElement : HTMLElement {
            attribute DOMString name;
            attribute DOMString value;
 };
+
+
 // the-iframe-element
+[TagName=iframe]
 interface HTMLIFrameElement : HTMLElement {
            attribute DOMString src;
            attribute DOMString name;
@@ -374,8 +444,11 @@ interface HTMLIFrameElement : HTMLElement {
   readonly attribute Document contentDocument;
   readonly attribute WindowProxy contentWindow;
 };
+
+
 // the-img-element
-[NamedConstructor=Image(),
+[TagName=img,
+ NamedConstructor=Image(),
  NamedConstructor=Image(in unsigned long width),
  NamedConstructor=Image(in unsigned long width, in unsigned long height)]
 interface HTMLImageElement : HTMLElement {
@@ -389,25 +462,40 @@ interface HTMLImageElement : HTMLElement {
   readonly attribute unsigned long naturalHeight;
   readonly attribute boolean complete;
 };
+
+
 // the-progress-element
+[TagName=progress]
 interface HTMLProgressElement : HTMLElement {
            attribute float value;
            attribute float max;
   readonly attribute float position;
 };
+
+
 // the-time-element
+[TagName=time]
 interface HTMLTimeElement : HTMLElement {
            attribute DOMString dateTime;
            attribute boolean pubDate;
   readonly attribute Date valueAsDate;
 };
+
+
 // the-ul-element
+[TagName=ul]
 interface HTMLUListElement : HTMLElement {};
+
+
 // the-blockquote-element
+[TagName=blockquote]
 interface HTMLQuoteElement : HTMLElement {
            attribute DOMString cite;
 };
+
+
 // the-style-element
+[TagName=style]
 interface HTMLStyleElement : HTMLElement {
            attribute boolean disabled;
            attribute DOMString media;
@@ -415,7 +503,10 @@ interface HTMLStyleElement : HTMLElement {
            attribute boolean scoped;
 };
 HTMLStyleElement implements LinkStyle;
+
+
 // the-output-element
+[TagName=output]
 interface HTMLOutputElement : HTMLElement {
            attribute DOMString htmlFor;
   readonly attribute HTMLFormElement form;
@@ -431,9 +522,15 @@ interface HTMLOutputElement : HTMLElement {
   boolean checkValidity();
   void setCustomValidity(in DOMString error);
 };
+
+
 // the-caption-element
+[TagName=caption]
 interface HTMLTableCaptionElement : HTMLElement {};
+
+
 // the-table-element
+[TagName=table]
 interface HTMLTableElement : HTMLElement {
            attribute HTMLTableCaptionElement caption;
   HTMLElement createCaption();
@@ -451,9 +548,15 @@ interface HTMLTableElement : HTMLElement {
   void deleteRow(in long index);
            attribute DOMString summary;
 };
+
+
 // the-p-element
+[TagName=p]
 interface HTMLParagraphElement : HTMLElement {};
+
+
 // the-body-element-0
+[TagName=body]
 interface HTMLBodyElement : HTMLElement {
            attribute Function onafterprint;
            attribute Function onbeforeprint;
@@ -475,17 +578,29 @@ interface HTMLBodyElement : HTMLElement {
            attribute Function onundo;
            attribute Function onunload;
 };
+
+
 // the-head-element-0
+[TagName=head]
 interface HTMLHeadElement : HTMLElement {};
+
+
 // the-map-element
+[TagName=map]
 interface HTMLMapElement : HTMLElement {
            attribute DOMString name;
   readonly attribute HTMLCollection areas;
   readonly attribute HTMLCollection images;
 };
+
+
 // the-div-element
+[TagName=div]
 interface HTMLDivElement : HTMLElement {};
+
+
 // the-textarea-element
+[TagName=textarea]
 interface HTMLTextAreaElement : HTMLElement {
            attribute boolean autofocus;
            attribute unsigned long cols;
@@ -517,9 +632,15 @@ interface HTMLTextAreaElement : HTMLElement {
            attribute unsigned long selectionEnd;
   void setSelectionRange(in unsigned long start, in unsigned long end);
 };
+
+
 // the-td-element
+[TagName=td]
 interface HTMLTableDataCellElement : HTMLTableCellElement {};
+
+
 // the-canvas-element
+[TagName=canvas]
 interface HTMLCanvasElement : HTMLElement {
            attribute unsigned long width;
            attribute unsigned long height;
@@ -528,13 +649,22 @@ interface HTMLCanvasElement : HTMLElement {
 
   Object getContext(in DOMString contextId);
 };
+
+
 // the-br-element
+[TagName=br]
 interface HTMLBRElement : HTMLElement {};
+
+
 // the-title-element-0
+[TagName=title]
 interface HTMLTitleElement : HTMLElement {
            attribute DOMString text;
 };
+
+
 // the-meter-element
+[TagName=meter]
 interface HTMLMeterElement : HTMLElement {
            attribute float value;
            attribute float min;
@@ -543,15 +673,25 @@ interface HTMLMeterElement : HTMLElement {
            attribute float high;
            attribute float optimum;
 };
+
+
 // the-h1-h2-h3-h4-h5-and-h6-elements
+[TagName=h1]
 interface HTMLHeadingElement : HTMLElement {};
+
+
 // the-base-element
+[TagName=base]
 interface HTMLBaseElement : HTMLElement {
            attribute DOMString href;
            attribute DOMString target;
 };
+
 interface HTMLUnknownElement : HTMLElement { };
+
+
 // the-select-element
+[TagName=select]
 interface HTMLSelectElement : HTMLElement {
            attribute boolean autofocus;
            attribute boolean disabled;
@@ -582,13 +722,19 @@ interface HTMLSelectElement : HTMLElement {
 
   readonly attribute NodeList labels;
 };
+
+
 // the-label-element
+[TagName=label]
 interface HTMLLabelElement : HTMLElement {
   readonly attribute HTMLFormElement form;
            attribute DOMString htmlFor;
   readonly attribute HTMLElement control;
 };
+
+
 // the-keygen-element
+[TagName=keygen]
 interface HTMLKeygenElement : HTMLElement {
            attribute boolean autofocus;
            attribute DOMString challenge;
@@ -607,7 +753,10 @@ interface HTMLKeygenElement : HTMLElement {
 
   readonly attribute NodeList labels;
 };
+
+
 // the-fieldset-element
+[TagName=fieldset]
 interface HTMLFieldSetElement : HTMLElement {
            attribute boolean disabled;
   readonly attribute HTMLFormElement form;
@@ -623,15 +772,24 @@ interface HTMLFieldSetElement : HTMLElement {
   boolean checkValidity();
   void setCustomValidity(in DOMString error);
 };
+
+
 // the-source-element
+[TagName=source]
 interface HTMLSourceElement : HTMLElement {
            attribute DOMString src;
            attribute DOMString type;
            attribute DOMString media;
 };
+
+
 // the-span-element
+[TagName=span]
 interface HTMLSpanElement : HTMLElement {};
+
+
 // the-ol-element
+[TagName=ol]
 interface HTMLOListElement : HTMLElement {
            attribute boolean reversed;
            attribute long start;

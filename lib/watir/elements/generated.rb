@@ -7,7 +7,7 @@ module Watir
 
     collection_method(:html_elements)
 
-    attributes(:token_list => ([:class_list, :item_prop]), :string => ([:innerhtml, :outerhtml, :id, :title, :lang, :dir, :class_name, :item_type, :item_id, :item_ref, :item_value, :access_key, :access_key_label, :content_editable, :spellcheck, :command_type, :label, :icon]), :string_map => ([:dataset]), :properties_collection => ([:properties]), :style => ([:style]), :int => ([:tab_index]), :html_element => ([:context_menu]), :function => ([:onabort, :onblur, :oncanplay, :oncanplaythrough, :onchange, :onclick, :oncontextmenu, :ondblclick, :ondrag, :ondragend, :ondragenter, :ondragleave, :ondragover, :ondragstart, :ondrop, :ondurationchange, :onemptied, :onended, :onerror, :onfocus, :onformchange, :onforminput, :oninput, :oninvalid, :onkeydown, :onkeypress, :onkeyup, :onload, :onloadeddata, :onloadedmetadata, :onloadstart, :onmousedown, :onmousemove, :onmouseout, :onmouseover, :onmouseup, :onmousewheel, :onpause, :onplay, :onplaying, :onprogress, :onratechange, :onreadystatechange, :onscroll, :onseeked, :onseeking, :onselect, :onshow, :onstalled, :onsubmit, :onsuspend, :ontimeupdate, :onvolumechange, :onwaiting]), :bool => ([:item_scope, :hidden, :draggable, :is_content_editable, :disabled, :checked]))
+    attributes(:properties_collection => ([:properties]), :int => ([:tab_index]), :string => ([:innerhtml, :outerhtml, :id, :title, :lang, :dir, :class_name, :item_type, :item_id, :item_ref, :item_value, :access_key, :access_key_label, :content_editable, :spellcheck, :command_type, :label, :icon]), :html_element => ([:context_menu]), :function => ([:onabort, :onblur, :oncanplay, :oncanplaythrough, :onchange, :onclick, :oncontextmenu, :ondblclick, :ondrag, :ondragend, :ondragenter, :ondragleave, :ondragover, :ondragstart, :ondrop, :ondurationchange, :onemptied, :onended, :onerror, :onfocus, :onformchange, :onforminput, :oninput, :oninvalid, :onkeydown, :onkeypress, :onkeyup, :onload, :onloadeddata, :onloadedmetadata, :onloadstart, :onmousedown, :onmousemove, :onmouseout, :onmouseover, :onmouseup, :onmousewheel, :onpause, :onplay, :onplaying, :onprogress, :onratechange, :onreadystatechange, :onscroll, :onseeked, :onseeking, :onselect, :onshow, :onstalled, :onsubmit, :onsuspend, :ontimeupdate, :onvolumechange, :onwaiting]), :style => ([:style]), :bool => ([:item_scope, :hidden, :draggable, :is_content_editable, :disabled, :checked]), :token_list => ([:class_list, :item_prop]), :string_map => ([:dataset]))
   end
 
   class Input < HTMLElement
@@ -17,17 +17,15 @@ module Watir
 
     collection_method(:inputs)
 
-    attributes(:string => ([:accept, :alt, :form_action, :form_enctype, :form_method, :form_target, :height, :max, :min, :name, :pattern, :placeholder, :src, :step, :type, :default_value, :value, :width, :validity, :validation_message]), :float => ([:value_as_number]), :date => ([:value_as_date]), :int => ([:max_length, :size, :selection_start, :selection_end]), :list => ([:files, :labels]), :html_element => ([:form, :list, :selected_option]), :bool => ([:autocomplete, :autofocus, :default_checked, :checked, :disabled, :form_no_validate, :indeterminate, :multiple, :read_only, :required, :will_validate]))
+    attributes(:int => ([:max_length, :size, :selection_start, :selection_end]), :string => ([:accept, :alt, :form_action, :form_enctype, :form_method, :form_target, :height, :max, :min, :name, :pattern, :placeholder, :src, :step, :type, :default_value, :value, :width, :validity, :validation_message]), :html_element => ([:form, :list, :selected_option]), :float => ([:value_as_number]), :date => ([:value_as_date]), :list => ([:files, :labels]), :bool => ([:autocomplete, :autofocus, :default_checked, :checked, :disabled, :form_no_validate, :indeterminate, :multiple, :read_only, :required, :will_validate]))
   end
 
-
-
   class DataList < HTMLElement
-    identifier(:tag_name => :data_list)
+    identifier(:tag_name => :datalist)
 
-    container_method(:data_list)
+    container_method(:datalist)
 
-    collection_method(:data_lists)
+    collection_method(:datalists)
 
     attributes(:html_collection => ([:options]))
   end
@@ -79,25 +77,25 @@ module Watir
 
     collection_method(:buttons)
 
-    attributes(:string => ([:form_action, :form_enctype, :form_method, :form_no_validate, :form_target, :name, :type, :value, :validity, :validation_message]), :list => ([:labels]), :html_element => ([:form]), :bool => ([:autofocus, :disabled, :will_validate]))
+    attributes(:string => ([:form_action, :form_enctype, :form_method, :form_no_validate, :form_target, :name, :type, :value, :validity, :validation_message]), :html_element => ([:form]), :list => ([:labels]), :bool => ([:autofocus, :disabled, :will_validate]))
   end
 
   class TableRow < HTMLElement
-    identifier(:tag_name => :table_row)
+    identifier(:tag_name => :tr)
 
-    container_method(:table_row)
+    container_method(:tr)
 
-    collection_method(:table_rows)
+    collection_method(:trs)
 
     attributes(:int => ([:row_index, :section_row_index]), :html_collection => ([:cells]))
   end
 
   class TableSection < HTMLElement
-    identifier(:tag_name => :table_section)
+    identifier(:tag_name => :tbody)
 
-    container_method(:table_section)
+    container_method(:tbody)
 
-    collection_method(:table_sections)
+    collection_method(:tbodys)
 
     attributes(:html_collection => ([:rows]))
   end
@@ -109,17 +107,17 @@ module Watir
 
     collection_method(:areas)
 
-    attributes(:token_list => ([:rel_list]), :string => ([:alt, :coords, :shape, :href, :target, :ping, :rel, :media, :hreflang, :type, :protocol, :host, :hostname, :port, :pathname, :search, :hash]))
+    attributes(:string => ([:alt, :coords, :shape, :href, :target, :ping, :rel, :media, :hreflang, :type, :protocol, :host, :hostname, :port, :pathname, :search, :hash]), :token_list => ([:rel_list]))
   end
 
   class Anchor < HTMLElement
-    identifier(:tag_name => :anchor)
+    identifier(:tag_name => :a)
 
-    container_method(:anchor)
+    container_method(:a)
 
-    collection_method(:anchors)
+    collection_method(:as)
 
-    attributes(:token_list => ([:rel_list]), :string => ([:href, :target, :ping, :rel, :media, :hreflang, :type, :protocol, :host, :hostname, :port, :pathname, :search, :hash]))
+    attributes(:string => ([:href, :target, :ping, :rel, :media, :hreflang, :type, :protocol, :host, :hostname, :port, :pathname, :search, :hash]), :token_list => ([:rel_list]))
   end
 
   class Pre < HTMLElement
@@ -143,21 +141,21 @@ module Watir
   end
 
   class OptGroup < HTMLElement
-    identifier(:tag_name => :opt_group)
+    identifier(:tag_name => :optgroup)
 
-    container_method(:opt_group)
+    container_method(:optgroup)
 
-    collection_method(:opt_groups)
+    collection_method(:optgroups)
 
     attributes(:string => ([:label]), :bool => ([:disabled]))
   end
 
   class TableCol < HTMLElement
-    identifier(:tag_name => :table_col)
+    identifier(:tag_name => :colgroup)
 
-    container_method(:table_col)
+    container_method(:colgroup)
 
-    collection_method(:table_cols)
+    collection_method(:colgroups)
 
     attributes(:int => ([:span]))
   end
@@ -172,17 +170,15 @@ module Watir
     attributes(:string => ([:src, :type, :width, :height]))
   end
 
-  # class Link < HTMLElement
-  #   identifier(:tag_name => :link)
-  #
-  #   container_method(:link)
-  #
-  #   collection_method(:links)
-  #
-  #   attributes(:token_list => ([:rel_list]), :string => ([:href, :rel, :media, :hreflang, :type, :sizes]), :bool => ([:disabled]))
-  # end
+  class Link < HTMLElement
+    identifier(:tag_name => :link)
 
+    container_method(:link)
 
+    collection_method(:links)
+
+    attributes(:string => ([:href, :rel, :media, :hreflang, :type, :sizes]), :bool => ([:disabled]), :token_list => ([:rel_list]))
+  end
 
   class Html < HTMLElement
     identifier(:tag_name => :html)
@@ -201,7 +197,7 @@ module Watir
 
     collection_method(:options)
 
-    attributes(:string => ([:label, :value, :text]), :int => ([:index]), :html_element => ([:form]), :bool => ([:disabled, :default_selected, :selected]))
+    attributes(:int => ([:index]), :string => ([:label, :value, :text]), :html_element => ([:form]), :bool => ([:disabled, :default_selected, :selected]))
   end
 
   class Legend < HTMLElement
@@ -221,7 +217,7 @@ module Watir
 
     collection_method(:forms)
 
-    attributes(:string => ([:accept_charset, :action, :enctype, :method, :name, :target]), :int => ([:length]), :html_collection => ([:elements]), :bool => ([:autocomplete, :no_validate]))
+    attributes(:int => ([:length]), :string => ([:accept_charset, :action, :enctype, :method, :name, :target]), :html_collection => ([:elements]), :bool => ([:autocomplete, :no_validate]))
   end
 
   class Param < HTMLElement
@@ -235,23 +231,23 @@ module Watir
   end
 
   class IFrame < HTMLElement
-    identifier(:tag_name => :i_frame)
+    identifier(:tag_name => :iframe)
 
-    container_method(:i_frame)
+    container_method(:iframe)
 
-    collection_method(:i_frames)
+    collection_method(:iframes)
 
     attributes(:string => ([:src, :name, :sandbox, :width, :height, :content_window]), :document => ([:content_document]), :bool => ([:seamless]))
   end
 
   class Image < HTMLElement
-    identifier(:tag_name => :image)
+    identifier(:tag_name => :img)
 
-    container_method(:image)
+    container_method(:img)
 
-    collection_method(:images)
+    collection_method(:imgs)
 
-    attributes(:string => ([:alt, :src, :use_map]), :int => ([:width, :height, :natural_width, :natural_height]), :bool => ([:is_map, :complete]))
+    attributes(:int => ([:width, :height, :natural_width, :natural_height]), :string => ([:alt, :src, :use_map]), :bool => ([:is_map, :complete]))
   end
 
   class Progress < HTMLElement
@@ -285,11 +281,11 @@ module Watir
   end
 
   class Quote < HTMLElement
-    identifier(:tag_name => :quote)
+    identifier(:tag_name => :blockquote)
 
-    container_method(:quote)
+    container_method(:blockquote)
 
-    collection_method(:quotes)
+    collection_method(:blockquotes)
 
     attributes(:string => ([:cite]))
   end
@@ -304,8 +300,6 @@ module Watir
     attributes(:string => ([:media, :type]), :bool => ([:disabled, :scoped]))
   end
 
-
-
   class Output < HTMLElement
     identifier(:tag_name => :output)
 
@@ -317,11 +311,11 @@ module Watir
   end
 
   class TableCaption < HTMLElement
-    identifier(:tag_name => :table_caption)
+    identifier(:tag_name => :caption)
 
-    container_method(:table_caption)
+    container_method(:caption)
 
-    collection_method(:table_captions)
+    collection_method(:captions)
 
     # do nothing
   end
@@ -337,11 +331,11 @@ module Watir
   end
 
   class Paragraph < HTMLElement
-    identifier(:tag_name => :paragraph)
+    identifier(:tag_name => :p)
 
-    container_method(:paragraph)
+    container_method(:p)
 
-    collection_method(:paragraphs)
+    collection_method(:ps)
 
     # do nothing
   end
@@ -387,16 +381,14 @@ module Watir
   end
 
   class TextArea < HTMLElement
-    identifier(:tag_name => :text_area)
+    identifier(:tag_name => :textarea)
 
-    container_method(:text_area)
+    container_method(:textarea)
 
-    collection_method(:text_areas)
+    collection_method(:textareas)
 
-    attributes(:string => ([:name, :placeholder, :wrap, :type, :default_value, :value, :validity, :validation_message]), :list => ([:labels]), :int => ([:cols, :max_length, :rows, :text_length, :selection_start, :selection_end]), :html_element => ([:form]), :bool => ([:autofocus, :disabled, :read_only, :required, :will_validate]))
+    attributes(:string => ([:name, :placeholder, :wrap, :type, :default_value, :value, :validity, :validation_message]), :int => ([:cols, :max_length, :rows, :text_length, :selection_start, :selection_end]), :html_element => ([:form]), :list => ([:labels]), :bool => ([:autofocus, :disabled, :read_only, :required, :will_validate]))
   end
-
-
 
   class Canvas < HTMLElement
     identifier(:tag_name => :canvas)
@@ -439,11 +431,11 @@ module Watir
   end
 
   class Heading < HTMLElement
-    identifier(:tag_name => :heading)
+    identifier(:tag_name => :h1)
 
-    container_method(:heading)
+    container_method(:h1)
 
-    collection_method(:headings)
+    collection_method(:h1s)
 
     # do nothing
   end
@@ -475,7 +467,7 @@ module Watir
 
     collection_method(:selects)
 
-    attributes(:string => ([:name, :type, :value, :validity, :validation_message]), :list => ([:labels]), :int => ([:size, :length, :selected_index]), :html_element => ([:form]), :html_collection => ([:options, :selected_options]), :bool => ([:autofocus, :disabled, :multiple, :will_validate]))
+    attributes(:int => ([:size, :length, :selected_index]), :string => ([:name, :type, :value, :validity, :validation_message]), :html_element => ([:form]), :html_collection => ([:options, :selected_options]), :list => ([:labels]), :bool => ([:autofocus, :disabled, :multiple, :will_validate]))
   end
 
   class Label < HTMLElement
@@ -495,15 +487,15 @@ module Watir
 
     collection_method(:keygens)
 
-    attributes(:string => ([:challenge, :keytype, :name, :type, :validity, :validation_message]), :list => ([:labels]), :html_element => ([:form]), :bool => ([:autofocus, :disabled, :will_validate]))
+    attributes(:string => ([:challenge, :keytype, :name, :type, :validity, :validation_message]), :html_element => ([:form]), :list => ([:labels]), :bool => ([:autofocus, :disabled, :will_validate]))
   end
 
   class FieldSet < HTMLElement
-    identifier(:tag_name => :field_set)
+    identifier(:tag_name => :fieldset)
 
-    container_method(:field_set)
+    container_method(:fieldset)
 
-    collection_method(:field_sets)
+    collection_method(:fieldsets)
 
     attributes(:string => ([:name, :type, :validity, :validation_message]), :html_element => ([:form]), :html_collection => ([:elements]), :bool => ([:disabled, :will_validate]))
   end
@@ -529,11 +521,11 @@ module Watir
   end
 
   class OList < HTMLElement
-    identifier(:tag_name => :o_list)
+    identifier(:tag_name => :ol)
 
-    container_method(:o_list)
+    container_method(:ol)
 
-    collection_method(:o_lists)
+    collection_method(:ols)
 
     attributes(:int => ([:start]), :bool => ([:reversed]))
   end
@@ -541,8 +533,6 @@ end# from extras:
 
 # Autogenerated from the HTML5 specification. Edits may be lost.
 module Watir
-
-
   class Dd < HTMLElement
     identifier(:tag_name => :dd)
 
@@ -572,8 +562,6 @@ module Watir
 
     # do nothing
   end
-
-
 
   class Sub < HTMLElement
     identifier(:tag_name => :sub)
@@ -665,8 +653,6 @@ module Watir
     # do nothing
   end
 
-
-
   class B < HTMLElement
     identifier(:tag_name => :b)
 
@@ -706,8 +692,6 @@ module Watir
 
     # do nothing
   end
-
-
 
   class Strong < HTMLElement
     identifier(:tag_name => :strong)
@@ -779,8 +763,6 @@ module Watir
     # do nothing
   end
 
-
-
   class I < HTMLElement
     identifier(:tag_name => :i)
 
@@ -850,8 +832,6 @@ module Watir
 
     # do nothing
   end
-
-
 
   class Em < HTMLElement
     identifier(:tag_name => :em)
