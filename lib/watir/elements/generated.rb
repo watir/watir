@@ -170,15 +170,15 @@ module Watir
     attributes(:string => ([:src, :type, :width, :height]))
   end
 
-  class Link < HTMLElement
-    identifier(:tag_name => :link)
-
-    container_method(:link)
-
-    collection_method(:links)
-
-    attributes(:string => ([:href, :rel, :media, :hreflang, :type, :sizes]), :bool => ([:disabled]), :token_list => ([:rel_list]))
-  end
+  # class Link < HTMLElement
+  #   identifier(:tag_name => :link)
+  #
+  #   container_method(:link)
+  #
+  #   collection_method(:links)
+  #
+  #   attributes(:string => ([:href, :rel, :media, :hreflang, :type, :sizes]), :bool => ([:disabled]), :token_list => ([:rel_list]))
+  # end
 
   class Html < HTMLElement
     identifier(:tag_name => :html)

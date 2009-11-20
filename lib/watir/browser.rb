@@ -18,10 +18,12 @@ module Watir
       @error_checkers = []
     end
 
-    def goto(url)
-      # TODO: fix url
-      @driver.navigate.to url
+    def goto(uri)
+      uri = "http://#{uri}" unless url.include?("://")
+
+      @driver.navigate.to uri
       run_checkers
+
       url
     end
 
