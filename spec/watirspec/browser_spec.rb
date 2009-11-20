@@ -88,11 +88,15 @@ describe "Browser" do
     end
   end
 
-  describe ".start" do
-    it "goes to the given URL and return an instance of itself" do
-      browser = Browser.start(WatirSpec.files + "/non_control_elements.html")
-      browser.should be_instance_of(Browser)
-      browser.title.should == "Non-control elements"
+  not_compliant_on :watir2 do
+    # just hangs with watir2 + IE
+    describe ".start" do
+      it "goes to the given URL and return an instance of itself" do
+        browser = Browser.start("#{WatirSpec.files}/non_control_elements.html")
+        browser.should be_instance_of(Browser)
+        browser.title.should == "Non-control elements"
+        browser.quit
+      end
     end
   end
 
@@ -234,14 +238,17 @@ describe "Browser" do
       lambda { browser.add_checker }.should raise_error(ArgumentError)
     end
 
-    it "runs the given proc on each page load" do
-      output = ''
-      proc = Proc.new { |browser| output << browser.text }
+    not_compliant_on :watir2 do
+      # if on IE, this slows the rest of the suite way down for some reason
+      it "runs the given proc on each page load" do
+        output = ''
+        proc = Proc.new { |browser| output << browser.text }
 
-      browser.add_checker(proc)
-      browser.goto(WatirSpec.files + "/non_control_elements.html")
+        browser.add_checker(proc)
+        browser.goto(WatirSpec.files + "/non_control_elements.html")
 
-      output.should include('Dubito, ergo cogito, ergo sum')
+        output.should include('Dubito, ergo cogito, ergo sum')
+      end
     end
   end
 
