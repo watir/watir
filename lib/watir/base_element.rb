@@ -102,6 +102,11 @@ module Watir
       @element.text
     end
 
+    def tag_name
+      assert_exists
+      @element.tag_name
+    end
+
     def click
       assert_exists
       assert_enabled
@@ -146,12 +151,12 @@ module Watir
 
     def assert_exists
       @element = locate
-      
+
       unless @element
         raise UnknownObjectException, "Unable to locate element, using #{@selector.inspect}"
       end
     end
-    
+
     def locate
       ElementLocator.new(@parent.driver, @selector).locate
     rescue WebDriver::Error::WebDriverError => wde

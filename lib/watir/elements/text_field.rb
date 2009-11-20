@@ -4,5 +4,10 @@ module Watir
 
     container_method  :text_field
     collection_method :text_fields
+
+    def set(*args)
+      assert_exists
+      @element.send_keys(*args)
+    end
   end
 end

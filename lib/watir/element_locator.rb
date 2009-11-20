@@ -1,6 +1,7 @@
 module Watir
   class ElementLocator
     include Watir::Exceptions
+    include Selenium
 
     WD_FINDERS =  [ :class, :class_name, :id, :link_text, :link,
                     :partial_link_text, :name, :tag_name, :xpath ]
