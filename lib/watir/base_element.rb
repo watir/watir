@@ -116,7 +116,7 @@ module Watir
 
     def value
       assert_exists
-      @element.value
+      @element.value rescue "" # TODO: specific exception
     end
 
     def attribute_value(attribute_name)
