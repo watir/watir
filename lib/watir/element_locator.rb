@@ -76,7 +76,13 @@ module Watir
       if xpath
         @driver.find_element(:xpath, xpath)
       else
-        raise NotImplementedError, 'regexp locator support'
+        # FIXME: optimize
+        if @selector.has_key?(:index)
+          idx = @selector.delete(:index)
+          all_elements.select { |e| matches_selector(@selector, e) }[idx]
+        else
+          all_elements.find { |e| matches_selector(@selector, e) }
+        end
       end
     end
 
@@ -95,9 +101,16 @@ module Watir
       case how
       when :text
         element.text
-      # others?
+      when :tag_name
+        element.tag_name
       else
         element.attribute(how) rescue "" # TODO: rescue specific exception
+      end
+    end
+
+    def matches_selector(selector, element)
+      selector.all? do |how, what|
+        what === fetch_value(how, element)
       end
     end
 
