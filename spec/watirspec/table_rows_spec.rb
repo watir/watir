@@ -35,14 +35,12 @@ describe "TableRows" do
       # rows inside a table
       inner_table = browser.table(:id, 'inner')
       inner_table.rows.each_with_index do |r, index|
-        r.name.should == inner_table.row(:index, index).name
         r.id.should == inner_table.row(:index, index).id
         r.value.should == inner_table.row(:index, index).value
       end
       # rows inside a table (should not include rows inside a table inside a table)
       outer_table = browser.table(:id, 'outer')
       outer_table.rows.each_with_index do |r, index|
-        r.name.should == outer_table.row(:index, index).name
         r.id.should == outer_table.row(:index, index).id
         r.value.should == outer_table.row(:index, index).value
       end

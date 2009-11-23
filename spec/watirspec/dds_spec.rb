@@ -22,7 +22,6 @@ describe "Dds" do
   describe "#each" do
     it "iterates through dds correctly" do
       browser.dds.each_with_index do |d, index|
-        d.name.should == browser.dd(:index, index).name
         d.id.should == browser.dd(:index, index).id
         d.class_name.should == browser.dd(:index, index).class_name
       end

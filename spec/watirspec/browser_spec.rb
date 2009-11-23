@@ -75,19 +75,6 @@ describe "Browser" do
     end
   end
 
-  describe "#document" do
-    it "returns the underlying object" do
-      browser.goto(WatirSpec.files + "/non_control_elements.html")
-
-      case browser.class.name
-      when "Celerity::Browser"
-        browser.document.should be_instance_of(Java::ComGargoylesoftwareHtmlunitHtml::HtmlHtml)
-      else
-        browser.document.should_not be_nil
-      end
-    end
-  end
-
   not_compliant_on :watir2 do
     # just hangs with watir2 + IE
     describe ".start" do

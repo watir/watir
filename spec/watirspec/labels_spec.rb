@@ -22,7 +22,6 @@ describe "Labels" do
   describe "#each" do
     it "iterates through labels correctly" do
       browser.labels.each_with_index do |l, index|
-        l.name.should == browser.label(:index, index).name
         l.id.should == browser.label(:index, index).id
         l.value.should == browser.label(:index, index).value
       end

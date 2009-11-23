@@ -169,7 +169,6 @@ describe "Option" do
       browser.select_list(:name, "new_user_country").option(:text, 'Sweden').should respond_to(:class_name)
       browser.select_list(:name, "new_user_country").option(:text, 'Sweden').should respond_to(:id)
       browser.select_list(:name, "new_user_country").option(:text, 'Sweden').should respond_to(:text)
-      browser.select_list(:name, "new_user_country").option(:text, 'Sweden').should respond_to(:name)
     end
   end
 

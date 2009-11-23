@@ -12,8 +12,6 @@ describe "Link" do
     it "returns true if the link exists" do
       browser.link(:id, 'link_2').should exist
       browser.link(:id, /link_2/).should exist
-      browser.link(:name, 'bad_attribute').should exist
-      browser.link(:name, /bad_attribute/).should exist
       browser.link(:title, "link_title_2").should exist
       browser.link(:title, /link_title_2/).should exist
       browser.link(:text, "Link 2").should exist
@@ -31,8 +29,6 @@ describe "Link" do
     it "returns false if the link doesn't exist" do
       browser.link(:id, 'no_such_id').should_not exist
       browser.link(:id, /no_such_id/).should_not exist
-      browser.link(:name, 'no_such_name').should_not exist
-      browser.link(:name, /no_such_name/).should_not exist
       browser.link(:title, "no_such_title").should_not exist
       browser.link(:title, /no_such_title/).should_not exist
       browser.link(:text, "no_such_text").should_not exist
@@ -103,20 +99,6 @@ describe "Link" do
     end
   end
 
-  describe "#name" do
-    it "returns the name attribute if the link exists" do
-      browser.link(:index, 2).name.should == "bad_attribute"
-    end
-
-    it "returns an empty string if the link exists and the attribute doesn't" do
-      browser.link(:index, 0).name.should == ''
-    end
-
-    it "raises an UnknownObjectException if the link doesn't exist" do
-      lambda { browser.link(:index, 1337).name }.should raise_error(UnknownObjectException)
-    end
-  end
-
   describe "#text" do
     it "returns the link text" do
       browser.link(:index, 1).text.should == "Link 2"
@@ -151,7 +133,6 @@ describe "Link" do
       browser.link(:index, 0).should respond_to(:href)
       browser.link(:index, 0).should respond_to(:url)
       browser.link(:index, 0).should respond_to(:id)
-      browser.link(:index, 0).should respond_to(:name)
       browser.link(:index, 0).should respond_to(:style)
       browser.link(:index, 0).should respond_to(:text)
       browser.link(:index, 0).should respond_to(:title)

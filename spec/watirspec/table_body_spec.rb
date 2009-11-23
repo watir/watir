@@ -12,8 +12,6 @@ describe "TableBody" do
       it "returns true if the table body exists (page context)" do
         browser.body(:id, 'first').should exist
         browser.body(:id, /first/).should exist
-        browser.body(:name, 'second').should exist
-        browser.body(:name, /second/).should exist
         browser.body(:index, 0).should exist
         browser.body(:xpath, "//tbody[@id='first']").should exist
       end
@@ -22,8 +20,6 @@ describe "TableBody" do
     it "returns true if the table body exists (table context)" do
       browser.table(:index, 0).body(:id, 'first').should exist
       browser.table(:index, 0).body(:id, /first/).should exist
-      browser.table(:index, 0).body(:name, 'second').should exist
-      browser.table(:index, 0).body(:name, /second/).should exist
       browser.table(:index, 0).body(:index, 1).should exist
       browser.table(:index, 0).body(:xpath, "//tbody[@id='first']").should exist
     end
@@ -32,8 +28,6 @@ describe "TableBody" do
       it "returns false if the table body doesn't exist (page context)" do
         browser.body(:id, 'no_such_id').should_not exist
         browser.body(:id, /no_such_id/).should_not exist
-        browser.body(:name, 'no_such_name').should_not exist
-        browser.body(:name, /no_such_name/).should_not exist
         browser.body(:index, 1337).should_not exist
         browser.body(:xpath, "//tbody[@id='no_such_id']").should_not exist
       end
@@ -42,8 +36,6 @@ describe "TableBody" do
     it "returns false if the table body doesn't exist (table context)" do
       browser.table(:index, 0).body(:id, 'no_such_id').should_not exist
       browser.table(:index, 0).body(:id, /no_such_id/).should_not exist
-      browser.table(:index, 0).body(:name, 'no_such_name').should_not exist
-      browser.table(:index, 0).body(:name, /no_such_name/).should_not exist
       browser.table(:index, 0).body(:index, 1337).should_not exist
       browser.table(:index, 0).body(:xpath, "//tbody[@id='no_such_id']").should_not exist
     end
@@ -67,13 +59,11 @@ describe "TableBody" do
     bug "WTR-357", :watir do
       it "returns the correct number of table bodies (page context)" do
         browser.body(:id, 'first').length.should == 3
-        browser.body(:name, 'second').length.should == 3
       end
     end
 
     it "returns the correct number of table bodies (table context)" do
       browser.table(:index, 0).body(:id, 'first').length.should == 3
-      browser.table(:index, 0).body(:name, 'second').length.should == 3
     end
   end
 

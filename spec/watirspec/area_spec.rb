@@ -12,8 +12,6 @@ describe "Area" do
     it "returns true if the area exists" do
       browser.area(:id, "NCE").should exist
       browser.area(:id, /NCE/).should exist
-      browser.area(:name, "NCE").should exist
-      browser.area(:name, /NCE/).should exist
       browser.area(:title, "Tables").should exist
       browser.area(:title, /Tables/).should exist
 
@@ -31,8 +29,6 @@ describe "Area" do
     it "returns false if the area doesn't exist" do
       browser.area(:id, "no_such_id").should_not exist
       browser.area(:id, /no_such_id/).should_not exist
-      browser.area(:name, "no_such_id").should_not exist
-      browser.area(:name, /no_such_id/).should_not exist
       browser.area(:title, "no_such_title").should_not exist
       browser.area(:title, /no_such_title/).should_not exist
 
@@ -73,25 +69,9 @@ describe "Area" do
 
   end
 
-  describe "#name" do
-    it "returns the name attribute" do
-      browser.area(:index, 0).name.should == "NCE"
-    end
-
-    it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.area(:index, 2).name.should == ''
-    end
-
-    it "raises UnknownObjectException if the area doesn't exist" do
-      lambda { browser.area(:id, "no_such_id").name }.should raise_error(UnknownObjectException)
-      lambda { browser.area(:index, 1337).name }.should raise_error(UnknownObjectException)
-    end
-  end
-
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
       browser.area(:index, 0).should respond_to(:id)
-      browser.area(:index, 0).should respond_to(:name)
     end
   end
 

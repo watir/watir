@@ -30,7 +30,6 @@ bug "WTR-357", :watir do
     describe "#each" do
       it "iterates through table theads correctly (page context)" do
         browser.theads.each_with_index do |thead, index|
-          thead.name.should == browser.thead(:index, index).name
           thead.id.should == browser.thead(:index, index).id
         end
       end
@@ -38,7 +37,6 @@ bug "WTR-357", :watir do
       it "iterates through table theads correctly (table context)" do
         table = browser.table(:index, 0)
         table.theads.each_with_index do |thead, index|
-          thead.name.should == table.thead(:index, index).name
           thead.id.should == table.thead(:index, index).id
         end
       end

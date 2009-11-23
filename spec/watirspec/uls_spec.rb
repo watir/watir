@@ -23,7 +23,6 @@ bug "WTR-332", :watir do
     describe "#each" do
       it "iterates through uls correctly" do
         browser.uls.each_with_index do |ul, index|
-          ul.name.should == browser.ul(:index, index).name
           ul.id.should == browser.ul(:index, index).id
           ul.value.should == browser.ul(:index, index).value
         end

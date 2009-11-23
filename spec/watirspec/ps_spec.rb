@@ -22,7 +22,6 @@ describe "Ps" do
   describe "#each" do
     it "iterates through ps correctly" do
       browser.ps.each_with_index do |p, index|
-        p.name.should == browser.p(:index, index).name
         p.id.should == browser.p(:index, index).id
         p.value.should == browser.p(:index, index).value
       end

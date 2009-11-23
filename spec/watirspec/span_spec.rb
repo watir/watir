@@ -70,21 +70,6 @@ describe "Span" do
     end
   end
 
-  describe "#name" do
-    it "returns the name attribute" do
-      browser.span(:index, 1).name.should == "invalid_attribute"
-    end
-
-    it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.span(:index, 2).name.should == ''
-    end
-
-    it "raises UnknownObjectException if the span doesn't exist" do
-      lambda { browser.span(:id, "no_such_id").name }.should raise_error(UnknownObjectException)
-      lambda { browser.span(:index, 1337).name }.should raise_error(UnknownObjectException)
-    end
-  end
-
   describe "#title" do
     it "returns the title attribute" do
       browser.span(:index, 0).title.should == 'Lorem ipsum'

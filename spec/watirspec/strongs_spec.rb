@@ -23,7 +23,6 @@ describe "Strongs" do
     it "iterates through divs correctly" do
       browser.strongs.each_with_index do |s, index|
         strong = browser.strong(:index, index)
-        s.name.should       == strong.name
         s.id.should         == strong.id
         s.class_name.should == strong.class_name
       end

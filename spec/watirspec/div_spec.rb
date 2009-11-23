@@ -89,22 +89,6 @@ describe "Div" do
     end
   end
 
-  describe "#name" do
-    it "returns the name attribute if the element exists" do
-      browser.div(:id, 'promo').name.should == "invalid_attribute"
-    end
-
-    it "returns an empty string if the element exists but the attribute doesn't" do
-      browser.div(:index, 0).name.should == ""
-    end
-
-    it "raises UnknownObjectException if the element does not exist" do
-      lambda {browser.div(:id, "no_such_id").name }.should raise_error(UnknownObjectException)
-      lambda {browser.div(:title, "no_such_title").name }.should raise_error(UnknownObjectException)
-      lambda {browser.div(:index, 1337).name }.should raise_error(UnknownObjectException)
-    end
-  end
-
   describe "#style" do
     not_compliant_on :watir do
       it "returns the style attribute if the element exists" do
@@ -175,7 +159,6 @@ describe "Div" do
     it "returns true for all attribute methods" do
       browser.div(:index, 0).should respond_to(:class_name)
       browser.div(:index, 0).should respond_to(:id)
-      browser.div(:index, 0).should respond_to(:name)
       browser.div(:index, 0).should respond_to(:style)
       browser.div(:index, 0).should respond_to(:text)
       browser.div(:index, 0).should respond_to(:value)

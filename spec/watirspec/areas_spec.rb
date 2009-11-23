@@ -22,7 +22,6 @@ describe "Areas" do
   describe "#each" do
     it "iterates through areas correctly" do
       browser.areas.each_with_index do |a, index|
-        a.name.should == browser.area(:index, index).name
         a.id.should == browser.area(:index, index).id
         a.value.should == browser.area(:index, index).value
       end

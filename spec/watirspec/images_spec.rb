@@ -22,7 +22,6 @@ describe "Images" do
   describe "#each" do
     it "iterates through images correctly" do
       browser.images.each_with_index do |c, index|
-        c.name.should == browser.image(:index, index).name
         c.id.should == browser.image(:index, index).id
         c.value.should == browser.image(:index, index).value
       end

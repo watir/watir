@@ -22,7 +22,6 @@ describe "Lis" do
   describe "#each" do
     it "iterates through lis correctly" do
       browser.lis.each_with_index do |l, index|
-        l.name.should == browser.li(:index, index).name
         l.id.should == browser.li(:index, index).id
         l.value.should == browser.li(:index, index).value
       end

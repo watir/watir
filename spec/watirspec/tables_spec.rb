@@ -24,7 +24,6 @@ describe "Tables" do
   describe "#each" do
     it "iterates through tables correctly" do
       browser.tables.each_with_index do |t, index|
-        t.name.should == browser.table(:index, index).name
         t.id.should == browser.table(:index, index).id
         t.value.should == browser.table(:index, index).value
       end

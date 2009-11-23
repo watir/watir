@@ -20,19 +20,16 @@ describe "TableBodies" do
   describe "#[]" do
     it "returns the row at the given index (page context)" do
       browser.bodies[0].id.should == "first"
-      browser.bodies[1].name.should == "second"
     end
 
     it "returns the row at the given index (table context)" do
       browser.table(:index, 0).bodies[0].id.should == "first"
-      browser.table(:index, 0).bodies[1].name.should == "second"
     end
   end
 
   describe "#each" do
       it "iterates through table bodies correctly (table context)" do
         browser.bodies.each_with_index do |body, index|
-          body.name.should == browser.tbody(:index, index).name
           body.id.should == browser.tbody(:index, index).id
         end
       end
@@ -40,7 +37,6 @@ describe "TableBodies" do
       it "iterates through table bodies correctly (table context)" do
         table = browser.table(:index, 0)
         table.bodies.each_with_index do |body, index|
-          body.name.should == table.body(:index, index).name
           body.id.should == table.body(:index, index).id
         end
       end

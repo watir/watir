@@ -70,21 +70,6 @@ describe "P" do
     end
   end
 
-  describe "#name" do
-    it "returns the name attribute" do
-      browser.p(:index, 1).name.should == "invalid_attribute"
-    end
-
-    it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.p(:index, 2).name.should == ''
-    end
-
-    it "raises UnknownObjectException if the p doesn't exist" do
-      lambda { browser.p(:id, "no_such_id").name }.should raise_error(UnknownObjectException)
-      lambda { browser.p(:index, 1337).name }.should raise_error(UnknownObjectException)
-    end
-  end
-
   describe "#title" do
     it "returns the title attribute" do
       browser.p(:index, 0).title.should == 'Lorem ipsum'
@@ -134,7 +119,6 @@ describe "P" do
     it "returns true for all attribute methods" do
       browser.p(:index, 0).should respond_to(:class_name)
       browser.p(:index, 0).should respond_to(:id)
-      browser.p(:index, 0).should respond_to(:name)
       browser.p(:index, 0).should respond_to(:title)
       browser.p(:index, 0).should respond_to(:text)
       browser.p(:index, 0).should respond_to(:value)

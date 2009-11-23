@@ -12,8 +12,6 @@ describe "Image" do
     it "returns true when the image exists" do
       browser.image(:id, 'square').should exist
       browser.image(:id, /square/).should exist
-      browser.image(:name, 'circle').should exist
-      browser.image(:name, /circle/).should exist
 
       bug "WTR-347", :watir do
         browser.image(:src, 'images/circle.jpg').should exist
@@ -28,8 +26,6 @@ describe "Image" do
     it "returns false when the image doesn't exist" do
       browser.image(:id, 'no_such_id').should_not exist
       browser.image(:id, /no_such_id/).should_not exist
-      browser.image(:name, 'no_such_name').should_not exist
-      browser.image(:name, /no_such_name/).should_not exist
       browser.image(:src, 'no_such_src').should_not exist
       browser.image(:src, /no_such_src/).should_not exist
       browser.image(:alt, 'no_such_alt').should_not exist
@@ -50,8 +46,8 @@ describe "Image" do
   # Attribute methods
   describe "#alt" do
     it "returns the alt attribute of the image if the image exists" do
-      browser.image(:name, 'square').alt.should == "square"
-      browser.image(:name, 'circle').alt.should == 'circle'
+      browser.image(:id, 'square').alt.should == "square"
+      browser.image(:title, 'circle').alt.should == 'circle'
     end
 
     it "returns an empty string if the image exists and the attribute doesn't" do
@@ -77,23 +73,9 @@ describe "Image" do
     end
   end
 
-  describe "#name" do
-    it "returns the name attribute of the image if the image exists" do
-      browser.image(:name, 'square').name.should == 'square'
-    end
-
-    it "returns an empty string if the image exists and the attribute doesn't" do
-      browser.image(:index, 0).name.should == ""
-    end
-
-    it "raises UnknownObjectException if the image doesn't exist" do
-      lambda { browser.image(:index, 1337).name }.should raise_error(UnknownObjectException)
-    end
-  end
-
   describe "#src" do
     it "returns the src attribute of the image if the image exists" do
-      browser.image(:name, 'square').src.should match(/square\.jpg/i)
+      browser.image(:id, 'square').src.should match(/square\.jpg/i)
     end
 
     it "returns an empty string if the image exists and the attribute doesn't" do
@@ -123,7 +105,6 @@ describe "Image" do
     it "returns true for all attribute methods" do
       browser.image(:index, 0).should respond_to(:class_name)
       browser.image(:index, 0).should respond_to(:id)
-      browser.image(:index, 0).should respond_to(:name)
       browser.image(:index, 0).should respond_to(:style)
       browser.image(:index, 0).should respond_to(:text)
       browser.image(:index, 0).should respond_to(:value)

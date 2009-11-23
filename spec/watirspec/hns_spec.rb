@@ -25,7 +25,6 @@ bug "WTR-345", :watir do
         lengths = (1..6).collect do |i|
           collection = browser.send(:"h#{i}s")
           collection.each_with_index do |h, index|
-            h.name.should == browser.send(:"h#{i}", :index, index).name
             h.id.should == browser.send(:"h#{i}", :index, index).id
             h.value.should == browser.send(:"h#{i}", :index, index).value
           end

@@ -76,7 +76,6 @@ bug "WTR-357", :watir do
       it "iterates through rows correctly" do
         theader = browser.table(:index, 0).thead(:id, 'tax_headers')
         theader.each_with_index do |r, index|
-          r.name.should == browser.row(:index, index).name
           r.id.should == browser.row(:index, index).id
           r.value.should == browser.row(:index, index).value
         end

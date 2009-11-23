@@ -23,7 +23,6 @@ not_compliant_on :watir do
     describe "#each" do
       it "iterates through frames correctly" do
         browser.frames.each_with_index do |f, index|
-          f.name.should == browser.frame(:index, index).name
           f.id.should ==  browser.frame(:index, index).id
           f.value.should == browser.frame(:index, index).value
         end

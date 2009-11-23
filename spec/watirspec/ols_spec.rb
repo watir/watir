@@ -21,10 +21,9 @@ describe "Ols" do
 
   describe "#each" do
     it "iterates through ols correctly" do
-      browser.ols.each_with_index do |ul, index|
-        ul.name.should == browser.ol(:index, index).name
-        ul.id.should == browser.ol(:index, index).id
-        ul.value.should == browser.ol(:index, index).value
+      browser.ols.each_with_index do |ol, index|
+        ol.id.should == browser.ol(:index, index).id
+        ol.value.should == browser.ol(:index, index).value
       end
     end
   end

@@ -31,7 +31,6 @@ bug "WTR-358", :watir do
     describe "#each" do
       it "iterates through table tfoots correctly (page context)" do
         browser.tfoots.each_with_index do |tfoot, index|
-          tfoot.name.should == browser.tfoot(:index, index).name
           tfoot.id.should == browser.tfoot(:index, index).id
         end
       end
@@ -39,7 +38,6 @@ bug "WTR-358", :watir do
       it "iterates through table tfoots correctly (table context)" do
         table = browser.table(:index, 0)
         table.tfoots.each_with_index do |tfoot, index|
-          tfoot.name.should == table.tfoot(:index, index).name
           tfoot.id.should == table.tfoot(:index, index).id
         end
       end
