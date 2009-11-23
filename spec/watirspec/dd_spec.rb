@@ -115,7 +115,7 @@ describe "Dd" do
   describe "#html" do
     it "returns the HTML of the element" do
       html = browser.dd(:id, 'someone').html
-      html.should match(%r"John Doe"m)
+      html.should =~ /John Doe/m
       html.should_not include('</body>')
     end
   end
