@@ -193,7 +193,7 @@ describe "Browser" do
       it "will not find elements that doesn't exist" do
         e = browser.element_by_xpath("//input[@type='foobar']")
         e.should_not exist
-        lambda { e.set('foo') }.should raise_error(UnknownObjectException)
+        lambda { e.type('foo') }.should raise_error(UnknownObjectException)
       end
     end
   end
@@ -207,7 +207,7 @@ describe "Browser" do
       it "returns an Array of matching elements" do
         objects = browser.elements_by_xpath("//*[@type='text']")
         objects.should be_kind_of(Array)
-        objects.size.should == 6
+        objects.size.should == 5
       end
     end
 
