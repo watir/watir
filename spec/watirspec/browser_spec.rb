@@ -193,7 +193,7 @@ describe "Browser" do
       it "will not find elements that doesn't exist" do
         e = browser.element_by_xpath("//input[@type='foobar']")
         e.should_not exist
-        lambda { e.type('foo') }.should raise_error(UnknownObjectException)
+        lambda { e.text }.should raise_error(UnknownObjectException)
       end
     end
   end
