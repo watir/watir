@@ -105,7 +105,7 @@ class WatirVisitor < WebIDL::RubySexpVisitor
   end
 
   def literal_hash(hash)
-    [:hash] + hash.map { |k, v| [[:lit, k.to_sym], [:lit, v.to_sym]] }.flatten(1)
+    [:hash] + hash.map { |k, v| [[:lit, k.to_sym], [:lit, v]] }.flatten(1)
   end
 
   def literal_array(arr)

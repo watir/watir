@@ -17,9 +17,13 @@ module Watir
       @driver         = Selenium::WebDriver.for browser.to_sym
       @error_checkers = []
     end
-
+    
+    def inspect
+      '#<%s:0x%x url=%s title=%s>' % [self.class, hash*2, url.inspect, title.inspect]
+    end
+    
     def goto(uri)
-      uri = "http://#{uri}" unless url.include?("://")
+      uri = "http://#{uri}" unless uri.include?("://")
 
       @driver.navigate.to uri
       run_checkers
@@ -61,6 +65,14 @@ module Watir
 
     def refresh
       execute_script 'location.reload(true)'
+    end
+    
+    def exist?
+      true
+    end
+    
+    def status
+      execute_script "return window.status;"
     end
 
     def execute_script(script, *args)

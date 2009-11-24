@@ -24,7 +24,7 @@ module Watir
     end
 
     def find_first_by(how, what)
-      check_type what
+      check_type how, what
 
       if WD_FINDERS.include?(how)
         wd_find_first_by(how, what)
@@ -34,7 +34,7 @@ module Watir
     end
 
     def find_all_by(how, what)
-      check_type what
+      check_type how, what
 
       if WD_FINDERS.include?(how)
         wd_find_all_by(how, what)
@@ -61,24 +61,20 @@ module Watir
 
     def find_by_multiple
       @selector.each do |how, what|
-        case how
-        when :tag_name
-          raise TypeError, "expected Symbol, got #{what.class}" unless what.kind_of?(Symbol)
-        when :index
-          raise TypeError, "expected Fixnum, got #{what.class}" unless what.kind_of?(Fixnum)
-        else
-          check_type what
-        end
+        check_type(how, what)
       end
 
-
+      idx   = @selector.delete(:index)
       xpath = @selector[:xpath] || XPathBuilder.build_from(@selector)
+      
       if xpath
-        @driver.find_element(:xpath, xpath)
+        if idx
+          @driver.find_elements(:xpath, xpath)[idx]
+        else
+          @driver.find_element(:xpath, xpath)
+        end
       else
-        # FIXME: optimize
-        if @selector.has_key?(:index)
-          idx = @selector.delete(:index)
+        if idx
           all_elements.select { |e| matches_selector(@selector, e) }[idx]
         else
           all_elements.find { |e| matches_selector(@selector, e) }
@@ -87,14 +83,19 @@ module Watir
     end
 
 
-    def check_type(what)
-      unless [String, Regexp].any? { |t| what.kind_of? t }
-        raise TypeError, "expected String or Regexp, got #{what.inspect}:#{what.class}"
+    def check_type(how, what)
+      case how
+      when :index
+        raise TypeError, "expected Fixnum, got #{what.class}" unless what.kind_of?(Fixnum)
+      else
+        unless [String, Regexp].any? { |t| what.kind_of? t }
+          raise TypeError, "expected String or Regexp, got #{what.inspect}:#{what.class}"
+        end
       end
     end
 
     def all_elements
-      @driver.find_elements(:xpath, '//*')
+      @all_elements ||= @driver.find_elements(:xpath, '//*')
     end
 
     def fetch_value(how, element)
@@ -109,7 +110,9 @@ module Watir
     end
 
     def matches_selector(selector, element)
+      # p :start => selector
       selector.all? do |how, what|
+        # p :comparing => [how, what], :to => fetch_value(how, element)
         what === fetch_value(how, element)
       end
     end

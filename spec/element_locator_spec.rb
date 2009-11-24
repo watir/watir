@@ -9,8 +9,8 @@ describe Watir::ElementLocator do
   end
 
   it "finds the first element by tag name (string)" do
-    driver, locator = setup(:tag_name => 'span')
-    driver.should_receive(:find_element).with(:tag_name, 'span').and_return 'some-element'
+    driver, locator = setup(:tag_name => "span")
+    driver.should_receive(:find_element).with(:tag_name, "span").and_return 'some-element'
 
     locator.locate.should == 'some-element'
   end
@@ -18,7 +18,7 @@ describe Watir::ElementLocator do
   it "finds the first element by tag name (regexp)" do
     driver, locator    = setup(:tag_name => /span/)
     element_collection = mock('element_array')
-    element            = mock('element', :tag_name => 'span')
+    element            = mock('element', :tag_name => "span")
 
     driver.should_receive(:find_elements).with(:xpath, '//*').and_return(element_collection)
     element_collection.should_receive(:find).and_return(element)

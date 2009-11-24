@@ -59,7 +59,15 @@ module Watir
       end
 
       def collection_method(name)
-        # TODO: collection methods
+        element_class = self
+        klass = Watir.const_set(
+          "#{name.to_s.camel_case}Collection", 
+          Class.new(ElementCollection)
+        )
+        
+        Container.add name do
+          klass.new(self, element_class)
+        end
       end
 
       def identifier(selector)
@@ -97,6 +105,10 @@ module Watir
     end
     alias_method :exist?, :exists?
 
+    def inspect
+      '#<%s:0x%x located=%s selector=%s>' % [self.class, hash*2, !!@element, @selector.inspect]
+    end
+
     def text
       assert_exists
       @element.text
@@ -126,7 +138,15 @@ module Watir
 
     def html
       assert_exists
-      driver.execute_script("return arguments[0].outerHTML", @element)
+      
+      driver.execute_script(<<-JAVASCRIPT, @element)
+        var e = arguments[0];
+        if(e.outerHTML) {
+          return e.outerHTML;
+        } else {
+          return e.innerHTML;
+        }
+      JAVASCRIPT
     end
 
     def driver
@@ -150,7 +170,7 @@ module Watir
     #
 
     def assert_exists
-      @element = locate
+      @element ||= locate
 
       unless @element
         raise UnknownObjectException, "Unable to locate element, using #{@selector.inspect}"
