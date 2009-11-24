@@ -75,7 +75,7 @@ describe "Image" do
 
   describe "#src" do
     it "returns the src attribute of the image if the image exists" do
-      browser.image(:id, 'square').src.should match(/square\.jpg/i)
+      browser.image(:id, 'square').src.should =~ /square\.jpg/i
     end
 
     it "returns an empty string if the image exists and the attribute doesn't" do

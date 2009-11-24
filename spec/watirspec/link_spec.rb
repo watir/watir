@@ -65,7 +65,7 @@ describe "Link" do
 
   describe "#href" do
     it "returns the href attribute if the link exists" do
-      browser.link(:index, 1).href.should match(/non_control_elements/)
+      browser.link(:index, 1).href.should =~ /non_control_elements/
     end
 
     it "returns an empty string if the link exists and the attribute doesn't" do
@@ -80,7 +80,7 @@ describe "Link" do
   bug "WTR-366", :watir do
     describe "#url" do
       it "returns the href attribute" do
-        browser.link(:index, 1).url.should match(/non_control_elements/)
+        browser.link(:index, 1).url.should =~ /non_control_elements/
       end
     end
   end

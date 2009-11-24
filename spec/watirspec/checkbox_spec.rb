@@ -27,7 +27,7 @@ describe "CheckBox" do
     end
 
     it "returns true if the checkbox button exists (search by name and value)" do
-      browser.checkbox(:name, "new_user_interests", 'cars').should exist
+      browser.checkbox(:name => "new_user_interests", :value => 'cars').should exist
       browser.checkbox(:xpath, "//input[@name='new_user_interests' and @value='cars']").set
     end
 
@@ -47,15 +47,15 @@ describe "CheckBox" do
     end
 
     it "returns false if the checkbox button does not exist (search by name and value)" do
-      browser.checkbox(:name, "new_user_interests", 'no_such_value').should_not exist
+      browser.checkbox(:name => "new_user_interests", :value => 'no_such_value').should_not exist
       browser.checkbox(:xpath, "//input[@name='new_user_interests' and @value='no_such_value']").should_not exist
       browser.checkbox(:name, "no_such_name", 'cars').should_not exist
       browser.checkbox(:xpath, "//input[@name='no_such_name' and @value='cars']").should_not exist
     end
 
     it "returns true for checkboxs with a string value" do
-      browser.checkbox(:name, 'new_user_interests', 'books').should exist
-      browser.checkbox(:name, 'new_user_interests', 'cars').should exist
+      browser.checkbox(:name => 'new_user_interests', :value => 'books').should exist
+      browser.checkbox(:name => 'new_user_interests', :value => 'cars').should exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do
