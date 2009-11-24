@@ -49,7 +49,7 @@ describe "Element" do
   describe "#parent" do
     bug "WTR-352", :watir do
       it "gets the parent of this element" do
-        browser.text_field(:id, "new_user_email").parent.should be_instance_of(Form)
+        browser.text_field(:id, "new_user_email").parent.should be_instance_of(FieldSet)
       end
     end
   end
