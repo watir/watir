@@ -3,6 +3,7 @@ module Watir
     include Container
 
     attr_reader :driver
+    alias_method :wd, :driver # ensures duck typing with BaseElement
 
     class << self
       def start(url, browser = :firefox)
@@ -17,11 +18,11 @@ module Watir
       @driver         = Selenium::WebDriver.for browser.to_sym
       @error_checkers = []
     end
-    
+
     def inspect
       '#<%s:0x%x url=%s title=%s>' % [self.class, hash*2, url.inspect, title.inspect]
     end
-    
+
     def goto(uri)
       uri = "http://#{uri}" unless uri.include?("://")
 
@@ -66,11 +67,11 @@ module Watir
     def refresh
       execute_script 'location.reload(true)'
     end
-    
+
     def exist?
       true
     end
-    
+
     def status
       execute_script "return window.status;"
     end
@@ -78,16 +79,6 @@ module Watir
     def execute_script(script, *args)
       args.map! { |e| e.kind_of?(Watir::BaseElement) ? e.element : e }
       @driver.execute_script(script, *args)
-    end
-
-    def element_by_xpath(xpath)
-      # TODO: find the correct element class
-      BaseElement.new(self, :xpath, xpath)
-    end
-
-    def elements_by_xpath(xpath)
-      # TODO: find the correct element class
-      @driver.find_elements(:xpath, xpath).map { |e| BaseElement.new(self, :element, e) }
     end
 
     def add_checker(checker = nil, &block)

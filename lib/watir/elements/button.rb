@@ -1,6 +1,5 @@
 module Watir
   class Button < HTMLElement
-
     #
     # custom locate since this also covers <input type="button"> elements
     # TODO: attribute methods..
@@ -15,7 +14,7 @@ module Watir
         nil
       end
     end
-    
+
     def enabled?
       !disabled?
     end

@@ -29,6 +29,8 @@ module Watir
         else
           # $stderr.puts "treating #{type.inspect} as string for now"
         end
+
+        attribute_list << attribute
       end
 
       def define_string_attribute(mname, aname)
@@ -55,7 +57,6 @@ module Watir
       def container_method(name)
         klass = self
         Container.add name do |*args|
-          assert_exists
           klass.new(self, *args)
         end
       end
@@ -73,11 +74,16 @@ module Watir
       end
 
       def identifier(selector)
+        Watir.tag_to_class[selector[:tag_name]] = self
         default_selector.merge! selector
       end
 
       def default_selector
         @default_selector ||= {}
+      end
+
+      def attribute_list
+        @attribute_list ||= []
       end
 
       def method_name_for(attribute)
@@ -163,6 +169,7 @@ module Watir
       assert_exists
       @element
     end
+    alias_method :wd, :element # ensures duck typing with Browser
 
     def visible?
       assert_exists
