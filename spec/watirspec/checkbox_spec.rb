@@ -49,7 +49,7 @@ describe "CheckBox" do
     it "returns false if the checkbox button does not exist (search by name and value)" do
       browser.checkbox(:name => "new_user_interests", :value => 'no_such_value').should_not exist
       browser.checkbox(:xpath, "//input[@name='new_user_interests' and @value='no_such_value']").should_not exist
-      browser.checkbox(:name, "no_such_name", 'cars').should_not exist
+      browser.checkbox(:name => "no_such_name", :value => 'cars').should_not exist
       browser.checkbox(:xpath, "//input[@name='no_such_name' and @value='cars']").should_not exist
     end
 
@@ -256,11 +256,11 @@ describe "CheckBox" do
     end
 
     it "returns the state for checkboxs with string values" do
-      browser.checkbox(:name, "new_user_interests", 'cars').should_not be_set
-      browser.checkbox(:name, "new_user_interests", 'cars').set
-      browser.checkbox(:name, "new_user_interests", 'cars').should be_set
-      browser.checkbox(:name, "new_user_interests", 'cars').clear
-      browser.checkbox(:name, "new_user_interests", 'cars').should_not be_set
+      browser.checkbox(:name => "new_user_interests", :value => 'cars').should_not be_set
+      browser.checkbox(:name => "new_user_interests", :value => 'cars').set
+      browser.checkbox(:name => "new_user_interests", :value => 'cars').should be_set
+      browser.checkbox(:name => "new_user_interests", :value => 'cars').clear
+      browser.checkbox(:name => "new_user_interests", :value => 'cars').should_not be_set
     end
 
     it "raises UnknownObjectException if the checkbox button doesn't exist" do
