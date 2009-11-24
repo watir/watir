@@ -63,7 +63,12 @@ namespace :html5 do
     code << "# from extras: \n\n"
     code << WatirVisitor.generate_from(EXTRAS_PATH)
 
-    File.open("lib/watir/elements/generated.rb", "w") { |file| file << code }
+    old_file = "lib/watir/elements/generated.rb"
+
+    File.open("#{old_file}.new", "w") { |file| file << code }
+    if File.exist?(old_file)
+      system "diff -Naut #{old_file} #{old_file}.new | less"
+    end
   end
 
   desc 'Check the syntax of support/html5/*.idl'

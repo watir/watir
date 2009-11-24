@@ -17,20 +17,21 @@ module Watir
       end
 
       def define_attribute(type, name)
-        attribute = attribute_for_method(name)
+        method_name    = method_name_for(type, name)
+        attribute_name = attribute_for_method(name)
 
         case type
         when :string
-          define_string_attribute(name, attribute)
+          define_string_attribute(method_name, attribute_name)
         when :bool
-          define_boolean_attribute("#{method_name_for(name)}?", attribute)
+          define_boolean_attribute(method_name, attribute_name)
         when :int
-          define_int_attribute(name, attribute)
+          define_int_attribute(method_name, attribute_name)
         else
           # $stderr.puts "treating #{type.inspect} as string for now"
         end
 
-        attribute_list << attribute
+        attribute_list << attribute_name
       end
 
       def define_string_attribute(mname, aname)
@@ -83,17 +84,32 @@ module Watir
       end
 
       def attribute_list
-        @attribute_list ||= []
+        @attribute_list ||= (super.dup rescue [])
       end
 
-      def method_name_for(attribute)
-        attribute.to_s
+      def method_name_for(type, attribute)
+        name = case attribute
+               when :hash
+                 'hash_attribute'
+               when :html_for
+                 'for'
+               else
+                 attribute.to_s
+               end
+
+        name << "?" if type == :bool
+
+        name
       end
 
       def attribute_for_method(method)
         case method
         when :class_name
           'class'
+        when :hash_attribute
+          'hash'
+        when 'html_for'
+          'for'
         else
           method.to_s
         end
@@ -138,6 +154,22 @@ module Watir
       run_checkers
     end
 
+    def double_click
+      assert_exists
+      raise NotImplementedError, "need support in WebDriver"
+
+      @element.double_click
+      run_checkers
+    end
+
+    def right_click
+      assert_exists
+      raise NotImplementedError, "need support in WebDriver"
+
+      @element.right_click
+      run_checkers
+    end
+
     def value
       assert_exists
       @element.value rescue "" # TODO: specific exception
@@ -145,7 +177,7 @@ module Watir
 
     def attribute_value(attribute_name)
       assert_exists
-      @element.attribute(attribute_name)
+      @element.attribute attribute_name
     end
 
     def html
@@ -156,9 +188,29 @@ module Watir
         if(e.outerHTML) {
           return e.outerHTML;
         } else {
-          return e.innerHTML;
+          return e.parentNode.innerHTML;
         }
       JAVASCRIPT
+    end
+
+    def focus
+      assert_exists
+      driver.execute_script "arguments[0].focus;", @element
+    end
+
+    def fire_event(event)
+      assert_exists
+      driver.execute_script "arguments[0].fireEvent(#{event.inspect});", @element
+    end
+
+    def parent
+      assert_exists
+
+      e = driver.execute_script "return arguments[0].parentNode", @element
+
+      if e.kind_of?(WebDriver::Element)
+        Watir.element_class_for(e.tag_name).new(@parent, :element, e)
+      end
     end
 
     def driver
@@ -172,8 +224,14 @@ module Watir
     alias_method :wd, :element # ensures duck typing with Browser
 
     def visible?
+      raise NotImplementedError, "need support in WebDriver"
+
       assert_exists
       @element.visible?
+    end
+
+    def style
+      raise NotImplementedError
     end
 
     private
@@ -182,16 +240,20 @@ module Watir
     # @api private
     #
 
+    def selector_string
+      @selector.inspect
+    end
+
     def assert_exists
       @element ||= locate
 
       unless @element
-        raise UnknownObjectException, "Unable to locate element, using #{@selector.inspect}"
+        raise UnknownObjectException, "Unable to locate element, using #{selector_string}"
       end
     end
 
     def locate
-      ElementLocator.new(@parent.driver, @selector).locate
+      ElementLocator.new(@parent.wd, @selector).locate
     rescue WebDriver::Error::WebDriverError => wde
       nil
     end
@@ -211,7 +273,7 @@ module Watir
 
         selectors.first
       else
-        raise ArgumentError, "wrong number of arguments (#{selectors.size} for 2)"
+        raise ArgumentError, "wrong number of arguments (#{selectors.size} for 2) for #{selectors.inspect}"
       end
     end
 

@@ -12,7 +12,7 @@ module Watir
 
         # the remaining entries should be attributes
         unless selectors.empty?
-          xpath << "[" << selectors.map { |key, val| "@#{key}=#{val.to_s.inspect}" }.join(" and ") << "]"
+          xpath << "[" << selectors.map { |key, val| "#{lhs_for(key)}=#{val.to_s.inspect}" }.join(" and ") << "]"
         end
 
         if idx
@@ -22,6 +22,15 @@ module Watir
         p :built => xpath, :caller => caller.first
 
         xpath
+      end
+      
+      def lhs_for(key)
+        case key
+        when :text, 'text'
+          'text()'
+        else
+          "@#{key}"
+        end
       end
     end
 

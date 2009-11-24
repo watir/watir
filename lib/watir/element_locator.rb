@@ -13,17 +13,25 @@ module Watir
 
     def locate
       if @selector.size == 1
-        how, what = @selector.shift
-        find_first_by(how, what)
+        find_first_by_one
       else
-        find_by_multiple
+        find_first_by_multiple
       end
     rescue WebDriver::Error::WebDriverError => wde
       $stderr.puts wde.inspect
       nil
     end
 
-    def find_first_by(how, what)
+    def locate_all
+      if @selector.size == 1
+        find_all_by_one
+      else
+        find_all_by_multiple
+      end
+    end
+
+    def find_first_by_one
+      how, what = @selector.shift
       check_type how, what
 
       if WD_FINDERS.include?(how)
@@ -33,13 +41,52 @@ module Watir
       end
     end
 
-    def find_all_by(how, what)
+    def find_all_by_one
+      how, what = @selector.shift
       check_type how, what
 
       if WD_FINDERS.include?(how)
         wd_find_all_by(how, what)
       else
         raise NotImplementedError, "find all by attribute/other"
+      end
+    end
+
+    def find_first_by_multiple
+      selector = normalized_selector
+
+      idx   = selector.delete(:index)
+      xpath = selector[:xpath] || XPathBuilder.build_from(selector)
+
+      if xpath
+        # strings only, so we could build the xpath
+        if idx
+          @driver.find_elements(:xpath, xpath)[idx]
+        else
+          @driver.find_element(:xpath, xpath)
+        end
+      else
+        # we have at least one regexp
+        if idx
+          wd_find_by_regexp_selector(selector, :select)[idx]
+        else
+          wd_find_by_regexp_selector(selector, :find)
+        end
+      end
+    end
+
+    def find_all_by_multiple
+      selector = normalized_selector
+
+      if selector.has_key? :index
+        raise Error, "can't locate all elements by :index"
+      end
+
+      xpath = selector[:xpath] || XPathBuilder.build_from(selector)
+      if xpath
+        @driver.find_elements(:xpath, xpath)
+      else
+        wd_find_by_regexp_selector(selector, :select)
       end
     end
 
@@ -59,39 +106,13 @@ module Watir
       end
     end
 
-    def find_by_multiple
-      selector = {}
-      @selector.each do |how, what|
-        check_type(how, what)
+    def wd_find_by_regexp_selector(selector, method = :find)
+      rx_selector = delete_regexps_from(selector)
+      xpath = XPathBuilder.build_from(selector) || raise("internal error: unable to build xpath from #{@selector.inspect}")
 
-        how, what = normalize_selector(how, what)
-        selector[how] = what
-      end
-
-      idx   = selector.delete(:index)
-      xpath = selector[:xpath] || XPathBuilder.build_from(selector)
-
-      if xpath
-        # strings only, so we could build the xpath
-        if idx
-          @driver.find_elements(:xpath, xpath)[idx]
-        else
-          @driver.find_element(:xpath, xpath)
-        end
-      else
-        # we have at least one regexp
-        rx_selector = delete_regexps_from(selector)
-        xpath       = XPathBuilder.build_from(selector) || raise("internal error: unable to build xpath from #{@selector.inspect}")
-        elements    = @driver.find_elements(:xpath, xpath)
-
-        if idx
-          elements.select { |e| matches_selector(rx_selector, e) }[idx]
-        else
-          elements.find { |e| matches_selector(rx_selector, e) }
-        end
-      end
+      elements = @driver.find_elements(:xpath, xpath)
+      elements.send(method) { |e| matches_selector(rx_selector, e) }
     end
-
 
     def check_type(how, what)
       case how
@@ -121,6 +142,19 @@ module Watir
         # p :comparing => [how, what], :to => fetch_value(how, element)
         what === fetch_value(how, element)
       end
+    end
+
+    def normalized_selector
+      selector = {}
+
+      @selector.each do |how, what|
+        check_type(how, what)
+
+        how, what = normalize_selector(how, what)
+        selector[how] = what
+      end
+
+      selector
     end
 
     def normalize_selector(how, what)

@@ -27,15 +27,22 @@ end
 require "watir/base_element"
 require "watir/elements/generated"
 require "watir/elements/shared_radio_checkbox"
+require "watir/elements/input"
 require "watir/elements/button"
 require "watir/elements/checkbox"
 require "watir/elements/file_field"
 require "watir/elements/headings"
-require "watir/elements/hidden"
+require "watir/elements/image"
 require "watir/elements/link"
 require "watir/elements/radio"
 require "watir/elements/text_field"
+require "watir/elements/hidden"
 require "watir/elements/select_list"
-require "watir/elements/input"
+require "watir/elements/form"
+require "watir/elements/option"
 
 Watir.tag_to_class.freeze
+
+# undefine deprecated methods to use them for Element attributes
+Object.send :undef_method, :id   if Object.method_defined? "id"
+Object.send :undef_method, :type if Object.method_defined? "type"

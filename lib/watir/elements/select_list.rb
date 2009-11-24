@@ -1,9 +1,16 @@
 module Watir
-  class SelectList < Input
-    identifier :type => 'select' # a text field is the default for input elements, so this needs to be changed
-
+  class SelectList < Select
     container_method  :select_list
     collection_method :select_lists
+    
+    def clear
+      assert_exists
+      @element.clear
+    end
+    
+    def selected_options
+      options.map { |e| e.text if e.selected? }.compact
+    end
 
   end
 end
