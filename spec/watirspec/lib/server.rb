@@ -1,3 +1,4 @@
+# encoding: utf-8
 module WatirSpec
   class Server < Sinatra::Base
     class << self

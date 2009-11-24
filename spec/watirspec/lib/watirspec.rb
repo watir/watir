@@ -1,3 +1,4 @@
+# encoding: utf-8
 module WatirSpec
   class << self
     attr_accessor :browser_args, :persistent_browser, :unguarded, :implementation
