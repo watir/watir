@@ -17,13 +17,15 @@ module Watir
       end
 
       def define_attribute(type, name)
+        attribute = attribute_for_method(name)
+
         case type
         when :string
-          define_string_attribute(method_name_for(name), name)
+          define_string_attribute(name, attribute)
         when :bool
-          define_boolean_attribute(method_name_for(name) + '?', name)
+          define_boolean_attribute("#{method_name_for(name)}?", attribute)
         when :int
-          define_int_attribute(method_name_for(name), name)
+          define_int_attribute(name, attribute)
         else
           # $stderr.puts "treating #{type.inspect} as string for now"
         end
@@ -61,10 +63,10 @@ module Watir
       def collection_method(name)
         element_class = self
         klass = Watir.const_set(
-          "#{name.to_s.camel_case}Collection", 
+          "#{name.to_s.camel_case}Collection",
           Class.new(ElementCollection)
         )
-        
+
         Container.add name do
           klass.new(self, element_class)
         end
@@ -79,11 +81,15 @@ module Watir
       end
 
       def method_name_for(attribute)
-        case attribute
-        when "class"
-          :class_name
+        attribute.to_s
+      end
+
+      def attribute_for_method(method)
+        case method
+        when :class_name
+          'class'
         else
-          attribute.to_s
+          method.to_s
         end
       end
     end # class << self
@@ -138,7 +144,7 @@ module Watir
 
     def html
       assert_exists
-      
+
       driver.execute_script(<<-JAVASCRIPT, @element)
         var e = arguments[0];
         if(e.outerHTML) {

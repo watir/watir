@@ -60,24 +60,34 @@ module Watir
     end
 
     def find_by_multiple
+      selector = {}
       @selector.each do |how, what|
         check_type(how, what)
+
+        how, what = normalize_selector(how, what)
+        selector[how] = what
       end
 
-      idx   = @selector.delete(:index)
-      xpath = @selector[:xpath] || XPathBuilder.build_from(@selector)
-      
+      idx   = selector.delete(:index)
+      xpath = selector[:xpath] || XPathBuilder.build_from(selector)
+
       if xpath
+        # strings only, so we could build the xpath
         if idx
           @driver.find_elements(:xpath, xpath)[idx]
         else
           @driver.find_element(:xpath, xpath)
         end
       else
+        # we have at least one regexp
+        rx_selector = delete_regexps_from(selector)
+        xpath       = XPathBuilder.build_from(selector) || raise("internal error: unable to build xpath from #{@selector.inspect}")
+        elements    = @driver.find_elements(:xpath, xpath)
+
         if idx
-          all_elements.select { |e| matches_selector(@selector, e) }[idx]
+          elements.select { |e| matches_selector(rx_selector, e) }[idx]
         else
-          all_elements.find { |e| matches_selector(@selector, e) }
+          elements.find { |e| matches_selector(rx_selector, e) }
         end
       end
     end
@@ -92,10 +102,6 @@ module Watir
           raise TypeError, "expected String or Regexp, got #{what.inspect}:#{what.class}"
         end
       end
-    end
-
-    def all_elements
-      @all_elements ||= @driver.find_elements(:xpath, '//*')
     end
 
     def fetch_value(how, element)
@@ -115,6 +121,27 @@ module Watir
         # p :comparing => [how, what], :to => fetch_value(how, element)
         what === fetch_value(how, element)
       end
+    end
+
+    def normalize_selector(how, what)
+      case how
+      when :url
+        [:href, what]
+      else
+        [how, what]
+      end
+    end
+
+    def delete_regexps_from(selector)
+      rx_selector = {}
+
+      selector.dup.each do |how, what|
+        next unless what.kind_of?(Regexp)
+        rx_selector[how] = what
+        selector.delete how
+      end
+
+      rx_selector
     end
 
     #

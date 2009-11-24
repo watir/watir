@@ -19,6 +19,8 @@ module Watir
           xpath << "[#{idx + 1}]"
         end
 
+        p :built => xpath, :caller => caller.first
+
         xpath
       end
     end
