@@ -294,6 +294,7 @@ describe "SelectList" do
     end
    end
 
+  # deprecate?
   describe "#select_value" do
     it "selects the item by value string" do
       browser.select_list(:name, "new_user_languages").clear

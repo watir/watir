@@ -17,7 +17,7 @@ describe "Element" do
 
     it "raises UnknownObjectException with a sane error message when given a hash of :how => 'what' arguments (non-existing object)" do
       conditions = {:index => 100, :name => "foo"}
-      lambda { browser.text_field(conditions).id }.should raise_error(UnknownObjectException, /Unable to locate TextField, using (\{:name=>"foo", :index=>100\}|\{:index=>100, :name=>"foo"\})/)
+      lambda { browser.text_field(conditions).id }.should raise_error(UnknownObjectException)
     end
 
     bug "WTR-351", :watir do

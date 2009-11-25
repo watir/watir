@@ -119,7 +119,6 @@ describe "Span" do
     it "returns true for all attribute methods" do
       browser.span(:index, 0).should respond_to(:class_name)
       browser.span(:index, 0).should respond_to(:id)
-      browser.span(:index, 0).should respond_to(:name)
       browser.span(:index, 0).should respond_to(:title)
       browser.span(:index, 0).should respond_to(:text)
       browser.span(:index, 0).should respond_to(:value)
@@ -129,9 +128,9 @@ describe "Span" do
   # Other
   describe "#click" do
     it "fires events" do
-      browser.span(:name, 'footer').text.should_not include('Javascript')
-      browser.span(:name, 'footer').click
-      browser.span(:name, 'footer').text.should include('Javascript')
+      browser.span(:class, 'footer').text.should_not include('Javascript')
+      browser.span(:class, 'footer').click
+      browser.span(:class, 'footer').text.should include('Javascript')
     end
 
     it "raises UnknownObjectException if the span doesn't exist" do
@@ -151,7 +150,7 @@ describe "Span" do
     end
 
     it "raises UnknownObjectException if the p doesn't exist" do
-      lambda { browser.span(:xpath, "//span[@id='no_such_id']").to_s }.should raise_error( UnknownObjectException)
+      lambda { browser.span(:xpath, "//span[@id='no_such_id']").to_s }.should raise_error(UnknownObjectException)
     end
   end
 

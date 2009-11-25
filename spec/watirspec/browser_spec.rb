@@ -109,10 +109,10 @@ describe "Browser" do
   describe "#refresh" do
     it "refreshes the page" do
       browser.goto(WatirSpec.files + "/non_control_elements.html")
-      browser.span(:name, 'footer').click
-      browser.span(:name, 'footer').text.should include('Javascript')
+      browser.span(:class, 'footer').click
+      browser.span(:class, 'footer').text.should include('Javascript')
       browser.refresh
-      browser.span(:name, 'footer').text.should_not include('Javascript')
+      browser.span(:class, 'footer').text.should_not include('Javascript')
     end
   end
 

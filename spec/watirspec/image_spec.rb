@@ -61,7 +61,7 @@ describe "Image" do
 
   describe "#id" do
     it "returns the id attribute of the image if the image exists" do
-      browser.image(:name, 'square').id.should == 'square'
+      browser.image(:title, 'Square').id.should == 'square'
     end
 
     it "returns an empty string if the image exists and the attribute doesn't" do
@@ -114,10 +114,10 @@ describe "Image" do
   # Manipulation methods
   describe "#click" do
     it "raises UnknownObjectException when the image doesn't exist" do
-      lambda { browser.image(:id, 'missing_attribute').click }.should raise_error(UnknownObjectException)
-      lambda { browser.image(:name, 'missing_attribute').click }.should raise_error(UnknownObjectException)
-      lambda { browser.image(:src, 'missing_attribute').click }.should raise_error(UnknownObjectException)
-      lambda { browser.image(:alt, 'missing_attribute').click }.should raise_error(UnknownObjectException)
+      lambda { browser.image(:id,    'missing_attribute').click }.should raise_error(UnknownObjectException)
+      lambda { browser.image(:class, 'missing_attribute').click }.should raise_error(UnknownObjectException)
+      lambda { browser.image(:src,   'missing_attribute').click }.should raise_error(UnknownObjectException)
+      lambda { browser.image(:alt,   'missing_attribute').click }.should raise_error(UnknownObjectException)
     end
   end
 
@@ -173,7 +173,7 @@ describe "Image" do
   # Other
   describe "#loaded?" do
     it "returns true if the image has been loaded" do
-      browser.image(:name, 'circle').should be_loaded
+      browser.image(:title, 'Circle').should be_loaded
       browser.image(:alt, 'circle').should be_loaded
       browser.image(:alt, /circle/).should be_loaded
     end

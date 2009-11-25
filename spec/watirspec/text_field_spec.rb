@@ -287,21 +287,4 @@ describe "TextField" do
       lambda { browser.text_field(:id, "no_such_id").set('secret') }.should raise_error(UnknownObjectException)
     end
   end
-
-  describe "#verify_contains" do
-    it "verifys that a text field contains its value" do
-      browser.text_field(:name, "new_user_occupation").verify_contains("Developer").should be_true
-      browser.text_field(:name, "new_user_occupation").verify_contains(/Developer/).should be_true
-    end
-
-    it "doesn't verify that a text field contains a non-existing value" do
-      browser.text_field(:name, "new_user_email").verify_contains("no_such_text").should be_false
-      browser.text_field(:name, "new_user_email").verify_contains(/no_such_text/).should be_false
-    end
-
-    it "raises UnknownObjectException if the text field doesn't exist" do
-      lambda { browser.text_field(:id, "no_such_id").verify_contains("Developer") }.should raise_error(UnknownObjectException)
-    end
-  end
-
 end

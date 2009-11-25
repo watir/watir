@@ -26,7 +26,7 @@ describe "Radio" do
     end
 
     it "returns true if the radio button exists (search by name and value)" do
-      browser.radio(:name, "new_user_newsletter", 'yes').should exist
+      browser.radio(:name => "new_user_newsletter", :value => 'yes').should exist
       browser.radio(:xpath, "//input[@name='new_user_newsletter' and @value='yes']").set
     end
 
@@ -46,15 +46,15 @@ describe "Radio" do
     end
 
     it "returns false if the radio button does not exist (search by name and value)" do
-      browser.radio(:name, "new_user_newsletter", 'no_such_value').should_not exist
+      browser.radio(:name => "new_user_newsletter", :value => 'no_such_value').should_not exist
       browser.radio(:xpath, "//input[@name='new_user_newsletter' and @value='no_such_value']").should_not exist
-      browser.radio(:name, "no_such_name", 'yes').should_not exist
+      browser.radio(:name => "no_such_name", :value => 'yes').should_not exist
       browser.radio(:xpath, "//input[@name='no_such_name' and @value='yes']").should_not exist
     end
 
     it "returns true for radios with a string value" do
-      browser.radio(:name, 'new_user_newsletter', 'yes').should exist
-      browser.radio(:name, 'new_user_newsletter', 'no').should exist
+      browser.radio(:name => 'new_user_newsletter', :value => 'yes').should exist
+      browser.radio(:name => 'new_user_newsletter', :value => 'no').should exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do
@@ -262,11 +262,11 @@ describe "Radio" do
     end
 
     it "returns the state for radios with string values" do
-      browser.radio(:name, "new_user_newsletter", 'no').should_not be_set
-      browser.radio(:name, "new_user_newsletter", 'no').set
-      browser.radio(:name, "new_user_newsletter", 'no').should be_set
-      browser.radio(:name, "new_user_newsletter", 'no').clear
-      browser.radio(:name, "new_user_newsletter", 'no').should_not be_set
+      browser.radio(:name => "new_user_newsletter", :value => 'no').should_not be_set
+      browser.radio(:name => "new_user_newsletter", :value => 'no').set
+      browser.radio(:name => "new_user_newsletter", :value => 'no').should be_set
+      browser.radio(:name => "new_user_newsletter", :value => 'no').clear
+      browser.radio(:name => "new_user_newsletter", :value => 'no').should_not be_set
     end
 
     it "raises UnknownObjectException if the radio button doesn't exist" do
