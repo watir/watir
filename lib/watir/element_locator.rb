@@ -184,12 +184,14 @@ module Watir
     end
 
     def by_id
-      id = @selector[:id]
+      selector = @selector.dup
+      id       = selector.delete(:id)
       return unless id && id.kind_of?(String)
 
-      element  = @driver.find_element(:id, id)
-      tag_name = @selector[:tag_name]
+      tag_name = selector.delete(:tag_name)
+      return unless selector.empty? # multiple attributes
 
+      element  = @driver.find_element(:id, id)
       return if tag_name && !(tag_name === element.tag_name)
 
       element
