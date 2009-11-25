@@ -29,10 +29,12 @@ module Watir
     end
 
     def to_a
-      @elements ||= begin
-        wd_elements = ElementLocator.new(driver, @element_class.default_selector).locate_all
-        wd_elements.map { |e| @element_class.new(@parent, :element, e) }
-      end
+      # TODO: optimize - lazily @element_class instance
+      @to_a ||= elements.map { |e| @element_class.new(@parent, :element, e) }
+    end
+
+    def elements
+      @elements ||= ElementLocator.new(driver, @element_class.default_selector).locate_all
     end
 
     def driver

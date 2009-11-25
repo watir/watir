@@ -142,9 +142,9 @@ module Watir
     end
 
     def matches_selector?(selector, element)
-      p :start => selector
+      # p :start => selector
       selector.all? do |how, what|
-        p :comparing => [how, what], :to => fetch_value(how, element)
+        # p :comparing => [how, what], :to => fetch_value(how, element)
         what === fetch_value(how, element)
       end
     end
@@ -200,11 +200,11 @@ module Watir
     rescue WebDriver::Error::WebDriverError => wde
       nil
     end
-    
+
     def tag_name_matches?(element, tag_name)
       tag_name === element.tag_name
     end
-    
+
     def build_xpath(selectors)
       return if selectors.values.any? { |e| e.kind_of? Regexp }
 
@@ -226,17 +226,17 @@ module Watir
 
       xpath
     end
-    
+
     def attribute_expression(selectors)
-      selectors.map do |key, val| 
+      selectors.map do |key, val|
         if val.kind_of?(Array)
           "( " + val.map { |v| equal_pair(key, v) }.join(" or ") + " )"
         else
-          equal_pair(key, val) 
+          equal_pair(key, val)
         end
       end.join(" and ")
     end
-    
+
     def equal_pair(key, value)
       "#{lhs_for(key)}=#{value.to_s.inspect}"
     end
@@ -251,29 +251,35 @@ module Watir
     end
 
   end # ElementLocator
-  
+
   class ButtonLocator < ElementLocator
-    
+
+    def locate_all
+      find_all_by_multiple
+    end
+
     def build_xpath(selectors)
       return if selectors.values.any? { |e| e.kind_of? Regexp }
-      
+
       selectors.delete(:tag_name) || raise("internal error: no tag_name?!")
-      
+
       @building = :button
       button_attr_exp = attribute_expression(selectors)
-      
+
       @building = :input
-      selectors[:type] = %w[button reset submit]
+      selectors[:type] = %w[button reset submit image]
       input_attr_exp = attribute_expression(selectors)
 
       xpath = "//button"
       xpath << "[#{button_attr_exp}]" unless button_attr_exp.empty?
       xpath << " | //input"
       xpath << "[#{input_attr_exp}]"
-      
+
+      p :build_xpath => xpath
+
       xpath
     end
-    
+
     def lhs_for(key)
       if @building == :input && key == :text
         "@value"
@@ -283,20 +289,20 @@ module Watir
         super
       end
     end
-    
+
     def matches_selector?(rx_selector, element)
       rx_selector = rx_selector.dup
-      
+
       [:value, :caption].each do |key|
         if rx_selector.has_key?(key)
           correct_key = element.tag_name == 'button' ? :text : :value
           rx_selector[correct_key] = rx_selector.delete(key)
         end
       end
-      
+
       super
     end
-    
+
     def tag_name_matches?(element, _)
       !!(/^(input|button)$/ === element.tag_name)
     end

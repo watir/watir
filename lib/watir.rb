@@ -4,10 +4,8 @@ require "json"
 
 require "watir/core_ext/string"
 require "watir/exception"
-require "watir/xpath_builder"
 require "watir/xpath_support"
 require "watir/container"
-require "watir/element_collection"
 require "watir/element_locator"
 require "watir/browser"
 
@@ -27,10 +25,12 @@ module Watir
 end
 
 require "watir/base_element"
+require "watir/collections/element_collection"
 require "watir/elements/generated"
 require "watir/elements/shared_radio_checkbox"
 require "watir/elements/input"
 require "watir/elements/button"
+require "watir/collections/buttons_collection"
 require "watir/elements/checkbox"
 require "watir/elements/file_field"
 require "watir/elements/headings"
