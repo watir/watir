@@ -1,3 +1,4 @@
+# encoding: utf-8
 module Watir
   module SharedRadioCheckbox
     def set?

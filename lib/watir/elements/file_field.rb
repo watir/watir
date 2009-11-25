@@ -1,3 +1,4 @@
+# encoding: utf-8
 module Watir
   class FileField < Input
     identifier :type => 'file'

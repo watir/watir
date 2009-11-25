@@ -1,3 +1,4 @@
+# encoding: utf-8
 module Watir
   class ElementCollection
     include Enumerable
@@ -37,5 +38,6 @@ module Watir
     def driver
       @parent.driver
     end
+
   end # ElementCollection
 end # Watir

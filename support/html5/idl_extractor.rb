@@ -1,3 +1,4 @@
+# encoding: utf-8
 require "nokogiri"
 require "open-uri"
 require "pp"
@@ -70,4 +71,3 @@ class IdlExtractor
   end
 
 end # IdlExtractor
-

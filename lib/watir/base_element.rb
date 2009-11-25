@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module Watir
   class BaseElement
     include Exceptions
@@ -5,9 +7,10 @@ module Watir
     include Selenium
 
     class << self
+      attr_writer :default_selector
 
       def inherited(klass)
-        klass.instance_variable_set("@default_selector", default_selector.dup)
+        klass.default_selector = default_selector.dup
       end
 
       def attributes(attribute_map)
@@ -37,21 +40,21 @@ module Watir
       def define_string_attribute(mname, aname)
         define_method mname do
           assert_exists
-          @element.attribute(aname).to_s rescue "" # TODO: rescue specific exception
+          rescue_no_match { @element.attribute(aname).to_s }
         end
       end
 
       def define_boolean_attribute(mname, aname)
         define_method mname do
           assert_exists
-          !!@element.attribute(aname) rescue false # TODO: rescue specific exception
+          rescue_no_match(false) { !!@element.attribute(aname) }
         end
       end
 
       def define_int_attribute(mname, aname)
         define_method mname do
           assert_exists
-          @element.attribute(aname).to_i rescue "" # TODO: rescue specific exception
+          rescue_no_match(-1) { @element.attribute(aname).to_i }
         end
       end
 
@@ -103,13 +106,15 @@ module Watir
       end
 
       def attribute_for_method(method)
-        case method
+        case method.to_sym
         when :class_name
           'class'
         when :hash_attribute
           'hash'
-        when 'html_for'
+        when :html_for
           'for'
+        when :read_only
+          'readonly'
         else
           method.to_s
         end
@@ -172,11 +177,12 @@ module Watir
 
     def value
       assert_exists
-      @element.value rescue "" # TODO: specific exception
+      rescue_no_match { @element.value }
     end
 
     def attribute_value(attribute_name)
       assert_exists
+      # should rescue?
       @element.attribute attribute_name
     end
 
@@ -230,8 +236,17 @@ module Watir
       @element.visible?
     end
 
-    def style
-      raise NotImplementedError
+    def style(property = nil)
+      if property
+        assert_exists
+        @element.style property
+      else
+        rescue_no_match { attribute_value "style" }
+      end
+    end
+
+    def run_checkers
+      @parent.run_checkers
     end
 
     private
@@ -262,6 +277,18 @@ module Watir
       raise ObjectDisabledException unless @element.enabled?
     end
 
+    def assert_writable
+      assert_enabled
+      raise ObjectReadOnlyException if @element.readonly?
+    end
+
+    def rescue_no_match(returned = "", &blk)
+      yield
+    rescue WebDriver::Error::WebDriverError => e
+      raise unless e.message == "No match"
+      returned
+    end
+
     def extract_selector(selectors)
       case selectors.size
       when 2
@@ -275,10 +302,6 @@ module Watir
       else
         raise ArgumentError, "wrong number of arguments (#{selectors.size} for 2) for #{selectors.inspect}"
       end
-    end
-
-    def run_checkers
-      @parent.run_checkers
     end
 
   end # BaseElement

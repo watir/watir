@@ -1,3 +1,4 @@
+# encoding: utf-8
 module Watir
   class Image < HTMLElement
 
@@ -8,13 +9,13 @@ module Watir
     def file_size
       raise NotImplementedError
     end
-    
+
     def loaded?
       raise NotImplementedError
     end
-    
+
     def save(path)
-      
+
     end
 
   end # Image

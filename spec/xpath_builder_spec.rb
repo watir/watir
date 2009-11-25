@@ -1,3 +1,4 @@
+# encoding: utf-8
 require "#{File.dirname(__FILE__)}/spec_helper"
 
 describe Watir::XPathBuilder do
@@ -40,7 +41,7 @@ describe Watir::XPathBuilder do
       :index => 3
     ).should == '//span[4]'
   end
-  
+
   it "returns nil if any the selector contains a regexp" do
     build(:tag_name => /span|div/).should be_nil
   end

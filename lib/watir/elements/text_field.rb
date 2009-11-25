@@ -1,5 +1,9 @@
+# encoding: utf-8
 module Watir
   class TextField < Input
+
+    # perhaps we'll need a custom locate(), since this should also cover textareas
+
     identifier :type => /^(?!(
       file            |
       radio           |
@@ -33,9 +37,25 @@ module Watir
 
     def set(*args)
       assert_exists
-      @element.send_keys(*args)
+      assert_writable
+
+      @element.clear
+
+      append(*args)
     end
     alias_method :value=, :set
+
+    def append(*args)
+      assert_exists
+      assert_writable
+
+      @element.send_keys(*args)
+    end
+
+    def clear
+      assert_exists
+      @element.clear
+    end
 
     private
 

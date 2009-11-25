@@ -1,5 +1,9 @@
+# encoding: utf-8
 module Watir
   class Input
+
+    alias_method :readonly?, :read_only?
+
     def enabled?
       !disabled?
     end

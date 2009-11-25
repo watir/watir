@@ -1,3 +1,4 @@
+# encoding: utf-8
 module Watir
   class CheckBox < Input
     include SharedRadioCheckbox

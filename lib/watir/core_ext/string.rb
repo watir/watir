@@ -1,3 +1,4 @@
+# encoding: utf-8
 class String
   #
   # Convert from camel case to snake case

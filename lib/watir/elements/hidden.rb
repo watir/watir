@@ -1,3 +1,4 @@
+# encoding: utf-8
 module Watir
   class Hidden < Input
     identifier :type => 'hidden'

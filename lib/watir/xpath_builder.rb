@@ -1,3 +1,4 @@
+# encoding: utf-8
 module Watir
   class XPathBuilder
 
@@ -19,11 +20,11 @@ module Watir
           xpath << "[#{idx + 1}]"
         end
 
-        p :built => xpath, :caller => caller.first
+        p :xpath => xpath, :selectors => selectors if $DEBUG
 
         xpath
       end
-      
+
       def lhs_for(key)
         case key
         when :text, 'text'

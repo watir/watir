@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module Watir
   module Exceptions
     class Error < StandardError; end

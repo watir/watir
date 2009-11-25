@@ -1,3 +1,4 @@
+# encoding: utf-8
 module Watir
   class ElementLocator
     include Watir::Exceptions
@@ -12,13 +13,17 @@ module Watir
     end
 
     def locate
+      # short-circuit if :id is given
+      if e = by_id
+        return e
+      end
+
       if @selector.size == 1
         find_first_by_one
       else
         find_first_by_multiple
       end
     rescue WebDriver::Error::WebDriverError => wde
-      $stderr.puts wde.inspect
       nil
     end
 
@@ -59,7 +64,7 @@ module Watir
       xpath = selector[:xpath] || XPathBuilder.build_from(selector)
 
       if xpath
-        # strings only, so we could build the xpath
+        # strings only, so we can use the built xpath directly
         if idx
           @driver.find_elements(:xpath, xpath)[idx]
         else
@@ -176,6 +181,20 @@ module Watir
       end
 
       rx_selector
+    end
+
+    def by_id
+      id = @selector[:id]
+      return unless id && id.kind_of?(String)
+
+      element  = @driver.find_element(:id, id)
+      tag_name = @selector[:tag_name]
+
+      return if tag_name && !(tag_name === element.tag_name)
+
+      element
+    rescue WebDriver::Error::WebDriverError => wde
+      nil
     end
 
     #
