@@ -83,7 +83,7 @@ describe "Button" do
     end
 
     it "raises UnknownObjectException if button does not exist" do
-      lambda { browser.button(:index, 1337).id }.should raise_error(UnknownObjectException, 'Unable to locate Button, using :index and 1337')
+      lambda { browser.button(:index, 1337).id }.should raise_error(UnknownObjectException)
     end
   end
 
@@ -95,7 +95,7 @@ describe "Button" do
     end
 
     it "raises UnknownObjectException if the button does not exist" do
-      lambda { browser.button(:name, "no_such_name").name }.should raise_error(UnknownObjectException, 'Unable to locate Button, using :name and "no_such_name"')
+      lambda { browser.button(:name, "no_such_name").name }.should raise_error(UnknownObjectException)
     end
   end
 
@@ -113,7 +113,7 @@ describe "Button" do
     end
 
     it "raises UnknownObjectException if the button does not exist" do
-      lambda { browser.button(:name, "no_such_name").src }.should raise_error(UnknownObjectException, 'Unable to locate Button, using :name and "no_such_name"')
+      lambda { browser.button(:name, "no_such_name").src }.should raise_error(UnknownObjectException)
     end
   end
 
@@ -135,7 +135,7 @@ describe "Button" do
     end
 
     it "raises UnknownObjectException if the button does not exist" do
-      lambda { browser.button(:name, "no_such_name").style }.should raise_error(UnknownObjectException, 'Unable to locate Button, using :name and "no_such_name"')
+      lambda { browser.button(:name, "no_such_name").style }.should raise_error(UnknownObjectException)
     end
   end
 
@@ -157,7 +157,7 @@ describe "Button" do
     end
 
     it "raises UnknownObjectException if button does not exist" do
-      lambda { browser.button(:name, "no_such_name").type }.should raise_error(UnknownObjectException, 'Unable to locate Button, using :name and "no_such_name"')
+      lambda { browser.button(:name, "no_such_name").type }.should raise_error(UnknownObjectException)
     end
   end
 
@@ -169,7 +169,7 @@ describe "Button" do
     end
 
     it "raises UnknownObjectException if button does not exist" do
-      lambda { browser.button(:name, "no_such_name").value }.should raise_error(UnknownObjectException, 'Unable to locate Button, using :name and "no_such_name"')
+      lambda { browser.button(:name, "no_such_name").value }.should raise_error(UnknownObjectException)
     end
   end
 
@@ -197,7 +197,7 @@ describe "Button" do
     end
 
     it "raises UnknownObjectException if the button doesn't exist" do
-      lambda { browser.button(:name, "no_such_name").enabled? }.should raise_error(UnknownObjectException, 'Unable to locate Button, using :name and "no_such_name"')
+      lambda { browser.button(:name, "no_such_name").enabled? }.should raise_error(UnknownObjectException)
     end
   end
 
@@ -211,7 +211,7 @@ describe "Button" do
     end
 
     it "raises UnknownObjectException if button does not exist" do
-      lambda { browser.button(:name, "no_such_name").disabled? }.should raise_error(UnknownObjectException, 'Unable to locate Button, using :name and "no_such_name"')
+      lambda { browser.button(:name, "no_such_name").disabled? }.should raise_error(UnknownObjectException)
     end
   end
 
@@ -229,8 +229,8 @@ describe "Button" do
     end
 
     it "raises UnknownObjectException when clicking a button that doesn't exist" do
-      lambda { browser.button(:value, "no_such_value").click }.should raise_error(UnknownObjectException, 'Unable to locate Button, using :value and "no_such_value"')
-      lambda { browser.button(:id, "no_such_id").click }.should raise_error(UnknownObjectException, 'Unable to locate Button, using :id and "no_such_id"')
+      lambda { browser.button(:value, "no_such_value").click }.should raise_error(UnknownObjectException)
+      lambda { browser.button(:id, "no_such_id").click }.should raise_error(UnknownObjectException)
     end
 
     it "raises ObjectDisabledException when clicking a disabled button" do
