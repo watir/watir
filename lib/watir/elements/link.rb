@@ -6,5 +6,8 @@ module Watir
     identifier        :tag_name => 'a'
     container_method  :link
     collection_method :links
-  end
-end
+
+    alias_method :url, :href # deprecate?
+
+  end # Link
+end # Watir

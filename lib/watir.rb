@@ -6,7 +6,9 @@ require "watir/core_ext/string"
 require "watir/exception"
 require "watir/xpath_support"
 require "watir/container"
-require "watir/element_locator"
+require "watir/locators/element_locator"
+require "watir/locators/button_locator"
+require "watir/locators/text_field_locator"
 require "watir/browser"
 
 module Watir

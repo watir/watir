@@ -2,7 +2,7 @@
 module Watir
   module XpathSupport
     include Selenium
-    
+
     def element_by_xpath(xpath)
       e = wd.find_element(:xpath, xpath)
       Watir.element_class_for(e.tag_name).new(self, :element, e)
@@ -15,9 +15,9 @@ module Watir
       @driver.find_elements(:xpath, xpath).map do |e|
         Watir.element_class_for(e.tag_name).new(self, :element, e)
       end
-    rescue WebDriver::Error::WebDriverError
-      BaseElement.new(self, :xpath, xpath)
+    # rescue WebDriver::Error::WebDriverError
+    #   []
     end
-    
+
   end # XpathSupport
 end # Watir

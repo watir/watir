@@ -34,7 +34,11 @@ module Watir
     end
 
     def elements
-      @elements ||= ElementLocator.new(driver, @element_class.default_selector).locate_all
+      @elements ||= ElementLocator.new(
+        driver,
+        @element_class.default_selector,
+        @element_class.attribute_list
+      ).locate_all
     end
 
     def driver

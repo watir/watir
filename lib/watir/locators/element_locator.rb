@@ -7,9 +7,10 @@ module Watir
     WD_FINDERS =  [ :class, :class_name, :id, :link_text, :link,
                     :partial_link_text, :name, :tag_name, :xpath ]
 
-    def initialize(wd, selector)
-      @wd   = wd
-      @selector = selector.dup
+    def initialize(wd, selector, valid_attributes)
+      @wd               = wd
+      @selector         = selector.dup
+      @valid_attributes = valid_attributes
     end
 
     def locate
@@ -168,7 +169,12 @@ module Watir
         [:href, what]
       when :caption
         [:text, what]
+      when :class_name
+        [:class, what]
+      when :tag_name, :text, :xpath, :index, :class # include class since the attribute method is 'class_name'
+        [how, what]
       else
+        assert_valid_as_attribute how
         [how, what]
       end
     end
@@ -183,6 +189,12 @@ module Watir
       end
 
       rx_selector
+    end
+
+    def assert_valid_as_attribute(attribute)
+      if @valid_attributes && !@valid_attributes.include?(attribute)
+        raise MissingWayOfFindingObjectException, "invalid attribute: #{attribute.inspect}"
+      end
     end
 
     def by_id
@@ -251,60 +263,4 @@ module Watir
     end
 
   end # ElementLocator
-
-  class ButtonLocator < ElementLocator
-
-    def locate_all
-      find_all_by_multiple
-    end
-
-    def build_xpath(selectors)
-      return if selectors.values.any? { |e| e.kind_of? Regexp }
-
-      selectors.delete(:tag_name) || raise("internal error: no tag_name?!")
-
-      @building = :button
-      button_attr_exp = attribute_expression(selectors)
-
-      @building = :input
-      selectors[:type] = %w[button reset submit image]
-      input_attr_exp = attribute_expression(selectors)
-
-      xpath = "//button"
-      xpath << "[#{button_attr_exp}]" unless button_attr_exp.empty?
-      xpath << " | //input"
-      xpath << "[#{input_attr_exp}]"
-
-      p :build_xpath => xpath
-
-      xpath
-    end
-
-    def lhs_for(key)
-      if @building == :input && key == :text
-        "@value"
-      elsif @building == :button && key == :value
-        "text()"
-      else
-        super
-      end
-    end
-
-    def matches_selector?(rx_selector, element)
-      rx_selector = rx_selector.dup
-
-      [:value, :caption].each do |key|
-        if rx_selector.has_key?(key)
-          correct_key = element.tag_name == 'button' ? :text : :value
-          rx_selector[correct_key] = rx_selector.delete(key)
-        end
-      end
-
-      super
-    end
-
-    def tag_name_matches?(element, _)
-      !!(/^(input|button)$/ === element.tag_name)
-    end
-  end
 end # Watir

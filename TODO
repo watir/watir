@@ -1,5 +1,15 @@
-- buttons should cover both <input type="button"> and <button>
-- text_field should cover both <input type="whatever"> and <textarea>
-- fix watirspec to not be so picky about exception messages
-- check if selector attributes are valid (BaseElement.attribute_list ?) to get MissingWayOfFindingObjectException
+TODO:
+
 - frames
+- tables
+
+MAYBE:
+
+- support selector arg to collection methods? i.e. browser.buttons(class: "foo")
+
+DONE:
+
+- check if selector attributes are valid (BaseElement.attribute_list ?) to get MissingWayOfFindingObjectException
+- fix watirspec to not be so picky about exception messages
+- text_field should cover both <input type="whatever"> and <textarea>
+- buttons should cover both <input type="button"> and <button>

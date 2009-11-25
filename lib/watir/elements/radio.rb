@@ -7,5 +7,17 @@ module Watir
 
     container_method  :radio
     collection_method :radios
+
+    def set(bool = true)
+      assert_exists
+      assert_enabled
+
+      if set?
+        @element.clear unless bool
+      else
+        @element.select if bool
+      end
+    end
+
   end
 end

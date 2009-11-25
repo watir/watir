@@ -13,9 +13,13 @@ module Watir
         klass.default_selector = default_selector.dup
       end
 
-      def attributes(attribute_map)
+      def attributes(attribute_map = nil)
+        if attribute_map.nil?
+          return attribute_list
+        end
+
         add_attributes attribute_map
-        
+
         attribute_map.each do |type, attribs|
           attribs.each { |name| define_attribute(type, name) }
         end
@@ -24,6 +28,8 @@ module Watir
       def define_attribute(type, name)
         method_name    = method_name_for(type, name)
         attribute_name = attribute_for_method(name)
+
+        (@attributes ||= []) << attribute_name
 
         case type
         when :string
@@ -76,13 +82,13 @@ module Watir
           klass.new(self, element_class)
         end
       end
-      
+
       def add_attributes(attributes)
         attributes.each do |type, attr_list|
           typed_attributes[type] += attr_list
         end
       end
-      
+
       def typed_attributes
         @typed_attributes ||= Hash.new { |hash, type| hash[type] = []  }
       end
@@ -94,6 +100,15 @@ module Watir
 
       def default_selector
         @default_selector ||= {}
+      end
+
+      def attribute_list
+        @attribute_list ||= begin
+          list = typed_attributes.values.flatten
+          list += ancestors[1..-1].map do |e|
+            e.attribute_list if e.respond_to?(:attribute_list)
+          end.compact.flatten
+        end
       end
 
       def method_name_for(type, attribute)
@@ -275,7 +290,7 @@ module Watir
     end
 
     def locate
-      ElementLocator.new(@parent.wd, @selector).locate
+      ElementLocator.new(@parent.wd, @selector, self.class.attribute_list).locate
     end
 
     def assert_enabled
@@ -284,7 +299,7 @@ module Watir
 
     def assert_writable
       assert_enabled
-      raise ObjectReadOnlyException if @element.readonly?
+      raise ObjectReadOnlyException if respond_to?(:readonly?) && readonly?
     end
 
     def rescue_no_match(returned = "", &blk)

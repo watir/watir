@@ -3,29 +3,14 @@ module Watir
   class TextField < Input
 
     # perhaps we'll need a custom locate(), since this should also cover textareas
-
-    identifier :type => /^(?!(
-      file            |
-      radio           |
-      checkbox        |
-      submit          |
-      reset           |
-      image           |
-      button          |
-      hidden          |
-      url             |
-      datetime        |
-      date            |
-      month           |
-      week            |
-      time            |
-      datetime-local  |
-      range           |
-      color
-      )$)/x
+    attributes Watir::TextArea.typed_attributes
 
     container_method  :text_field
     collection_method :text_fields
+
+    def locate
+      TextFieldLocator.new(@parent.wd, @selector, self.class.attribute_list).locate
+    end
 
     def inspect
       '#<%s:0x%x located=%s selector=%s>' % [self.class, hash*2, !!@element, selector_without_type.inspect]
