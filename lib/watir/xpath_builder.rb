@@ -3,36 +3,12 @@ module Watir
   class XPathBuilder
 
     class << self
-      def build_from(selectors)
-        return if selectors.values.any? { |e| e.kind_of? Regexp }
-
-        xpath = "//"
-        xpath << (selectors.delete(:tag_name) || '*').to_s
-
-        idx = selectors.delete(:index)
-
-        # the remaining entries should be attributes
-        unless selectors.empty?
-          xpath << "[" << selectors.map { |key, val| "#{lhs_for(key)}=#{val.to_s.inspect}" }.join(" and ") << "]"
-        end
-
-        if idx
-          xpath << "[#{idx + 1}]"
-        end
-
-        p :xpath => xpath, :selectors => selectors if $DEBUG
-
-        xpath
+      def build(selectors)
       end
 
-      def lhs_for(key)
-        case key
-        when :text, 'text'
-          'text()'
-        else
-          "@#{key}"
-        end
+      def build_button(selectors)
       end
+      
     end
 
   end # XPathBuilder

@@ -1,6 +1,7 @@
 # encoding: utf-8
 module Watir
   module XpathSupport
+    include Selenium
     
     def element_by_xpath(xpath)
       e = wd.find_element(:xpath, xpath)

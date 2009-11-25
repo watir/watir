@@ -1,14 +1,14 @@
 # encoding: utf-8
 module Watir
   class ElementLocator
-    include Watir::Exceptions
+    include Watir::Exception
     include Selenium
 
     WD_FINDERS =  [ :class, :class_name, :id, :link_text, :link,
                     :partial_link_text, :name, :tag_name, :xpath ]
 
-    def initialize(driver, selector)
-      @driver   = driver
+    def initialize(wd, selector)
+      @wd   = wd
       @selector = selector.dup
     end
 
@@ -61,14 +61,14 @@ module Watir
       selector = normalized_selector
 
       idx   = selector.delete(:index)
-      xpath = selector[:xpath] || XPathBuilder.build_from(selector)
+      xpath = selector[:xpath] || build_xpath(selector)
 
       if xpath
         # strings only, so we can use the built xpath directly
         if idx
-          @driver.find_elements(:xpath, xpath)[idx]
+          @wd.find_elements(:xpath, xpath)[idx]
         else
-          @driver.find_element(:xpath, xpath)
+          @wd.find_element(:xpath, xpath)
         end
       else
         # we have at least one regexp
@@ -87,9 +87,9 @@ module Watir
         raise Error, "can't locate all elements by :index"
       end
 
-      xpath = selector[:xpath] || XPathBuilder.build_from(selector)
+      xpath = selector[:xpath] || build_xpath(selector)
       if xpath
-        @driver.find_elements(:xpath, xpath)
+        @wd.find_elements(:xpath, xpath)
       else
         wd_find_by_regexp_selector(selector, :select)
       end
@@ -97,7 +97,7 @@ module Watir
 
     def wd_find_first_by(how, what)
       if what.kind_of? String
-        @driver.find_element(how, what)
+        @wd.find_element(how, what)
       else
         all_elements.find { |e| fetch_value(how, e) =~ what }
       end
@@ -105,7 +105,7 @@ module Watir
 
     def wd_find_all_by(how, what)
       if what.kind_of? String
-        @driver.find_elements(how, what)
+        @wd.find_elements(how, what)
       else
         all_elements.select { |e| fetch_value(how, e) =~ what }
       end
@@ -113,10 +113,10 @@ module Watir
 
     def wd_find_by_regexp_selector(selector, method = :find)
       rx_selector = delete_regexps_from(selector)
-      xpath = XPathBuilder.build_from(selector) || raise("internal error: unable to build xpath from #{@selector.inspect}")
+      xpath = build_xpath(selector) || raise("internal error: unable to build xpath from #{@selector.inspect}")
 
-      elements = @driver.find_elements(:xpath, xpath)
-      elements.send(method) { |e| matches_selector(rx_selector, e) }
+      elements = @wd.find_elements(:xpath, xpath)
+      elements.send(method) { |e| matches_selector?(rx_selector, e) }
     end
 
     def check_type(how, what)
@@ -141,10 +141,10 @@ module Watir
       end
     end
 
-    def matches_selector(selector, element)
-      # p :start => selector
+    def matches_selector?(selector, element)
+      p :start => selector
       selector.all? do |how, what|
-        # p :comparing => [how, what], :to => fetch_value(how, element)
+        p :comparing => [how, what], :to => fetch_value(how, element)
         what === fetch_value(how, element)
       end
     end
@@ -166,6 +166,8 @@ module Watir
       case how
       when :url
         [:href, what]
+      when :caption
+        [:text, what]
       else
         [how, what]
       end
@@ -191,14 +193,112 @@ module Watir
       tag_name = selector.delete(:tag_name)
       return unless selector.empty? # multiple attributes
 
-      element  = @driver.find_element(:id, id)
-      return if tag_name && !(tag_name === element.tag_name)
+      element  = @wd.find_element(:id, id)
+      return if tag_name && !tag_name_matches?(element, tag_name)
 
       element
     rescue WebDriver::Error::WebDriverError => wde
       nil
     end
+    
+    def tag_name_matches?(element, tag_name)
+      tag_name === element.tag_name
+    end
+    
+    def build_xpath(selectors)
+      return if selectors.values.any? { |e| e.kind_of? Regexp }
 
-    #
+      xpath = "//"
+      xpath << (selectors.delete(:tag_name) || '*').to_s
+
+      idx = selectors.delete(:index)
+
+      # the remaining entries should be attributes
+      unless selectors.empty?
+        xpath << "[" << attribute_expression(selectors) << "]"
+      end
+
+      if idx
+        xpath << "[#{idx + 1}]"
+      end
+
+      p :xpath => xpath, :selectors => selectors if $DEBUG
+
+      xpath
+    end
+    
+    def attribute_expression(selectors)
+      selectors.map do |key, val| 
+        if val.kind_of?(Array)
+          "( " + val.map { |v| equal_pair(key, v) }.join(" or ") + " )"
+        else
+          equal_pair(key, val) 
+        end
+      end.join(" and ")
+    end
+    
+    def equal_pair(key, value)
+      "#{lhs_for(key)}=#{value.to_s.inspect}"
+    end
+
+    def lhs_for(key)
+      case key
+      when :text, 'text'
+        'text()'
+      else
+        "@#{key}"
+      end
+    end
+
   end # ElementLocator
+  
+  class ButtonLocator < ElementLocator
+    
+    def build_xpath(selectors)
+      return if selectors.values.any? { |e| e.kind_of? Regexp }
+      
+      selectors.delete(:tag_name) || raise("internal error: no tag_name?!")
+      
+      @building = :button
+      button_attr_exp = attribute_expression(selectors)
+      
+      @building = :input
+      selectors[:type] = %w[button reset submit]
+      input_attr_exp = attribute_expression(selectors)
+
+      xpath = "//button"
+      xpath << "[#{button_attr_exp}]" unless button_attr_exp.empty?
+      xpath << " | //input"
+      xpath << "[#{input_attr_exp}]"
+      
+      xpath
+    end
+    
+    def lhs_for(key)
+      if @building == :input && key == :text
+        "@value"
+      elsif @building == :button && key == :value
+        "text()"
+      else
+        super
+      end
+    end
+    
+    def matches_selector?(rx_selector, element)
+      rx_selector = rx_selector.dup
+      
+      [:value, :caption].each do |key|
+        if rx_selector.has_key?(key)
+          correct_key = element.tag_name == 'button' ? :text : :value
+          rx_selector[correct_key] = rx_selector.delete(key)
+        end
+      end
+      
+      super
+    end
+    
+    def tag_name_matches?(element, _)
+      !!(/^(input|button)$/ === element.tag_name)
+    end
+  end
 end # Watir

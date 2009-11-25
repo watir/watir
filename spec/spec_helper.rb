@@ -8,7 +8,7 @@ require 'spec'
 require 'spec/autorun'
 
 include Watir
-include Watir::Exceptions
+include Watir::Exception
 
 if defined?(WatirSpec)
   WatirSpec.browser_args   = [:firefox]

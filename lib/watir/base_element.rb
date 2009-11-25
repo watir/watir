@@ -2,7 +2,7 @@
 
 module Watir
   class BaseElement
-    include Exceptions
+    include Exception
     include Container
     include Selenium
 
@@ -14,6 +14,8 @@ module Watir
       end
 
       def attributes(attribute_map)
+        add_attributes attribute_map
+        
         attribute_map.each do |type, attribs|
           attribs.each { |name| define_attribute(type, name) }
         end
@@ -33,8 +35,6 @@ module Watir
         else
           # $stderr.puts "treating #{type.inspect} as string for now"
         end
-
-        attribute_list << attribute_name
       end
 
       def define_string_attribute(mname, aname)
@@ -76,6 +76,16 @@ module Watir
           klass.new(self, element_class)
         end
       end
+      
+      def add_attributes(attributes)
+        attributes.each do |type, attr_list|
+          typed_attributes[type] += attr_list
+        end
+      end
+      
+      def typed_attributes
+        @typed_attributes ||= Hash.new { |hash, type| hash[type] = []  }
+      end
 
       def identifier(selector)
         Watir.tag_to_class[selector[:tag_name]] = self
@@ -84,10 +94,6 @@ module Watir
 
       def default_selector
         @default_selector ||= {}
-      end
-
-      def attribute_list
-        @attribute_list ||= (super.dup rescue [])
       end
 
       def method_name_for(type, attribute)
@@ -270,8 +276,6 @@ module Watir
 
     def locate
       ElementLocator.new(@parent.wd, @selector).locate
-    rescue WebDriver::Error::WebDriverError => wde
-      nil
     end
 
     def assert_enabled

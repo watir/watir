@@ -3,7 +3,7 @@ require "selenium-webdriver"
 require "json"
 
 require "watir/core_ext/string"
-require "watir/exceptions"
+require "watir/exception"
 require "watir/xpath_builder"
 require "watir/xpath_support"
 require "watir/container"
@@ -20,7 +20,7 @@ module Watir
     end
 
     def element_class_for(tag_name)
-      tag_to_class[tag_name] || raise(Exceptions::Error, "no class found for #{tag_name.inspect}")
+      tag_to_class[tag_name] || raise(Exception::Error, "no class found for #{tag_name.inspect}")
     end
   end
 

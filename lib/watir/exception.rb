@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 module Watir
-  module Exceptions
+  module Exception
     class Error < StandardError; end
 
     # TODO: rename Object -> Element?
@@ -16,5 +16,5 @@ module Watir
     class NavigationException < Error; end
     class UnknownFrameException < Error; end
 
-  end # Exceptions
+  end # Exception
 end # Watir
