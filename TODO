@@ -1,0 +1,5 @@
+- buttons should cover both <input type="button"> and <button>
+- text_field should cover both <input type="whatever"> and <textarea>
+- fix watirspec to not be so picky about exception messages
+- check if selector attributes are valid (BaseElement.attribute_list ?) to get MissingWayOfFindingObjectException
+- frames
