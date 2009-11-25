@@ -78,9 +78,9 @@ describe "Div" do
     end
 
     it "raises UnknownObjectException if the element does not exist" do
-      lambda {browser.div(:id, "no_such_id").id }.should raise_error(UnknownObjectException)
-      lambda {browser.div(:title, "no_such_id").id }.should raise_error(UnknownObjectException)
-      lambda {browser.div(:index, 1337).id }.should raise_error(UnknownObjectException)
+      lambda { browser.div(:id, "no_such_id").id }.should raise_error(UnknownObjectException)
+      lambda { browser.div(:title, "no_such_id").id }.should raise_error(UnknownObjectException)
+      lambda { browser.div(:index, 1337).id }.should raise_error(UnknownObjectException)
     end
 
     it "should take all conditions into account when locating by id" do
@@ -102,8 +102,6 @@ describe "Div" do
         browser.div(:id, 'best_language').style.should == "cursor: pointer; color: red; text-decoration: underline"
       end
     end
-
-
 
     it "returns an empty string if the element exists but the attribute doesn't" do
       browser.div(:id, 'promo').style.should == ""
