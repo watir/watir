@@ -84,7 +84,7 @@ describe "Div" do
     end
 
     it "should take all conditions into account when locating by id" do
-      browser.goto WatirSpec.files + "/multiple_ids.html"
+      browser.goto "#{WatirSpec.files}/multiple_ids.html"
       browser.div(:id => "multiple", :class => "bar").class_name.should == "bar"
     end
   end

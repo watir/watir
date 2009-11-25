@@ -49,7 +49,7 @@ module WatirSpec
       hook = File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper.rb")
       raise(Errno::ENOENT, hook) unless File.exist?(hook)
 
-      require hook
+      load hook
       require "fileutils"
       require "spec"
 
