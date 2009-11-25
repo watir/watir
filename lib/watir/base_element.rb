@@ -201,11 +201,12 @@ module Watir
 
     def focus
       assert_exists
-      driver.execute_script "arguments[0].focus;", @element
+      driver.execute_script "arguments[0].focus();", @element
     end
 
     def fire_event(event)
       assert_exists
+      raise NotImplementedError, "cross-browser way of firing a specific event? FireWatir has some code for FF.."
       driver.execute_script "arguments[0].fireEvent(#{event.inspect});", @element
     end
 
@@ -300,7 +301,7 @@ module Watir
 
         selectors.first
       else
-        raise ArgumentError, "wrong number of arguments (#{selectors.size} for 2) for #{selectors.inspect}"
+        raise ArgumentError, "wrong number of arguments (#{selectors.size} for 2)"
       end
     end
 
