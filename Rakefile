@@ -107,3 +107,5 @@ Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
+
+load "spec/watirspec/watirspec.rake" if File.exist?("spec/watirspec/watirspec.rake")
