@@ -9,13 +9,13 @@ bug "WTR-334", :watir do
 
     describe "#exist?" do
       it "returns true if the meta tag exists" do
-        browser.meta('http-equiv', "Content-Type").should exist
+        browser.meta(:http_equiv, "Content-Type").should exist
       end
     end
 
     describe "content" do
       it "returns the content attribute of the tag" do
-        browser.meta('http-equiv', "Content-Type").content.should == "text/html; charset=utf-8"
+        browser.meta(:http_equiv, "Content-Type").content.should == "text/html; charset=utf-8"
       end
     end
   end
