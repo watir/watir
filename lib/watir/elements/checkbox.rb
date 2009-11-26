@@ -12,10 +12,10 @@ module Watir
       assert_exists
       assert_enabled
 
-      if set?
-        @element.toggle unless bool
+      if @element.selected?
+        @element.click unless bool
       else
-        @element.toggle if bool
+        @element.click if bool
       end
     end
 

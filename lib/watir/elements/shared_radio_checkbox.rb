@@ -7,10 +7,7 @@ module Watir
     end
 
     def clear
-      assert_exists
-      assert_enabled
-      
-      @element.clear
+      set false
     end
   end # SharedRadioCheckbox
 end # Watir
