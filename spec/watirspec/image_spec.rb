@@ -47,7 +47,7 @@ describe "Image" do
   describe "#alt" do
     it "returns the alt attribute of the image if the image exists" do
       browser.image(:id, 'square').alt.should == "square"
-      browser.image(:title, 'circle').alt.should == 'circle'
+      browser.image(:title, 'Circle').alt.should == 'circle'
     end
 
     it "returns an empty string if the image exists and the attribute doesn't" do
