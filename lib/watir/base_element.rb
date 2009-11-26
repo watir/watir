@@ -252,10 +252,8 @@ module Watir
     alias_method :wd, :element # ensures duck typing with Browser
 
     def visible?
-      raise NotImplementedError, "need support in WebDriver"
-
       assert_exists
-      @element.visible?
+      @element.displayed? == "true"
     end
 
     def style(property = nil)

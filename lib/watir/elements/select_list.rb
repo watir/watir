@@ -22,7 +22,7 @@ module Watir
       assert_exists
       o = options.select { |e| str_or_rx === e.text }
       if o.empty?
-        raise NoSuchaValueException, "#{str_or_rx.inspect} not found in select list"
+        raise Exception::NoSuchValueException, "#{str_or_rx.inspect} not found in select list"
       end
 
       o.each { |e| e.select }
@@ -30,7 +30,12 @@ module Watir
 
     def selected?(str_or_rx)
       assert_exists
-      options.any? { |e| str_or_rx === e.text && e.selected? }
+      matches = options.select { |e| str_or_rx === e.text }
+      if matches.empty?
+        raise UnknownObjectExcpetion, "Unable to locate option matching #{str_or_rx.inspect}"
+      end
+      
+      matches.any? { |e| e.selected? }
     end
 
     def selected_options

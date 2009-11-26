@@ -65,14 +65,14 @@ module Watir
       xpath = selector[:xpath] || build_xpath(selector)
 
       if xpath
-        # strings only, so we can use the built xpath directly
+        # could build xpath for selector
         if idx
           @wd.find_elements(:xpath, xpath)[idx]
         else
           @wd.find_element(:xpath, xpath)
         end
       else
-        # we have at least one regexp
+        # can't use xpath, probably a regexp in there
         if idx
           wd_find_by_regexp_selector(selector, :select)[idx]
         else
@@ -256,7 +256,7 @@ module Watir
     def lhs_for(key)
       case key
       when :text, 'text'
-        'text()'
+        'normalize-space()'
       else
         "@#{key}"
       end
