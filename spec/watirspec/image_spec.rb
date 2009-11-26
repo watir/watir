@@ -183,7 +183,6 @@ describe "Image" do
     end
 
     it "raises UnknownObjectException if the image doesn't exist" do
-      lambda { browser.image(:name, 'no_such_image').loaded? }.should raise_error(UnknownObjectException)
       lambda { browser.image(:id, 'no_such_image').loaded? }.should raise_error(UnknownObjectException)
       lambda { browser.image(:src, 'no_such_image').loaded? }.should raise_error(UnknownObjectException)
       lambda { browser.image(:alt, 'no_such_image').loaded? }.should raise_error(UnknownObjectException)
