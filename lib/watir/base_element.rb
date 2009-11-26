@@ -143,6 +143,8 @@ module Watir
     end # class << self
 
     def initialize(parent, *selectors)
+      parent.assert_exists
+
       @parent   = parent
       @selector = extract_selector(selectors).merge(self.class.default_selector)
 
@@ -160,7 +162,11 @@ module Watir
     alias_method :exist?, :exists?
 
     def inspect
-      '#<%s:0x%x located=%s selector=%s>' % [self.class, hash*2, !!@element, @selector.inspect]
+      if @selector.has_key?(:element)
+        '#<%s:0x%x located=%s selector=%s>' % [self.class, hash*2, !!@element, ':element=>(webdriver element)}']
+      else
+        '#<%s:0x%x located=%s selector=%s>' % [self.class, hash*2, !!@element, @selector.inspect]
+      end
     end
 
     def text
@@ -269,15 +275,9 @@ module Watir
       @parent.run_checkers
     end
 
-    private
-
     #
     # @api private
     #
-
-    def selector_string
-      @selector.inspect
-    end
 
     def assert_exists
       @element ||= locate
@@ -285,6 +285,17 @@ module Watir
       unless @element
         raise UnknownObjectException, "Unable to locate element, using #{selector_string}"
       end
+    end
+
+    private
+
+    def selector_string
+      @selector.inspect
+    end
+
+    def attribute?(a)
+      assert_exists
+      rescue_no_match(false) { !!@element.attribute(a)  }
     end
 
     def locate

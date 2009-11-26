@@ -13,9 +13,9 @@ module Watir
       assert_enabled
 
       if set?
-        @element.clear unless bool
+        @element.click unless bool
       else
-        @element.select if bool
+        @element.click if bool
       end
     end
 

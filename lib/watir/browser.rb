@@ -100,7 +100,9 @@ module Watir
       @error_checkers.each { |e| e[self] }
     end
 
-    private
+    #
+    # @api private
+    #
 
     def assert_exists
       true # TODO: assert browser is open

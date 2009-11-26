@@ -39,7 +39,7 @@ task :spec => :check_dependencies
 namespace :html5 do
   IDL_PATH    = "support/html5/html5.idl"
   EXTRAS_PATH = "support/html5/html5_extras.idl"
-  SPEC_URI    = "http://dev.w3.org/html5/spec/Overview.html"
+  SPEC_URI    = "http://dev.w3.org/html5/spec/Overview.html" # TODO: use http://www.whatwg.org/specs/web-apps/current-work/source
 
   task :extract do
     require 'support/html5/idl_extractor'
