@@ -85,7 +85,7 @@ describe "Map" do
     end
 
     it "raises UnknownObjectException if the p doesn't exist" do
-      lambda { browser.map(:xpath, "//map[@id='no_such_id']").to_s }.should raise_error( UnknownObjectException)
+      lambda { browser.map(:xpath, "//map[@id='no_such_id']").text }.should raise_error( UnknownObjectException)
     end
   end
 

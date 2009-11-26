@@ -120,7 +120,7 @@ describe "Li" do
     end
 
     it "raises UnknownObjectException if the li doesn't exist" do
-      lambda { browser.li(:xpath, "//li[@id='no_such_id']").to_s }.should raise_error( UnknownObjectException)
+      lambda { browser.li(:xpath, "//li[@id='no_such_id']").text }.should raise_error( UnknownObjectException)
     end
   end
 
