@@ -215,20 +215,6 @@ describe "TextField" do
     end
   end
 
-  describe "#drag_contents_to" do
-    it "drags contents to another text field" do
-      browser.text_field(:name, "new_user_first_name").set("Smith")
-      browser.text_field(:name, "new_user_first_name").drag_contents_to(:name, "new_user_last_name")
-      browser.text_field(:name, "new_user_first_name").value.should be_empty
-      browser.text_field(:id, "new_user_last_name").value.should == "Smith"
-    end
-
-    it "raises UnknownObjectException if either of the text fields doesn't exist" do
-      lambda { browser.text_field(:id, "no_such_id").drag_contents_to(:name, "new_user_last_name") }.should raise_error(UnknownObjectException)
-      lambda { browser.text_field(:name, "new_user_first_name").drag_contents_to(:id, "no_such_id") }.should raise_error(UnknownObjectException)
-    end
-  end
-
   describe "#value=" do
     it "sets the value of the element" do
       browser.text_field(:id, 'new_user_email').value = 'Hello Cruel World'

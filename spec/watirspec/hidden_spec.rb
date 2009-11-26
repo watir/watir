@@ -99,17 +99,4 @@ describe "Hidden" do
     end
   end
 
-  # Manipulation methods
-  describe "#value=" do
-    it "sets the value of the element" do
-      browser.hidden(:id, 'new_user_interests_dolls').value = 'guns'
-      browser.hidden(:id, "new_user_interests_dolls").value.should == 'guns'
-    end
-
-    it "raises UnknownObjectException if the text field doesn't exist" do
-      lambda { browser.hidden(:id, 'no_such_id').value = 'guns' }.should raise_error(UnknownObjectException)
-    end
-  end
-
-
 end
