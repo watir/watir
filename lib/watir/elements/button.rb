@@ -9,6 +9,16 @@ module Watir
       ButtonLocator.new(@parent.wd, @selector, self.class.attribute_list).locate
     end
 
+    def text
+      assert_exists
+      case @element.tag_name
+      when 'input'
+        value
+      when 'button'
+        text
+      end
+    end
+
     def enabled?
       !disabled?
     end
