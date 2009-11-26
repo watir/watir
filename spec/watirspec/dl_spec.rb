@@ -99,9 +99,9 @@ describe "Dl" do
   # Manipulation methods
   describe "#click" do
     it "fires events when clicked" do
-      browser.dl(:id, 'noop').text.should_not == 'noop'
-      browser.dl(:id, 'noop').click
-      browser.dl(:id, 'noop').text.should == 'noop'
+      browser.dt(:id, 'name').text.should_not == 'changed!'
+      browser.dt(:id, 'name').click
+      browser.dt(:id, 'name').text.should == 'changed!'
     end
 
     it "raises UnknownObjectException if the element does not exist" do
