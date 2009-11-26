@@ -258,7 +258,7 @@ module Watir
       when :text, 'text'
         'normalize-space()'
       else
-        "@#{key}"
+        "@#{key.to_s.gsub("_", "-")}"
       end
     end
 

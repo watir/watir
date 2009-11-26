@@ -109,6 +109,13 @@ interface HTMLElement : Element {
            attribute Function onwaiting;
 };
 
+// the-meta-element
+[TagName=meta]
+interface HTMLMetaElement : HTMLElement {
+           attribute DOMString name;
+           attribute DOMString httpEquiv;
+           attribute DOMString content;
+};
 
 // the-input-element
 [TagName=input]
