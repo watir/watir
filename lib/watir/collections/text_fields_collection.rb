@@ -3,7 +3,7 @@ module Watir
 
     def elements
       @elements ||= TextFieldLocator.new(
-        driver,
+        @parent.wd,
         @element_class.default_selector,
         @element_class.attribute_list
       ).locate_all
