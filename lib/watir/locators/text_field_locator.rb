@@ -22,11 +22,11 @@ module Watir
 
       xpath = "//textarea"
       xpath << "[#{textarea_attr_exp}]" unless textarea_attr_exp.empty?
-      xpath << " | //input[(not(@type) or #{NEGATIVE_TYPE_EXPR})"
+      xpath << " | //input[(not(@type) or (#{NEGATIVE_TYPE_EXPR}))"
       xpath << " and #{input_attr_exp}" unless input_attr_exp.empty?
       xpath << "]"
 
-      p :build_xpath => xpath
+      p :build_xpath => xpath if $DEBUG
 
       xpath
     end
