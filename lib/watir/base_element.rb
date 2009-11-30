@@ -112,11 +112,16 @@ module Watir
       end
 
       def method_name_for(type, attribute)
+        # TODO: rethink this - this list could get pretty long...
         name = case attribute
                when :hash
                  'hash_attribute'
                when :html_for
                  'for'
+               when :col_span
+                 'colspan'
+               when :row_span
+                 'rowspan'
                else
                  attribute.to_s
                end

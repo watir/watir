@@ -109,6 +109,18 @@ interface HTMLElement : Element {
            attribute Function onwaiting;
 };
 
+interface HTMLTableCellElement : HTMLElement {
+           attribute unsigned long colSpan;
+           attribute unsigned long rowSpan;
+           attribute DOMString headers;
+  readonly attribute long cellIndex;
+};
+
+interface HTMLModElement : HTMLElement {
+           attribute DOMString cite;
+           attribute DOMString dateTime;
+};
+
 // the-meta-element
 [TagName=meta]
 interface HTMLMetaElement : HTMLElement {

@@ -55,6 +55,12 @@ module Watir
     alias_method :frame, :iframe
     alias_method :frames, :iframes
 
+    # TODO: deprecate cell/row in favor of td/tr?
+    alias_method :cell,  :td
+    alias_method :cells, :tds
+    alias_method :row,   :tr
+    alias_method :rows,  :trs
+
   end # Container
 end # Watir
 
