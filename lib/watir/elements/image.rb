@@ -2,6 +2,8 @@
 module Watir
   class Image < HTMLElement
 
+    alias_method :loaded?, :complete?
+
     def width
       assert_exists
       driver.execute_script "return arguments[0].width", @element
@@ -22,13 +24,9 @@ module Watir
       raise NotImplementedError
     end
 
-    def loaded?
-      assert_exists
-      raise NotImplementedError
-    end
-
     def save(path)
       assert_exists
+      raise NotImplementedError
     end
 
   end # Image
