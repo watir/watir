@@ -22,7 +22,7 @@ module Watir
       xpath << " | //input"
       xpath << "[#{input_attr_exp}]"
 
-      p :build_xpath => xpath
+      p :build_xpath => xpath if $DEBUG
 
       xpath
     end
