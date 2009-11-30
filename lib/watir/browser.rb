@@ -15,8 +15,8 @@ module Watir
       end
     end
 
-    def initialize(browser)
-      @driver         = Selenium::WebDriver.for browser.to_sym
+    def initialize(browser, *args)
+      @driver         = Selenium::WebDriver.for browser.to_sym, *args
       @error_checkers = []
     end
 
