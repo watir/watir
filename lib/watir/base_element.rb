@@ -143,8 +143,6 @@ module Watir
     end # class << self
 
     def initialize(parent, *selectors)
-      parent.assert_exists
-
       @parent   = parent
       @selector = extract_selector(selectors).merge(self.class.default_selector)
 
@@ -227,14 +225,13 @@ module Watir
     end
 
     def focus
-      assert_exists
-      driver.execute_script "arguments[0].focus();", @element
+      fire_event 'focus'
     end
 
-    def fire_event(event)
+    def fire_event(event_name)
       assert_exists
-      raise NotImplementedError, "cross-browser way of firing a specific event? FireWatir has some code for FF.."
-      driver.execute_script "arguments[0].fireEvent(#{event.inspect});", @element
+      event_name.sub!(/^on/, '')
+      browserbot('triggerEvent', @element, event_name, false)
     end
 
     def parent
@@ -259,7 +256,7 @@ module Watir
 
     def visible?
       assert_exists
-      @element.displayed? == "true"
+      @element.displayed?
     end
 
     def style(property = nil)
@@ -299,6 +296,7 @@ module Watir
     end
 
     def locate
+      @parent.assert_exists
       ElementLocator.new(@parent.wd, @selector, self.class.attribute_list).locate
     end
 
