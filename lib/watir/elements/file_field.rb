@@ -8,8 +8,13 @@ module Watir
 
     def set(value)
       assert_exists
-
       @element.send_keys value
+    end
+
+    def value
+      # since 'value' is an attribute on input fields, we override this here
+      assert_exists
+      @element.value
     end
   end
 end

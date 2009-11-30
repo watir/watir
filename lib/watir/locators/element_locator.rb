@@ -250,13 +250,16 @@ module Watir
     end
 
     def equal_pair(key, value)
-      "#{lhs_for(key)}=#{value.to_s.inspect}"
+      "#{lhs_for(key)}='#{value}'"
     end
 
     def lhs_for(key)
       case key
       when :text, 'text'
         'normalize-space()'
+      when :href
+        # TODO: change this behaviour?
+        'normalize-space(@href)'
       else
         "@#{key.to_s.gsub("_", "-")}"
       end

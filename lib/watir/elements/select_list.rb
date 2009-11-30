@@ -31,6 +31,11 @@ module Watir
       os.first.text
     end
 
+    # TODO: deprecate?
+    def select_value(val)
+      option(:value, val).select
+    end
+
     def selected?(str_or_rx)
       assert_exists
       matches = options.select { |e| str_or_rx === e.text }

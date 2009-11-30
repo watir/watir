@@ -48,6 +48,17 @@ require "watir/elements/option"
 
 Watir.tag_to_class.freeze
 
+module Watir
+  module Container
+
+    # TODO: proper frame support
+    alias_method :frame, :iframe
+    alias_method :frames, :iframes
+
+  end # Container
+end # Watir
+
+
 # undefine deprecated methods to use them for Element attributes
 Object.send :undef_method, :id   if Object.method_defined? "id"
 Object.send :undef_method, :type if Object.method_defined? "type"

@@ -225,12 +225,12 @@ module Watir
     end
 
     def focus
-      fire_event 'focus'
+      fire_event :focus
     end
 
     def fire_event(event_name)
       assert_exists
-      event_name.sub!(/^on/, '')
+      event_name = event_name.to_s.sub!(/^on/, '')
       browserbot('triggerEvent', @element, event_name, false)
     end
 
