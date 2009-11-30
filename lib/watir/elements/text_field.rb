@@ -42,6 +42,13 @@ module Watir
       @element.clear
     end
 
+
+    def value
+      # since 'value' is an attribute on input fields, we override this here
+      assert_exists
+      @element.value
+    end
+
     private
 
     def selector_without_type
