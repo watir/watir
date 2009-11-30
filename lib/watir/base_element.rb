@@ -267,7 +267,7 @@ module Watir
         assert_exists
         @element.style property
       else
-        rescue_no_match { attribute_value "style" }
+        rescue_no_match { attribute_value "style" } || ''
       end
     end
 
