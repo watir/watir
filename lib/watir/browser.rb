@@ -58,7 +58,12 @@ module Watir
     end
 
     def text
-      @driver.find_element(:tag_name, "body").text
+      # TODO: do this properly
+      if @driver.bridge.browser == :firefox
+        browserbot 'getVisibleText'
+      else
+        @driver.find_element(:tag_name, "body").text
+      end
     end
 
     def html
