@@ -12,11 +12,11 @@ module Watir
 
     def elements_by_xpath(xpath)
       # TODO: find the correct element class
-      @driver.find_elements(:xpath, xpath).map do |e|
+      wd.find_elements(:xpath, xpath).map do |e|
         Watir.element_class_for(e.tag_name).new(self, :element, e)
       end
-    # rescue WebDriver::Error::WebDriverError
-    #   []
+    rescue WebDriver::Error::WebDriverError
+      []
     end
 
   end # XpathSupport
