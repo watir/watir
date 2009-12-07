@@ -45,6 +45,7 @@ require "watir/elements/hidden"
 require "watir/elements/select_list"
 require "watir/elements/form"
 require "watir/elements/option"
+require "watir/elements/table"
 
 Watir.tag_to_class.freeze
 
