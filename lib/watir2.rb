@@ -1,1 +1,1 @@
-load "#{File.dirname(__FILE__)}/watir"
+load "#{File.dirname(__FILE__)}/watir.rb"
