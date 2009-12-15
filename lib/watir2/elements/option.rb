@@ -6,7 +6,12 @@ module Watir
       assert_exists
       @element.select
     end
-
+    
+    def toggle
+      assert_exists
+      @element.toggle
+    end
+    
     def selected?
       assert_exists
       @element.selected?

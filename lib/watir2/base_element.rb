@@ -286,19 +286,17 @@ module Watir
       @parent.run_checkers
     end
 
-    #
-    # @api private
-    #
+  protected
 
     def assert_exists
       @element ||= locate
 
       unless @element
-        raise UnknownObjectException, "Unable to locate element, using #{selector_string}"
+        raise UnknownObjectException, "unable to locate element, using #{selector_string}"
       end
     end
 
-    private
+  private
 
     def selector_string
       @selector.inspect
@@ -315,7 +313,7 @@ module Watir
     end
 
     def assert_enabled
-      raise ObjectDisabledException unless @element.enabled?
+      raise ObjectDisabledException, "object is disabled #{selector_string}" unless @element.enabled?
     end
 
     def assert_writable

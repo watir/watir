@@ -9,6 +9,10 @@ module Watir
         res << row.tds.map { |cell| cell.text }
       end
     end
+    
+    def [](idx)
+      row(:index, idx)
+    end
 
   end # Table
 end # Watir

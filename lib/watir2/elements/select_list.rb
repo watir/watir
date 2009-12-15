@@ -11,7 +11,10 @@ module Watir
 
     def clear
       assert_exists
-      @element.clear
+      raise "you can only clear multi-selects" unless multiple?
+      options.each do |o|
+        o.toggle if o.selected?
+      end
     end
 
     def includes?(str_or_rx)
