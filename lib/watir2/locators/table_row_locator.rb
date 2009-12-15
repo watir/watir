@@ -10,21 +10,13 @@ module Watir
 
       selectors.delete(:tag_name) || raise("internal error: no tag_name?!")
 
-      xpath = "//tr"
+      attr_expr = attribute_expression(selectors)
 
-      # @building = :button
-      # button_attr_exp = attribute_expression(selectors)
-      # 
-      # @building = :input
-      # selectors[:type] = %w[button reset submit image]
-      # input_attr_exp = attribute_expression(selectors)
-      # 
-      # xpath = "//button"
-      # xpath << "[#{button_attr_exp}]" unless button_attr_exp.empty?
-      # xpath << " | //input"
-      # xpath << "[#{input_attr_exp}]"
-      # 
-      # p :build_xpath => xpath if $DEBUG
+
+      xpath = "./*/child::tr"
+      xpath << "[#{attr_expr}]" unless attr_expr.empty?
+
+      p :build_xpath => xpath if $DEBUG
 
       xpath
     end

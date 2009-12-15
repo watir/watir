@@ -20,9 +20,9 @@ module Watir
       @building = :input
       input_attr_exp = attribute_expression(selectors)
 
-      xpath = "//textarea"
+      xpath = ".//textarea"
       xpath << "[#{textarea_attr_exp}]" unless textarea_attr_exp.empty?
-      xpath << " | //input[(not(@type) or (#{NEGATIVE_TYPE_EXPR}))"
+      xpath << " | .//input[(not(@type) or (#{NEGATIVE_TYPE_EXPR}))"
       xpath << " and #{input_attr_exp}" unless input_attr_exp.empty?
       xpath << "]"
 

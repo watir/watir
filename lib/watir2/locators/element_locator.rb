@@ -220,7 +220,7 @@ module Watir
     def build_xpath(selectors)
       return if selectors.values.any? { |e| e.kind_of? Regexp }
 
-      xpath = "//"
+      xpath = ".//"
       xpath << (selectors.delete(:tag_name) || '*').to_s
 
       idx = selectors.delete(:index)

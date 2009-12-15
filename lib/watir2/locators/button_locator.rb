@@ -17,9 +17,9 @@ module Watir
       selectors[:type] = %w[button reset submit image]
       input_attr_exp = attribute_expression(selectors)
 
-      xpath = "//button"
+      xpath = ".//button"
       xpath << "[#{button_attr_exp}]" unless button_attr_exp.empty?
-      xpath << " | //input"
+      xpath << " | .//input"
       xpath << "[#{input_attr_exp}]"
 
       p :build_xpath => xpath if $DEBUG

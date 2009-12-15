@@ -9,6 +9,7 @@ require "watir2/container"
 require "watir2/locators/element_locator"
 require "watir2/locators/button_locator"
 require "watir2/locators/text_field_locator"
+require "watir2/locators/table_row_locator"
 require "watir2/browser"
 
 module Watir
@@ -47,6 +48,7 @@ require "watir2/elements/form"
 require "watir2/elements/option"
 require "watir2/elements/table"
 require "watir2/elements/table_row"
+require "watir2/collections/table_rows_collection"
 
 Watir.tag_to_class.freeze
 
