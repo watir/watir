@@ -166,7 +166,7 @@ module Watir
 
     def inspect
       if @selector.has_key?(:element)
-        '#<%s:0x%x located=%s selector=%s>' % [self.class, hash*2, !!@element, ':element=>(webdriver element)}']
+        '#<%s:0x%x located=%s selector=%s>' % [self.class, hash*2, !!@element, '{:element=>(webdriver element)}']
       else
         '#<%s:0x%x located=%s selector=%s>' % [self.class, hash*2, !!@element, @selector.inspect]
       end
@@ -203,6 +203,15 @@ module Watir
 
       @element.right_click
       run_checkers
+    end
+
+    def flash
+      assert_exists
+      original_color = driver.execute_script("arguments[0].style.backgroundColor", @element)
+      10.times do |n|
+        color = (n % 2 == 0) ? "red" : original_color
+        driver.execute_script("arguments[0].style.backgroundColor = '#{color}'", @element)
+      end
     end
 
     def value
