@@ -17,8 +17,8 @@ describe "SelectLists" do
     it "returns the correct item" do
       browser.select_lists[0].value.should == "2"
       browser.select_lists[0].name.should == "new_user_country"
-      browser.select_lists[0].type.should == "select-one"
-      browser.select_lists[1].type.should == "select-multiple"
+      browser.select_lists[0].should_not be_multiple
+      browser.select_lists[1].should be_multiple
     end
   end
 
@@ -27,7 +27,6 @@ describe "SelectLists" do
       browser.select_lists.each_with_index do |l, index|
         browser.select_list(:index, index).name.should == l.name
         browser.select_list(:index, index).id.should ==  l.id
-        browser.select_list(:index, index).type.should == l.type
         browser.select_list(:index, index).value.should == l.value
       end
     end

@@ -38,6 +38,15 @@ describe "Table" do
     end
   end
 
+  describe "#length" do
+    bug "WTR-354", :watir do
+      it "returns the number of rows" do
+        browser.table(:id, 'outer').rows.length.should == 3
+        browser.table(:id, 'inner').rows.length.should == 1
+      end
+    end
+  end
+
   # Other
   describe "#to_a" do
     it "returns a two-dimensional array representation of the table" do

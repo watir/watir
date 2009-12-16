@@ -48,15 +48,6 @@ describe "TableRow" do
     end
   end
 
-  describe "#length" do
-    bug "WTR-354", :watir do
-      it "returns the number of rows" do
-        browser.table(:id, 'outer').rows.length.should == 3
-        browser.table(:id, 'inner').rows.length.should == 1
-      end
-    end
-  end
-
   describe "#[]" do
     it "returns the nth cell of the parent row" do
       browser.table(:id, 'outer').row(:index, 0)[0].text.should == "Table 1, Row 1, Cell 1"

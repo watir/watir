@@ -80,14 +80,14 @@ describe "SelectList" do
     end
   end
 
-  describe "#type" do
-    it "returns the type of the element" do
-      browser.select_list(:index, 0).type.should == "select-one"
-      browser.select_list(:index, 1).type.should == "select-multiple"
+  describe "#multiple?" do
+    it "knows whether the select list allows multiple slections" do
+      browser.select_list(:index, 0).should_not be_multiple
+      browser.select_list(:index, 1).should be_multiple
     end
 
     it "raises UnknownObjectException if the select list doesn't exist" do
-      lambda { browser.select_list(:index, 1337).type }.should raise_error(UnknownObjectException)
+      lambda { browser.select_list(:index, 1337).multiple? }.should raise_error(UnknownObjectException)
     end
   end
 
@@ -108,7 +108,6 @@ describe "SelectList" do
       browser.select_list(:index, 0).should respond_to(:class_name)
       browser.select_list(:index, 0).should respond_to(:id)
       browser.select_list(:index, 0).should respond_to(:name)
-      browser.select_list(:index, 0).should respond_to(:type)
       browser.select_list(:index, 0).should respond_to(:value)
     end
   end
@@ -181,7 +180,7 @@ describe "SelectList" do
     end
 
     it "does not clear selections when not possible" do
-      browser.select_list(:name , "new_user_country").clear
+      lambda { browser.select_list(:name , "new_user_country").clear }.should raise_error
       browser.select_list(:name, "new_user_country").selected_options.should == ["Norway"]
     end
 
