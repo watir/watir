@@ -57,6 +57,10 @@ module Watir
       @driver.quit
     end
 
+    def clear_cookies
+      @driver.manage.delete_all_cookies
+    end
+
     def text
       # TODO: do this properly
       if @driver.bridge.browser == :firefox
