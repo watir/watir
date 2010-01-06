@@ -16,7 +16,15 @@ module Watir
     end
 
     def initialize(browser, *args)
-      @driver         = Selenium::WebDriver.for browser.to_sym, *args
+      case browser
+      when Symbol, String
+        @driver = Selenium::WebDriver.for browser.to_sym, *args
+      when Selenium::WebDriver::Driver
+        @driver = browser
+      else
+        raise ArugmentError, "expected Symbol or Selenium::WebDriver::Driver, got #{browser.class}"
+      end
+
       @error_checkers = []
     end
 
@@ -31,10 +39,6 @@ module Watir
       run_checkers
 
       url
-    end
-
-    def close
-      @driver.quit # TODO: close vs quit
     end
 
     def back
@@ -56,6 +60,11 @@ module Watir
     def quit
       @driver.quit
     end
+
+    def close
+      @driver.quit
+    end
+    alias_method :quit, :close # TODO: close vs quit
 
     def clear_cookies
       @driver.manage.delete_all_cookies
