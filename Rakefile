@@ -4,11 +4,11 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name        = "watir2"
+    gem.name        = "watir-webdriver"
     gem.summary     = %Q{Watir on WebDriver}
     gem.description = %Q{WebDriver-backed Watir}
     gem.email       = "jari.bakken@gmail.com"
-    gem.homepage    = "http://github.com/jarib/watir2"
+    gem.homepage    = "http://github.com/jarib/watir-webdriver"
     gem.authors     = ["Jari Bakken"]
 
     gem.add_dependency "selenium-webdriver", ">= 0.0.10"

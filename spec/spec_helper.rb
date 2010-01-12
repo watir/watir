@@ -3,7 +3,7 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 require 'rubygems'
-require 'watir2'
+require 'watir-webdriver'
 require 'spec'
 require 'spec/autorun'
 
@@ -12,5 +12,5 @@ include Watir::Exception
 
 if defined?(WatirSpec)
   WatirSpec.browser_args   = [:firefox]
-  WatirSpec.implementation = :watir2
+  WatirSpec.implementation = :webdriver
 end
