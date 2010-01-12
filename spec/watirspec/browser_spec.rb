@@ -9,7 +9,7 @@ describe "Browser" do
       browser.should exist
     end
 
-    not_compliant_on :watir2 do
+    not_compliant_on :webdriver do
       it "returns false after IE#close" do
         b = WatirSpec.new_browser
         b.close
@@ -75,8 +75,8 @@ describe "Browser" do
     end
   end
 
-  not_compliant_on :watir2 do
-    # just hangs with watir2 + IE
+  not_compliant_on :webdriver do
+    # just hangs with watir-webdriver + IE
     describe ".start" do
       it "goes to the given URL and return an instance of itself" do
         browser = Browser.start("#{WatirSpec.files}/non_control_elements.html")
@@ -225,7 +225,7 @@ describe "Browser" do
       lambda { browser.add_checker }.should raise_error(ArgumentError)
     end
 
-    not_compliant_on :watir2 do
+    not_compliant_on :webdriver do
       # if on IE, this slows the rest of the suite way down for some reason
       it "runs the given proc on each page load" do
         output = ''
