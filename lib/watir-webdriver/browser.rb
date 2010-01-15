@@ -97,7 +97,13 @@ module Watir
 
     def execute_script(script, *args)
       args.map! { |e| e.kind_of?(Watir::BaseElement) ? e.element : e }
-      @driver.execute_script(script, *args)
+      returned = @driver.execute_script(script, *args)
+
+      if returned.kind_of? WebDriver::Element
+        Watir.element_class_for(returned.tag_name).new(self, :element, returned)
+      else
+        returned
+      end
     end
 
     def add_checker(checker = nil, &block)
