@@ -115,7 +115,7 @@ describe "Dt" do
   describe "#html" do
     it "returns the HTML of the element" do
       html = browser.dt(:id, 'name').html
-      html.should =~ %r"<div>.*Name.*</div>"m
+      html.should =~ %r[<div>.*Name.*</div>]mi
       html.should_not include('</body>')
     end
   end

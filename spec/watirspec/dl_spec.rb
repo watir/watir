@@ -114,7 +114,7 @@ describe "Dl" do
 
   describe "#html" do
     it "returns the HTML of the element" do
-      html = browser.dl(:id, 'experience-list').html
+      html = browser.dl(:id, 'experience-list').html.downcase
       html.should include('<dt class="current-industry">')
       html.should_not include('</body>')
     end
