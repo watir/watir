@@ -109,19 +109,4 @@ describe "Li" do
     end
   end
 
-  # Other
-  describe "#to_s" do
-    it "returns a human readable representation of the element" do
-      browser.li(:id, 'non_link_1').to_s.should == "tag:          li\n" +
-                                      "  id:           non_link_1\n" +
-                                      "  class:        nonlink\n" +
-                                      "  title:        This is not a link!\n" +
-                                      "  text:         Non-link 1"
-    end
-
-    it "raises UnknownObjectException if the li doesn't exist" do
-      lambda { browser.li(:xpath, "//li[@id='no_such_id']").text }.should raise_error( UnknownObjectException)
-    end
-  end
-
 end

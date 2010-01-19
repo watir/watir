@@ -125,19 +125,4 @@ describe "P" do
     end
   end
 
-  # Other
-  describe "#to_s" do
-    it "returns a human readable representation of the element" do
-      browser.p(:index, 0).to_s.should == "tag:          p\n" +
-                                      "  id:           lead\n" +
-                                      "  class:        lead\n" +
-                                      "  title:        Lorem ipsum\n" +
-                                      "  text:         Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Curabitur eu pede. Ut justo. Praesent feugiat, elit in feugiat iaculis, sem risus rutrum justo, eget fermentum dolor arcu non nunc."
-    end
-
-    it "raises UnknownObjectException if the p doesn't exist" do
-      lambda { browser.p(:xpath, "//p[@id='no_such_id']").text }.should raise_error( UnknownObjectException)
-    end
-  end
-
 end

@@ -109,17 +109,4 @@ describe "Pre" do
     end
   end
 
-  # Other
-  describe "#to_s" do
-    bug "WTR-350", :watir do
-      it "returns a human readable representation of the element" do
-        browser.pre(:index, 0).to_s.should == "tag:          pre"
-      end
-    end
-
-    it "raises UnknownObjectException if the p doesn't exist" do
-      lambda { browser.pre(:xpath, "//pre[@id='no_such_id']").text }.should raise_error( UnknownObjectException)
-    end
-  end
-
 end

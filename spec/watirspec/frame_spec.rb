@@ -109,17 +109,6 @@ describe "Frame" do
       end
     end
 
-
-    describe "#to_s" do
-      it "returns a human readable representation of the frame" do
-        browser.frame(:index, 0).to_s.should == "tag:          frame\n" +
-                                            "  src:          frame_1.html\n" +
-                                            "  id:           frame_1\n" +
-                                            "  name:         frame1\n" +
-                                            "  class:        half"
-      end
-    end
-
     describe "#elements_by_xpath" do
       before :each do
         browser.goto(WatirSpec.files + "/iframes.html")

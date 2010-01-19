@@ -206,17 +206,4 @@ describe "Div" do
     end
   end
 
-  describe "#to_s" do
-    bug "WTR-350", :watir do
-      it "returns a human readable representation of the element" do
-        browser.div(:id, 'footer').to_s.should ==
-%q{tag:          div
-  id:           footer
-  title:        Closing remarks
-  class:        profile
-  text:         This is a footer.}
-      end
-    end
-  end
-
 end

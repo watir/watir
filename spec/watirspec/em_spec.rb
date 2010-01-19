@@ -94,17 +94,4 @@ describe "Em" do
     end
   end
 
-  describe "#to_s" do
-    bug "WTR-350", :watir do
-      it "returns a human readable representation of the element" do
-        browser.em(:id, 'important-id').to_s.should ==
-%q{tag:          em
-  class:        important-class
-  id:           important-id
-  title:        ergo cogito
-  text:         ergo cogito}
-      end
-    end
-  end
-
 end

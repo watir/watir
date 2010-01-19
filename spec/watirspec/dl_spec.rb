@@ -120,17 +120,4 @@ describe "Dl" do
     end
   end
 
-  describe "#to_s" do
-    bug "WTR-350", :watir do
-      it "returns a human readable representation of the element" do
-        browser.dl(:id, 'experience-list').to_s.should ==
-%q{tag:          dl
-  id:           experience-list
-  class:        list
-  title:        experience
-  text:         Experience 11 years Education Master Current industry Architecture Previous industry experience Architecture}
-      end
-    end
-  end
-
 end
