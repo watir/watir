@@ -186,30 +186,6 @@ describe "Radio" do
     end
   end
 
-  # Manipulation methods
-  describe "#clear" do
-    it "clears the radio button if it is set" do
-      browser.radio(:id, "new_user_newsletter_yes").clear
-      browser.radio(:id, "new_user_newsletter_yes").should_not be_set
-    end
-
-    it "clears the radio button when found by :xpath" do
-      browser.radio(:xpath, "//input[@id='new_user_newsletter_yes']").clear
-      browser.radio(:xpath, "//input[@id='new_user_newsletter_yes']").should_not be_set
-    end
-
-    it "raises UnknownObjectException if the radio button doesn't exist" do
-      lambda { browser.radio(:name, "no_such_id").clear }.should raise_error(UnknownObjectException)
-      lambda { browser.radio(:xpath, "//input[@id='no_such_id']").clear  }.should raise_error(UnknownObjectException)
-    end
-
-    it "raises ObjectDisabledException if the radio is disabled" do
-      browser.radio(:id, "new_user_newsletter_nah").should_not be_set
-      lambda { browser.radio(:id, "new_user_newsletter_nah").clear }.should raise_error(ObjectDisabledException)
-      lambda { browser.radio(:xpath, "//input[@id='new_user_newsletter_nah']").clear }.should raise_error(ObjectDisabledException)
-    end
-  end
-
   describe "#set" do
     it "sets the radio button" do
       browser.radio(:id, "new_user_newsletter_no").set
