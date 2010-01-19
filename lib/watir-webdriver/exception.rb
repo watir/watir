@@ -15,6 +15,7 @@ module Watir
     class NoStatusBarException < Error; end
     class NavigationException < Error; end
     class UnknownFrameException < Error; end
+    class UnknownRowException < Error; end
 
   end # Exception
 end # Watir
