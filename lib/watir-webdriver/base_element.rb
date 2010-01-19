@@ -227,21 +227,12 @@ module Watir
 
     def html
       assert_exists
-
-      html = driver.execute_script(<<-JAVASCRIPT, @element)
-        var e = arguments[0];
-        if(e.outerHTML) {
-          return e.outerHTML;
-        } else {
-          return e.parentNode.innerHTML;
-        }
-      JAVASCRIPT
-
-      html.strip
+      browserbot('getOuterHTML', @element).strip
     end
 
     def focus
-      fire_event :focus
+      assert_exists
+      driver.execute_script "return arguments[0].focus()", @element
     end
 
     def fire_event(event_name)
