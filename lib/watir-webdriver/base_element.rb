@@ -228,7 +228,7 @@ module Watir
     def html
       assert_exists
 
-      driver.execute_script(<<-JAVASCRIPT, @element)
+      html = driver.execute_script(<<-JAVASCRIPT, @element)
         var e = arguments[0];
         if(e.outerHTML) {
           return e.outerHTML;
@@ -236,6 +236,8 @@ module Watir
           return e.parentNode.innerHTML;
         }
       JAVASCRIPT
+
+      html.strip
     end
 
     def focus
