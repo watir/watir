@@ -18,10 +18,10 @@ describe "Browser" do
     end
   end
 
+  # this should be rewritten - the actual string returned varies alot between implementations
   describe "#html" do
-    # what guard we want to use here kind of depends on how other impls. behave
-    not_compliant_on :watir do
-      it "returns the downloaed HTML of the page" do
+    deviates_on :celerity do
+      it "returns the downloaded HTML of the page" do
         browser.goto(WatirSpec.files + "/non_control_elements.html")
         browser.html.should == File.read(File.dirname(__FILE__) + "/html/non_control_elements.html")
       end
@@ -31,6 +31,16 @@ describe "Browser" do
       it "returns the DOM of the page as an HTML string" do
         browser.goto(WatirSpec.files + "/right_click.html")
         browser.html.should == "<HTML><HEAD><TITLE>Right Click Test</TITLE>\r\n<META http-equiv=Content-type content=\"text/html; charset=utf-8\">\r\n<SCRIPT src=\"javascript/helpers.js\" type=text/javascript charset=utf-8></SCRIPT>\r\n</HEAD>\r\n<BODY>\r\n<DIV id=messages></DIV>\r\n<DIV oncontextmenu='WatirSpec.addMessage(\"right-clicked\")' id=click>Right click!</DIV></BODY></HTML>"
+      end
+    end
+
+    deviates_on :webdriver do
+      it "returns the DOM of the page as an HTML string" do
+        browser.goto(WatirSpec.files + "/right_click.html")
+        html = browser.html
+
+        html.should =~ /^<html/
+        html.should include("<meta http-equiv=\"Content-type\" content=\"text/html; charset=utf-8\">")
       end
     end
   end
@@ -43,14 +53,16 @@ describe "Browser" do
   end
 
   describe "#status" do
-    bug "WTR-348", :watir do
-      it "returns the current value of window.status" do
-        browser.goto(WatirSpec.files + "/non_control_elements.html")
+    not_compliant_on :webdriver do # need to set Firefox preference, might do this when selenium-webdriver exposes the profile used
+      bug "WTR-348", :watir do
+        it "returns the current value of window.status" do
+          browser.goto(WatirSpec.files + "/non_control_elements.html")
 
-        # for firefox, this needs to be enabled in
-        # Preferences -> Content -> Advanced -> Change status bar text
-        browser.execute_script "window.status = 'All done!';"
-        browser.status.should == "All done!"
+          # for firefox, this needs to be enabled in
+          # Preferences -> Content -> Advanced -> Change status bar text
+          browser.execute_script "window.status = 'All done!';"
+          browser.status.should == "All done!"
+        end
       end
     end
   end
