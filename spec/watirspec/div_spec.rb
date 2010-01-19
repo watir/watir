@@ -179,7 +179,7 @@ describe "Div" do
     end
   end
 
-  not_compliant_on :watir do
+  not_compliant_on :watir, :webdriver do
     describe "#double_click" do
       it "fires the ondblclick event" do
         browser.div(:id, 'html_test').double_click
@@ -198,9 +198,11 @@ describe "Div" do
 
   describe "#html" do
     it "returns the HTML of the element" do
-      html = browser.div(:id, 'footer').html
-      html.should include('<div id="footer" title="Closing remarks" class="profile">')
-      html.should include('This is a footer.')
+      html = browser.div(:id, 'footer').html.downcase
+      html.should include('id="footer"')
+      html.should include('title="closing remarks"')
+      html.should include('class="profile"')
+
       html.should_not include('<div id="content">')
       html.should_not include('</body>')
     end
