@@ -4,6 +4,7 @@ module Watir
 
     # perhaps we'll need a custom locate(), since this should also cover textareas
     attributes Watir::TextArea.typed_attributes
+    def type; super; end # hacky, but we want Input#type here, which was overriden by TextArea's attributes
 
     container_method  :text_field
     collection_method :text_fields
