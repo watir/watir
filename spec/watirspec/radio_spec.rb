@@ -211,8 +211,9 @@ describe "Radio" do
         browser.radio(:value, 'certainly').set
         messages.should == ["changed: new_user_newsletter"] # no event fired here - didn't change
 
-        browser.radio(:value, 'certainly').clear
-        messages.should == ["changed: new_user_newsletter", "changed: new_user_newsletter"]
+        browser.radio(:value, 'yes').set
+        browser.radio(:value, 'certainly').set
+        messages.should == ["changed: new_user_newsletter", "clicked: new_user_newsletter_yes", "changed: new_user_newsletter"]
       end
     end
 
@@ -241,7 +242,7 @@ describe "Radio" do
       browser.radio(:name => "new_user_newsletter", :value => 'no').should_not be_set
       browser.radio(:name => "new_user_newsletter", :value => 'no').set
       browser.radio(:name => "new_user_newsletter", :value => 'no').should be_set
-      browser.radio(:name => "new_user_newsletter", :value => 'no').clear
+      browser.radio(:name => "new_user_newsletter", :value => 'yes').set
       browser.radio(:name => "new_user_newsletter", :value => 'no').should_not be_set
     end
 
