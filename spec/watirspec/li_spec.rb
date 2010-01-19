@@ -86,7 +86,7 @@ describe "Li" do
   end
 
   describe "#text" do
-    it "returns the text of the p" do
+    it "returns the text of the li" do
       browser.li(:id, 'non_link_1').text.should == 'Non-link 1'
     end
 

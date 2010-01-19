@@ -64,7 +64,7 @@ describe "Pre" do
       browser.pre(:index, 0).id.should == ''
     end
 
-    it "raises UnknownObjectException if the p doesn't exist" do
+    it "raises UnknownObjectException if the pre doesn't exist" do
       lambda { browser.pre(:id, "no_such_id").id }.should raise_error(UnknownObjectException)
       lambda { browser.pre(:index, 1337).id }.should raise_error(UnknownObjectException)
     end
@@ -79,14 +79,14 @@ describe "Pre" do
       browser.pre(:index, 0).title.should == ''
     end
 
-    it "raises UnknownObjectException if the p doesn't exist" do
+    it "raises UnknownObjectException if the pre doesn't exist" do
       lambda { browser.pre(:id, 'no_such_id').title }.should raise_error( UnknownObjectException)
       lambda { browser.pre(:xpath, "//pre[@id='no_such_id']").title }.should raise_error( UnknownObjectException)
     end
   end
 
   describe "#text" do
-    it "returns the text of the p" do
+    it "returns the text of the pre" do
       browser.pre(:class, 'haskell').text.should == 'main = putStrLn "Hello World"'
     end
 
@@ -94,7 +94,7 @@ describe "Pre" do
       browser.pre(:index, 0).text.should == ''
     end
 
-    it "raises UnknownObjectException if the p doesn't exist" do
+    it "raises UnknownObjectException if the pre doesn't exist" do
       lambda { browser.pre(:id, 'no_such_id').text }.should raise_error( UnknownObjectException)
       lambda { browser.pre(:xpath , "//pre[@id='no_such_id']").text }.should raise_error( UnknownObjectException)
     end

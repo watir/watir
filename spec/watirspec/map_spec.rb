@@ -61,7 +61,7 @@ describe "Map" do
       browser.map(:index, 1).name.should == ''
     end
 
-    it "raises UnknownObjectException if the p doesn't exist" do
+    it "raises UnknownObjectException if the map doesn't exist" do
       lambda { browser.map(:id, "no_such_id").name }.should raise_error(UnknownObjectException)
       lambda { browser.map(:index, 1337).name }.should raise_error(UnknownObjectException)
     end
