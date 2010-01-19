@@ -10,7 +10,10 @@ require 'spec/autorun'
 include Watir
 include Watir::Exception
 
+
 if defined?(WatirSpec)
-  WatirSpec.browser_args   = [:firefox]
+  browser = (ENV['WATIR_WEBDRIVER_BROWSER'] || :firefox).to_sym
+
+  WatirSpec.browser_args   = [browser]
   WatirSpec.implementation = :webdriver
 end

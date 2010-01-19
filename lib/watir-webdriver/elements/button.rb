@@ -16,6 +16,8 @@ module Watir
         value
       when 'button'
         text
+      else
+        raise Exception::Error, "unknown tag name for button: #{@element.tag_name}"
       end
     end
 
