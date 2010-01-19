@@ -22,8 +22,11 @@ describe "Link" do
       browser.link(:xpath, "//a[@id='link_2']").should exist
     end
 
-    it "strips spaces from URL attributes when locating elements" do
-      browser.link(:url, /strip_space$/).should exist
+    not_compliant_on :webdriver do
+      # not a technical issue - just not sure if it's really the behaviour we want
+      it "strips spaces from URL attributes when locating elements" do
+        browser.link(:url, /strip_space$/).should exist
+      end
     end
 
     it "returns false if the link doesn't exist" do
