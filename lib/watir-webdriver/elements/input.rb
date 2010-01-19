@@ -1,11 +1,20 @@
 # encoding: utf-8
 module Watir
-  class Input
+  class Input < HTMLElement
 
     alias_method :readonly?, :read_only?
 
     def enabled?
       !disabled?
+    end
+
+    def type
+      assert_exists
+      value = rescue_no_match { @element.attribute("type").to_s }
+
+      # we return 'text' if the type is invalid
+      # not sure if we really should do this
+      TextFieldLocator::NON_TEXT_TYPES.include?(value) ? value : 'text'
     end
 
     #
