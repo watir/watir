@@ -216,7 +216,7 @@ module Watir
 
     def value
       assert_exists
-      rescue_no_match { @element.value }
+      rescue_no_match { @element.value || "" }
     end
 
     def attribute_value(attribute_name)
