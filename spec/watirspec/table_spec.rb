@@ -32,12 +32,6 @@ describe "Table" do
     end
   end
 
-  describe "#locate" do
-    it "is not nil for existing tables" do
-      browser.table(:id, 'axis_example').locate.should_not be_nil
-    end
-  end
-
   describe "#length" do
     bug "WTR-354", :watir do
       it "returns the number of rows" do
