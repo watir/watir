@@ -109,7 +109,7 @@ describe "FileField" do
 
         browser.file_field(:name, "new_user_portrait").set path
         browser.file_field(:name, "new_user_portrait").value.should == path
-        messages.first.should include(File.dirname(path)) # only some browser will return the full path
+        messages.first.should include(File.basename(path)) # only some browser will return the full path
         browser.button(:name, "new_user_submit").click
       end
     end
