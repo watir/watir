@@ -235,10 +235,10 @@ module Watir
       driver.execute_script "return arguments[0].focus()", @element
     end
 
-    def fire_event(event_name)
+    def fire_event(event_name, bubble = false)
       assert_exists
       event_name = event_name.to_s.sub!(/^on/, '')
-      browserbot('triggerEvent', @element, event_name, false)
+      browserbot('triggerEvent', @element, event_name, bubble)
     end
 
     def parent
