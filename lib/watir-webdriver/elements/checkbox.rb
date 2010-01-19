@@ -1,8 +1,6 @@
 # encoding: utf-8
 module Watir
   class CheckBox < Input
-    include SharedRadioCheckbox
-
     identifier :type => 'checkbox'
 
     container_method  :checkbox
@@ -17,6 +15,15 @@ module Watir
       else
         @element.click if bool
       end
+    end
+
+    def set?
+      assert_exists
+      @element.selected?
+    end
+
+    def clear
+      set false
     end
 
   end

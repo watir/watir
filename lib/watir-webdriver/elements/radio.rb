@@ -1,22 +1,21 @@
 # encoding: utf-8
 module Watir
   class Radio < Input
-    include SharedRadioCheckbox
-
-    identifier :type => 'radio' # a text field is the default for input elements, so this needs to be changed
+    identifier :type => 'radio'
 
     container_method  :radio
     collection_method :radios
 
-    def set(bool = true)
+    def set
       assert_exists
       assert_enabled
 
-      if set?
-        @element.click unless bool
-      else
-        @element.click if bool
-      end
+      @element.click unless set?
+    end
+
+    def set?
+      assert_exists
+      @element.selected?
     end
 
   end

@@ -30,7 +30,6 @@ end
 require "watir-webdriver/base_element"
 require "watir-webdriver/collections/element_collection"
 require "watir-webdriver/elements/generated"
-require "watir-webdriver/elements/shared_radio_checkbox"
 require "watir-webdriver/elements/input"
 require "watir-webdriver/elements/button"
 require "watir-webdriver/collections/buttons_collection"
