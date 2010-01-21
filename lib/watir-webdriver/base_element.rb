@@ -230,6 +230,12 @@ module Watir
       browserbot('getOuterHTML', @element).strip
     end
 
+    #
+    # Note: Firefox queues focus events until the window actually has focus.
+    #
+    # See http://code.google.com/p/selenium/issues/detail?id=157
+    #
+
     def focus
       assert_exists
       driver.execute_script "return arguments[0].focus()", @element
