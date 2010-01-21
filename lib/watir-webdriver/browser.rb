@@ -71,12 +71,7 @@ module Watir
     end
 
     def text
-      # TODO: do this properly
-      if @driver.bridge.browser == :firefox
-        browserbot 'getVisibleText'
-      else
-        @driver.find_element(:tag_name, "body").text
-      end
+      @driver.find_element(:tag_name, "body").text
     end
 
     def html
@@ -84,7 +79,7 @@ module Watir
     end
 
     def refresh
-      execute_script 'location.reload(true)'
+      @driver.navigate.refresh
     end
 
     def exist?
