@@ -30,11 +30,13 @@ describe "Element" do
   end
 
   describe "#focus" do
-    it "fires the onfocus event for the given element" do
-      tf = browser.text_field(:id, "new_user_occupation")
-      tf.value.should == "Developer"
-      tf.focus
-      browser.div(:id, "onfocus_test").text.should == "changed by onfocus event"
+    bug "http://code.google.com/p/selenium/issues/detail?id=157", :webdriver do
+      it "fires the onfocus event for the given element" do
+        tf = browser.text_field(:id, "new_user_occupation")
+        tf.value.should == "Developer"
+        tf.focus
+        browser.div(:id, "onfocus_test").text.should == "changed by onfocus event"
+      end
     end
   end
 
