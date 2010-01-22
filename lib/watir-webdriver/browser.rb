@@ -33,7 +33,7 @@ module Watir
     end
 
     def goto(uri)
-      uri = "http://#{uri}" unless uri.include?("://")
+      uri = "http://#{uri}" unless uri.include?("://") || uri =~ /^\w+:/
 
       @driver.navigate.to uri
       run_checkers
