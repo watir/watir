@@ -15,6 +15,13 @@ module Watir
       end
     end
 
+    #
+    # Create a Watir::Browser instance
+    #
+    # @param [:firefox, :ie, :chrome, :remote] browser
+    # @param args Passed to the underlying driver
+    #
+
     def initialize(browser, *args)
       case browser
       when Symbol, String
@@ -31,6 +38,13 @@ module Watir
     def inspect
       '#<%s:0x%x url=%s title=%s>' % [self.class, hash*2, url.inspect, title.inspect]
     end
+
+    #
+    # Goto the given URL
+    #
+    # @param [String] uri The url.
+    # @return [String] The url you end up at.
+    #
 
     def goto(uri)
       uri = "http://#{uri}" unless uri.include?("://") || uri =~ /^\w+:/
