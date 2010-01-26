@@ -52,15 +52,15 @@ module Watir
     attributes(:html_collection => ([:options]))
   end
 
-  class Object < HTMLElement
-    identifier(:tag_name => "object")
-
-    container_method(:object)
-
-    collection_method(:objects)
-
-    attributes(:string => ([:data, :type, :name, :use_map, :width, :height, :content_window, :validity, :validation_message]), :document => ([:content_document]), :html_element => ([:form]), :bool => ([:will_validate]))
-  end
+  # class Object < HTMLElement
+  #   identifier(:tag_name => "object")
+  #
+  #   container_method(:object)
+  #
+  #   collection_method(:objects)
+  #
+  #   attributes(:string => ([:data, :type, :name, :use_map, :width, :height, :content_window, :validity, :validation_message]), :document => ([:content_document]), :html_element => ([:form]), :bool => ([:will_validate]))
+  # end
 
   class DList < HTMLElement
     identifier(:tag_name => "dl")
