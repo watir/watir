@@ -82,10 +82,6 @@ module Watir
       @driver.navigate.refresh
     end
 
-    def exist?
-      true
-    end
-
     def status
       execute_script "return window.status;"
     end
@@ -120,11 +116,21 @@ module Watir
     end
 
     #
+    # Protocol shared with BaseElement
+    #
     # @api private
     #
 
     def assert_exists
       true # TODO: assert browser is open
+    end
+
+    def exist?
+      true
+    end
+
+    def browser
+      self
     end
 
   end # Browser

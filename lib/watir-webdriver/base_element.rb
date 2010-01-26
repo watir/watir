@@ -295,6 +295,10 @@ module Watir
       end
     end
 
+    def browser
+      @parent.browser
+    end
+
   private
 
     def selector_string
