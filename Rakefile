@@ -97,6 +97,7 @@ task :default => :spec
 
 begin
   require 'yard'
+  require 'support/yard_handlers'
   YARD::Rake::YardocTask.new
 rescue LoadError
   task :yard do

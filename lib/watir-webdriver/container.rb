@@ -2,6 +2,11 @@
 module Watir
   module Container
     class << self
+
+      #
+      # @api private
+      #
+
       def add(method, &blk)
         define_method(method, &blk)
       end
