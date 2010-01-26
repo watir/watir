@@ -12,7 +12,9 @@ module Watir
 
     def clear
       assert_exists
-      raise "you can only clear multi-selects" unless multiple?
+
+      raise Exception::Error, "you can only clear multi-selects" unless multiple?
+
       options.each do |o|
         o.toggle if o.selected?
       end
@@ -24,12 +26,19 @@ module Watir
     end
 
     def select(str_or_rx)
-      select_by :text, str_or_rx
+      if multiple?
+        select_all_by :text, str_or_rx
+      else
+        select_first_by :text, str_or_rx
+      end
     end
 
-    # TODO: deprecate?
     def select_value(str_or_rx)
-      select_by :value, str_or_rx
+      if multiple?
+        select_all_by :value, str_or_rx
+      else
+        select_first_by :value, str_or_rx
+      end
     end
 
     def selected?(str_or_rx)
@@ -57,8 +66,7 @@ module Watir
 
     private
 
-    def select_by(how, str_or_rx)
-      assert_exists
+    def select_all_by(how, str_or_rx)
       os = options.select { |e| str_or_rx === e.send(how) }
 
       if os.empty?
@@ -67,6 +75,17 @@ module Watir
 
       os.each { |e| e.select unless e.selected? }
       os.first.text
+    end
+
+    def select_first_by(how, str_or_rx)
+      option = options.find { |e| str_or_rx === e.send(how) }
+
+      if option.nil?
+        raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
+      end
+
+      option.select unless option.selected?
+      option.text
     end
 
   end
