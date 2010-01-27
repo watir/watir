@@ -77,7 +77,7 @@ module YARD
           o.docstring.add_tag(YARD::Tags::Tag.new(:return, "", return_type))
         end
 
-        register ClassObject.new(P("Watir"), name) do |o|
+        register ClassObject.new(P("Watir"), class_name) do |o|
           o.superclass = "Watir::ElementCollection"
         end
       end
