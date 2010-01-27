@@ -4,10 +4,22 @@ module Watir
 
     alias_method :loaded?, :complete?
 
+    #
+    # returns the image's width in pixels
+    #
+    # @return [Integer] width
+    #
+
     def width
       assert_exists
       driver.execute_script "return arguments[0].width", @element
     end
+
+    #
+    # returns the image's height in pixels
+    #
+    # @return [Integer] height
+    #
 
     def height
       assert_exists

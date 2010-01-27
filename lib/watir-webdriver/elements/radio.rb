@@ -6,12 +6,20 @@ module Watir
     container_method  :radio
     collection_method :radios
 
+    #
+    # Select this radio button.
+    #
+
     def set
       assert_exists
       assert_enabled
 
       @element.click unless set?
     end
+
+    #
+    # Is this radio set?
+    #
 
     def set?
       assert_exists

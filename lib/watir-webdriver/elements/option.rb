@@ -1,17 +1,34 @@
 # encoding: utf-8
 module Watir
+
+  #
+  # Represents an option in a select list.
+  #
+
   class Option < HTMLElement
+
+    #
+    # Select this option
+    #
 
     def select
       assert_exists
       @element.select
     end
-    
+
+    #
+    # Toggle the selected state of this option
+    #
+
     def toggle
       assert_exists
       @element.toggle
     end
-    
+
+    #
+    # Is this option selected?
+    #
+
     def selected?
       assert_exists
       @element.selected?

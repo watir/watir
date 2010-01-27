@@ -5,12 +5,7 @@ module Watir
 
     container_method  :hidden
     collection_method :hiddens
-    
-    # deprecate?
-    def value=(val)
-      raise NotImplementedError
-    end
-    
+
     def visible?
       false
     end

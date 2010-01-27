@@ -1,9 +1,17 @@
 module Watir
   class TableRow < HTMLElement
 
+    #
+    # Get the n'th <td> of this element
+    #
+    # @return Watir::TableDataCell
+    #
+
     def [](idx)
       td(:index, idx)
     end
+
+    private
 
     def locate
       if @parent.kind_of?(Watir::Table)

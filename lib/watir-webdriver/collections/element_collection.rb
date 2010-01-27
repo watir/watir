@@ -7,14 +7,34 @@ module Watir
       @parent, @element_class = parent, element_class
     end
 
+    #
+    # @yieldparam [Watir::BaseElement] element Iterate through the elements in this collection.
+    #
+
     def each(&blk)
       to_a.each(&blk)
     end
+
+    #
+    # @return [Fixnum] The number of elements in this collection.
+    #
 
     def length
       elements.length
     end
     alias_method :size, :length
+
+    #
+    # Get the element at the given index.
+    # Note that this is 0-indexed and not compatible with older Watir implementations.
+    #
+    # Also note that because of Watir's lazy loading, this will return an Element
+    # instance even if the index is out of bounds.
+    #
+    # @param [Fixnum] n Index of wanted element, 0-indexed
+    # @return [Watir::BaseElement] Returns an instance of a Watir::BaseElement subclass
+    #
+
 
     def [](idx)
       to_a[idx] || @element_class.new(@parent, :index, idx)
@@ -23,7 +43,7 @@ module Watir
     #
     # First element of this collection
     #
-    # @return Watir::BaseElement
+    # @return [Watir::BaseElement] Returns an instance of a Watir::BaseElement subclass
     #
 
     def first
@@ -33,7 +53,7 @@ module Watir
     #
     # Last element of the collection
     #
-    # @return Watir::BaseElement
+    # @return [Watir::BaseElement] Returns an instance of a Watir::BaseElement subclass
     #
 
     def last

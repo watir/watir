@@ -3,12 +3,20 @@ module Watir
   module XpathSupport
     include Selenium
 
+    #
+    # Find the first element matching the given XPath
+    #
+
     def element_by_xpath(xpath)
       e = wd.find_element(:xpath, xpath)
       Watir.element_class_for(e.tag_name).new(self, :element, e)
     rescue WebDriver::Error::WebDriverError
       BaseElement.new(self, :xpath, xpath)
     end
+
+    #
+    # Find all elements matching the given XPath
+    #
 
     def elements_by_xpath(xpath)
       # TODO: find the correct element class
