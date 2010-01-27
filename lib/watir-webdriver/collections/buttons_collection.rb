@@ -1,6 +1,8 @@
 module Watir
   class ButtonsCollection < ElementCollection
 
+    private
+
     def elements
       @elements ||= ButtonLocator.new(
         @parent.wd,

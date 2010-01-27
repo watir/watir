@@ -1,6 +1,8 @@
 module Watir
   class TextFieldsCollection < ElementCollection
 
+    private
+
     def elements
       @elements ||= TextFieldLocator.new(
         @parent.wd,

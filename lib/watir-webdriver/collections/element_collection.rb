@@ -12,7 +12,7 @@ module Watir
     end
 
     def length
-      to_a.length
+      elements.length
     end
     alias_method :size, :length
 
@@ -20,18 +20,38 @@ module Watir
       to_a[idx] || @element_class.new(@parent, :index, idx)
     end
 
+    #
+    # First element of this collection
+    #
+    # @return Watir::BaseElement
+    #
+
     def first
       to_a[0] || @element_class.new(@parent, :index, 0)
     end
+
+    #
+    # Last element of the collection
+    #
+    # @return Watir::BaseElement
+    #
 
     def last
       to_a[-1] || @element_class.new(@parent, :index, -1)
     end
 
+    #
+    # This collection as an Array
+    #
+    # @return [Array<Watir::BaseElement>]
+    #
+
     def to_a
       # TODO: optimize - lazily @element_class instance
       @to_a ||= elements.map { |e| @element_class.new(@parent, :element, e) }
     end
+
+    private
 
     def elements
       @elements ||= ElementLocator.new(

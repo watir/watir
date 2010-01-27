@@ -1,6 +1,8 @@
 module Watir
   class TrsCollection < ElementCollection
 
+    private
+
     def elements
       return super unless @parent.kind_of?(Watir::Table)
       @elements ||= TableRowLocator.new(
