@@ -94,6 +94,7 @@ module Watir
 
     def refresh
       @driver.navigate.refresh
+      run_checkers
     end
 
     def status
