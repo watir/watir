@@ -13,7 +13,7 @@ module Watir
     def clear
       assert_exists
 
-      raise Exception::Error, "you can only clear multi-selects" unless multiple?
+      raise Error, "you can only clear multi-selects" unless multiple?
 
       options.each do |o|
         o.toggle if o.selected?
@@ -26,24 +26,16 @@ module Watir
     end
 
     def select(str_or_rx)
-      if multiple?
-        select_all_by :text, str_or_rx
-      else
-        select_first_by :text, str_or_rx
-      end
+        select_by :text, str_or_rx, multiple?
     end
 
     def select_value(str_or_rx)
-      if multiple?
-        select_all_by :value, str_or_rx
-      else
-        select_first_by :value, str_or_rx
-      end
+      select_by :value, str_or_rx, multiple?
     end
 
     def selected?(str_or_rx)
       assert_exists
-      matches = options.select { |e| str_or_rx === e.text }
+      matches = @element.find_elements(:tag_name, 'option').select { |e| str_or_rx === e.text || str_or_rx === e.attribute(:label) }
 
       if matches.empty?
         raise UnknownObjectException, "Unable to locate option matching #{str_or_rx.inspect}"
@@ -66,27 +58,90 @@ module Watir
 
     private
 
-    def select_all_by(how, str_or_rx)
-      os = options.select { |e| str_or_rx === e.send(how) }
-
-      if os.empty?
-        raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
+    def select_by(how, str_or_rx, multiple)
+      case str_or_rx
+      when String
+        select_by_string(how, str_or_rx, multiple)
+      when Regexp
+        select_by_regexp(how, str_or_rx, multiple)
+      else
+        raise ArgumentError, "expected String or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
       end
-
-      os.each { |e| e.select unless e.selected? }
-      os.first.text
     end
 
-    def select_first_by(how, str_or_rx)
-      option = options.find { |e| str_or_rx === e.send(how) }
+    def select_by_string(how, string, multiple)
+      xpath = option_xpath_for(how, string)
+      if multiple
+        elements = @element.find_elements(:xpath, xpath)
 
-      if option.nil?
-        raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
+        if elements.empty?
+          raise NoValueFoundException, "#{string.inspect} not found in select list"
+        end
+
+        elements.each { |e| e.select unless e.selected? }
+        elements.first.text
+      else
+        begin
+          e = @element.find_element(:xpath, xpath)
+        rescue WebDriver::Error::WebDriverError # should be more specific
+          raise NoValueFoundException, "#{string.inspect} not found in select list"
+        end
+
+        e.select unless e.selected?
+        e.text
       end
-
-      option.select unless option.selected?
-      option.text
     end
 
-  end
-end
+    def select_by_regexp(how, exp, multiple)
+      elements = @element.find_elements(:tag_name, 'option')
+      if elements.empty?
+        raise NoValueFoundException, "no options in select list"
+      end
+
+      if multiple
+        found = elements.select do |e|
+          next unless matches_regexp?(how, e, exp)
+          e.select unless e.selected?
+          true
+        end
+
+        if found.empty?
+          raise NoValueFoundException, "#{exp.inspect} not found in select list"
+        end
+
+        found.first.text
+      else
+        element = elements.find { |e| matches_regexp?(how, e, exp) }
+        unless element
+          raise NoValueFoundException, "#{exp.inspect} not found in select list"
+        end
+
+        element.select unless element.selected?
+        element.text
+      end
+    end
+
+    def option_xpath_for(how, string)
+      case how
+      when :text
+        "//option[normalize-space()=#{string.inspect} or @label=#{string.inspect}]"
+      when :value
+        "//option[@value=#{string.inspect}]"
+      else
+        raise Error, "unknown how: #{how.inspect}"
+      end
+    end
+
+    def matches_regexp?(how, element, exp)
+      case how
+      when :text
+        element.text =~ exp || element.attribute(:label) =~ exp
+      when :value
+        element.attribute(:value) =~ exp
+      else
+        raise Error, "unknown how: #{how.inspect}"
+      end
+    end
+
+  end # SelectList
+end # Watir
