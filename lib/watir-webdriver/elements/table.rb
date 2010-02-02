@@ -12,7 +12,7 @@ module Watir
       assert_exists
 
       trs.inject [] do |res, row|
-        res << row.tds.map { |cell| cell.text }
+        res << row.wd.find_elements(:xpath, ".//td | .//th").map { |cell| cell.text }
       end
     end
 
