@@ -35,6 +35,7 @@ require "watir-webdriver/elements/button"
 require "watir-webdriver/collections/buttons_collection"
 require "watir-webdriver/elements/checkbox"
 require "watir-webdriver/elements/file_field"
+require "watir-webdriver/elements/font"
 require "watir-webdriver/elements/headings"
 require "watir-webdriver/elements/image"
 require "watir-webdriver/elements/link"
@@ -71,3 +72,4 @@ end # Watir
 # undefine deprecated methods to use them for Element attributes
 Object.send :undef_method, :id   if Object.method_defined? "id"
 Object.send :undef_method, :type if Object.method_defined? "type"
+
