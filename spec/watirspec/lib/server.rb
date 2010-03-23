@@ -19,7 +19,7 @@ module WatirSpec
           ).process_id
         else
           pid = fork { run! }
-          sleep 1
+          sleep 0.5 until listening?
         end
 
         if pid
@@ -39,7 +39,16 @@ module WatirSpec
 
       def run!
         handler = detect_rack_handler
-        handler.run(self, :Host => host, :Port => port) { @running = true }
+        handler.run(self, :Host => bind, :Port => port) { @running = true }
+      end
+
+      def listening?
+        $stderr.puts "trying #{bind}:#{port}..."
+
+        TCPSocket.new(bind, port).close
+        true
+      rescue
+        false
       end
 
       def autorun

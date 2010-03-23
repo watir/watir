@@ -12,7 +12,7 @@ module WatirSpec
     end
 
     def host
-      "http://#{Server.host}:#{Server.port}"
+      "http://#{Server.bind}:#{Server.port}"
     end
 
     def unguarded?
