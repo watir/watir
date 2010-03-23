@@ -9,8 +9,17 @@ module Watir
     class << self
       attr_writer :default_selector
 
-      def inherited(klass)
-        klass.default_selector = default_selector.dup
+      def typed_attributes
+        @typed_attributes ||= Hash.new { |hash, type| hash[type] = []  }
+      end
+
+      def attribute_list
+        @attribute_list ||= (
+          list = typed_attributes.values.flatten
+          list += ancestors[1..-1].map do |e|
+            e.attribute_list if e.respond_to?(:attribute_list)
+          end.compact.flatten
+        ).uniq
       end
 
       def attributes(attribute_map = nil)
@@ -23,6 +32,16 @@ module Watir
         attribute_map.each do |type, attribs|
           attribs.each { |name| define_attribute(type, name) }
         end
+      end
+
+      def default_selector
+        @default_selector ||= {}
+      end
+
+      private
+
+      def inherited(klass)
+        klass.default_selector = default_selector.dup
       end
 
       def define_attribute(type, name)
@@ -89,26 +108,9 @@ module Watir
         end
       end
 
-      def typed_attributes
-        @typed_attributes ||= Hash.new { |hash, type| hash[type] = []  }
-      end
-
       def identifier(selector)
         Watir.tag_to_class[selector[:tag_name]] = self
         default_selector.merge! selector
-      end
-
-      def default_selector
-        @default_selector ||= {}
-      end
-
-      def attribute_list
-        @attribute_list ||= begin
-          list = typed_attributes.values.flatten
-          list += ancestors[1..-1].map do |e|
-            e.attribute_list if e.respond_to?(:attribute_list)
-          end.compact.flatten
-        end
       end
 
       def method_name_for(type, attribute)
