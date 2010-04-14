@@ -118,8 +118,8 @@ module Watir
 
     def select_by(how, str_or_rx, multiple)
       case str_or_rx
-      when String
-        select_by_string(how, str_or_rx, multiple)
+      when String, Numeric
+        select_by_string(how, str_or_rx.to_s, multiple)
       when Regexp
         select_by_regexp(how, str_or_rx, multiple)
       else
