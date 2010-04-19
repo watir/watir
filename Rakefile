@@ -15,7 +15,7 @@ begin
 
     gem.add_development_dependency "rspec"
     gem.add_development_dependency "webidl"
-    gem.add_development_dependency "sinatra"
+    gem.add_development_dependency "sinatra", ">= 1.0"
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
