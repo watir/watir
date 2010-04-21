@@ -1,8 +1,8 @@
 # encoding: utf-8
+I_KNOW_I_AM_USING_AN_OLD_AND_BUGGY_VERSION_OF_LIBXML2 = true
 require "nokogiri"
 require "open-uri"
 require "pp"
-require "ruby-debug"
 
 class IdlExtractor
   def initialize(url)
@@ -35,6 +35,7 @@ class IdlExtractor
 
     # then get all the others
     element_headers = @doc.search('//h4').select { |e| e['id'] =~ /the-.+-element/ }
+    pp element_headers
     raise "no elements found in the spec!" if element_headers.empty?
     element_headers.map { |e| extract_idl_from(e) }
   end

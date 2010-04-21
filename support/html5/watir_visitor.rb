@@ -1,13 +1,7 @@
 # encoding: utf-8
 require "rubygems"
 require "webidl"
-require "ruby-debug"
 require "pp"
-
-Debugger.start
-Debugger.settings[:autoeval] = true
-Debugger.settings[:autolist] = 1
-
 
 class WatirVisitor < WebIDL::RubySexpVisitor
 

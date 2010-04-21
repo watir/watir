@@ -42,6 +42,7 @@ namespace :html5 do
   EXTRAS_PATH = "support/html5/html5_extras.idl"
   SPEC_URI    = "http://dev.w3.org/html5/spec/Overview.html" # TODO: use http://www.whatwg.org/specs/web-apps/current-work/source
 
+  desc "Extract HTML5 idl from #{SPEC_URI}"
   task :extract do
     require 'support/html5/idl_extractor'
 
@@ -64,7 +65,7 @@ namespace :html5 do
     code << "# from extras: \n\n"
     code << WatirVisitor.generate_from(EXTRAS_PATH)
 
-    old_file = "lib/watir/elements/generated.rb"
+    old_file = "lib/watir-webdriver/elements/generated.rb"
 
     File.open("#{old_file}.new", "w") { |file| file << code }
     if File.exist?(old_file)
