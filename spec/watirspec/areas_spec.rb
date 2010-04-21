@@ -23,7 +23,7 @@ describe "Areas" do
     it "iterates through areas correctly" do
       browser.areas.each_with_index do |a, index|
         a.id.should == browser.area(:index, index).id
-        a.value.should == browser.area(:index, index).value
+        a.title.should == browser.area(:index, index).title
       end
     end
   end
