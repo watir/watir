@@ -24,7 +24,7 @@ module Watir
       else
         find_first_by_multiple
       end
-    rescue WebDriver::Error::WebDriverError => wde
+    rescue WebDriver::Error::NoSuchElementError => wde
       nil
     end
 
@@ -209,7 +209,7 @@ module Watir
       return if tag_name && !tag_name_matches?(element, tag_name)
 
       element
-    rescue WebDriver::Error::WebDriverError => wde
+    rescue WebDriver::Error::NoSuchElementError => wde
       nil
     end
 

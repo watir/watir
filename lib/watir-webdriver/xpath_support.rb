@@ -10,7 +10,7 @@ module Watir
     def element_by_xpath(xpath)
       e = wd.find_element(:xpath, xpath)
       Watir.element_class_for(e.tag_name).new(self, :element, e)
-    rescue WebDriver::Error::WebDriverError
+    rescue WebDriver::Error::NoSuchElementError
       BaseElement.new(self, :xpath, xpath)
     end
 
@@ -23,7 +23,7 @@ module Watir
       wd.find_elements(:xpath, xpath).map do |e|
         Watir.element_class_for(e.tag_name).new(self, :element, e)
       end
-    rescue WebDriver::Error::WebDriverError
+    rescue WebDriver::Error::NoSuchElementError
       []
     end
 

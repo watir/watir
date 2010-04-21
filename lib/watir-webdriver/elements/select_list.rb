@@ -141,7 +141,7 @@ module Watir
       else
         begin
           e = @element.find_element(:xpath, xpath)
-        rescue WebDriver::Error::WebDriverError # should be more specific
+        rescue WebDriver::Error::NoSuchElementError # should be more specific
           raise NoValueFoundException, "#{string.inspect} not found in select list"
         end
 

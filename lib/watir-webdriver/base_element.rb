@@ -328,8 +328,7 @@ module Watir
 
     def rescue_no_match(returned = "", &blk)
       yield
-    rescue WebDriver::Error::WebDriverError => e # webdriver needs a MissingAttributeError or similar
-      raise unless e.message == "No match"
+    rescue WebDriver::Error::ElementNotEnabledError
       returned
     end
 
