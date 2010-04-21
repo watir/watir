@@ -29,7 +29,7 @@ module Watir
       when Selenium::WebDriver::Driver
         @driver = browser
       else
-        raise ArugmentError, "expected Symbol or Selenium::WebDriver::Driver, got #{browser.class}"
+        raise ArgumentError, "expected Symbol or Selenium::WebDriver::Driver, got #{browser.class}"
       end
 
       @error_checkers = []
@@ -69,10 +69,6 @@ module Watir
 
     def title
       @driver.title
-    end
-
-    def quit
-      @driver.quit
     end
 
     def close
