@@ -39,32 +39,21 @@ task :spec => :check_dependencies
 
 namespace :html5 do
   IDL_PATH    = "support/html5/html5.idl"
-  EXTRAS_PATH = "support/html5/html5_extras.idl"
   SPEC_URI    = "http://dev.w3.org/html5/spec/Overview.html" # TODO: use http://www.whatwg.org/specs/web-apps/current-work/source
 
-  desc "Extract HTML5 idl from #{SPEC_URI}"
+  desc "Print IDL parts from #{SPEC_URI}"
   task :extract do
-    require 'support/html5/idl_extractor'
-
-    idl = IdlExtractor.new(SPEC_URI)
-    idl.write_idl_to IDL_PATH
-    idl.write_extras_to "#{EXTRAS_PATH}.txt"
-
-    puts "\n\n"
-    puts "Some HTML elements does not have an interface declaration defined in the spec."
-    puts "You will need to create the IDL by hand and remove the .txt extension from #{EXTRAS_PATH}.txt before running the html5:generate task."
-    puts "We're also adding an extended attribute to specify TagName - you may need to look through #{IDL_PATH} to make sure the syntax is correct."
+    require "nokogiri"
+    require "open-uri"
+    doc = Nokogiri.HTML(open(SPEC_URI))
+    puts doc.search("//pre[@class='idl']").map {  |e| e.inner_text }.join("\n\n")
   end
 
   desc 'Re-enerate the base Watir element classes from the spec '
   task :generate do
     require "support/html5/watir_visitor"
-    raise Errno::ENOENT, EXTRAS_PATH unless File.exist?(EXTRAS_PATH)
 
     code = WatirVisitor.generate_from(IDL_PATH)
-    code << "# from extras: \n\n"
-    code << WatirVisitor.generate_from(EXTRAS_PATH)
-
     old_file = "lib/watir-webdriver/elements/generated.rb"
 
     File.open("#{old_file}.new", "w") { |file| file << code }

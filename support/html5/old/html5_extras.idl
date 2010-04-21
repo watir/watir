@@ -1,8 +1,6 @@
-
 // the-thead-element
 [TagName=thead]
 interface HTMLTheadElement : HTMLTableSectionElement {};
-
 
 // the-dd-element
 [TagName=dd]

@@ -91,9 +91,12 @@ module Watir
       end
 
       def collection_method(name)
+        constant_name = "#{name.to_s.camel_case}Collection"
+        return if Watir.const_defined?(constant_name)
+
         element_class = self
         klass = Watir.const_set(
-          "#{name.to_s.camel_case}Collection",
+          constant_name,
           Class.new(ElementCollection)
         )
 

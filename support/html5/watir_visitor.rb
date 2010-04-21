@@ -28,6 +28,7 @@ class WatirVisitor < WebIDL::RubySexpVisitor
     name   = interface.name
     parent = interface.inherits.first
 
+    $stderr.puts name
     return unless name =~ /^HTML/
 
     if name == "HTMLElement"
@@ -35,7 +36,7 @@ class WatirVisitor < WebIDL::RubySexpVisitor
     # elsif !(parent && parent.name =~ /^HTMLElement/)
     #   return
     else
-      parent = parent.name
+      parent = parent ? parent.name : 'HTMLElement'
     end
 
     element_class interface.name,
@@ -56,16 +57,21 @@ class WatirVisitor < WebIDL::RubySexpVisitor
 
   def tag_name_from(interface)
     _, tag_name = interface.extended_attributes.find { |k,v| k == "TagName" }
-    tag_name || paramify(interface.name)
+    tag_name
   end
 
   def element_class(name, tag_name, attributes, parent)
-    [:class, classify(name), [:const, classify(parent)],
-      [:scope, [:block] + [identifier_call(tag_name)]],
-      [:scope, [:block] + [container_call(tag_name)]],
-      [:scope, [:block] + [collection_call(tag_name)]],
-      [:scope, [:block] + [attributes_call(attributes)]]
-    ]
+    sexp = [:class, classify(name), [:const, classify(parent)]]
+
+    if tag_name
+      sexp << [:scope, [:block] + [identifier_call(tag_name)]]
+      sexp << [:scope, [:block] + [container_call(tag_name)]]
+      sexp << [:scope, [:block] + [collection_call(tag_name)]]
+    end
+
+    sexp << [:scope, [:block] + [attributes_call(attributes)]]
+
+    sexp
   end
 
   def classify(name)
@@ -129,7 +135,7 @@ class WatirVisitor < WebIDL::RubySexpVisitor
       :string
     when 'unsigned long', 'long', 'integer', 'short', 'unsigned short'
       :int
-    when 'float'
+    when 'float', 'double'
       :float
     when 'Function'
       :function
