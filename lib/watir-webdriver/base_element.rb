@@ -6,6 +6,8 @@ module Watir
     include Container
     include Selenium
 
+    IGNORED_ATTRIBUTES = [:text, :hash]
+
     class << self
       attr_writer :default_selector
 
@@ -30,7 +32,11 @@ module Watir
         add_attributes attribute_map
 
         attribute_map.each do |type, attribs|
-          attribs.each { |name| define_attribute(type, name) }
+          attribs.each do |name|
+            # we don't want to override methods like :text or :hash
+            next if IGNORED_ATTRIBUTES.include?(name)
+            define_attribute(type, name)
+          end
         end
       end
 
@@ -119,8 +125,6 @@ module Watir
       def method_name_for(type, attribute)
         # TODO: rethink this - this list could get pretty long...
         name = case attribute
-               when :hash
-                 'hash_attribute'
                when :html_for
                  'for'
                when :col_span
@@ -140,8 +144,6 @@ module Watir
         case method.to_sym
         when :class_name
           'class'
-        when :hash_attribute
-          'hash'
         when :html_for
           'for'
         when :read_only
