@@ -3,6 +3,14 @@ require "rubygems"
 require "webidl"
 require "pp"
 
+require "active_support"
+ActiveSupport::Inflector.inflections do |inflect|
+  inflect.irregular 'body', 'bodys'
+  inflect.irregular 'tbody', 'tbodys'
+  inflect.irregular 'canvas', 'canvases'
+  inflect.irregular 'ins', 'inses' # made up.
+end
+
 class WatirVisitor < WebIDL::RubySexpVisitor
 
   SPECIALS = {
@@ -110,7 +118,7 @@ class WatirVisitor < WebIDL::RubySexpVisitor
   end
 
   def collection_call(name)
-    call :collection_method, [[:lit, pluralize(paramify(name)).to_sym]]
+    call :collection_method, [[:lit, paramify(name).pluralize.to_sym]]
   end
 
   def literal_hash(hash)
@@ -123,10 +131,6 @@ class WatirVisitor < WebIDL::RubySexpVisitor
 
   def call(name, args)
     [:call, nil, name.to_sym, [:arglist] + args]
-  end
-
-  def pluralize(name)
-    name[/s$/] ? name : name + 's'
   end
 
   def ruby_type_for(type)
