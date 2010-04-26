@@ -18,7 +18,7 @@ module Watir
     #
     # Create a Watir::Browser instance
     #
-    # @param [:firefox, :ie, :chrome, :remote] browser
+    # @param [:firefox, :ie, :chrome, :remote, Selenium::WebDriver] browser
     # @param args Passed to the underlying driver
     #
 
