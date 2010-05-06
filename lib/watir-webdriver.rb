@@ -21,7 +21,7 @@ module Watir
     end
 
     def element_class_for(tag_name)
-      tag_to_class[tag_name] || raise(Exception::Error, "no class found for #{tag_name.inspect}")
+      tag_to_class[tag_name] || HTMLElement
     end
   end
 
