@@ -1,0 +1,638 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: Watir::ElementCollection</title>
+<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (E)</a> &raquo; 
+    <span class='title'><a href="../Watir.html" title="Watir (module)">Watir</a></span>
+     &raquo; 
+    <span class="title">ElementCollection</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Watir::ElementCollection 
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Watir::ElementCollection</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+      <dt class="r2">Includes:</dt>
+      <dd class="r2">Enumerable</dd>
+      
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/watir-webdriver/collections/element_collection.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<div id="subclasses">
+  <h2>Direct Known Subclasses</h2>
+  <p class="children"><a href="AbbrsCollection.html" title="Watir::AbbrsCollection (class)">AbbrsCollection</a>, <a href="AddressesCollection.html" title="Watir::AddressesCollection (class)">AddressesCollection</a>, <a href="AppletsCollection.html" title="Watir::AppletsCollection (class)">AppletsCollection</a>, <a href="AreasCollection.html" title="Watir::AreasCollection (class)">AreasCollection</a>, <a href="ArticlesCollection.html" title="Watir::ArticlesCollection (class)">ArticlesCollection</a>, <a href="AsCollection.html" title="Watir::AsCollection (class)">AsCollection</a>, <a href="AsidesCollection.html" title="Watir::AsidesCollection (class)">AsidesCollection</a>, <a href="AudiosCollection.html" title="Watir::AudiosCollection (class)">AudiosCollection</a>, <a href="BasefontsCollection.html" title="Watir::BasefontsCollection (class)">BasefontsCollection</a>, <a href="BasesCollection.html" title="Watir::BasesCollection (class)">BasesCollection</a>, <a href="BdosCollection.html" title="Watir::BdosCollection (class)">BdosCollection</a>, <a href="BlockquotesCollection.html" title="Watir::BlockquotesCollection (class)">BlockquotesCollection</a>, <a href="BodysCollection.html" title="Watir::BodysCollection (class)">BodysCollection</a>, <a href="BrsCollection.html" title="Watir::BrsCollection (class)">BrsCollection</a>, <a href="BsCollection.html" title="Watir::BsCollection (class)">BsCollection</a>, <a href="ButtonsCollection.html" title="Watir::ButtonsCollection (class)">ButtonsCollection</a>, <a href="CanvasesCollection.html" title="Watir::CanvasesCollection (class)">CanvasesCollection</a>, <a href="CaptionsCollection.html" title="Watir::CaptionsCollection (class)">CaptionsCollection</a>, <a href="CheckboxesCollection.html" title="Watir::CheckboxesCollection (class)">CheckboxesCollection</a>, <a href="CitesCollection.html" title="Watir::CitesCollection (class)">CitesCollection</a>, <a href="CodesCollection.html" title="Watir::CodesCollection (class)">CodesCollection</a>, <a href="ColgroupsCollection.html" title="Watir::ColgroupsCollection (class)">ColgroupsCollection</a>, <a href="ColsCollection.html" title="Watir::ColsCollection (class)">ColsCollection</a>, <a href="CommandsCollection.html" title="Watir::CommandsCollection (class)">CommandsCollection</a>, <a href="DatalistsCollection.html" title="Watir::DatalistsCollection (class)">DatalistsCollection</a>, <a href="DdsCollection.html" title="Watir::DdsCollection (class)">DdsCollection</a>, <a href="DelsCollection.html" title="Watir::DelsCollection (class)">DelsCollection</a>, <a href="DetailsCollection.html" title="Watir::DetailsCollection (class)">DetailsCollection</a>, <a href="DfnsCollection.html" title="Watir::DfnsCollection (class)">DfnsCollection</a>, <a href="DivsCollection.html" title="Watir::DivsCollection (class)">DivsCollection</a>, <a href="DlsCollection.html" title="Watir::DlsCollection (class)">DlsCollection</a>, <a href="DtsCollection.html" title="Watir::DtsCollection (class)">DtsCollection</a>, <a href="EmbedsCollection.html" title="Watir::EmbedsCollection (class)">EmbedsCollection</a>, <a href="EmsCollection.html" title="Watir::EmsCollection (class)">EmsCollection</a>, <a href="FarmesetsCollection.html" title="Watir::FarmesetsCollection (class)">FarmesetsCollection</a>, <a href="FieldsetsCollection.html" title="Watir::FieldsetsCollection (class)">FieldsetsCollection</a>, <a href="FiguresCollection.html" title="Watir::FiguresCollection (class)">FiguresCollection</a>, <a href="FileFieldsCollection.html" title="Watir::FileFieldsCollection (class)">FileFieldsCollection</a>, <a href="FontsCollection.html" title="Watir::FontsCollection (class)">FontsCollection</a>, <a href="FootersCollection.html" title="Watir::FootersCollection (class)">FootersCollection</a>, <a href="FormsCollection.html" title="Watir::FormsCollection (class)">FormsCollection</a>, <a href="FramesCollection.html" title="Watir::FramesCollection (class)">FramesCollection</a>, <a href="H1sCollection.html" title="Watir::H1sCollection (class)">H1sCollection</a>, <a href="H2sCollection.html" title="Watir::H2sCollection (class)">H2sCollection</a>, <a href="H3sCollection.html" title="Watir::H3sCollection (class)">H3sCollection</a>, <a href="H4sCollection.html" title="Watir::H4sCollection (class)">H4sCollection</a>, <a href="H5sCollection.html" title="Watir::H5sCollection (class)">H5sCollection</a>, <a href="H6sCollection.html" title="Watir::H6sCollection (class)">H6sCollection</a>, <a href="HeadersCollection.html" title="Watir::HeadersCollection (class)">HeadersCollection</a>, <a href="HeadsCollection.html" title="Watir::HeadsCollection (class)">HeadsCollection</a>, <a href="HgroupsCollection.html" title="Watir::HgroupsCollection (class)">HgroupsCollection</a>, <a href="HiddensCollection.html" title="Watir::HiddensCollection (class)">HiddensCollection</a>, <a href="HrsCollection.html" title="Watir::HrsCollection (class)">HrsCollection</a>, <a href="HtmlsCollection.html" title="Watir::HtmlsCollection (class)">HtmlsCollection</a>, <a href="IframesCollection.html" title="Watir::IframesCollection (class)">IframesCollection</a>, <a href="ImagesCollection.html" title="Watir::ImagesCollection (class)">ImagesCollection</a>, <a href="InputsCollection.html" title="Watir::InputsCollection (class)">InputsCollection</a>, <a href="InsesCollection.html" title="Watir::InsesCollection (class)">InsesCollection</a>, <a href="IsCollection.html" title="Watir::IsCollection (class)">IsCollection</a>, <a href="KbdsCollection.html" title="Watir::KbdsCollection (class)">KbdsCollection</a>, <a href="KeygensCollection.html" title="Watir::KeygensCollection (class)">KeygensCollection</a>, <a href="LabelsCollection.html" title="Watir::LabelsCollection (class)">LabelsCollection</a>, <a href="LegendsCollection.html" title="Watir::LegendsCollection (class)">LegendsCollection</a>, <a href="LinksCollection.html" title="Watir::LinksCollection (class)">LinksCollection</a>, <a href="LisCollection.html" title="Watir::LisCollection (class)">LisCollection</a>, <a href="MapsCollection.html" title="Watir::MapsCollection (class)">MapsCollection</a>, <a href="MarksCollection.html" title="Watir::MarksCollection (class)">MarksCollection</a>, <a href="MarqueesCollection.html" title="Watir::MarqueesCollection (class)">MarqueesCollection</a>, <a href="MenusCollection.html" title="Watir::MenusCollection (class)">MenusCollection</a>, <a href="MetasCollection.html" title="Watir::MetasCollection (class)">MetasCollection</a>, <a href="MetersCollection.html" title="Watir::MetersCollection (class)">MetersCollection</a>, <a href="NavsCollection.html" title="Watir::NavsCollection (class)">NavsCollection</a>, <a href="NoscriptsCollection.html" title="Watir::NoscriptsCollection (class)">NoscriptsCollection</a>, <a href="ObjectsCollection.html" title="Watir::ObjectsCollection (class)">ObjectsCollection</a>, <a href="OlsCollection.html" title="Watir::OlsCollection (class)">OlsCollection</a>, <a href="OptgroupsCollection.html" title="Watir::OptgroupsCollection (class)">OptgroupsCollection</a>, <a href="OptionsCollection.html" title="Watir::OptionsCollection (class)">OptionsCollection</a>, <a href="OutputsCollection.html" title="Watir::OutputsCollection (class)">OutputsCollection</a>, <a href="ParamsCollection.html" title="Watir::ParamsCollection (class)">ParamsCollection</a>, <a href="PresCollection.html" title="Watir::PresCollection (class)">PresCollection</a>, <a href="ProgressesCollection.html" title="Watir::ProgressesCollection (class)">ProgressesCollection</a>, <a href="PsCollection.html" title="Watir::PsCollection (class)">PsCollection</a>, <a href="QsCollection.html" title="Watir::QsCollection (class)">QsCollection</a>, <a href="RadiosCollection.html" title="Watir::RadiosCollection (class)">RadiosCollection</a>, <a href="RpsCollection.html" title="Watir::RpsCollection (class)">RpsCollection</a>, <a href="RtsCollection.html" title="Watir::RtsCollection (class)">RtsCollection</a>, <a href="RubiesCollection.html" title="Watir::RubiesCollection (class)">RubiesCollection</a>, <a href="SampsCollection.html" title="Watir::SampsCollection (class)">SampsCollection</a>, <a href="ScriptsCollection.html" title="Watir::ScriptsCollection (class)">ScriptsCollection</a>, <a href="SectionsCollection.html" title="Watir::SectionsCollection (class)">SectionsCollection</a>, <a href="SelectListsCollection.html" title="Watir::SelectListsCollection (class)">SelectListsCollection</a>, <a href="SelectsCollection.html" title="Watir::SelectsCollection (class)">SelectsCollection</a>, <a href="SmallsCollection.html" title="Watir::SmallsCollection (class)">SmallsCollection</a>, <a href="SourcesCollection.html" title="Watir::SourcesCollection (class)">SourcesCollection</a>, <a href="SpansCollection.html" title="Watir::SpansCollection (class)">SpansCollection</a>, <a href="StrongsCollection.html" title="Watir::StrongsCollection (class)">StrongsCollection</a>, <a href="StylesCollection.html" title="Watir::StylesCollection (class)">StylesCollection</a>, <a href="SubsCollection.html" title="Watir::SubsCollection (class)">SubsCollection</a>, <a href="SupsCollection.html" title="Watir::SupsCollection (class)">SupsCollection</a>, <a href="TablesCollection.html" title="Watir::TablesCollection (class)">TablesCollection</a>, <a href="TbodysCollection.html" title="Watir::TbodysCollection (class)">TbodysCollection</a>, <a href="TdsCollection.html" title="Watir::TdsCollection (class)">TdsCollection</a>, <a href="TextFieldsCollection.html" title="Watir::TextFieldsCollection (class)">TextFieldsCollection</a>, <a href="TextareasCollection.html" title="Watir::TextareasCollection (class)">TextareasCollection</a>, <a href="TfootsCollection.html" title="Watir::TfootsCollection (class)">TfootsCollection</a>, <a href="TheadsCollection.html" title="Watir::TheadsCollection (class)">TheadsCollection</a>, <a href="ThsCollection.html" title="Watir::ThsCollection (class)">ThsCollection</a>, <a href="TimesCollection.html" title="Watir::TimesCollection (class)">TimesCollection</a>, <a href="TitlesCollection.html" title="Watir::TitlesCollection (class)">TitlesCollection</a>, <a href="TrsCollection.html" title="Watir::TrsCollection (class)">TrsCollection</a>, <a href="UlsCollection.html" title="Watir::UlsCollection (class)">UlsCollection</a>, <a href="VarsCollection.html" title="Watir::VarsCollection (class)">VarsCollection</a>, <a href="VideosCollection.html" title="Watir::VideosCollection (class)">VideosCollection</a></p>
+</div>
+
+
+  
+
+  
+    <h2>Instance Method Summary</h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#%5B%5D-instance_method" title="#[] (instance method)">- (Object) <strong>[]</strong>(idx) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#each-instance_method" title="#each (instance method)">- (Object) <strong>each</strong> {|element| ... }</a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#first-instance_method" title="#first (instance method)">- (Watir::BaseElement) <strong>first</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+First element of this collection.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (ElementCollection) <strong>initialize</strong>(parent, element_class) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+A new instance of ElementCollection.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#last-instance_method" title="#last (instance method)">- (Watir::BaseElement) <strong>last</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Last element of the collection.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#length-instance_method" title="#length (instance method)">- (Fixnum) <strong>length</strong> </a>
+    
+
+    
+      (also: #size)
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+The number of elements in this collection.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_a-instance_method" title="#to_a (instance method)">- (Array&lt;Watir::BaseElement&gt;) <strong>to_a</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+This collection as an Array.
+</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  <div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><a href="" title="Watir::ElementCollection (class)">ElementCollection</a></tt>) <strong>initialize</strong>(parent, element_class) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+A new instance of ElementCollection
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+6
+7
+8</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/collections/element_collection.rb', line 6</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span><span class='lparen'>(</span><span class='id parent'>parent</span><span class='comma'>,</span> <span class='id element_class'>element_class</span><span class='rparen'>)</span>
+  <span class='ivar'>@parent</span><span class='comma'>,</span> <span class='ivar'>@element_class</span> <span class='op'>=</span> <span class='id parent'>parent</span><span class='comma'>,</span> <span class='id element_class'>element_class</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="[]-instance_method">
+  
+    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>[]</strong>(idx) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/collections/element_collection.rb', line 39</span>
+
+<span class='kw'>def</span> <span class='op'>[]</span><span class='lparen'>(</span><span class='id idx'>idx</span><span class='rparen'>)</span>
+  <span class='id to_a'>to_a</span><span class='lbracket'>[</span><span class='id idx'>idx</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='ivar'>@element_class</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='ivar'>@parent</span><span class='comma'>,</span> <span class='symbol'>:index</span><span class='comma'>,</span> <span class='id idx'>idx</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="each-instance_method">
+  
+    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>each</strong> {|element| ... }
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Yield Parameters:</h3>
+<ul class="yieldparam">
+  
+    <li>
+      
+        <span class='type'>(<tt><a href="BaseElement.html" title="Watir::BaseElement (class)">Watir::BaseElement</a></tt>)</span>
+      
+      
+        <span class='name'>element</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+Iterate through the elements in this collection.
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+14
+15
+16</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/collections/element_collection.rb', line 14</span>
+
+<span class='kw'>def</span> <span class='id each'>each</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id blk'>blk</span><span class='rparen'>)</span>
+  <span class='id to_a'>to_a</span><span class='period'>.</span><span class='id each'>each</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id blk'>blk</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="first-instance_method">
+  
+    - (<tt><a href="BaseElement.html" title="Watir::BaseElement (class)">Watir::BaseElement</a></tt>) <strong>first</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+First element of this collection
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><a href="BaseElement.html" title="Watir::BaseElement (class)">Watir::BaseElement</a></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+Returns an instance of a Watir::BaseElement subclass
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+49
+50
+51</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/collections/element_collection.rb', line 49</span>
+
+<span class='kw'>def</span> <span class='id first'>first</span>
+  <span class='id to_a'>to_a</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='ivar'>@element_class</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='ivar'>@parent</span><span class='comma'>,</span> <span class='symbol'>:index</span><span class='comma'>,</span> <span class='int'>0</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="last-instance_method">
+  
+    - (<tt><a href="BaseElement.html" title="Watir::BaseElement (class)">Watir::BaseElement</a></tt>) <strong>last</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Last element of the collection
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><a href="BaseElement.html" title="Watir::BaseElement (class)">Watir::BaseElement</a></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+Returns an instance of a Watir::BaseElement subclass
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+59
+60
+61</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/collections/element_collection.rb', line 59</span>
+
+<span class='kw'>def</span> <span class='id last'>last</span>
+  <span class='id to_a'>to_a</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='ivar'>@element_class</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='ivar'>@parent</span><span class='comma'>,</span> <span class='symbol'>:index</span><span class='comma'>,</span> <span class='op'>-</span><span class='int'>1</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="length-instance_method">
+  
+    - (<tt>Fixnum</tt>) <strong>length</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='size-instance_method'>size</span></span>
+    </span>
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+The number of elements in this collection.
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Fixnum</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+The number of elements in this collection.
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+22
+23
+24</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/collections/element_collection.rb', line 22</span>
+
+<span class='kw'>def</span> <span class='id length'>length</span>
+  <span class='id elements'>elements</span><span class='period'>.</span><span class='id length'>length</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="to_a-instance_method">
+  
+    - (<tt>Array&lt;<a href="BaseElement.html" title="Watir::BaseElement (class)">Watir::BaseElement</a>&gt;</tt>) <strong>to_a</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+This collection as an Array
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Array&lt;<a href="BaseElement.html" title="Watir::BaseElement (class)">Watir::BaseElement</a>&gt;</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+69
+70
+71
+72</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/collections/element_collection.rb', line 69</span>
+
+<span class='kw'>def</span> <span class='id to_a'>to_a</span>
+  <span class='comment'># TODO: optimize - lazily @element_class instance
+</span>  <span class='ivar'>@to_a</span> <span class='op'>||=</span> <span class='id elements'>elements</span><span class='period'>.</span><span class='id map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id e'>e</span><span class='op'>|</span> <span class='ivar'>@element_class</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='ivar'>@parent</span><span class='comma'>,</span> <span class='symbol'>:element</span><span class='comma'>,</span> <span class='id e'>e</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Sun May  9 01:25:46 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
+  0.5.4 (ruby-1.9.1).
+</div>
+
+  </body>
+</html>

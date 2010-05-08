@@ -1,0 +1,1639 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: Watir::ElementLocator</title>
+<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (E)</a> &raquo; 
+    <span class='title'><a href="../Watir.html" title="Watir (module)">Watir</a></span>
+     &raquo; 
+    <span class="title">ElementLocator</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Watir::ElementLocator 
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Watir::ElementLocator</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+      <dt class="r2">Includes:</dt>
+      <dd class="r2">Selenium, <a href="Exception.html" title="Watir::Exception (module)">Exception</a></dd>
+      
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/watir-webdriver/locators/element_locator.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<div id="subclasses">
+  <h2>Direct Known Subclasses</h2>
+  <p class="children"><a href="ButtonLocator.html" title="Watir::ButtonLocator (class)">ButtonLocator</a>, <a href="TableRowLocator.html" title="Watir::TableRowLocator (class)">TableRowLocator</a>, <a href="TextFieldLocator.html" title="Watir::TextFieldLocator (class)">TextFieldLocator</a></p>
+</div>
+
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="WD_FINDERS-constant" class="">WD_FINDERS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span> <span class='symbol'>:class</span><span class='comma'>,</span> <span class='symbol'>:class_name</span><span class='comma'>,</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='symbol'>:link_text</span><span class='comma'>,</span> <span class='symbol'>:link</span><span class='comma'>,</span>
+<span class='symbol'>:partial_link_text</span><span class='comma'>,</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='symbol'>:tag_name</span><span class='comma'>,</span> <span class='symbol'>:xpath</span> <span class='rbracket'>]</span></pre></dd>
+      
+    </dl>
+  
+
+
+  
+  
+  
+  
+  
+
+  
+    <h2>Instance Method Summary</h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#assert_valid_as_attribute-instance_method" title="#assert_valid_as_attribute (instance method)">- (Object) <strong>assert_valid_as_attribute</strong>(attribute) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#attribute_expression-instance_method" title="#attribute_expression (instance method)">- (Object) <strong>attribute_expression</strong>(selectors) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#build_xpath-instance_method" title="#build_xpath (instance method)">- (Object) <strong>build_xpath</strong>(selectors) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#by_id-instance_method" title="#by_id (instance method)">- (Object) <strong>by_id</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_type-instance_method" title="#check_type (instance method)">- (Object) <strong>check_type</strong>(how, what) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_regexps_from-instance_method" title="#delete_regexps_from (instance method)">- (Object) <strong>delete_regexps_from</strong>(selector) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#equal_pair-instance_method" title="#equal_pair (instance method)">- (Object) <strong>equal_pair</strong>(key, value) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#fetch_value-instance_method" title="#fetch_value (instance method)">- (Object) <strong>fetch_value</strong>(how, element) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#find_all_by_multiple-instance_method" title="#find_all_by_multiple (instance method)">- (Object) <strong>find_all_by_multiple</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#find_all_by_one-instance_method" title="#find_all_by_one (instance method)">- (Object) <strong>find_all_by_one</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#find_first_by_multiple-instance_method" title="#find_first_by_multiple (instance method)">- (Object) <strong>find_first_by_multiple</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#find_first_by_one-instance_method" title="#find_first_by_one (instance method)">- (Object) <strong>find_first_by_one</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (ElementLocator) <strong>initialize</strong>(wd, selector, valid_attributes) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+A new instance of ElementLocator.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#lhs_for-instance_method" title="#lhs_for (instance method)">- (Object) <strong>lhs_for</strong>(key) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#locate-instance_method" title="#locate (instance method)">- (Object) <strong>locate</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#locate_all-instance_method" title="#locate_all (instance method)">- (Object) <strong>locate_all</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#matches_selector%3F-instance_method" title="#matches_selector? (instance method)">- (Boolean) <strong>matches_selector?</strong>(selector, element) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#normalize_selector-instance_method" title="#normalize_selector (instance method)">- (Object) <strong>normalize_selector</strong>(how, what) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#normalized_selector-instance_method" title="#normalized_selector (instance method)">- (Object) <strong>normalized_selector</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#tag_name_matches%3F-instance_method" title="#tag_name_matches? (instance method)">- (Boolean) <strong>tag_name_matches?</strong>(element, tag_name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#wd_find_all_by-instance_method" title="#wd_find_all_by (instance method)">- (Object) <strong>wd_find_all_by</strong>(how, what) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#wd_find_by_regexp_selector-instance_method" title="#wd_find_by_regexp_selector (instance method)">- (Object) <strong>wd_find_by_regexp_selector</strong>(selector, method = :find) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#wd_find_first_by-instance_method" title="#wd_find_first_by (instance method)">- (Object) <strong>wd_find_first_by</strong>(how, what) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  <div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><a href="" title="Watir::ElementLocator (class)">ElementLocator</a></tt>) <strong>initialize</strong>(wd, selector, valid_attributes) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+A new instance of ElementLocator
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+10
+11
+12
+13
+14</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/locators/element_locator.rb', line 10</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span><span class='lparen'>(</span><span class='id wd'>wd</span><span class='comma'>,</span> <span class='id selector'>selector</span><span class='comma'>,</span> <span class='id valid_attributes'>valid_attributes</span><span class='rparen'>)</span>
+  <span class='ivar'>@wd</span>               <span class='op'>=</span> <span class='id wd'>wd</span>
+  <span class='ivar'>@selector</span>         <span class='op'>=</span> <span class='id selector'>selector</span><span class='period'>.</span><span class='id dup'>dup</span>
+  <span class='ivar'>@valid_attributes</span> <span class='op'>=</span> <span class='id valid_attributes'>valid_attributes</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="assert_valid_as_attribute-instance_method">
+  
+    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>assert_valid_as_attribute</strong>(attribute) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+194
+195
+196
+197
+198</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/locators/element_locator.rb', line 194</span>
+
+<span class='kw'>def</span> <span class='id assert_valid_as_attribute'>assert_valid_as_attribute</span><span class='lparen'>(</span><span class='id attribute'>attribute</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='ivar'>@valid_attributes</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ivar'>@valid_attributes</span><span class='period'>.</span><span class='id include?'>include?</span><span class='lparen'>(</span><span class='id attribute'>attribute</span><span class='rparen'>)</span>
+    <span class='id raise'>raise</span> <span class='const'>MissingWayOfFindingObjectException</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>invalid attribute: </span><span class='embexpr_beg'>#{</span><span class='id attribute'>attribute</span><span class='period'>.</span><span class='id inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="attribute_expression-instance_method">
+  
+    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>attribute_expression</strong>(selectors) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+242
+243
+244
+245
+246
+247
+248
+249
+250</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/locators/element_locator.rb', line 242</span>
+
+<span class='kw'>def</span> <span class='id attribute_expression'>attribute_expression</span><span class='lparen'>(</span><span class='id selectors'>selectors</span><span class='rparen'>)</span>
+  <span class='id selectors'>selectors</span><span class='period'>.</span><span class='id map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id key'>key</span><span class='comma'>,</span> <span class='id val'>val</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='id val'>val</span><span class='period'>.</span><span class='id kind_of?'>kind_of?</span><span class='lparen'>(</span><span class='const'>Array</span><span class='rparen'>)</span>
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>( </span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span> <span class='id val'>val</span><span class='period'>.</span><span class='id map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id v'>v</span><span class='op'>|</span> <span class='id equal_pair'>equal_pair</span><span class='lparen'>(</span><span class='id key'>key</span><span class='comma'>,</span> <span class='id v'>v</span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> or </span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> )</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>else</span>
+      <span class='id equal_pair'>equal_pair</span><span class='lparen'>(</span><span class='id key'>key</span><span class='comma'>,</span> <span class='id val'>val</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> and </span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="build_xpath-instance_method">
+  
+    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>build_xpath</strong>(selectors) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/locators/element_locator.rb', line 220</span>
+
+<span class='kw'>def</span> <span class='id build_xpath'>build_xpath</span><span class='lparen'>(</span><span class='id selectors'>selectors</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>if</span> <span class='id selectors'>selectors</span><span class='period'>.</span><span class='id values'>values</span><span class='period'>.</span><span class='id any?'>any?</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id e'>e</span><span class='op'>|</span> <span class='id e'>e</span><span class='period'>.</span><span class='id kind_of?'>kind_of?</span> <span class='const'>Regexp</span> <span class='rbrace'>}</span>
+
+  <span class='id xpath'>xpath</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.//</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id xpath'>xpath</span> <span class='op'>&lt;&lt;</span> <span class='lparen'>(</span><span class='id selectors'>selectors</span><span class='period'>.</span><span class='id delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:tag_name</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>*</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id to_s'>to_s</span>
+
+  <span class='id idx'>idx</span> <span class='op'>=</span> <span class='id selectors'>selectors</span><span class='period'>.</span><span class='id delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:index</span><span class='rparen'>)</span>
+
+  <span class='comment'># the remaining entries should be attributes
+</span>  <span class='kw'>unless</span> <span class='id selectors'>selectors</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+    <span class='id xpath'>xpath</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[</span><span class='tstring_end'>&quot;</span></span> <span class='op'>&lt;&lt;</span> <span class='id attribute_expression'>attribute_expression</span><span class='lparen'>(</span><span class='id selectors'>selectors</span><span class='rparen'>)</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>if</span> <span class='id idx'>idx</span>
+    <span class='id xpath'>xpath</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[</span><span class='embexpr_beg'>#{</span><span class='id idx'>idx</span> <span class='op'>+</span> <span class='int'>1</span><span class='rbrace'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='id p'>p</span> <span class='symbol'>:xpath</span> <span class='op'>=&gt;</span> <span class='id xpath'>xpath</span><span class='comma'>,</span> <span class='symbol'>:selectors</span> <span class='op'>=&gt;</span> <span class='id selectors'>selectors</span> <span class='kw'>if</span> <span class='gvar'>$DEBUG</span>
+
+  <span class='id xpath'>xpath</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="by_id-instance_method">
+  
+    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>by_id</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/locators/element_locator.rb', line 200</span>
+
+<span class='kw'>def</span> <span class='id by_id'>by_id</span>
+  <span class='id selector'>selector</span> <span class='op'>=</span> <span class='ivar'>@selector</span><span class='period'>.</span><span class='id dup'>dup</span>
+  <span class='id id'>id</span>       <span class='op'>=</span> <span class='id selector'>selector</span><span class='period'>.</span><span class='id delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:id</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id id'>id</span> <span class='op'>&amp;&amp;</span> <span class='id id'>id</span><span class='period'>.</span><span class='id kind_of?'>kind_of?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span>
+
+  <span class='id tag_name'>tag_name</span> <span class='op'>=</span> <span class='id selector'>selector</span><span class='period'>.</span><span class='id delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:tag_name</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id selector'>selector</span><span class='period'>.</span><span class='id empty?'>empty?</span> <span class='comment'># multiple attributes
+</span>
+  <span class='id element'>element</span>  <span class='op'>=</span> <span class='ivar'>@wd</span><span class='period'>.</span><span class='id find_element'>find_element</span><span class='lparen'>(</span><span class='symbol'>:id</span><span class='comma'>,</span> <span class='id id'>id</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>if</span> <span class='id tag_name'>tag_name</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id tag_name_matches?'>tag_name_matches?</span><span class='lparen'>(</span><span class='id element'>element</span><span class='comma'>,</span> <span class='id tag_name'>tag_name</span><span class='rparen'>)</span>
+
+  <span class='id element'>element</span>
+<span class='kw'>rescue</span> <span class='const'>WebDriver</span><span class='op'>::</span><span class='const'>Error</span><span class='op'>::</span><span class='const'>NoSuchElementError</span> <span class='op'>=&gt;</span> <span class='id wde'>wde</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="check_type-instance_method">
+  
+    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>check_type</strong>(how, what) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/locators/element_locator.rb', line 123</span>
+
+<span class='kw'>def</span> <span class='id check_type'>check_type</span><span class='lparen'>(</span><span class='id how'>how</span><span class='comma'>,</span> <span class='id what'>what</span><span class='rparen'>)</span>
+  <span class='kw'>case</span> <span class='id how'>how</span>
+  <span class='kw'>when</span> <span class='symbol'>:index</span>
+    <span class='id raise'>raise</span> <span class='const'>TypeError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>expected Fixnum, got </span><span class='embexpr_beg'>#{</span><span class='id what'>what</span><span class='period'>.</span><span class='id class'>class</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id what'>what</span><span class='period'>.</span><span class='id kind_of?'>kind_of?</span><span class='lparen'>(</span><span class='const'>Fixnum</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='kw'>unless</span> <span class='lbracket'>[</span><span class='const'>String</span><span class='comma'>,</span> <span class='const'>Regexp</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id any?'>any?</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id t'>t</span><span class='op'>|</span> <span class='id what'>what</span><span class='period'>.</span><span class='id kind_of?'>kind_of?</span> <span class='id t'>t</span> <span class='rbrace'>}</span>
+      <span class='id raise'>raise</span> <span class='const'>TypeError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>expected String or Regexp, got </span><span class='embexpr_beg'>#{</span><span class='id what'>what</span><span class='period'>.</span><span class='id inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id what'>what</span><span class='period'>.</span><span class='id class'>class</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="delete_regexps_from-instance_method">
+  
+    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>delete_regexps_from</strong>(selector) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/locators/element_locator.rb', line 182</span>
+
+<span class='kw'>def</span> <span class='id delete_regexps_from'>delete_regexps_from</span><span class='lparen'>(</span><span class='id selector'>selector</span><span class='rparen'>)</span>
+  <span class='id rx_selector'>rx_selector</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+
+  <span class='id selector'>selector</span><span class='period'>.</span><span class='id dup'>dup</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id how'>how</span><span class='comma'>,</span> <span class='id what'>what</span><span class='op'>|</span>
+    <span class='kw'>next</span> <span class='kw'>unless</span> <span class='id what'>what</span><span class='period'>.</span><span class='id kind_of?'>kind_of?</span><span class='lparen'>(</span><span class='const'>Regexp</span><span class='rparen'>)</span>
+    <span class='id rx_selector'>rx_selector</span><span class='lbracket'>[</span><span class='id how'>how</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id what'>what</span>
+    <span class='id selector'>selector</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='id how'>how</span>
+  <span class='kw'>end</span>
+
+  <span class='id rx_selector'>rx_selector</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="equal_pair-instance_method">
+  
+    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>equal_pair</strong>(key, value) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+252
+253
+254</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/locators/element_locator.rb', line 252</span>
+
+<span class='kw'>def</span> <span class='id equal_pair'>equal_pair</span><span class='lparen'>(</span><span class='id key'>key</span><span class='comma'>,</span> <span class='id value'>value</span><span class='rparen'>)</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id lhs_for'>lhs_for</span><span class='lparen'>(</span><span class='id key'>key</span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='tstring_content'>='</span><span class='embexpr_beg'>#{</span><span class='id value'>value</span><span class='rbrace'>}</span><span class='tstring_content'>'</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="fetch_value-instance_method">
+  
+    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>fetch_value</strong>(how, element) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/locators/element_locator.rb', line 134</span>
+
+<span class='kw'>def</span> <span class='id fetch_value'>fetch_value</span><span class='lparen'>(</span><span class='id how'>how</span><span class='comma'>,</span> <span class='id element'>element</span><span class='rparen'>)</span>
+  <span class='kw'>case</span> <span class='id how'>how</span>
+  <span class='kw'>when</span> <span class='symbol'>:text</span>
+    <span class='id element'>element</span><span class='period'>.</span><span class='id text'>text</span>
+  <span class='kw'>when</span> <span class='symbol'>:tag_name</span>
+    <span class='id element'>element</span><span class='period'>.</span><span class='id tag_name'>tag_name</span>
+  <span class='kw'>else</span>
+    <span class='id element'>element</span><span class='period'>.</span><span class='id attribute'>attribute</span><span class='lparen'>(</span><span class='id how'>how</span><span class='rparen'>)</span> <span class='kw'>rescue</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span> <span class='comment'># TODO: rescue specific exception
+</span>  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="find_all_by_multiple-instance_method">
+  
+    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>find_all_by_multiple</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/locators/element_locator.rb', line 84</span>
+
+<span class='kw'>def</span> <span class='id find_all_by_multiple'>find_all_by_multiple</span>
+  <span class='id selector'>selector</span> <span class='op'>=</span> <span class='id normalized_selector'>normalized_selector</span>
+
+  <span class='kw'>if</span> <span class='id selector'>selector</span><span class='period'>.</span><span class='id has_key?'>has_key?</span> <span class='symbol'>:index</span>
+    <span class='id raise'>raise</span> <span class='const'>Error</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>can't locate all elements by :index</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='id xpath'>xpath</span> <span class='op'>=</span> <span class='id selector'>selector</span><span class='lbracket'>[</span><span class='symbol'>:xpath</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id build_xpath'>build_xpath</span><span class='lparen'>(</span><span class='id selector'>selector</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id xpath'>xpath</span>
+    <span class='ivar'>@wd</span><span class='period'>.</span><span class='id find_elements'>find_elements</span><span class='lparen'>(</span><span class='symbol'>:xpath</span><span class='comma'>,</span> <span class='id xpath'>xpath</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id wd_find_by_regexp_selector'>wd_find_by_regexp_selector</span><span class='lparen'>(</span><span class='id selector'>selector</span><span class='comma'>,</span> <span class='symbol'>:select</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="find_all_by_one-instance_method">
+  
+    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>find_all_by_one</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/locators/element_locator.rb', line 50</span>
+
+<span class='kw'>def</span> <span class='id find_all_by_one'>find_all_by_one</span>
+  <span class='id how'>how</span><span class='comma'>,</span> <span class='id what'>what</span> <span class='op'>=</span> <span class='ivar'>@selector</span><span class='period'>.</span><span class='id shift'>shift</span>
+  <span class='id check_type'>check_type</span> <span class='id how'>how</span><span class='comma'>,</span> <span class='id what'>what</span>
+
+  <span class='kw'>if</span> <span class='const'>WD_FINDERS</span><span class='period'>.</span><span class='id include?'>include?</span><span class='lparen'>(</span><span class='id how'>how</span><span class='rparen'>)</span>
+    <span class='id wd_find_all_by'>wd_find_all_by</span><span class='lparen'>(</span><span class='id how'>how</span><span class='comma'>,</span> <span class='id what'>what</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id raise'>raise</span> <span class='const'>NotImplementedError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>find all by attribute/other</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="find_first_by_multiple-instance_method">
+  
+    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>find_first_by_multiple</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/locators/element_locator.rb', line 61</span>
+
+<span class='kw'>def</span> <span class='id find_first_by_multiple'>find_first_by_multiple</span>
+  <span class='id selector'>selector</span> <span class='op'>=</span> <span class='id normalized_selector'>normalized_selector</span>
+
+  <span class='id idx'>idx</span>   <span class='op'>=</span> <span class='id selector'>selector</span><span class='period'>.</span><span class='id delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:index</span><span class='rparen'>)</span>
+  <span class='id xpath'>xpath</span> <span class='op'>=</span> <span class='id selector'>selector</span><span class='lbracket'>[</span><span class='symbol'>:xpath</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id build_xpath'>build_xpath</span><span class='lparen'>(</span><span class='id selector'>selector</span><span class='rparen'>)</span>
+
+  <span class='kw'>if</span> <span class='id xpath'>xpath</span>
+    <span class='comment'># could build xpath for selector
+</span>    <span class='kw'>if</span> <span class='id idx'>idx</span>
+      <span class='ivar'>@wd</span><span class='period'>.</span><span class='id find_elements'>find_elements</span><span class='lparen'>(</span><span class='symbol'>:xpath</span><span class='comma'>,</span> <span class='id xpath'>xpath</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='id idx'>idx</span><span class='rbracket'>]</span>
+    <span class='kw'>else</span>
+      <span class='ivar'>@wd</span><span class='period'>.</span><span class='id find_element'>find_element</span><span class='lparen'>(</span><span class='symbol'>:xpath</span><span class='comma'>,</span> <span class='id xpath'>xpath</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>else</span>
+    <span class='comment'># can't use xpath, probably a regexp in there
+</span>    <span class='kw'>if</span> <span class='id idx'>idx</span>
+      <span class='id wd_find_by_regexp_selector'>wd_find_by_regexp_selector</span><span class='lparen'>(</span><span class='id selector'>selector</span><span class='comma'>,</span> <span class='symbol'>:select</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='id idx'>idx</span><span class='rbracket'>]</span>
+    <span class='kw'>else</span>
+      <span class='id wd_find_by_regexp_selector'>wd_find_by_regexp_selector</span><span class='lparen'>(</span><span class='id selector'>selector</span><span class='comma'>,</span> <span class='symbol'>:find</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="find_first_by_one-instance_method">
+  
+    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>find_first_by_one</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/locators/element_locator.rb', line 39</span>
+
+<span class='kw'>def</span> <span class='id find_first_by_one'>find_first_by_one</span>
+  <span class='id how'>how</span><span class='comma'>,</span> <span class='id what'>what</span> <span class='op'>=</span> <span class='ivar'>@selector</span><span class='period'>.</span><span class='id shift'>shift</span>
+  <span class='id check_type'>check_type</span> <span class='id how'>how</span><span class='comma'>,</span> <span class='id what'>what</span>
+
+  <span class='kw'>if</span> <span class='const'>WD_FINDERS</span><span class='period'>.</span><span class='id include?'>include?</span><span class='lparen'>(</span><span class='id how'>how</span><span class='rparen'>)</span>
+    <span class='id wd_find_first_by'>wd_find_first_by</span><span class='lparen'>(</span><span class='id how'>how</span><span class='comma'>,</span> <span class='id what'>what</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id raise'>raise</span> <span class='const'>NotImplementedError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>find first by attribute/other</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="lhs_for-instance_method">
+  
+    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>lhs_for</strong>(key) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/locators/element_locator.rb', line 256</span>
+
+<span class='kw'>def</span> <span class='id lhs_for'>lhs_for</span><span class='lparen'>(</span><span class='id key'>key</span><span class='rparen'>)</span>
+  <span class='kw'>case</span> <span class='id key'>key</span>
+  <span class='kw'>when</span> <span class='symbol'>:text</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>text</span><span class='tstring_end'>'</span></span>
+    <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>normalize-space()</span><span class='tstring_end'>'</span></span>
+  <span class='kw'>when</span> <span class='symbol'>:href</span>
+    <span class='comment'># TODO: change this behaviour?
+</span>    <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>normalize-space(@href)</span><span class='tstring_end'>'</span></span>
+  <span class='kw'>else</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>@</span><span class='embexpr_beg'>#{</span><span class='id key'>key</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='period'>.</span><span class='id gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>_</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="locate-instance_method">
+  
+    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>locate</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/locators/element_locator.rb', line 16</span>
+
+<span class='kw'>def</span> <span class='id locate'>locate</span>
+  <span class='comment'># short-circuit if :id is given
+</span>  <span class='kw'>if</span> <span class='id e'>e</span> <span class='op'>=</span> <span class='id by_id'>by_id</span>
+    <span class='kw'>return</span> <span class='id e'>e</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>if</span> <span class='ivar'>@selector</span><span class='period'>.</span><span class='id size'>size</span> <span class='op'>==</span> <span class='int'>1</span>
+    <span class='id find_first_by_one'>find_first_by_one</span>
+  <span class='kw'>else</span>
+    <span class='id find_first_by_multiple'>find_first_by_multiple</span>
+  <span class='kw'>end</span>
+<span class='kw'>rescue</span> <span class='const'>WebDriver</span><span class='op'>::</span><span class='const'>Error</span><span class='op'>::</span><span class='const'>NoSuchElementError</span> <span class='op'>=&gt;</span> <span class='id wde'>wde</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="locate_all-instance_method">
+  
+    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>locate_all</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+31
+32
+33
+34
+35
+36
+37</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/locators/element_locator.rb', line 31</span>
+
+<span class='kw'>def</span> <span class='id locate_all'>locate_all</span>
+  <span class='kw'>if</span> <span class='ivar'>@selector</span><span class='period'>.</span><span class='id size'>size</span> <span class='op'>==</span> <span class='int'>1</span>
+    <span class='id find_all_by_one'>find_all_by_one</span>
+  <span class='kw'>else</span>
+    <span class='id find_all_by_multiple'>find_all_by_multiple</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="matches_selector?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>matches_selector?</strong>(selector, element) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+145
+146
+147
+148
+149
+150
+151</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/locators/element_locator.rb', line 145</span>
+
+<span class='kw'>def</span> <span class='id matches_selector?'>matches_selector?</span><span class='lparen'>(</span><span class='id selector'>selector</span><span class='comma'>,</span> <span class='id element'>element</span><span class='rparen'>)</span>
+  <span class='comment'># p :start =&gt; selector
+</span>  <span class='id selector'>selector</span><span class='period'>.</span><span class='id all?'>all?</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id how'>how</span><span class='comma'>,</span> <span class='id what'>what</span><span class='op'>|</span>
+    <span class='comment'># p :comparing =&gt; [how, what], :to =&gt; fetch_value(how, element)
+</span>    <span class='id what'>what</span> <span class='op'>===</span> <span class='id fetch_value'>fetch_value</span><span class='lparen'>(</span><span class='id how'>how</span><span class='comma'>,</span> <span class='id element'>element</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="normalize_selector-instance_method">
+  
+    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>normalize_selector</strong>(how, what) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/locators/element_locator.rb', line 166</span>
+
+<span class='kw'>def</span> <span class='id normalize_selector'>normalize_selector</span><span class='lparen'>(</span><span class='id how'>how</span><span class='comma'>,</span> <span class='id what'>what</span><span class='rparen'>)</span>
+  <span class='kw'>case</span> <span class='id how'>how</span>
+  <span class='kw'>when</span> <span class='symbol'>:url</span>
+    <span class='lbracket'>[</span><span class='symbol'>:href</span><span class='comma'>,</span> <span class='id what'>what</span><span class='rbracket'>]</span>
+  <span class='kw'>when</span> <span class='symbol'>:caption</span>
+    <span class='lbracket'>[</span><span class='symbol'>:text</span><span class='comma'>,</span> <span class='id what'>what</span><span class='rbracket'>]</span>
+  <span class='kw'>when</span> <span class='symbol'>:class_name</span>
+    <span class='lbracket'>[</span><span class='symbol'>:class</span><span class='comma'>,</span> <span class='id what'>what</span><span class='rbracket'>]</span>
+  <span class='kw'>when</span> <span class='symbol'>:tag_name</span><span class='comma'>,</span> <span class='symbol'>:text</span><span class='comma'>,</span> <span class='symbol'>:xpath</span><span class='comma'>,</span> <span class='symbol'>:index</span><span class='comma'>,</span> <span class='symbol'>:class</span> <span class='comment'># include class since the attribute method is 'class_name'
+</span>    <span class='lbracket'>[</span><span class='id how'>how</span><span class='comma'>,</span> <span class='id what'>what</span><span class='rbracket'>]</span>
+  <span class='kw'>else</span>
+    <span class='id assert_valid_as_attribute'>assert_valid_as_attribute</span> <span class='id how'>how</span>
+    <span class='lbracket'>[</span><span class='id how'>how</span><span class='comma'>,</span> <span class='id what'>what</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="normalized_selector-instance_method">
+  
+    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>normalized_selector</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/locators/element_locator.rb', line 153</span>
+
+<span class='kw'>def</span> <span class='id normalized_selector'>normalized_selector</span>
+  <span class='id selector'>selector</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+
+  <span class='ivar'>@selector</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id how'>how</span><span class='comma'>,</span> <span class='id what'>what</span><span class='op'>|</span>
+    <span class='id check_type'>check_type</span><span class='lparen'>(</span><span class='id how'>how</span><span class='comma'>,</span> <span class='id what'>what</span><span class='rparen'>)</span>
+
+    <span class='id how'>how</span><span class='comma'>,</span> <span class='id what'>what</span> <span class='op'>=</span> <span class='id normalize_selector'>normalize_selector</span><span class='lparen'>(</span><span class='id how'>how</span><span class='comma'>,</span> <span class='id what'>what</span><span class='rparen'>)</span>
+    <span class='id selector'>selector</span><span class='lbracket'>[</span><span class='id how'>how</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id what'>what</span>
+  <span class='kw'>end</span>
+
+  <span class='id selector'>selector</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="tag_name_matches?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>tag_name_matches?</strong>(element, tag_name) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+216
+217
+218</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/locators/element_locator.rb', line 216</span>
+
+<span class='kw'>def</span> <span class='id tag_name_matches?'>tag_name_matches?</span><span class='lparen'>(</span><span class='id element'>element</span><span class='comma'>,</span> <span class='id tag_name'>tag_name</span><span class='rparen'>)</span>
+  <span class='id tag_name'>tag_name</span> <span class='op'>===</span> <span class='id element'>element</span><span class='period'>.</span><span class='id tag_name'>tag_name</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="wd_find_all_by-instance_method">
+  
+    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>wd_find_all_by</strong>(how, what) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+107
+108
+109
+110
+111
+112
+113</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/locators/element_locator.rb', line 107</span>
+
+<span class='kw'>def</span> <span class='id wd_find_all_by'>wd_find_all_by</span><span class='lparen'>(</span><span class='id how'>how</span><span class='comma'>,</span> <span class='id what'>what</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id what'>what</span><span class='period'>.</span><span class='id kind_of?'>kind_of?</span> <span class='const'>String</span>
+    <span class='ivar'>@wd</span><span class='period'>.</span><span class='id find_elements'>find_elements</span><span class='lparen'>(</span><span class='id how'>how</span><span class='comma'>,</span> <span class='id what'>what</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id all_elements'>all_elements</span><span class='period'>.</span><span class='id select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id e'>e</span><span class='op'>|</span> <span class='id fetch_value'>fetch_value</span><span class='lparen'>(</span><span class='id how'>how</span><span class='comma'>,</span> <span class='id e'>e</span><span class='rparen'>)</span> <span class='op'>=~</span> <span class='id what'>what</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="wd_find_by_regexp_selector-instance_method">
+  
+    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>wd_find_by_regexp_selector</strong>(selector, method = :find) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+115
+116
+117
+118
+119
+120
+121</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/locators/element_locator.rb', line 115</span>
+
+<span class='kw'>def</span> <span class='id wd_find_by_regexp_selector'>wd_find_by_regexp_selector</span><span class='lparen'>(</span><span class='id selector'>selector</span><span class='comma'>,</span> <span class='id method'>method</span> <span class='op'>=</span> <span class='symbol'>:find</span><span class='rparen'>)</span>
+  <span class='id rx_selector'>rx_selector</span> <span class='op'>=</span> <span class='id delete_regexps_from'>delete_regexps_from</span><span class='lparen'>(</span><span class='id selector'>selector</span><span class='rparen'>)</span>
+  <span class='id xpath'>xpath</span> <span class='op'>=</span> <span class='id build_xpath'>build_xpath</span><span class='lparen'>(</span><span class='id selector'>selector</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id raise'>raise</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>internal error: unable to build xpath from </span><span class='embexpr_beg'>#{</span><span class='ivar'>@selector</span><span class='period'>.</span><span class='id inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+
+  <span class='id elements'>elements</span> <span class='op'>=</span> <span class='ivar'>@wd</span><span class='period'>.</span><span class='id find_elements'>find_elements</span><span class='lparen'>(</span><span class='symbol'>:xpath</span><span class='comma'>,</span> <span class='id xpath'>xpath</span><span class='rparen'>)</span>
+  <span class='id elements'>elements</span><span class='period'>.</span><span class='id send'>send</span><span class='lparen'>(</span><span class='id method'>method</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id e'>e</span><span class='op'>|</span> <span class='id matches_selector?'>matches_selector?</span><span class='lparen'>(</span><span class='id rx_selector'>rx_selector</span><span class='comma'>,</span> <span class='id e'>e</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="wd_find_first_by-instance_method">
+  
+    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>wd_find_first_by</strong>(how, what) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+99
+100
+101
+102
+103
+104
+105</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/locators/element_locator.rb', line 99</span>
+
+<span class='kw'>def</span> <span class='id wd_find_first_by'>wd_find_first_by</span><span class='lparen'>(</span><span class='id how'>how</span><span class='comma'>,</span> <span class='id what'>what</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id what'>what</span><span class='period'>.</span><span class='id kind_of?'>kind_of?</span> <span class='const'>String</span>
+    <span class='ivar'>@wd</span><span class='period'>.</span><span class='id find_element'>find_element</span><span class='lparen'>(</span><span class='id how'>how</span><span class='comma'>,</span> <span class='id what'>what</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id all_elements'>all_elements</span><span class='period'>.</span><span class='id find'>find</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id e'>e</span><span class='op'>|</span> <span class='id fetch_value'>fetch_value</span><span class='lparen'>(</span><span class='id how'>how</span><span class='comma'>,</span> <span class='id e'>e</span><span class='rparen'>)</span> <span class='op'>=~</span> <span class='id what'>what</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Sun May  9 01:25:46 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
+  0.5.4 (ruby-1.9.1).
+</div>
+
+  </body>
+</html>
