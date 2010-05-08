@@ -90,7 +90,9 @@ task :default => :spec
 begin
   require 'yard'
   require 'support/yard_handlers'
-  YARD::Rake::YardocTask.new
+  YARD::Rake::YardocTask.new do |task|
+    task.options = %w[--debug] # this is pretty slow, so nice with some output
+  end
 rescue LoadError
   task :yard do
     abort "YARD is not available. In order to run yardoc, you must: sudo gem install yard"
