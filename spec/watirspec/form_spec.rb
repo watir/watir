@@ -58,9 +58,11 @@ describe "Form" do
   end
 
   describe "#submit" do
-    it "submits the form" do
-      browser.form(:id, "delete_user").submit
-      browser.text.should include("Semantic table")
+    not_compliant_on :celerity do
+      it "submits the form" do
+        browser.form(:id, "delete_user").submit
+        browser.text.should include("Semantic table")
+      end
     end
   end
 
