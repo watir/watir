@@ -76,6 +76,22 @@ module WatirSpec
       self.class.name
     end
 
+    class BigContent
+      def each(&blk)
+        yield "<html><head><title>Big Content</title></head><body>"
+
+        300.times do
+          yield "hello" * 205
+        end
+
+        yield "</body></html>"
+      end
+    end
+
+    get '/big' do
+      BigContent.new
+    end
+
     post '/post_to_me' do
       "You posted the following content:\n#{ env['rack.input'].read }"
     end
