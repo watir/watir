@@ -80,8 +80,10 @@ module WatirSpec
       def each(&blk)
         yield "<html><head><title>Big Content</title></head><body>"
 
+        string = "hello"*205
+
         300.times do
-          yield "hello" * 205
+          yield string
         end
 
         yield "</body></html>"
