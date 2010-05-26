@@ -250,7 +250,7 @@ module Watir
 
     def fire_event(event_name, bubble = false)
       assert_exists
-      event_name = event_name.to_s.sub!(/^on/, '')
+      event_name = event_name.to_s.sub(/^on/, '')
       browserbot('triggerEvent', @element, event_name, bubble)
     end
 
