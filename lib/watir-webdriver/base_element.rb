@@ -239,6 +239,11 @@ module Watir
       browserbot('getOuterHTML', @element).strip
     end
 
+    def send_keys(*args)
+      assert_exists
+      @element.send_keys(*args)
+    end
+
     #
     # Note: Firefox queues focus events until the window actually has focus.
     #
