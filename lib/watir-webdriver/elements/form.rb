@@ -1,6 +1,6 @@
 # encoding: utf-8
 module Watir
-  class Form
+  class Form < HTMLElement
 
     #
     # Submits the form.

@@ -848,7 +848,7 @@ interface HTMLMarqueeElement : HTMLElement {
   void stop();
 };
 
-[TagName=farmeset]
+[TagName=frameset]
 interface HTMLFrameSetElement : HTMLElement {
            attribute DOMString cols;
            attribute DOMString rows;

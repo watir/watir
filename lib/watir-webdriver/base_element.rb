@@ -148,6 +148,8 @@ module Watir
           'for'
         when :read_only
           'readonly'
+        when :http_equiv
+          'http-equiv'
         else
           method.to_s
         end
@@ -166,7 +168,7 @@ module Watir
     def exists?
       assert_exists
       true
-    rescue UnknownObjectException
+    rescue UnknownObjectException, UnknownFrameException
       false
     end
     alias_method :exist?, :exists?
@@ -306,6 +308,11 @@ module Watir
       @parent.browser
     end
 
+    def locate
+      @parent.assert_exists
+      ElementLocator.new(@parent.wd, @selector, self.class.attribute_list).locate
+    end
+
   private
 
     def selector_string
@@ -315,11 +322,6 @@ module Watir
     def attribute?(a)
       assert_exists
       rescue_no_match(false) { !!@element.attribute(a)  }
-    end
-
-    def locate
-      @parent.assert_exists
-      ElementLocator.new(@parent.wd, @selector, self.class.attribute_list).locate
     end
 
     def assert_enabled

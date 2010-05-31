@@ -3,7 +3,10 @@ module Watir
   class TextField < Input
 
     attributes Watir::TextArea.typed_attributes
-    def type; super; end # hacky, but we want Input#type here, which was overriden by TextArea's attributes
+
+    # hacky, but we want Input#type here, which was overriden by TextArea's attributes
+    # so we're *overwriting* that method definition here
+    def type; super; end
 
     container_method  :text_field
     collection_method :text_fields
@@ -58,6 +61,7 @@ module Watir
     private
 
     def locate
+      @parent.assert_exists
       TextFieldLocator.new(@parent.wd, @selector, self.class.attribute_list).locate
     end
 

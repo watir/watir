@@ -30,6 +30,7 @@ end
 require "watir-webdriver/base_element"
 require "watir-webdriver/collections/element_collection"
 require "watir-webdriver/elements/generated"
+require "watir-webdriver/elements/frame"
 require "watir-webdriver/elements/input"
 require "watir-webdriver/elements/button"
 require "watir-webdriver/collections/buttons_collection"
@@ -54,10 +55,6 @@ Watir.tag_to_class.freeze
 
 module Watir
   module Container
-
-    # TODO: proper frame support
-    alias_method :frame, :iframe
-    alias_method :frames, :iframes
 
     # TODO: deprecate cell/row in favor of td/tr?
     alias_method :cell,  :td

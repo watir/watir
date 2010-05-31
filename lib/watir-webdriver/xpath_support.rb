@@ -19,7 +19,6 @@ module Watir
     #
 
     def elements_by_xpath(xpath)
-      # TODO: find the correct element class
       wd.find_elements(:xpath, xpath).map do |e|
         Watir.element_class_for(e.tag_name).new(self, :element, e)
       end

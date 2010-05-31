@@ -33,6 +33,7 @@ module Watir
       end
 
       @error_checkers = []
+      @current_frame  = nil
     end
 
     def inspect
@@ -133,7 +134,8 @@ module Watir
     #
 
     def assert_exists
-      true # TODO: assert browser is open
+      driver.switch_to.default_content
+      true
     end
 
     def exist?
