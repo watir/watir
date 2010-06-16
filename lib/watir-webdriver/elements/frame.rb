@@ -45,7 +45,7 @@ module Watir
     private
 
     def locate_iframe
-      # hack - frame doen't have IFrame's attributes either
+      # hack - frame doesn't have IFrame's attributes either
       @iframe = @element = IFrame.new(@parent, @selector).locate
     end
 
@@ -68,7 +68,6 @@ module Watir
     end
 
     def switch!
-      Kernel.p :switching => caller[0..3]
       driver.switch_to.frame @frame_id
     rescue Selenium::WebDriver::Error::NoSuchFrameError => e
       raise Exception::UnknownFrameException, e.message
