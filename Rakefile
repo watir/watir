@@ -11,11 +11,10 @@ begin
     gem.homepage    = "http://github.com/jarib/watir-webdriver"
     gem.authors     = ["Jari Bakken"]
 
-    gem.add_dependency "selenium-webdriver", '>= 0.0.18'
+    gem.add_dependency "selenium-webdriver", '>= 0.0.23'
 
     gem.add_development_dependency "rspec"
     gem.add_development_dependency "webidl"
-    gem.add_development_dependency "sinatra", ">= 1.0"
     gem.add_development_dependency "sinatra", ">= 1.0"
     gem.add_development_dependency "activesupport", ">= 2.3.5" # for pluralization during code generation
   end
