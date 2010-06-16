@@ -182,9 +182,9 @@ module Watir
     def option_xpath_for(how, string)
       case how
       when :text
-        "//option[normalize-space()='#{string}' or @label='#{string}']"
+        ".//option[normalize-space()='#{string}' or @label='#{string}']"
       when :value
-        "//option[@value='#{string}']"
+        ".//option[@value='#{string}']"
       else
         raise Error, "unknown how: #{how.inspect}"
       end
