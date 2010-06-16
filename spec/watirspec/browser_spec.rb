@@ -37,10 +37,10 @@ describe "Browser" do
     deviates_on :webdriver do
       it "returns the DOM of the page as an HTML string" do
         browser.goto(WatirSpec.files + "/right_click.html")
-        html = browser.html
+        html = browser.html.downcase # varies between browsers
 
         html.should =~ /^<html/
-        html.should include("<meta http-equiv=\"Content-type\" content=\"text/html; charset=utf-8\">")
+        html.should include("<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">")
       end
     end
   end
