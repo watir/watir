@@ -150,5 +150,9 @@ module WatirSpec
       "ok"
     end
 
+    get '/encodable_<stuff>' do
+      'page with characters in URI that need encoding'
+    end
+
   end # Server
 end # WatirSpec
