@@ -14,9 +14,8 @@ module Watir
     def select
       assert_exists
 
-      # not sure why both is needed
-      @element.click
       @element.select
+      fire_event("onclick") rescue nil
     end
 
     #
