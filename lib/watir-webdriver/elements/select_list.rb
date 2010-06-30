@@ -146,7 +146,8 @@ module Watir
         end
 
         e.select unless e.selected?
-        e.text
+
+        safe_text(e)
       end
     end
 
@@ -175,7 +176,8 @@ module Watir
         end
 
         element.select unless element.selected?
-        element.text
+
+        safe_text(element)
       end
     end
 
@@ -199,6 +201,14 @@ module Watir
       else
         raise Error, "unknown how: #{how.inspect}"
       end
+    end
+
+    def safe_text(element)
+      element.text
+    rescue Selenium::WebDriver::Error::ObsoleteElementError
+      # guard for scenario where selecting the element changes the page, making our element obsolete
+
+      ''
     end
 
   end # SelectList
