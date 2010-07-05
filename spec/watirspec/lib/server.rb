@@ -110,16 +110,16 @@ module WatirSpec
 
     get '/charset_mismatch' do
       content_type 'text/html; charset=UTF-8'
-      <<-HTML
-      <html>
-        <head>
-          <meta http-equiv="Content-type" content="text/html; charset=iso-8859-1" />
-        </head>
-        <body>
-          <h1>ø</h1>
-        </body>
-      </html>
-      HTML
+      %{
+        <html>
+          <head>
+            <meta http-equiv="Content-type" content="text/html; charset=iso-8859-1" />
+          </head>
+          <body>
+            <h1>ø</h1>
+          </body>
+        </html>
+      }
     end
 
     get '/octet_stream' do
