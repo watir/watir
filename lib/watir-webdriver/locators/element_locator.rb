@@ -4,8 +4,18 @@ module Watir
     include Watir::Exception
     include Selenium
 
-    WD_FINDERS =  [ :class, :class_name, :id, :link_text, :link,
-                    :partial_link_text, :name, :tag_name, :xpath ]
+    WD_FINDERS =  [ 
+      :class, 
+      :class_name, 
+      :css,
+      :id, 
+      :link,
+      :link_text, 
+      :name, 
+      :partial_link_text, 
+      :tag_name, 
+      :xpath
+    ]
 
     def initialize(wd, selector, valid_attributes)
       @wd               = wd
@@ -138,7 +148,7 @@ module Watir
       when :tag_name
         element.tag_name
       else
-        element.attribute(how) rescue "" # TODO: rescue specific exception
+        element.attribute(how)
       end
     end
 
