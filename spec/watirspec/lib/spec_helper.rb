@@ -20,8 +20,8 @@ module WatirSpec
 
     def execute
       load_requires
-      configure
       start_server
+      configure
       add_guard_hook
     end
 
