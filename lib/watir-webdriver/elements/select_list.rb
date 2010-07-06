@@ -30,6 +30,11 @@ module Watir
       end
     end
 
+    def options
+      assert_exists
+      super
+    end
+
     #
     # Returns true if the select list has one or more options where text or label matches the given value.
     #
