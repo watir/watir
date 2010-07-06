@@ -14,11 +14,12 @@ describe "SelectList" do
       browser.select_list(:id, /new_user_country/).should exist
       browser.select_list(:name, 'new_user_country').should exist
       browser.select_list(:name, /new_user_country/).should exist
-      # TODO: check behaviour in Watir
-      # browser.select_list(:value, 'Norway').should exist
-      # browser.select_list(:value, /Norway/).should exist
-      browser.select_list(:text, 'Norway').should exist
-      browser.select_list(:text, /Norway/).should exist
+
+      not_compliant_on :webdriver do
+        browser.select_list(:text, 'Norway').should exist
+        browser.select_list(:text, /Norway/).should exist
+      end
+
       browser.select_list(:class, 'country').should exist
       browser.select_list(:class, /country/).should exist
       browser.select_list(:index, 0).should exist
@@ -155,9 +156,26 @@ describe "SelectList" do
       lambda { browser.select_list(:name, 'no_such_name').options }.should raise_error(UnknownObjectException)
     end
 
-    bug "WTR-339", :watir do
+    #
+    # The correct behaviour here needs to be discussed.
+    #
+
+    deviates_on :celerity do
       it "returns all the options as an Array" do
         browser.select_list(:name, "new_user_country").options.should == ["Denmark" ,"Norway" , "Sweden" , "United Kingdom", "USA", "Germany"]
+      end
+    end
+
+    deviates_on :webdriver do
+      it "returns all the options as a collection of Options" do
+        options = browser.select_list(:name, "new_user_country").options
+        options.map { |opt| opt.text }.should == ["Denmark" ,"Norway" , "Sweden" , "United Kingdom", "USA", "Germany"]
+      end
+    end
+
+    deviates_on :watir do # see also WTR-339
+      it "returns all the options as an Array" do
+        browser.select_list(:name, "new_user_country").options.should == ["Denmark" ,"Norway" , "Sweden" , "United Kingdom", "USA"]
       end
     end
   end
