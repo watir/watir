@@ -171,37 +171,40 @@ describe "Image" do
   end
 
   # Other
-  describe "#loaded?" do
-    it "returns true if the image has been loaded" do
-      browser.image(:title, 'Circle').should be_loaded
-      browser.image(:alt, 'circle').should be_loaded
-      browser.image(:alt, /circle/).should be_loaded
+
+  not_compliant_on(:webdriver) {
+    describe "#loaded?" do
+      it "returns true if the image has been loaded" do
+        browser.image(:title, 'Circle').should be_loaded
+        browser.image(:alt, 'circle').should be_loaded
+        browser.image(:alt, /circle/).should be_loaded
+      end
+
+      it "returns false if the image has not been loaded" do
+        browser.image(:id, 'no_such_file').should_not be_loaded
+      end
+
+      it "raises UnknownObjectException if the image doesn't exist" do
+        lambda { browser.image(:id, 'no_such_image').loaded? }.should raise_error(UnknownObjectException)
+        lambda { browser.image(:src, 'no_such_image').loaded? }.should raise_error(UnknownObjectException)
+        lambda { browser.image(:alt, 'no_such_image').loaded? }.should raise_error(UnknownObjectException)
+        lambda { browser.image(:index, 1337).loaded? }.should raise_error(UnknownObjectException)
+      end
     end
 
-    it "returns false if the image has not been loaded" do
-      browser.image(:id, 'no_such_file').should_not be_loaded
-    end
-
-    it "raises UnknownObjectException if the image doesn't exist" do
-      lambda { browser.image(:id, 'no_such_image').loaded? }.should raise_error(UnknownObjectException)
-      lambda { browser.image(:src, 'no_such_image').loaded? }.should raise_error(UnknownObjectException)
-      lambda { browser.image(:alt, 'no_such_image').loaded? }.should raise_error(UnknownObjectException)
-      lambda { browser.image(:index, 1337).loaded? }.should raise_error(UnknownObjectException)
-    end
-  end
-
-  describe "#save" do
     bug "WTR-336", :watir do
-      it "saves the image to a file" do
-        file = "#{File.expand_path Dir.pwd}/sample.img.dat"
-        begin
-          browser.image(:index, 1).save(file)
-          File.exist?(file).should be_true
-        ensure
-          File.delete(file) if File.exist?(file)
+      describe "#save" do
+        it "saves the image to a file" do
+          file = "#{File.expand_path Dir.pwd}/sample.img.dat"
+          begin
+            browser.image(:index, 1).save(file)
+            File.exist?(file).should be_true
+          ensure
+            File.delete(file) if File.exist?(file)
+          end
         end
       end
     end
-  end
+  }
 
 end
