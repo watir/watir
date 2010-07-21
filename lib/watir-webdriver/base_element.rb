@@ -324,9 +324,9 @@ module Watir
       @selector.inspect
     end
 
-    def attribute?(a)
+    def attribute?(attribute)
       assert_exists
-      rescue_no_match(false) { !!@element.attribute(a)  }
+      driver.execute_script "return !!arguments[0].getAttributeNode(arguments[1]);", @element, attribute.downcase
     end
 
     def assert_enabled
