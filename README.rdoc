@@ -10,12 +10,13 @@ http://jarib.github.com/watir-webdriver/doc/
 = Example
 
   require 'watir-webdriver'
-  
+
   browser = Watir::Browser.new :firefox
   browser.goto "http://google.com"
   browser.text_field(:name => 'q').set("WebDriver rocks!")
   browser.button(:name => 'btnG').click
-  puts browser.title
+  puts browser.url
+  browser.close
 
 = Description
 
