@@ -122,7 +122,7 @@ describe "Image" do
   end
 
   # File methods
-  bug "WTR-347", :watir do
+  not_compliant_on :watir, :webdriver do # "WTR-347"
     describe "#file_created_date" do
       it "returns the date the image was created as reported by the file system" do
         browser.goto(WatirSpec.host + "/images.html")
@@ -134,7 +134,7 @@ describe "Image" do
   end
 
 
-  bug "WTR-346", :watir do
+  not_compliant_on :watir, :webdriver do  # WTR-346
     describe "#file_size" do
       it "returns the file size of the image if the image exists" do
         browser.image(:id, 'square').file_size.should == File.size("#{WatirSpec.files}/images/square.jpg".sub("file://", ''))
@@ -172,7 +172,7 @@ describe "Image" do
 
   # Other
 
-  not_compliant_on(:webdriver) {
+  not_compliant_on :webdriver do
     describe "#loaded?" do
       it "returns true if the image has been loaded" do
         browser.image(:title, 'Circle').should be_loaded
@@ -191,20 +191,20 @@ describe "Image" do
         lambda { browser.image(:index, 1337).loaded? }.should raise_error(UnknownObjectException)
       end
     end
+  end
 
-    bug "WTR-336", :watir do
-      describe "#save" do
-        it "saves the image to a file" do
-          file = "#{File.expand_path Dir.pwd}/sample.img.dat"
-          begin
-            browser.image(:index, 1).save(file)
-            File.exist?(file).should be_true
-          ensure
-            File.delete(file) if File.exist?(file)
-          end
+  not_compliant_on :watir, :webdriver do # WTR-336
+    describe "#save" do
+      it "saves the image to a file" do
+        file = "#{File.expand_path Dir.pwd}/sample.img.dat"
+        begin
+          browser.image(:index, 1).save(file)
+          File.exist?(file).should be_true
+        ensure
+          File.delete(file) if File.exist?(file)
         end
       end
     end
-  }
+  end
 
 end
