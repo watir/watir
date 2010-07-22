@@ -4,16 +4,16 @@ module Watir
     include Watir::Exception
     include Selenium
 
-    WD_FINDERS =  [ 
-      :class, 
-      :class_name, 
+    WD_FINDERS =  [
+      :class,
+      :class_name,
       :css,
-      :id, 
+      :id,
       :link,
-      :link_text, 
-      :name, 
-      :partial_link_text, 
-      :tag_name, 
+      :link_text,
+      :name,
+      :partial_link_text,
+      :tag_name,
       :xpath
     ]
 
@@ -124,6 +124,14 @@ module Watir
 
     def wd_find_by_regexp_selector(selector, method = :find)
       rx_selector = delete_regexps_from(selector)
+
+      if rx_selector.has_key?(:label) && should_use_label_element?
+        label_exp = rx_selector.delete(:label)
+        label     = @wd.find_elements(:tag_name, 'label').find { |e| matches_selector?({:text => label_exp}, e) } || return
+
+        selector[:id] = label.attribute(:for)
+      end
+
       xpath = build_xpath(selector) || raise("internal error: unable to build xpath from #{@selector.inspect}")
 
       elements = @wd.find_elements(:xpath, xpath)
@@ -202,7 +210,7 @@ module Watir
     end
 
     def assert_valid_as_attribute(attribute)
-      if @valid_attributes && !@valid_attributes.include?(attribute)
+      unless valid_attribute? attribute
         raise MissingWayOfFindingObjectException, "invalid attribute: #{attribute.inspect}"
       end
     end
@@ -225,6 +233,14 @@ module Watir
 
     def tag_name_matches?(element, tag_name)
       tag_name === element.tag_name
+    end
+
+    def valid_attribute?(attribute)
+      @valid_attributes && @valid_attributes.include?(attribute)
+    end
+
+    def should_use_label_element?
+      @selector[:tag_name] != "option"
     end
 
     def build_xpath(selectors)
@@ -260,7 +276,12 @@ module Watir
     end
 
     def equal_pair(key, value)
-      "#{lhs_for(key)}='#{value}'"
+      # we assume :label means a corresponding label element, not the attribute
+      if key == :label && should_use_label_element?
+        "@id=//label[normalize-space()='#{value}']/@for"
+      else
+        "#{lhs_for(key)}='#{value}'"
+      end
     end
 
     def lhs_for(key)

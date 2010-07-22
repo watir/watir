@@ -32,9 +32,9 @@ module Watir
     end
 
     def lhs_for(key)
-      if @building == :input && [:text, :label].include?(key)
+      if @building == :input && key == :text
         "@value"
-      elsif @building == :textarea && [:value, :label].include?(key)
+      elsif @building == :textarea && :value == :key
         "text()"
       else
         super
