@@ -71,21 +71,21 @@ module Watir
       def define_string_attribute(mname, aname)
         define_method mname do
           assert_exists
-          rescue_no_match { @element.attribute(aname).to_s }
+          @element.attribute(aname).to_s
         end
       end
 
       def define_boolean_attribute(mname, aname)
         define_method mname do
           assert_exists
-          rescue_no_match(false) { !!@element.attribute(aname) }
+          !!@element.attribute(aname)
         end
       end
 
       def define_int_attribute(mname, aname)
         define_method mname do
           assert_exists
-          rescue_no_match(-1) { @element.attribute(aname).to_i }
+          @element.attribute(aname).to_i
         end
       end
 
@@ -225,12 +225,16 @@ module Watir
 
     def value
       assert_exists
-      rescue_no_match { @element.value || "" }
+
+      begin
+        @element.value
+      rescue WebDriver::Error::ElementNotEnabledError
+        ""
+      end
     end
 
     def attribute_value(attribute_name)
       assert_exists
-      # should rescue?
       @element.attribute attribute_name
     end
 
@@ -291,7 +295,7 @@ module Watir
         assert_exists
         @element.style property
       else
-        rescue_no_match { attribute_value "style" } || ''
+        attribute_value "style" || ''
       end
     end
 
@@ -336,12 +340,6 @@ module Watir
     def assert_writable
       assert_enabled
       raise ObjectReadOnlyException if respond_to?(:readonly?) && readonly?
-    end
-
-    def rescue_no_match(returned = "", &blk)
-      yield
-    rescue WebDriver::Error::ElementNotEnabledError
-      returned
     end
 
     def extract_selector(selectors)

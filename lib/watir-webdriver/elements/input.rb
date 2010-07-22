@@ -17,7 +17,7 @@ module Watir
 
     def type
       assert_exists
-      value = rescue_no_match { @element.attribute("type").to_s }
+      value = @element.attribute("type").to_s
 
       # we return 'text' if the type is invalid
       # not sure if we really should do this
