@@ -13,7 +13,8 @@ module Watir
       @parent.assert_exists
 
       if @iframe
-        return @iframe
+        switch_to_iframe(@iframe)
+        driver
       elsif @frame_id.nil?
         locate_iframe || locate_frame
       else
@@ -46,14 +47,19 @@ module Watir
 
     def locate_iframe
       # hack - frame doesn't have IFrame's attributes either
-      @iframe = @element = IFrame.new(@parent, @selector).locate
+      @iframe = IFrame.new(@parent, @selector).locate
+
+      if @iframe
+        switch_to_iframe @iframe
+        driver
+      end
     end
 
     def locate_frame
       loc = VALID_LOCATORS.find { |loc| @selector[loc] }
 
       unless loc
-        raise MissingWayOfFindingObjectException, "can only switch frames by #{VALID_LOCATORS.inspect}"
+        raise MissingWayOfFindingObjectException, "can only locate frames by #{VALID_LOCATORS.inspect}"
       end
 
       @frame_id = @selector[loc]
@@ -70,7 +76,26 @@ module Watir
     def switch!
       driver.switch_to.frame @frame_id
     rescue Selenium::WebDriver::Error::NoSuchFrameError => e
-      raise Exception::UnknownFrameException, e.message
+      raise UnknownFrameException, e.message
+    end
+
+    def switch_to_iframe(element)
+      loc = [:id, :name].find { |e| not [nil, ""].include?(element.attribute(e)) }
+      if loc.nil?
+        raise MissingWayOfFindingObjectException, "can't switch to frame without :id or :name"
+      end
+
+      # TODO: get rid of this when we can switch to elements
+      # http://groups.google.com/group/selenium-developers/browse_thread/thread/428bd68e9e8bfecd/19a02ecd20835249
+
+      if @parent.kind_of? Frame
+        parent_id = @parent.instance_variable_get("@frame_id")
+        loc = [parent_id, element.attribute(loc)].join(".")
+      else
+        loc = element.attribute(loc)
+      end
+
+      driver.switch_to.frame loc
     end
 
   end # Frame
