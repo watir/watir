@@ -62,6 +62,13 @@ describe "Frame" do
         end
       end
 
+      it "handles nested frames" do
+        browser.goto(WatirSpec.host + "/nested_frames.html")
+
+        browser.frame(:id, "two").frame(:id, "three").link(:id => "four").click
+        browser.title.should == "definition_lists"
+      end
+
       it "raises TypeError when 'what' argument is invalid" do
         lambda { browser.frame(:id, 3.14).exists? }.should raise_error(TypeError)
       end
