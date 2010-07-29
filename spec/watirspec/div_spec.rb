@@ -47,11 +47,6 @@ describe "Div" do
       lambda { browser.div(:no_such_how, 'some_value').exists? }.should raise_error(MissingWayOfFindingObjectException)
     end
 
-    # it "locates the correct button when there are duplicate ids and user disambiguates by parent" do
-    #   browser.goto(WatirSpec.files + "/buttons_with_duplicate_ids.html")
-    #   browser.form(:name, "bar-form").div(:id, "name").parent.name.should == "bar-form"
-    # end
-
   end
 
   # Attribute methods
