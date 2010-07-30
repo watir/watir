@@ -14,6 +14,7 @@ module Watir
 
     def set(value)
       assert_exists
+      value.gsub!(File::SEPARATOR, File::ALT_SEPARATOR) if File::ALT_SEPARATOR
       @element.send_keys value
     end
 
