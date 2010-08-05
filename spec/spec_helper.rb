@@ -14,10 +14,11 @@ include Watir::Exception
 if defined?(WatirSpec)
   browser = (ENV['WATIR_WEBDRIVER_BROWSER'] || :firefox).to_sym
 
-  WatirSpec.browser_args   = [browser]
-
   WatirSpec.implementation do |imp|
-    imp.name = :webdriver
+    imp.name          = :webdriver
+    imp.browser_class = Watir::Browser
+    imp.browser_args  = [browser]
+
     imp.guard_proc = lambda { |args|
       args.any? { |arg| arg == :webdriver || arg == [:webdriver, browser] }
     }
