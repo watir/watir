@@ -7,13 +7,11 @@ module WatirSpec
       end
 
       def record(guard_name, impls, data)
-        impls.each do |impl|
-          guards[impl] << [guard_name, data]
-        end
+        guards[impls] << [guard_name, data]
       end
 
       def report
-        gs = guards[WatirSpec.implementation]
+        gs = WatirSpec.implementation.matching_guards_in(guards)
         print "\n\nWatirSpec guards for this implementation: "
 
         if gs.empty?
@@ -25,34 +23,36 @@ module WatirSpec
           end
         end
       end
-    end
+    end # class << self
 
-    def deviates_on(*impls)
+    private
+
+    def deviates_on(*args)
       Guards.record :deviates, impls, :file => caller.first
       return yield if WatirSpec.unguarded?
-      yield if impls.include? WatirSpec.implementation
+      yield if WatirSpec.implementation.matches_guard?(args)
     end
 
-    def not_compliant_on(*impls)
+    def not_compliant_on(*args)
       Guards.record :not_compliant, impls, :file => caller.first
       return yield if WatirSpec.unguarded?
-      yield unless impls.include? WatirSpec.implementation
+      yield unless WatirSpec.implementation.matches_guard?(args)
     end
 
-    def compliant_on(*impls)
+    def compliant_on(*args)
       Guards.record :compliant, impls, :file => caller.first
       return yield if WatirSpec.unguarded?
-      yield if impls.include? WatirSpec.implementation
+      yield if WatirSpec.implementation.matches_guard?(args)
     end
 
-    def bug(key, *impls)
+    def bug(key, *args)
       Guards.record :bug, impls, :file => caller.first, :key => key
       return yield if WatirSpec.unguarded?
-      yield unless impls.include? WatirSpec.implementation
+      yield unless WatirSpec.implementation.matches_guard?(args)
     end
   end
 end
 
-class Object
+module Kernel
   include WatirSpec::Guards
 end
