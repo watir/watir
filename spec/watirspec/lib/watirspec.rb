@@ -37,6 +37,8 @@ module WatirSpec
       @implementation ||= (
         imp = WatirSpec::Implementation.new
         yield imp if block_given?
+        
+        imp
       )
     end
 
