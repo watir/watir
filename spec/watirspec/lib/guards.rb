@@ -27,32 +27,32 @@ module WatirSpec
 
     private
 
-    def deviates_on(*args)
+    def deviates_on(*impls)
       Guards.record :deviates, impls, :file => caller.first
       return yield if WatirSpec.unguarded?
-      yield if WatirSpec.implementation.matches_guard?(args)
+      yield if WatirSpec.implementation.matches_guard?(impls)
     end
 
-    def not_compliant_on(*args)
+    def not_compliant_on(*impls)
       Guards.record :not_compliant, impls, :file => caller.first
       return yield if WatirSpec.unguarded?
-      yield unless WatirSpec.implementation.matches_guard?(args)
+      yield unless WatirSpec.implementation.matches_guard?(impls)
     end
 
-    def compliant_on(*args)
+    def compliant_on(*impls)
       Guards.record :compliant, impls, :file => caller.first
       return yield if WatirSpec.unguarded?
-      yield if WatirSpec.implementation.matches_guard?(args)
+      yield if WatirSpec.implementation.matches_guard?(impls)
     end
 
-    def bug(key, *args)
+    def bug(key, *impls)
       Guards.record :bug, impls, :file => caller.first, :key => key
       return yield if WatirSpec.unguarded?
-      yield unless WatirSpec.implementation.matches_guard?(args)
+      yield unless WatirSpec.implementation.matches_guard?(impls)
     end
   end
 end
 
-module Kernel
+class Object
   include WatirSpec::Guards
 end
