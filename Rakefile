@@ -66,6 +66,11 @@ namespace :html5 do
     extractor.process.each do |tag_name, interface_definitions|
       puts "#{tag_name.ljust(10)} => #{interface_definitions.map { |e| e.name }}"
     end
+
+    unless extractor.errors.empty?
+      puts "\n\n<======================= ERRORS =======================>\n\n"
+      puts extractor.errors.join("\n" + "="*80 + "\n")
+    end
   end
 
   desc 'Re-enerate the base Watir element classes from the spec '
