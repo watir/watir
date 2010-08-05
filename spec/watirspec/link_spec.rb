@@ -80,11 +80,9 @@ describe "Link" do
     end
   end
 
-  bug "WTR-366", :watir do
-    describe "#url" do
-      it "returns the href attribute" do
-        browser.link(:index, 1).url.should =~ /non_control_elements/
-      end
+  describe "#url" do
+    it "returns the href attribute" do
+      browser.link(:index, 1).url.should =~ /non_control_elements/
     end
   end
 

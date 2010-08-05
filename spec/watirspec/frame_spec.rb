@@ -14,68 +14,66 @@ describe "Frame" do
     browser.frame(:id, "frame_2").text_field(:name, 'recieverElement').value.should == 'send_this_value'
   end
 
-  not_compliant_on :watir do
-    describe "#exist?" do
-      it "returns true if the frame exists" do
-        browser.frame(:id, "frame_1").should exist
-        browser.frame(:name, "frame1").should exist
-        browser.frame(:index, 0).should exist
+  describe "#exist?" do
+    it "returns true if the frame exists" do
+      browser.frame(:id, "frame_1").should exist
+      browser.frame(:name, "frame1").should exist
+      browser.frame(:index, 0).should exist
 
-        not_compliant_on :webdriver do
-          browser.frame(:class, "half").should exist
-          browser.frame(:xpath, "//frame[@id='frame_1']").should exist
-          browser.frame(:src, "frame_1.html").should exist
-          browser.frame(:id, /frame/).should exist
-          browser.frame(:name, /frame/).should exist
-          browser.frame(:src, /frame_1/).should exist
-          browser.frame(:class, /half/).should exist
-        end
-      end
-
-      it "returns true if the iframe exists" do
-        browser.goto(WatirSpec.files + "/iframes.html")
-        browser.frame(:id, "frame_1").should exist
-        browser.frame(:id, /frame/).should exist
-        browser.frame(:name, "frame1").should exist
-        browser.frame(:name, /frame/).should exist
+      not_compliant_on :webdriver do
+        browser.frame(:class, "half").should exist
+        browser.frame(:xpath, "//frame[@id='frame_1']").should exist
         browser.frame(:src, "frame_1.html").should exist
+        browser.frame(:id, /frame/).should exist
+        browser.frame(:name, /frame/).should exist
         browser.frame(:src, /frame_1/).should exist
-        browser.frame(:class, "iframe").should exist
-        browser.frame(:class, /iframe/).should exist
-        browser.frame(:index, 0).should exist
-        browser.frame(:xpath, "//iframe[@id='frame_1']").should exist
+        browser.frame(:class, /half/).should exist
       end
+    end
 
-      it "returns false if the frame doesn't exist" do
-        browser.frame(:id, "no_such_id").should_not exist
-        browser.frame(:name, "no_such_text").should_not exist
-        browser.frame(:index, 1337).should_not exist
+    it "returns true if the iframe exists" do
+      browser.goto(WatirSpec.files + "/iframes.html")
+      browser.frame(:id, "frame_1").should exist
+      browser.frame(:id, /frame/).should exist
+      browser.frame(:name, "frame1").should exist
+      browser.frame(:name, /frame/).should exist
+      browser.frame(:src, "frame_1.html").should exist
+      browser.frame(:src, /frame_1/).should exist
+      browser.frame(:class, "iframe").should exist
+      browser.frame(:class, /iframe/).should exist
+      browser.frame(:index, 0).should exist
+      browser.frame(:xpath, "//iframe[@id='frame_1']").should exist
+    end
 
-        not_compliant_on :webdriver do
-          browser.frame(:src, "no_such_src").should_not exist
-          browser.frame(:class, "no_such_class").should_not exist
-          browser.frame(:id, /no_such_id/).should_not exist
-          browser.frame(:name, /no_such_text/).should_not exist
-          browser.frame(:src, /no_such_src/).should_not exist
-          browser.frame(:class, /no_such_class/).should_not exist
-          browser.frame(:xpath, "//frame[@id='no_such_id']").should_not exist
-        end
+    it "returns false if the frame doesn't exist" do
+      browser.frame(:id, "no_such_id").should_not exist
+      browser.frame(:name, "no_such_text").should_not exist
+      browser.frame(:index, 1337).should_not exist
+
+      not_compliant_on :webdriver do
+        browser.frame(:src, "no_such_src").should_not exist
+        browser.frame(:class, "no_such_class").should_not exist
+        browser.frame(:id, /no_such_id/).should_not exist
+        browser.frame(:name, /no_such_text/).should_not exist
+        browser.frame(:src, /no_such_src/).should_not exist
+        browser.frame(:class, /no_such_class/).should_not exist
+        browser.frame(:xpath, "//frame[@id='no_such_id']").should_not exist
       end
+    end
 
-      it "handles nested frames" do
-        browser.goto(WatirSpec.host + "/nested_frames.html")
+    it "handles nested frames" do
+      browser.goto(WatirSpec.host + "/nested_frames.html")
 
-        browser.frame(:id, "two").frame(:id, "three").link(:id => "four").click
-        browser.title.should == "definition_lists"
-      end
+      browser.frame(:id, "two").frame(:id, "three").link(:id => "four").click
+      browser.title.should == "definition_lists"
+    end
 
-      it "raises TypeError when 'what' argument is invalid" do
-        lambda { browser.frame(:id, 3.14).exists? }.should raise_error(TypeError)
-      end
+    it "raises TypeError when 'what' argument is invalid" do
+      lambda { browser.frame(:id, 3.14).exists? }.should raise_error(TypeError)
+    end
 
-      it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-        lambda { browser.frame(:no_such_how, 'some_value').exists? }.should raise_error(MissingWayOfFindingObjectException)
-      end
+    it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
+      lambda { browser.frame(:no_such_how, 'some_value').exists? }.should raise_error(MissingWayOfFindingObjectException)
     end
   end
 
@@ -112,31 +110,29 @@ describe "Frame" do
     browser.frame(:index, 0).text_field(:name, 'senderElement').value.should == "new value"
   end
 
-  not_compliant_on :watir do
-    describe "#execute_script" do
-      it "executes the given javascript in the specified frame" do
-        frame = browser.frame(:index, 0)
-        frame.div(:id, 'set_by_js').text.should == ""
-        frame.execute_script(%Q{document.getElementById('set_by_js').innerHTML = 'Art consists of limitation. The most beautiful part of every picture is the frame.'})
-        frame.div(:id, 'set_by_js').text.should == "Art consists of limitation. The most beautiful part of every picture is the frame."
-      end
+  describe "#execute_script" do
+    it "executes the given javascript in the specified frame" do
+      frame = browser.frame(:index, 0)
+      frame.div(:id, 'set_by_js').text.should == ""
+      frame.execute_script(%Q{document.getElementById('set_by_js').innerHTML = 'Art consists of limitation. The most beautiful part of every picture is the frame.'})
+      frame.div(:id, 'set_by_js').text.should == "Art consists of limitation. The most beautiful part of every picture is the frame."
     end
-
-    describe "#elements_by_xpath" do
-      before :each do
-        browser.goto(WatirSpec.files + "/iframes.html")
-      end
-
-      it "returns an Array of matching elements" do
-        objects = browser.frame(:index, 0).elements_by_xpath("/html")
-        objects.size.should == 1
-      end
-
-      it "returns an empty Array if there are no matching elements" do
-        objects = browser.frame(:index, 0).elements_by_xpath("//*[@type='foobar']")
-        objects.size.should == 0
-      end
-    end
-
   end
+
+  describe "#elements_by_xpath" do
+    before :each do
+      browser.goto(WatirSpec.files + "/iframes.html")
+    end
+
+    it "returns an Array of matching elements" do
+      objects = browser.frame(:index, 0).elements_by_xpath("/html")
+      objects.size.should == 1
+    end
+
+    it "returns an empty Array if there are no matching elements" do
+      objects = browser.frame(:index, 0).elements_by_xpath("//*[@type='foobar']")
+      objects.size.should == 0
+    end
+  end
+
 end

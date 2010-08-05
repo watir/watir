@@ -203,18 +203,16 @@ describe "Radio" do
       messages.should == ["clicked: new_user_newsletter_no", "clicked: new_user_newsletter_yes"]
     end
 
-    bug "WTR-337", :watir do
-      it "fires the onchange event" do
-        browser.radio(:value, 'certainly').set
-        messages.should == ["changed: new_user_newsletter"]
+    it "fires the onchange event" do
+      browser.radio(:value, 'certainly').set
+      messages.should == ["changed: new_user_newsletter"]
 
-        browser.radio(:value, 'certainly').set
-        messages.should == ["changed: new_user_newsletter"] # no event fired here - didn't change
+      browser.radio(:value, 'certainly').set
+      messages.should == ["changed: new_user_newsletter"] # no event fired here - didn't change
 
-        browser.radio(:value, 'yes').set
-        browser.radio(:value, 'certainly').set
-        messages.should == ["changed: new_user_newsletter", "clicked: new_user_newsletter_yes", "changed: new_user_newsletter"]
-      end
+      browser.radio(:value, 'yes').set
+      browser.radio(:value, 'certainly').set
+      messages.should == ["changed: new_user_newsletter", "clicked: new_user_newsletter_yes", "changed: new_user_newsletter"]
     end
 
     it "raises UnknownObjectException if the radio button doesn't exist" do

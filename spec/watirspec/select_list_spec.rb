@@ -160,10 +160,8 @@ describe "SelectList" do
     # The correct behaviour here needs to be discussed.
     #
 
-    deviates_on :celerity do
-      it "returns all the options as an Array" do
-        browser.select_list(:name, "new_user_country").options.should == ["Denmark" ,"Norway" , "Sweden" , "United Kingdom", "USA", "Germany"]
-      end
+    it "returns all the options as an Array" do
+      browser.select_list(:name, "new_user_country").options.should == ["Denmark" ,"Norway" , "Sweden" , "United Kingdom", "USA", "Germany"]
     end
 
     deviates_on :webdriver do
@@ -173,10 +171,8 @@ describe "SelectList" do
       end
     end
 
-    deviates_on :watir do # see also WTR-339
-      it "returns all the options as an Array" do
-        browser.select_list(:name, "new_user_country").options.should == ["Denmark" ,"Norway" , "Sweden" , "United Kingdom", "USA"]
-      end
+    it "returns all the options as an Array" do
+      browser.select_list(:name, "new_user_country").options.should == ["Denmark" ,"Norway" , "Sweden" , "United Kingdom", "USA"]
     end
   end
 
@@ -260,18 +256,16 @@ describe "SelectList" do
       browser.select_list(:name, "new_user_languages").selected_options.should == ["Danish", "Swedish"]
     end
 
-    bug "WTR-362", :watir do
-      it "selects multiple items using :name and a Regexp" do
-        browser.select_list(:name, "new_user_languages").clear
-        browser.select_list(:name, "new_user_languages").select(/ish/)
-        browser.select_list(:name, "new_user_languages").selected_options.should == ["Danish", "English", "Swedish"]
-      end
+    it "selects multiple items using :name and a Regexp" do
+      browser.select_list(:name, "new_user_languages").clear
+      browser.select_list(:name, "new_user_languages").select(/ish/)
+      browser.select_list(:name, "new_user_languages").selected_options.should == ["Danish", "English", "Swedish"]
+    end
 
-      it "selects multiple items using :xpath" do
-        browser.select_list(:xpath, "//select[@name='new_user_languages']").clear
-        browser.select_list(:xpath, "//select[@name='new_user_languages']").select(/ish/)
-        browser.select_list(:xpath, "//select[@name='new_user_languages']").selected_options.should == ["Danish", "English", "Swedish"]
-      end
+    it "selects multiple items using :xpath" do
+      browser.select_list(:xpath, "//select[@name='new_user_languages']").clear
+      browser.select_list(:xpath, "//select[@name='new_user_languages']").select(/ish/)
+      browser.select_list(:xpath, "//select[@name='new_user_languages']").selected_options.should == ["Danish", "English", "Swedish"]
     end
 
     it "selects empty options" do
@@ -279,14 +273,12 @@ describe "SelectList" do
       browser.select_list(:id, "delete_user_username").selected_options.should == [""]
     end
 
-    bug "WTR-363", :watir do
-      it "returns the value selected" do
-        browser.select_list(:name, "new_user_languages").select("Danish").should == "Danish"
-      end
+    it "returns the value selected" do
+      browser.select_list(:name, "new_user_languages").select("Danish").should == "Danish"
+    end
 
-      it "returns the first matching value if there are multiple matches" do
-        browser.select_list(:name, "new_user_languages").select(/ish/).should == "Danish"
-      end
+    it "returns the first matching value if there are multiple matches" do
+      browser.select_list(:name, "new_user_languages").select(/ish/).should == "Danish"
     end
 
     it "fires onchange event when selecting an item" do
@@ -294,15 +286,13 @@ describe "SelectList" do
       messages.should == ['changed language']
     end
 
-    bug "WTR-364", :watir do
-      it "doesn't fire onchange event when selecting an already selected item" do
-        browser.select_list(:id, "new_user_languages").clear # removes the two pre-selected options
-        browser.select_list(:id, "new_user_languages").select("English")
-        messages.size.should == 3
+    it "doesn't fire onchange event when selecting an already selected item" do
+      browser.select_list(:id, "new_user_languages").clear # removes the two pre-selected options
+      browser.select_list(:id, "new_user_languages").select("English")
+      messages.size.should == 3
 
-        browser.select_list(:id, "new_user_languages").select("English")
-        messages.size.should == 3
-      end
+      browser.select_list(:id, "new_user_languages").select("English")
+      messages.size.should == 3
     end
 
     it "raises NoValueFoundException if the option doesn't exist" do
@@ -319,12 +309,10 @@ describe "SelectList" do
       browser.select_list(:name, "new_user_languages").selected_options.should == %w[English]
     end
 
-    bug "WTR-362", :watir do
-      it "selects the items by value regexp" do
-        browser.select_list(:name, "new_user_languages").clear
-        browser.select_list(:name, "new_user_languages").select_value(/1|3/)
-        browser.select_list(:name, "new_user_languages").selected_options.should == %w[Danish Norwegian]
-      end
+    it "selects the items by value regexp" do
+      browser.select_list(:name, "new_user_languages").clear
+      browser.select_list(:name, "new_user_languages").select_value(/1|3/)
+      browser.select_list(:name, "new_user_languages").selected_options.should == %w[Danish Norwegian]
     end
 
     it "raises NoValueFoundException if the option doesn't exist" do

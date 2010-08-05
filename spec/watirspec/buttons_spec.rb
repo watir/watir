@@ -8,10 +8,8 @@ describe "Buttons" do
   end
 
   describe "#length" do
-    bug "WTR-349", :watir do
-      it "returns the number of buttons" do
-        browser.buttons.length.should == 8
-      end
+    it "returns the number of buttons" do
+      browser.buttons.length.should == 8
     end
   end
 
@@ -28,10 +26,8 @@ describe "Buttons" do
   end
 
   describe "#last" do
-    bug "WTR-349", :watir do
-      it "returns the last element in the collection" do
-        browser.buttons.last.value.should == browser.buttons[-1].value
-      end
+    it "returns the last element in the collection" do
+      browser.buttons.last.value.should == browser.buttons[-1].value
     end
   end
 

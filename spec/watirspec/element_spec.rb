@@ -20,12 +20,10 @@ describe "Element" do
       lambda { browser.text_field(conditions).id }.should raise_error(UnknownObjectException)
     end
 
-    bug "WTR-351", :watir do
-      it "raises ArgumentError if given the wrong number of arguments" do
-        container = mock("container", :null_object => true)
-        lambda { Element.new(container, 1,2,3,4) }.should raise_error(ArgumentError)
-        lambda { Element.new(container, "foo") }.should raise_error(ArgumentError)
-      end
+    it "raises ArgumentError if given the wrong number of arguments" do
+      container = mock("container", :null_object => true)
+      lambda { Element.new(container, 1,2,3,4) }.should raise_error(ArgumentError)
+      lambda { Element.new(container, "foo") }.should raise_error(ArgumentError)
     end
   end
 
@@ -49,10 +47,8 @@ describe "Element" do
   end
 
   describe "#parent" do
-    bug "WTR-352", :watir do
-      it "gets the parent of this element" do
-        browser.text_field(:id, "new_user_email").parent.should be_instance_of(FieldSet)
-      end
+    it "gets the parent of this element" do
+      browser.text_field(:id, "new_user_email").parent.should be_instance_of(FieldSet)
     end
   end
 
@@ -65,10 +61,8 @@ describe "Element" do
       browser.text_field(:id, "new_user_interests_dolls").should_not be_visible
     end
 
-    bug "WTR-336", :watir do
-      it "returns false if the element has style='display: none;'" do
-        browser.div(:id, 'changed_language').should_not be_visible
-      end
+    it "returns false if the element has style='display: none;'" do
+      browser.div(:id, 'changed_language').should_not be_visible
     end
 
     it "returns false if the element has style='visibility: hidden;" do

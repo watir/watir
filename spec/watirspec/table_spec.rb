@@ -33,11 +33,9 @@ describe "Table" do
   end
 
   describe "#length" do
-    bug "WTR-354", :watir do
-      it "returns the number of rows" do
-        browser.table(:id, 'outer').rows.length.should == 3
-        browser.table(:id, 'inner').rows.length.should == 1
-      end
+    it "returns the number of rows" do
+      browser.table(:id, 'outer').rows.length.should == 3
+      browser.table(:id, 'inner').rows.length.should == 1
     end
   end
 
@@ -56,11 +54,9 @@ describe "Table" do
   end
 
   describe "#row_count" do
-    bug "WTR-354", :watir do
-      it "counts the number of rows correctly" do
-        browser.table(:id, 'inner').row_count.should == 1
-        browser.table(:id, 'outer').row_count.should == 3
-      end
+    it "counts the number of rows correctly" do
+      browser.table(:id, 'inner').row_count.should == 1
+      browser.table(:id, 'outer').row_count.should == 3
     end
 
     it "raises an UnknownObjectException if the table doesn't exist" do

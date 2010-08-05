@@ -85,17 +85,8 @@ describe "Div" do
   end
 
   describe "#style" do
-    not_compliant_on :watir do
-      it "returns the style attribute if the element exists" do
-        browser.div(:id, 'best_language').style.should == "color: red; text-decoration: underline; cursor: pointer;"
-      end
-    end
-
-    deviates_on :watir do
-      it "returns the style attribute if the element exists" do
-        # just different order and missing semicolon here
-        browser.div(:id, 'best_language').style.should == "cursor: pointer; color: red; text-decoration: underline"
-      end
+    it "returns the style attribute if the element exists" do
+      browser.div(:id, 'best_language').style.should == "color: red; text-decoration: underline; cursor: pointer;"
     end
 
     it "returns an empty string if the element exists but the attribute doesn't" do
@@ -118,10 +109,8 @@ describe "Div" do
       browser.div(:index, 0).text.strip.should == ""
     end
 
-    deviates_on :celerity do
-      it "returns an empty string if the div is hidden" do
-        browser.div(:id, 'hidden').text.should == ""
-      end
+    it "returns an empty string if the div is hidden" do
+      browser.div(:id, 'hidden').text.should == ""
     end
 
     it "raises UnknownObjectException if the element does not exist" do
@@ -174,7 +163,7 @@ describe "Div" do
     end
   end
 
-  not_compliant_on :watir, :webdriver do
+  not_compliant_on :webdriver do
     describe "#double_click" do
       it "fires the ondblclick event" do
         browser.div(:id, 'html_test').double_click

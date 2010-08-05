@@ -13,9 +13,7 @@ describe "Image" do
       browser.image(:id, 'square').should exist
       browser.image(:id, /square/).should exist
 
-      bug "WTR-347", :watir do
-        browser.image(:src, 'images/circle.jpg').should exist
-      end
+      browser.image(:src, 'images/circle.jpg').should exist
 
       browser.image(:src, /circle/).should exist
       browser.image(:alt, 'circle').should exist
@@ -122,7 +120,7 @@ describe "Image" do
   end
 
   # File methods
-  not_compliant_on :watir, :webdriver do # "WTR-347"
+  not_compliant_on :webdriver do
     describe "#file_created_date" do
       it "returns the date the image was created as reported by the file system" do
         browser.goto(WatirSpec.host + "/images.html")
@@ -134,7 +132,7 @@ describe "Image" do
   end
 
 
-  not_compliant_on :watir, :webdriver do  # WTR-346
+  not_compliant_on :webdriver do  # WTR-346
     describe "#file_size" do
       it "returns the file size of the image if the image exists" do
         browser.image(:id, 'square').file_size.should == File.size("#{WatirSpec.files}/images/square.jpg".sub("file://", ''))
@@ -147,10 +145,8 @@ describe "Image" do
   end
 
   describe "#height" do
-    not_compliant_on :watir do
-      it "returns the height of the image if the image exists" do
-        browser.image(:id, 'square').height.should == 88
-      end
+    it "returns the height of the image if the image exists" do
+      browser.image(:id, 'square').height.should == 88
     end
 
     it "raises UnknownObjectException if the image doesn't exist" do
@@ -159,10 +155,8 @@ describe "Image" do
   end
 
   describe "#width" do
-    not_compliant_on :watir do
-      it "returns the width of the image if the image exists" do
-        browser.image(:id, 'square').width.should == 88
-      end
+    it "returns the width of the image if the image exists" do
+      browser.image(:id, 'square').width.should == 88
     end
 
     it "raises UnknownObjectException if the image doesn't exist" do
@@ -193,7 +187,7 @@ describe "Image" do
     end
   end
 
-  not_compliant_on :watir, :webdriver do # WTR-336
+  not_compliant_on :webdriver do
     describe "#save" do
       it "saves the image to a file" do
         file = "#{File.expand_path Dir.pwd}/sample.img.dat"

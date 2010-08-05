@@ -100,16 +100,12 @@ describe "Button" do
   end
 
   describe "#src" do
-    not_compliant_on :watir do
-      it "returns the src attribute for the button image" do
-        browser.button(:name, "new_user_image").src.should == "images/button.jpg"
-      end
+    it "returns the src attribute for the button image" do
+      browser.button(:name, "new_user_image").src.should == "images/button.jpg"
     end
 
-    deviates_on :watir do
-      it "returns the full url for the button image" do
-        browser.button(:name, "new_user_image").src.should == "file:///#{File.dirname(__FILE__)}/images/button.jpg"
-      end
+    it "returns the full url for the button image" do
+      browser.button(:name, "new_user_image").src.should == "file:///#{File.dirname(__FILE__)}/images/button.jpg"
     end
 
     it "raises UnknownObjectException if the button does not exist" do
@@ -118,16 +114,12 @@ describe "Button" do
   end
 
   describe "#style" do
-    deviates_on :watir do
-      it "returns the style attribute if the button exists" do
-        browser.button(:id, 'delete_user_submit').style.should == "border-right: red 4px solid; border-top: red 4px solid; border-left: red 4px solid; border-bottom: red 4px solid"
-      end
+    it "returns the style attribute if the button exists" do
+      browser.button(:id, 'delete_user_submit').style.should == "border-right: red 4px solid; border-top: red 4px solid; border-left: red 4px solid; border-bottom: red 4px solid"
     end
 
-    not_compliant_on :watir do
-      it "returns the style attribute if the button exists" do
-        browser.button(:id, 'delete_user_submit').style.should == "border: 4px solid red;"
-      end
+    it "returns the style attribute if the button exists" do
+      browser.button(:id, 'delete_user_submit').style.should == "border: 4px solid red;"
     end
 
     it "returns an empty string if the element exists and the attribute doesn't exist" do

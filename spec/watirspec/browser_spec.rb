@@ -20,17 +20,13 @@ describe "Browser" do
 
   # this should be rewritten - the actual string returned varies alot between implementations
   describe "#html" do
-    deviates_on :celerity do
-      it "returns the downloaded HTML of the page" do
-        browser.goto(WatirSpec.files + "/non_control_elements.html")
-        browser.html.should == File.read(File.dirname(__FILE__) + "/html/non_control_elements.html")
-      end
-    end
-
-    deviates_on :watir do
+    not_compliant_on [:webdriver, :ie] do
       it "returns the DOM of the page as an HTML string" do
         browser.goto(WatirSpec.files + "/right_click.html")
-        browser.html.should == "<HTML><HEAD><TITLE>Right Click Test</TITLE>\r\n<META http-equiv=Content-type content=\"text/html; charset=utf-8\">\r\n<SCRIPT src=\"javascript/helpers.js\" type=text/javascript charset=utf-8></SCRIPT>\r\n</HEAD>\r\n<BODY>\r\n<DIV id=messages></DIV>\r\n<DIV oncontextmenu='WatirSpec.addMessage(\"right-clicked\")' id=click>Right click!</DIV></BODY></HTML>"
+        html = browser.html.downcase # varies between browsers
+
+        html.should =~ /^<html/
+        html.should include('<meta http-equiv="content-type" content="text/html; charset=utf-8">')
       end
     end
 
@@ -41,16 +37,6 @@ describe "Browser" do
 
         html.should =~ /^<html/
         html.should include('<meta content="text/html; charset=utf-8" http-equiv=content-type>')
-      end
-    end
-
-    deviates_on [:webdriver, :firefox], [:webdriver, :chrome] do
-      it "returns the DOM of the page as an HTML string" do
-        browser.goto(WatirSpec.files + "/right_click.html")
-        html = browser.html.downcase # varies between browsers
-
-        html.should =~ /^<html/
-        html.should include('<meta http-equiv="content-type" content="text/html; charset=utf-8">')
       end
     end
   end
@@ -64,15 +50,13 @@ describe "Browser" do
 
   describe "#status" do
     not_compliant_on :webdriver do # need to set Firefox preference, might do this when selenium-webdriver exposes the profile used
-      bug "WTR-348", :watir do
-        it "returns the current value of window.status" do
-          browser.goto(WatirSpec.files + "/non_control_elements.html")
+      it "returns the current value of window.status" do
+        browser.goto(WatirSpec.files + "/non_control_elements.html")
 
-          # for firefox, this needs to be enabled in
-          # Preferences -> Content -> Advanced -> Change status bar text
-          browser.execute_script "window.status = 'All done!';"
-          browser.status.should == "All done!"
-        end
+        # for firefox, this needs to be enabled in
+        # Preferences -> Content -> Advanced -> Change status bar text
+        browser.execute_script "window.status = 'All done!';"
+        browser.status.should == "All done!"
       end
     end
   end
@@ -189,68 +173,60 @@ describe "Browser" do
   end
 
   describe "#element_by_xpath" do
-    before :each do
-      browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
-    end
-
-    bug "WTR-343", :watir do
-      it "finds submit buttons matching the given xpath" do
-        browser.element_by_xpath("//input[@type='submit']").should exist
-      end
-
-      it "finds reset buttons matching the given xpath" do
-        browser.element_by_xpath("//input[@type='reset']").should exist
-      end
-
-      it "finds image buttons matching the given xpath" do
-        browser.element_by_xpath("//input[@type='image']").should exist
-      end
-
-      it "finds the element matching the given xpath" do
-        browser.element_by_xpath("//input[@type='password']").should exist
-      end
-    end
-
-    bug "WTR-327", :watir do
-      it "will not find elements that doesn't exist" do
-        e = browser.element_by_xpath("//input[@type='foobar']")
-        e.should_not exist
-        lambda { e.text }.should raise_error(UnknownObjectException)
-      end
-    end
-  end
-
+     before :each do
+       browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
+     end
+  
+     it "finds submit buttons matching the given xpath" do
+       browser.element_by_xpath("//input[@type='submit']").should exist
+     end
+  
+     it "finds reset buttons matching the given xpath" do
+       browser.element_by_xpath("//input[@type='reset']").should exist
+     end
+  
+     it "finds image buttons matching the given xpath" do
+       browser.element_by_xpath("//input[@type='image']").should exist
+     end
+  
+     it "finds the element matching the given xpath" do
+       browser.element_by_xpath("//input[@type='password']").should exist
+     end
+  
+     it "will not find elements that doesn't exist" do
+       e = browser.element_by_xpath("//input[@type='foobar']")
+       e.should_not exist
+       lambda { e.text }.should raise_error(UnknownObjectException)
+     end
+   end
+ 
   describe "#elements_by_xpath" do
     before :each do
       browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
     end
 
-    bug "WTR-344", :watir do
-      not_compliant_on [:webdriver, :ie] do
-        it "returns an Array of matching elements" do
-          objects = browser.elements_by_xpath("//*[@type='text']")
-          objects.should be_kind_of(Array)
+    not_compliant_on [:webdriver, :ie] do
+      it "returns an Array of matching elements" do
+        objects = browser.elements_by_xpath("//*[@type='text']")
+        objects.should be_kind_of(Array)
 
-          objects.size.should == 5
-        end
-      end
-
-      deviates_on [:webdriver, :ie] do
-        it "returns an Array of matching elements" do
-          objects = browser.elements_by_xpath("//*[@type='text']")
-          objects.should be_kind_of(Array)
-
-          objects.size.should == 6
-        end
+        objects.size.should == 5
       end
     end
 
-    bug "WTR-328", :watir do
-      it "returns an empty Array if there are no matching elements" do
-        objects = browser.elements_by_xpath("//*[@type='foobar']")
+    deviates_on [:webdriver, :ie] do
+      it "returns an Array of matching elements" do
+        objects = browser.elements_by_xpath("//*[@type='text']")
         objects.should be_kind_of(Array)
-        objects.size.should == 0
+
+        objects.size.should == 6
       end
+    end
+
+    it "returns an empty Array if there are no matching elements" do
+      objects = browser.elements_by_xpath("//*[@type='foobar']")
+      objects.should be_kind_of(Array)
+      objects.size.should == 0
     end
   end
 

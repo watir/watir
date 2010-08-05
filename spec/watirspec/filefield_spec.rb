@@ -101,19 +101,16 @@ describe "FileField" do
   # Manipulation methods
 
   describe "#set" do
-    bug "WTR-336", :watir do
-      it "is able to set a file path in the field and click the upload button and fire the onchange event" do
-        browser.goto("#{WatirSpec.host}/forms_with_input_elements.html")
+    it "is able to set a file path in the field and click the upload button and fire the onchange event" do
+      browser.goto("#{WatirSpec.host}/forms_with_input_elements.html")
 
-        path = File.expand_path(__FILE__)
+      path = File.expand_path(__FILE__)
 
-        browser.file_field(:name, "new_user_portrait").set path
-        browser.file_field(:name, "new_user_portrait").value.should == path
-        messages.first.should include(File.basename(path)) # only some browser will return the full path
-        browser.button(:name, "new_user_submit").click
-      end
+      browser.file_field(:name, "new_user_portrait").set path
+      browser.file_field(:name, "new_user_portrait").value.should == path
+      messages.first.should include(File.basename(path)) # only some browser will return the full path
+      browser.button(:name, "new_user_submit").click
     end
-
   end
 
 end

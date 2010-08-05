@@ -61,25 +61,23 @@ describe "TableRow" do
     end
   end
 
-  bug "WTR-359", :watir do
-    describe "#child_cell" do
-      it "returns the nth cell of the parent row" do
-        browser.table(:id, 'outer').row(:index, 0).child_cell(0).text.should == "Table 1, Row 1, Cell 1"
-        browser.table(:id, 'outer')[0].child_cell(0).text.should == "Table 1, Row 1, Cell 1"
-        browser.table(:id, 'outer')[2].child_cell(0).text.should == "Table 1, Row 3, Cell 1"
-      end
-
-      it "raises UnknownCellException if the index is out of bounds" do
-        lambda { browser.table(:id, 'outer').row(:index, 0).child_cell(1337) }.should raise_error(UnknownCellException)
-        lambda { browser.table(:id, 'outer')[0].child_cell(1337) }.should raise_error(UnknownCellException)
-      end
+  describe "#child_cell" do
+    it "returns the nth cell of the parent row" do
+      browser.table(:id, 'outer').row(:index, 0).child_cell(0).text.should == "Table 1, Row 1, Cell 1"
+      browser.table(:id, 'outer')[0].child_cell(0).text.should == "Table 1, Row 1, Cell 1"
+      browser.table(:id, 'outer')[2].child_cell(0).text.should == "Table 1, Row 3, Cell 1"
     end
 
-    describe "#each" do
-      it "iterates correctly through the cells of the row" do
-        browser.table(:id, 'outer')[1].each_with_index do |cell,idx|
-          cell.id.should == "t1_r2_c#{idx + 1}"
-        end
+    it "raises UnknownCellException if the index is out of bounds" do
+      lambda { browser.table(:id, 'outer').row(:index, 0).child_cell(1337) }.should raise_error(UnknownCellException)
+      lambda { browser.table(:id, 'outer')[0].child_cell(1337) }.should raise_error(UnknownCellException)
+    end
+  end
+
+  describe "#each" do
+    it "iterates correctly through the cells of the row" do
+      browser.table(:id, 'outer')[1].each_with_index do |cell,idx|
+        cell.id.should == "t1_r2_c#{idx + 1}"
       end
     end
   end
