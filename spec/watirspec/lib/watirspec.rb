@@ -1,6 +1,6 @@
 module WatirSpec
   class << self
-    attr_accessor :browser_args, :persistent_browser, :unguarded
+    attr_accessor :persistent_browser, :unguarded
 
     def html
       File.expand_path("#{File.dirname(__FILE__)}/../html")
