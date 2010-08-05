@@ -5,31 +5,31 @@ describe "IE" do
 
   # Class methods
   it "responds to .speed" do
-    Browser.should respond_to("speed")
+    WatirSpec.implementation.browser_class.should respond_to("speed")
   end
 
   it "responds to .speed=" do
-    Browser.should respond_to("speed=")
+    WatirSpec.implementation.browser_class.should respond_to("speed=")
   end
 
   it "responds to .attach_timeout" do
-    Browser.should respond_to("attach_timeout")
+    WatirSpec.implementation.browser_class.should respond_to("attach_timeout")
   end
 
   it "responds to .attach_timeout=" do
-    Browser.should respond_to("attach_timeout=")
+    WatirSpec.implementation.browser_class.should respond_to("attach_timeout=")
   end
 
   it "responds to .visible" do
-    Browser.should respond_to("visible")
+    WatirSpec.implementation.browser_class.should respond_to("visible")
   end
 
   it "responds to .each" do
-    Browser.should respond_to("each")
+    WatirSpec.implementation.browser_class.should respond_to("each")
   end
 
   it "responds to .start" do
-    Browser.should respond_to("start")
+    WatirSpec.implementation.browser_class.should respond_to("start")
   end
 
   # Instance methods

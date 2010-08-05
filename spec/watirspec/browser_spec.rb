@@ -88,8 +88,8 @@ describe "Browser" do
 
   describe ".start" do
     it "goes to the given URL and return an instance of itself" do
-      browser = Browser.start(WatirSpec.files + "/non_control_elements.html")
-      browser.should be_instance_of(Browser)
+      browser = WatirSpec.implementation.browser_class.start(WatirSpec.files + "/non_control_elements.html")
+      browser.should be_instance_of(WatirSpec.implementation.browser_class)
       browser.title.should == "Non-control elements"
     end
   end

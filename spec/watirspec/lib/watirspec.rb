@@ -37,7 +37,7 @@ module WatirSpec
       @implementation ||= (
         imp = WatirSpec::Implementation.new
         yield imp if block_given?
-        
+
         imp
       )
     end
@@ -51,8 +51,9 @@ module WatirSpec
     end
 
     def new_browser
-      args = WatirSpec.browser_args
-      args ? Browser.new(*args) : Browser.new
+      klass = WatirSpec.implementation.browser_class
+      args = WatirSpec.implementation.browser_args
+      args ? klass.new(*args) : klass.new
     end
 
     def ruby
