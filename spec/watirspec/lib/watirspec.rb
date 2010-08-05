@@ -35,16 +35,20 @@ module WatirSpec
     end
 
     def implementation
-      @implementation ||= case Browser.name
-                          when "Watir::IE"
-                            :watir
-                          when "Watir::Firefox", "FireWatir::Firefox"
-                            :firewatir
-                          when "Celerity::Browser"
-                            :celerity
-                          else
-                            :unknown
-                          end
+      @implementation ||= (
+        imp = WatirSpec::Implementation.new
+        yield imp if block_given?
+        
+        imp
+      )
+    end
+
+    def implementation=(imp)
+      unless imp.kind_of? WatirSpec::Implementation
+        raise TypeError, "expected WatirSpec::Implementation, got #{imp.class}"
+      end
+
+      @implementation = imp
     end
 
     def new_browser
