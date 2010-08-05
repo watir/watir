@@ -39,15 +39,18 @@ end
 task :spec => :check_dependencies
 
 namespace :html5 do
-  IDL_PATH    = "support/html5/html5.idl"
-  SPEC_URI    = "http://dev.w3.org/html5/spec/Overview.html" # TODO: use http://www.whatwg.org/specs/web-apps/current-work/source
+  IDL_PATH  = "support/html5/html5.idl"
+  SPEC_URI  = "http://www.whatwg.org/specs/web-apps/current-work/"
+  SPEC_PATH = "support/html5/html5-2010-08-05.html"
 
   desc "Print IDL parts from #{SPEC_URI}"
   task :extract do
-    require "nokogiri"
-    require "open-uri"
-    doc = Nokogiri.HTML(open(SPEC_URI))
-    puts doc.search("//pre[@class='idl']").map {  |e| e.inner_text }.join("\n\n")
+    require 'support/html5/spec_extractor'
+    result = SpecExtractor.new(SPEC_PATH).process
+    
+    result.each do |tag_name, interface_definitions|
+      puts "#{tag_name.ljust(10)} => #{interface_definitions.map { |e| e.name }}"
+    end
   end
 
   desc 'Re-enerate the base Watir element classes from the spec '
@@ -68,6 +71,7 @@ namespace :html5 do
     require 'webidl'
     parser = WebIDL::Parser::IDLParser.new
     failures = []
+    
     Dir['support/html5/*.idl'].each do |path|
       unless parser.parse(File.read(path))
         failures << [path, parser.failure_reason]
