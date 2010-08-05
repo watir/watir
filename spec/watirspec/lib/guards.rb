@@ -7,7 +7,7 @@ module WatirSpec
       end
 
       def record(guard_name, impls, data)
-        guards[impls] << [guard_name, data]
+        guards[impls] << {:name => guard_name, :data => data}
       end
 
       def report
@@ -18,8 +18,8 @@ module WatirSpec
          puts "none."
         else
           puts
-          gs.each do |guard_name, data|
-            puts "\t#{guard_name.to_s.ljust(20)}: #{data.inspect}"
+          gs.each do |guard|
+            puts "\t#{guard[:name].to_s.ljust(20)}: #{guard[:data].inspect}"
           end
         end
       end
