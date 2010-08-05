@@ -14,24 +14,30 @@ First add the submodule to _spec/watirspec_:
     $ git submodule add git://github.com/jarib/watirspec.git spec/watirspec
 
 The specs will look for a *spec_helper.rb* in its parent directory (i.e. _spec/_). In this file you can load your library and set various options.
-The spec suite expects a _Browser_ constant to exist at the top level after this file has been loaded.
 
 Here's an example of what _spec/spec\_helper.rb_ could look like:
 
     $LOAD_PATH.unshift(«lib folder»)
     require "watir_impl"
 
-    Browser = WatirImpl::Browser
     include WatirImpl::Exception
 
-    WatirSpec.browser_args       = [:some, :arguments] # will be passed to Browser.new
+    # configure this implementation - this also allows you to hook into the guard system
+    # see http://github.com/jarib/watirspec/blob/master/lib/implementation.rb
+
+    WatirSpec.implementation do |imp|
+      imp.name          = :watir_impl
+      imp.browser_args  = [:some, :arguments] # will be passed to Browser.new
+      imp.browser_class = WatirImpl::Browser
+    end
+
     WatirSpec.persistent_browser = false               # defaults to true, but can be disabled if needed
     WatirSpec::Server.autorun    = false               # defaults to true, but can be disabled if needed
 
     WatirSpec::Server.get("/my_route") { "content" }   # add routes to the server for implementation-specific specs
 
 Implementation-specific specs should be placed at the root of the _spec/_ folder.
-To use the setup code from watirspec, simply require `"watirspec/spec_helper"` (which in turn will load your `spec/spec_helper.rb`).
+To use the setup code from watirspec, simply require `"spec/watirspec/spec_helper"` (which in turn will load your `spec/spec_helper.rb`).
 
 Where
 -----
