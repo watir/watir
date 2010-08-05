@@ -22,7 +22,7 @@ module WatirSpec
 
     def matching_guards_in(guards)
       result = []
-      guards.each { |args, data| result << data if matches_guard?(args) }
+      guards.each { |args, data| result << data.flatten if matches_guard?(args) }
 
       result
     end
