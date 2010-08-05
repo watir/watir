@@ -41,14 +41,29 @@ task :spec => :check_dependencies
 namespace :html5 do
   IDL_PATH  = "support/html5/html5.idl"
   SPEC_URI  = "http://www.whatwg.org/specs/web-apps/current-work/"
-  SPEC_PATH = "support/html5/html5-2010-08-05.html"
+  SPEC_PATH = "support/html5/html5.html"
+
+  desc "Download the HTML5 spec from #{SPEC_URI}"
+  task :download do
+    require "open-uri"
+    mv SPEC_PATH, "#{SPEC_PATH}.old" if File.exist?(SPEC_PATH)
+    downloaded_bytes = 0
+
+    File.open(SPEC_PATH, "w") do |io|
+      io << "<!--  downloaded from #{SPEC_URI} on #{Time.now} -->\n"
+      io << data = open(SPEC_URI).read
+      downloaded_bytes = data.bytesize
+    end
+
+    puts "#{SPEC_URI} => #{SPEC_PATH} (#{downloaded_bytes} bytes)"
+  end
 
   desc "Print IDL parts from #{SPEC_URI}"
   task :extract do
     require 'support/html5/spec_extractor'
-    result = SpecExtractor.new(SPEC_PATH).process
-    
-    result.each do |tag_name, interface_definitions|
+    extractor = SpecExtractor.new(SPEC_PATH)
+
+    extractor.process.each do |tag_name, interface_definitions|
       puts "#{tag_name.ljust(10)} => #{interface_definitions.map { |e| e.name }}"
     end
   end
@@ -71,7 +86,7 @@ namespace :html5 do
     require 'webidl'
     parser = WebIDL::Parser::IDLParser.new
     failures = []
-    
+
     Dir['support/html5/*.idl'].each do |path|
       unless parser.parse(File.read(path))
         failures << [path, parser.failure_reason]
