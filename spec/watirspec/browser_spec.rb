@@ -34,13 +34,23 @@ describe "Browser" do
       end
     end
 
-    deviates_on :webdriver do
+    deviates_on [:webdriver, :ie] do
       it "returns the DOM of the page as an HTML string" do
         browser.goto(WatirSpec.files + "/right_click.html")
         html = browser.html.downcase # varies between browsers
 
         html.should =~ /^<html/
-        html.should include("<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">")
+        html.should include('<meta content="text/html; charset=utf-8" http-equiv=content-type>')
+      end
+    end
+
+    deviates_on [:webdriver, :firefox], [:webdriver, :chrome] do
+      it "returns the DOM of the page as an HTML string" do
+        browser.goto(WatirSpec.files + "/right_click.html")
+        html = browser.html.downcase # varies between browsers
+
+        html.should =~ /^<html/
+        html.should include('<meta http-equiv="content-type" content="text/html; charset=utf-8">')
       end
     end
   end
@@ -216,10 +226,22 @@ describe "Browser" do
     end
 
     bug "WTR-344", :watir do
-      it "returns an Array of matching elements" do
-        objects = browser.elements_by_xpath("//*[@type='text']")
-        objects.should be_kind_of(Array)
-        objects.size.should == 5
+      not_compliant_on [:webdriver, :ie] do
+        it "returns an Array of matching elements" do
+          objects = browser.elements_by_xpath("//*[@type='text']")
+          objects.should be_kind_of(Array)
+
+          objects.size.should == 5
+        end
+      end
+
+      deviates_on [:webdriver, :ie] do
+        it "returns an Array of matching elements" do
+          objects = browser.elements_by_xpath("//*[@type='text']")
+          objects.should be_kind_of(Array)
+
+          objects.size.should == 6
+        end
       end
     end
 
@@ -237,16 +259,17 @@ describe "Browser" do
       lambda { browser.add_checker }.should raise_error(ArgumentError)
     end
 
-    not_compliant_on :webdriver do
-      # if on IE, this slows the rest of the suite way down for some reason
-      it "runs the given proc on each page load" do
-        output = ''
-        proc = Proc.new { |browser| output << browser.text }
+    it "runs the given proc on each page load" do
+      output = ''
+      proc = Proc.new { |browser| output << browser.text }
 
+      begin
         browser.add_checker(proc)
         browser.goto(WatirSpec.files + "/non_control_elements.html")
 
         output.should include('Dubito, ergo cogito, ergo sum')
+      ensure
+        browser.disable_checker(proc)
       end
     end
   end
