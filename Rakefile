@@ -67,6 +67,9 @@ namespace :html5 do
       puts "#{tag_name.ljust(10)} => #{interface_definitions.map { |e| e.name }}"
     end
 
+    puts "Topological sort:"
+    puts extractor.sorted_interfaces
+
     unless extractor.errors.empty?
       puts "\n\n<======================= ERRORS =======================>\n\n"
       puts extractor.errors.join("\n" + "="*80 + "\n")

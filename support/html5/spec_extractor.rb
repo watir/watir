@@ -19,6 +19,18 @@ class SpecExtractor
     @errors ||= []
   end
 
+  #
+  # returns a topoligically sorted array of WebIDL::Ast::Interface objects
+  #
+
+  def sorted_interfaces
+    require "#{File.dirname __FILE__}/idl_sorter"
+
+    IDLSorter.new(@interfaces).tsort.map { |name|
+      @interfaces_by_name[name] or puts "ignoring interface: #{name}"
+    }.flatten.compact.map { |e| e.name }
+  end
+
   private
 
   def download_and_parse
@@ -28,16 +40,16 @@ class SpecExtractor
   def extract_idl_parts
     parsed = @doc.search("//pre[@class='idl']").map {  |e| parse_idl(e.inner_text) }.compact
 
-    interfaces = parsed.map { |elements|
+    @interfaces = parsed.map { |elements|
       elements.select { |e| e.kind_of? WebIDL::Ast::Interface  }
     }.flatten
 
-    @idl = interfaces.group_by { |i| i.name }
+    @interfaces_by_name = @interfaces.group_by { |i| i.name }
   end
 
   def extract_interface_map
     table = @doc.search("//h3[@id='elements-1']/following-sibling::table[1]").first
-    table || raise("could not find elements-1 table")
+    table or raise "could not find elements-1 table"
 
     @interface_map = {}
 
@@ -51,7 +63,7 @@ class SpecExtractor
     result = {}
 
     @interface_map.each do |tag, interface|
-      result[tag] = @idl[interface] || raise("#{interface} not found in IDL")
+      result[tag] = @interfaces_by_name[interface] or raise "#{interface} not found in IDL"
     end
 
     result
