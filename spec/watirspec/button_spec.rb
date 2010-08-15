@@ -104,10 +104,6 @@ describe "Button" do
       browser.button(:name, "new_user_image").src.should == "images/button.jpg"
     end
 
-    it "returns the full url for the button image" do
-      browser.button(:name, "new_user_image").src.should == "file:///#{File.dirname(__FILE__)}/images/button.jpg"
-    end
-
     it "raises UnknownObjectException if the button does not exist" do
       lambda { browser.button(:name, "no_such_name").src }.should raise_error(UnknownObjectException)
     end
