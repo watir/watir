@@ -100,8 +100,16 @@ describe "Button" do
   end
 
   describe "#src" do
-    it "returns the src attribute for the button image" do
-      browser.button(:name, "new_user_image").src.should == "images/button.jpg"
+    not_compliant_on [:webdriver, :ie], [:webdriver, :firefox] do
+      it "returns the src attribute for the button image" do
+        browser.button(:name, "new_user_image").src.should == "images/button.jpg"
+      end
+    end
+
+    deviates_on [:webdriver, :ie], [:webdriver, :firefox] do
+      it "returns the src attribute for the button image" do
+        browser.button(:name, "new_user_image").src.should == "file:///#{File.expand_path(File.dirname(__FILE__))}/html/images/button.jpg"
+      end
     end
 
     it "raises UnknownObjectException if the button does not exist" do
