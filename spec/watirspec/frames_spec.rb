@@ -7,15 +7,19 @@ describe "<frame> Frames" do
     browser.goto(WatirSpec.files + "/frames.html")
   end
 
-  describe "#length" do
-    it "returns the correct number of frames" do
-      browser.frames.length.should == 2
+  bug "http://github.com/jarib/watir-webdriver/issues#issue/17", :webdriver do
+    describe "#length" do
+      it "returns the correct number of frames" do
+        browser.frames.length.should == 2
+      end
     end
   end
 
-  describe "#[]" do
-    it "returns the frame at the given index" do
-      browser.frames[0].id.should == "frame_1"
+  bug "http://github.com/jarib/watir-webdriver/issues#issue/17", :webdriver do
+    describe "#[]" do
+      it "returns the frame at the given index" do
+        browser.frames[0].id.should == "frame_1"
+      end
     end
   end
 
@@ -35,15 +39,19 @@ describe "<iframe> Frames" do
     browser.goto(WatirSpec.files + "/iframes.html")
   end
 
-  describe "#length" do
-    it "returns the correct number of frames" do
-      browser.frames.length.should == 2
+  bug "http://github.com/jarib/watir-webdriver/issues#issue/17", :webdriver do
+    describe "#length" do
+      it "returns the correct number of frames" do
+        browser.frames.length.should == 2
+      end
     end
   end
 
-  describe "#[]" do
-    it "returns the frame at the given index" do
-      browser.frames[0].id.should == "frame_1"
+  bug "http://github.com/jarib/watir-webdriver/issues#issue/17", :webdriver do
+    describe "#[]" do
+      it "returns the frame at the given index" do
+        browser.frames[0].id.should == "frame_1"
+      end
     end
   end
 
