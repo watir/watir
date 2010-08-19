@@ -23,6 +23,11 @@ describe "Table" do
       browser.table(:xpath, "//table[@id='no_such_id']").should_not exist
     end
 
+    it "checks the tag name when locating by xpath" do
+      browser.table(:xpath, "//table//td").should_not exist
+      browser.table(:xpath, "//table").should exist
+    end
+
     it "raises TypeError when 'what' argument is invalid" do
       lambda { browser.table(:id, 3.14).exists? }.should raise_error(TypeError)
     end
