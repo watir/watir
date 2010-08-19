@@ -74,6 +74,7 @@ module Watir
     end
 
     def close
+      return if @closed
       @driver.quit
       @closed = true
     end
@@ -137,7 +138,7 @@ module Watir
 
     def assert_exists
       if @closed
-        false
+        raise Error, "browser was closed"
       else
         driver.switch_to.default_content
         true
