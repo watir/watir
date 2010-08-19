@@ -47,37 +47,44 @@ describe "TableHeader" do
     end
   end
 
-  describe "#length" do
-    it "returns the correct number of table bodies (page context)" do
-      browser.thead(:id, 'tax_headers').length.should == 1
-    end
+  bug "http://github.com/jarib/watir-webdriver/issues/#issue/2", :webdriver do
+    describe "#length" do
+      it "returns the correct number of table bodies (page context)" do
+        browser.thead(:id, 'tax_headers').length.should == 1
+      end
 
-    it "returns the correct number of table bodies (table context)" do
-      browser.table(:index, 0).thead(:id, 'tax_headers').length.should == 1
-    end
-  end
-
-  describe "#[]" do
-    it "returns the row at the given index (page context)" do
-      browser.thead(:id, 'tax_headers')[0].id.should == 'thead_row_1'
-      browser.thead(:id, 'tax_headers')[0][1].text.should == 'Before income tax'
-      browser.thead(:id, 'tax_headers')[0][2].text.should == 'Income tax'
-    end
-
-    it "returns the row at the given index (table context)" do
-      browser.table(:index, 0).thead(:id, 'tax_headers')[0].id.should == 'thead_row_1'
-      browser.table(:index, 0).thead(:id, 'tax_headers')[0][1].text.should == 'Before income tax'
-      browser.table(:index, 0).thead(:id, 'tax_headers')[0][2].text.should == 'Income tax'
-    end
-  end
-
-  describe "#each" do
-    it "iterates through rows correctly" do
-      theader = browser.table(:index, 0).thead(:id, 'tax_headers')
-      theader.each_with_index do |r, index|
-        r.id.should == browser.row(:index, index).id
-        r.value.should == browser.row(:index, index).value
+      it "returns the correct number of table bodies (table context)" do
+        browser.table(:index, 0).thead(:id, 'tax_headers').length.should == 1
       end
     end
   end
+
+  bug "http://github.com/jarib/watir-webdriver/issues/#issue/2", :webdriver do
+    describe "#[]" do
+      it "returns the row at the given index (page context)" do
+        browser.thead(:id, 'tax_headers')[0].id.should == 'thead_row_1'
+        browser.thead(:id, 'tax_headers')[0][1].text.should == 'Before income tax'
+        browser.thead(:id, 'tax_headers')[0][2].text.should == 'Income tax'
+      end
+
+      it "returns the row at the given index (table context)" do
+        browser.table(:index, 0).thead(:id, 'tax_headers')[0].id.should == 'thead_row_1'
+        browser.table(:index, 0).thead(:id, 'tax_headers')[0][1].text.should == 'Before income tax'
+        browser.table(:index, 0).thead(:id, 'tax_headers')[0][2].text.should == 'Income tax'
+      end
+    end
+  end
+
+  bug "http://github.com/jarib/watir-webdriver/issues/#issue/2", :webdriver do
+    describe "#each" do
+      it "iterates through rows correctly" do
+        theader = browser.table(:index, 0).thead(:id, 'tax_headers')
+        theader.each_with_index do |r, index|
+          r.id.should == browser.row(:index, index).id
+          r.value.should == browser.row(:index, index).value
+        end
+      end
+    end
+  end
+
 end

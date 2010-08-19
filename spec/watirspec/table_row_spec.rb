@@ -38,13 +38,15 @@ describe "TableRow" do
     end
   end
 
-  describe "#column_count" do
-    it "returns the number of columns (cells) in the row" do
-      browser.table(:id, 'outer').rows[0].column_count.should == 2
-      browser.table(:id, 'outer')[1].column_count.should == 2
-      browser.table(:id, 'colspan')[0].column_count.should == 1
-      browser.table(:id, 'colspan').rows[1].column_count.should == 2
-      browser.rows[0].column_count.should == 4
+  bug "http://github.com/jarib/watir-webdriver/issues/#issue/2", :webdriver do
+    describe "#column_count" do
+      it "returns the number of columns (cells) in the row" do
+        browser.table(:id, 'outer').rows[0].column_count.should == 2
+        browser.table(:id, 'outer')[1].column_count.should == 2
+        browser.table(:id, 'colspan')[0].column_count.should == 1
+        browser.table(:id, 'colspan').rows[1].column_count.should == 2
+        browser.rows[0].column_count.should == 4
+      end
     end
   end
 
@@ -61,23 +63,27 @@ describe "TableRow" do
     end
   end
 
-  describe "#child_cell" do
-    it "returns the nth cell of the parent row" do
-      browser.table(:id, 'outer').row(:index, 0).child_cell(0).text.should == "Table 1, Row 1, Cell 1"
-      browser.table(:id, 'outer')[0].child_cell(0).text.should == "Table 1, Row 1, Cell 1"
-      browser.table(:id, 'outer')[2].child_cell(0).text.should == "Table 1, Row 3, Cell 1"
-    end
+  bug "http://github.com/jarib/watir-webdriver/issues/#issue/2", :webdriver do
+    describe "#child_cell" do
+      it "returns the nth cell of the parent row" do
+        browser.table(:id, 'outer').row(:index, 0).child_cell(0).text.should == "Table 1, Row 1, Cell 1"
+        browser.table(:id, 'outer')[0].child_cell(0).text.should == "Table 1, Row 1, Cell 1"
+        browser.table(:id, 'outer')[2].child_cell(0).text.should == "Table 1, Row 3, Cell 1"
+      end
 
-    it "raises UnknownCellException if the index is out of bounds" do
-      lambda { browser.table(:id, 'outer').row(:index, 0).child_cell(1337) }.should raise_error(UnknownCellException)
-      lambda { browser.table(:id, 'outer')[0].child_cell(1337) }.should raise_error(UnknownCellException)
+      it "raises UnknownCellException if the index is out of bounds" do
+        lambda { browser.table(:id, 'outer').row(:index, 0).child_cell(1337) }.should raise_error(UnknownCellException)
+        lambda { browser.table(:id, 'outer')[0].child_cell(1337) }.should raise_error(UnknownCellException)
+      end
     end
   end
 
-  describe "#each" do
-    it "iterates correctly through the cells of the row" do
-      browser.table(:id, 'outer')[1].each_with_index do |cell,idx|
-        cell.id.should == "t1_r2_c#{idx + 1}"
+  bug "http://github.com/jarib/watir-webdriver/issues/#issue/2", :webdriver do
+    describe "#each" do
+      it "iterates correctly through the cells of the row" do
+        browser.table(:id, 'outer')[1].each_with_index do |cell,idx|
+          cell.id.should == "t1_r2_c#{idx + 1}"
+        end
       end
     end
   end

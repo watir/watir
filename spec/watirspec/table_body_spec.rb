@@ -47,37 +47,43 @@ describe "TableBody" do
     end
   end
 
-  describe "#length" do
-    it "returns the correct number of table bodies (page context)" do
-      browser.tbody(:id, 'first').length.should == 3
-    end
+  bug "http://github.com/jarib/watir-webdriver/issues/#issue/2", :webdriver do
+    describe "#length" do
+      it "returns the correct number of table bodies (page context)" do
+        browser.tbody(:id, 'first').length.should == 3
+      end
 
-    it "returns the correct number of table bodies (table context)" do
-      browser.table(:index, 0).tbody(:id, 'first').length.should == 3
-    end
-  end
-
-  describe "#[]" do
-    it "returns the row at the given index (page context)" do
-      browser.tbody(:id, 'first')[0].text.should == 'March 2008'
-      browser.tbody(:id, 'first')[1][0].text.should == 'Gregory House'
-      browser.tbody(:id, 'first')[2][0].text.should == 'Hugh Laurie'
-    end
-
-    it "returns the row at the given index (table context)" do
-      browser.table(:index, 0).tbody(:id, 'first')[0].text.should == 'March 2008'
-      browser.table(:index, 0).tbody(:id, 'first')[1][0].text.should == 'Gregory House'
-      browser.table(:index, 0).tbody(:id, 'first')[2][0].text.should == 'Hugh Laurie'
+      it "returns the correct number of table bodies (table context)" do
+        browser.table(:index, 0).tbody(:id, 'first').length.should == 3
+      end
     end
   end
 
-  describe "#each" do
-    it "iterates through rows correctly" do
-      body = browser.table(:index, 0).tbody(:id, 'first')
-      expected_texts = ["march", "gregory", "hugh"]
+  bug "http://github.com/jarib/watir-webdriver/issues/#issue/2", :webdriver do
+    describe "#[]" do
+      it "returns the row at the given index (page context)" do
+        browser.tbody(:id, 'first')[0].text.should == 'March 2008'
+        browser.tbody(:id, 'first')[1][0].text.should == 'Gregory House'
+        browser.tbody(:id, 'first')[2][0].text.should == 'Hugh Laurie'
+      end
 
-      body.each_with_index do |row, idx|
-        row.id.should == expected_texts[idx]
+      it "returns the row at the given index (table context)" do
+        browser.table(:index, 0).tbody(:id, 'first')[0].text.should == 'March 2008'
+        browser.table(:index, 0).tbody(:id, 'first')[1][0].text.should == 'Gregory House'
+        browser.table(:index, 0).tbody(:id, 'first')[2][0].text.should == 'Hugh Laurie'
+      end
+    end
+  end
+
+  bug "http://github.com/jarib/watir-webdriver/issues/#issue/2", :webdriver do
+    describe "#each" do
+      it "iterates through rows correctly" do
+        body = browser.table(:index, 0).tbody(:id, 'first')
+        expected_texts = ["march", "gregory", "hugh"]
+
+        body.each_with_index do |row, idx|
+          row.id.should == expected_texts[idx]
+        end
       end
     end
   end
