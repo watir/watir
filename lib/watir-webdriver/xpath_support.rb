@@ -11,7 +11,7 @@ module Watir
       e = wd.find_element(:xpath, xpath)
       Watir.element_class_for(e.tag_name).new(self, :element, e)
     rescue WebDriver::Error::NoSuchElementError
-      BaseElement.new(self, :xpath, xpath)
+      Element.new(self, :xpath, xpath)
     end
 
     #

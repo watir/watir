@@ -8,7 +8,7 @@ module Watir
     end
 
     #
-    # @yieldparam [Watir::BaseElement] element Iterate through the elements in this collection.
+    # @yieldparam [Watir::Element] element Iterate through the elements in this collection.
     #
 
     def each(&blk)
@@ -32,7 +32,7 @@ module Watir
     # instance even if the index is out of bounds.
     #
     # @param [Fixnum] n Index of wanted element, 0-indexed
-    # @return [Watir::BaseElement] Returns an instance of a Watir::BaseElement subclass
+    # @return [Watir::Element] Returns an instance of a Watir::Element subclass
     #
 
 
@@ -43,7 +43,7 @@ module Watir
     #
     # First element of this collection
     #
-    # @return [Watir::BaseElement] Returns an instance of a Watir::BaseElement subclass
+    # @return [Watir::Element] Returns an instance of a Watir::Element subclass
     #
 
     def first
@@ -53,7 +53,7 @@ module Watir
     #
     # Last element of the collection
     #
-    # @return [Watir::BaseElement] Returns an instance of a Watir::BaseElement subclass
+    # @return [Watir::Element] Returns an instance of a Watir::Element subclass
     #
 
     def last
@@ -63,7 +63,7 @@ module Watir
     #
     # This collection as an Array
     #
-    # @return [Array<Watir::BaseElement>]
+    # @return [Array<Watir::Element>]
     #
 
     def to_a

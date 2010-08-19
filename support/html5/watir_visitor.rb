@@ -40,7 +40,7 @@ class WatirVisitor < WebIDL::RubySexpVisitor
     return unless name =~ /^HTML/
 
     if name == "HTMLElement"
-      parent = 'BaseElement'
+      parent = 'Element'
     # elsif !(parent && parent.name =~ /^HTMLElement/)
     #   return
     else
