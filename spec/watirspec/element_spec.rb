@@ -3,8 +3,6 @@ require File.expand_path('spec_helper', File.dirname(__FILE__))
 
 describe "Element" do
 
-  Element = BaseElement if WatirSpec.implementation.name == :webdriver # hack
-
   before :each do
     browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
   end
