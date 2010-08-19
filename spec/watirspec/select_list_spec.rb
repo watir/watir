@@ -160,19 +160,18 @@ describe "SelectList" do
     # The correct behaviour here needs to be discussed.
     #
 
-    it "returns all the options as an Array" do
-      browser.select_list(:name, "new_user_country").options.should == ["Denmark" ,"Norway" , "Sweden" , "United Kingdom", "USA", "Germany"]
+    not_compliant_on :webdriver do
+      it "returns all the options as an Array" do
+        browser.select_list(:name, "new_user_country").options.should == ["Denmark" ,"Norway" , "Sweden" , "United Kingdom", "USA", "Germany"]
+      end
     end
 
     deviates_on :webdriver do
       it "returns all the options as a collection of Options" do
         options = browser.select_list(:name, "new_user_country").options
+        options.should be_kind_of(OptionsCollection)
         options.map { |opt| opt.text }.should == ["Denmark" ,"Norway" , "Sweden" , "United Kingdom", "USA", "Germany"]
       end
-    end
-
-    it "returns all the options as an Array" do
-      browser.select_list(:name, "new_user_country").options.should == ["Denmark" ,"Norway" , "Sweden" , "United Kingdom", "USA"]
     end
   end
 
