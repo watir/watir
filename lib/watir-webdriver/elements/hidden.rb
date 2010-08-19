@@ -1,10 +1,8 @@
 # encoding: utf-8
 module Watir
   class Hidden < Input
-    identifier :type => 'hidden'
-
-    container_method  :hidden
-    collection_method :hiddens
+    container_method  :hidden,  :tag_name => "input", :type => "hidden"
+    collection_method :hiddens, :tag_name => "input", :type => "hidden"
 
     def visible?
       false

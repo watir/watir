@@ -1,11 +1,11 @@
 # encoding: utf-8
 
 module Watir
-  class Font < HTMLElement
-    identifier        :tag_name => 'font'
 
-    container_method  :font
-    collection_method :fonts
+  # deprecated in HTML5
+  class Font < HTMLElement
+    container_method  :font,  :tag_name => "font"
+    collection_method :fonts, :tag_name => "font"
 
     attributes :string => [:color, :face], :int => [:size]
   end

@@ -3,14 +3,9 @@ module Watir
 
     private
 
-    def elements
-      return super unless @parent.kind_of?(Watir::Table)
-      @elements ||= TableRowLocator.new(
-        @parent.wd,
-        @default_selector,
-        @element_class.attribute_list
-      ).locate_all
+    def locator_class
+      @parent.kind_of?(Watir::Table) ? TableRowLocator : super
     end
 
-  end # ButtonsCollection
+  end # TrCollection
 end # Watir

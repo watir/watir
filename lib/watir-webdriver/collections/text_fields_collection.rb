@@ -1,15 +1,16 @@
 module Watir
+  # FIXME: singluar vs plural collection names
   class TextFieldsCollection < ElementCollection
 
     private
 
-    def elements
-      @elements ||= TextFieldLocator.new(
-        @parent.wd,
-        @default_selector,
-        @element_class.attribute_list
-      ).locate_all
+    def locator_class
+      TextFieldLocator
     end
 
-  end # ButtonsCollection
+    def element_class
+      TextField
+    end
+
+  end # TextFieldCollection
 end # Watir

@@ -1,10 +1,8 @@
 # encoding: utf-8
 module Watir
   class Radio < Input
-    identifier :type => 'radio'
-
-    container_method  :radio
-    collection_method :radios
+    container_method  :radio,  :tag_name => "input", :type => "radio"
+    collection_method :radios, :tag_name => "input", :type => "radio"
 
     #
     # Select this radio button.

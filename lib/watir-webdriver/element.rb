@@ -79,25 +79,30 @@ module Watir
         end
       end
 
-      def container_method(name)
+      def container_method(name, default_selector)
         klass = self
-        Container.add name do |*args|
-          klass.new(self, *args)
+
+        Container.add name do |*selectors|
+          klass.new(self, default_selector, *selectors)
         end
       end
 
-      def collection_method(name)
+      def collection_method(name, default_selector)
         constant_name = "#{name.to_s.camel_case}Collection"
         return if Watir.const_defined?(constant_name)
 
-        element_class = self
         klass = Watir.const_set(
           constant_name,
           Class.new(ElementCollection)
         )
 
+        element_class = self
+        klass.send :define_method, :element_class do
+          element_class
+        end
+
         Container.add name do
-          klass.new(self, element_class)
+          klass.new(self, default_selector)
         end
       end
 
@@ -143,10 +148,12 @@ module Watir
 
     def initialize(parent, default_selector, *selectors)
       @parent   = parent
-      @selector = extract_selector(selectors).merge(default_selector)
+      @selector = extract_selector(selectors)
 
       if @selector.has_key?(:element)
         @element = @selector[:element]
+      else
+        @selector.merge!(default_selector) if default_selector
       end
     end
 

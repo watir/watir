@@ -35,12 +35,6 @@ module Watir
   class Base < HTMLElement
     attributes(:string => ([:href, :target]))
   end
-  # class Link < HTMLElement
-  #   attributes(:bool => ([:disabled]), :string => ([:href, :rel, :media, :hreflang, :type]), :token_list => ([:rel_list, :sizes]))
-  # end
-  # class Link < HTMLElement
-  #   attributes(:string => ([:charset, :rev, :target]))
-  # end
   class Meta < HTMLElement
     attributes(:string => ([:name, :http_equiv, :content]))
   end
@@ -367,68 +361,250 @@ module Watir
   class Font < HTMLElement
     attributes(:string => ([:color, :face, :size]))
   end
-  class AnchorCollection < ElementCollection; end
-  class HTMLElementCollection < ElementCollection; end
-  class AreaCollection < ElementCollection; end
-  class AudioCollection < ElementCollection; end
-  class BaseCollection < ElementCollection; end
-  class QuoteCollection < ElementCollection; end
-  class BodyCollection < ElementCollection; end
-  class BRCollection < ElementCollection; end
-  class ButtonCollection < ElementCollection; end
-  class CanvasCollection < ElementCollection; end
-  class TableCaptionCollection < ElementCollection; end
-  class TableColCollection < ElementCollection; end
-  class CommandCollection < ElementCollection; end
-  class DataListCollection < ElementCollection; end
-  class ModCollection < ElementCollection; end
-  class DetailsCollection < ElementCollection; end
-  class DivCollection < ElementCollection; end
-  class DListCollection < ElementCollection; end
-  class EmbedCollection < ElementCollection; end
-  class FieldSetCollection < ElementCollection; end
-  class FormCollection < ElementCollection; end
-  class HeadingCollection < ElementCollection; end
-  class HeadCollection < ElementCollection; end
-  class HRCollection < ElementCollection; end
-  class HtmlCollection < ElementCollection; end
-  class IFrameCollection < ElementCollection; end
-  class ImageCollection < ElementCollection; end
-  class InputCollection < ElementCollection; end
-  class KeygenCollection < ElementCollection; end
-  class LabelCollection < ElementCollection; end
-  class LegendCollection < ElementCollection; end
-  class LICollection < ElementCollection; end
-  # class LinkCollection < ElementCollection; end
-  class MapCollection < ElementCollection; end
-  class MenuCollection < ElementCollection; end
-  class MetaCollection < ElementCollection; end
-  class MeterCollection < ElementCollection; end
-  class ObjectCollection < ElementCollection; end
-  class OListCollection < ElementCollection; end
-  class OptGroupCollection < ElementCollection; end
-  class OptionCollection < ElementCollection; end
-  class OutputCollection < ElementCollection; end
-  class ParagraphCollection < ElementCollection; end
-  class ParamCollection < ElementCollection; end
-  class PreCollection < ElementCollection; end
-  class ProgressCollection < ElementCollection; end
-  class ScriptCollection < ElementCollection; end
-  class SelectCollection < ElementCollection; end
-  class SourceCollection < ElementCollection; end
-  class SpanCollection < ElementCollection; end
-  class StyleCollection < ElementCollection; end
-  class TableCollection < ElementCollection; end
-  class TableSectionCollection < ElementCollection; end
-  class TableDataCellCollection < ElementCollection; end
-  class TextAreaCollection < ElementCollection; end
-  class TableHeaderCellCollection < ElementCollection; end
-  class TimeCollection < ElementCollection; end
-  class TitleCollection < ElementCollection; end
-  class TableRowCollection < ElementCollection; end
-  class TrackCollection < ElementCollection; end
-  class UListCollection < ElementCollection; end
-  class VideoCollection < ElementCollection; end
+  class AnchorCollection < ElementCollection
+    def element_class; Anchor; end
+  end
+
+  class HTMLElementCollection < ElementCollection
+    def element_class; HTMLElement; end
+  end
+
+  class AreaCollection < ElementCollection
+    def element_class; Area; end
+  end
+
+  class AudioCollection < ElementCollection
+    def element_class; Audio; end
+  end
+
+  class BaseCollection < ElementCollection
+    def element_class; Base; end
+  end
+
+  class QuoteCollection < ElementCollection
+    def element_class; Quote; end
+  end
+
+  class BodyCollection < ElementCollection
+    def element_class; Body; end
+  end
+
+  class BRCollection < ElementCollection
+    def element_class; BR; end
+  end
+
+  class ButtonCollection < ElementCollection
+    def element_class; Button; end
+  end
+
+  class CanvasCollection < ElementCollection
+    def element_class; Canvas; end
+  end
+
+  class TableCaptionCollection < ElementCollection
+    def element_class; TableCaption; end
+  end
+
+  class TableColCollection < ElementCollection
+    def element_class; TableCol; end
+  end
+
+  class CommandCollection < ElementCollection
+    def element_class; Command; end
+  end
+
+  class DataListCollection < ElementCollection
+    def element_class; DataList; end
+  end
+
+  class ModCollection < ElementCollection
+    def element_class; Mod; end
+  end
+
+  class DetailsCollection < ElementCollection
+    def element_class; Details; end
+  end
+
+  class DivCollection < ElementCollection
+    def element_class; Div; end
+  end
+
+  class DListCollection < ElementCollection
+    def element_class; DList; end
+  end
+
+  class EmbedCollection < ElementCollection
+    def element_class; Embed; end
+  end
+
+  class FieldSetCollection < ElementCollection
+    def element_class; FieldSet; end
+  end
+
+  class FormCollection < ElementCollection
+    def element_class; Form; end
+  end
+
+  class HeadingCollection < ElementCollection
+    def element_class; Heading; end
+  end
+
+  class HeadCollection < ElementCollection
+    def element_class; Head; end
+  end
+
+  class HRCollection < ElementCollection
+    def element_class; HR; end
+  end
+
+  class HtmlCollection < ElementCollection
+    def element_class; Html; end
+  end
+
+  class IFrameCollection < ElementCollection
+    def element_class; IFrame; end
+  end
+
+  class ImageCollection < ElementCollection
+    def element_class; Image; end
+  end
+
+  class InputCollection < ElementCollection
+    def element_class; Input; end
+  end
+
+  class KeygenCollection < ElementCollection
+    def element_class; Keygen; end
+  end
+
+  class LabelCollection < ElementCollection
+    def element_class; Label; end
+  end
+
+  class LegendCollection < ElementCollection
+    def element_class; Legend; end
+  end
+
+  class LICollection < ElementCollection
+    def element_class; LI; end
+  end
+
+  class MapCollection < ElementCollection
+    def element_class; Map; end
+  end
+
+  class MenuCollection < ElementCollection
+    def element_class; Menu; end
+  end
+
+  class MetaCollection < ElementCollection
+    def element_class; Meta; end
+  end
+
+  class MeterCollection < ElementCollection
+    def element_class; Meter; end
+  end
+
+  class ObjectCollection < ElementCollection
+    def element_class; Object; end
+  end
+
+  class OListCollection < ElementCollection
+    def element_class; OList; end
+  end
+
+  class OptGroupCollection < ElementCollection
+    def element_class; OptGroup; end
+  end
+
+  class OptionCollection < ElementCollection
+    def element_class; Option; end
+  end
+
+  class OutputCollection < ElementCollection
+    def element_class; Output; end
+  end
+
+  class ParagraphCollection < ElementCollection
+    def element_class; Paragraph; end
+  end
+
+  class ParamCollection < ElementCollection
+    def element_class; Param; end
+  end
+
+  class PreCollection < ElementCollection
+    def element_class; Pre; end
+  end
+
+  class ProgressCollection < ElementCollection
+    def element_class; Progress; end
+  end
+
+  class ScriptCollection < ElementCollection
+    def element_class; Script; end
+  end
+
+  class SelectCollection < ElementCollection
+    def element_class; Select; end
+  end
+
+  class SourceCollection < ElementCollection
+    def element_class; Source; end
+  end
+
+  class SpanCollection < ElementCollection
+    def element_class; Span; end
+  end
+
+  class StyleCollection < ElementCollection
+    def element_class; Style; end
+  end
+
+  class TableCollection < ElementCollection
+    def element_class; Table; end
+  end
+
+  class TableSectionCollection < ElementCollection
+    def element_class; TableSection; end
+  end
+
+  class TableDataCellCollection < ElementCollection
+    def element_class; TableDataCell; end
+  end
+
+  class TextAreaCollection < ElementCollection
+    def element_class; TextArea; end
+  end
+
+  class TableHeaderCellCollection < ElementCollection
+    def element_class; TableHeaderCell; end
+  end
+
+  class TimeCollection < ElementCollection
+    def element_class; Time; end
+  end
+
+  class TitleCollection < ElementCollection
+    def element_class; Title; end
+  end
+
+  class TableRowCollection < ElementCollection
+    def element_class; TableRow; end
+  end
+
+  class TrackCollection < ElementCollection
+    def element_class; Track; end
+  end
+
+  class UListCollection < ElementCollection
+    def element_class; UList; end
+  end
+
+  class VideoCollection < ElementCollection
+    def element_class; Video; end
+  end
+
   module Container
     Watir.tag_to_class[:a] = Anchor
 
@@ -437,7 +613,7 @@ module Watir
     #
 
     def a(*args)
-      Anchor.new(self, {:tag_name => :a}, *args)
+      Anchor.new(self, {:tag_name => "a"}, *args)
     end
 
     #
@@ -445,7 +621,7 @@ module Watir
     #
 
     def as(*args)
-      AnchorCollection.new(self, {:tag_name => :a}, Anchor, *args)
+      AnchorCollection.new(self, {:tag_name => "a"}, *args)
     end
 
     Watir.tag_to_class[:abbr] = HTMLElement
@@ -455,7 +631,7 @@ module Watir
     #
 
     def abbr(*args)
-      HTMLElement.new(self, {:tag_name => :abbr}, *args)
+      HTMLElement.new(self, {:tag_name => "abbr"}, *args)
     end
 
     #
@@ -463,7 +639,7 @@ module Watir
     #
 
     def abbrs(*args)
-      HTMLElementCollection.new(self, {:tag_name => :abbr}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "abbr"}, *args)
     end
 
     Watir.tag_to_class[:address] = HTMLElement
@@ -473,7 +649,7 @@ module Watir
     #
 
     def address(*args)
-      HTMLElement.new(self, {:tag_name => :address}, *args)
+      HTMLElement.new(self, {:tag_name => "address"}, *args)
     end
 
     #
@@ -481,7 +657,7 @@ module Watir
     #
 
     def addresses(*args)
-      HTMLElementCollection.new(self, {:tag_name => :address}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "address"}, *args)
     end
 
     Watir.tag_to_class[:area] = Area
@@ -491,7 +667,7 @@ module Watir
     #
 
     def area(*args)
-      Area.new(self, {:tag_name => :area}, *args)
+      Area.new(self, {:tag_name => "area"}, *args)
     end
 
     #
@@ -499,7 +675,7 @@ module Watir
     #
 
     def areas(*args)
-      AreaCollection.new(self, {:tag_name => :area}, Area, *args)
+      AreaCollection.new(self, {:tag_name => "area"}, *args)
     end
 
     Watir.tag_to_class[:article] = HTMLElement
@@ -509,7 +685,7 @@ module Watir
     #
 
     def article(*args)
-      HTMLElement.new(self, {:tag_name => :article}, *args)
+      HTMLElement.new(self, {:tag_name => "article"}, *args)
     end
 
     #
@@ -517,7 +693,7 @@ module Watir
     #
 
     def articles(*args)
-      HTMLElementCollection.new(self, {:tag_name => :article}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "article"}, *args)
     end
 
     Watir.tag_to_class[:aside] = HTMLElement
@@ -527,7 +703,7 @@ module Watir
     #
 
     def aside(*args)
-      HTMLElement.new(self, {:tag_name => :aside}, *args)
+      HTMLElement.new(self, {:tag_name => "aside"}, *args)
     end
 
     #
@@ -535,7 +711,7 @@ module Watir
     #
 
     def asides(*args)
-      HTMLElementCollection.new(self, {:tag_name => :aside}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "aside"}, *args)
     end
 
     Watir.tag_to_class[:audio] = Audio
@@ -545,7 +721,7 @@ module Watir
     #
 
     def audio(*args)
-      Audio.new(self, {:tag_name => :audio}, *args)
+      Audio.new(self, {:tag_name => "audio"}, *args)
     end
 
     #
@@ -553,7 +729,7 @@ module Watir
     #
 
     def audios(*args)
-      AudioCollection.new(self, {:tag_name => :audio}, Audio, *args)
+      AudioCollection.new(self, {:tag_name => "audio"}, *args)
     end
 
     Watir.tag_to_class[:b] = HTMLElement
@@ -563,7 +739,7 @@ module Watir
     #
 
     def b(*args)
-      HTMLElement.new(self, {:tag_name => :b}, *args)
+      HTMLElement.new(self, {:tag_name => "b"}, *args)
     end
 
     #
@@ -571,7 +747,7 @@ module Watir
     #
 
     def bs(*args)
-      HTMLElementCollection.new(self, {:tag_name => :b}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "b"}, *args)
     end
 
     Watir.tag_to_class[:base] = Base
@@ -581,7 +757,7 @@ module Watir
     #
 
     def base(*args)
-      Base.new(self, {:tag_name => :base}, *args)
+      Base.new(self, {:tag_name => "base"}, *args)
     end
 
     #
@@ -589,7 +765,7 @@ module Watir
     #
 
     def bases(*args)
-      BaseCollection.new(self, {:tag_name => :base}, Base, *args)
+      BaseCollection.new(self, {:tag_name => "base"}, *args)
     end
 
     Watir.tag_to_class[:bdo] = HTMLElement
@@ -599,7 +775,7 @@ module Watir
     #
 
     def bdo(*args)
-      HTMLElement.new(self, {:tag_name => :bdo}, *args)
+      HTMLElement.new(self, {:tag_name => "bdo"}, *args)
     end
 
     #
@@ -607,7 +783,7 @@ module Watir
     #
 
     def bdos(*args)
-      HTMLElementCollection.new(self, {:tag_name => :bdo}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "bdo"}, *args)
     end
 
     Watir.tag_to_class[:blockquote] = Quote
@@ -617,7 +793,7 @@ module Watir
     #
 
     def blockquote(*args)
-      Quote.new(self, {:tag_name => :blockquote}, *args)
+      Quote.new(self, {:tag_name => "blockquote"}, *args)
     end
 
     #
@@ -625,7 +801,7 @@ module Watir
     #
 
     def blockquotes(*args)
-      QuoteCollection.new(self, {:tag_name => :blockquote}, Quote, *args)
+      QuoteCollection.new(self, {:tag_name => "blockquote"}, *args)
     end
 
     Watir.tag_to_class[:body] = Body
@@ -635,7 +811,7 @@ module Watir
     #
 
     def body(*args)
-      Body.new(self, {:tag_name => :body}, *args)
+      Body.new(self, {:tag_name => "body"}, *args)
     end
 
     #
@@ -643,7 +819,7 @@ module Watir
     #
 
     def bodys(*args)
-      BodyCollection.new(self, {:tag_name => :body}, Body, *args)
+      BodyCollection.new(self, {:tag_name => "body"}, *args)
     end
 
     Watir.tag_to_class[:br] = BR
@@ -653,7 +829,7 @@ module Watir
     #
 
     def br(*args)
-      BR.new(self, {:tag_name => :br}, *args)
+      BR.new(self, {:tag_name => "br"}, *args)
     end
 
     #
@@ -661,7 +837,7 @@ module Watir
     #
 
     def brs(*args)
-      BRCollection.new(self, {:tag_name => :br}, BR, *args)
+      BRCollection.new(self, {:tag_name => "br"}, *args)
     end
 
     Watir.tag_to_class[:button] = Button
@@ -671,7 +847,7 @@ module Watir
     #
 
     def button(*args)
-      Button.new(self, {:tag_name => :button}, *args)
+      Button.new(self, {:tag_name => "button"}, *args)
     end
 
     #
@@ -679,7 +855,7 @@ module Watir
     #
 
     def buttons(*args)
-      ButtonCollection.new(self, {:tag_name => :button}, Button, *args)
+      ButtonCollection.new(self, {:tag_name => "button"}, *args)
     end
 
     Watir.tag_to_class[:canvas] = Canvas
@@ -689,7 +865,7 @@ module Watir
     #
 
     def canvas(*args)
-      Canvas.new(self, {:tag_name => :canvas}, *args)
+      Canvas.new(self, {:tag_name => "canvas"}, *args)
     end
 
     #
@@ -697,7 +873,7 @@ module Watir
     #
 
     def canvases(*args)
-      CanvasCollection.new(self, {:tag_name => :canvas}, Canvas, *args)
+      CanvasCollection.new(self, {:tag_name => "canvas"}, *args)
     end
 
     Watir.tag_to_class[:caption] = TableCaption
@@ -707,7 +883,7 @@ module Watir
     #
 
     def caption(*args)
-      TableCaption.new(self, {:tag_name => :caption}, *args)
+      TableCaption.new(self, {:tag_name => "caption"}, *args)
     end
 
     #
@@ -715,7 +891,7 @@ module Watir
     #
 
     def captions(*args)
-      TableCaptionCollection.new(self, {:tag_name => :caption}, TableCaption, *args)
+      TableCaptionCollection.new(self, {:tag_name => "caption"}, *args)
     end
 
     Watir.tag_to_class[:cite] = HTMLElement
@@ -725,7 +901,7 @@ module Watir
     #
 
     def cite(*args)
-      HTMLElement.new(self, {:tag_name => :cite}, *args)
+      HTMLElement.new(self, {:tag_name => "cite"}, *args)
     end
 
     #
@@ -733,7 +909,7 @@ module Watir
     #
 
     def cites(*args)
-      HTMLElementCollection.new(self, {:tag_name => :cite}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "cite"}, *args)
     end
 
     Watir.tag_to_class[:code] = HTMLElement
@@ -743,7 +919,7 @@ module Watir
     #
 
     def code(*args)
-      HTMLElement.new(self, {:tag_name => :code}, *args)
+      HTMLElement.new(self, {:tag_name => "code"}, *args)
     end
 
     #
@@ -751,7 +927,7 @@ module Watir
     #
 
     def codes(*args)
-      HTMLElementCollection.new(self, {:tag_name => :code}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "code"}, *args)
     end
 
     Watir.tag_to_class[:col] = TableCol
@@ -761,7 +937,7 @@ module Watir
     #
 
     def col(*args)
-      TableCol.new(self, {:tag_name => :col}, *args)
+      TableCol.new(self, {:tag_name => "col"}, *args)
     end
 
     #
@@ -769,7 +945,7 @@ module Watir
     #
 
     def cols(*args)
-      TableColCollection.new(self, {:tag_name => :col}, TableCol, *args)
+      TableColCollection.new(self, {:tag_name => "col"}, *args)
     end
 
     Watir.tag_to_class[:colgroup] = TableCol
@@ -779,7 +955,7 @@ module Watir
     #
 
     def colgroup(*args)
-      TableCol.new(self, {:tag_name => :colgroup}, *args)
+      TableCol.new(self, {:tag_name => "colgroup"}, *args)
     end
 
     #
@@ -787,7 +963,7 @@ module Watir
     #
 
     def colgroups(*args)
-      TableColCollection.new(self, {:tag_name => :colgroup}, TableCol, *args)
+      TableColCollection.new(self, {:tag_name => "colgroup"}, *args)
     end
 
     Watir.tag_to_class[:command] = Command
@@ -797,7 +973,7 @@ module Watir
     #
 
     def command(*args)
-      Command.new(self, {:tag_name => :command}, *args)
+      Command.new(self, {:tag_name => "command"}, *args)
     end
 
     #
@@ -805,7 +981,7 @@ module Watir
     #
 
     def commands(*args)
-      CommandCollection.new(self, {:tag_name => :command}, Command, *args)
+      CommandCollection.new(self, {:tag_name => "command"}, *args)
     end
 
     Watir.tag_to_class[:datalist] = DataList
@@ -815,7 +991,7 @@ module Watir
     #
 
     def datalist(*args)
-      DataList.new(self, {:tag_name => :datalist}, *args)
+      DataList.new(self, {:tag_name => "datalist"}, *args)
     end
 
     #
@@ -823,7 +999,7 @@ module Watir
     #
 
     def datalists(*args)
-      DataListCollection.new(self, {:tag_name => :datalist}, DataList, *args)
+      DataListCollection.new(self, {:tag_name => "datalist"}, *args)
     end
 
     Watir.tag_to_class[:dd] = HTMLElement
@@ -833,7 +1009,7 @@ module Watir
     #
 
     def dd(*args)
-      HTMLElement.new(self, {:tag_name => :dd}, *args)
+      HTMLElement.new(self, {:tag_name => "dd"}, *args)
     end
 
     #
@@ -841,7 +1017,7 @@ module Watir
     #
 
     def dds(*args)
-      HTMLElementCollection.new(self, {:tag_name => :dd}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "dd"}, *args)
     end
 
     Watir.tag_to_class[:del] = Mod
@@ -851,7 +1027,7 @@ module Watir
     #
 
     def del(*args)
-      Mod.new(self, {:tag_name => :del}, *args)
+      Mod.new(self, {:tag_name => "del"}, *args)
     end
 
     #
@@ -859,7 +1035,7 @@ module Watir
     #
 
     def dels(*args)
-      ModCollection.new(self, {:tag_name => :del}, Mod, *args)
+      ModCollection.new(self, {:tag_name => "del"}, *args)
     end
 
     Watir.tag_to_class[:details] = Details
@@ -869,7 +1045,7 @@ module Watir
     #
 
     def details(*args)
-      Details.new(self, {:tag_name => :details}, *args)
+      Details.new(self, {:tag_name => "details"}, *args)
     end
 
     #
@@ -877,7 +1053,7 @@ module Watir
     #
 
     def details(*args)
-      DetailsCollection.new(self, {:tag_name => :details}, Details, *args)
+      DetailsCollection.new(self, {:tag_name => "details"}, *args)
     end
 
     Watir.tag_to_class[:dfn] = HTMLElement
@@ -887,7 +1063,7 @@ module Watir
     #
 
     def dfn(*args)
-      HTMLElement.new(self, {:tag_name => :dfn}, *args)
+      HTMLElement.new(self, {:tag_name => "dfn"}, *args)
     end
 
     #
@@ -895,7 +1071,7 @@ module Watir
     #
 
     def dfns(*args)
-      HTMLElementCollection.new(self, {:tag_name => :dfn}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "dfn"}, *args)
     end
 
     Watir.tag_to_class[:div] = Div
@@ -905,7 +1081,7 @@ module Watir
     #
 
     def div(*args)
-      Div.new(self, {:tag_name => :div}, *args)
+      Div.new(self, {:tag_name => "div"}, *args)
     end
 
     #
@@ -913,7 +1089,7 @@ module Watir
     #
 
     def divs(*args)
-      DivCollection.new(self, {:tag_name => :div}, Div, *args)
+      DivCollection.new(self, {:tag_name => "div"}, *args)
     end
 
     Watir.tag_to_class[:dl] = DList
@@ -923,7 +1099,7 @@ module Watir
     #
 
     def dl(*args)
-      DList.new(self, {:tag_name => :dl}, *args)
+      DList.new(self, {:tag_name => "dl"}, *args)
     end
 
     #
@@ -931,7 +1107,7 @@ module Watir
     #
 
     def dls(*args)
-      DListCollection.new(self, {:tag_name => :dl}, DList, *args)
+      DListCollection.new(self, {:tag_name => "dl"}, *args)
     end
 
     Watir.tag_to_class[:dt] = HTMLElement
@@ -941,7 +1117,7 @@ module Watir
     #
 
     def dt(*args)
-      HTMLElement.new(self, {:tag_name => :dt}, *args)
+      HTMLElement.new(self, {:tag_name => "dt"}, *args)
     end
 
     #
@@ -949,7 +1125,7 @@ module Watir
     #
 
     def dts(*args)
-      HTMLElementCollection.new(self, {:tag_name => :dt}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "dt"}, *args)
     end
 
     Watir.tag_to_class[:em] = HTMLElement
@@ -959,7 +1135,7 @@ module Watir
     #
 
     def em(*args)
-      HTMLElement.new(self, {:tag_name => :em}, *args)
+      HTMLElement.new(self, {:tag_name => "em"}, *args)
     end
 
     #
@@ -967,7 +1143,7 @@ module Watir
     #
 
     def ems(*args)
-      HTMLElementCollection.new(self, {:tag_name => :em}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "em"}, *args)
     end
 
     Watir.tag_to_class[:embed] = Embed
@@ -977,7 +1153,7 @@ module Watir
     #
 
     def embed(*args)
-      Embed.new(self, {:tag_name => :embed}, *args)
+      Embed.new(self, {:tag_name => "embed"}, *args)
     end
 
     #
@@ -985,7 +1161,7 @@ module Watir
     #
 
     def embeds(*args)
-      EmbedCollection.new(self, {:tag_name => :embed}, Embed, *args)
+      EmbedCollection.new(self, {:tag_name => "embed"}, *args)
     end
 
     Watir.tag_to_class[:fieldset] = FieldSet
@@ -995,7 +1171,7 @@ module Watir
     #
 
     def fieldset(*args)
-      FieldSet.new(self, {:tag_name => :fieldset}, *args)
+      FieldSet.new(self, {:tag_name => "fieldset"}, *args)
     end
 
     #
@@ -1003,7 +1179,7 @@ module Watir
     #
 
     def fieldsets(*args)
-      FieldSetCollection.new(self, {:tag_name => :fieldset}, FieldSet, *args)
+      FieldSetCollection.new(self, {:tag_name => "fieldset"}, *args)
     end
 
     Watir.tag_to_class[:figcaption] = HTMLElement
@@ -1013,7 +1189,7 @@ module Watir
     #
 
     def figcaption(*args)
-      HTMLElement.new(self, {:tag_name => :figcaption}, *args)
+      HTMLElement.new(self, {:tag_name => "figcaption"}, *args)
     end
 
     #
@@ -1021,7 +1197,7 @@ module Watir
     #
 
     def figcaptions(*args)
-      HTMLElementCollection.new(self, {:tag_name => :figcaption}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "figcaption"}, *args)
     end
 
     Watir.tag_to_class[:figure] = HTMLElement
@@ -1031,7 +1207,7 @@ module Watir
     #
 
     def figure(*args)
-      HTMLElement.new(self, {:tag_name => :figure}, *args)
+      HTMLElement.new(self, {:tag_name => "figure"}, *args)
     end
 
     #
@@ -1039,7 +1215,7 @@ module Watir
     #
 
     def figures(*args)
-      HTMLElementCollection.new(self, {:tag_name => :figure}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "figure"}, *args)
     end
 
     Watir.tag_to_class[:footer] = HTMLElement
@@ -1049,7 +1225,7 @@ module Watir
     #
 
     def footer(*args)
-      HTMLElement.new(self, {:tag_name => :footer}, *args)
+      HTMLElement.new(self, {:tag_name => "footer"}, *args)
     end
 
     #
@@ -1057,7 +1233,7 @@ module Watir
     #
 
     def footers(*args)
-      HTMLElementCollection.new(self, {:tag_name => :footer}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "footer"}, *args)
     end
 
     Watir.tag_to_class[:form] = Form
@@ -1067,7 +1243,7 @@ module Watir
     #
 
     def form(*args)
-      Form.new(self, {:tag_name => :form}, *args)
+      Form.new(self, {:tag_name => "form"}, *args)
     end
 
     #
@@ -1075,7 +1251,7 @@ module Watir
     #
 
     def forms(*args)
-      FormCollection.new(self, {:tag_name => :form}, Form, *args)
+      FormCollection.new(self, {:tag_name => "form"}, *args)
     end
 
     Watir.tag_to_class[:h1] = Heading
@@ -1085,7 +1261,7 @@ module Watir
     #
 
     def h1(*args)
-      Heading.new(self, {:tag_name => :h1}, *args)
+      Heading.new(self, {:tag_name => "h1"}, *args)
     end
 
     #
@@ -1093,7 +1269,7 @@ module Watir
     #
 
     def h1s(*args)
-      HeadingCollection.new(self, {:tag_name => :h1}, Heading, *args)
+      HeadingCollection.new(self, {:tag_name => "h1"}, *args)
     end
 
     Watir.tag_to_class[:h2] = Heading
@@ -1103,7 +1279,7 @@ module Watir
     #
 
     def h2(*args)
-      Heading.new(self, {:tag_name => :h2}, *args)
+      Heading.new(self, {:tag_name => "h2"}, *args)
     end
 
     #
@@ -1111,7 +1287,7 @@ module Watir
     #
 
     def h2s(*args)
-      HeadingCollection.new(self, {:tag_name => :h2}, Heading, *args)
+      HeadingCollection.new(self, {:tag_name => "h2"}, *args)
     end
 
     Watir.tag_to_class[:h3] = Heading
@@ -1121,7 +1297,7 @@ module Watir
     #
 
     def h3(*args)
-      Heading.new(self, {:tag_name => :h3}, *args)
+      Heading.new(self, {:tag_name => "h3"}, *args)
     end
 
     #
@@ -1129,7 +1305,7 @@ module Watir
     #
 
     def h3s(*args)
-      HeadingCollection.new(self, {:tag_name => :h3}, Heading, *args)
+      HeadingCollection.new(self, {:tag_name => "h3"}, *args)
     end
 
     Watir.tag_to_class[:h4] = Heading
@@ -1139,7 +1315,7 @@ module Watir
     #
 
     def h4(*args)
-      Heading.new(self, {:tag_name => :h4}, *args)
+      Heading.new(self, {:tag_name => "h4"}, *args)
     end
 
     #
@@ -1147,7 +1323,7 @@ module Watir
     #
 
     def h4s(*args)
-      HeadingCollection.new(self, {:tag_name => :h4}, Heading, *args)
+      HeadingCollection.new(self, {:tag_name => "h4"}, *args)
     end
 
     Watir.tag_to_class[:h5] = Heading
@@ -1157,7 +1333,7 @@ module Watir
     #
 
     def h5(*args)
-      Heading.new(self, {:tag_name => :h5}, *args)
+      Heading.new(self, {:tag_name => "h5"}, *args)
     end
 
     #
@@ -1165,7 +1341,7 @@ module Watir
     #
 
     def h5s(*args)
-      HeadingCollection.new(self, {:tag_name => :h5}, Heading, *args)
+      HeadingCollection.new(self, {:tag_name => "h5"}, *args)
     end
 
     Watir.tag_to_class[:h6] = Heading
@@ -1175,7 +1351,7 @@ module Watir
     #
 
     def h6(*args)
-      Heading.new(self, {:tag_name => :h6}, *args)
+      Heading.new(self, {:tag_name => "h6"}, *args)
     end
 
     #
@@ -1183,7 +1359,7 @@ module Watir
     #
 
     def h6s(*args)
-      HeadingCollection.new(self, {:tag_name => :h6}, Heading, *args)
+      HeadingCollection.new(self, {:tag_name => "h6"}, *args)
     end
 
     Watir.tag_to_class[:head] = Head
@@ -1193,7 +1369,7 @@ module Watir
     #
 
     def head(*args)
-      Head.new(self, {:tag_name => :head}, *args)
+      Head.new(self, {:tag_name => "head"}, *args)
     end
 
     #
@@ -1201,7 +1377,7 @@ module Watir
     #
 
     def heads(*args)
-      HeadCollection.new(self, {:tag_name => :head}, Head, *args)
+      HeadCollection.new(self, {:tag_name => "head"}, *args)
     end
 
     Watir.tag_to_class[:header] = HTMLElement
@@ -1211,7 +1387,7 @@ module Watir
     #
 
     def header(*args)
-      HTMLElement.new(self, {:tag_name => :header}, *args)
+      HTMLElement.new(self, {:tag_name => "header"}, *args)
     end
 
     #
@@ -1219,7 +1395,7 @@ module Watir
     #
 
     def headers(*args)
-      HTMLElementCollection.new(self, {:tag_name => :header}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "header"}, *args)
     end
 
     Watir.tag_to_class[:hgroup] = HTMLElement
@@ -1229,7 +1405,7 @@ module Watir
     #
 
     def hgroup(*args)
-      HTMLElement.new(self, {:tag_name => :hgroup}, *args)
+      HTMLElement.new(self, {:tag_name => "hgroup"}, *args)
     end
 
     #
@@ -1237,7 +1413,7 @@ module Watir
     #
 
     def hgroups(*args)
-      HTMLElementCollection.new(self, {:tag_name => :hgroup}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "hgroup"}, *args)
     end
 
     Watir.tag_to_class[:hr] = HR
@@ -1247,7 +1423,7 @@ module Watir
     #
 
     def hr(*args)
-      HR.new(self, {:tag_name => :hr}, *args)
+      HR.new(self, {:tag_name => "hr"}, *args)
     end
 
     #
@@ -1255,7 +1431,7 @@ module Watir
     #
 
     def hrs(*args)
-      HRCollection.new(self, {:tag_name => :hr}, HR, *args)
+      HRCollection.new(self, {:tag_name => "hr"}, *args)
     end
 
     Watir.tag_to_class[:html] = Html
@@ -1265,7 +1441,7 @@ module Watir
     #
 
     def html(*args)
-      Html.new(self, {:tag_name => :html}, *args)
+      Html.new(self, {:tag_name => "html"}, *args)
     end
 
     #
@@ -1273,7 +1449,7 @@ module Watir
     #
 
     def htmls(*args)
-      HtmlCollection.new(self, {:tag_name => :html}, Html, *args)
+      HtmlCollection.new(self, {:tag_name => "html"}, *args)
     end
 
     Watir.tag_to_class[:i] = HTMLElement
@@ -1283,7 +1459,7 @@ module Watir
     #
 
     def i(*args)
-      HTMLElement.new(self, {:tag_name => :i}, *args)
+      HTMLElement.new(self, {:tag_name => "i"}, *args)
     end
 
     #
@@ -1291,7 +1467,7 @@ module Watir
     #
 
     def is(*args)
-      HTMLElementCollection.new(self, {:tag_name => :i}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "i"}, *args)
     end
 
     Watir.tag_to_class[:iframe] = IFrame
@@ -1301,7 +1477,7 @@ module Watir
     #
 
     def iframe(*args)
-      IFrame.new(self, {:tag_name => :iframe}, *args)
+      IFrame.new(self, {:tag_name => "iframe"}, *args)
     end
 
     #
@@ -1309,7 +1485,7 @@ module Watir
     #
 
     def iframes(*args)
-      IFrameCollection.new(self, {:tag_name => :iframe}, IFrame, *args)
+      IFrameCollection.new(self, {:tag_name => "iframe"}, *args)
     end
 
     Watir.tag_to_class[:img] = Image
@@ -1319,7 +1495,7 @@ module Watir
     #
 
     def image(*args)
-      Image.new(self, {:tag_name => :img}, *args)
+      Image.new(self, {:tag_name => "img"}, *args)
     end
 
     #
@@ -1327,7 +1503,7 @@ module Watir
     #
 
     def images(*args)
-      ImageCollection.new(self, {:tag_name => :img}, Image, *args)
+      ImageCollection.new(self, {:tag_name => "img"}, *args)
     end
 
     Watir.tag_to_class[:input] = Input
@@ -1337,7 +1513,7 @@ module Watir
     #
 
     def input(*args)
-      Input.new(self, {:tag_name => :input}, *args)
+      Input.new(self, {:tag_name => "input"}, *args)
     end
 
     #
@@ -1345,7 +1521,7 @@ module Watir
     #
 
     def inputs(*args)
-      InputCollection.new(self, {:tag_name => :input}, Input, *args)
+      InputCollection.new(self, {:tag_name => "input"}, *args)
     end
 
     Watir.tag_to_class[:ins] = Mod
@@ -1355,7 +1531,7 @@ module Watir
     #
 
     def ins(*args)
-      Mod.new(self, {:tag_name => :ins}, *args)
+      Mod.new(self, {:tag_name => "ins"}, *args)
     end
 
     #
@@ -1363,7 +1539,7 @@ module Watir
     #
 
     def inses(*args)
-      ModCollection.new(self, {:tag_name => :ins}, Mod, *args)
+      ModCollection.new(self, {:tag_name => "ins"}, *args)
     end
 
     Watir.tag_to_class[:kbd] = HTMLElement
@@ -1373,7 +1549,7 @@ module Watir
     #
 
     def kbd(*args)
-      HTMLElement.new(self, {:tag_name => :kbd}, *args)
+      HTMLElement.new(self, {:tag_name => "kbd"}, *args)
     end
 
     #
@@ -1381,7 +1557,7 @@ module Watir
     #
 
     def kbds(*args)
-      HTMLElementCollection.new(self, {:tag_name => :kbd}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "kbd"}, *args)
     end
 
     Watir.tag_to_class[:keygen] = Keygen
@@ -1391,7 +1567,7 @@ module Watir
     #
 
     def keygen(*args)
-      Keygen.new(self, {:tag_name => :keygen}, *args)
+      Keygen.new(self, {:tag_name => "keygen"}, *args)
     end
 
     #
@@ -1399,7 +1575,7 @@ module Watir
     #
 
     def keygens(*args)
-      KeygenCollection.new(self, {:tag_name => :keygen}, Keygen, *args)
+      KeygenCollection.new(self, {:tag_name => "keygen"}, *args)
     end
 
     Watir.tag_to_class[:label] = Label
@@ -1409,7 +1585,7 @@ module Watir
     #
 
     def label(*args)
-      Label.new(self, {:tag_name => :label}, *args)
+      Label.new(self, {:tag_name => "label"}, *args)
     end
 
     #
@@ -1417,7 +1593,7 @@ module Watir
     #
 
     def labels(*args)
-      LabelCollection.new(self, {:tag_name => :label}, Label, *args)
+      LabelCollection.new(self, {:tag_name => "label"}, *args)
     end
 
     Watir.tag_to_class[:legend] = Legend
@@ -1427,7 +1603,7 @@ module Watir
     #
 
     def legend(*args)
-      Legend.new(self, {:tag_name => :legend}, *args)
+      Legend.new(self, {:tag_name => "legend"}, *args)
     end
 
     #
@@ -1435,7 +1611,7 @@ module Watir
     #
 
     def legends(*args)
-      LegendCollection.new(self, {:tag_name => :legend}, Legend, *args)
+      LegendCollection.new(self, {:tag_name => "legend"}, *args)
     end
 
     Watir.tag_to_class[:li] = LI
@@ -1445,7 +1621,7 @@ module Watir
     #
 
     def li(*args)
-      LI.new(self, {:tag_name => :li}, *args)
+      LI.new(self, {:tag_name => "li"}, *args)
     end
 
     #
@@ -1453,26 +1629,8 @@ module Watir
     #
 
     def lis(*args)
-      LICollection.new(self, {:tag_name => :li}, LI, *args)
+      LICollection.new(self, {:tag_name => "li"}, *args)
     end
-
-    # Watir.tag_to_class[:link] = Link
-    #
-    # #
-    # # @return [Link]
-    # #
-    #
-    # def link(*args)
-    #   Link.new(self, {:tag_name => :link}, *args)
-    # end
-    #
-    # #
-    # # @return [LinkCollection]
-    # #
-    #
-    # def links(*args)
-    #   LinkCollection.new(self, {:tag_name => :link}, Link, *args)
-    # end
 
     Watir.tag_to_class[:map] = Map
 
@@ -1481,7 +1639,7 @@ module Watir
     #
 
     def map(*args)
-      Map.new(self, {:tag_name => :map}, *args)
+      Map.new(self, {:tag_name => "map"}, *args)
     end
 
     #
@@ -1489,7 +1647,7 @@ module Watir
     #
 
     def maps(*args)
-      MapCollection.new(self, {:tag_name => :map}, Map, *args)
+      MapCollection.new(self, {:tag_name => "map"}, *args)
     end
 
     Watir.tag_to_class[:mark] = HTMLElement
@@ -1499,7 +1657,7 @@ module Watir
     #
 
     def mark(*args)
-      HTMLElement.new(self, {:tag_name => :mark}, *args)
+      HTMLElement.new(self, {:tag_name => "mark"}, *args)
     end
 
     #
@@ -1507,7 +1665,7 @@ module Watir
     #
 
     def marks(*args)
-      HTMLElementCollection.new(self, {:tag_name => :mark}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "mark"}, *args)
     end
 
     Watir.tag_to_class[:menu] = Menu
@@ -1517,7 +1675,7 @@ module Watir
     #
 
     def menu(*args)
-      Menu.new(self, {:tag_name => :menu}, *args)
+      Menu.new(self, {:tag_name => "menu"}, *args)
     end
 
     #
@@ -1525,7 +1683,7 @@ module Watir
     #
 
     def menus(*args)
-      MenuCollection.new(self, {:tag_name => :menu}, Menu, *args)
+      MenuCollection.new(self, {:tag_name => "menu"}, *args)
     end
 
     Watir.tag_to_class[:meta] = Meta
@@ -1535,7 +1693,7 @@ module Watir
     #
 
     def meta(*args)
-      Meta.new(self, {:tag_name => :meta}, *args)
+      Meta.new(self, {:tag_name => "meta"}, *args)
     end
 
     #
@@ -1543,7 +1701,7 @@ module Watir
     #
 
     def metas(*args)
-      MetaCollection.new(self, {:tag_name => :meta}, Meta, *args)
+      MetaCollection.new(self, {:tag_name => "meta"}, *args)
     end
 
     Watir.tag_to_class[:meter] = Meter
@@ -1553,7 +1711,7 @@ module Watir
     #
 
     def meter(*args)
-      Meter.new(self, {:tag_name => :meter}, *args)
+      Meter.new(self, {:tag_name => "meter"}, *args)
     end
 
     #
@@ -1561,7 +1719,7 @@ module Watir
     #
 
     def meters(*args)
-      MeterCollection.new(self, {:tag_name => :meter}, Meter, *args)
+      MeterCollection.new(self, {:tag_name => "meter"}, *args)
     end
 
     Watir.tag_to_class[:nav] = HTMLElement
@@ -1571,7 +1729,7 @@ module Watir
     #
 
     def nav(*args)
-      HTMLElement.new(self, {:tag_name => :nav}, *args)
+      HTMLElement.new(self, {:tag_name => "nav"}, *args)
     end
 
     #
@@ -1579,7 +1737,7 @@ module Watir
     #
 
     def navs(*args)
-      HTMLElementCollection.new(self, {:tag_name => :nav}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "nav"}, *args)
     end
 
     Watir.tag_to_class[:noscript] = HTMLElement
@@ -1589,7 +1747,7 @@ module Watir
     #
 
     def noscript(*args)
-      HTMLElement.new(self, {:tag_name => :noscript}, *args)
+      HTMLElement.new(self, {:tag_name => "noscript"}, *args)
     end
 
     #
@@ -1597,7 +1755,7 @@ module Watir
     #
 
     def noscripts(*args)
-      HTMLElementCollection.new(self, {:tag_name => :noscript}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "noscript"}, *args)
     end
 
     Watir.tag_to_class[:object] = Object
@@ -1607,7 +1765,7 @@ module Watir
     #
 
     def object(*args)
-      Object.new(self, {:tag_name => :object}, *args)
+      Object.new(self, {:tag_name => "object"}, *args)
     end
 
     #
@@ -1615,7 +1773,7 @@ module Watir
     #
 
     def objects(*args)
-      ObjectCollection.new(self, {:tag_name => :object}, Object, *args)
+      ObjectCollection.new(self, {:tag_name => "object"}, *args)
     end
 
     Watir.tag_to_class[:ol] = OList
@@ -1625,7 +1783,7 @@ module Watir
     #
 
     def ol(*args)
-      OList.new(self, {:tag_name => :ol}, *args)
+      OList.new(self, {:tag_name => "ol"}, *args)
     end
 
     #
@@ -1633,7 +1791,7 @@ module Watir
     #
 
     def ols(*args)
-      OListCollection.new(self, {:tag_name => :ol}, OList, *args)
+      OListCollection.new(self, {:tag_name => "ol"}, *args)
     end
 
     Watir.tag_to_class[:optgroup] = OptGroup
@@ -1643,7 +1801,7 @@ module Watir
     #
 
     def optgroup(*args)
-      OptGroup.new(self, {:tag_name => :optgroup}, *args)
+      OptGroup.new(self, {:tag_name => "optgroup"}, *args)
     end
 
     #
@@ -1651,7 +1809,7 @@ module Watir
     #
 
     def optgroups(*args)
-      OptGroupCollection.new(self, {:tag_name => :optgroup}, OptGroup, *args)
+      OptGroupCollection.new(self, {:tag_name => "optgroup"}, *args)
     end
 
     Watir.tag_to_class[:option] = Option
@@ -1661,7 +1819,7 @@ module Watir
     #
 
     def option(*args)
-      Option.new(self, {:tag_name => :option}, *args)
+      Option.new(self, {:tag_name => "option"}, *args)
     end
 
     #
@@ -1669,7 +1827,7 @@ module Watir
     #
 
     def options(*args)
-      OptionCollection.new(self, {:tag_name => :option}, Option, *args)
+      OptionCollection.new(self, {:tag_name => "option"}, *args)
     end
 
     Watir.tag_to_class[:output] = Output
@@ -1679,7 +1837,7 @@ module Watir
     #
 
     def output(*args)
-      Output.new(self, {:tag_name => :output}, *args)
+      Output.new(self, {:tag_name => "output"}, *args)
     end
 
     #
@@ -1687,7 +1845,7 @@ module Watir
     #
 
     def outputs(*args)
-      OutputCollection.new(self, {:tag_name => :output}, Output, *args)
+      OutputCollection.new(self, {:tag_name => "output"}, *args)
     end
 
     Watir.tag_to_class[:p] = Paragraph
@@ -1697,7 +1855,7 @@ module Watir
     #
 
     def p(*args)
-      Paragraph.new(self, {:tag_name => :p}, *args)
+      Paragraph.new(self, {:tag_name => "p"}, *args)
     end
 
     #
@@ -1705,7 +1863,7 @@ module Watir
     #
 
     def ps(*args)
-      ParagraphCollection.new(self, {:tag_name => :p}, Paragraph, *args)
+      ParagraphCollection.new(self, {:tag_name => "p"}, *args)
     end
 
     Watir.tag_to_class[:param] = Param
@@ -1715,7 +1873,7 @@ module Watir
     #
 
     def param(*args)
-      Param.new(self, {:tag_name => :param}, *args)
+      Param.new(self, {:tag_name => "param"}, *args)
     end
 
     #
@@ -1723,7 +1881,7 @@ module Watir
     #
 
     def params(*args)
-      ParamCollection.new(self, {:tag_name => :param}, Param, *args)
+      ParamCollection.new(self, {:tag_name => "param"}, *args)
     end
 
     Watir.tag_to_class[:pre] = Pre
@@ -1733,7 +1891,7 @@ module Watir
     #
 
     def pre(*args)
-      Pre.new(self, {:tag_name => :pre}, *args)
+      Pre.new(self, {:tag_name => "pre"}, *args)
     end
 
     #
@@ -1741,7 +1899,7 @@ module Watir
     #
 
     def pres(*args)
-      PreCollection.new(self, {:tag_name => :pre}, Pre, *args)
+      PreCollection.new(self, {:tag_name => "pre"}, *args)
     end
 
     Watir.tag_to_class[:progress] = Progress
@@ -1751,7 +1909,7 @@ module Watir
     #
 
     def progress(*args)
-      Progress.new(self, {:tag_name => :progress}, *args)
+      Progress.new(self, {:tag_name => "progress"}, *args)
     end
 
     #
@@ -1759,7 +1917,7 @@ module Watir
     #
 
     def progresses(*args)
-      ProgressCollection.new(self, {:tag_name => :progress}, Progress, *args)
+      ProgressCollection.new(self, {:tag_name => "progress"}, *args)
     end
 
     Watir.tag_to_class[:q] = Quote
@@ -1769,7 +1927,7 @@ module Watir
     #
 
     def q(*args)
-      Quote.new(self, {:tag_name => :q}, *args)
+      Quote.new(self, {:tag_name => "q"}, *args)
     end
 
     #
@@ -1777,7 +1935,7 @@ module Watir
     #
 
     def qs(*args)
-      QuoteCollection.new(self, {:tag_name => :q}, Quote, *args)
+      QuoteCollection.new(self, {:tag_name => "q"}, *args)
     end
 
     Watir.tag_to_class[:rp] = HTMLElement
@@ -1787,7 +1945,7 @@ module Watir
     #
 
     def rp(*args)
-      HTMLElement.new(self, {:tag_name => :rp}, *args)
+      HTMLElement.new(self, {:tag_name => "rp"}, *args)
     end
 
     #
@@ -1795,7 +1953,7 @@ module Watir
     #
 
     def rps(*args)
-      HTMLElementCollection.new(self, {:tag_name => :rp}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "rp"}, *args)
     end
 
     Watir.tag_to_class[:rt] = HTMLElement
@@ -1805,7 +1963,7 @@ module Watir
     #
 
     def rt(*args)
-      HTMLElement.new(self, {:tag_name => :rt}, *args)
+      HTMLElement.new(self, {:tag_name => "rt"}, *args)
     end
 
     #
@@ -1813,7 +1971,7 @@ module Watir
     #
 
     def rts(*args)
-      HTMLElementCollection.new(self, {:tag_name => :rt}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "rt"}, *args)
     end
 
     Watir.tag_to_class[:ruby] = HTMLElement
@@ -1823,7 +1981,7 @@ module Watir
     #
 
     def ruby(*args)
-      HTMLElement.new(self, {:tag_name => :ruby}, *args)
+      HTMLElement.new(self, {:tag_name => "ruby"}, *args)
     end
 
     #
@@ -1831,7 +1989,7 @@ module Watir
     #
 
     def rubies(*args)
-      HTMLElementCollection.new(self, {:tag_name => :ruby}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "ruby"}, *args)
     end
 
     Watir.tag_to_class[:samp] = HTMLElement
@@ -1841,7 +1999,7 @@ module Watir
     #
 
     def samp(*args)
-      HTMLElement.new(self, {:tag_name => :samp}, *args)
+      HTMLElement.new(self, {:tag_name => "samp"}, *args)
     end
 
     #
@@ -1849,7 +2007,7 @@ module Watir
     #
 
     def samps(*args)
-      HTMLElementCollection.new(self, {:tag_name => :samp}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "samp"}, *args)
     end
 
     Watir.tag_to_class[:script] = Script
@@ -1859,7 +2017,7 @@ module Watir
     #
 
     def script(*args)
-      Script.new(self, {:tag_name => :script}, *args)
+      Script.new(self, {:tag_name => "script"}, *args)
     end
 
     #
@@ -1867,7 +2025,7 @@ module Watir
     #
 
     def scripts(*args)
-      ScriptCollection.new(self, {:tag_name => :script}, Script, *args)
+      ScriptCollection.new(self, {:tag_name => "script"}, *args)
     end
 
     Watir.tag_to_class[:section] = HTMLElement
@@ -1877,7 +2035,7 @@ module Watir
     #
 
     def section(*args)
-      HTMLElement.new(self, {:tag_name => :section}, *args)
+      HTMLElement.new(self, {:tag_name => "section"}, *args)
     end
 
     #
@@ -1885,7 +2043,7 @@ module Watir
     #
 
     def sections(*args)
-      HTMLElementCollection.new(self, {:tag_name => :section}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "section"}, *args)
     end
 
     Watir.tag_to_class[:select] = Select
@@ -1895,7 +2053,7 @@ module Watir
     #
 
     def select(*args)
-      Select.new(self, {:tag_name => :select}, *args)
+      Select.new(self, {:tag_name => "select"}, *args)
     end
 
     #
@@ -1903,7 +2061,7 @@ module Watir
     #
 
     def selects(*args)
-      SelectCollection.new(self, {:tag_name => :select}, Select, *args)
+      SelectCollection.new(self, {:tag_name => "select"}, *args)
     end
 
     Watir.tag_to_class[:small] = HTMLElement
@@ -1913,7 +2071,7 @@ module Watir
     #
 
     def small(*args)
-      HTMLElement.new(self, {:tag_name => :small}, *args)
+      HTMLElement.new(self, {:tag_name => "small"}, *args)
     end
 
     #
@@ -1921,7 +2079,7 @@ module Watir
     #
 
     def smalls(*args)
-      HTMLElementCollection.new(self, {:tag_name => :small}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "small"}, *args)
     end
 
     Watir.tag_to_class[:source] = Source
@@ -1931,7 +2089,7 @@ module Watir
     #
 
     def source(*args)
-      Source.new(self, {:tag_name => :source}, *args)
+      Source.new(self, {:tag_name => "source"}, *args)
     end
 
     #
@@ -1939,7 +2097,7 @@ module Watir
     #
 
     def sources(*args)
-      SourceCollection.new(self, {:tag_name => :source}, Source, *args)
+      SourceCollection.new(self, {:tag_name => "source"}, *args)
     end
 
     Watir.tag_to_class[:span] = Span
@@ -1949,7 +2107,7 @@ module Watir
     #
 
     def span(*args)
-      Span.new(self, {:tag_name => :span}, *args)
+      Span.new(self, {:tag_name => "span"}, *args)
     end
 
     #
@@ -1957,7 +2115,7 @@ module Watir
     #
 
     def spans(*args)
-      SpanCollection.new(self, {:tag_name => :span}, Span, *args)
+      SpanCollection.new(self, {:tag_name => "span"}, *args)
     end
 
     Watir.tag_to_class[:strong] = HTMLElement
@@ -1967,7 +2125,7 @@ module Watir
     #
 
     def strong(*args)
-      HTMLElement.new(self, {:tag_name => :strong}, *args)
+      HTMLElement.new(self, {:tag_name => "strong"}, *args)
     end
 
     #
@@ -1975,7 +2133,7 @@ module Watir
     #
 
     def strongs(*args)
-      HTMLElementCollection.new(self, {:tag_name => :strong}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "strong"}, *args)
     end
 
     Watir.tag_to_class[:style] = Style
@@ -1985,7 +2143,7 @@ module Watir
     #
 
     def style(*args)
-      Style.new(self, {:tag_name => :style}, *args)
+      Style.new(self, {:tag_name => "style"}, *args)
     end
 
     #
@@ -1993,7 +2151,7 @@ module Watir
     #
 
     def styles(*args)
-      StyleCollection.new(self, {:tag_name => :style}, Style, *args)
+      StyleCollection.new(self, {:tag_name => "style"}, *args)
     end
 
     Watir.tag_to_class[:sub] = HTMLElement
@@ -2003,7 +2161,7 @@ module Watir
     #
 
     def sub(*args)
-      HTMLElement.new(self, {:tag_name => :sub}, *args)
+      HTMLElement.new(self, {:tag_name => "sub"}, *args)
     end
 
     #
@@ -2011,7 +2169,7 @@ module Watir
     #
 
     def subs(*args)
-      HTMLElementCollection.new(self, {:tag_name => :sub}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "sub"}, *args)
     end
 
     Watir.tag_to_class[:summary] = HTMLElement
@@ -2021,7 +2179,7 @@ module Watir
     #
 
     def summary(*args)
-      HTMLElement.new(self, {:tag_name => :summary}, *args)
+      HTMLElement.new(self, {:tag_name => "summary"}, *args)
     end
 
     #
@@ -2029,7 +2187,7 @@ module Watir
     #
 
     def summaries(*args)
-      HTMLElementCollection.new(self, {:tag_name => :summary}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "summary"}, *args)
     end
 
     Watir.tag_to_class[:sup] = HTMLElement
@@ -2039,7 +2197,7 @@ module Watir
     #
 
     def sup(*args)
-      HTMLElement.new(self, {:tag_name => :sup}, *args)
+      HTMLElement.new(self, {:tag_name => "sup"}, *args)
     end
 
     #
@@ -2047,7 +2205,7 @@ module Watir
     #
 
     def sups(*args)
-      HTMLElementCollection.new(self, {:tag_name => :sup}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "sup"}, *args)
     end
 
     Watir.tag_to_class[:table] = Table
@@ -2057,7 +2215,7 @@ module Watir
     #
 
     def table(*args)
-      Table.new(self, {:tag_name => :table}, *args)
+      Table.new(self, {:tag_name => "table"}, *args)
     end
 
     #
@@ -2065,7 +2223,7 @@ module Watir
     #
 
     def tables(*args)
-      TableCollection.new(self, {:tag_name => :table}, Table, *args)
+      TableCollection.new(self, {:tag_name => "table"}, *args)
     end
 
     Watir.tag_to_class[:tbody] = TableSection
@@ -2075,7 +2233,7 @@ module Watir
     #
 
     def tbody(*args)
-      TableSection.new(self, {:tag_name => :tbody}, *args)
+      TableSection.new(self, {:tag_name => "tbody"}, *args)
     end
 
     #
@@ -2083,7 +2241,7 @@ module Watir
     #
 
     def tbodys(*args)
-      TableSectionCollection.new(self, {:tag_name => :tbody}, TableSection, *args)
+      TableSectionCollection.new(self, {:tag_name => "tbody"}, *args)
     end
 
     Watir.tag_to_class[:td] = TableDataCell
@@ -2093,7 +2251,7 @@ module Watir
     #
 
     def td(*args)
-      TableDataCell.new(self, {:tag_name => :td}, *args)
+      TableDataCell.new(self, {:tag_name => "td"}, *args)
     end
 
     #
@@ -2101,7 +2259,7 @@ module Watir
     #
 
     def tds(*args)
-      TableDataCellCollection.new(self, {:tag_name => :td}, TableDataCell, *args)
+      TableDataCellCollection.new(self, {:tag_name => "td"}, *args)
     end
 
     Watir.tag_to_class[:textarea] = TextArea
@@ -2111,7 +2269,7 @@ module Watir
     #
 
     def textarea(*args)
-      TextArea.new(self, {:tag_name => :textarea}, *args)
+      TextArea.new(self, {:tag_name => "textarea"}, *args)
     end
 
     #
@@ -2119,7 +2277,7 @@ module Watir
     #
 
     def textareas(*args)
-      TextAreaCollection.new(self, {:tag_name => :textarea}, TextArea, *args)
+      TextAreaCollection.new(self, {:tag_name => "textarea"}, *args)
     end
 
     Watir.tag_to_class[:tfoot] = TableSection
@@ -2129,7 +2287,7 @@ module Watir
     #
 
     def tfoot(*args)
-      TableSection.new(self, {:tag_name => :tfoot}, *args)
+      TableSection.new(self, {:tag_name => "tfoot"}, *args)
     end
 
     #
@@ -2137,7 +2295,7 @@ module Watir
     #
 
     def tfoots(*args)
-      TableSectionCollection.new(self, {:tag_name => :tfoot}, TableSection, *args)
+      TableSectionCollection.new(self, {:tag_name => "tfoot"}, *args)
     end
 
     Watir.tag_to_class[:th] = TableHeaderCell
@@ -2147,7 +2305,7 @@ module Watir
     #
 
     def th(*args)
-      TableHeaderCell.new(self, {:tag_name => :th}, *args)
+      TableHeaderCell.new(self, {:tag_name => "th"}, *args)
     end
 
     #
@@ -2155,7 +2313,7 @@ module Watir
     #
 
     def ths(*args)
-      TableHeaderCellCollection.new(self, {:tag_name => :th}, TableHeaderCell, *args)
+      TableHeaderCellCollection.new(self, {:tag_name => "th"}, *args)
     end
 
     Watir.tag_to_class[:thead] = TableSection
@@ -2165,7 +2323,7 @@ module Watir
     #
 
     def thead(*args)
-      TableSection.new(self, {:tag_name => :thead}, *args)
+      TableSection.new(self, {:tag_name => "thead"}, *args)
     end
 
     #
@@ -2173,7 +2331,7 @@ module Watir
     #
 
     def theads(*args)
-      TableSectionCollection.new(self, {:tag_name => :thead}, TableSection, *args)
+      TableSectionCollection.new(self, {:tag_name => "thead"}, *args)
     end
 
     Watir.tag_to_class[:time] = Time
@@ -2183,7 +2341,7 @@ module Watir
     #
 
     def time(*args)
-      Time.new(self, {:tag_name => :time}, *args)
+      Time.new(self, {:tag_name => "time"}, *args)
     end
 
     #
@@ -2191,7 +2349,7 @@ module Watir
     #
 
     def times(*args)
-      TimeCollection.new(self, {:tag_name => :time}, Time, *args)
+      TimeCollection.new(self, {:tag_name => "time"}, *args)
     end
 
     Watir.tag_to_class[:title] = Title
@@ -2201,7 +2359,7 @@ module Watir
     #
 
     def title(*args)
-      Title.new(self, {:tag_name => :title}, *args)
+      Title.new(self, {:tag_name => "title"}, *args)
     end
 
     #
@@ -2209,7 +2367,7 @@ module Watir
     #
 
     def titles(*args)
-      TitleCollection.new(self, {:tag_name => :title}, Title, *args)
+      TitleCollection.new(self, {:tag_name => "title"}, *args)
     end
 
     Watir.tag_to_class[:tr] = TableRow
@@ -2219,7 +2377,7 @@ module Watir
     #
 
     def tr(*args)
-      TableRow.new(self, {:tag_name => :tr}, *args)
+      TableRow.new(self, {:tag_name => "tr"}, *args)
     end
 
     #
@@ -2227,7 +2385,7 @@ module Watir
     #
 
     def trs(*args)
-      TableRowCollection.new(self, {:tag_name => :tr}, TableRow, *args)
+      TableRowCollection.new(self, {:tag_name => "tr"}, *args)
     end
 
     Watir.tag_to_class[:track] = Track
@@ -2237,7 +2395,7 @@ module Watir
     #
 
     def track(*args)
-      Track.new(self, {:tag_name => :track}, *args)
+      Track.new(self, {:tag_name => "track"}, *args)
     end
 
     #
@@ -2245,7 +2403,7 @@ module Watir
     #
 
     def tracks(*args)
-      TrackCollection.new(self, {:tag_name => :track}, Track, *args)
+      TrackCollection.new(self, {:tag_name => "track"}, *args)
     end
 
     Watir.tag_to_class[:ul] = UList
@@ -2255,7 +2413,7 @@ module Watir
     #
 
     def ul(*args)
-      UList.new(self, {:tag_name => :ul}, *args)
+      UList.new(self, {:tag_name => "ul"}, *args)
     end
 
     #
@@ -2263,7 +2421,7 @@ module Watir
     #
 
     def uls(*args)
-      UListCollection.new(self, {:tag_name => :ul}, UList, *args)
+      UListCollection.new(self, {:tag_name => "ul"}, *args)
     end
 
     Watir.tag_to_class[:var] = HTMLElement
@@ -2273,7 +2431,7 @@ module Watir
     #
 
     def var(*args)
-      HTMLElement.new(self, {:tag_name => :var}, *args)
+      HTMLElement.new(self, {:tag_name => "var"}, *args)
     end
 
     #
@@ -2281,7 +2439,7 @@ module Watir
     #
 
     def vars(*args)
-      HTMLElementCollection.new(self, {:tag_name => :var}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "var"}, *args)
     end
 
     Watir.tag_to_class[:video] = Video
@@ -2291,7 +2449,7 @@ module Watir
     #
 
     def video(*args)
-      Video.new(self, {:tag_name => :video}, *args)
+      Video.new(self, {:tag_name => "video"}, *args)
     end
 
     #
@@ -2299,7 +2457,7 @@ module Watir
     #
 
     def videos(*args)
-      VideoCollection.new(self, {:tag_name => :video}, Video, *args)
+      VideoCollection.new(self, {:tag_name => "video"}, *args)
     end
 
     Watir.tag_to_class[:wbr] = HTMLElement
@@ -2309,7 +2467,7 @@ module Watir
     #
 
     def wbr(*args)
-      HTMLElement.new(self, {:tag_name => :wbr}, *args)
+      HTMLElement.new(self, {:tag_name => "wbr"}, *args)
     end
 
     #
@@ -2317,7 +2475,7 @@ module Watir
     #
 
     def wbrs(*args)
-      HTMLElementCollection.new(self, {:tag_name => :wbr}, HTMLElement, *args)
+      HTMLElementCollection.new(self, {:tag_name => "wbr"}, *args)
     end
 
   end # Container

@@ -8,8 +8,9 @@ module Watir
     # so we're *overwriting* that method definition here
     def type; super; end
 
-    container_method  :text_field
-    collection_method :text_fields
+    # custom locator replaces default_selector here.
+    container_method  :text_field, {}
+    collection_method :text_fields, {}
 
     def inspect
       '#<%s:0x%x located=%s selector=%s>' % [self.class, hash*2, !!@element, selector_string]

@@ -1,15 +1,10 @@
 module Watir
-  class ButtonsCollection < ElementCollection
+  class ButtonCollection < ElementCollection
 
     private
 
-    def elements
-      @elements ||= ButtonLocator.new(
-        @parent.wd,
-        @default_selector,
-        @element_class.attribute_list
-      ).locate_all
+    def locator_class
+      ButtonLocator
     end
-
   end # ButtonsCollection
 end # Watir

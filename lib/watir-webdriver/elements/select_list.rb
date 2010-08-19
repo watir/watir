@@ -3,8 +3,8 @@ module Watir
   class SelectList < Select
     include Watir::Exception
 
-    container_method  :select_list
-    collection_method :select_lists
+    container_method  :select_list,  :tag_name => "select"
+    collection_method :select_lists, :tag_name => "select"
 
     #
     # Returns true if this element is enabled
