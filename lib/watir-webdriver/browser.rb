@@ -34,6 +34,7 @@ module Watir
 
       @error_checkers = []
       @current_frame  = nil
+      @closed         = false
     end
 
     def inspect
@@ -74,6 +75,7 @@ module Watir
 
     def close
       @driver.quit
+      @closed = true
     end
     alias_method :quit, :close # TODO: close vs quit
 
@@ -134,12 +136,16 @@ module Watir
     #
 
     def assert_exists
-      driver.switch_to.default_content
-      true
+      if @closed
+        false
+      else
+        driver.switch_to.default_content
+        true
+      end
     end
 
     def exist?
-      true
+      not @closed
     end
 
     def browser
