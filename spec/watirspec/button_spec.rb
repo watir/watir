@@ -50,9 +50,11 @@ describe "Button" do
       browser.button(:xpath, "//input[@id='no_such_id']").should_not exist
     end
 
-    it "checks the tag name and type attribute when locating by xpath" do
-      browser.button(:xpath, "//input[@type='text']").should_not exist
-      browser.button(:xpath, "//input[@type='button']").should exist
+    bug "http://github.com/jarib/watir-webdriver/issues#issue/6", :webdriver do
+      it "checks the tag name and type attribute when locating by xpath" do
+        browser.button(:xpath, "//input[@type='text']").should_not exist
+        browser.button(:xpath, "//input[@type='button']").should exist
+      end
     end
 
     it "raises TypeError when 'what' argument is invalid" do
