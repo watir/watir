@@ -1,7 +1,7 @@
 require File.expand_path 'watirspec/spec_helper', File.dirname(__FILE__)
 
 
-describe Watir::BaseElement do
+describe Watir::Element do
 
   before :each do
     browser.goto("file://" + File.expand_path("html/keylogger.html", File.dirname(__FILE__)))

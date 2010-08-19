@@ -4,7 +4,7 @@ module Watir
     include Container
 
     attr_reader :driver
-    alias_method :wd, :driver # ensures duck typing with BaseElement
+    alias_method :wd, :driver # ensures duck typing with Watir::Element
 
     class << self
       def start(url, browser = :firefox)
@@ -74,6 +74,7 @@ module Watir
     end
 
     def close
+      return if @closed
       @driver.quit
       @closed = true
     end
@@ -101,7 +102,7 @@ module Watir
     end
 
     def execute_script(script, *args)
-      args.map! { |e| e.kind_of?(Watir::BaseElement) ? e.element : e }
+      args.map! { |e| e.kind_of?(Watir::Element) ? e.element : e }
       returned = @driver.execute_script(script, *args)
 
       if returned.kind_of? WebDriver::Element
@@ -130,14 +131,14 @@ module Watir
     end
 
     #
-    # Protocol shared with BaseElement
+    # Protocol shared with Watir::Element
     #
     # @api private
     #
 
     def assert_exists
       if @closed
-        false
+        raise Error, "browser was closed"
       else
         driver.switch_to.default_content
         true

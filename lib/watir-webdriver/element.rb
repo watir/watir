@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 module Watir
-  class BaseElement
+  class Element
     include Exception
     include Container
     include Selenium
@@ -357,5 +357,5 @@ module Watir
       end
     end
 
-  end # BaseElement
+  end # Element
 end # Watir
