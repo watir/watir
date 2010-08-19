@@ -1,7 +1,9 @@
 # encoding: utf-8
 module Watir
   class FileField < Input
-    identifier :type => 'file'
+    def initialize(parent, default_selector, *selectors)
+      default_selector.merge! :type => "file"
+    end
 
     container_method  :file_field
     collection_method :file_fields

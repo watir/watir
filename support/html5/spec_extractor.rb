@@ -28,7 +28,7 @@ class SpecExtractor
 
     IDLSorter.new(@interfaces).tsort.map { |name|
       @interfaces_by_name[name] or puts "ignoring interface: #{name}"
-    }.flatten.compact.map { |e| e.name }
+    }.flatten.compact
   end
 
   private

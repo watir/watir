@@ -3,6 +3,7 @@
 module Watir
   class Font < HTMLElement
     identifier        :tag_name => 'font'
+
     container_method  :font
     collection_method :fonts
 

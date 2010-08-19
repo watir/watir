@@ -9,8 +9,6 @@ module Watir
     IGNORED_ATTRIBUTES = [:text, :hash]
 
     class << self
-      attr_writer :default_selector
-
       def typed_attributes
         @typed_attributes ||= Hash.new { |hash, type| hash[type] = []  }
       end
@@ -40,15 +38,7 @@ module Watir
         end
       end
 
-      def default_selector
-        @default_selector ||= {}
-      end
-
       private
-
-      def inherited(klass)
-        klass.default_selector = default_selector.dup
-      end
 
       def define_attribute(type, name)
         method_name    = method_name_for(type, name)
@@ -117,11 +107,6 @@ module Watir
         end
       end
 
-      def identifier(selector)
-        Watir.tag_to_class[selector[:tag_name]] = self
-        default_selector.merge! selector
-      end
-
       def method_name_for(type, attribute)
         # TODO: rethink this - this list could get pretty long...
         name = case attribute
@@ -156,9 +141,9 @@ module Watir
       end
     end # class << self
 
-    def initialize(parent, *selectors)
+    def initialize(parent, default_selector, *selectors)
       @parent   = parent
-      @selector = extract_selector(selectors).merge(self.class.default_selector)
+      @selector = extract_selector(selectors).merge(default_selector)
 
       if @selector.has_key?(:element)
         @element = @selector[:element]

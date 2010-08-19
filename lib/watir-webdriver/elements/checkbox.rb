@@ -1,10 +1,10 @@
 # encoding: utf-8
 module Watir
   class CheckBox < Input
-    identifier :type => 'checkbox'
-
-    container_method  :checkbox
-    collection_method :checkboxes
+    def initialize(parent, default_selector, *selectors)
+      default_selector.merge!(:type => "checkbox")
+      super
+    end
 
     #
     # Set this checkbox to the given value
@@ -49,5 +49,11 @@ module Watir
       set false
     end
 
+  end
+
+  class CheckBoxCollection < InputCollection
+    def initialize(parent, default_selector, element_class)
+      default_selector.merge! :type => "checkbox"
+    end
   end
 end

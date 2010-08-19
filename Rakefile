@@ -14,7 +14,7 @@ begin
     gem.add_dependency "selenium-webdriver", '>= 0.0.26'
 
     gem.add_development_dependency "rspec"
-    gem.add_development_dependency "webidl"
+    gem.add_development_dependency "webidl", ">= 0.0.4"
     gem.add_development_dependency "sinatra", ">= 1.0"
     gem.add_development_dependency "activesupport", ">= 2.3.5" # for pluralization during code generation
   end
@@ -68,7 +68,7 @@ namespace :html5 do
     end
 
     puts "Topological sort:"
-    puts extractor.sorted_interfaces
+    puts extractor.sorted_interfaces.map { |intf| intf.name }
 
     unless extractor.errors.empty?
       puts "\n\n<======================= ERRORS =======================>\n\n"
@@ -80,13 +80,19 @@ namespace :html5 do
   task :generate do
     require "support/html5/watir_visitor"
 
-    code = WatirVisitor.generate_from(IDL_PATH)
+    code = WatirVisitor.generate_from(SPEC_PATH)
     old_file = "lib/watir-webdriver/elements/generated.rb"
 
     File.open("#{old_file}.new", "w") { |file| file << code }
     if File.exist?(old_file)
       system "diff -Naut #{old_file} #{old_file}.new | less"
     end
+  end
+
+  desc 'Move generated.rb.new to generated.rb'
+  task :overwrite do
+    file = "lib/watir-webdriver/elements/generated.rb"
+    mv "#{file}.new", file
   end
 
   desc 'Check the syntax of support/html5/*.idl'
