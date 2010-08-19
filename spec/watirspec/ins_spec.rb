@@ -20,10 +20,6 @@ describe "Ins" do
       browser.ins(:xpath, "//ins[@id='lead']").should exist
     end
 
-    it "returns true if the element exists (default how = :id)" do
-      browser.ins("lead").should exist
-    end
-
     it "returns false if the element doesn't exist" do
       browser.ins(:id, "no_such_id").should_not exist
       browser.ins(:id, /no_such_id/).should_not exist
@@ -71,21 +67,6 @@ describe "Ins" do
     it "raises UnknownObjectException if the ins doesn't exist" do
       lambda { browser.ins(:id, "no_such_id").id }.should raise_error(UnknownObjectException)
       lambda { browser.ins(:index, 1337).id }.should raise_error(UnknownObjectException)
-    end
-  end
-
-  describe "#name" do
-    it "returns the name attribute" do
-      browser.ins(:index, 1).name.should == "invalid_attribute"
-    end
-
-    it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.ins(:index, 2).name.should == ''
-    end
-
-    it "raises UnknownObjectException if the ins doesn't exist" do
-      lambda { browser.ins(:id, "no_such_id").name }.should raise_error(UnknownObjectException)
-      lambda { browser.ins(:index, 1337).name }.should raise_error(UnknownObjectException)
     end
   end
 
@@ -138,7 +119,6 @@ describe "Ins" do
     it "returns true for all attribute methods" do
       browser.ins(:index, 0).should respond_to(:class_name)
       browser.ins(:index, 0).should respond_to(:id)
-      browser.ins(:index, 0).should respond_to(:name)
       browser.ins(:index, 0).should respond_to(:title)
       browser.ins(:index, 0).should respond_to(:text)
       browser.ins(:index, 0).should respond_to(:value)
@@ -148,9 +128,9 @@ describe "Ins" do
   # Other
   describe "#click" do
     it "fires events" do
-      browser.ins(:name, 'footer').text.should_not include('Javascript')
-      browser.ins(:name, 'footer').click
-      browser.ins(:name, 'footer').text.should include('Javascript')
+      browser.ins(:class, 'footer').text.should_not include('Javascript')
+      browser.ins(:class, 'footer').click
+      browser.ins(:class, 'footer').text.should include('Javascript')
     end
 
     it "raises UnknownObjectException if the ins doesn't exist" do

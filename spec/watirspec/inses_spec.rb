@@ -22,7 +22,6 @@ describe "Inses" do
   describe "#each" do
     it "iterates through inses correctly" do
       browser.inses.each_with_index do |s, index|
-        s.name.should == browser.ins(:index, index).name
         s.id.should == browser.ins(:index, index).id
         s.value.should == browser.ins(:index, index).value
       end
