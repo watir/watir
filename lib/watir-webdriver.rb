@@ -27,7 +27,7 @@ module Watir
 
 end
 
-require "watir-webdriver/base_element"
+require "watir-webdriver/element"
 require "watir-webdriver/collections/element_collection"
 require "watir-webdriver/elements/generated"
 require "watir-webdriver/elements/frame"
