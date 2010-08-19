@@ -9,7 +9,7 @@ describe "Divs" do
 
   describe "#length" do
     it "returns the number of divs" do
-      browser.divs.length.should == 10
+      browser.divs.length.should == 12
     end
   end
 
