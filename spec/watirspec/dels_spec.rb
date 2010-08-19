@@ -15,40 +15,16 @@ describe "Dels" do
 
   describe "#[]" do
     it "returns the del at the given index" do
-      browser.dels[1].id.should == "lead"
+      browser.dels[0].id.should == "lead"
     end
   end
 
   describe "#each" do
     it "iterates through dels correctly" do
       browser.dels.each_with_index do |s, index|
-        s.name.should == browser.del(:index, index+1).name
-        s.id.should == browser.del(:index, index+1).id
-        s.value.should == browser.del(:index, index+1).value
-      end
-    end
-  end
-
-  describe "#to_s" do
-    bug "WTR-350", :watir do
-      it "returns a human readable representation of the collection" do
-        browser.dels.to_s.should == "tag:          del\n" +
-                                "  id:           lead\n" +
-                                "  class:        lead\n" +
-                                "  title:        Lorem ipsum\n" +
-                                "  text:         This is a deleted text tag 1\n" +
-                                "tag:          del\n" +
-                                "  name:         invalid_attribute\n" +
-                                "  value:        invalid_attribute\n" +
-                                "  text:         This is a deleted text tag 2\n" +
-                                "tag:          del\n" +
-                                "  text:         This is a deleted text tag 3\n" +
-                                "tag:          del\n" +
-                                "tag:          del\n" +
-                                "  class:        footer\n" +
-                                "  name:         footer\n" +
-                                "  onclick:      this.innerHTML = 'This is a del with text set by Javascript.'\n" +
-                                "  text:         This is a del."
+        s.name.should == browser.del(:index, index).name
+        s.id.should == browser.del(:index, index).id
+        s.value.should == browser.del(:index, index).value
       end
     end
   end
