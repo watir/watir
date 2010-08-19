@@ -9,12 +9,10 @@ describe "Browser" do
       browser.should exist
     end
 
-    not_compliant_on :webdriver do
-      it "returns false after IE#close" do
-        b = WatirSpec.new_browser
-        b.close
-        b.should_not exist
-      end
+    it "returns false after Browser#close" do
+      b = WatirSpec.new_browser
+      b.close
+      b.should_not exist
     end
   end
 
