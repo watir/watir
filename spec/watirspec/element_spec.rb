@@ -28,7 +28,7 @@ describe "Element" do
   end
 
   describe "#focus" do
-    bug "http://code.google.com/p/selenium/issues/detail?id=157", :webdriver do
+    bug "http://github.com/jarib/watir-webdriver/issues/issue/20", [:webdriver, :firefox] do
       it "fires the onfocus event for the given element" do
         tf = browser.text_field(:id, "new_user_occupation")
         tf.value.should == "Developer"
