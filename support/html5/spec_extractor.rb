@@ -26,7 +26,7 @@ class SpecExtractor
   def sorted_interfaces
     require "#{File.dirname __FILE__}/idl_sorter"
 
-    IDLSorter.new(@interfaces).tsort.map { |name|
+    IDLSorter.new(@interfaces).sort.map { |name|
       @interfaces_by_name[name] or puts "ignoring interface: #{name}"
     }.flatten.compact
   end

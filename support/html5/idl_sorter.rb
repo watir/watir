@@ -13,13 +13,17 @@ class IDLSorter
       end
     end
   end
+  
+  def sort
+    tsort.reverse
+  end
 
   def tsort_each_node(&blk)
     @interfaces.each_key(&blk)
   end
 
-  def tsort_each_child(node)
-    @interfaces[node]
+  def tsort_each_child(node, &blk)
+    @interfaces[node].each(&blk)
   end
 
 end

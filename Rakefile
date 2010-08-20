@@ -59,16 +59,13 @@ namespace :html5 do
   end
 
   desc "Print IDL parts from #{SPEC_URI}"
-  task :extract do
+  task :print do
     require 'support/html5/spec_extractor'
     extractor = SpecExtractor.new(SPEC_PATH)
 
     extractor.process.each do |tag_name, interface_definitions|
       puts "#{tag_name.ljust(10)} => #{interface_definitions.map { |e| e.name }}"
     end
-
-    puts "Topological sort:"
-    puts extractor.sorted_interfaces.map { |intf| intf.name }
 
     unless extractor.errors.empty?
       puts "\n\n<======================= ERRORS =======================>\n\n"
