@@ -1,0 +1,408 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: Watir::HTML::SpecExtractor</title>
+<link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (S)</a> &raquo; 
+    <span class='title'><a href="../../Watir.html" title="Watir (module)">Watir</a></span> &raquo; <span class='title'><a href="../HTML.html" title="Watir::HTML (module)">HTML</a></span>
+     &raquo; 
+    <span class="title">SpecExtractor</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Watir::HTML::SpecExtractor
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Watir::HTML::SpecExtractor</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/watir-webdriver/html/spec_extractor.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#errors-instance_method" title="#errors (instance method)">- (Object) <strong>errors</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (SpecExtractor) <strong>initialize</strong>(uri) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+A new instance of SpecExtractor.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#print_hierarchy-instance_method" title="#print_hierarchy (instance method)">- (Object) <strong>print_hierarchy</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#process-instance_method" title="#process (instance method)">- (Object) <strong>process</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sorted_interfaces-instance_method" title="#sorted_interfaces (instance method)">- (Object) <strong>sorted_interfaces</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+returns a topoligically sorted array of WebIDL::Ast::Interface objects.
+</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><a href="" title="Watir::HTML::SpecExtractor (class)">SpecExtractor</a></tt>) <strong>initialize</strong>(uri) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+A new instance of SpecExtractor
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+6
+7
+8</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/html/spec_extractor.rb', line 6</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span><span class='lparen'>(</span><span class='id uri'>uri</span><span class='rparen'>)</span>
+  <span class='ivar'>@uri</span> <span class='op'>=</span> <span class='id uri'>uri</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="errors-instance_method">
+  
+    - (<tt><a href="../Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>errors</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+17
+18
+19</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/html/spec_extractor.rb', line 17</span>
+
+<span class='kw'>def</span> <span class='id errors'>errors</span>
+  <span class='ivar'>@errors</span> <span class='op'>||=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="print_hierarchy-instance_method">
+  
+    - (<tt><a href="../Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>print_hierarchy</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+33
+34
+35
+36</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/html/spec_extractor.rb', line 33</span>
+
+<span class='kw'>def</span> <span class='id print_hierarchy'>print_hierarchy</span>
+  <span class='id process'>process</span> <span class='kw'>if</span> <span class='ivar'>@interfaces</span><span class='period'>.</span><span class='id nil?'>nil?</span>
+  <span class='id sorter'>sorter</span><span class='period'>.</span><span class='id print'>print</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="process-instance_method">
+  
+    - (<tt><a href="../Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>process</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+10
+11
+12
+13
+14
+15</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/html/spec_extractor.rb', line 10</span>
+
+<span class='kw'>def</span> <span class='id process'>process</span>
+  <span class='id download_and_parse'>download_and_parse</span>
+  <span class='id extract_idl_parts'>extract_idl_parts</span>
+  <span class='id extract_interface_map'>extract_interface_map</span>
+  <span class='id build_result'>build_result</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="sorted_interfaces-instance_method">
+  
+    - (<tt><a href="../Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>sorted_interfaces</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+returns a topoligically sorted array of WebIDL::Ast::Interface objects
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+25
+26
+27
+28
+29
+30
+31</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/html/spec_extractor.rb', line 25</span>
+
+<span class='kw'>def</span> <span class='id sorted_interfaces'>sorted_interfaces</span>
+  <span class='id process'>process</span> <span class='kw'>if</span> <span class='ivar'>@interfaces</span><span class='period'>.</span><span class='id nil?'>nil?</span>
+
+  <span class='id sorter'>sorter</span><span class='period'>.</span><span class='id sort'>sort</span><span class='period'>.</span><span class='id map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id name'>name</span><span class='op'>|</span>
+    <span class='ivar'>@interfaces_by_name</span><span class='lbracket'>[</span><span class='id name'>name</span><span class='rbracket'>]</span> <span class='kw'>or</span> <span class='id puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ignoring interface: </span><span class='embexpr_beg'>#{</span><span class='id name'>name</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='rbrace'>}</span><span class='period'>.</span><span class='id flatten'>flatten</span><span class='period'>.</span><span class='id compact'>compact</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Aug 20 19:23:10 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
+  0.5.8 (ruby-1.9.1).
+</div>
+
+  </body>
+</html>

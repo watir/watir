@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: YARD::Handlers::Watir::AttributesHandler</title>
+<link rel="stylesheet" href="../../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../../..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../../_index.html">Index (A)</a> &raquo; 
+    <span class='title'><a href="../../../YARD.html" title="YARD (module)">YARD</a></span> &raquo; <span class='title'><a href="../../Handlers.html" title="YARD::Handlers (module)">Handlers</a></span> &raquo; <span class='title'><a href="../Watir.html" title="YARD::Handlers::Watir (module)">Watir</a></span>
+     &raquo; 
+    <span class="title">AttributesHandler</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: YARD::Handlers::Watir::AttributesHandler
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">YARD::Handlers::Ruby::Base</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">YARD::Handlers::Ruby::Base</li>
+          
+            <li class="next">YARD::Handlers::Watir::AttributesHandler</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/yard/handlers/watir.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="TYPES-constant" class="">TYPES =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span>
+  <span class='symbol'>:string</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>String</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+  <span class='symbol'>:bool</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Boolean</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+  <span class='symbol'>:int</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Integer</span><span class='tstring_end'>&quot;</span></span>
+<span class='rbrace'>}</span></pre></dd>
+      
+    </dl>
+  
+
+
+  
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#process-instance_method" title="#process (instance method)">- (Object) <strong>process</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="process-instance_method">
+  
+    - (<tt>Object</tt>) <strong>process</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/yard/handlers/watir.rb', line 19</span>
+
+<span class='kw'>def</span> <span class='id process'>process</span>
+  <span class='id attributes'>attributes</span> <span class='op'>=</span> <span class='id try_eval'>try_eval</span>
+
+  <span class='kw'>if</span> <span class='id attributes'>attributes</span><span class='period'>.</span><span class='id nil?'>nil?</span>
+    <span class='id p'>p</span> <span class='symbol'>:ignoring</span> <span class='op'>=&gt;</span> <span class='id statement'>statement</span><span class='period'>.</span><span class='id source'>source</span><span class='comma'>,</span> <span class='symbol'>:in</span> <span class='op'>=&gt;</span> <span class='id namespace'>namespace</span><span class='period'>.</span><span class='id to_s'>to_s</span>
+    <span class='kw'>return</span>
+  <span class='kw'>end</span>
+
+  <span class='const'>TYPES</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id type'>type</span><span class='comma'>,</span> <span class='id return_type'>return_type</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='id attributes'>attributes</span><span class='period'>.</span><span class='id member?'>member?</span> <span class='id type'>type</span>
+      <span class='id create_attributes'>create_attributes</span> <span class='id attributes'>attributes</span><span class='lbracket'>[</span><span class='id type'>type</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id return_type'>return_type</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Aug 20 19:22:28 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
+  0.5.8 (ruby-1.9.1).
+</div>
+
+  </body>
+</html>

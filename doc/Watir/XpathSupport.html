@@ -43,7 +43,8 @@
     
     <iframe id="search_frame"></iframe>
     
-    <div id="content"><h1>Module: Watir::XpathSupport 
+    <div id="content"><h1>Module: Watir::XpathSupport
+  
   
   
 </h1>
@@ -76,7 +77,10 @@
   
 
   
-    <h2>Instance Method Summary</h2>
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
 
     <ul class="summary">
       
@@ -88,6 +92,7 @@
 
     
   </span>
+  
   
   
   
@@ -111,6 +116,7 @@ Find the first element matching the given XPath.
 
     
   </span>
+  
   
   
   
@@ -172,9 +178,9 @@ Find the first element matching the given XPath
 
 <span class='kw'>def</span> <span class='id element_by_xpath'>element_by_xpath</span><span class='lparen'>(</span><span class='id xpath'>xpath</span><span class='rparen'>)</span>
   <span class='id e'>e</span> <span class='op'>=</span> <span class='id wd'>wd</span><span class='period'>.</span><span class='id find_element'>find_element</span><span class='lparen'>(</span><span class='symbol'>:xpath</span><span class='comma'>,</span> <span class='id xpath'>xpath</span><span class='rparen'>)</span>
-  <span class='const'>Watir</span><span class='period'>.</span><span class='id element_class_for'>element_class_for</span><span class='lparen'>(</span><span class='id e'>e</span><span class='period'>.</span><span class='id tag_name'>tag_name</span><span class='rparen'>)</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:element</span><span class='comma'>,</span> <span class='id e'>e</span><span class='rparen'>)</span>
+  <span class='const'>Watir</span><span class='period'>.</span><span class='id element_class_for'>element_class_for</span><span class='lparen'>(</span><span class='id e'>e</span><span class='period'>.</span><span class='id tag_name'>tag_name</span><span class='rparen'>)</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:element</span> <span class='op'>=&gt;</span> <span class='id e'>e</span><span class='rparen'>)</span>
 <span class='kw'>rescue</span> <span class='const'>WebDriver</span><span class='op'>::</span><span class='const'>Error</span><span class='op'>::</span><span class='const'>NoSuchElementError</span>
-  <span class='const'>BaseElement</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:xpath</span><span class='comma'>,</span> <span class='id xpath'>xpath</span><span class='rparen'>)</span>
+  <span class='const'>Element</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:xpath</span> <span class='op'>=&gt;</span> <span class='id xpath'>xpath</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -209,21 +215,15 @@ Find all elements matching the given XPath
 22
 23
 24
-25
-26
-27
-28</pre>
+25</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/watir-webdriver/xpath_support.rb', line 21</span>
 
 <span class='kw'>def</span> <span class='id elements_by_xpath'>elements_by_xpath</span><span class='lparen'>(</span><span class='id xpath'>xpath</span><span class='rparen'>)</span>
-  <span class='comment'># TODO: find the correct element class
-</span>  <span class='id wd'>wd</span><span class='period'>.</span><span class='id find_elements'>find_elements</span><span class='lparen'>(</span><span class='symbol'>:xpath</span><span class='comma'>,</span> <span class='id xpath'>xpath</span><span class='rparen'>)</span><span class='period'>.</span><span class='id map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id e'>e</span><span class='op'>|</span>
-    <span class='const'>Watir</span><span class='period'>.</span><span class='id element_class_for'>element_class_for</span><span class='lparen'>(</span><span class='id e'>e</span><span class='period'>.</span><span class='id tag_name'>tag_name</span><span class='rparen'>)</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:element</span><span class='comma'>,</span> <span class='id e'>e</span><span class='rparen'>)</span>
+  <span class='id wd'>wd</span><span class='period'>.</span><span class='id find_elements'>find_elements</span><span class='lparen'>(</span><span class='symbol'>:xpath</span><span class='comma'>,</span> <span class='id xpath'>xpath</span><span class='rparen'>)</span><span class='period'>.</span><span class='id map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id e'>e</span><span class='op'>|</span>
+    <span class='const'>Watir</span><span class='period'>.</span><span class='id element_class_for'>element_class_for</span><span class='lparen'>(</span><span class='id e'>e</span><span class='period'>.</span><span class='id tag_name'>tag_name</span><span class='rparen'>)</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:element</span> <span class='op'>=&gt;</span> <span class='id e'>e</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
-<span class='kw'>rescue</span> <span class='const'>WebDriver</span><span class='op'>::</span><span class='const'>Error</span><span class='op'>::</span><span class='const'>NoSuchElementError</span>
-  <span class='lbracket'>[</span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -235,9 +235,9 @@ Find all elements matching the given XPath
 </div>
     
     <div id="footer">
-  Generated on Sun May  9 01:24:14 2010 by 
+  Generated on Fri Aug 20 19:22:29 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
-  0.5.4 (ruby-1.9.1).
+  0.5.8 (ruby-1.9.1).
 </div>
 
   </body>
