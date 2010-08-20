@@ -169,7 +169,7 @@ describe "SelectList" do
     deviates_on :webdriver do
       it "returns all the options as a collection of Options" do
         options = browser.select_list(:name, "new_user_country").options
-        options.should be_kind_of(OptionsCollection)
+        options.should be_kind_of(OptionCollection)
         options.map { |opt| opt.text }.should == ["Denmark" ,"Norway" , "Sweden" , "United Kingdom", "USA", "Germany"]
       end
     end
