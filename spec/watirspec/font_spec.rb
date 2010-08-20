@@ -20,7 +20,7 @@ describe "Font" do
   end
 
   it "knows about the size attribute" do
-    browser.font(:index, 0).size.should == 12
+    browser.font(:index, 0).size.should == "12"
   end
 
 end
