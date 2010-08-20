@@ -30,10 +30,12 @@ module Watir
       end
 
       if @selector.size == 1
-        find_first_by_one
+        element = find_first_by_one
       else
-        find_first_by_multiple
+        element = find_first_by_multiple
       end
+
+      validate_element(element) if element
     rescue WebDriver::Error::NoSuchElementError => wde
       nil
     end
@@ -298,6 +300,17 @@ module Watir
       else
         "@#{key.to_s.gsub("_", "-")}"
       end
+    end
+
+    def validate_element(element)
+      tn = @selector[:tag_name]
+      return if tn && !tag_name_matches?(element, tn)
+
+      if element.tag_name == 'input'
+        return if @selector[:type] && @selector[:type] != element.attribute(:type)
+      end
+
+      element
     end
 
   end # ElementLocator

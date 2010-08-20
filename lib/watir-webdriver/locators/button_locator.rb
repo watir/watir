@@ -1,6 +1,8 @@
 module Watir
   class ButtonLocator < ElementLocator
 
+    VALID_TYPES = %w[button reset submit image]
+
     def locate_all
       find_all_by_multiple
     end
@@ -14,7 +16,7 @@ module Watir
       button_attr_exp = attribute_expression(selectors)
 
       @building = :input
-      selectors[:type] = %w[button reset submit image]
+      selectors[:type] = VALID_TYPES
       input_attr_exp = attribute_expression(selectors)
 
       xpath = ".//button"
@@ -53,5 +55,11 @@ module Watir
     def tag_name_matches?(element, _)
       !!(/^(input|button)$/ === element.tag_name)
     end
+
+    def validate_element(element)
+      return if element.tag_name == "input" && !VALID_TYPES.include?(element.attribute(:type))
+      super
+    end
+
   end # ButtonLocator
 end # Watir
