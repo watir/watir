@@ -1,13 +1,11 @@
 # encoding: utf-8
 module Watir
-  class Link < Anchor
-    default_selector.clear
-
-    identifier        :tag_name => 'a'
-    container_method  :link
-    collection_method :links
-
+  class Anchor
     alias_method :url, :href # deprecate?
+  end # Anchor
 
-  end # Link
+  module Container
+    alias_method :link,  :a
+    alias_method :links, :as
+  end
 end # Watir

@@ -1,10 +1,14 @@
 # encoding: utf-8
 module Watir
   class CheckBox < Input
-    identifier :type => 'checkbox'
 
-    container_method  :checkbox
-    collection_method :checkboxes
+    def self.from(parent, element)
+      if element.attribute(:type) != "checkbox"
+        raise TypeError, "expected type=checkbox for #{element.inspect}"
+      end
+
+      super
+    end
 
     #
     # Set this checkbox to the given value
@@ -48,6 +52,22 @@ module Watir
     def clear
       set false
     end
+  end # CheckBox
 
-  end
+
+  module Container
+    def checkbox(*args)
+      CheckBox.new(self, extract_selector(args).merge(:tag_name => "input", :type => "checkbox"))
+    end
+
+    def checkboxes(*args)
+      CheckBoxCollection.new(self, extract_selector(args).merge(:tag_name => "input", :type => "checkbox"))
+    end
+  end # Container
+
+  class CheckBoxCollection < InputCollection
+    def element_name
+      CheckBox
+    end
+  end # CheckBoxCollection
 end

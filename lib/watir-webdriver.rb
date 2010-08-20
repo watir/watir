@@ -21,35 +21,33 @@ module Watir
     end
 
     def element_class_for(tag_name)
-      tag_to_class[tag_name] || HTMLElement
+      tag_to_class[tag_name.to_sym] || HTMLElement
     end
   end
 
 end
 
+require "watir-webdriver/attribute_helper"
 require "watir-webdriver/element"
 require "watir-webdriver/collections/element_collection"
 require "watir-webdriver/elements/generated"
 require "watir-webdriver/elements/frame"
 require "watir-webdriver/elements/input"
 require "watir-webdriver/elements/button"
-require "watir-webdriver/collections/buttons_collection"
 require "watir-webdriver/elements/checkbox"
 require "watir-webdriver/elements/file_field"
-require "watir-webdriver/elements/font"
-require "watir-webdriver/elements/headings"
 require "watir-webdriver/elements/image"
 require "watir-webdriver/elements/link"
+require "watir-webdriver/elements/font"
 require "watir-webdriver/elements/radio"
 require "watir-webdriver/elements/text_field"
-require "watir-webdriver/collections/text_fields_collection"
 require "watir-webdriver/elements/hidden"
-require "watir-webdriver/elements/select_list"
+require "watir-webdriver/elements/select"
 require "watir-webdriver/elements/form"
 require "watir-webdriver/elements/option"
 require "watir-webdriver/elements/table"
 require "watir-webdriver/elements/table_row"
-require "watir-webdriver/collections/table_rows_collection"
+require "watir-webdriver/collections/table_row_collection"
 
 Watir.tag_to_class.freeze
 

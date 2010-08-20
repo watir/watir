@@ -1,10 +1,13 @@
 # encoding: utf-8
 module Watir
   class FileField < Input
-    identifier :type => 'file'
+    def self.from(parent, element)
+      if element.attribute(:type) != "file"
+        raise TypeError, "expected type=file for #{element.inspect}"
+      end
 
-    container_method  :file_field
-    collection_method :file_fields
+      super
+    end
 
     #
     # Set the file field to the given path
@@ -30,4 +33,20 @@ module Watir
       @element.value
     end
   end
-end
+
+  module Container
+    def file_field(*args)
+      FileField.new(self, extract_selector(args).merge(:tag_name => "input", :type => "file"))
+    end
+
+    def file_fields(*args)
+      FileFieldCollection.new(self, extract_selector(args).merge(:tag_name => "input", :type => "file"))
+    end
+  end # Container
+
+  class FileFieldCollection < InputCollection
+    def element_class
+      FileField
+    end
+  end # FileFieldCollection
+end # Watir

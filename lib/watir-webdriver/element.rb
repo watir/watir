@@ -5,160 +5,15 @@ module Watir
     include Exception
     include Container
     include Selenium
-
-    IGNORED_ATTRIBUTES = [:text, :hash]
-
-    class << self
-      attr_writer :default_selector
-
-      def typed_attributes
-        @typed_attributes ||= Hash.new { |hash, type| hash[type] = []  }
-      end
-
-      def attribute_list
-        @attribute_list ||= (
-          list = typed_attributes.values.flatten
-          list += ancestors[1..-1].map do |e|
-            e.attribute_list if e.respond_to?(:attribute_list)
-          end.compact.flatten
-        ).uniq
-      end
-
-      def attributes(attribute_map = nil)
-        if attribute_map.nil?
-          return attribute_list
-        end
-
-        add_attributes attribute_map
-
-        attribute_map.each do |type, attribs|
-          attribs.each do |name|
-            # we don't want to override methods like :text or :hash
-            next if IGNORED_ATTRIBUTES.include?(name)
-            define_attribute(type, name)
-          end
-        end
-      end
-
-      def default_selector
-        @default_selector ||= {}
-      end
-
-      private
-
-      def inherited(klass)
-        klass.default_selector = default_selector.dup
-      end
-
-      def define_attribute(type, name)
-        method_name    = method_name_for(type, name)
-        attribute_name = attribute_for_method(name)
-
-        (@attributes ||= []) << attribute_name
-
-        case type
-        when :string
-          define_string_attribute(method_name, attribute_name)
-        when :bool
-          define_boolean_attribute(method_name, attribute_name)
-        when :int
-          define_int_attribute(method_name, attribute_name)
-        else
-          # $stderr.puts "treating #{type.inspect} as string for now"
-        end
-      end
-
-      def define_string_attribute(mname, aname)
-        define_method mname do
-          assert_exists
-          @element.attribute(aname).to_s
-        end
-      end
-
-      def define_boolean_attribute(mname, aname)
-        define_method mname do
-          assert_exists
-          !!@element.attribute(aname)
-        end
-      end
-
-      def define_int_attribute(mname, aname)
-        define_method mname do
-          assert_exists
-          @element.attribute(aname).to_i
-        end
-      end
-
-      def container_method(name)
-        klass = self
-        Container.add name do |*args|
-          klass.new(self, *args)
-        end
-      end
-
-      def collection_method(name)
-        constant_name = "#{name.to_s.camel_case}Collection"
-        return if Watir.const_defined?(constant_name)
-
-        element_class = self
-        klass = Watir.const_set(
-          constant_name,
-          Class.new(ElementCollection)
-        )
-
-        Container.add name do
-          klass.new(self, element_class)
-        end
-      end
-
-      def add_attributes(attributes)
-        attributes.each do |type, attr_list|
-          typed_attributes[type] += attr_list
-        end
-      end
-
-      def identifier(selector)
-        Watir.tag_to_class[selector[:tag_name]] = self
-        default_selector.merge! selector
-      end
-
-      def method_name_for(type, attribute)
-        # TODO: rethink this - this list could get pretty long...
-        name = case attribute
-               when :html_for
-                 'for'
-               when :col_span
-                 'colspan'
-               when :row_span
-                 'rowspan'
-               else
-                 attribute.to_s
-               end
-
-        name << "?" if type == :bool
-
-        name
-      end
-
-      def attribute_for_method(method)
-        case method.to_sym
-        when :class_name
-          'class'
-        when :html_for
-          'for'
-        when :read_only
-          'readonly'
-        when :http_equiv
-          'http-equiv'
-        else
-          method.to_s
-        end
-      end
-    end # class << self
-
-    def initialize(parent, *selectors)
+    extend AttributeHelper
+    
+    def initialize(parent, selector)
       @parent   = parent
-      @selector = extract_selector(selectors).merge(self.class.default_selector)
+      @selector = selector
+
+      unless @selector.kind_of? Hash
+        raise ArgumentError, "invalid argument: #{selector.inspect}"
+      end
 
       if @selector.has_key?(:element)
         @element = @selector[:element]
@@ -177,7 +32,7 @@ module Watir
       if @selector.has_key?(:element)
         '#<%s:0x%x located=%s selector=%s>' % [self.class, hash*2, !!@element, '{:element=>(webdriver element)}']
       else
-        '#<%s:0x%x located=%s selector=%s>' % [self.class, hash*2, !!@element, @selector.inspect]
+        '#<%s:0x%x located=%s selector=%s>' % [self.class, hash*2, !!@element, selector_string]
       end
     end
 
@@ -271,7 +126,7 @@ module Watir
       e = driver.execute_script "return arguments[0].parentNode", @element
 
       if e.kind_of?(WebDriver::Element)
-        Watir.element_class_for(e.tag_name).new(@parent, :element, e)
+        Watir.element_class_for(e.tag_name).new(@parent, :element => e)
       end
     end
 
@@ -340,21 +195,6 @@ module Watir
     def assert_writable
       assert_enabled
       raise ObjectReadOnlyException if respond_to?(:readonly?) && readonly?
-    end
-
-    def extract_selector(selectors)
-      case selectors.size
-      when 2
-        { selectors[0] => selectors[1] }
-      when 1
-        unless selectors.first.is_a? Hash
-          raise ArgumentError, "expected Hash or (:how, 'what')"
-        end
-
-        selectors.first
-      else
-        raise ArgumentError, "wrong number of arguments (#{selectors.size} for 2)"
-      end
     end
 
   end # Element

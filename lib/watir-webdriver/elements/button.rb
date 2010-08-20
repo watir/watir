@@ -12,6 +12,15 @@ module Watir
     # add the attributes from <input>
     attributes Watir::Input.typed_attributes
 
+
+    def self.from(parent, element)
+      if element.tag_name == "button" ||
+         element.tag_name == "input" && %w[submit reset image button].include?(element.attribute(:type))
+        Button.new(parent, :element => element)
+      else
+        raise TypeError, "expected button or input[@type=submit|reset|image|button] for #{element.inspect}"
+      end
+    end
     #
     # Returns the text of the button.
     #
@@ -48,5 +57,13 @@ module Watir
       ButtonLocator.new(@parent.wd, @selector, self.class.attribute_list).locate
     end
 
-  end
-end
+  end # Button
+
+  class ButtonCollection < ElementCollection
+    private
+
+    def locator_class
+      ButtonLocator
+    end
+  end # ButtonsCollection
+end # Watir

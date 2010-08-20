@@ -4,12 +4,19 @@ module Watir
 
     attributes Watir::TextArea.typed_attributes
 
+    def self.from(parent, element)
+      type = element.attribute(:type)
+
+      if TextFieldLocator::NON_TEXT_TYPES.include?(type)
+        raise TypeError, "expected type != #{type} for #{element.inspect}"
+      end
+
+      super
+    end
+
     # hacky, but we want Input#type here, which was overriden by TextArea's attributes
     # so we're *overwriting* that method definition here
     def type; super; end
-
-    container_method  :text_field
-    collection_method :text_fields
 
     def inspect
       '#<%s:0x%x located=%s selector=%s>' % [self.class, hash*2, !!@element, selector_string]
@@ -75,4 +82,26 @@ module Watir
       s
     end
   end
+
+  module Container
+    def text_field(*args)
+      TextField.new(self, extract_selector(args).merge(:tag_name => "input"))
+    end
+
+    def text_fields(*args)
+      TextFieldCollection.new(self, extract_selector(args).merge(:tag_name => "input"))
+    end
+  end # Container
+
+  class TextFieldCollection < InputCollection
+    private
+
+    def locator_class
+      TextFieldLocator
+    end
+
+    def element_class
+      TextField
+    end
+  end # TextFieldCollection
 end

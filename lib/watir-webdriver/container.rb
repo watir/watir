@@ -25,5 +25,22 @@ module Watir
       @browserbot_script ||= File.read("#{File.dirname(__FILE__)}/browserbot.js")
     end
 
+    def extract_selector(selectors)
+      case selectors.size
+      when 2
+        { selectors[0] => selectors[1] }
+      when 1
+        unless selectors.first.kind_of? Hash
+          raise ArgumentError, "expected Hash or (:how, 'what')"
+        end
+
+        selectors.first
+      when 0
+        {}
+      else
+        raise ArgumentError, selectors.inspect
+      end
+    end
+
   end # Container
 end # Watir

@@ -12,7 +12,7 @@ module Watir
     def build_xpath(selectors)
       return if selectors.values.any? { |e| e.kind_of? Regexp }
 
-      selectors.delete(:tag_name) || raise("internal error: no tag_name?!")
+      selectors.delete(:tag_name)
 
       @building = :textarea
       textarea_attr_exp = attribute_expression(selectors)

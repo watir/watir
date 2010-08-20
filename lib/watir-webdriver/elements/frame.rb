@@ -24,7 +24,6 @@ module Watir
     end
 
     def assert_exists
-      @parent.assert_exists
       # we always run locate(), to make sure the frame is switched
       @element = locate
     end
@@ -47,7 +46,7 @@ module Watir
 
     def locate_iframe
       # hack - frame doesn't have IFrame's attributes either
-      @iframe = IFrame.new(@parent, @selector).locate
+      @iframe = IFrame.new(@parent, @selector.merge(:tag_name => "iframe")).locate
 
       if @iframe
         switch_to_iframe @iframe
@@ -97,6 +96,22 @@ module Watir
 
       driver.switch_to.frame loc
     end
-
   end # Frame
+
+  module Container
+    def frame(*args)
+      Frame.new(self, extract_selector(args))
+    end
+
+    def frames(*args)
+      FrameCollection.new(self, extract_selector(args))
+    end
+  end
+
+  class FrameCollection < ElementCollection
+    def element_class
+      Frame
+    end
+  end
+
 end # Watir

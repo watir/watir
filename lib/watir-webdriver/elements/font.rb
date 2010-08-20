@@ -1,12 +1,17 @@
-# encoding: utf-8
-
 module Watir
-  class Font < HTMLElement
-    identifier        :tag_name => 'font'
-    container_method  :font
-    collection_method :fonts
-
-    attributes :string => [:color, :face], :int => [:size]
-  end
-end
-
+  module Container
+    def font(*args)
+      Font.new(self, extract_selector(args).merge(:tag_name => "font"))
+    end
+    
+    def fonts(*args)
+      FontCollection.new(self, extract_selector(args).merge(:tag_name => "font"))
+    end
+  end # Container
+  
+  class FontCollection < ElementCollection
+    def element_class
+      Font
+    end
+  end # FontCollection
+end # Watir

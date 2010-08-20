@@ -3,8 +3,9 @@ module Watir
   class ElementCollection
     include Enumerable
 
-    def initialize(parent, element_class)
-      @parent, @element_class = parent, element_class
+    def initialize(parent, selector)
+      @parent   = parent
+      @selector = selector
     end
 
     #
@@ -37,7 +38,7 @@ module Watir
 
 
     def [](idx)
-      to_a[idx] || @element_class.new(@parent, :index, idx)
+      to_a[idx] || element_class.new(@parent, :index => idx)
     end
 
     #
@@ -47,7 +48,7 @@ module Watir
     #
 
     def first
-      to_a[0] || @element_class.new(@parent, :index, 0)
+      to_a[0] || element_class.new(@parent, :index => 0)
     end
 
     #
@@ -57,7 +58,7 @@ module Watir
     #
 
     def last
-      to_a[-1] || @element_class.new(@parent, :index, -1)
+      to_a[-1] || element_class.new(@parent, :index => -1)
     end
 
     #
@@ -67,18 +68,23 @@ module Watir
     #
 
     def to_a
-      # TODO: optimize - lazily @element_class instance
-      @to_a ||= elements.map { |e| @element_class.new(@parent, :element, e) }
+      # TODO: optimize - lazy element_class instance?
+      @to_a ||= elements.map { |e| element_class.new(@parent, :element => e) }
     end
 
     private
 
     def elements
-      @elements ||= ElementLocator.new(
+      @elements ||= locator_class.new(
         @parent.wd,
-        @element_class.default_selector,
-        @element_class.attribute_list
+        @selector,
+        element_class.attribute_list
       ).locate_all
+    end
+
+    # overridable by subclasses
+    def locator_class
+      ElementLocator
     end
 
   end # ElementCollection
