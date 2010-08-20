@@ -42,15 +42,15 @@ describe "TableCells" do
 
       inner_table = browser.table(:id, 'inner')
 
-      count += 1
-      inner_tabl
-
-      count.should > 0e.cells.each_with_index do |c, index|
+      inner_table.cells.each_with_index do |c, index|
         c.name.should == inner_table.cell(:index, index+1).name
         c.id.should == inner_table.cell(:index, index+1).id
         c.value.should == inner_table.cell(:index, index+1).value
+
+        count += 1
       end
 
+      count.should > 0
 
       # Cells inside a table (should not include cells inside a table inside a table)
       outer_table = browser.table(:id, 'outer')
