@@ -21,11 +21,17 @@ describe "Hiddens" do
 
   describe "#each" do
     it "iterates through hiddens correctly" do
+      count = 0
+
       browser.hiddens.each_with_index do |h, index|
         h.name.should == browser.hidden(:index, index).name
         h.id.should == browser.hidden(:index, index).id
         h.value.should == browser.hidden(:index, index).value
+
+		count += 1
       end
+
+      count.should > 0
     end
   end
 

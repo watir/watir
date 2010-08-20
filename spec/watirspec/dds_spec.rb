@@ -21,10 +21,16 @@ describe "Dds" do
 
   describe "#each" do
     it "iterates through dds correctly" do
+      count = 0
+
       browser.dds.each_with_index do |d, index|
         d.id.should == browser.dd(:index, index).id
         d.class_name.should == browser.dd(:index, index).class_name
+
+		count += 1
       end
+
+      count.should > 0
     end
   end
 

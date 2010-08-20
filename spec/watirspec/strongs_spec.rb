@@ -21,11 +21,17 @@ describe "Strongs" do
 
   describe "#each" do
     it "iterates through divs correctly" do
+      count = 0
+
       browser.strongs.each_with_index do |s, index|
         strong = browser.strong(:index, index)
         s.id.should         == strong.id
         s.class_name.should == strong.class_name
+
+        count += 1
       end
+
+      count.should > 0
     end
   end
 

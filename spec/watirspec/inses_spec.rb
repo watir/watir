@@ -21,10 +21,16 @@ describe "Inses" do
 
   describe "#each" do
     it "iterates through inses correctly" do
+      count = 0
+
       browser.inses.each_with_index do |s, index|
         s.id.should == browser.ins(:index, index).id
         s.value.should == browser.ins(:index, index).value
+
+		count += 1
       end
+
+      count.should > 0
     end
   end
 

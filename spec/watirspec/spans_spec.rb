@@ -21,10 +21,16 @@ describe "Spans" do
 
   describe "#each" do
     it "iterates through spans correctly" do
+      count = 0
+
       browser.spans.each_with_index do |s, index|
         s.id.should == browser.span(:index, index).id
         s.value.should == browser.span(:index, index).value
+
+		count += 1
       end
+
+      count.should > 0
     end
   end
 

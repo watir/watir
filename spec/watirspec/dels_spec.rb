@@ -21,10 +21,16 @@ describe "Dels" do
 
   describe "#each" do
     it "iterates through dels correctly" do
+      count = 0
+
       browser.dels.each_with_index do |s, index|
         s.id.should == browser.del(:index, index).id
         s.value.should == browser.del(:index, index).value
+
+		count += 1
       end
+
+      count.should > 0
     end
   end
 

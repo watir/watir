@@ -21,10 +21,16 @@ describe "Lis" do
 
   describe "#each" do
     it "iterates through lis correctly" do
+      count = 0
+
       browser.lis.each_with_index do |l, index|
         l.id.should == browser.li(:index, index).id
         l.value.should == browser.li(:index, index).value
+
+		count += 1
       end
+
+      count.should > 0
     end
   end
 

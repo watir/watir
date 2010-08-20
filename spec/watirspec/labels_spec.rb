@@ -21,10 +21,16 @@ describe "Labels" do
 
   describe "#each" do
     it "iterates through labels correctly" do
+      count = 0
+
       browser.labels.each_with_index do |l, index|
         l.id.should == browser.label(:index, index).id
         l.value.should == browser.label(:index, index).value
+
+		count += 1
       end
+
+      count.should > 0
     end
   end
 

@@ -21,11 +21,17 @@ describe "Dls" do
 
   describe "#each" do
     it "iterates through dls correctly" do
+      count = 0
+
       browser.dls.each_with_index do |d, index|
         d.text.should == browser.dl(:index, index).text
         d.id.should == browser.dl(:index, index).id
         d.class_name.should == browser.dl(:index, index).class_name
+
+		count += 1
       end
+
+      count.should > 0
     end
   end
 

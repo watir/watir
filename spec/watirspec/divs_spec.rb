@@ -21,10 +21,16 @@ describe "Divs" do
 
   describe "#each" do
     it "iterates through divs correctly" do
+      count = 0
+
       browser.divs.each_with_index do |d, index|
         d.id.should == browser.div(:index, index).id
         d.class_name.should == browser.div(:index, index).class_name
+
+		count += 1
       end
+
+      count.should > 0
     end
   end
 

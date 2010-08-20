@@ -21,10 +21,16 @@ describe "Images" do
 
   describe "#each" do
     it "iterates through images correctly" do
+      count = 0
+
       browser.images.each_with_index do |c, index|
         c.id.should == browser.image(:index, index).id
         c.value.should == browser.image(:index, index).value
+
+		count += 1
       end
+
+      count.should > 0
     end
   end
 

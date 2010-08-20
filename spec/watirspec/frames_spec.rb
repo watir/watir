@@ -25,10 +25,16 @@ describe "<frame> Frames" do
 
   describe "#each" do
     it "iterates through frames correctly" do
+	  count = 0
+  
       browser.frames.each_with_index do |f, index|
         f.id.should ==  browser.frame(:index, index).id
         f.value.should == browser.frame(:index, index).value
+
+		count += 1
       end
+
+	  count.should > 0
     end
   end
 end
@@ -55,12 +61,19 @@ describe "<iframe> Frames" do
     end
   end
 
-  describe "#each" do
-    it "iterates through frames correctly" do
-      browser.frames.each_with_index do |f, index|
-        f.name.should == browser.frame(:index, index).name
-        f.id.should ==  browser.frame(:index, index).id
-        f.value.should == browser.frame(:index, index).value
+    describe "#each" do
+      it "iterates through frames correctly" do
+        count = 0
+
+        browser.frames.each_with_index do |f, index|
+          f.name.should == browser.frame(:index, index).name
+          f.id.should ==  browser.frame(:index, index).id
+          f.value.should == browser.frame(:index, index).value
+
+          count += 1
+        end
+
+        count.should > 0
       end
     end
   end

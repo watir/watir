@@ -32,16 +32,28 @@ describe "TableRows" do
       it "iterates through rows correctly" do
       # rows inside a table
       inner_table = browser.table(:id, 'inner')
+      count = 0
+
       inner_table.rows.each_with_index do |r, index|
         r.id.should == inner_table.row(:index, index).id
         r.value.should == inner_table.row(:index, index).value
+
+		count += 1
       end
+
+      count.should > 0
       # rows inside a table (should not include rows inside a table inside a table)
       outer_table = browser.table(:id, 'outer')
+      count = 0
+
       outer_table.rows.each_with_index do |r, index|
         r.id.should == outer_table.row(:index, index).id
         r.value.should == outer_table.row(:index, index).value
+
+		count += 1
       end
+
+      count.should > 0
     end
   end
 

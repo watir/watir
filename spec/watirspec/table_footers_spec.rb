@@ -33,10 +33,30 @@ describe "TableFooters" do
       end
     end
 
-    it "iterates through table tfoots correctly (table context)" do
-      table = browser.table(:index, 0)
-      table.tfoots.each_with_index do |tfoot, index|
-        tfoot.id.should == table.tfoot(:index, index).id
+    describe "#each" do
+      it "iterates through table tfoots correctly (page context)" do
+        count = 0
+
+        browser.tfoots.each_with_index do |tfoot, index|
+          tfoot.id.should == browser.tfoot(:index, index).id
+
+          count += 1
+        end
+
+        count.should > 0
+      end
+
+      it "iterates through table tfoots correctly (table context)" do
+        table = browser.table(:index, 0)
+        count = 0
+
+        table.tfoots.each_with_index do |tfoot, index|
+          tfoot.id.should == table.tfoot(:index, index).id
+
+          count += 1
+        end
+
+        count.should > 0
       end
     end
   end
