@@ -1,9 +1,6 @@
 # encoding: utf-8
 module Watir
   class Radio < Input
-    container_method  :radio,  :tag_name => "input", :type => "radio"
-    collection_method :radios, :tag_name => "input", :type => "radio"
-
     #
     # Select this radio button.
     #
@@ -23,6 +20,23 @@ module Watir
       assert_exists
       @element.selected?
     end
+  end # Radio
 
-  end
-end
+  module Container
+    def radio(*selectors)
+      Radio.new(self, { :tag_name => "input", :type => "radio" }, *selectors)
+    end
+
+    def radios(*selectors)
+      RadioCollection.new(self, { :tag_name => "input", :type => "radio" }, *selectors)
+    end
+  end # Container
+
+  class RadioCollection < InputCollection
+    private
+
+    def element_class
+      Radio
+    end
+  end # RadioCollection
+end # Watir

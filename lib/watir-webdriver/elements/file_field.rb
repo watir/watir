@@ -1,9 +1,6 @@
 # encoding: utf-8
 module Watir
   class FileField < Input
-    container_method  :file_field, :tag_name => :input, :type => "file"
-    collection_method :file_fields, :tag_name => :input, :type => "file"
-
     #
     # Set the file field to the given path
     #
@@ -28,4 +25,20 @@ module Watir
       @element.value
     end
   end
-end
+
+  module Container
+    def file_field(*selectors)
+      FileField.new(self, {:tag_name => "input", :type => "file"}, *selectors)
+    end
+
+    def file_fields(*selectors)
+      FileFieldCollection.new(self, {:tag_name => "input", :type => "file"}, *selectors)
+    end
+  end # Container
+
+  class FileFieldCollection < InputCollection
+    def element_class
+      FileField
+    end
+  end # FileFieldCollection
+end # Watir

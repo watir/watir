@@ -79,33 +79,6 @@ module Watir
         end
       end
 
-      def container_method(name, default_selector)
-        klass = self
-
-        Container.add name do |*selectors|
-          klass.new(self, default_selector, *selectors)
-        end
-      end
-
-      def collection_method(name, default_selector)
-        constant_name = "#{name.to_s.camel_case}Collection"
-        return if Watir.const_defined?(constant_name)
-
-        klass = Watir.const_set(
-          constant_name,
-          Class.new(ElementCollection)
-        )
-
-        element_class = self
-        klass.send :define_method, :element_class do
-          element_class
-        end
-
-        Container.add name do
-          klass.new(self, default_selector)
-        end
-      end
-
       def add_attributes(attributes)
         attributes.each do |type, attr_list|
           typed_attributes[type] += attr_list

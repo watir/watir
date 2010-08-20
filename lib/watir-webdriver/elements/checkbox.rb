@@ -1,9 +1,6 @@
 # encoding: utf-8
 module Watir
   class CheckBox < Input
-    container_method  :checkbox,   :tag_name => "input", :type => "checkbox"
-    collection_method :checkboxes, :tag_name => "input", :type => "checkbox"
-
     #
     # Set this checkbox to the given value
     #
@@ -46,12 +43,22 @@ module Watir
     def clear
       set false
     end
+  end # CheckBox
 
-  end
+
+  module Container
+    def checkbox(*selectors)
+      CheckBox.new(self, { :tag_name => "input", :type => "checkbox"}, *selectors)
+    end
+
+    def checkboxes(*selectors)
+      CheckBoxCollection.new(self, { :tag_name => "input", :type => "checkbox"}, *selectors)
+    end
+  end # Container
 
   class CheckBoxCollection < InputCollection
-    def initialize(parent, default_selector, element_class)
-      default_selector.merge! :type => "checkbox"
+    def element_name
+      CheckBox
     end
-  end
+  end # CheckBoxCollection
 end

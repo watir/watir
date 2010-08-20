@@ -4,10 +4,23 @@ module Watir
 
   # deprecated in HTML5
   class Font < HTMLElement
-    container_method  :font,  :tag_name => "font"
-    collection_method :fonts, :tag_name => "font"
-
     attributes :string => [:color, :face], :int => [:size]
   end
+
+  module Container
+    def font(*selectors)
+      Font.new(self, { :tag_name => "font"}, *selectors)
+    end
+
+    def fonts(*selectors)
+      FontCollection.new(self, { :tag_name => "font"}, *selectors)
+    end
+  end # Container
+
+  class FontCollection < ElementCollection
+    def element_class
+      Font
+    end
+  end # FontCollection
 end
 

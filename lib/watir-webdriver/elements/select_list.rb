@@ -1,10 +1,7 @@
 # encoding: utf-8
 module Watir
-  class SelectList < Select
+  class Select < HTMLElement
     include Watir::Exception
-
-    container_method  :select_list,  :tag_name => "select"
-    collection_method :select_lists, :tag_name => "select"
 
     #
     # Returns true if this element is enabled
@@ -59,7 +56,7 @@ module Watir
     #
 
     def select(str_or_rx)
-        select_by :text, str_or_rx, multiple?
+      select_by :text, str_or_rx, multiple?
     end
 
     #
@@ -103,9 +100,7 @@ module Watir
     #
 
     def value
-      o = options.find { |e| e.selected? }
-      return if o.nil?
-
+      o = options.find { |e| e.selected? } || return
       o.value
     end
 
@@ -216,5 +211,5 @@ module Watir
       ''
     end
 
-  end # SelectList
+  end # Select
 end # Watir
