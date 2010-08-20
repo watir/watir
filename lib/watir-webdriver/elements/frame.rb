@@ -24,7 +24,6 @@ module Watir
     end
 
     def assert_exists
-      @parent.assert_exists
       # we always run locate(), to make sure the frame is switched
       @element = locate
     end
