@@ -42,4 +42,10 @@ module Watir
     end
 
   end # Image
+
+  module Container
+     alias_method :image, :img
+     alias_method :images, :imgs
+  end # Container
+
 end # Watir

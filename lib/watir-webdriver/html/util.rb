@@ -4,7 +4,6 @@ module Watir
 
       module_function
 
-
       def classify(name)
         if name =~ /^HTML(.+)Element$/
           $1
@@ -13,16 +12,8 @@ module Watir
         end
       end
 
-      SPECIALS = {
-        'img' => 'image'
-      }
-
       def paramify(str)
-        if SPECIALS.has_key?(str)
-          SPECIALS[str]
-        else
-          classify(str).snake_case
-        end
+        classify(str).snake_case
       end
 
     end # Util

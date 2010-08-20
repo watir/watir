@@ -32,7 +32,7 @@ module Watir
 
 
  class HTMLElement < Element
-   attributes(:token_list => ([:class_list, :item_ref, :item_prop]), :style => ([:style]), :string_map => ([:dataset]), :string => ([:innerhtml, :outerhtml, :id, :title, :lang, :dir, :class_name, :item_type, :item_id, :item_value, :access_key, :access_key_label, :content_editable, :command_type, :label, :icon]), :properties_collection => ([:properties]), :int => ([:tab_index]), :html_element => ([:context_menu]), :function => ([:onabort, :onblur, :oncanplay, :oncanplaythrough, :onchange, :onclick, :oncontextmenu, :oncuechange, :ondblclick, :ondrag, :ondragend, :ondragenter, :ondragleave, :ondragover, :ondragstart, :ondrop, :ondurationchange, :onemptied, :onended, :onerror, :onfocus, :onformchange, :onforminput, :oninput, :oninvalid, :onkeydown, :onkeypress, :onkeyup, :onload, :onloadeddata, :onloadedmetadata, :onloadstart, :onmousedown, :onmousemove, :onmouseout, :onmouseover, :onmouseup, :onmousewheel, :onpause, :onplay, :onplaying, :onprogress, :onratechange, :onreadystatechange, :onscroll, :onseeked, :onseeking, :onselect, :onshow, :onstalled, :onsubmit, :onsuspend, :ontimeupdate, :onvolumechange, :onwaiting]), :bool => ([:item_scope, :hidden, :draggable, :is_content_editable, :spellcheck, :disabled, :checked]))
+   attributes(:function => ([:onabort, :onblur, :oncanplay, :oncanplaythrough, :onchange, :onclick, :oncontextmenu, :oncuechange, :ondblclick, :ondrag, :ondragend, :ondragenter, :ondragleave, :ondragover, :ondragstart, :ondrop, :ondurationchange, :onemptied, :onended, :onerror, :onfocus, :onformchange, :onforminput, :oninput, :oninvalid, :onkeydown, :onkeypress, :onkeyup, :onload, :onloadeddata, :onloadedmetadata, :onloadstart, :onmousedown, :onmousemove, :onmouseout, :onmouseover, :onmouseup, :onmousewheel, :onpause, :onplay, :onplaying, :onprogress, :onratechange, :onreadystatechange, :onscroll, :onseeked, :onseeking, :onselect, :onshow, :onstalled, :onsubmit, :onsuspend, :ontimeupdate, :onvolumechange, :onwaiting]), :style => ([:style]), :string => ([:innerhtml, :outerhtml, :id, :title, :lang, :dir, :class_name, :item_type, :item_id, :item_value, :access_key, :access_key_label, :content_editable, :command_type, :label, :icon]), :bool => ([:item_scope, :hidden, :draggable, :is_content_editable, :spellcheck, :disabled, :checked]), :token_list => ([:class_list, :item_ref, :item_prop]), :int => ([:tab_index]), :string_map => ([:dataset]), :properties_collection => ([:properties]), :html_element => ([:context_menu]))
  end
  class HTMLElementCollection < ElementCollection
    def element_class
@@ -56,7 +56,7 @@ module Watir
    end
  end
  class FrameSet < HTMLElement
-   attributes(:string => ([:cols, :rows]), :function => ([:onafterprint, :onbeforeprint, :onbeforeunload, :onblur, :onerror, :onfocus, :onhashchange, :onload, :onmessage, :onoffline, :ononline, :onpagehide, :onpageshow, :onpopstate, :onredo, :onresize, :onstorage, :onundo, :onunload]))
+   attributes(:function => ([:onafterprint, :onbeforeprint, :onbeforeunload, :onblur, :onerror, :onfocus, :onhashchange, :onload, :onmessage, :onoffline, :ononline, :onpagehide, :onpageshow, :onpopstate, :onredo, :onresize, :onstorage, :onundo, :onunload]), :string => ([:cols, :rows]))
  end
  class FrameSetCollection < ElementCollection
    def element_class
@@ -108,7 +108,7 @@ module Watir
    end
  end
  class Keygen < HTMLElement
-   attributes(:string => ([:challenge, :keytype, :name, :type, :validity, :validation_message]), :list => ([:labels]), :html_element => ([:form]), :bool => ([:autofocus, :disabled, :will_validate]))
+   attributes(:string => ([:challenge, :keytype, :name, :type, :validity, :validation_message]), :bool => ([:autofocus, :disabled, :will_validate]), :list => ([:labels]), :html_element => ([:form]))
  end
  class KeygenCollection < ElementCollection
    def element_class
@@ -116,7 +116,7 @@ module Watir
    end
  end
  class TextArea < HTMLElement
-   attributes(:string => ([:name, :placeholder, :wrap, :type, :default_value, :value, :validity, :validation_message]), :int => ([:cols, :max_length, :rows, :text_length, :selection_start, :selection_end]), :list => ([:labels]), :html_element => ([:form]), :bool => ([:autofocus, :disabled, :read_only, :required, :will_validate]))
+   attributes(:string => ([:name, :placeholder, :wrap, :type, :default_value, :value, :validity, :validation_message]), :bool => ([:autofocus, :disabled, :read_only, :required, :will_validate]), :int => ([:cols, :max_length, :rows, :text_length, :selection_start, :selection_end]), :list => ([:labels]), :html_element => ([:form]))
  end
  class TextAreaCollection < ElementCollection
    def element_class
@@ -124,7 +124,7 @@ module Watir
    end
  end
  class Option < HTMLElement
-   attributes(:string => ([:label, :value, :text]), :int => ([:index]), :html_element => ([:form]), :bool => ([:disabled, :default_selected, :selected]))
+   attributes(:string => ([:label, :value, :text]), :bool => ([:disabled, :default_selected, :selected]), :int => ([:index]), :html_element => ([:form]))
  end
  class OptionCollection < ElementCollection
    def element_class
@@ -140,7 +140,7 @@ module Watir
    end
  end
  class Input < HTMLElement
-   attributes(:string => ([:accept, :alt, :autocomplete, :form_action, :form_enctype, :form_method, :form_target, :height, :max, :min, :name, :pattern, :placeholder, :src, :step, :type, :default_value, :value, :width, :validity, :validation_message]), :float => ([:value_as_number]), :int => ([:max_length, :size, :selection_start, :selection_end]), :list => ([:files, :labels]), :html_element => ([:form, :list, :selected_option]), :bool => ([:autofocus, :default_checked, :checked, :disabled, :form_no_validate, :indeterminate, :multiple, :read_only, :required, :will_validate]), :date => ([:value_as_date]))
+   attributes(:string => ([:accept, :alt, :autocomplete, :form_action, :form_enctype, :form_method, :form_target, :height, :max, :min, :name, :pattern, :placeholder, :src, :step, :type, :default_value, :value, :width, :validity, :validation_message]), :bool => ([:autofocus, :default_checked, :checked, :disabled, :form_no_validate, :indeterminate, :multiple, :read_only, :required, :will_validate]), :float => ([:value_as_number]), :int => ([:max_length, :size, :selection_start, :selection_end]), :list => ([:files, :labels]), :html_element => ([:form, :list, :selected_option]), :date => ([:value_as_date]))
  end
  class InputCollection < ElementCollection
    def element_class
@@ -172,7 +172,7 @@ module Watir
  end
  # do nothing
  class Form < HTMLElement
-   attributes(:string => ([:accept_charset, :action, :autocomplete, :enctype, :method, :name, :target]), :int => ([:length]), :html_collection => ([:elements]), :bool => ([:no_validate]))
+   attributes(:html_collection => ([:elements]), :string => ([:accept_charset, :action, :autocomplete, :enctype, :method, :name, :target]), :bool => ([:no_validate]), :int => ([:length]))
  end
  class FormCollection < ElementCollection
    def element_class
@@ -180,7 +180,7 @@ module Watir
    end
  end
  class TableRow < HTMLElement
-   attributes(:int => ([:row_index, :section_row_index]), :html_collection => ([:cells]))
+   attributes(:html_collection => ([:cells]), :int => ([:row_index, :section_row_index]))
  end
  class TableRowCollection < ElementCollection
    def element_class
@@ -216,7 +216,7 @@ module Watir
  end
  # do nothing
  class Table < HTMLElement
-   attributes(:string => ([:summary]), :html_element => ([:caption, :t_head, :t_foot]), :html_collection => ([:t_bodies, :rows]))
+   attributes(:html_collection => ([:t_bodies, :rows]), :string => ([:summary]), :html_element => ([:caption, :t_head, :t_foot]))
  end
  class TableCollection < ElementCollection
    def element_class
@@ -228,7 +228,7 @@ module Watir
  end
  # do nothing
  class Map < HTMLElement
-   attributes(:string => ([:name]), :html_collection => ([:areas, :images]))
+   attributes(:html_collection => ([:areas, :images]), :string => ([:name]))
  end
  class MapCollection < ElementCollection
    def element_class
@@ -236,7 +236,7 @@ module Watir
    end
  end
  class Media < HTMLElement
-   attributes(:string => ([:error, :src, :current_src, :preload, :buffered, :played, :seekable, :tracks]), :float => ([:current_time, :initial_time, :duration, :default_playback_rate, :playback_rate, :volume]), :int => ([:network_state, :ready_state]), :bool => ([:seeking, :paused, :ended, :autoplay, :loop, :controls, :muted]), :date => ([:start_offset_time]))
+   attributes(:string => ([:error, :src, :current_src, :preload, :buffered, :played, :seekable, :tracks]), :bool => ([:seeking, :paused, :ended, :autoplay, :loop, :controls, :muted]), :float => ([:current_time, :initial_time, :duration, :default_playback_rate, :playback_rate, :volume]), :int => ([:network_state, :ready_state]), :date => ([:start_offset_time]))
  end
  class MediaCollection < ElementCollection
    def element_class
@@ -280,7 +280,7 @@ module Watir
  end
  # do nothing
  class Object < HTMLElement
-   attributes(:string => ([:data, :type, :name, :use_map, :width, :height, :content_window, :validity, :validation_message]), :html_element => ([:form]), :bool => ([:will_validate]), :document => ([:content_document]))
+   attributes(:string => ([:data, :type, :name, :use_map, :width, :height, :content_window, :validity, :validation_message]), :bool => ([:will_validate]), :document => ([:content_document]), :html_element => ([:form]))
  end
  class ObjectCollection < ElementCollection
    def element_class
@@ -288,11 +288,11 @@ module Watir
    end
  end
  class Object < HTMLElement
-   attributes(:string => ([:align, :archive, :border, :code, :code_base, :code_type, :standby]), :int => ([:hspace, :vspace]), :bool => ([:declare]))
+   attributes(:string => ([:align, :archive, :border, :code, :code_base, :code_type, :standby]), :bool => ([:declare]), :int => ([:hspace, :vspace]))
  end
  # do nothing
  class IFrame < HTMLElement
-   attributes(:token_list => ([:sandbox]), :string => ([:src, :srcdoc, :name, :width, :height, :content_window]), :bool => ([:seamless]), :document => ([:content_document]))
+   attributes(:string => ([:src, :srcdoc, :name, :width, :height, :content_window]), :bool => ([:seamless]), :token_list => ([:sandbox]), :document => ([:content_document]))
  end
  class IFrameCollection < ElementCollection
    def element_class
@@ -304,7 +304,7 @@ module Watir
  end
  # do nothing
  class Image < HTMLElement
-   attributes(:string => ([:alt, :src, :use_map]), :int => ([:width, :height, :natural_width, :natural_height]), :bool => ([:is_map, :complete]))
+   attributes(:string => ([:alt, :src, :use_map]), :bool => ([:is_map, :complete]), :int => ([:width, :height, :natural_width, :natural_height]))
  end
  class ImageCollection < ElementCollection
    def element_class
@@ -344,7 +344,7 @@ module Watir
    end
  end
  class Anchor < HTMLElement
-   attributes(:token_list => ([:rel_list]), :string => ([:href, :target, :ping, :rel, :media, :hreflang, :type, :text, :protocol, :host, :hostname, :port, :pathname, :search, :hash]))
+   attributes(:string => ([:href, :target, :ping, :rel, :media, :hreflang, :type, :text, :protocol, :host, :hostname, :port, :pathname, :search, :hash]), :token_list => ([:rel_list]))
  end
  class AnchorCollection < ElementCollection
    def element_class
@@ -501,7 +501,7 @@ module Watir
 
 
  class Marquee < HTMLElement
-   attributes(:string => ([:behavior, :bg_color, :direction, :height, :true_speed, :width]), :int => ([:hspace, :loop, :scroll_amount, :scroll_delay, :vspace]), :function => ([:onbounce, :onfinish, :onstart]))
+   attributes(:function => ([:onbounce, :onfinish, :onstart]), :string => ([:behavior, :bg_color, :direction, :height, :true_speed, :width]), :int => ([:hspace, :loop, :scroll_amount, :scroll_delay, :vspace]))
  end
  class MarqueeCollection < ElementCollection
    def element_class
@@ -535,7 +535,7 @@ module Watir
 
 
  class Select < HTMLElement
-   attributes(:string => ([:name, :type, :value, :validity, :validation_message]), :int => ([:size, :length, :selected_index]), :list => ([:labels]), :html_element => ([:form]), :html_collection => ([:options, :selected_options]), :bool => ([:autofocus, :disabled, :multiple, :required, :will_validate]))
+   attributes(:html_collection => ([:options, :selected_options]), :string => ([:name, :type, :value, :validity, :validation_message]), :bool => ([:autofocus, :disabled, :multiple, :required, :will_validate]), :int => ([:size, :length, :selected_index]), :list => ([:labels]), :html_element => ([:form]))
  end
  class SelectCollection < ElementCollection
    def element_class
@@ -631,7 +631,7 @@ module Watir
 
 
  class Output < HTMLElement
-   attributes(:token_list => ([:html_for]), :string => ([:name, :type, :default_value, :value, :validity, :validation_message]), :list => ([:labels]), :html_element => ([:form]), :bool => ([:will_validate]))
+   attributes(:string => ([:name, :type, :default_value, :value, :validity, :validation_message]), :bool => ([:will_validate]), :token_list => ([:html_for]), :list => ([:labels]), :html_element => ([:form]))
  end
  class OutputCollection < ElementCollection
    def element_class
@@ -664,7 +664,7 @@ module Watir
 
 
  class Area < HTMLElement
-   attributes(:token_list => ([:rel_list]), :string => ([:alt, :coords, :shape, :href, :target, :ping, :rel, :media, :hreflang, :type, :protocol, :host, :hostname, :port, :pathname, :search, :hash]))
+   attributes(:string => ([:alt, :coords, :shape, :href, :target, :ping, :rel, :media, :hreflang, :type, :protocol, :host, :hostname, :port, :pathname, :search, :hash]), :token_list => ([:rel_list]))
  end
  class AreaCollection < ElementCollection
    def element_class
@@ -677,7 +677,7 @@ module Watir
  # do nothing
 
  class OList < HTMLElement
-   attributes(:int => ([:start]), :bool => ([:reversed]))
+   attributes(:bool => ([:reversed]), :int => ([:start]))
  end
  class OListCollection < ElementCollection
    def element_class
@@ -698,7 +698,7 @@ module Watir
    end
  end
  class Button < HTMLElement
-   attributes(:string => ([:form_action, :form_enctype, :form_method, :form_no_validate, :form_target, :name, :type, :value, :validity, :validation_message]), :list => ([:labels]), :html_element => ([:form]), :bool => ([:autofocus, :disabled, :will_validate]))
+   attributes(:string => ([:form_action, :form_enctype, :form_method, :form_no_validate, :form_target, :name, :type, :value, :validity, :validation_message]), :bool => ([:autofocus, :disabled, :will_validate]), :list => ([:labels]), :html_element => ([:form]))
  end
  class ButtonCollection < ElementCollection
    def element_class
@@ -726,7 +726,7 @@ module Watir
    end
  end
  class FieldSet < HTMLElement
-   attributes(:string => ([:name, :type, :validity, :validation_message]), :html_element => ([:form]), :html_collection => ([:elements]), :bool => ([:disabled, :will_validate]))
+   attributes(:html_collection => ([:elements]), :string => ([:name, :type, :validity, :validation_message]), :bool => ([:disabled, :will_validate]), :html_element => ([:form]))
  end
  class FieldSetCollection < ElementCollection
    def element_class
@@ -755,1770 +755,1770 @@ module Watir
    #
    # @return [Anchor]
    #
-   
+
    def a(*args)
      Anchor.new(self, extract_selector(args).merge(:tag_name => "a"))
    end
-   
+
    #
    # @return [AnchorCollection]
    #
-   
+
    def as(*args)
      AnchorCollection.new(self, extract_selector(args).merge(:tag_name => "a"))
    end
-   
+
    Watir.tag_to_class[:a] = Anchor
    #
    # @return [HTMLElement]
    #
-   
+
    def abbr(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "abbr"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def abbrs(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "abbr"))
    end
-   
+
    Watir.tag_to_class[:abbr] = HTMLElement
    #
    # @return [HTMLElement]
    #
-   
+
    def address(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "address"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def addresses(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "address"))
    end
-   
+
    Watir.tag_to_class[:address] = HTMLElement
    #
    # @return [Area]
    #
-   
+
    def area(*args)
      Area.new(self, extract_selector(args).merge(:tag_name => "area"))
    end
-   
+
    #
    # @return [AreaCollection]
    #
-   
+
    def areas(*args)
      AreaCollection.new(self, extract_selector(args).merge(:tag_name => "area"))
    end
-   
+
    Watir.tag_to_class[:area] = Area
    #
    # @return [HTMLElement]
    #
-   
+
    def article(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "article"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def articles(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "article"))
    end
-   
+
    Watir.tag_to_class[:article] = HTMLElement
    #
    # @return [HTMLElement]
    #
-   
+
    def aside(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "aside"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def asides(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "aside"))
    end
-   
+
    Watir.tag_to_class[:aside] = HTMLElement
    #
    # @return [Audio]
    #
-   
+
    def audio(*args)
      Audio.new(self, extract_selector(args).merge(:tag_name => "audio"))
    end
-   
+
    #
    # @return [AudioCollection]
    #
-   
+
    def audios(*args)
      AudioCollection.new(self, extract_selector(args).merge(:tag_name => "audio"))
    end
-   
+
    Watir.tag_to_class[:audio] = Audio
    #
    # @return [HTMLElement]
    #
-   
+
    def b(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "b"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def bs(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "b"))
    end
-   
+
    Watir.tag_to_class[:b] = HTMLElement
    #
    # @return [Base]
    #
-   
+
    def base(*args)
      Base.new(self, extract_selector(args).merge(:tag_name => "base"))
    end
-   
+
    #
    # @return [BaseCollection]
    #
-   
+
    def bases(*args)
      BaseCollection.new(self, extract_selector(args).merge(:tag_name => "base"))
    end
-   
+
    Watir.tag_to_class[:base] = Base
    #
    # @return [HTMLElement]
    #
-   
+
    def bdo(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "bdo"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def bdos(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "bdo"))
    end
-   
+
    Watir.tag_to_class[:bdo] = HTMLElement
    #
    # @return [Quote]
    #
-   
+
    def blockquote(*args)
      Quote.new(self, extract_selector(args).merge(:tag_name => "blockquote"))
    end
-   
+
    #
    # @return [QuoteCollection]
    #
-   
+
    def blockquotes(*args)
      QuoteCollection.new(self, extract_selector(args).merge(:tag_name => "blockquote"))
    end
-   
+
    Watir.tag_to_class[:blockquote] = Quote
    #
    # @return [Body]
    #
-   
+
    def body(*args)
      Body.new(self, extract_selector(args).merge(:tag_name => "body"))
    end
-   
+
    #
    # @return [BodyCollection]
    #
-   
+
    def bodys(*args)
      BodyCollection.new(self, extract_selector(args).merge(:tag_name => "body"))
    end
-   
+
    Watir.tag_to_class[:body] = Body
    #
    # @return [BR]
    #
-   
+
    def br(*args)
      BR.new(self, extract_selector(args).merge(:tag_name => "br"))
    end
-   
+
    #
    # @return [BRCollection]
    #
-   
+
    def brs(*args)
      BRCollection.new(self, extract_selector(args).merge(:tag_name => "br"))
    end
-   
+
    Watir.tag_to_class[:br] = BR
    #
    # @return [Button]
    #
-   
+
    def button(*args)
      Button.new(self, extract_selector(args).merge(:tag_name => "button"))
    end
-   
+
    #
    # @return [ButtonCollection]
    #
-   
+
    def buttons(*args)
      ButtonCollection.new(self, extract_selector(args).merge(:tag_name => "button"))
    end
-   
+
    Watir.tag_to_class[:button] = Button
    #
    # @return [Canvas]
    #
-   
+
    def canvas(*args)
      Canvas.new(self, extract_selector(args).merge(:tag_name => "canvas"))
    end
-   
+
    #
    # @return [CanvasCollection]
    #
-   
+
    def canvases(*args)
      CanvasCollection.new(self, extract_selector(args).merge(:tag_name => "canvas"))
    end
-   
+
    Watir.tag_to_class[:canvas] = Canvas
    #
    # @return [TableCaption]
    #
-   
+
    def caption(*args)
      TableCaption.new(self, extract_selector(args).merge(:tag_name => "caption"))
    end
-   
+
    #
    # @return [TableCaptionCollection]
    #
-   
+
    def captions(*args)
      TableCaptionCollection.new(self, extract_selector(args).merge(:tag_name => "caption"))
    end
-   
+
    Watir.tag_to_class[:caption] = TableCaption
    #
    # @return [HTMLElement]
    #
-   
+
    def cite(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "cite"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def cites(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "cite"))
    end
-   
+
    Watir.tag_to_class[:cite] = HTMLElement
    #
    # @return [HTMLElement]
    #
-   
+
    def code(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "code"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def codes(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "code"))
    end
-   
+
    Watir.tag_to_class[:code] = HTMLElement
    #
    # @return [TableCol]
    #
-   
+
    def col(*args)
      TableCol.new(self, extract_selector(args).merge(:tag_name => "col"))
    end
-   
+
    #
    # @return [TableColCollection]
    #
-   
+
    def cols(*args)
      TableColCollection.new(self, extract_selector(args).merge(:tag_name => "col"))
    end
-   
+
    Watir.tag_to_class[:col] = TableCol
    #
    # @return [TableCol]
    #
-   
+
    def colgroup(*args)
      TableCol.new(self, extract_selector(args).merge(:tag_name => "colgroup"))
    end
-   
+
    #
    # @return [TableColCollection]
    #
-   
+
    def colgroups(*args)
      TableColCollection.new(self, extract_selector(args).merge(:tag_name => "colgroup"))
    end
-   
+
    Watir.tag_to_class[:colgroup] = TableCol
    #
    # @return [Command]
    #
-   
+
    def command(*args)
      Command.new(self, extract_selector(args).merge(:tag_name => "command"))
    end
-   
+
    #
    # @return [CommandCollection]
    #
-   
+
    def commands(*args)
      CommandCollection.new(self, extract_selector(args).merge(:tag_name => "command"))
    end
-   
+
    Watir.tag_to_class[:command] = Command
    #
    # @return [DataList]
    #
-   
+
    def datalist(*args)
      DataList.new(self, extract_selector(args).merge(:tag_name => "datalist"))
    end
-   
+
    #
    # @return [DataListCollection]
    #
-   
+
    def datalists(*args)
      DataListCollection.new(self, extract_selector(args).merge(:tag_name => "datalist"))
    end
-   
+
    Watir.tag_to_class[:datalist] = DataList
    #
    # @return [HTMLElement]
    #
-   
+
    def dd(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "dd"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def dds(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "dd"))
    end
-   
+
    Watir.tag_to_class[:dd] = HTMLElement
    #
    # @return [Mod]
    #
-   
+
    def del(*args)
      Mod.new(self, extract_selector(args).merge(:tag_name => "del"))
    end
-   
+
    #
    # @return [ModCollection]
    #
-   
+
    def dels(*args)
      ModCollection.new(self, extract_selector(args).merge(:tag_name => "del"))
    end
-   
+
    Watir.tag_to_class[:del] = Mod
    #
    # @return [Details]
    #
-   
+
    def details(*args)
      Details.new(self, extract_selector(args).merge(:tag_name => "details"))
    end
-   
+
    #
    # @return [DetailsCollection]
    #
-   
+
    def details(*args)
      DetailsCollection.new(self, extract_selector(args).merge(:tag_name => "details"))
    end
-   
+
    Watir.tag_to_class[:details] = Details
    #
    # @return [HTMLElement]
    #
-   
+
    def dfn(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "dfn"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def dfns(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "dfn"))
    end
-   
+
    Watir.tag_to_class[:dfn] = HTMLElement
    #
    # @return [Div]
    #
-   
+
    def div(*args)
      Div.new(self, extract_selector(args).merge(:tag_name => "div"))
    end
-   
+
    #
    # @return [DivCollection]
    #
-   
+
    def divs(*args)
      DivCollection.new(self, extract_selector(args).merge(:tag_name => "div"))
    end
-   
+
    Watir.tag_to_class[:div] = Div
    #
    # @return [DList]
    #
-   
+
    def dl(*args)
      DList.new(self, extract_selector(args).merge(:tag_name => "dl"))
    end
-   
+
    #
    # @return [DListCollection]
    #
-   
+
    def dls(*args)
      DListCollection.new(self, extract_selector(args).merge(:tag_name => "dl"))
    end
-   
+
    Watir.tag_to_class[:dl] = DList
    #
    # @return [HTMLElement]
    #
-   
+
    def dt(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "dt"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def dts(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "dt"))
    end
-   
+
    Watir.tag_to_class[:dt] = HTMLElement
    #
    # @return [HTMLElement]
    #
-   
+
    def em(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "em"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def ems(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "em"))
    end
-   
+
    Watir.tag_to_class[:em] = HTMLElement
    #
    # @return [Embed]
    #
-   
+
    def embed(*args)
      Embed.new(self, extract_selector(args).merge(:tag_name => "embed"))
    end
-   
+
    #
    # @return [EmbedCollection]
    #
-   
+
    def embeds(*args)
      EmbedCollection.new(self, extract_selector(args).merge(:tag_name => "embed"))
    end
-   
+
    Watir.tag_to_class[:embed] = Embed
    #
    # @return [FieldSet]
    #
-   
+
    def fieldset(*args)
      FieldSet.new(self, extract_selector(args).merge(:tag_name => "fieldset"))
    end
-   
+
    #
    # @return [FieldSetCollection]
    #
-   
+
    def fieldsets(*args)
      FieldSetCollection.new(self, extract_selector(args).merge(:tag_name => "fieldset"))
    end
-   
+
    Watir.tag_to_class[:fieldset] = FieldSet
    #
    # @return [HTMLElement]
    #
-   
+
    def figcaption(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "figcaption"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def figcaptions(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "figcaption"))
    end
-   
+
    Watir.tag_to_class[:figcaption] = HTMLElement
    #
    # @return [HTMLElement]
    #
-   
+
    def figure(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "figure"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def figures(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "figure"))
    end
-   
+
    Watir.tag_to_class[:figure] = HTMLElement
    #
    # @return [HTMLElement]
    #
-   
+
    def footer(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "footer"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def footers(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "footer"))
    end
-   
+
    Watir.tag_to_class[:footer] = HTMLElement
    #
    # @return [Form]
    #
-   
+
    def form(*args)
      Form.new(self, extract_selector(args).merge(:tag_name => "form"))
    end
-   
+
    #
    # @return [FormCollection]
    #
-   
+
    def forms(*args)
      FormCollection.new(self, extract_selector(args).merge(:tag_name => "form"))
    end
-   
+
    Watir.tag_to_class[:form] = Form
    #
    # @return [Heading]
    #
-   
+
    def h1(*args)
      Heading.new(self, extract_selector(args).merge(:tag_name => "h1"))
    end
-   
+
    #
    # @return [HeadingCollection]
    #
-   
+
    def h1s(*args)
      HeadingCollection.new(self, extract_selector(args).merge(:tag_name => "h1"))
    end
-   
+
    Watir.tag_to_class[:h1] = Heading
    #
    # @return [Heading]
    #
-   
+
    def h2(*args)
      Heading.new(self, extract_selector(args).merge(:tag_name => "h2"))
    end
-   
+
    #
    # @return [HeadingCollection]
    #
-   
+
    def h2s(*args)
      HeadingCollection.new(self, extract_selector(args).merge(:tag_name => "h2"))
    end
-   
+
    Watir.tag_to_class[:h2] = Heading
    #
    # @return [Heading]
    #
-   
+
    def h3(*args)
      Heading.new(self, extract_selector(args).merge(:tag_name => "h3"))
    end
-   
+
    #
    # @return [HeadingCollection]
    #
-   
+
    def h3s(*args)
      HeadingCollection.new(self, extract_selector(args).merge(:tag_name => "h3"))
    end
-   
+
    Watir.tag_to_class[:h3] = Heading
    #
    # @return [Heading]
    #
-   
+
    def h4(*args)
      Heading.new(self, extract_selector(args).merge(:tag_name => "h4"))
    end
-   
+
    #
    # @return [HeadingCollection]
    #
-   
+
    def h4s(*args)
      HeadingCollection.new(self, extract_selector(args).merge(:tag_name => "h4"))
    end
-   
+
    Watir.tag_to_class[:h4] = Heading
    #
    # @return [Heading]
    #
-   
+
    def h5(*args)
      Heading.new(self, extract_selector(args).merge(:tag_name => "h5"))
    end
-   
+
    #
    # @return [HeadingCollection]
    #
-   
+
    def h5s(*args)
      HeadingCollection.new(self, extract_selector(args).merge(:tag_name => "h5"))
    end
-   
+
    Watir.tag_to_class[:h5] = Heading
    #
    # @return [Heading]
    #
-   
+
    def h6(*args)
      Heading.new(self, extract_selector(args).merge(:tag_name => "h6"))
    end
-   
+
    #
    # @return [HeadingCollection]
    #
-   
+
    def h6s(*args)
      HeadingCollection.new(self, extract_selector(args).merge(:tag_name => "h6"))
    end
-   
+
    Watir.tag_to_class[:h6] = Heading
    #
    # @return [Head]
    #
-   
+
    def head(*args)
      Head.new(self, extract_selector(args).merge(:tag_name => "head"))
    end
-   
+
    #
    # @return [HeadCollection]
    #
-   
+
    def heads(*args)
      HeadCollection.new(self, extract_selector(args).merge(:tag_name => "head"))
    end
-   
+
    Watir.tag_to_class[:head] = Head
    #
    # @return [HTMLElement]
    #
-   
+
    def header(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "header"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def headers(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "header"))
    end
-   
+
    Watir.tag_to_class[:header] = HTMLElement
    #
    # @return [HTMLElement]
    #
-   
+
    def hgroup(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "hgroup"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def hgroups(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "hgroup"))
    end
-   
+
    Watir.tag_to_class[:hgroup] = HTMLElement
    #
    # @return [HR]
    #
-   
+
    def hr(*args)
      HR.new(self, extract_selector(args).merge(:tag_name => "hr"))
    end
-   
+
    #
    # @return [HRCollection]
    #
-   
+
    def hrs(*args)
      HRCollection.new(self, extract_selector(args).merge(:tag_name => "hr"))
    end
-   
+
    Watir.tag_to_class[:hr] = HR
    #
    # @return [Html]
    #
-   
+
    def html(*args)
      Html.new(self, extract_selector(args).merge(:tag_name => "html"))
    end
-   
+
    #
    # @return [HtmlCollection]
    #
-   
+
    def htmls(*args)
      HtmlCollection.new(self, extract_selector(args).merge(:tag_name => "html"))
    end
-   
+
    Watir.tag_to_class[:html] = Html
    #
    # @return [HTMLElement]
    #
-   
+
    def i(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "i"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def is(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "i"))
    end
-   
+
    Watir.tag_to_class[:i] = HTMLElement
    #
    # @return [IFrame]
    #
-   
+
    def iframe(*args)
      IFrame.new(self, extract_selector(args).merge(:tag_name => "iframe"))
    end
-   
+
    #
    # @return [IFrameCollection]
    #
-   
+
    def iframes(*args)
      IFrameCollection.new(self, extract_selector(args).merge(:tag_name => "iframe"))
    end
-   
+
    Watir.tag_to_class[:iframe] = IFrame
    #
    # @return [Image]
    #
-   
-   def image(*args)
+
+   def img(*args)
      Image.new(self, extract_selector(args).merge(:tag_name => "img"))
    end
-   
+
    #
    # @return [ImageCollection]
    #
-   
-   def images(*args)
+
+   def imgs(*args)
      ImageCollection.new(self, extract_selector(args).merge(:tag_name => "img"))
    end
-   
+
    Watir.tag_to_class[:img] = Image
    #
    # @return [Input]
    #
-   
+
    def input(*args)
      Input.new(self, extract_selector(args).merge(:tag_name => "input"))
    end
-   
+
    #
    # @return [InputCollection]
    #
-   
+
    def inputs(*args)
      InputCollection.new(self, extract_selector(args).merge(:tag_name => "input"))
    end
-   
+
    Watir.tag_to_class[:input] = Input
    #
    # @return [Mod]
    #
-   
+
    def ins(*args)
      Mod.new(self, extract_selector(args).merge(:tag_name => "ins"))
    end
-   
+
    #
    # @return [ModCollection]
    #
-   
+
    def inses(*args)
      ModCollection.new(self, extract_selector(args).merge(:tag_name => "ins"))
    end
-   
+
    Watir.tag_to_class[:ins] = Mod
    #
    # @return [HTMLElement]
    #
-   
+
    def kbd(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "kbd"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def kbds(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "kbd"))
    end
-   
+
    Watir.tag_to_class[:kbd] = HTMLElement
    #
    # @return [Keygen]
    #
-   
+
    def keygen(*args)
      Keygen.new(self, extract_selector(args).merge(:tag_name => "keygen"))
    end
-   
+
    #
    # @return [KeygenCollection]
    #
-   
+
    def keygens(*args)
      KeygenCollection.new(self, extract_selector(args).merge(:tag_name => "keygen"))
    end
-   
+
    Watir.tag_to_class[:keygen] = Keygen
    #
    # @return [Label]
    #
-   
+
    def label(*args)
      Label.new(self, extract_selector(args).merge(:tag_name => "label"))
    end
-   
+
    #
    # @return [LabelCollection]
    #
-   
+
    def labels(*args)
      LabelCollection.new(self, extract_selector(args).merge(:tag_name => "label"))
    end
-   
+
    Watir.tag_to_class[:label] = Label
    #
    # @return [Legend]
    #
-   
+
    def legend(*args)
      Legend.new(self, extract_selector(args).merge(:tag_name => "legend"))
    end
-   
+
    #
    # @return [LegendCollection]
    #
-   
+
    def legends(*args)
      LegendCollection.new(self, extract_selector(args).merge(:tag_name => "legend"))
    end
-   
+
    Watir.tag_to_class[:legend] = Legend
    #
    # @return [LI]
    #
-   
+
    def li(*args)
      LI.new(self, extract_selector(args).merge(:tag_name => "li"))
    end
-   
+
    #
    # @return [LICollection]
    #
-   
+
    def lis(*args)
      LICollection.new(self, extract_selector(args).merge(:tag_name => "li"))
    end
-   
+
    Watir.tag_to_class[:li] = LI
    #
    # @return [Map]
    #
-   
+
    def map(*args)
      Map.new(self, extract_selector(args).merge(:tag_name => "map"))
    end
-   
+
    #
    # @return [MapCollection]
    #
-   
+
    def maps(*args)
      MapCollection.new(self, extract_selector(args).merge(:tag_name => "map"))
    end
-   
+
    Watir.tag_to_class[:map] = Map
    #
    # @return [HTMLElement]
    #
-   
+
    def mark(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "mark"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def marks(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "mark"))
    end
-   
+
    Watir.tag_to_class[:mark] = HTMLElement
    #
    # @return [Menu]
    #
-   
+
    def menu(*args)
      Menu.new(self, extract_selector(args).merge(:tag_name => "menu"))
    end
-   
+
    #
    # @return [MenuCollection]
    #
-   
+
    def menus(*args)
      MenuCollection.new(self, extract_selector(args).merge(:tag_name => "menu"))
    end
-   
+
    Watir.tag_to_class[:menu] = Menu
    #
    # @return [Meta]
    #
-   
+
    def meta(*args)
      Meta.new(self, extract_selector(args).merge(:tag_name => "meta"))
    end
-   
+
    #
    # @return [MetaCollection]
    #
-   
+
    def metas(*args)
      MetaCollection.new(self, extract_selector(args).merge(:tag_name => "meta"))
    end
-   
+
    Watir.tag_to_class[:meta] = Meta
    #
    # @return [Meter]
    #
-   
+
    def meter(*args)
      Meter.new(self, extract_selector(args).merge(:tag_name => "meter"))
    end
-   
+
    #
    # @return [MeterCollection]
    #
-   
+
    def meters(*args)
      MeterCollection.new(self, extract_selector(args).merge(:tag_name => "meter"))
    end
-   
+
    Watir.tag_to_class[:meter] = Meter
    #
    # @return [HTMLElement]
    #
-   
+
    def nav(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "nav"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def navs(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "nav"))
    end
-   
+
    Watir.tag_to_class[:nav] = HTMLElement
    #
    # @return [HTMLElement]
    #
-   
+
    def noscript(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "noscript"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def noscripts(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "noscript"))
    end
-   
+
    Watir.tag_to_class[:noscript] = HTMLElement
    #
    # @return [Object]
    #
-   
+
    def object(*args)
      Object.new(self, extract_selector(args).merge(:tag_name => "object"))
    end
-   
+
    #
    # @return [ObjectCollection]
    #
-   
+
    def objects(*args)
      ObjectCollection.new(self, extract_selector(args).merge(:tag_name => "object"))
    end
-   
+
    Watir.tag_to_class[:object] = Object
    #
    # @return [OList]
    #
-   
+
    def ol(*args)
      OList.new(self, extract_selector(args).merge(:tag_name => "ol"))
    end
-   
+
    #
    # @return [OListCollection]
    #
-   
+
    def ols(*args)
      OListCollection.new(self, extract_selector(args).merge(:tag_name => "ol"))
    end
-   
+
    Watir.tag_to_class[:ol] = OList
    #
    # @return [OptGroup]
    #
-   
+
    def optgroup(*args)
      OptGroup.new(self, extract_selector(args).merge(:tag_name => "optgroup"))
    end
-   
+
    #
    # @return [OptGroupCollection]
    #
-   
+
    def optgroups(*args)
      OptGroupCollection.new(self, extract_selector(args).merge(:tag_name => "optgroup"))
    end
-   
+
    Watir.tag_to_class[:optgroup] = OptGroup
    #
    # @return [Option]
    #
-   
+
    def option(*args)
      Option.new(self, extract_selector(args).merge(:tag_name => "option"))
    end
-   
+
    #
    # @return [OptionCollection]
    #
-   
+
    def options(*args)
      OptionCollection.new(self, extract_selector(args).merge(:tag_name => "option"))
    end
-   
+
    Watir.tag_to_class[:option] = Option
    #
    # @return [Output]
    #
-   
+
    def output(*args)
      Output.new(self, extract_selector(args).merge(:tag_name => "output"))
    end
-   
+
    #
    # @return [OutputCollection]
    #
-   
+
    def outputs(*args)
      OutputCollection.new(self, extract_selector(args).merge(:tag_name => "output"))
    end
-   
+
    Watir.tag_to_class[:output] = Output
    #
    # @return [Paragraph]
    #
-   
+
    def p(*args)
      Paragraph.new(self, extract_selector(args).merge(:tag_name => "p"))
    end
-   
+
    #
    # @return [ParagraphCollection]
    #
-   
+
    def ps(*args)
      ParagraphCollection.new(self, extract_selector(args).merge(:tag_name => "p"))
    end
-   
+
    Watir.tag_to_class[:p] = Paragraph
    #
    # @return [Param]
    #
-   
+
    def param(*args)
      Param.new(self, extract_selector(args).merge(:tag_name => "param"))
    end
-   
+
    #
    # @return [ParamCollection]
    #
-   
+
    def params(*args)
      ParamCollection.new(self, extract_selector(args).merge(:tag_name => "param"))
    end
-   
+
    Watir.tag_to_class[:param] = Param
    #
    # @return [Pre]
    #
-   
+
    def pre(*args)
      Pre.new(self, extract_selector(args).merge(:tag_name => "pre"))
    end
-   
+
    #
    # @return [PreCollection]
    #
-   
+
    def pres(*args)
      PreCollection.new(self, extract_selector(args).merge(:tag_name => "pre"))
    end
-   
+
    Watir.tag_to_class[:pre] = Pre
    #
    # @return [Progress]
    #
-   
+
    def progress(*args)
      Progress.new(self, extract_selector(args).merge(:tag_name => "progress"))
    end
-   
+
    #
    # @return [ProgressCollection]
    #
-   
+
    def progresses(*args)
      ProgressCollection.new(self, extract_selector(args).merge(:tag_name => "progress"))
    end
-   
+
    Watir.tag_to_class[:progress] = Progress
    #
    # @return [Quote]
    #
-   
+
    def q(*args)
      Quote.new(self, extract_selector(args).merge(:tag_name => "q"))
    end
-   
+
    #
    # @return [QuoteCollection]
    #
-   
+
    def qs(*args)
      QuoteCollection.new(self, extract_selector(args).merge(:tag_name => "q"))
    end
-   
+
    Watir.tag_to_class[:q] = Quote
    #
    # @return [HTMLElement]
    #
-   
+
    def rp(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "rp"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def rps(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "rp"))
    end
-   
+
    Watir.tag_to_class[:rp] = HTMLElement
    #
    # @return [HTMLElement]
    #
-   
+
    def rt(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "rt"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def rts(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "rt"))
    end
-   
+
    Watir.tag_to_class[:rt] = HTMLElement
    #
    # @return [HTMLElement]
    #
-   
+
    def ruby(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "ruby"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def rubies(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "ruby"))
    end
-   
+
    Watir.tag_to_class[:ruby] = HTMLElement
    #
    # @return [HTMLElement]
    #
-   
+
    def samp(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "samp"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def samps(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "samp"))
    end
-   
+
    Watir.tag_to_class[:samp] = HTMLElement
    #
    # @return [Script]
    #
-   
+
    def script(*args)
      Script.new(self, extract_selector(args).merge(:tag_name => "script"))
    end
-   
+
    #
    # @return [ScriptCollection]
    #
-   
+
    def scripts(*args)
      ScriptCollection.new(self, extract_selector(args).merge(:tag_name => "script"))
    end
-   
+
    Watir.tag_to_class[:script] = Script
    #
    # @return [HTMLElement]
    #
-   
+
    def section(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "section"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def sections(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "section"))
    end
-   
+
    Watir.tag_to_class[:section] = HTMLElement
    #
    # @return [Select]
    #
-   
+
    def select(*args)
      Select.new(self, extract_selector(args).merge(:tag_name => "select"))
    end
-   
+
    #
    # @return [SelectCollection]
    #
-   
+
    def selects(*args)
      SelectCollection.new(self, extract_selector(args).merge(:tag_name => "select"))
    end
-   
+
    Watir.tag_to_class[:select] = Select
    #
    # @return [HTMLElement]
    #
-   
+
    def small(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "small"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def smalls(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "small"))
    end
-   
+
    Watir.tag_to_class[:small] = HTMLElement
    #
    # @return [Source]
    #
-   
+
    def source(*args)
      Source.new(self, extract_selector(args).merge(:tag_name => "source"))
    end
-   
+
    #
    # @return [SourceCollection]
    #
-   
+
    def sources(*args)
      SourceCollection.new(self, extract_selector(args).merge(:tag_name => "source"))
    end
-   
+
    Watir.tag_to_class[:source] = Source
    #
    # @return [Span]
    #
-   
+
    def span(*args)
      Span.new(self, extract_selector(args).merge(:tag_name => "span"))
    end
-   
+
    #
    # @return [SpanCollection]
    #
-   
+
    def spans(*args)
      SpanCollection.new(self, extract_selector(args).merge(:tag_name => "span"))
    end
-   
+
    Watir.tag_to_class[:span] = Span
    #
    # @return [HTMLElement]
    #
-   
+
    def strong(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "strong"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def strongs(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "strong"))
    end
-   
+
    Watir.tag_to_class[:strong] = HTMLElement
    #
    # @return [Style]
    #
-   
+
    def style(*args)
      Style.new(self, extract_selector(args).merge(:tag_name => "style"))
    end
-   
+
    #
    # @return [StyleCollection]
    #
-   
+
    def styles(*args)
      StyleCollection.new(self, extract_selector(args).merge(:tag_name => "style"))
    end
-   
+
    Watir.tag_to_class[:style] = Style
    #
    # @return [HTMLElement]
    #
-   
+
    def sub(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "sub"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def subs(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "sub"))
    end
-   
+
    Watir.tag_to_class[:sub] = HTMLElement
    #
    # @return [HTMLElement]
    #
-   
+
    def summary(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "summary"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def summaries(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "summary"))
    end
-   
+
    Watir.tag_to_class[:summary] = HTMLElement
    #
    # @return [HTMLElement]
    #
-   
+
    def sup(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "sup"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def sups(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "sup"))
    end
-   
+
    Watir.tag_to_class[:sup] = HTMLElement
    #
    # @return [Table]
    #
-   
+
    def table(*args)
      Table.new(self, extract_selector(args).merge(:tag_name => "table"))
    end
-   
+
    #
    # @return [TableCollection]
    #
-   
+
    def tables(*args)
      TableCollection.new(self, extract_selector(args).merge(:tag_name => "table"))
    end
-   
+
    Watir.tag_to_class[:table] = Table
    #
    # @return [TableSection]
    #
-   
+
    def tbody(*args)
      TableSection.new(self, extract_selector(args).merge(:tag_name => "tbody"))
    end
-   
+
    #
    # @return [TableSectionCollection]
    #
-   
+
    def tbodys(*args)
      TableSectionCollection.new(self, extract_selector(args).merge(:tag_name => "tbody"))
    end
-   
+
    Watir.tag_to_class[:tbody] = TableSection
    #
    # @return [TableDataCell]
    #
-   
+
    def td(*args)
      TableDataCell.new(self, extract_selector(args).merge(:tag_name => "td"))
    end
-   
+
    #
    # @return [TableDataCellCollection]
    #
-   
+
    def tds(*args)
      TableDataCellCollection.new(self, extract_selector(args).merge(:tag_name => "td"))
    end
-   
+
    Watir.tag_to_class[:td] = TableDataCell
    #
    # @return [TextArea]
    #
-   
+
    def textarea(*args)
      TextArea.new(self, extract_selector(args).merge(:tag_name => "textarea"))
    end
-   
+
    #
    # @return [TextAreaCollection]
    #
-   
+
    def textareas(*args)
      TextAreaCollection.new(self, extract_selector(args).merge(:tag_name => "textarea"))
    end
-   
+
    Watir.tag_to_class[:textarea] = TextArea
    #
    # @return [TableSection]
    #
-   
+
    def tfoot(*args)
      TableSection.new(self, extract_selector(args).merge(:tag_name => "tfoot"))
    end
-   
+
    #
    # @return [TableSectionCollection]
    #
-   
+
    def tfoots(*args)
      TableSectionCollection.new(self, extract_selector(args).merge(:tag_name => "tfoot"))
    end
-   
+
    Watir.tag_to_class[:tfoot] = TableSection
    #
    # @return [TableHeaderCell]
    #
-   
+
    def th(*args)
      TableHeaderCell.new(self, extract_selector(args).merge(:tag_name => "th"))
    end
-   
+
    #
    # @return [TableHeaderCellCollection]
    #
-   
+
    def ths(*args)
      TableHeaderCellCollection.new(self, extract_selector(args).merge(:tag_name => "th"))
    end
-   
+
    Watir.tag_to_class[:th] = TableHeaderCell
    #
    # @return [TableSection]
    #
-   
+
    def thead(*args)
      TableSection.new(self, extract_selector(args).merge(:tag_name => "thead"))
    end
-   
+
    #
    # @return [TableSectionCollection]
    #
-   
+
    def theads(*args)
      TableSectionCollection.new(self, extract_selector(args).merge(:tag_name => "thead"))
    end
-   
+
    Watir.tag_to_class[:thead] = TableSection
    #
    # @return [Time]
    #
-   
+
    def time(*args)
      Time.new(self, extract_selector(args).merge(:tag_name => "time"))
    end
-   
+
    #
    # @return [TimeCollection]
    #
-   
+
    def times(*args)
      TimeCollection.new(self, extract_selector(args).merge(:tag_name => "time"))
    end
-   
+
    Watir.tag_to_class[:time] = Time
    #
    # @return [Title]
    #
-   
+
    def title(*args)
      Title.new(self, extract_selector(args).merge(:tag_name => "title"))
    end
-   
+
    #
    # @return [TitleCollection]
    #
-   
+
    def titles(*args)
      TitleCollection.new(self, extract_selector(args).merge(:tag_name => "title"))
    end
-   
+
    Watir.tag_to_class[:title] = Title
    #
    # @return [TableRow]
    #
-   
+
    def tr(*args)
      TableRow.new(self, extract_selector(args).merge(:tag_name => "tr"))
    end
-   
+
    #
    # @return [TableRowCollection]
    #
-   
+
    def trs(*args)
      TableRowCollection.new(self, extract_selector(args).merge(:tag_name => "tr"))
    end
-   
+
    Watir.tag_to_class[:tr] = TableRow
    #
    # @return [Track]
    #
-   
+
    def track(*args)
      Track.new(self, extract_selector(args).merge(:tag_name => "track"))
    end
-   
+
    #
    # @return [TrackCollection]
    #
-   
+
    def tracks(*args)
      TrackCollection.new(self, extract_selector(args).merge(:tag_name => "track"))
    end
-   
+
    Watir.tag_to_class[:track] = Track
    #
    # @return [UList]
    #
-   
+
    def ul(*args)
      UList.new(self, extract_selector(args).merge(:tag_name => "ul"))
    end
-   
+
    #
    # @return [UListCollection]
    #
-   
+
    def uls(*args)
      UListCollection.new(self, extract_selector(args).merge(:tag_name => "ul"))
    end
-   
+
    Watir.tag_to_class[:ul] = UList
    #
    # @return [HTMLElement]
    #
-   
+
    def var(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "var"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def vars(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "var"))
    end
-   
+
    Watir.tag_to_class[:var] = HTMLElement
    #
    # @return [Video]
    #
-   
+
    def video(*args)
      Video.new(self, extract_selector(args).merge(:tag_name => "video"))
    end
-   
+
    #
    # @return [VideoCollection]
    #
-   
+
    def videos(*args)
      VideoCollection.new(self, extract_selector(args).merge(:tag_name => "video"))
    end
-   
+
    Watir.tag_to_class[:video] = Video
    #
    # @return [HTMLElement]
    #
-   
+
    def wbr(*args)
      HTMLElement.new(self, extract_selector(args).merge(:tag_name => "wbr"))
    end
-   
+
    #
    # @return [HTMLElementCollection]
    #
-   
+
    def wbrs(*args)
      HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "wbr"))
    end
-   
+
    Watir.tag_to_class[:wbr] = HTMLElement
  end # Container
 end # Watir
