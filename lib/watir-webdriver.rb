@@ -27,6 +27,7 @@ module Watir
 
 end
 
+require "watir-webdriver/attribute_helper"
 require "watir-webdriver/element"
 require "watir-webdriver/collections/element_collection"
 require "watir-webdriver/elements/generated"
