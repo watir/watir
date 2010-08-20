@@ -97,6 +97,15 @@ module Watir
 
       driver.switch_to.frame loc
     end
-
   end # Frame
+
+  module Container
+    def frame(*selectors)
+      Frame.new(self, {}, *selectors)
+    end
+
+    def frames(*selectors)
+      FrameCollection.new(self, {}, *selectors)
+    end
+  end
 end # Watir

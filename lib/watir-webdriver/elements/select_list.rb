@@ -210,6 +210,10 @@ module Watir
 
       ''
     end
-
   end # Select
+
+  module Container
+    alias_method :select_list,  :select
+    alias_method :select_lists, :selects
+  end # Container
 end # Watir
