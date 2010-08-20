@@ -4,7 +4,7 @@ module Watir
       Font.new(self, extract_selector(args).merge(:tag_name => "font"))
     end
     
-    def font(*args)
+    def fonts(*args)
       FontCollection.new(self, extract_selector(args).merge(:tag_name => "font"))
     end
   end # Container
