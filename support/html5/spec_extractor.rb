@@ -24,11 +24,16 @@ class SpecExtractor
   #
 
   def sorted_interfaces
-    require "#{File.dirname __FILE__}/idl_sorter"
+    process if @interfaces.nil?
 
-    IDLSorter.new(@interfaces).sort.map { |name|
+    sorter.sort.map { |name|
       @interfaces_by_name[name] or puts "ignoring interface: #{name}"
     }.flatten.compact
+  end
+
+  def print_hierarchy
+    process if @interfaces.nil?
+    sorter.print
   end
 
   private
@@ -96,6 +101,11 @@ class SpecExtractor
 
   def idl_parser
     @idl_parser ||= WebIDL::Parser::IDLParser.new
+  end
+
+  def sorter
+    require "#{File.dirname __FILE__}/idl_sorter"
+    @idl_sroter ||= IDLSorter.new(@interfaces)
   end
 
 end

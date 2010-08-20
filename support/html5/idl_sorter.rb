@@ -13,7 +13,12 @@ class IDLSorter
       end
     end
   end
-  
+
+  def print
+    @visited = []
+    sort.each { |node| print_node(node) }
+  end
+
   def sort
     tsort.reverse
   end
@@ -25,5 +30,16 @@ class IDLSorter
   def tsort_each_child(node, &blk)
     @interfaces[node].each(&blk)
   end
+
+  private
+
+  def print_node(node, indent = 0)
+    return if @visited.include?(node)
+    @visited << node
+    puts " "*indent + node
+    tsort_each_child(node) { |child| print_node(child, indent + 2)}
+  end
+
+
 
 end

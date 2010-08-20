@@ -67,6 +67,8 @@ namespace :html5 do
       puts "#{tag_name.ljust(10)} => #{interface_definitions.map { |e| e.name }}"
     end
 
+    extractor.print_hierarchy
+
     unless extractor.errors.empty?
       puts "\n\n<======================= ERRORS =======================>\n\n"
       puts extractor.errors.join("\n" + "="*80 + "\n")
