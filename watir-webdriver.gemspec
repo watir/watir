@@ -5,17 +5,16 @@
 
 Gem::Specification.new do |s|
   s.name = %q{watir-webdriver}
-  s.version = "0.0.6"
+  s.version = "0.0.7"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jari Bakken"]
-  s.date = %q{2010-07-27}
+  s.date = %q{2010-08-20}
   s.description = %q{WebDriver-backed Watir}
   s.email = %q{jari.bakken@gmail.com}
   s.extra_rdoc_files = [
     "LICENSE",
-     "README.rdoc",
-     "TODO"
+     "README.rdoc"
   ]
   s.files = [
     ".document",
@@ -24,18 +23,16 @@ Gem::Specification.new do |s|
      "LICENSE",
      "README.rdoc",
      "Rakefile",
-     "TODO",
      "VERSION",
      "lib/watir-webdriver.rb",
-     "lib/watir-webdriver/base_element.rb",
+     "lib/watir-webdriver/attribute_helper.rb",
      "lib/watir-webdriver/browser.rb",
      "lib/watir-webdriver/browserbot.js",
-     "lib/watir-webdriver/collections/buttons_collection.rb",
      "lib/watir-webdriver/collections/element_collection.rb",
-     "lib/watir-webdriver/collections/table_rows_collection.rb",
-     "lib/watir-webdriver/collections/text_fields_collection.rb",
+     "lib/watir-webdriver/collections/table_row_collection.rb",
      "lib/watir-webdriver/container.rb",
      "lib/watir-webdriver/core_ext/string.rb",
+     "lib/watir-webdriver/element.rb",
      "lib/watir-webdriver/elements/button.rb",
      "lib/watir-webdriver/elements/checkbox.rb",
      "lib/watir-webdriver/elements/file_field.rb",
@@ -43,32 +40,35 @@ Gem::Specification.new do |s|
      "lib/watir-webdriver/elements/form.rb",
      "lib/watir-webdriver/elements/frame.rb",
      "lib/watir-webdriver/elements/generated.rb",
-     "lib/watir-webdriver/elements/headings.rb",
      "lib/watir-webdriver/elements/hidden.rb",
      "lib/watir-webdriver/elements/image.rb",
      "lib/watir-webdriver/elements/input.rb",
      "lib/watir-webdriver/elements/link.rb",
      "lib/watir-webdriver/elements/option.rb",
      "lib/watir-webdriver/elements/radio.rb",
-     "lib/watir-webdriver/elements/select_list.rb",
+     "lib/watir-webdriver/elements/select.rb",
      "lib/watir-webdriver/elements/table.rb",
      "lib/watir-webdriver/elements/table_row.rb",
      "lib/watir-webdriver/elements/text_field.rb",
      "lib/watir-webdriver/exception.rb",
      "lib/watir-webdriver/extensions/nokogiri.rb",
+     "lib/watir-webdriver/html.rb",
+     "lib/watir-webdriver/html/generator.rb",
+     "lib/watir-webdriver/html/idl_sorter.rb",
+     "lib/watir-webdriver/html/spec_extractor.rb",
+     "lib/watir-webdriver/html/util.rb",
+     "lib/watir-webdriver/html/visitor.rb",
      "lib/watir-webdriver/locators/button_locator.rb",
      "lib/watir-webdriver/locators/element_locator.rb",
      "lib/watir-webdriver/locators/table_row_locator.rb",
      "lib/watir-webdriver/locators/text_field_locator.rb",
      "lib/watir-webdriver/xpath_support.rb",
-     "spec/base_element_spec.rb",
+     "lib/yard/handlers/watir.rb",
+     "spec/element_spec.rb",
      "spec/html/keylogger.html",
+     "spec/input_spec.rb",
      "spec/spec_helper.rb",
-     "support/html5/html5.idl",
-     "support/html5/old/html5.idl",
-     "support/html5/old/html5_extras.idl",
-     "support/html5/watir_visitor.rb",
-     "support/yard_handlers.rb",
+     "support/html5.html",
      "watir-webdriver.gemspec"
   ]
   s.homepage = %q{http://github.com/jarib/watir-webdriver}
@@ -77,7 +77,8 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{Watir on WebDriver}
   s.test_files = [
-    "spec/base_element_spec.rb",
+    "spec/element_spec.rb",
+     "spec/input_spec.rb",
      "spec/spec_helper.rb",
      "spec/watirspec/area_spec.rb",
      "spec/watirspec/areas_spec.rb",
@@ -86,8 +87,11 @@ Gem::Specification.new do |s|
      "spec/watirspec/buttons_spec.rb",
      "spec/watirspec/checkbox_spec.rb",
      "spec/watirspec/checkboxes_spec.rb",
+     "spec/watirspec/collections_spec.rb",
      "spec/watirspec/dd_spec.rb",
      "spec/watirspec/dds_spec.rb",
+     "spec/watirspec/del_spec.rb",
+     "spec/watirspec/dels_spec.rb",
      "spec/watirspec/div_spec.rb",
      "spec/watirspec/divs_spec.rb",
      "spec/watirspec/dl_spec.rb",
@@ -110,10 +114,13 @@ Gem::Specification.new do |s|
      "spec/watirspec/hns_spec.rb",
      "spec/watirspec/image_spec.rb",
      "spec/watirspec/images_spec.rb",
+     "spec/watirspec/ins_spec.rb",
+     "spec/watirspec/inses_spec.rb",
      "spec/watirspec/label_spec.rb",
      "spec/watirspec/labels_spec.rb",
      "spec/watirspec/li_spec.rb",
      "spec/watirspec/lib/guards.rb",
+     "spec/watirspec/lib/implementation.rb",
      "spec/watirspec/lib/server.rb",
      "spec/watirspec/lib/spec_helper.rb",
      "spec/watirspec/lib/watirspec.rb",
@@ -165,21 +172,24 @@ Gem::Specification.new do |s|
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<selenium-webdriver>, [">= 0.0.26"])
       s.add_development_dependency(%q<rspec>, [">= 0"])
-      s.add_development_dependency(%q<webidl>, [">= 0"])
+      s.add_development_dependency(%q<webidl>, [">= 0.0.4"])
       s.add_development_dependency(%q<sinatra>, [">= 1.0"])
+      s.add_development_dependency(%q<nokogiri>, [">= 0"])
       s.add_development_dependency(%q<activesupport>, [">= 2.3.5"])
     else
       s.add_dependency(%q<selenium-webdriver>, [">= 0.0.26"])
       s.add_dependency(%q<rspec>, [">= 0"])
-      s.add_dependency(%q<webidl>, [">= 0"])
+      s.add_dependency(%q<webidl>, [">= 0.0.4"])
       s.add_dependency(%q<sinatra>, [">= 1.0"])
+      s.add_dependency(%q<nokogiri>, [">= 0"])
       s.add_dependency(%q<activesupport>, [">= 2.3.5"])
     end
   else
     s.add_dependency(%q<selenium-webdriver>, [">= 0.0.26"])
     s.add_dependency(%q<rspec>, [">= 0"])
-    s.add_dependency(%q<webidl>, [">= 0"])
+    s.add_dependency(%q<webidl>, [">= 0.0.4"])
     s.add_dependency(%q<sinatra>, [">= 1.0"])
+    s.add_dependency(%q<nokogiri>, [">= 0"])
     s.add_dependency(%q<activesupport>, [">= 2.3.5"])
   end
 end
