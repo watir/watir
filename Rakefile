@@ -16,8 +16,10 @@ begin
     gem.add_development_dependency "rspec"
     gem.add_development_dependency "webidl", ">= 0.0.4"
     gem.add_development_dependency "sinatra", ">= 1.0"
+    gem.add_development_dependency "nokogiri"
     gem.add_development_dependency "activesupport", ">= 2.3.5" # for pluralization during code generation
   end
+
   Jeweler::GemcutterTasks.new
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
@@ -38,10 +40,17 @@ end
 
 task :spec => :check_dependencies
 
+task :lib do
+  $LOAD_PATH.unshift(File.expand_path("lib", File.dirname(__FILE__)))
+end
+
 namespace :html5 do
-  IDL_PATH  = "support/html5/html5.idl"
   SPEC_URI  = "http://www.whatwg.org/specs/web-apps/current-work/"
-  SPEC_PATH = "support/html5/html5.html"
+  SPEC_PATH = "support/html5.html"
+
+  task :html_lib => :lib do
+    require 'watir-webdriver/html'
+  end
 
   desc "Download the HTML5 spec from #{SPEC_URI}"
   task :download do
@@ -59,9 +68,8 @@ namespace :html5 do
   end
 
   desc "Print IDL parts from #{SPEC_URI}"
-  task :print do
-    require 'support/html5/spec_extractor'
-    extractor = SpecExtractor.new(SPEC_PATH)
+  task :print => :html_lib do
+    extractor = Watir::HTML::SpecExtractor.new(SPEC_PATH)
 
     extractor.process.each do |tag_name, interface_definitions|
       puts "#{tag_name.ljust(10)} => #{interface_definitions.map { |e| e.name }}"
@@ -76,13 +84,14 @@ namespace :html5 do
   end
 
   desc 'Re-enerate the base Watir element classes from the spec '
-  task :generate do
-    require "support/html5/watir_visitor"
-
-    code = WatirVisitor.generate_from(SPEC_PATH)
+  task :generate => :html_lib do
     old_file = "lib/watir-webdriver/elements/generated.rb"
+    generator = Watir::HTML::Generator.new
 
-    File.open("#{old_file}.new", "w") { |file| file << code }
+    File.open("#{old_file}.new", "w") do |file|
+      generator.generate(SPEC_PATH, file)
+    end
+
     if File.exist?(old_file)
       system "diff -Naut #{old_file} #{old_file}.new | less"
     end
@@ -92,26 +101,6 @@ namespace :html5 do
   task :overwrite do
     file = "lib/watir-webdriver/elements/generated.rb"
     mv "#{file}.new", file
-  end
-
-  desc 'Check the syntax of support/html5/*.idl'
-  task :syntax do
-    require 'webidl'
-    parser = WebIDL::Parser::IDLParser.new
-    failures = []
-
-    Dir['support/html5/*.idl'].each do |path|
-      unless parser.parse(File.read(path))
-        failures << [path, parser.failure_reason]
-      end
-    end
-
-    if failures.any?
-      puts "Parse errors!"
-      failures.each { |path, reason| puts "#{path.ljust(40)}: #{reason}"  }
-    else
-      puts "Syntax OK."
-    end
   end
 
 end # html5
