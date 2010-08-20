@@ -123,6 +123,10 @@ module Watir
       @parent   = parent
       @selector = selector
 
+      unless @selector.kind_of? Hash
+        raise ArgumentError, "invalid argument: #{selector.inspect}"
+      end
+
       if @selector.has_key?(:element)
         @element = @selector[:element]
       end
