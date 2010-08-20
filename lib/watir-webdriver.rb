@@ -46,7 +46,7 @@ require "watir-webdriver/elements/form"
 require "watir-webdriver/elements/option"
 require "watir-webdriver/elements/table"
 require "watir-webdriver/elements/table_row"
-require "watir-webdriver/collections/table_rows_collection"
+require "watir-webdriver/collections/table_row_collection"
 
 Watir.tag_to_class.freeze
 

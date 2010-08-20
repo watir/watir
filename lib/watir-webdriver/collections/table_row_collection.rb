@@ -1,5 +1,5 @@
 module Watir
-  class TrsCollection < ElementCollection
+  class TableRowCollection < ElementCollection
 
     private
 

@@ -46,7 +46,7 @@ module Watir
 
     def locate_iframe
       # hack - frame doesn't have IFrame's attributes either
-      @iframe = IFrame.new(@parent, @selector).locate
+      @iframe = IFrame.new(@parent, @selector.merge(:tag_name => "iframe")).locate
 
       if @iframe
         switch_to_iframe @iframe
