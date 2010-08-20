@@ -119,14 +119,12 @@ module Watir
       end
     end # class << self
 
-    def initialize(parent, default_selector, selectors)
+    def initialize(parent, selector)
       @parent   = parent
-      @selector = extract_selector(selectors)
+      @selector = selector
 
       if @selector.has_key?(:element)
         @element = @selector[:element]
-      else
-        @selector.merge!(default_selector) if default_selector
       end
     end
 
@@ -305,23 +303,6 @@ module Watir
     def assert_writable
       assert_enabled
       raise ObjectReadOnlyException if respond_to?(:readonly?) && readonly?
-    end
-
-    def extract_selector(selectors)
-      case selectors.size
-      when 2
-        { selectors[0] => selectors[1] }
-      when 1
-        return selectors if selectors.kind_of? Hash
-
-        unless selectors.first.kind_of? Hash
-          raise ArgumentError, "expected Hash or (:how, 'what')"
-        end
-
-        selectors.first
-      else
-        raise ArgumentError, "wrong number of arguments (#{selectors.size} for 2)"
-      end
     end
 
   end # Element
