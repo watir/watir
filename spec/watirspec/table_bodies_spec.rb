@@ -28,30 +28,30 @@ describe "TableBodies" do
   end
 
   describe "#each" do
-      it "iterates through table bodies correctly (table context)" do
-        count = 0
+    it "iterates through table bodies correctly (table context)" do
+      count = 0
 
-        browser.bodies.each_with_index do |body, index|
-          body.id.should == browser.tbody(:index, index).id
+      browser.tbodys.each_with_index do |body, index|
+        body.id.should == browser.tbody(:index, index).id
 
-          count += 1
-        end
-
-        count.should > 0
+        count += 1
       end
 
-      it "iterates through table bodies correctly (table context)" do
-        table = browser.table(:index, 0)
-        count = 0
-
-        table.bodies.each_with_index do |body, index|
-          body.id.should == table.body(:index, index).id
-
-          count += 1
-        end
-
-        count.should > 0
-      end
+      count.should > 0
     end
+
+    it "iterates through table bodies correctly (table context)" do
+      table = browser.table(:index, 0)
+      count = 0
+
+      table.tbodys.each_with_index do |body, index|
+        body.id.should == table.body(:index, index).id
+
+        count += 1
+      end
+
+      count.should > 0
+    end
+  end
 
 end
