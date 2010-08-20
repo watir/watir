@@ -14,8 +14,7 @@ describe "Element" do
     end
 
     it "raises UnknownObjectException with a sane error message when given a hash of :how => 'what' arguments (non-existing object)" do
-      conditions = {:index => 100, :name => "foo"}
-      lambda { browser.text_field(conditions).id }.should raise_error(UnknownObjectException)
+      lambda { browser.text_field(:index => 100, :name => "foo").id }.should raise_error(UnknownObjectException)
     end
 
     it "raises ArgumentError if given the wrong number of arguments" do
