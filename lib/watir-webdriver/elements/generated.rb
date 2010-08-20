@@ -42,7 +42,7 @@ module Watir
   
   
   class HTMLElement < Element
-    attributes(:string => ([:innerhtml, :outerhtml, :id, :title, :lang, :dir, :class_name, :item_type, :item_id, :item_value, :access_key, :access_key_label, :content_editable, :spellcheck, :command_type, :label, :icon]), :token_list => ([:class_list, :item_ref, :item_prop]), :string_map => ([:dataset]), :bool => ([:item_scope, :hidden, :draggable, :is_content_editable, :disabled, :checked]), :properties_collection => ([:properties]), :int => ([:tab_index]), :html_element => ([:context_menu]), :style => ([:style]), :function => ([:onabort, :onblur, :oncanplay, :oncanplaythrough, :onchange, :onclick, :oncontextmenu, :oncuechange, :ondblclick, :ondrag, :ondragend, :ondragenter, :ondragleave, :ondragover, :ondragstart, :ondrop, :ondurationchange, :onemptied, :onended, :onerror, :onfocus, :onformchange, :onforminput, :oninput, :oninvalid, :onkeydown, :onkeypress, :onkeyup, :onload, :onloadeddata, :onloadedmetadata, :onloadstart, :onmousedown, :onmousemove, :onmouseout, :onmouseover, :onmouseup, :onmousewheel, :onpause, :onplay, :onplaying, :onprogress, :onratechange, :onreadystatechange, :onscroll, :onseeked, :onseeking, :onselect, :onshow, :onstalled, :onsubmit, :onsuspend, :ontimeupdate, :onvolumechange, :onwaiting]))
+    attributes(:string => ([:innerhtml, :outerhtml, :id, :title, :lang, :dir, :class_name, :item_type, :item_id, :item_value, :access_key, :access_key_label, :content_editable, :command_type, :label, :icon]), :token_list => ([:class_list, :item_ref, :item_prop]), :string_map => ([:dataset]), :bool => ([:item_scope, :hidden, :draggable, :is_content_editable, :spellcheck, :disabled, :checked]), :properties_collection => ([:properties]), :int => ([:tab_index]), :html_element => ([:context_menu]), :style => ([:style]), :function => ([:onabort, :onblur, :oncanplay, :oncanplaythrough, :onchange, :onclick, :oncontextmenu, :oncuechange, :ondblclick, :ondrag, :ondragend, :ondragenter, :ondragleave, :ondragover, :ondragstart, :ondrop, :ondurationchange, :onemptied, :onended, :onerror, :onfocus, :onformchange, :onforminput, :oninput, :oninvalid, :onkeydown, :onkeypress, :onkeyup, :onload, :onloadeddata, :onloadedmetadata, :onloadstart, :onmousedown, :onmousemove, :onmouseout, :onmouseover, :onmouseup, :onmousewheel, :onpause, :onplay, :onplaying, :onprogress, :onratechange, :onreadystatechange, :onscroll, :onseeked, :onseeking, :onselect, :onshow, :onstalled, :onsubmit, :onsuspend, :ontimeupdate, :onvolumechange, :onwaiting]))
   end
   class Font < HTMLElement
     attributes(:string => ([:color, :face, :size]))
@@ -105,7 +105,7 @@ module Watir
     attributes(:html_collection => ([:options]))
   end
   class Select < HTMLElement
-    attributes(:bool => ([:autofocus, :disabled, :multiple, :will_validate]), :html_element => ([:form]), :string => ([:name, :type, :value, :validity, :validation_message]), :int => ([:size, :length, :selected_index]), :html_collection => ([:options, :selected_options]), :list => ([:labels]))
+    attributes(:bool => ([:autofocus, :disabled, :multiple, :required, :will_validate]), :html_element => ([:form]), :string => ([:name, :type, :value, :validity, :validation_message]), :int => ([:size, :length, :selected_index]), :html_collection => ([:options, :selected_options]), :list => ([:labels]))
   end
   class Button < HTMLElement
     attributes(:bool => ([:autofocus, :disabled, :will_validate]), :html_element => ([:form]), :string => ([:form_action, :form_enctype, :form_method, :form_no_validate, :form_target, :name, :type, :value, :validity, :validation_message]), :list => ([:labels]))
@@ -186,7 +186,7 @@ module Watir
     attributes(:int => ([:width, :height]))
   end
   class Media < HTMLElement
-    attributes(:string => ([:error, :src, :current_src, :preload, :buffered, :played, :seekable, :tracks]), :int => ([:network_state, :ready_state]), :bool => ([:seeking, :paused, :ended, :autoplay, :loop, :controls, :muted]), :float => ([:current_time, :start_time, :duration, :default_playback_rate, :playback_rate, :volume]))
+    attributes(:string => ([:error, :src, :current_src, :preload, :buffered, :played, :seekable, :tracks]), :int => ([:network_state, :ready_state]), :bool => ([:seeking, :paused, :ended, :autoplay, :loop, :controls, :muted]), :float => ([:current_time, :initial_time, :duration, :default_playback_rate, :playback_rate, :volume]), :date => ([:start_offset_time]))
   end
   class Audio < Media
     # do nothing
