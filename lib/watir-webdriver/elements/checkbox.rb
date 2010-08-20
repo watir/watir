@@ -47,12 +47,12 @@ module Watir
 
 
   module Container
-    def checkbox(*selectors)
-      CheckBox.new(self, {:tag_name => "input", :type => "checkbox"}, selectors)
+    def checkbox(*args)
+      CheckBox.new(self, extract_selector(args).merge(:tag_name => "input", :type => "checkbox"))
     end
 
-    def checkboxes(*selectors)
-      CheckBoxCollection.new(self, {:tag_name => "input", :type => "checkbox"}, selectors)
+    def checkboxes(*args)
+      CheckBoxCollection.new(self, extract_selector(args).merge(:tag_name => "input", :type => "checkbox"))
     end
   end # Container
 

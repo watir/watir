@@ -33,22 +33,22 @@ module Watir
 
     def to_checkbox
       assert_exists
-      Watir::CheckBox.new(@parent, {}, :element => @element)
+      Watir::CheckBox.new(@parent, :element => @element)
     end
 
     def to_radio
       assert_exists
-      Watir::Radio.new(@parent, {}, :element => @element)
+      Watir::Radio.new(@parent, :element => @element)
     end
 
     def to_button
       assert_exists
-      Watir::Button.new(@parent, {}, :element => @element)
+      Watir::Button.new(@parent, :element => @element)
     end
 
     def to_select_list
       assert_exists
-      Watir::SelectList.new(@parent, {}, :element => @element)
+      Watir::SelectList.new(@parent, :element => @element)
     end
 
   end # Input

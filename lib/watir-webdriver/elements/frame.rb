@@ -100,12 +100,19 @@ module Watir
   end # Frame
 
   module Container
-    def frame(*selectors)
-      Frame.new(self, {}, selectors)
+    def frame(*args)
+      Frame.new(self, extract_selector(args))
     end
 
-    def frames(*selectors)
-      FrameCollection.new(self, {}, selectors)
+    def frames(*args)
+      FrameCollection.new(self, extract_selector(args))
     end
   end
+
+  class FrameCollection < ElementCollection
+    def element_class
+      Frame
+    end
+  end
+
 end # Watir

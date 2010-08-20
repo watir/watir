@@ -7,12 +7,12 @@ module Watir
   end
 
   module Container
-    def hidden(*selectors)
-      Hidden.new(self, { :tag_name => "input", :type => "hidden"}, selectors)
+    def hidden(*args)
+      Hidden.new(self, extract_selector(args).merge(:tag_name => "input", :type => "hidden"))
     end
 
-    def hiddens(*selectors)
-      HiddenCollection.new(self, { :tag_name => "input", :type => "hidden"}, selectors)
+    def hiddens(*args)
+      HiddenCollection.new(self, extract_selector(args).merge(:tag_name => "input", :type => "hidden"))
     end
   end # Container
 

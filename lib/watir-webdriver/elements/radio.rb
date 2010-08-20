@@ -23,12 +23,12 @@ module Watir
   end # Radio
 
   module Container
-    def radio(*selectors)
-      Radio.new(self, { :tag_name => "input", :type => "radio" }, *selectors)
+    def radio(*args)
+      Radio.new(self, extract_selector(args).merge(:tag_name => "input", :type => "radio"))
     end
 
-    def radios(*selectors)
-      RadioCollection.new(self, { :tag_name => "input", :type => "radio" }, *selectors)
+    def radios(*args)
+      RadioCollection.new(self, extract_selector(args).merge(:tag_name => "input", :type => "radio" ))
     end
   end # Container
 
