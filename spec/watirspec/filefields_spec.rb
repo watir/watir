@@ -21,11 +21,17 @@ describe "FileFields" do
 
   describe "#each" do
     it "iterates through file fields correctly" do
+      count = 0
+
       browser.file_fields.each_with_index do |f, index|
         f.name.should == browser.file_field(:index, index+1).name
         f.id.should ==  browser.file_field(:index, index+1).id
         f.value.should == browser.file_field(:index, index+1).value
+
+        count += 1
       end
+
+      count.should > 0
     end
   end
 

@@ -21,11 +21,17 @@ describe "CheckBoxes" do
 
   describe "#each" do
     it "iterates through checkboxes correctly" do
+      count = 0
+
       browser.checkboxes.each_with_index do |c, index|
         c.name.should == browser.checkbox(:index, index+1).name
         c.id.should == browser.checkbox(:index, index+1).id
         c.value.should == browser.checkbox(:index, index+1).value
+
+        count += 1
       end
+
+      count.should > 0
     end
   end
 

@@ -22,11 +22,17 @@ describe "Forms" do
 
   describe "#each" do
     it "iterates through forms correctly" do
+      count = 0
+
       browser.forms.each_with_index do |f, index|
         f.name.should == browser.form(:index, index+1).name
         f.id.should == browser.form(:index, index+1).id
         f.class_name.should == browser.form(:index, index+1).class_name
+
+        count += 1
       end
+
+      count.should > 0
     end
   end
 

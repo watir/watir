@@ -23,11 +23,17 @@ describe "Tables" do
 
   describe "#each" do
     it "iterates through tables correctly" do
+      count = 0
+
       browser.tables.each_with_index do |t, index|
         t.name.should == browser.table(:index, index+1).name
         t.id.should == browser.table(:index, index+1).id
         t.value.should == browser.table(:index, index+1).value
+
+        count += 1
       end
+
+      count.should > 0
     end
   end
 

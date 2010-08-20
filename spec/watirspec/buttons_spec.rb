@@ -37,11 +37,17 @@ describe "Buttons" do
 
   describe "#each" do
     it "iterates through buttons correctly" do
+      count = 0
+
       browser.buttons.each_with_index do |b, index|
         b.name.should == browser.button(:index, index+1).name
         b.id.should == browser.button(:index, index+1).id
         b.value.should == browser.button(:index, index+1).value
+
+        count += 1
       end
+
+      count.should > 0
     end
   end
 

@@ -21,11 +21,17 @@ describe "Ols" do
 
   describe "#each" do
     it "iterates through ols correctly" do
+      count = 0
+
       browser.ols.each_with_index do |ul, index|
         ul.name.should == browser.ol(:index, index+1).name
         ul.id.should == browser.ol(:index, index+1).id
         ul.value.should == browser.ol(:index, index+1).value
+
+        count += 1
       end
+
+      count.should > 0
     end
   end
 

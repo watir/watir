@@ -21,9 +21,15 @@ describe "Metas" do
 
   describe "#each" do
     it "iterates through meta elements correctly" do
+      count = 0
+
       browser.metas.each_with_index do |m, index|
         m.content.should == browser.meta(:index, index+1).content
+
+        count += 1
       end
+
+      count.should > 0
     end
   end
 

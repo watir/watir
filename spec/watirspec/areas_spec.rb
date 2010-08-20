@@ -21,11 +21,17 @@ describe "Areas" do
 
   describe "#each" do
     it "iterates through areas correctly" do
+      count = 0
+
       browser.areas.each_with_index do |a, index|
         a.name.should == browser.area(:index, index+1).name
         a.id.should == browser.area(:index, index+1).id
         a.value.should == browser.area(:index, index+1).value
+
+        count += 1
       end
+
+      count.should > 0
     end
   end
 

@@ -22,11 +22,17 @@ bug "WTR-332", :watir do
 
     describe "#each" do
       it "iterates through uls correctly" do
+        count = 0
+
         browser.uls.each_with_index do |ul, index|
           ul.name.should == browser.ul(:index, index+1).name
           ul.id.should == browser.ul(:index, index+1).id
           ul.value.should == browser.ul(:index, index+1).value
+
+          count += 1
         end
+
+        count.should > 0
       end
     end
 

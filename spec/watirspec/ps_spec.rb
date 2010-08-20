@@ -21,11 +21,17 @@ describe "Ps" do
 
   describe "#each" do
     it "iterates through ps correctly" do
+      count = 0
+
       browser.ps.each_with_index do |p, index|
         p.name.should == browser.p(:index, index+1).name
         p.id.should == browser.p(:index, index+1).id
         p.value.should == browser.p(:index, index+1).value
+
+        count += 1
       end
+
+      count.should > 0
     end
   end
 

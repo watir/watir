@@ -21,11 +21,17 @@ describe "Pres" do
 
   describe "#each" do
     it "iterates through pres correctly" do
+      count = 0
+
       browser.pres.each_with_index do |p, index|
         p.name.should == browser.pre(:index, index+1).name
         p.id.should == browser.pre(:index, index+1).id
         p.value.should == browser.pre(:index, index+1).value
+
+        count += 1
       end
+
+      count.should > 0
     end
   end
 

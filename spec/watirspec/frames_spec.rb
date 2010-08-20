@@ -22,11 +22,17 @@ not_compliant_on :watir do
 
     describe "#each" do
       it "iterates through frames correctly" do
+        count = 0
+
         browser.frames.each_with_index do |f, index|
           f.name.should == browser.frame(:index, index+1).name
           f.id.should ==  browser.frame(:index, index+1).id
           f.value.should == browser.frame(:index, index+1).value
+
+          count += 1
         end
+
+        count.should > 0
       end
     end
   end
@@ -51,11 +57,17 @@ not_compliant_on :watir do
 
     describe "#each" do
       it "iterates through frames correctly" do
+        count = 0
+
         browser.frames.each_with_index do |f, index|
           f.name.should == browser.frame(:index, index+1).name
           f.id.should ==  browser.frame(:index, index+1).id
           f.value.should == browser.frame(:index, index+1).value
+
+          count += 1
         end
+
+        count.should > 0
       end
     end
   end

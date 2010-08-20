@@ -21,11 +21,17 @@ describe "Maps" do
 
   describe "#each" do
     it "iterates through maps correctly" do
+      count = 0
+
       browser.maps.each_with_index do |m, index|
         m.name.should == browser.map(:index, index+1).name
         m.id.should == browser.map(:index, index+1).id
         m.value.should == browser.map(:index, index+1).value
+
+        count += 1
       end
+
+      count.should > 0
     end
   end
 
