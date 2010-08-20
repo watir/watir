@@ -62,7 +62,7 @@ module Watir
       def write_container_methods
         @io.puts indent("module Container")
 
-        @tag2interfaces.each do |tag, interfaces|
+        @tag2interfaces.sort.each do |tag, interfaces|
           raise "multiple interfaces for tag #{tag.inspect}" unless interfaces.map { |e| e.name }.uniq.size == 1
 
           tag_string       = tag.inspect
