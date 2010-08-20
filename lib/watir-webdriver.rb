@@ -21,7 +21,7 @@ module Watir
     end
 
     def element_class_for(tag_name)
-      tag_to_class[tag_name] || HTMLElement
+      tag_to_class[tag_name.to_sym] || HTMLElement
     end
   end
 
