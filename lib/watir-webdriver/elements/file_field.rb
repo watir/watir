@@ -28,11 +28,11 @@ module Watir
 
   module Container
     def file_field(*selectors)
-      FileField.new(self, {:tag_name => "input", :type => "file"}, *selectors)
+      FileField.new(self, {:tag_name => "input", :type => "file"}, selectors)
     end
 
     def file_fields(*selectors)
-      FileFieldCollection.new(self, {:tag_name => "input", :type => "file"}, *selectors)
+      FileFieldCollection.new(self, {:tag_name => "input", :type => "file"}, selectors)
     end
   end # Container
 

@@ -8,11 +8,11 @@ module Watir
 
   module Container
     def hidden(*selectors)
-      Hidden.new(self, { :tag_name => "input", :type => "hidden"}, *selectors)
+      Hidden.new(self, { :tag_name => "input", :type => "hidden"}, selectors)
     end
 
     def hiddens(*selectors)
-      HiddenCollection.new(self, { :tag_name => "input", :type => "hidden"}, *selectors)
+      HiddenCollection.new(self, { :tag_name => "input", :type => "hidden"}, selectors)
     end
   end # Container
 

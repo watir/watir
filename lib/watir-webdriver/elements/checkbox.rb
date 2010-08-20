@@ -48,11 +48,11 @@ module Watir
 
   module Container
     def checkbox(*selectors)
-      CheckBox.new(self, { :tag_name => "input", :type => "checkbox"}, *selectors)
+      CheckBox.new(self, {:tag_name => "input", :type => "checkbox"}, selectors)
     end
 
     def checkboxes(*selectors)
-      CheckBoxCollection.new(self, { :tag_name => "input", :type => "checkbox"}, *selectors)
+      CheckBoxCollection.new(self, {:tag_name => "input", :type => "checkbox"}, selectors)
     end
   end # Container
 

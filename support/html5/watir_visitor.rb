@@ -66,16 +66,16 @@ class WatirVisitor < WebIDL::RubySexpVisitor
     # @return [#{element_class}]
     #
 
-    def #{singular}(*args)
-      #{element_class}.new(self, {:tag_name => #{tag_string}}, *args)
+    def #{singular}(*selectors)
+      #{element_class}.new(self, {:tag_name => #{tag_string}}, selectors)
     end
 
     #
     # @return [#{collection_class}]
     #
 
-    def #{plural}(*args)
-      #{collection_class}.new(self, {:tag_name => #{tag_string}}, *args)
+    def #{plural}(*selectors)
+      #{collection_class}.new(self, {:tag_name => #{tag_string}}, selectors)
     end
       CODE
     end

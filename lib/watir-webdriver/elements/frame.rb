@@ -101,11 +101,11 @@ module Watir
 
   module Container
     def frame(*selectors)
-      Frame.new(self, {}, *selectors)
+      Frame.new(self, {}, selectors)
     end
 
     def frames(*selectors)
-      FrameCollection.new(self, {}, *selectors)
+      FrameCollection.new(self, {}, selectors)
     end
   end
 end # Watir

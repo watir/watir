@@ -119,7 +119,7 @@ module Watir
       end
     end # class << self
 
-    def initialize(parent, default_selector, *selectors)
+    def initialize(parent, default_selector, selectors)
       @parent   = parent
       @selector = extract_selector(selectors)
 
@@ -142,7 +142,7 @@ module Watir
       if @selector.has_key?(:element)
         '#<%s:0x%x located=%s selector=%s>' % [self.class, hash*2, !!@element, '{:element=>(webdriver element)}']
       else
-        '#<%s:0x%x located=%s selector=%s>' % [self.class, hash*2, !!@element, @selector.inspect]
+        '#<%s:0x%x located=%s selector=%s>' % [self.class, hash*2, !!@element, selector_string]
       end
     end
 
