@@ -109,7 +109,8 @@ task :default => :spec
 
 begin
   require 'yard'
-  require 'support/yard_handlers'
+  Rake::Task[:lib].invoke
+  require "yard/handlers/watir"
   YARD::Rake::YardocTask.new do |task|
     task.options = %w[--debug] # this is pretty slow, so nice with some output
   end

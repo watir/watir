@@ -45,25 +45,45 @@ module Watir
     # 'cast' the returned Input instance to one of the subclasses
     #
 
+    #
+    # @return [Watir::CheckBox]
+    # 
+
     def to_checkbox
       assert_exists
       CheckBox.from(@parent, @element)
     end
 
+    #
+    # @return [Watir::Radio]
+    # 
+    
     def to_radio
       assert_exists
       Radio.from(@parent, @element)
     end
 
+    #
+    # @return [Watir::Button]
+    # 
+    
     def to_button
       assert_exists
       Button.from(@parent, @element)
     end
+    
+    #
+    # @return [Watir::TextField]
+    # 
 
     def to_text_field
       assert_exists
       TextField.from(@parent, @element)
     end
+
+    #
+    # @return [Watir::FileField]
+    # 
 
     def to_file_field
       assert_exists
