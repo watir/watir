@@ -10,6 +10,8 @@ module Watir
         # When an interface has multiple IDL definitions in the spec, the inheritance is sometimes
         # not repeated. So we'll keep track ourselves.
         @inheritance_map = {}
+
+        @already_defined = []
       end
 
       #
@@ -88,6 +90,8 @@ module Watir
       end
 
       def collection_class(name)
+        return if @already_defined.include?(name)
+        @already_defined << name
         name = Util.classify(name)
 
         [:class, "#{name}Collection", [:const, :ElementCollection],
