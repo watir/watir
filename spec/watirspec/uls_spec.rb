@@ -19,20 +19,18 @@ describe "Uls" do
     end
   end
 
-    describe "#each" do
-      it "iterates through uls correctly" do
-        count = 0
+  describe "#each" do
+    it "iterates through uls correctly" do
+      count = 0
 
-        browser.uls.each_with_index do |ul, index|
-          ul.id.should == browser.ul(:index, index).id
-          ul.value.should == browser.ul(:index, index).value
+      browser.uls.each_with_index do |ul, index|
+        ul.id.should == browser.ul(:index, index).id
+        ul.value.should == browser.ul(:index, index).value
 
-          count += 1
-        end
-
-        count.should > 0
+        count += 1
       end
+
+      count.should > 0
     end
   end
-
 end
