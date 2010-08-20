@@ -238,7 +238,7 @@ module Watir
       e = driver.execute_script "return arguments[0].parentNode", @element
 
       if e.kind_of?(WebDriver::Element)
-        Watir.element_class_for(e.tag_name).new(@parent, :element, e)
+        Watir.element_class_for(e.tag_name).new(@parent, :element => e)
       end
     end
 
