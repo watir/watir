@@ -312,7 +312,9 @@ module Watir
       when 2
         { selectors[0] => selectors[1] }
       when 1
-        unless selectors.first.is_a? Hash
+        return selectors if selectors.kind_of? Hash
+
+        unless selectors.first.kind_of? Hash
           raise ArgumentError, "expected Hash or (:how, 'what')"
         end
 

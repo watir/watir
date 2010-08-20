@@ -3,9 +3,10 @@ module Watir
   class ElementCollection
     include Enumerable
 
-    def initialize(parent, default_selector)
+    def initialize(parent, default_selector, selectors)
       @parent           = parent
       @default_selector = default_selector
+      # TODO: use selectors
     end
 
     #
@@ -69,7 +70,7 @@ module Watir
 
     def to_a
       # TODO: optimize - lazy element_class instance?
-      @to_a ||= elements.map { |e| element_class.new(@parent, nil, :element, e) }
+      @to_a ||= elements.map { |e| element_class.new(@parent, nil, :element => e) }
     end
 
     private

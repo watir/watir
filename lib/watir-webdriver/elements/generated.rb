@@ -233,14 +233,14 @@ module Watir
   class TableRow < HTMLElement
     attributes(:string => ([:align, :bg_color, :ch, :ch_off, :v_align]))
   end
-  class TableDataCell < TableCell
-    # do nothing
-  end
   class TableCell < HTMLElement
     attributes(:int => ([:col_span, :row_span, :cell_index]), :token_list => ([:headers]))
   end
   class TableCell < HTMLElement
     attributes(:string => ([:abbr, :align, :axis, :bg_color, :ch, :ch_off, :height, :v_align, :width]), :bool => ([:no_wrap]))
+  end
+  class TableDataCell < TableCell
+    # do nothing
   end
   class TableHeaderCell < TableCell
     attributes(:string => ([:scope]))
