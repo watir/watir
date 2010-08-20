@@ -45,7 +45,7 @@ describe "TableBodies" do
       count = 0
 
       table.tbodys.each_with_index do |body, index|
-        body.id.should == table.body(:index, index).id
+        body.id.should == table.tbody(:index, index).id
 
         count += 1
       end
