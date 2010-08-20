@@ -4,6 +4,20 @@ module Watir
 
     alias_method :readonly?, :read_only?
 
+    #
+    # @private
+    #
+    # subclasses can use this to validate the incoming element
+    #
+
+    def self.from(parent, element)
+      unless element.tag_name == "input"
+        raise TypeError, "can't create #{self} from #{element.inspect}"
+      end
+
+      new(parent, :element => element)
+    end
+
     def enabled?
       !disabled?
     end
@@ -33,22 +47,27 @@ module Watir
 
     def to_checkbox
       assert_exists
-      Watir::CheckBox.new(@parent, :element => @element)
+      CheckBox.from(@parent, @element)
     end
 
     def to_radio
       assert_exists
-      Watir::Radio.new(@parent, :element => @element)
+      Radio.from(@parent, @element)
     end
 
     def to_button
       assert_exists
-      Watir::Button.new(@parent, :element => @element)
+      Button.from(@parent, @element)
     end
 
-    def to_select_list
+    def to_text_field
       assert_exists
-      Watir::SelectList.new(@parent, :element => @element)
+      TextField.from(@parent, @element)
+    end
+
+    def to_file_field
+      assert_exists
+      FileField.from(@parent, @element)
     end
 
   end # Input

@@ -1,6 +1,15 @@
 # encoding: utf-8
 module Watir
   class CheckBox < Input
+
+    def self.from(parent, element)
+      if element.attribute(:type) != "checkbox"
+        raise TypeError, "expected type=checkbox for #{element.inspect}"
+      end
+
+      super
+    end
+
     #
     # Set this checkbox to the given value
     #
