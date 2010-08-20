@@ -231,6 +231,10 @@ module Watir
       nil
     end
 
+    def all_elements
+      @wd.find_elements(:xpath => ".//*")
+    end
+
     def tag_name_matches?(element, tag_name)
       tag_name === element.tag_name
     end
