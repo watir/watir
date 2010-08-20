@@ -107,11 +107,4 @@ module Watir
       FrameCollection.new(self, extract_selector(args))
     end
   end
-
-  class FrameCollection < ElementCollection
-    def element_class
-      Frame
-    end
-  end
-
 end # Watir
