@@ -45,9 +45,11 @@ describe "Frame" do
       browser.frame(:xpath, "//iframe[@id='frame_1']").should exist
     end
 
+    bug "http://github.com/jarib/watir-webdriver/issues#issue/17", :webdriver do
       it "returns the first frame if given no args" do
         browser.frame.should exist
       end
+    end
 
     it "returns false if the frame doesn't exist" do
       browser.frame(:id, "no_such_id").should_not exist
