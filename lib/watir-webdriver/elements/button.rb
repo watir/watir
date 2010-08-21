@@ -15,12 +15,13 @@ module Watir
 
     def self.from(parent, element)
       if element.tag_name == "button" ||
-         element.tag_name == "input" && %w[submit reset image button].include?(element.attribute(:type))
+         element.tag_name == "input" && ButtonLocator::VALID_TYPES.include?(element.attribute(:type))
         Button.new(parent, :element => element)
       else
-        raise TypeError, "expected button or input[@type=submit|reset|image|button] for #{element.inspect}"
+        raise TypeError, "expected button or input[@type=#{ButtonLocator::VALID_TYPES.join("|")}] for #{element.inspect}"
       end
     end
+
     #
     # Returns the text of the button.
     #
