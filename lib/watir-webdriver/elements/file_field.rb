@@ -24,6 +24,11 @@ module Watir
     #
     # Return the value of this field
     #
+    # In IE, the path returned depends on the "Include local directory path
+    # when uploading files to a server" security setting:
+    #
+    # @see http://msdn.microsoft.com/en-us/library/ms535128(VS.85).aspx
+    #
     # @return [String]
     #
 
