@@ -117,6 +117,8 @@ module Watir
     private
 
     def select_by(how, str_or_rx)
+      assert_exists
+
       case str_or_rx
       when String, Numeric
         select_by_string(how, str_or_rx.to_s)
