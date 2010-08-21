@@ -24,6 +24,10 @@ describe "P" do
       browser.p("lead").should exist
     end
 
+    it "returns the first p if given no args" do
+      browser.p.should exist
+    end
+
     it "returns false if the 'p' doesn't exist" do
       browser.p(:id, "no_such_id").should_not exist
       browser.p(:id, /no_such_id/).should_not exist

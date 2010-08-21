@@ -26,6 +26,10 @@ describe "Div" do
       browser.div("header").should exist
     end
 
+    it "returns the first div if given no args" do
+      browser.div.should exist
+    end
+
     it "returns false if the element does not exist" do
       browser.div(:id, "no_such_id").should_not exist
       browser.div(:id, /no_such_id/).should_not exist

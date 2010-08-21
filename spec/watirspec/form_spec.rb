@@ -25,6 +25,10 @@ describe "Form" do
       browser.form(:xpath, "//form[@id='new_user']").should exist
     end
 
+    it "returns the first form if given no args" do
+      browser.form.should exist
+    end
+
     it "returns true if the element exists (default how = :name)" do
       browser.form("user_new").should exist
     end

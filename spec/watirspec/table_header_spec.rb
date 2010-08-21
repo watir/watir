@@ -16,6 +16,10 @@ bug "WTR-357", :watir do
         browser.thead(:xpath, "//thead[@id='tax_headers']").should exist
       end
 
+      it "returns the first thead if given no args" do
+        browser.thead.should exist
+      end
+
       it "returns true if the table theader exists (table context)" do
         browser.table(:index, 1).thead(:id, 'tax_headers').should exist
         browser.table(:index, 1).thead(:id, /tax_headers/).should exist

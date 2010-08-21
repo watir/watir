@@ -20,6 +20,10 @@ describe "Ul" do
       browser.ul("navbar").should exist
     end
 
+    it "returns the first ul if given no args" do
+      browser.ul.should exist
+    end
+
     it "returns false if the 'ul' doesn't exist" do
       browser.ul(:id, "no_such_id").should_not exist
       browser.ul(:id, /no_such_id/).should_not exist

@@ -35,6 +35,10 @@ describe "CheckBox" do
       browser.checkbox(:xpath, "//input[@name='new_user_interests' and @value='cars']").set
     end
 
+    it "returns the first checkbox if given no args" do
+      browser.checkbox.should exist
+    end
+
     it "returns false if the checkbox button does not exist" do
       browser.checkbox(:id, "no_such_id").should_not exist
       browser.checkbox(:id, /no_such_id/).should_not exist

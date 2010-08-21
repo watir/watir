@@ -11,6 +11,10 @@ bug "WTR-334", :watir do
       it "returns true if the meta tag exists" do
         browser.meta('http-equiv', "Content-Type").should exist
       end
+
+      it "returns the first meta if given no args" do
+        browser.meta.should exist
+      end
     end
 
     describe "content" do

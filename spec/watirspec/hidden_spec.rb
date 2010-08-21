@@ -16,14 +16,15 @@ describe "Hidden" do
       browser.hidden(:name, /new_user_interests/).should exist
       browser.hidden(:value, 'dolls').should exist
       browser.hidden(:value, /dolls/).should exist
-      # TODO: figure out what :text means for Hidden
-      # browser.hidden(:text, 'dolls').should exist
-      # browser.hidden(:text, /dolls/).should exist
       browser.hidden(:class, 'fun').should exist
       browser.hidden(:class, /fun/).should exist
       browser.hidden(:index, 1).should exist
       browser.hidden(:xpath, "//input[@id='new_user_interests_dolls']").should exist
-     end
+    end
+
+    it "returns the first hidden if given no args" do
+      browser.hidden.should exist
+    end
 
     it "returns true if the element exists (default how = :name)" do
       browser.hidden("new_user_interests").should exist

@@ -29,6 +29,10 @@ describe "SelectList" do
       browser.select_list("new_user_country").should exist
     end
 
+    it "returns the first select if given no args" do
+      browser.select_list.should exist
+    end
+
     it "returns false if the select list doesn't exist" do
       browser.select_list(:id, 'no_such_id').should_not exist
       browser.select_list(:id, /no_such_id/).should_not exist

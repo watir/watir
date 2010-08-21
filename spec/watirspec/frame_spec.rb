@@ -49,6 +49,10 @@ describe "Frame" do
         browser.frame("frame1").should exist
       end
 
+      it "returns the first frame if given no args" do
+        browser.form.should exist
+      end
+
       it "returns false if the frame doesn't exist" do
         browser.frame(:id, "no_such_id").should_not exist
         browser.frame(:id, /no_such_id/).should_not exist

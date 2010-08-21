@@ -22,6 +22,10 @@ describe "Map" do
       browser.map("triangle_map").should exist
     end
 
+    it "returns the first map if given no args" do
+      browser.map.should exist
+    end
+
     it "returns false if the 'map' doesn't exist" do
       browser.map(:id, "no_such_id").should_not exist
       browser.map(:id, /no_such_id/).should_not exist

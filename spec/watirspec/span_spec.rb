@@ -24,6 +24,10 @@ describe "Span" do
       browser.span("lead").should exist
     end
 
+    it "returns the first span if given no args" do
+      browser.span.should exist
+    end
+
     it "returns false if the element doesn't exist" do
       browser.span(:id, "no_such_id").should_not exist
       browser.span(:id, /no_such_id/).should_not exist

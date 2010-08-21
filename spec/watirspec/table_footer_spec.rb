@@ -16,6 +16,10 @@ bug "WTR-358", :watir do
         browser.tfoot(:xpath, "//tfoot[@id='tax_totals']").should exist
       end
 
+      it "returns the first tfoot if given no args" do
+        browser.tfoot.should exist
+      end
+
       it "returns true if the table tfoot exists (table context)" do
         browser.table(:index, 1).tfoot(:id, 'tax_totals').should exist
         browser.table(:index, 1).tfoot(:id, /tax_totals/).should exist

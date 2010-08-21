@@ -28,6 +28,10 @@ describe "TableBody" do
       browser.table(:index, 1).body(:xpath, "//tbody[@id='first']").should exist
     end
 
+    it "returns the first table body if given no args" do
+      browser.table.body.should exist
+    end
+
     it "returns true if the element exists (default how = :id)" do
       bug "WTR-357", :watir do
         browser.body("first").should exist

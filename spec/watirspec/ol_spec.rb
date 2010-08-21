@@ -21,6 +21,10 @@ bug "WTR-333", :watir do
         browser.ol("favorite_compounds").should exist
       end
 
+      it "returns the first ol if given no args" do
+        browser.ol.should exist
+      end
+
       it "returns false if the 'ol' doesn't exist" do
         browser.ol(:id, "no_such_id").should_not exist
         browser.ol(:id, /no_such_id/).should_not exist

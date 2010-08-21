@@ -22,6 +22,10 @@ describe "Option" do
         browser.option(:index, 2).should exist
         browser.option(:xpath, "//option[@id='nor']").should exist
       end
+
+      it "returns the first option if given no args" do
+        browser.option.should exist
+      end
     end
 
     it "returns true if the element exists (select_list context)" do
@@ -83,7 +87,7 @@ describe "Option" do
       bug "WTR-367", :watir do
         lambda { browser.option(:id, 3.14).exists? }.should raise_error(TypeError)
       end
-      
+
       lambda { browser.select_list(:name, "new_user_country").option(:id, 3.14).exists? }.should raise_error(TypeError)
     end
 

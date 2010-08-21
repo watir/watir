@@ -16,6 +16,10 @@ describe "Dl" do
       browser.dl(:index, 1).should exist
     end
 
+    it "returns the first dl if given no args" do
+      browser.dl.should exist
+    end
+
     it "returns false if the element does not exist" do
       browser.dl(:id, "no_such_id").should_not exist
     end

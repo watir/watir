@@ -25,6 +25,10 @@ describe "Image" do
       browser.image(:title, 'Circle').should exist
     end
 
+    it "returns the first image if given no args" do
+      browser.image.should exist
+    end
+
     bug "WTR-347", :watir do
       it "returns true if the element exists (default how = :src)" do
         browser.image("images/circle.jpg").should exist

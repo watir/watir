@@ -37,6 +37,10 @@ describe "Button" do
       browser.button("Submit").should exist
     end
 
+    it "returns the first button if given no args" do
+      browser.button.should exist
+    end
+
     it "returns false if the button doesn't exist" do
       browser.button(:id, "no_such_id").should_not exist
       browser.button(:id, /no_such_id/).should_not exist

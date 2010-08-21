@@ -30,6 +30,10 @@ describe "TextField" do
       browser.text_field("new_user_email").should exist
     end
 
+    it "returns the first text field if given no args" do
+      browser.text_field.should exist
+    end
+
     it "returns true if the element exists (no type attribute)" do
       browser.text_field(:id, 'new_user_first_name').should exist
     end

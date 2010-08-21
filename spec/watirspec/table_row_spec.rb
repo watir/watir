@@ -15,6 +15,10 @@ describe "TableRow" do
       browser.row(:xpath, "//tr[@id='outer_first']")
     end
 
+    it "returns the first row if given no args" do
+      browser.row.should exist
+    end
+
     it "returns true if the element exists (default how = :id)" do
       browser.row("outer_last").should exist
     end

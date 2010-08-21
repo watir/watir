@@ -30,6 +30,10 @@ describe "Link" do
       end
     end
 
+    it "returns the first link if given no args" do
+      browser.link.should exist
+    end
+
     it "strips spaces from URL attributes when locating elements" do
       browser.link(:url, /strip_space$/).should exist
     end

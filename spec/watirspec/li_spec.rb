@@ -24,6 +24,10 @@ describe "Li" do
       browser.li("non_link_1").should exist
     end
 
+    it "returns the first element if given no args" do
+      browser.li.should exist
+    end
+
     it "returns false if the 'li' doesn't exist" do
       browser.li(:id, "no_such_id").should_not exist
       browser.li(:id, /no_such_id/).should_not exist

@@ -24,6 +24,10 @@ describe "Pre" do
       browser.pre("rspec").should exist
     end
 
+    it "returns the first pre if given no args" do
+      browser.pre.should exist
+    end
+
     it "returns false if the 'p' doesn't exist" do
       browser.pre(:id, "no_such_id").should_not exist
       browser.pre(:id, /no_such_id/).should_not exist
