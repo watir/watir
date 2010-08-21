@@ -33,9 +33,9 @@ module Watir
       assert_exists
       case @element.tag_name
       when 'input'
-        value
+        @element.attribute(:value)
       when 'button'
-        text
+        @element.text
       else
         raise Exception::Error, "unknown tag name for button: #{@element.tag_name}"
       end
