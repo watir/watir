@@ -16,6 +16,10 @@ describe "Em" do
       browser.em(:index, 0).should exist
     end
 
+    it "returns the first em if given no args" do
+      browser.em.should exist
+    end
+
     it "returns false if the element does not exist" do
       browser.em(:id, "no_such_id").should_not exist
     end

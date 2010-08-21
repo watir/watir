@@ -20,6 +20,10 @@ describe "Strong" do
       browser.strong(:xpath, "//strong[@id='descartes']").should exist
     end
 
+    it "returns the first strong if given no args" do
+      browser.strong.should exist
+    end
+
     it "returns false if the element doesn't exist" do
       browser.strong(:id, "no_such_id").should_not exist
       browser.strong(:id, /no_such_id/).should_not exist

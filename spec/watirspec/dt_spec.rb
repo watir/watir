@@ -16,6 +16,10 @@ describe "Dt" do
       browser.dt(:index, 0).should exist
     end
 
+    it "returns the first dt if given no args" do
+      browser.dt.should exist
+    end
+
     it "returns false if the element does not exist" do
       browser.dt(:id, "no_such_id").should_not exist
     end

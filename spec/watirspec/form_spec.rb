@@ -23,6 +23,10 @@ describe "Form" do
       browser.form(:xpath, "//form[@id='new_user']").should exist
     end
 
+    it "returns the first form if given no args" do
+      browser.form.should exist
+    end
+
     it "returns false if the form doesn't exist" do
       browser.form(:id, 'no_such_id').should_not exist
       browser.form(:id, /no_such_id/).should_not exist

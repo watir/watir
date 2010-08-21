@@ -16,6 +16,10 @@ describe "Dd" do
       browser.dd(:index, 0).should exist
     end
 
+    it "returns the first dd if given no args" do
+      browser.dd.should exist
+    end
+
     it "returns false if the element does not exist" do
       browser.dd(:id, "no_such_id").should_not exist
     end

@@ -7,14 +7,29 @@ describe "Ol" do
     browser.goto(WatirSpec.files + "/non_control_elements.html")
   end
 
-  # Exists method
-  describe "#exist?" do
-    it "returns true if the 'ol' exists" do
-      browser.ol(:id, "favorite_compounds").should exist
-      browser.ol(:id, /favorite_compounds/).should exist
-      browser.ol(:index, 0).should exist
-      browser.ol(:xpath, "//ol[@id='favorite_compounds']").should exist
-    end
+    # Exists method
+    describe "#exist?" do
+      it "returns true if the 'ol' exists" do
+        browser.ol(:id, "favorite_compounds").should exist
+        browser.ol(:id, /favorite_compounds/).should exist
+        browser.ol(:index, 0).should exist
+        browser.ol(:xpath, "//ol[@id='favorite_compounds']").should exist
+      end
+
+      it "returns the first ol if given no args" do
+        browser.ol.should exist
+      end
+
+      it "returns false if the 'ol' doesn't exist" do
+        browser.ol(:id, "no_such_id").should_not exist
+        browser.ol(:id, /no_such_id/).should_not exist
+        browser.ol(:text, "no_such_text").should_not exist
+        browser.ol(:text, /no_such_text/).should_not exist
+        browser.ol(:class, "no_such_class").should_not exist
+        browser.ol(:class, /no_such_class/).should_not exist
+        browser.ol(:index, 1337).should_not exist
+        browser.ol(:xpath, "//ol[@id='no_such_id']").should_not exist
+      end
 
     it "returns false if the 'ol' doesn't exist" do
       browser.ol(:id, "no_such_id").should_not exist
@@ -72,5 +87,4 @@ describe "Ol" do
       browser.ol(:index, 0).should respond_to(:id)
     end
   end
-
 end

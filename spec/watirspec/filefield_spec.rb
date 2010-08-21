@@ -19,6 +19,10 @@ describe "FileField" do
       browser.file_field(:xpath, "//input[@id='new_user_portrait']").should exist
     end
 
+    it "returns the first file field if given no args" do
+      browser.file_field.should exist
+    end
+
     it "returns false if the file field doesn't exist" do
       browser.file_field(:id, 'no_such_id').should_not exist
       browser.file_field(:id, /no_such_id/).should_not exist

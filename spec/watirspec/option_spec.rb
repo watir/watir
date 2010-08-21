@@ -20,6 +20,10 @@ describe "Option" do
       browser.option(:xpath, "//option[@id='nor']").should exist
     end
 
+    it "returns the first option if given no args" do
+      browser.option.should exist
+    end
+
     it "returns true if the element exists (select_list context)" do
       browser.select_list(:name, "new_user_country").option(:id, "nor").should exist
       browser.select_list(:name, "new_user_country").option(:id, /nor/).should exist

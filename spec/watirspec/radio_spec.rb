@@ -25,6 +25,10 @@ describe "Radio" do
       browser.radio(:xpath, "//input[@id='new_user_newsletter_yes']").should exist
     end
 
+    it "returns the first radio if given no args" do
+      browser.radio.should exist
+    end
+
     it "returns true if the radio button exists (search by name and value)" do
       browser.radio(:name => "new_user_newsletter", :value => 'yes').should exist
       browser.radio(:xpath, "//input[@name='new_user_newsletter' and @value='yes']").set

@@ -22,6 +22,10 @@ describe "TableBody" do
       browser.table(:index, 0).tbody(:xpath, "//tbody[@id='first']").should exist
     end
 
+    it "returns the first table body if given no args" do
+      browser.table.body.should exist
+    end
+
     it "returns false if the table body doesn't exist (page context)" do
       browser.tbody(:id, 'no_such_id').should_not exist
       browser.tbody(:id, /no_such_id/).should_not exist

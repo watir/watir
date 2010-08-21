@@ -20,6 +20,10 @@ describe "Ins" do
       browser.ins(:xpath, "//ins[@id='lead']").should exist
     end
 
+    it "returns the first ins if given no args" do
+      browser.ins.should exist
+    end
+
     it "returns false if the element doesn't exist" do
       browser.ins(:id, "no_such_id").should_not exist
       browser.ins(:id, /no_such_id/).should_not exist

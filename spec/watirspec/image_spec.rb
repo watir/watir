@@ -21,6 +21,10 @@ describe "Image" do
       browser.image(:title, 'Circle').should exist
     end
 
+    it "returns the first image if given no args" do
+      browser.image.should exist
+    end
+
     it "returns false when the image doesn't exist" do
       browser.image(:id, 'no_such_id').should_not exist
       browser.image(:id, /no_such_id/).should_not exist

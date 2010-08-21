@@ -21,6 +21,10 @@ describe "TableFooter" do
       browser.table(:index, 0).tfoot(:xpath, "//tfoot[@id='tax_totals']").should exist
     end
 
+    it "returns the first tfoot if given no args" do
+      browser.tfoot.should exist
+    end
+
     it "returns false if the table tfoot doesn't exist (page context)" do
       browser.tfoot(:id, 'no_such_id').should_not exist
       browser.tfoot(:id, /no_such_id/).should_not exist

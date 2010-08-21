@@ -18,6 +18,10 @@ describe "Label" do
       browser.label(:xpath, "//label[@id='first_label']").should exist
     end
 
+    it "returns the first label if given no args" do
+      browser.label.should exist
+    end
+
     it "returns false if the element does not exist" do
       browser.label(:id, 'no_such_id').should_not exist
       browser.label(:id, /no_such_id/).should_not exist

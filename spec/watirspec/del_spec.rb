@@ -20,6 +20,10 @@ describe "Del" do
       browser.del(:xpath, "//del[@id='lead']").should exist
     end
 
+    it "returns the first del if given no args" do
+      browser.del.should exist
+    end
+
     it "returns false if the element doesn't exist" do
       browser.del(:id, "no_such_id").should_not exist
       browser.del(:id, /no_such_id/).should_not exist
