@@ -29,7 +29,7 @@ end
 
 require "watir-webdriver/attribute_helper"
 require "watir-webdriver/element"
-require "watir-webdriver/collections/element_collection"
+require "watir-webdriver/element_collection"
 require "watir-webdriver/elements/generated"
 require "watir-webdriver/elements/frame"
 require "watir-webdriver/elements/input"
