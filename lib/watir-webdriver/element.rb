@@ -6,7 +6,7 @@ module Watir
     include Container
     include Selenium
     extend AttributeHelper
-    
+
     def initialize(parent, selector)
       @parent   = parent
       @selector = selector
@@ -150,7 +150,7 @@ module Watir
         assert_exists
         @element.style property
       else
-        attribute_value "style" || ''
+        attribute_value("style") || ''
       end
     end
 
