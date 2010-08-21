@@ -23,4 +23,14 @@ module Watir
     end
 
   end # TableRow
+
+
+  class TableRowCollection < ElementCollection
+    private
+
+    def locator_class
+      @parent.kind_of?(Watir::Table) ? TableRowLocator : super
+    end
+
+  end # TableRowCollection
 end # Watir
