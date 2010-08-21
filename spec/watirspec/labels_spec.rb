@@ -14,7 +14,7 @@ describe "Labels" do
   end
 
   describe "#[]" do
-    it "returns the pre at the given index" do
+    it "returns the label at the given index" do
       browser.labels[1].id.should == "first_label"
     end
   end
