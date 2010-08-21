@@ -14,9 +14,11 @@ describe "Forms" do
   end
 
   describe "#[]n" do
-    it "provides access to the nth form" do
-      browser.forms[0].action.should == 'post_to_me'
-      browser.forms[0].attribute_value('method').should == 'post'
+    bug "http://github.com/jarib/watir-webdriver/issues/issue/27", [:webdriver, :firefox], [:webdriver, :ie] do
+      it "provides access to the nth form" do
+        browser.forms[0].action.should == 'post_to_me'
+        browser.forms[0].attribute_value('method').should == 'post'
+      end
     end
   end
 
