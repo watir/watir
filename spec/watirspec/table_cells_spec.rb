@@ -49,7 +49,6 @@ describe "TableCells" do
 
       count.should > 0
 
-
       # Cells inside a table (should not include cells inside a table inside a table)
       outer_table = browser.table(:id, 'outer')
       count = 0
