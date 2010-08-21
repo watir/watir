@@ -298,6 +298,10 @@ describe "SelectList" do
       lambda { browser.select_list(:name, "new_user_country").select("missing_option") }.should raise_error(NoValueFoundException)
       lambda { browser.select_list(:name, "new_user_country").select(/missing_option/) }.should raise_error(NoValueFoundException)
     end
+
+    it "raises a TypeError if argument is not a String, Regexp or Numeric" do
+      lambda { browser.select_list(:id, "new_user_languages").select([]) }.should raise_error(TypeError)
+    end
    end
 
   # deprecate?
