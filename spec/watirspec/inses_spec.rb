@@ -27,7 +27,7 @@ describe "Inses" do
         s.id.should == browser.ins(:index, index).id
         s.value.should == browser.ins(:index, index).value
 
-		count += 1
+        count += 1
       end
 
       count.should > 0

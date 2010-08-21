@@ -29,7 +29,7 @@ describe "Forms" do
         f.id.should == browser.form(:index, index).id
         f.class_name.should == browser.form(:index, index).class_name
 
-		count += 1
+        count += 1
       end
 
       count.should > 0

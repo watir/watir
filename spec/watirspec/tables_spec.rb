@@ -29,7 +29,7 @@ describe "Tables" do
         t.id.should == browser.table(:index, index).id
         t.value.should == browser.table(:index, index).value
 
-		count += 1
+        count += 1
       end
 
       count.should > 0

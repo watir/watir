@@ -28,7 +28,7 @@ describe "Maps" do
         m.id.should == browser.map(:index, index).id
         m.value.should == browser.map(:index, index).value
 
-		count += 1
+        count += 1
       end
 
       count.should > 0

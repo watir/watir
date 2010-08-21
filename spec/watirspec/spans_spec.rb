@@ -27,7 +27,7 @@ describe "Spans" do
         s.id.should == browser.span(:index, index).id
         s.value.should == browser.span(:index, index).value
 
-		count += 1
+        count += 1
       end
 
       count.should > 0

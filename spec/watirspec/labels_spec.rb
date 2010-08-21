@@ -27,7 +27,7 @@ describe "Labels" do
         l.id.should == browser.label(:index, index).id
         l.value.should == browser.label(:index, index).value
 
-		count += 1
+        count += 1
       end
 
       count.should > 0

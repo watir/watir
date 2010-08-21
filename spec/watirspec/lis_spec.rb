@@ -27,7 +27,7 @@ describe "Lis" do
         l.id.should == browser.li(:index, index).id
         l.value.should == browser.li(:index, index).value
 
-		count += 1
+        count += 1
       end
 
       count.should > 0

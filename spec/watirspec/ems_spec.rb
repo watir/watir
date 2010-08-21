@@ -28,7 +28,7 @@ describe "Ems" do
         e.id.should == browser.em(:index, index).id
         e.class_name.should == browser.em(:index, index).class_name
 
-		count += 1
+        count += 1
       end
 
       count.should > 0

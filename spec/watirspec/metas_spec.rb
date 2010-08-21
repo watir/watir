@@ -25,7 +25,7 @@ describe "Metas" do
 
       browser.metas.each_with_index do |m, index|
         m.content.should == browser.meta(:index, index).content
-		count += 1
+        count += 1
       end
 
       count.should > 0

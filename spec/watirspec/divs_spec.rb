@@ -27,7 +27,7 @@ describe "Divs" do
         d.id.should == browser.div(:index, index).id
         d.class_name.should == browser.div(:index, index).class_name
 
-		count += 1
+        count += 1
       end
 
       count.should > 0

@@ -27,7 +27,7 @@ describe "Ps" do
         p.id.should == browser.p(:index, index).id
         p.value.should == browser.p(:index, index).value
 
-		count += 1
+        count += 1
       end
 
       count.should > 0

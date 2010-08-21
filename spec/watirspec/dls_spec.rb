@@ -28,7 +28,7 @@ describe "Dls" do
         d.id.should == browser.dl(:index, index).id
         d.class_name.should == browser.dl(:index, index).class_name
 
-		count += 1
+        count += 1
       end
 
       count.should > 0

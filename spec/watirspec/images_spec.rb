@@ -27,7 +27,7 @@ describe "Images" do
         c.id.should == browser.image(:index, index).id
         c.value.should == browser.image(:index, index).value
 
-		count += 1
+        count += 1
       end
 
       count.should > 0

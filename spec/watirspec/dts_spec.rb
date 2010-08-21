@@ -27,7 +27,7 @@ describe "Dts" do
         d.id.should == browser.dt(:index, index).id
         d.class_name.should == browser.dt(:index, index).class_name
 
-		count += 1
+        count += 1
       end
 
       count.should > 0

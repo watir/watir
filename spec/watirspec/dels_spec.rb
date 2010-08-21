@@ -27,7 +27,7 @@ describe "Dels" do
         s.id.should == browser.del(:index, index).id
         s.value.should == browser.del(:index, index).value
 
-		count += 1
+        count += 1
       end
 
       count.should > 0

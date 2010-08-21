@@ -38,7 +38,7 @@ describe "TableRows" do
         r.id.should == inner_table.row(:index, index).id
         r.value.should == inner_table.row(:index, index).value
 
-		count += 1
+        count += 1
       end
 
       count.should > 0
@@ -50,7 +50,7 @@ describe "TableRows" do
         r.id.should == outer_table.row(:index, index).id
         r.value.should == outer_table.row(:index, index).value
 
-		count += 1
+        count += 1
       end
 
       count.should > 0

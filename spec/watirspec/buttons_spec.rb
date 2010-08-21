@@ -40,7 +40,7 @@ describe "Buttons" do
         b.id.should == browser.button(:index, index).id
         b.value.should == browser.button(:index, index).value
 
-		count += 1
+        count += 1
       end
 
       count.should > 0

@@ -28,7 +28,7 @@ describe "FileFields" do
         f.id.should ==  browser.file_field(:index, index).id
         f.value.should == browser.file_field(:index, index).value
 
-		count += 1
+        count += 1
       end
 
       count.should > 0

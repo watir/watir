@@ -27,7 +27,7 @@ describe "Dds" do
         d.id.should == browser.dd(:index, index).id
         d.class_name.should == browser.dd(:index, index).class_name
 
-		count += 1
+        count += 1
       end
 
       count.should > 0

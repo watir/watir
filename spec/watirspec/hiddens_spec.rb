@@ -28,7 +28,7 @@ describe "Hiddens" do
         h.id.should == browser.hidden(:index, index).id
         h.value.should == browser.hidden(:index, index).value
 
-		count += 1
+        count += 1
       end
 
       count.should > 0

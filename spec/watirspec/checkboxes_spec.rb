@@ -28,7 +28,7 @@ describe "CheckBoxes" do
         c.id.should == browser.checkbox(:index, index).id
         c.value.should == browser.checkbox(:index, index).value
 
-		count += 1
+        count += 1
       end
 
       count.should > 0
