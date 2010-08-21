@@ -16,6 +16,7 @@ describe "TextField" do
       browser.text_field(:name, /new_user_email/).should exist
       browser.text_field(:value, 'Developer').should exist
       browser.text_field(:value, /Developer/).should exist
+      browser.text_field(:value, "Default comment.").should exist # textarea
       browser.text_field(:text, 'Developer').should exist
       browser.text_field(:text, /Developer/).should exist
       browser.text_field(:class, 'name').should exist
