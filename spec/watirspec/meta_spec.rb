@@ -8,7 +8,7 @@ describe "Meta" do
 
   describe "#exist?" do
     it "returns true if the meta tag exists" do
-      browser.meta('http-equiv', "Content-Type").should exist
+      browser.meta(:http_equiv, "Content-Type").should exist
     end
 
     it "returns the first meta if given no args" do
