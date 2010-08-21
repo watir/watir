@@ -66,13 +66,10 @@ module Watir
     end
 
     def selector_string
-      selector_without_type.inspect
-    end
-
-    def selector_without_type
-      s = @selector.dup
-      s[:type] = '(any text type)'
-      s
+      selector = @selector.dup
+      selector[:type] = '(any text type)'
+      selector[:tag_name] = "input or textarea"
+      selector.inspect
     end
   end
 
