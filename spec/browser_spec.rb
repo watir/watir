@@ -29,4 +29,15 @@ describe Watir::Browser do
     end
   end
 
+  not_compliant_on [:webdriver, :ie] do # http://github.com/jarib/watirspec/issues/issue/8
+    it "raises an error when trying to interact with a closed browser" do
+      b = WatirSpec.new_browser
+      b.goto(WatirSpec.files + "/definition_lists.html")
+      b.close
+
+      lambda { b.dl(:id => "experience-list").id }.should raise_error(Error, "browser was closed")
+    end
+  end
+
+
 end
