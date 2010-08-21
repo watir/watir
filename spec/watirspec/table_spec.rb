@@ -115,8 +115,12 @@ describe "Table" do
       browser.table(:id, 'inner')[0].id.should == "inner_first"
       browser.table(:id, 'outer')[2].id.should == "outer_last"
     end
-    it "raises UnknownRowException if the index is out of bounds" do
-      lambda { browser.table(:id, 'outer')[1337] }.should raise_error(UnknownRowException)
+
+
+    bug "http://github.com/jarib/watir-webdriver/issues/issue/26", :webdriver do
+      it "raises UnknownRowException if the index is out of bounds" do
+        lambda { browser.table(:id, 'outer')[1337] }.should raise_error(UnknownRowException)
+      end
     end
   end
 

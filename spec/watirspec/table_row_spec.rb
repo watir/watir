@@ -57,9 +57,11 @@ describe "TableRow" do
       browser.table(:id, 'outer')[2][0].text.should == "Table 1, Row 3, Cell 1"
     end
 
-    it "raises UnknownCellException if the index is out of bounds" do
-      lambda { browser.table(:id, 'outer').row(:index, 0)[1337] }.should raise_error(UnknownCellException)
-      lambda { browser.table(:id, 'outer')[0][1337] }.should raise_error(UnknownCellException)
+    bug "http://github.com/jarib/watir-webdriver/issues/issue/26", :webdriver do
+      it "raises UnknownCellException if the index is out of bounds" do
+        lambda { browser.table(:id, 'outer').row(:index, 0)[1337] }.should raise_error(UnknownCellException)
+        lambda { browser.table(:id, 'outer')[0][1337] }.should raise_error(UnknownCellException)
+      end
     end
   end
 
