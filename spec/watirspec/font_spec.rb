@@ -23,4 +23,8 @@ describe "Font" do
     browser.font(:index, 0).size.should == "12"
   end
 
+  it "finds all font elements" do
+    browser.fonts.size.should == 1
+  end
+
 end
