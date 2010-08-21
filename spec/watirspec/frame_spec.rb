@@ -50,7 +50,7 @@ describe "Frame" do
       end
 
       it "returns the first frame if given no args" do
-        browser.form.should exist
+        browser.frame.should exist
       end
 
       it "returns false if the frame doesn't exist" do
