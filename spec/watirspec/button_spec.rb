@@ -175,10 +175,10 @@ describe "Button" do
 
   describe "#text" do
     it "returns the text of the button" do
-      browser.button(:index, 1).text.should == 'Submit'
-      browser.button(:index, 2).text.should == 'Reset'
-      browser.button(:index, 3).text.should == 'Button'
-      browser.button(:index, 4).text.should == "Button 2"
+      browser.button(:index, 0).text.should == 'Submit'
+      browser.button(:index, 1).text.should == 'Reset'
+      browser.button(:index, 2).text.should == 'Button'
+      browser.button(:index, 3).text.should == "Button 2"
     end
 
     it "raises UnknownObjectException if the element does not exist" do
