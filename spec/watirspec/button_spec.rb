@@ -66,11 +66,6 @@ describe "Button" do
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
       lambda { browser.button(:no_such_how, 'some_value').exists? }.should raise_error(MissingWayOfFindingObjectException)
     end
-
-    # it "locates the correct button when there are duplicate ids and user disambiguates by parent" do
-    #   browser.goto(WatirSpec.files + "/buttons_with_duplicate_ids.html")
-    #   browser.form(:name, "bar-form").button(:id, 'next').parent.name.should == "bar-form"
-    # end
   end
 
   # Attribute methods
@@ -179,6 +174,19 @@ describe "Button" do
 
     it "raises UnknownObjectException if button does not exist" do
       lambda { browser.button(:name, "no_such_name").value }.should raise_error(UnknownObjectException, 'Unable to locate Button, using :name and "no_such_name"')
+    end
+  end
+
+  describe "#text" do
+    it "returns the text of the button" do
+      browser.button(:index, 1).text.should == 'Submit'
+      browser.button(:index, 2).text.should == 'Reset'
+      browser.button(:index, 3).text.should == 'Button'
+      browser.button(:index, 4).text.should == "Button 2"
+    end
+
+    it "raises UnknownObjectException if the element does not exist" do
+      lambda { browser.button(:id, "no_such_id").text }.should raise_error(UnknownObjectException)
     end
   end
 
