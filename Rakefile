@@ -15,9 +15,9 @@ begin
 
     gem.add_development_dependency "rspec"
     gem.add_development_dependency "webidl", ">= 0.0.4"
-    gem.add_development_dependency "sinatra", ">= 1.0"
+    gem.add_development_dependency "sinatra", "~> 1.0"
     gem.add_development_dependency "nokogiri"
-    gem.add_development_dependency "activesupport", ">= 2.3.5" # for pluralization during code generation
+    gem.add_development_dependency "activesupport", "~> 2.3.5" # for pluralization during code generation
   end
 
   Jeweler::GemcutterTasks.new
