@@ -55,7 +55,7 @@ module Watir
     end
 
     def locate_frame
-      loc = VALID_LOCATORS.find { |loc| @selector[loc] }
+      loc = VALID_LOCATORS.find { |loc| @selector.has_key? loc }
 
       unless loc
         raise MissingWayOfFindingObjectException, "can only locate frames by #{VALID_LOCATORS.inspect}"

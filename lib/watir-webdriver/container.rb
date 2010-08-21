@@ -17,19 +17,15 @@ module Watir
     def extract_selector(selectors)
       case selectors.size
       when 2
-        { selectors[0] => selectors[1] }
+        return { selectors[0] => selectors[1] }
       when 1
         obj = selectors.first
-        unless obj.kind_of? Hash
-          raise ArgumentError, "expected Hash or (:how, 'what'), got #{selectors.inspect}"
-        end
-
-        obj
+        return obj if obj.kind_of? Hash
       when 0
-        {}
-      else
-        raise ArgumentError, "expected Hash or (:how, 'what'), got #{selectors.inspect}"
+        return {}
       end
+
+      raise ArgumentError, "expected Hash or (:how, 'what'), got #{selectors.inspect}"
     end
 
   end # Container

@@ -75,8 +75,8 @@ module Watir
     end
 
     def flash
-      assert_exists
-      original_color = driver.execute_script("arguments[0].style.backgroundColor", @element)
+      original_color = style("backgroundColor")
+
       10.times do |n|
         color = (n % 2 == 0) ? "red" : original_color
         driver.execute_script("arguments[0].style.backgroundColor = '#{color}'", @element)

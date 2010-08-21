@@ -56,7 +56,7 @@ module Watir
     #
 
     def select(str_or_rx)
-      select_by :text, str_or_rx, multiple?
+      select_by :text, str_or_rx
     end
 
     #
@@ -70,7 +70,7 @@ module Watir
     #
 
     def select_value(str_or_rx)
-      select_by :value, str_or_rx, multiple?
+      select_by :value, str_or_rx
     end
 
     #
@@ -116,25 +116,23 @@ module Watir
 
     private
 
-    def select_by(how, str_or_rx, multiple)
+    def select_by(how, str_or_rx)
       case str_or_rx
       when String, Numeric
-        select_by_string(how, str_or_rx.to_s, multiple)
+        select_by_string(how, str_or_rx.to_s)
       when Regexp
-        select_by_regexp(how, str_or_rx, multiple)
+        select_by_regexp(how, str_or_rx)
       else
         raise ArgumentError, "expected String or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
       end
     end
 
-    def select_by_string(how, string, multiple)
+    def select_by_string(how, string)
       xpath = option_xpath_for(how, string)
-      if multiple
-        elements = @element.find_elements(:xpath, xpath)
 
-        if elements.empty?
-          raise NoValueFoundException, "#{string.inspect} not found in select list"
-        end
+      if multiple?
+        elements = @element.find_elements(:xpath, xpath)
+        no_value_found(string) if elements.empty?
 
         elements.each { |e| e.select unless e.selected? }
         elements.first.text
@@ -142,7 +140,7 @@ module Watir
         begin
           e = @element.find_element(:xpath, xpath)
         rescue WebDriver::Error::NoSuchElementError
-          raise NoValueFoundException, "#{string.inspect} not found in select list"
+          no_value_found(string)
         end
 
         e.select unless e.selected?
@@ -151,29 +149,23 @@ module Watir
       end
     end
 
-    def select_by_regexp(how, exp, multiple)
+    def select_by_regexp(how, exp)
       elements = @element.find_elements(:tag_name, 'option')
-      if elements.empty?
-        raise NoValueFoundException, "no options in select list"
-      end
+      no_value_found(nil, "no options in select list") if elements.empty?
 
-      if multiple
+      if multiple?
         found = elements.select do |e|
           next unless matches_regexp?(how, e, exp)
           e.select unless e.selected?
           true
         end
 
-        if found.empty?
-          raise NoValueFoundException, "#{exp.inspect} not found in select list"
-        end
+        no_value_found(exp) if found.empty?
 
         found.first.text
       else
         element = elements.find { |e| matches_regexp?(how, e, exp) }
-        unless element
-          raise NoValueFoundException, "#{exp.inspect} not found in select list"
-        end
+        no_value_found(exp) unless element
 
         element.select unless element.selected?
 
@@ -209,6 +201,10 @@ module Watir
       # guard for scenario where selecting the element changes the page, making our element obsolete
 
       ''
+    end
+
+    def no_value_found(arg, msg = nil)
+      raise NoValueFoundException, msg || "#{arg.inspect} not found in select list"
     end
   end # Select
 
