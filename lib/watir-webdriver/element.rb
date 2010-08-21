@@ -1,6 +1,11 @@
 # encoding: utf-8
 
 module Watir
+
+  #
+  # Base class for HTML elements.
+  #
+
   class Element
     include Exception
     include Container

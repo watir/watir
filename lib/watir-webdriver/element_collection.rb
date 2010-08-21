@@ -1,5 +1,10 @@
 # encoding: utf-8
 module Watir
+
+  #
+  # Base class for element collections.
+  #
+
   class ElementCollection
     include Enumerable
 
