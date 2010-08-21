@@ -5,7 +5,7 @@ module Watir
 
     def wd_find_first_by(how, what)
       if how == :tag_name
-        super(:xpath, ".//button | //input[#{attribute_expression :type => VALID_TYPES}]")
+        super(:xpath, ".//button | .//input[#{attribute_expression :type => VALID_TYPES}]")
       else
         super
       end
@@ -13,7 +13,7 @@ module Watir
 
     def wd_find_all_by(how, what)
       if how == :tag_name
-        super(:xpath, ".//button | //input[#{attribute_expression :type => VALID_TYPES}]")
+        super(:xpath, ".//button | .//input[#{attribute_expression :type => VALID_TYPES}]")
       else
         super
       end
