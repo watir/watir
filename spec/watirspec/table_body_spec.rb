@@ -23,7 +23,7 @@ describe "TableBody" do
     end
 
     it "returns the first table body if given no args" do
-      browser.table.body.should exist
+      browser.table.tbody.should exist
     end
 
     it "returns false if the table body doesn't exist (page context)" do
