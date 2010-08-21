@@ -62,4 +62,16 @@ describe Watir::Input do
     end
   end
 
+  describe "#to_file_field" do
+    it "returns a TextField instance" do
+      e = browser.input(:xpath => "//input[@type='file']").to_file_field
+      e.should be_kind_of(Watir::FileField)
+    end
+
+    it "raises an error if the element is not a text field" do
+      lambda {
+        browser.input(:xpath => "//input[@type='radio']").to_file_field
+      }.should raise_error(TypeError)
+    end
+  end
 end
