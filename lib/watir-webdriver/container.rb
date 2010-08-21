@@ -19,15 +19,16 @@ module Watir
       when 2
         { selectors[0] => selectors[1] }
       when 1
-        unless selectors.first.kind_of? Hash
-          raise ArgumentError, "expected Hash or (:how, 'what')"
+        obj = selectors.first
+        unless obj.kind_of? Hash
+          raise ArgumentError, "expected Hash or (:how, 'what'), got #{selectors.inspect}"
         end
 
-        selectors.first
+        obj
       when 0
         {}
       else
-        raise ArgumentError, selectors.inspect
+        raise ArgumentError, "expected Hash or (:how, 'what'), got #{selectors.inspect}"
       end
     end
 
