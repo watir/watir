@@ -24,7 +24,7 @@ describe Watir::Browser do
   describe "#execute_script" do
     it "returns DOM elements as Watir objects" do
       browser.goto(WatirSpec.files + "/definition_lists.html")
-      returned = browser.execute_script("return document.getElementById('experience')")
+      returned = browser.execute_script("return document.getElementById('experience-list')")
       returned.should be_kind_of(Watir::DList)
     end
   end

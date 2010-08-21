@@ -106,7 +106,7 @@ module Watir
       returned = @driver.execute_script(script, *args)
 
       if returned.kind_of? WebDriver::Element
-        Watir.element_class_for(returned.tag_name).new(self, :element, returned)
+        Watir.element_class_for(returned.tag_name).new(self, :element => returned)
       else
         returned
       end
