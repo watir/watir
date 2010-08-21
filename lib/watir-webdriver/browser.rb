@@ -1,5 +1,10 @@
 # encoding: utf-8
 module Watir
+
+  #
+  # The main class through which you control the browser.
+  #
+
   class Browser
     include Container
 
