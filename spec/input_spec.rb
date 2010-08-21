@@ -27,7 +27,7 @@ describe Watir::Input do
 
     it "raises an error if the element is not a radio button" do
       lambda {
-        browser.input(:xpath => "//input[@type='text']").to_checkbox
+        browser.input(:xpath => "//input[@type='text']").to_radio
       }.should raise_error(TypeError)
     end
   end

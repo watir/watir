@@ -3,6 +3,7 @@ module Watir
   class TextField < Input
 
     attributes Watir::TextArea.typed_attributes
+    remove_method :type # we want Input#type here, which was overriden by TextArea's attributes
 
     def self.from(parent, element)
       type = element.attribute(:type)
@@ -12,14 +13,6 @@ module Watir
       end
 
       super
-    end
-
-    # hacky, but we want Input#type here, which was overriden by TextArea's attributes
-    # so we're *overwriting* that method definition here
-    def type; super; end
-
-    def inspect
-      '#<%s:0x%x located=%s selector=%s>' % [self.class, hash*2, !!@element, selector_string]
     end
 
     #

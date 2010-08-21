@@ -125,7 +125,7 @@ module Watir
       when Regexp
         select_by_regexp(how, str_or_rx)
       else
-        raise ArgumentError, "expected String or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
+        raise TypeError, "expected String or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
       end
     end
 
