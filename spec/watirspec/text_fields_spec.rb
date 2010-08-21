@@ -23,11 +23,17 @@ describe "TextFields" do
 
   describe "#each" do
     it "iterates through text fields correctly" do
+      count = 0
+
       browser.text_fields.each_with_index do |r, index|
         r.name.should == browser.text_field(:index, index).name
         r.id.should ==  browser.text_field(:index, index).id
         r.value.should == browser.text_field(:index, index).value
+
+        count += 1
       end
+
+      count.should > 0
     end
   end
 

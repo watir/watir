@@ -24,11 +24,17 @@ describe "SelectLists" do
 
   describe "#each" do
     it "iterates through the select lists correctly" do
+      count = 0
+
       browser.select_lists.each_with_index do |l, index|
         browser.select_list(:index, index).name.should == l.name
         browser.select_list(:index, index).id.should ==  l.id
         browser.select_list(:index, index).value.should == l.value
+
+        count += 1
       end
+
+      count.should > 0
     end
   end
 

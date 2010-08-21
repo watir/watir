@@ -21,11 +21,17 @@ describe "Radios" do
 
   describe "#each" do
     it "iterates through radio buttons correctly" do
+      count = 0
+
       browser.radios.each_with_index do |r, index|
         r.name.should == browser.radio(:index, index).name
         r.id.should ==  browser.radio(:index, index).id
         r.value.should == browser.radio(:index, index).value
+
+        count += 1
       end
+
+      count.should > 0
     end
   end
 

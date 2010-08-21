@@ -25,10 +25,16 @@ describe "Links" do
 
   describe "#each" do
     it "iterates through links correctly" do
+      count = 0
+
       browser.links.each_with_index do |c, index|
         c.id.should == browser.link(:index, index).id
         c.value.should == browser.link(:index, index).value
+
+        count += 1
       end
+
+      count.should > 0
     end
   end
 
