@@ -87,7 +87,7 @@ module Watir
       assert_exists
 
       begin
-        @element.value
+        @element.value || ''
       rescue WebDriver::Error::ElementNotEnabledError
         ""
       end
