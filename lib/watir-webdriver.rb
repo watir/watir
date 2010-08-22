@@ -64,6 +64,8 @@ end # Watir
 
 
 # undefine deprecated methods to use them for Element attributes
-Object.send :undef_method, :id   if Object.method_defined? "id"
-Object.send :undef_method, :type if Object.method_defined? "type"
+class Object
+  undef_method :id if method_defined? "id"
+  undef_method :type if method_defined? "type"
+end
 
