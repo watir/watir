@@ -11,8 +11,10 @@ describe "Collections" do
     browser.span(:id => "a_span").divs.size.should == 2
   end
 
-  it "returns inner elements of parent element having same html tag" do
-    browser.span(:id => "a_span").spans.size.should == 2
+  bug "http://code.google.com/p/selenium/issues/detail?id=695", [:webdriver, :ie] do
+    it "returns inner elements of parent element having same html tag" do
+      browser.span(:id => "a_span").spans.size.should == 2
+    end
   end
 
 end

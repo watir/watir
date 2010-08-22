@@ -167,7 +167,7 @@ describe "Radio" do
 
     it "returns false if the radio button is disabled" do
       browser.radio(:id, "new_user_newsletter_nah").should_not be_enabled
-      browser.radio(:xpath,"//input[@id='new_user_newsletter_nah']").should_not be_enabled
+      browser.radio(:xpath, "//input[@id='new_user_newsletter_nah']").should_not be_enabled
     end
 
     it "raises UnknownObjectException if the radio button doesn't exist" do
@@ -201,10 +201,12 @@ describe "Radio" do
       browser.radio(:xpath, "//input[@id='new_user_newsletter_no']").should be_set
     end
 
-    it "fires the onclick event" do
-      browser.radio(:id, "new_user_newsletter_no").set
-      browser.radio(:id, "new_user_newsletter_yes").set
-      messages.should == ["clicked: new_user_newsletter_no", "clicked: new_user_newsletter_yes"]
+    bug "http://code.google.com/p/selenium/issues/detail?id=695", [:webdriver, :ie] do
+      it "fires the onclick event" do
+        browser.radio(:id, "new_user_newsletter_no").set
+        browser.radio(:id, "new_user_newsletter_yes").set
+        messages.should == ["clicked: new_user_newsletter_no", "clicked: new_user_newsletter_yes"]
+      end
     end
 
     it "fires the onchange event" do
