@@ -44,7 +44,8 @@ namespace :spec do
     spec.libs << 'lib' << 'spec'
     spec.pattern = 'spec/**/*_spec.rb'
     spec.spec_opts = ["--format", "html:results/#{RUBY_PLATFORM}/#{ENV['WATIR_WEBDRIVER_BROWSER'] || 'firefox'}/spec-results.html",
-                      "--format", "progress"]
+                      "--format", "progress",
+                      "--backtrace"]
     spec.rcov = true
     spec.rcov_opts = %w[--exclude spec,ruby-debug,/Library/Ruby,.gem --include lib/watir-webdriver]
   end
