@@ -104,7 +104,7 @@ CODE
 
       def indent(code, indent = 1)
         indent_string = " "*indent
-        code.split("\n").map { |line| indent_string + line }.join("\n")
+        code.split("\n").map { |line| line.empty? ? line : indent_string + line }.join("\n")
       end
 
     end # Generator

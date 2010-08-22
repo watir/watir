@@ -31,24 +31,50 @@ module Watir
 
 
 
+
+
+
+
+
+
+
+
+
+
  class HTMLElement < Element
-   attributes(:function => ([:onabort, :onblur, :oncanplay, :oncanplaythrough, :onchange, :onclick, :oncontextmenu, :oncuechange, :ondblclick, :ondrag, :ondragend, :ondragenter, :ondragleave, :ondragover, :ondragstart, :ondrop, :ondurationchange, :onemptied, :onended, :onerror, :onfocus, :onformchange, :onforminput, :oninput, :oninvalid, :onkeydown, :onkeypress, :onkeyup, :onload, :onloadeddata, :onloadedmetadata, :onloadstart, :onmousedown, :onmousemove, :onmouseout, :onmouseover, :onmouseup, :onmousewheel, :onpause, :onplay, :onplaying, :onprogress, :onratechange, :onreadystatechange, :onscroll, :onseeked, :onseeking, :onselect, :onshow, :onstalled, :onsubmit, :onsuspend, :ontimeupdate, :onvolumechange, :onwaiting]), :style => ([:style]), :string => ([:innerhtml, :outerhtml, :id, :title, :lang, :dir, :class_name, :item_type, :item_id, :item_value, :access_key, :access_key_label, :content_editable, :command_type, :label, :icon]), :bool => ([:item_scope, :hidden, :draggable, :is_content_editable, :spellcheck, :disabled, :checked]), :token_list => ([:class_list, :item_ref, :item_prop]), :int => ([:tab_index]), :string_map => ([:dataset]), :properties_collection => ([:properties]), :html_element => ([:context_menu]))
+   attributes(:string => [:innerhtml, :outerhtml, :id, :title, :lang, :dir, :class_name, :item_type, :item_id, :item_value, :access_key, :access_key_label, :content_editable, :command_type, :label, :icon], :token_list => [:class_list, :item_ref, :item_prop], :string_map => [:dataset], :bool => [:item_scope, :hidden, :draggable, :is_content_editable, :spellcheck, :disabled, :checked], :properties_collection => [:properties], :int => [:tab_index], :html_element => [:context_menu], :style => [:style], :function => [:onabort, :onblur, :oncanplay, :oncanplaythrough, :onchange, :onclick, :oncontextmenu, :oncuechange, :ondblclick, :ondrag, :ondragend, :ondragenter, :ondragleave, :ondragover, :ondragstart, :ondrop, :ondurationchange, :onemptied, :onended, :onerror, :onfocus, :onformchange, :onforminput, :oninput, :oninvalid, :onkeydown, :onkeypress, :onkeyup, :onload, :onloadeddata, :onloadedmetadata, :onloadstart, :onmousedown, :onmousemove, :onmouseout, :onmouseover, :onmouseup, :onmousewheel, :onpause, :onplay, :onplaying, :onprogress, :onratechange, :onreadystatechange, :onscroll, :onseeked, :onseeking, :onselect, :onshow, :onstalled, :onsubmit, :onsuspend, :ontimeupdate, :onvolumechange, :onwaiting])
  end
  class HTMLElementCollection < ElementCollection
    def element_class
      HTMLElement
    end
  end
+ class Font < HTMLElement
+   attributes(:string => [:color, :face, :size])
+ end
+ class FontCollection < ElementCollection
+   def element_class
+     Font
+   end
+ end
  class Directory < HTMLElement
-   attributes(:bool => ([:compact]))
+   attributes(:bool => [:compact])
  end
  class DirectoryCollection < ElementCollection
    def element_class
      Directory
    end
  end
+ class BaseFont < HTMLElement
+   attributes(:string => [:color, :face], :int => [:size])
+ end
+ class BaseFontCollection < ElementCollection
+   def element_class
+     BaseFont
+   end
+ end
  class Frame < HTMLElement
-   attributes(:string => ([:frame_border, :long_desc, :margin_height, :margin_width, :name, :scrolling, :src]), :bool => ([:no_resize]), :document => ([:content_document]))
+   attributes(:string => [:frame_border, :long_desc, :margin_height, :margin_width, :name, :scrolling, :src], :bool => [:no_resize], :document => [:content_document])
  end
  class FrameCollection < ElementCollection
    def element_class
@@ -56,23 +82,39 @@ module Watir
    end
  end
  class FrameSet < HTMLElement
-   attributes(:function => ([:onafterprint, :onbeforeprint, :onbeforeunload, :onblur, :onerror, :onfocus, :onhashchange, :onload, :onmessage, :onoffline, :ononline, :onpagehide, :onpageshow, :onpopstate, :onredo, :onresize, :onstorage, :onundo, :onunload]), :string => ([:cols, :rows]))
+   attributes(:string => [:cols, :rows], :function => [:onafterprint, :onbeforeprint, :onbeforeunload, :onblur, :onerror, :onfocus, :onhashchange, :onload, :onmessage, :onoffline, :ononline, :onpagehide, :onpageshow, :onpopstate, :onredo, :onresize, :onstorage, :onundo, :onunload])
  end
  class FrameSetCollection < ElementCollection
    def element_class
      FrameSet
    end
  end
+ class Marquee < HTMLElement
+   attributes(:string => [:behavior, :bg_color, :direction, :height, :true_speed, :width], :int => [:hspace, :loop, :scroll_amount, :scroll_delay, :vspace], :function => [:onbounce, :onfinish, :onstart])
+ end
+ class MarqueeCollection < ElementCollection
+   def element_class
+     Marquee
+   end
+ end
  class Applet < HTMLElement
-   attributes(:string => ([:align, :alt, :archive, :code, :code_base, :height, :name, :object, :width]), :int => ([:hspace, :vspace]))
+   attributes(:string => [:align, :alt, :archive, :code, :code_base, :height, :name, :object, :width], :int => [:hspace, :vspace])
  end
  class AppletCollection < ElementCollection
    def element_class
      Applet
    end
  end
+ class Device < HTMLElement
+   attributes(:string => [:type, :data])
+ end
+ class DeviceCollection < ElementCollection
+   def element_class
+     Device
+   end
+ end
  class Menu < HTMLElement
-   attributes(:string => ([:type, :label]))
+   attributes(:string => [:type, :label])
  end
  class MenuCollection < ElementCollection
    def element_class
@@ -80,19 +122,27 @@ module Watir
    end
  end
  class Menu < HTMLElement
-   attributes(:bool => ([:compact]))
+   attributes(:bool => [:compact])
  end
  # do nothing
  class Command < HTMLElement
-   attributes(:string => ([:type, :label, :icon, :radiogroup]), :bool => ([:disabled, :checked]))
+   attributes(:string => [:type, :label, :icon, :radiogroup], :bool => [:disabled, :checked])
  end
  class CommandCollection < ElementCollection
    def element_class
      Command
    end
  end
+ class Details < HTMLElement
+   attributes(:bool => [:open])
+ end
+ class DetailsCollection < ElementCollection
+   def element_class
+     Details
+   end
+ end
  class Meter < HTMLElement
-   attributes(:float => ([:value, :min, :max, :low, :high, :optimum]), :list => ([:labels]), :html_element => ([:form]))
+   attributes(:float => [:value, :min, :max, :low, :high, :optimum], :html_element => [:form], :list => [:labels])
  end
  class MeterCollection < ElementCollection
    def element_class
@@ -100,15 +150,23 @@ module Watir
    end
  end
  class Progress < HTMLElement
-   attributes(:float => ([:value, :max, :position]), :list => ([:labels]), :html_element => ([:form]))
+   attributes(:float => [:value, :max, :position], :html_element => [:form], :list => [:labels])
  end
  class ProgressCollection < ElementCollection
    def element_class
      Progress
    end
  end
+ class Output < HTMLElement
+   attributes(:token_list => [:html_for], :html_element => [:form], :string => [:name, :type, :default_value, :value, :validity, :validation_message], :bool => [:will_validate], :list => [:labels])
+ end
+ class OutputCollection < ElementCollection
+   def element_class
+     Output
+   end
+ end
  class Keygen < HTMLElement
-   attributes(:string => ([:challenge, :keytype, :name, :type, :validity, :validation_message]), :bool => ([:autofocus, :disabled, :will_validate]), :list => ([:labels]), :html_element => ([:form]))
+   attributes(:bool => [:autofocus, :disabled, :will_validate], :string => [:challenge, :keytype, :name, :type, :validity, :validation_message], :html_element => [:form], :list => [:labels])
  end
  class KeygenCollection < ElementCollection
    def element_class
@@ -116,7 +174,7 @@ module Watir
    end
  end
  class TextArea < HTMLElement
-   attributes(:string => ([:name, :placeholder, :wrap, :type, :default_value, :value, :validity, :validation_message]), :bool => ([:autofocus, :disabled, :read_only, :required, :will_validate]), :int => ([:cols, :max_length, :rows, :text_length, :selection_start, :selection_end]), :list => ([:labels]), :html_element => ([:form]))
+   attributes(:bool => [:autofocus, :disabled, :read_only, :required, :will_validate], :int => [:cols, :max_length, :rows, :text_length, :selection_start, :selection_end], :html_element => [:form], :string => [:name, :placeholder, :wrap, :type, :default_value, :value, :validity, :validation_message], :list => [:labels])
  end
  class TextAreaCollection < ElementCollection
    def element_class
@@ -124,23 +182,47 @@ module Watir
    end
  end
  class Option < HTMLElement
-   attributes(:string => ([:label, :value, :text]), :bool => ([:disabled, :default_selected, :selected]), :int => ([:index]), :html_element => ([:form]))
+   attributes(:bool => [:disabled, :default_selected, :selected], :html_element => [:form], :string => [:label, :value, :text], :int => [:index])
  end
  class OptionCollection < ElementCollection
    def element_class
      Option
    end
  end
+ class OptGroup < HTMLElement
+   attributes(:bool => [:disabled], :string => [:label])
+ end
+ class OptGroupCollection < ElementCollection
+   def element_class
+     OptGroup
+   end
+ end
  class DataList < HTMLElement
-   attributes(:html_collection => ([:options]))
+   attributes(:html_collection => [:options])
  end
  class DataListCollection < ElementCollection
    def element_class
      DataList
    end
  end
+ class Select < HTMLElement
+   attributes(:bool => [:autofocus, :disabled, :multiple, :required, :will_validate], :html_element => [:form], :string => [:name, :type, :value, :validity, :validation_message], :int => [:size, :length, :selected_index], :html_collection => [:options, :selected_options], :list => [:labels])
+ end
+ class SelectCollection < ElementCollection
+   def element_class
+     Select
+   end
+ end
+ class Button < HTMLElement
+   attributes(:bool => [:autofocus, :disabled, :will_validate], :html_element => [:form], :string => [:form_action, :form_enctype, :form_method, :form_no_validate, :form_target, :name, :type, :value, :validity, :validation_message], :list => [:labels])
+ end
+ class ButtonCollection < ElementCollection
+   def element_class
+     Button
+   end
+ end
  class Input < HTMLElement
-   attributes(:string => ([:accept, :alt, :autocomplete, :form_action, :form_enctype, :form_method, :form_target, :height, :max, :min, :name, :pattern, :placeholder, :src, :step, :type, :default_value, :value, :width, :validity, :validation_message]), :bool => ([:autofocus, :default_checked, :checked, :disabled, :form_no_validate, :indeterminate, :multiple, :read_only, :required, :will_validate]), :float => ([:value_as_number]), :int => ([:max_length, :size, :selection_start, :selection_end]), :list => ([:files, :labels]), :html_element => ([:form, :list, :selected_option]), :date => ([:value_as_date]))
+   attributes(:string => [:accept, :alt, :autocomplete, :form_action, :form_enctype, :form_method, :form_target, :height, :max, :min, :name, :pattern, :placeholder, :src, :step, :type, :default_value, :value, :width, :validity, :validation_message], :bool => [:autofocus, :default_checked, :checked, :disabled, :form_no_validate, :indeterminate, :multiple, :read_only, :required, :will_validate], :html_element => [:form, :list, :selected_option], :list => [:files, :labels], :int => [:max_length, :size, :selection_start, :selection_end], :date => [:value_as_date], :float => [:value_as_number])
  end
  class InputCollection < ElementCollection
    def element_class
@@ -148,11 +230,11 @@ module Watir
    end
  end
  class Input < HTMLElement
-   attributes(:string => ([:align, :use_map]))
+   attributes(:string => [:align, :use_map])
  end
  # do nothing
  class Label < HTMLElement
-   attributes(:string => ([:html_for]), :html_element => ([:form, :control]))
+   attributes(:html_element => [:form, :control], :string => [:html_for])
  end
  class LabelCollection < ElementCollection
    def element_class
@@ -160,7 +242,7 @@ module Watir
    end
  end
  class Legend < HTMLElement
-   attributes(:html_element => ([:form]))
+   attributes(:html_element => [:form])
  end
  class LegendCollection < ElementCollection
    def element_class
@@ -168,19 +250,55 @@ module Watir
    end
  end
  class Legend < HTMLElement
-   attributes(:string => ([:align]))
+   attributes(:string => [:align])
  end
  # do nothing
+ class FieldSet < HTMLElement
+   attributes(:bool => [:disabled, :will_validate], :html_element => [:form], :string => [:name, :type, :validity, :validation_message], :html_collection => [:elements])
+ end
+ class FieldSetCollection < ElementCollection
+   def element_class
+     FieldSet
+   end
+ end
  class Form < HTMLElement
-   attributes(:html_collection => ([:elements]), :string => ([:accept_charset, :action, :autocomplete, :enctype, :method, :name, :target]), :bool => ([:no_validate]), :int => ([:length]))
+   attributes(:string => [:accept_charset, :action, :autocomplete, :enctype, :method, :name, :target], :bool => [:no_validate], :html_collection => [:elements], :int => [:length])
  end
  class FormCollection < ElementCollection
    def element_class
      Form
    end
  end
+ class TableCell < HTMLElement
+   attributes(:int => [:col_span, :row_span, :cell_index], :token_list => [:headers])
+ end
+ class TableCellCollection < ElementCollection
+   def element_class
+     TableCell
+   end
+ end
+ class TableCell < HTMLElement
+   attributes(:string => [:abbr, :align, :axis, :bg_color, :ch, :ch_off, :height, :v_align, :width], :bool => [:no_wrap])
+ end
+ # do nothing
+ class TableHeaderCell < TableCell
+   attributes(:string => [:scope])
+ end
+ class TableHeaderCellCollection < ElementCollection
+   def element_class
+     TableHeaderCell
+   end
+ end
+ class TableDataCell < TableCell
+   # do nothing
+ end
+ class TableDataCellCollection < ElementCollection
+   def element_class
+     TableDataCell
+   end
+ end
  class TableRow < HTMLElement
-   attributes(:html_collection => ([:cells]), :int => ([:row_index, :section_row_index]))
+   attributes(:int => [:row_index, :section_row_index], :html_collection => [:cells])
  end
  class TableRowCollection < ElementCollection
    def element_class
@@ -188,11 +306,11 @@ module Watir
    end
  end
  class TableRow < HTMLElement
-   attributes(:string => ([:align, :bg_color, :ch, :ch_off, :v_align]))
+   attributes(:string => [:align, :bg_color, :ch, :ch_off, :v_align])
  end
  # do nothing
  class TableSection < HTMLElement
-   attributes(:html_collection => ([:rows]))
+   attributes(:html_collection => [:rows])
  end
  class TableSectionCollection < ElementCollection
    def element_class
@@ -200,11 +318,11 @@ module Watir
    end
  end
  class TableSection < HTMLElement
-   attributes(:string => ([:align, :ch, :ch_off, :v_align]))
+   attributes(:string => [:align, :ch, :ch_off, :v_align])
  end
  # do nothing
  class TableCol < HTMLElement
-   attributes(:int => ([:span]))
+   attributes(:int => [:span])
  end
  class TableColCollection < ElementCollection
    def element_class
@@ -212,11 +330,23 @@ module Watir
    end
  end
  class TableCol < HTMLElement
-   attributes(:string => ([:align, :ch, :ch_off, :v_align, :width]))
+   attributes(:string => [:align, :ch, :ch_off, :v_align, :width])
+ end
+ # do nothing
+ class TableCaption < HTMLElement
+   # do nothing
+ end
+ class TableCaptionCollection < ElementCollection
+   def element_class
+     TableCaption
+   end
+ end
+ class TableCaption < HTMLElement
+   attributes(:string => [:align])
  end
  # do nothing
  class Table < HTMLElement
-   attributes(:html_collection => ([:t_bodies, :rows]), :string => ([:summary]), :html_element => ([:caption, :t_head, :t_foot]))
+   attributes(:html_element => [:caption, :t_head, :t_foot], :html_collection => [:t_bodies, :rows], :string => [:summary])
  end
  class TableCollection < ElementCollection
    def element_class
@@ -224,19 +354,39 @@ module Watir
    end
  end
  class Table < HTMLElement
-   attributes(:string => ([:align, :bg_color, :border, :cell_padding, :cell_spacing, :frame, :rules, :width]))
+   attributes(:string => [:align, :bg_color, :border, :cell_padding, :cell_spacing, :frame, :rules, :width])
+ end
+ # do nothing
+ class Area < HTMLElement
+   attributes(:string => [:alt, :coords, :shape, :href, :target, :ping, :rel, :media, :hreflang, :type, :protocol, :host, :hostname, :port, :pathname, :search, :hash], :token_list => [:rel_list])
+ end
+ class AreaCollection < ElementCollection
+   def element_class
+     Area
+   end
+ end
+ class Area < HTMLElement
+   attributes(:bool => [:no_href])
  end
  # do nothing
  class Map < HTMLElement
-   attributes(:html_collection => ([:areas, :images]), :string => ([:name]))
+   attributes(:string => [:name], :html_collection => [:areas, :images])
  end
  class MapCollection < ElementCollection
    def element_class
      Map
    end
  end
+ class Canvas < HTMLElement
+   attributes(:int => [:width, :height])
+ end
+ class CanvasCollection < ElementCollection
+   def element_class
+     Canvas
+   end
+ end
  class Media < HTMLElement
-   attributes(:string => ([:error, :src, :current_src, :preload, :buffered, :played, :seekable, :tracks]), :bool => ([:seeking, :paused, :ended, :autoplay, :loop, :controls, :muted]), :float => ([:current_time, :initial_time, :duration, :default_playback_rate, :playback_rate, :volume]), :int => ([:network_state, :ready_state]), :date => ([:start_offset_time]))
+   attributes(:string => [:error, :src, :current_src, :preload, :buffered, :played, :seekable, :tracks], :int => [:network_state, :ready_state], :bool => [:seeking, :paused, :ended, :autoplay, :loop, :controls, :muted], :float => [:current_time, :initial_time, :duration, :default_playback_rate, :playback_rate, :volume], :date => [:start_offset_time])
  end
  class MediaCollection < ElementCollection
    def element_class
@@ -252,15 +402,23 @@ module Watir
    end
  end
  class Video < Media
-   attributes(:string => ([:width, :height, :poster]), :int => ([:video_width, :video_height]))
+   attributes(:string => [:width, :height, :poster], :int => [:video_width, :video_height])
  end
  class VideoCollection < ElementCollection
    def element_class
      Video
    end
  end
+ class Track < HTMLElement
+   attributes(:string => [:kind, :label, :src, :srclang, :track])
+ end
+ class TrackCollection < ElementCollection
+   def element_class
+     Track
+   end
+ end
  class Source < HTMLElement
-   attributes(:string => ([:src, :type, :media]))
+   attributes(:string => [:src, :type, :media])
  end
  class SourceCollection < ElementCollection
    def element_class
@@ -268,7 +426,7 @@ module Watir
    end
  end
  class Param < HTMLElement
-   attributes(:string => ([:name, :value]))
+   attributes(:string => [:name, :value])
  end
  class ParamCollection < ElementCollection
    def element_class
@@ -276,11 +434,11 @@ module Watir
    end
  end
  class Param < HTMLElement
-   attributes(:string => ([:type, :value_type]))
+   attributes(:string => [:type, :value_type])
  end
  # do nothing
  class Object < HTMLElement
-   attributes(:string => ([:data, :type, :name, :use_map, :width, :height, :content_window, :validity, :validation_message]), :bool => ([:will_validate]), :document => ([:content_document]), :html_element => ([:form]))
+   attributes(:string => [:data, :type, :name, :use_map, :width, :height, :content_window, :validity, :validation_message], :html_element => [:form], :document => [:content_document], :bool => [:will_validate])
  end
  class ObjectCollection < ElementCollection
    def element_class
@@ -288,11 +446,23 @@ module Watir
    end
  end
  class Object < HTMLElement
-   attributes(:string => ([:align, :archive, :border, :code, :code_base, :code_type, :standby]), :bool => ([:declare]), :int => ([:hspace, :vspace]))
+   attributes(:string => [:align, :archive, :border, :code, :code_base, :code_type, :standby], :bool => [:declare], :int => [:hspace, :vspace])
+ end
+ # do nothing
+ class Embed < HTMLElement
+   attributes(:string => [:src, :type, :width, :height])
+ end
+ class EmbedCollection < ElementCollection
+   def element_class
+     Embed
+   end
+ end
+ class Embed < HTMLElement
+   attributes(:string => [:align, :name])
  end
  # do nothing
  class IFrame < HTMLElement
-   attributes(:string => ([:src, :srcdoc, :name, :width, :height, :content_window]), :bool => ([:seamless]), :token_list => ([:sandbox]), :document => ([:content_document]))
+   attributes(:string => [:src, :srcdoc, :name, :width, :height, :content_window], :token_list => [:sandbox], :bool => [:seamless], :document => [:content_document])
  end
  class IFrameCollection < ElementCollection
    def element_class
@@ -300,11 +470,11 @@ module Watir
    end
  end
  class IFrame < HTMLElement
-   attributes(:string => ([:align, :frame_border, :long_desc, :margin_height, :margin_width, :scrolling]))
+   attributes(:string => [:align, :frame_border, :long_desc, :margin_height, :margin_width, :scrolling])
  end
  # do nothing
  class Image < HTMLElement
-   attributes(:string => ([:alt, :src, :use_map]), :bool => ([:is_map, :complete]), :int => ([:width, :height, :natural_width, :natural_height]))
+   attributes(:string => [:alt, :src, :use_map], :bool => [:is_map, :complete], :int => [:width, :height, :natural_width, :natural_height])
  end
  class ImageCollection < ElementCollection
    def element_class
@@ -312,11 +482,11 @@ module Watir
    end
  end
  class Image < HTMLElement
-   attributes(:string => ([:name, :align, :border, :long_desc]), :int => ([:hspace, :vspace]))
+   attributes(:string => [:name, :align, :border, :long_desc], :int => [:hspace, :vspace])
  end
  # do nothing
  class Mod < HTMLElement
-   attributes(:string => ([:cite, :date_time]))
+   attributes(:string => [:cite, :date_time])
  end
  class ModCollection < ElementCollection
    def element_class
@@ -332,7 +502,7 @@ module Watir
    end
  end
  class BR < HTMLElement
-   attributes(:string => ([:clear]))
+   attributes(:string => [:clear])
  end
  # do nothing
  class Span < HTMLElement
@@ -343,8 +513,16 @@ module Watir
      Span
    end
  end
+ class Time < HTMLElement
+   attributes(:string => [:date_time], :bool => [:pub_date], :date => [:value_as_date])
+ end
+ class TimeCollection < ElementCollection
+   def element_class
+     Time
+   end
+ end
  class Anchor < HTMLElement
-   attributes(:string => ([:href, :target, :ping, :rel, :media, :hreflang, :type, :text, :protocol, :host, :hostname, :port, :pathname, :search, :hash]), :token_list => ([:rel_list]))
+   attributes(:string => [:href, :target, :ping, :rel, :media, :hreflang, :type, :text, :protocol, :host, :hostname, :port, :pathname, :search, :hash], :token_list => [:rel_list])
  end
  class AnchorCollection < ElementCollection
    def element_class
@@ -352,7 +530,19 @@ module Watir
    end
  end
  class Anchor < HTMLElement
-   attributes(:string => ([:coords, :charset, :name, :rev, :shape]))
+   attributes(:string => [:coords, :charset, :name, :rev, :shape])
+ end
+ # do nothing
+ class Div < HTMLElement
+   # do nothing
+ end
+ class DivCollection < ElementCollection
+   def element_class
+     Div
+   end
+ end
+ class Div < HTMLElement
+   attributes(:string => [:align])
  end
  # do nothing
  class DList < HTMLElement
@@ -364,11 +554,11 @@ module Watir
    end
  end
  class DList < HTMLElement
-   attributes(:bool => ([:compact]))
+   attributes(:bool => [:compact])
  end
  # do nothing
  class LI < HTMLElement
-   attributes(:int => ([:value]))
+   attributes(:int => [:value])
  end
  class LICollection < ElementCollection
    def element_class
@@ -376,9 +566,41 @@ module Watir
    end
  end
  class LI < HTMLElement
-   attributes(:string => ([:type]))
+   attributes(:string => [:type])
  end
  # do nothing
+ class UList < HTMLElement
+   # do nothing
+ end
+ class UListCollection < ElementCollection
+   def element_class
+     UList
+   end
+ end
+ class UList < HTMLElement
+   attributes(:bool => [:compact], :string => [:type])
+ end
+ # do nothing
+ class OList < HTMLElement
+   attributes(:bool => [:reversed], :int => [:start])
+ end
+ class OListCollection < ElementCollection
+   def element_class
+     OList
+   end
+ end
+ class OList < HTMLElement
+   attributes(:bool => [:compact], :string => [:type])
+ end
+ # do nothing
+ class Quote < HTMLElement
+   attributes(:string => [:cite])
+ end
+ class QuoteCollection < ElementCollection
+   def element_class
+     Quote
+   end
+ end
  class Pre < HTMLElement
    # do nothing
  end
@@ -388,7 +610,7 @@ module Watir
    end
  end
  class Pre < HTMLElement
-   attributes(:int => ([:width]))
+   attributes(:int => [:width])
  end
  # do nothing
  class HR < HTMLElement
@@ -400,7 +622,7 @@ module Watir
    end
  end
  class HR < HTMLElement
-   attributes(:string => ([:align, :color, :size, :width]), :bool => ([:no_shade]))
+   attributes(:string => [:align, :color, :size, :width], :bool => [:no_shade])
  end
  # do nothing
  class Paragraph < HTMLElement
@@ -412,7 +634,7 @@ module Watir
    end
  end
  class Paragraph < HTMLElement
-   attributes(:string => ([:align]))
+   attributes(:string => [:align])
  end
  # do nothing
  class Heading < HTMLElement
@@ -424,11 +646,11 @@ module Watir
    end
  end
  class Heading < HTMLElement
-   attributes(:string => ([:align]))
+   attributes(:string => [:align])
  end
  # do nothing
  class Body < HTMLElement
-   attributes(:function => ([:onafterprint, :onbeforeprint, :onbeforeunload, :onblur, :onerror, :onfocus, :onhashchange, :onload, :onmessage, :onoffline, :ononline, :onpopstate, :onpagehide, :onpageshow, :onredo, :onresize, :onstorage, :onundo, :onunload]))
+   attributes(:function => [:onafterprint, :onbeforeprint, :onbeforeunload, :onblur, :onerror, :onfocus, :onhashchange, :onload, :onmessage, :onoffline, :ononline, :onpopstate, :onpagehide, :onpageshow, :onredo, :onresize, :onstorage, :onundo, :onunload])
  end
  class BodyCollection < ElementCollection
    def element_class
@@ -436,11 +658,11 @@ module Watir
    end
  end
  class Body < HTMLElement
-   attributes(:string => ([:text, :bg_color, :background, :link, :v_link, :a_link]))
+   attributes(:string => [:text, :bg_color, :background, :link, :v_link, :a_link])
  end
  # do nothing
  class Script < HTMLElement
-   attributes(:string => ([:src, :type, :charset, :text]), :bool => ([:async, :defer]))
+   attributes(:string => [:src, :type, :charset, :text], :bool => [:async, :defer])
  end
  class ScriptCollection < ElementCollection
    def element_class
@@ -448,11 +670,11 @@ module Watir
    end
  end
  class Script < HTMLElement
-   attributes(:string => ([:event, :html_for]))
+   attributes(:string => [:event, :html_for])
  end
  # do nothing
  class Style < HTMLElement
-   attributes(:string => ([:media, :type]), :bool => ([:disabled, :scoped]))
+   attributes(:bool => [:disabled, :scoped], :string => [:media, :type])
  end
  class StyleCollection < ElementCollection
    def element_class
@@ -460,7 +682,7 @@ module Watir
    end
  end
  class Meta < HTMLElement
-   attributes(:string => ([:name, :http_equiv, :content]))
+   attributes(:string => [:name, :http_equiv, :content])
  end
  class MetaCollection < ElementCollection
    def element_class
@@ -468,15 +690,23 @@ module Watir
    end
  end
  class Meta < HTMLElement
-   attributes(:string => ([:scheme]))
+   attributes(:string => [:scheme])
  end
  # do nothing
  class Base < HTMLElement
-   attributes(:string => ([:href, :target]))
+   attributes(:string => [:href, :target])
  end
  class BaseCollection < ElementCollection
    def element_class
      Base
+   end
+ end
+ class Title < HTMLElement
+   attributes(:string => [:text])
+ end
+ class TitleCollection < ElementCollection
+   def element_class
+     Title
    end
  end
  class Head < HTMLElement
@@ -485,224 +715,6 @@ module Watir
  class HeadCollection < ElementCollection
    def element_class
      Head
-   end
- end
-
- class Time < HTMLElement
-   attributes(:string => ([:date_time]), :bool => ([:pub_date]), :date => ([:value_as_date]))
- end
- class TimeCollection < ElementCollection
-   def element_class
-     Time
-   end
- end
-
-
-
-
- class Marquee < HTMLElement
-   attributes(:function => ([:onbounce, :onfinish, :onstart]), :string => ([:behavior, :bg_color, :direction, :height, :true_speed, :width]), :int => ([:hspace, :loop, :scroll_amount, :scroll_delay, :vspace]))
- end
- class MarqueeCollection < ElementCollection
-   def element_class
-     Marquee
-   end
- end
- class Font < HTMLElement
-   attributes(:string => ([:color, :face, :size]))
- end
- class FontCollection < ElementCollection
-   def element_class
-     Font
-   end
- end
- class TableCaption < HTMLElement
-   # do nothing
- end
- class TableCaptionCollection < ElementCollection
-   def element_class
-     TableCaption
-   end
- end
- class TableCaption < HTMLElement
-   attributes(:string => ([:align]))
- end
- # do nothing
-
-
-
-
-
-
- class Select < HTMLElement
-   attributes(:html_collection => ([:options, :selected_options]), :string => ([:name, :type, :value, :validity, :validation_message]), :bool => ([:autofocus, :disabled, :multiple, :required, :will_validate]), :int => ([:size, :length, :selected_index]), :list => ([:labels]), :html_element => ([:form]))
- end
- class SelectCollection < ElementCollection
-   def element_class
-     Select
-   end
- end
- class UList < HTMLElement
-   # do nothing
- end
- class UListCollection < ElementCollection
-   def element_class
-     UList
-   end
- end
- class UList < HTMLElement
-   attributes(:string => ([:type]), :bool => ([:compact]))
- end
- # do nothing
-
- class OptGroup < HTMLElement
-   attributes(:string => ([:label]), :bool => ([:disabled]))
- end
- class OptGroupCollection < ElementCollection
-   def element_class
-     OptGroup
-   end
- end
- class Canvas < HTMLElement
-   attributes(:int => ([:width, :height]))
- end
- class CanvasCollection < ElementCollection
-   def element_class
-     Canvas
-   end
- end
- class TableCell < HTMLElement
-   attributes(:token_list => ([:headers]), :int => ([:col_span, :row_span, :cell_index]))
- end
- class TableCellCollection < ElementCollection
-   def element_class
-     TableCell
-   end
- end
- class TableCell < HTMLElement
-   attributes(:string => ([:abbr, :align, :axis, :bg_color, :ch, :ch_off, :height, :v_align, :width]), :bool => ([:no_wrap]))
- end
- # do nothing
- class TableHeaderCell < TableCell
-   attributes(:string => ([:scope]))
- end
- class TableHeaderCellCollection < ElementCollection
-   def element_class
-     TableHeaderCell
-   end
- end
- class TableDataCell < TableCell
-   # do nothing
- end
- class TableDataCellCollection < ElementCollection
-   def element_class
-     TableDataCell
-   end
- end
- class Quote < HTMLElement
-   attributes(:string => ([:cite]))
- end
- class QuoteCollection < ElementCollection
-   def element_class
-     Quote
-   end
- end
- class Div < HTMLElement
-   # do nothing
- end
- class DivCollection < ElementCollection
-   def element_class
-     Div
-   end
- end
- class Div < HTMLElement
-   attributes(:string => ([:align]))
- end
- # do nothing
-
- class Device < HTMLElement
-   attributes(:string => ([:type, :data]))
- end
- class DeviceCollection < ElementCollection
-   def element_class
-     Device
-   end
- end
-
-
- class Output < HTMLElement
-   attributes(:string => ([:name, :type, :default_value, :value, :validity, :validation_message]), :bool => ([:will_validate]), :token_list => ([:html_for]), :list => ([:labels]), :html_element => ([:form]))
- end
- class OutputCollection < ElementCollection
-   def element_class
-     Output
-   end
- end
- class Track < HTMLElement
-   attributes(:string => ([:kind, :label, :src, :srclang, :track]))
- end
- class TrackCollection < ElementCollection
-   def element_class
-     Track
-   end
- end
-
-
- class Embed < HTMLElement
-   attributes(:string => ([:src, :type, :width, :height]))
- end
- class EmbedCollection < ElementCollection
-   def element_class
-     Embed
-   end
- end
- class Embed < HTMLElement
-   attributes(:string => ([:align, :name]))
- end
- # do nothing
-
-
-
- class Area < HTMLElement
-   attributes(:string => ([:alt, :coords, :shape, :href, :target, :ping, :rel, :media, :hreflang, :type, :protocol, :host, :hostname, :port, :pathname, :search, :hash]), :token_list => ([:rel_list]))
- end
- class AreaCollection < ElementCollection
-   def element_class
-     Area
-   end
- end
- class Area < HTMLElement
-   attributes(:bool => ([:no_href]))
- end
- # do nothing
-
- class OList < HTMLElement
-   attributes(:bool => ([:reversed]), :int => ([:start]))
- end
- class OListCollection < ElementCollection
-   def element_class
-     OList
-   end
- end
- class OList < HTMLElement
-   attributes(:string => ([:type]), :bool => ([:compact]))
- end
- # do nothing
-
- class Unknown < HTMLElement
-   # do nothing
- end
- class UnknownCollection < ElementCollection
-   def element_class
-     Unknown
-   end
- end
- class Button < HTMLElement
-   attributes(:string => ([:form_action, :form_enctype, :form_method, :form_no_validate, :form_target, :name, :type, :value, :validity, :validation_message]), :bool => ([:autofocus, :disabled, :will_validate]), :list => ([:labels]), :html_element => ([:form]))
- end
- class ButtonCollection < ElementCollection
-   def element_class
-     Button
    end
  end
  class Html < HTMLElement
@@ -714,43 +726,31 @@ module Watir
    end
  end
  class Html < HTMLElement
-   attributes(:string => ([:version]))
+   attributes(:string => [:version])
  end
  # do nothing
- class Title < HTMLElement
-   attributes(:string => ([:text]))
+ class Unknown < HTMLElement
+   # do nothing
  end
- class TitleCollection < ElementCollection
+ class UnknownCollection < ElementCollection
    def element_class
-     Title
-   end
- end
- class FieldSet < HTMLElement
-   attributes(:html_collection => ([:elements]), :string => ([:name, :type, :validity, :validation_message]), :bool => ([:disabled, :will_validate]), :html_element => ([:form]))
- end
- class FieldSetCollection < ElementCollection
-   def element_class
-     FieldSet
-   end
- end
- class Details < HTMLElement
-   attributes(:bool => ([:open]))
- end
- class DetailsCollection < ElementCollection
-   def element_class
-     Details
+     Unknown
    end
  end
 
 
- class BaseFont < HTMLElement
-   attributes(:string => ([:color, :face]), :int => ([:size]))
- end
- class BaseFontCollection < ElementCollection
-   def element_class
-     BaseFont
-   end
- end
+
+
+
+
+
+
+
+
+
+
+
+
  module Container
    #
    # @return [Anchor]

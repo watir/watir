@@ -111,22 +111,10 @@ module Watir
 
         attrs = Hash.new { |hash, key| hash[key] = [] }
         attributes.each do |a|
-          attrs[ruby_type_for(a.type)] << a.name.snake_case
+          attrs[ruby_type_for(a.type)] << a.name.snake_case.to_sym
         end
 
-        call :attributes, [[:hash] + attrs.map { |type, names| [[:lit, type], literal_array(names)] }.flatten(1)]
-      end
-
-      def identifier_call(tag_name)
-        call :identifier, [literal_hash(:tag_name => tag_name)]
-      end
-
-      def container_call(name)
-        call :container_method,  [[:lit, Util.paramify(name).to_sym]]
-      end
-
-      def collection_call(name)
-        call :collection_method, [[:lit, Util.paramify(name).pluralize.to_sym]]
+        call :attributes, [literal_hash(attrs)]
       end
 
       def literal_hash(hash)
