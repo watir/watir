@@ -185,8 +185,6 @@ module Watir
 
     def normalize_selector(how, what)
       case how
-      when :url
-        [:href, what]
       when :caption
         [:text, what]
       when :class_name
