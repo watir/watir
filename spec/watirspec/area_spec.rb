@@ -32,8 +32,6 @@ describe "Area" do
       browser.area(:title, "no_such_title").should_not exist
       browser.area(:title, /no_such_title/).should_not exist
 
-      browser.area(:url, "no_such_href").should_not exist
-      browser.area(:url, /no_such_href/).should_not exist
       browser.area(:href, "no-tables.html").should_not exist
       browser.area(:href, /no-tables/).should_not exist
 
