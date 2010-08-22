@@ -36,11 +36,11 @@ describe "Dl" do
   # Attribute methods
   describe "#class_name" do
     it "returns the class attribute if the element exists" do
-      browser.dl(:id , "experience-list").class_name.should == "list"
+      browser.dl(:id, "experience-list").class_name.should == "list"
     end
 
     it "returns an empty string if the element exists but the attribute doesn't" do
-      browser.dl(:id , "noop").class_name.should == ""
+      browser.dl(:id, "noop").class_name.should == ""
     end
 
     it "raises UnknownObjectException if the element does not exist" do
@@ -117,10 +117,20 @@ describe "Dl" do
   end
 
   describe "#html" do
-    it "returns the HTML of the element" do
-      html = browser.dl(:id, 'experience-list').html.downcase
-      html.should include('<dt class="current-industry">')
-      html.should_not include('</body>')
+    not_compliant_on [:webdriver, :ie] do
+      it "returns the HTML of the element" do
+        html = browser.dl(:id, 'experience-list').html.downcase
+        html.should include('<dt class="current-industry">')
+        html.should_not include('</body>')
+      end
+    end
+
+    deviates_on [:webdriver, :ie] do
+      it "returns the HTML of the element" do
+        html = browser.dl(:id, 'experience-list').html.downcase
+        html.should include('<dt class=current-industry>')
+        html.should_not include('</body>')
+      end
     end
   end
 
