@@ -31,11 +31,24 @@ Spec::Rake::SpecTask.new(:spec) do |spec|
   spec.spec_files = FileList['spec/**/*_spec.rb']
 end
 
-Spec::Rake::SpecTask.new(:rcov) do |spec|
-  spec.libs << 'lib' << 'spec'
-  spec.pattern = 'spec/**/*_spec.rb'
-  spec.rcov = true
-  spec.rcov_opts = %w[--exclude spec,ruby-debug,/Library/Ruby,.gem --include lib/watir-webdriver]
+namespace :spec do
+  Spec::Rake::SpecTask.new(:rcov) do |spec|
+    spec.libs << 'lib' << 'spec'
+    spec.pattern = 'spec/**/*_spec.rb'
+    spec.rcov = true
+    spec.rcov_opts = %w[--exclude spec,ruby-debug,/Library/Ruby,.gem --include lib/watir-webdriver]
+  end
+
+  desc 'Run specs for CI'
+  Spec::Rake::SpecTask.new(:ci) do |spec|
+    spec.libs << 'lib' << 'spec'
+    spec.pattern = 'spec/**/*_spec.rb'
+    spec.spec_opts = ["--format", "html:results/#{RUBY_PLATFORM}/#{ENV['WATIR_WEBDRIVER_BROWSER'] || 'firefox'}/spec-results.html",
+                      "--format", "progress"]
+    spec.rcov = true
+    spec.rcov_opts = %w[--exclude spec,ruby-debug,/Library/Ruby,.gem --include lib/watir-webdriver]
+  end
+
 end
 
 task :spec => :check_dependencies
