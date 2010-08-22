@@ -3,24 +3,17 @@ module Watir
 
     VALID_TYPES = %w[button reset submit image]
 
-    def wd_find_first_by(how, what)
-      if how == :tag_name
-        super(:xpath, ".//button | .//input[#{attribute_expression :type => VALID_TYPES}]")
-      else
-        super
-      end
-    end
-
-    def wd_find_all_by(how, what)
-      if how == :tag_name
-        super(:xpath, ".//button | .//input[#{attribute_expression :type => VALID_TYPES}]")
-      else
-        super
-      end
-    end
-
     def locate_all
       find_all_by_multiple
+    end
+
+    def wd_find_first_by(how, what)
+      if how == :tag_name
+        how  = :xpath
+        what = ".//button | .//input[#{attribute_expression :type => VALID_TYPES}]"
+      end
+
+      super
     end
 
     def build_xpath(selectors)
