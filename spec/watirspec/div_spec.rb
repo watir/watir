@@ -52,11 +52,11 @@ describe "Div" do
   # Attribute methods
   describe "#class_name" do
     it "returns the class attribute if the element exists" do
-      browser.div(:id , "footer").class_name.should == "profile"
+      browser.div(:id, "footer").class_name.should == "profile"
     end
 
     it "returns an empty string if the element exists but the attribute doesn't" do
-      browser.div(:id , "content").class_name.should == ""
+      browser.div(:id, "content").class_name.should == ""
     end
 
     it "raises UnknownObjectException if the element does not exist" do
@@ -89,8 +89,16 @@ describe "Div" do
   end
 
   describe "#style" do
-    it "returns the style attribute if the element exists" do
-      browser.div(:id, 'best_language').style.should == "color: red; text-decoration: underline; cursor: pointer;"
+    not_compliant_on [:webdriver, :ie] do
+      it "returns the style attribute if the element exists" do
+        browser.div(:id, 'best_language').style.should == "color: red; text-decoration: underline; cursor: pointer;"
+      end
+    end
+
+    deviates_on [:webdriver, :ie] do
+      it "returns the style attribute if the element exists" do
+        browser.div(:id, 'best_language').style.should == "COLOR: red; CURSOR: pointer; TEXT-DECORATION: underline"
+      end
     end
 
     it "returns an empty string if the element exists but the attribute doesn't" do
@@ -185,14 +193,28 @@ describe "Div" do
   end
 
   describe "#html" do
-    it "returns the HTML of the element" do
-      html = browser.div(:id, 'footer').html.downcase
-      html.should include('id="footer"')
-      html.should include('title="closing remarks"')
-      html.should include('class="profile"')
+    not_compliant_on [:webdriver, :ie] do
+      it "returns the HTML of the element" do
+        html = browser.div(:id, 'footer').html.downcase
+        html.should include('id="footer"')
+        html.should include('title="closing remarks"')
+        html.should include('class="profile"')
 
-      html.should_not include('<div id="content">')
-      html.should_not include('</body>')
+        html.should_not include('<div id="content">')
+        html.should_not include('</body>')
+      end
+    end
+
+    deviates_on [:webdriver, :ie] do
+      it "returns the HTML of the element" do
+        html = browser.div(:id, 'footer').html.downcase
+        html.should include('id=footer')
+        html.should include('title="closing remarks"')
+        html.should include('class=profile')
+
+        html.should_not include('<div id=content>')
+        html.should_not include('</body>')
+      end
     end
   end
 
