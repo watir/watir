@@ -16,8 +16,8 @@ describe "Link" do
       browser.link(:title, /link_title_2/).should exist
       browser.link(:text, "Link 2").should exist
       browser.link(:text, /Link 2/i).should exist
-      browser.link(:url, 'non_control_elements.html').should exist
-      browser.link(:url, /non_control_elements.html/).should exist
+      browser.link(:href, 'non_control_elements.html').should exist
+      browser.link(:href, /non_control_elements.html/).should exist
       browser.link(:index, 1).should exist
       browser.link(:xpath, "//a[@id='link_2']").should exist
     end
@@ -26,8 +26,8 @@ describe "Link" do
       browser.link.should exist
     end
 
-    it "strips spaces from URL attributes when locating elements" do
-      browser.link(:url, /strip_space$/).should exist
+    it "strips spaces from href attribute when locating elements" do
+      browser.link(:href, /strip_space$/).should exist
     end
 
     it "returns false if the link doesn't exist" do
@@ -37,8 +37,8 @@ describe "Link" do
       browser.link(:title, /no_such_title/).should_not exist
       browser.link(:text, "no_such_text").should_not exist
       browser.link(:text, /no_such_text/i).should_not exist
-      browser.link(:url, 'no_such_href').should_not exist
-      browser.link(:url, /no_such_href/).should_not exist
+      browser.link(:href, 'no_such_href').should_not exist
+      browser.link(:href, /no_such_href/).should_not exist
       browser.link(:index, 1337).should_not exist
       browser.link(:xpath, "//a[@id='no_such_id']").should_not exist
     end
@@ -81,9 +81,9 @@ describe "Link" do
     end
   end
 
-  describe "#url" do
+  describe "#href" do
     it "returns the href attribute" do
-      browser.link(:index, 1).url.should =~ /non_control_elements/
+      browser.link(:index, 1).href.should =~ /non_control_elements/
     end
   end
 
@@ -133,7 +133,6 @@ describe "Link" do
     it "returns true for all attribute methods" do
       browser.link(:index, 0).should respond_to(:class_name)
       browser.link(:index, 0).should respond_to(:href)
-      browser.link(:index, 0).should respond_to(:url)
       browser.link(:index, 0).should respond_to(:id)
       browser.link(:index, 0).should respond_to(:style)
       browser.link(:index, 0).should respond_to(:text)
@@ -149,7 +148,7 @@ describe "Link" do
     end
 
     it "finds an existing link by (:text, Regexp) and click it" do
-      browser.link(:url, /forms_with_input_elements/).click
+      browser.link(:href, /forms_with_input_elements/).click
       browser.text.include?("User administration").should be_true
     end
 

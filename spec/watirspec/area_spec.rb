@@ -15,8 +15,6 @@ describe "Area" do
       browser.area(:title, "Tables").should exist
       browser.area(:title, /Tables/).should exist
 
-      browser.area(:url, "tables.html").should exist
-      browser.area(:url, /tables/).should exist
       browser.area(:href, "tables.html").should exist
       browser.area(:href, /tables/).should exist
 
