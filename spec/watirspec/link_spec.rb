@@ -26,8 +26,10 @@ describe "Link" do
       browser.link.should exist
     end
 
-    it "strips spaces from href attribute when locating elements" do
-      browser.link(:href, /strip_space$/).should exist
+    bug "http://code.google.com/p/selenium/issues/detail?id=748", :webdriver do
+      it "strips spaces from href attribute when locating elements" do
+        browser.link(:href, /strip_space$/).should exist
+      end
     end
 
     it "returns false if the link doesn't exist" do
