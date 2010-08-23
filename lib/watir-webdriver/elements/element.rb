@@ -41,6 +41,17 @@ module Watir
       end
     end
 
+    def ==(other)
+      assert_exists
+      @element == other.element
+    end
+    alias_method :eql?, :==
+
+    def hash
+      assert_exists
+      @element.hash
+    end
+
     def text
       assert_exists
       @element.text
