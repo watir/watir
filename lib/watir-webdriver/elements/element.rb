@@ -48,8 +48,7 @@ module Watir
     alias_method :eql?, :==
 
     def hash
-      assert_exists
-      @element.hash
+      @element ? @element.hash : super
     end
 
     def text
