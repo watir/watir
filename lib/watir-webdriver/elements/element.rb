@@ -212,5 +212,14 @@ module Watir
       raise ObjectReadOnlyException if respond_to?(:readonly?) && readonly?
     end
 
+    def method_missing(meth, *args, &blk)
+      meth = meth.to_s
+      if meth =~ /^data_(.*)$/
+        attribute_value(meth.gsub(/_/, '-'), *args)
+      else
+        super
+      end
+    end
+
   end # Element
 end # Watir

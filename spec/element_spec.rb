@@ -31,4 +31,16 @@ describe Watir::Element do
     end
   end
 
+  describe "data-* attributes" do
+    before { browser.goto("file://" + File.expand_path("html/data_attributes.html", File.dirname(__FILE__))) }
+
+    it "finds elements by a data-* attribute" do
+      browser.p(:data_type => "ruby-library").should exist
+    end
+
+    it "returns the value of a data-* attribute" do
+      browser.p.data_type.should == "ruby-library"
+    end
+  end
+
 end
