@@ -12,13 +12,25 @@ module Watir
     #
     # Set the file field to the given path
     #
-    # @param [String] a value
+    # @param [String] a path
+    #
+    # @raise [Errno::ENOENT] if the file doesn't exist
     #
 
-    def set(value)
+    def set(path)
+      raise Errno::ENOENT, path unless File.exist?(path)
+      self.value= path
+    end
+
+    #
+    # Set the file field to the given path
+    #
+    # @param [String] a path
+    #
+    def value=(path)
       assert_exists
-      value.gsub!(File::SEPARATOR, File::ALT_SEPARATOR) if File::ALT_SEPARATOR
-      @element.send_keys value
+      path = path.gsub(File::SEPARATOR, File::ALT_SEPARATOR) if File::ALT_SEPARATOR
+      @element.send_keys path
     end
 
     #
