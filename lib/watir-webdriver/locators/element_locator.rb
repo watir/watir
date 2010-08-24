@@ -140,13 +140,17 @@ module Watir
       elements.send(method) { |e| matches_selector?(rx_selector, e) }
     end
 
+    VALID_WHATS = [String, Regexp]
+
     def check_type(how, what)
       case how
       when :index
-        raise TypeError, "expected Fixnum, got #{what.class}" unless what.kind_of?(Fixnum)
+        unless what.kind_of?(Fixnum)
+          raise TypeError, "expected Fixnum, got #{what.inspect}:#{what.class}"
+        end
       else
-        unless [String, Regexp].any? { |t| what.kind_of? t }
-          raise TypeError, "expected String or Regexp, got #{what.inspect}:#{what.class}"
+        unless VALID_WHATS.any? { |t| what.kind_of? t }
+          raise TypeError, "expected one of #{VALID_WHATS.inspect}, got #{what.inspect}:#{what.class}"
         end
       end
     end
@@ -274,7 +278,7 @@ module Watir
     def attribute_expression(selectors)
       selectors.map do |key, val|
         if val.kind_of?(Array)
-          "( " + val.map { |v| equal_pair(key, v) }.join(" or ") + " )"
+          "(" + val.map { |v| equal_pair(key, v) }.join(" or ") + ")"
         else
           equal_pair(key, val)
         end
