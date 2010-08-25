@@ -213,9 +213,9 @@ module Watir
     end
 
     def method_missing(meth, *args, &blk)
-      meth = meth.to_s
-      if meth =~ /^data_(.*)$/
-        attribute_value(meth.gsub(/_/, '-'), *args)
+      method = meth.to_s
+      if method =~ /^data_(.*)$/
+        attribute_value(method.gsub(/_/, '-'), *args)
       else
         super
       end
