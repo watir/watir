@@ -51,24 +51,24 @@ module Watir
     end
 
     def find_first_by_one
-      how, what = @selector.shift
+      how, what = @selector.to_a.first
       check_type how, what
 
       if WD_FINDERS.include?(how)
         wd_find_first_by(how, what)
       else
-        raise NotImplementedError, "find first by attribute/other"
+        find_first_by_multiple
       end
     end
 
     def find_all_by_one
-      how, what = @selector.shift
+      how, what = @selector.to_a.first
       check_type how, what
 
       if WD_FINDERS.include?(how)
         wd_find_all_by(how, what)
       else
-        raise NotImplementedError, "find all by attribute/other"
+        find_all_by_multiple
       end
     end
 
