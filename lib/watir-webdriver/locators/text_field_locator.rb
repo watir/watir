@@ -41,7 +41,7 @@ module Watir
       end
     end
 
-    def matches_selector?(rx_selector, element)
+    def matches_selector?(element, rx_selector)
       rx_selector = rx_selector.dup
 
       [:text, :value, :label].each do |key|
