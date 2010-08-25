@@ -35,6 +35,8 @@ module Watir
         element = find_first_by_multiple
       end
 
+      # this actually only applies when finding by xpath - browser.text_field(:xpath, "//input[@type='radio']")
+      # we don't need to validate the element if we built the xpath ourselves.
       validate_element(element) if element
     rescue WebDriver::Error::NoSuchElementError => wde
       nil
@@ -128,16 +130,13 @@ module Watir
       rx_selector = delete_regexps_from(selector)
 
       if rx_selector.has_key?(:label) && should_use_label_element?
-        label_exp = rx_selector.delete(:label)
-        label     = @wd.find_elements(:tag_name, 'label').find { |e| matches_selector?({:text => label_exp}, e) } || return
-
-        selector[:id] = label.attribute(:for)
+        selector[:id] = id_from_label(rx_selector.delete(:label)) || return
       end
 
       xpath = build_xpath(selector) || raise("internal error: unable to build xpath from #{@selector.inspect}")
 
       elements = @wd.find_elements(:xpath, xpath)
-      elements.send(method) { |e| matches_selector?(rx_selector, e) }
+      elements.__send__(method) { |el| matches_selector?(el, rx_selector) }
     end
 
     VALID_WHATS = [String, Regexp]
@@ -155,6 +154,14 @@ module Watir
       end
     end
 
+    def id_from_label(label_exp)
+      label = @wd.find_elements(:tag_name, 'label').find do |el|
+        matches_selector?(el, :text => label_exp)
+      end
+
+      selector[:id] = label.attribute(:for)
+    end
+
     def fetch_value(how, element)
       case how
       when :text
@@ -166,7 +173,7 @@ module Watir
       end
     end
 
-    def matches_selector?(selector, element)
+    def matches_selector?(element, selector)
       # p :start => selector
       selector.all? do |how, what|
         # p :comparing => [how, what], :to => fetch_value(how, element)
