@@ -54,8 +54,10 @@ module Watir
       super
     end
 
+    VALID_TEXT_FIELD_TAGS = %w[input textarea]
+
     def tag_name_matches?(element, _)
-      !!(/^(input|textarea)$/ === element.tag_name)
+      VALID_TEXT_FIELD_TAGS.include?(element.tag_name)
     end
   end # TextFieldLocator
 end # Watir
