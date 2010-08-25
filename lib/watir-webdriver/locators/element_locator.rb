@@ -160,7 +160,7 @@ module Watir
         matches_selector?(el, :text => label_exp)
       end
 
-      label.attribute(:for)
+      label.attribute(:for) if label
     end
 
     def fetch_value(how, element)

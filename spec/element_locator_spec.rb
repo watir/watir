@@ -240,6 +240,11 @@ describe Watir::ElementLocator do
         locate_one(:tag_name => "div", :label => /oob/).should == div_elements.first
       end
 
+      it "returns nil when no label matching the regexp is found" do
+        expect_all(:tag_name, "label").and_return([])
+        locate_one(:tag_name => "div", :label => /foo/).should be_nil
+      end
+
     end
 
     it "finds all if :index is given" do
