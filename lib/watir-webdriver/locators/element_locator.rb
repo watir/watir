@@ -133,7 +133,7 @@ module Watir
         selector[:id] = id_from_label(rx_selector.delete(:label)) || return
       end
 
-      xpath = build_xpath(selector) || raise("internal error: unable to build xpath from #{@selector.inspect}")
+      xpath = build_xpath(selector) || raise("internal error: unable to build xpath from #{selector.inspect}")
 
       elements = @wd.find_elements(:xpath, xpath)
       elements.__send__(method) { |el| matches_selector?(el, rx_selector) }
@@ -155,11 +155,12 @@ module Watir
     end
 
     def id_from_label(label_exp)
+      # TODO: this won't work correctly if @wd is a sub-element
       label = @wd.find_elements(:tag_name, 'label').find do |el|
         matches_selector?(el, :text => label_exp)
       end
 
-      selector[:id] = label.attribute(:for)
+      label.attribute(:for)
     end
 
     def fetch_value(how, element)

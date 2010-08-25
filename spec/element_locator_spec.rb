@@ -29,7 +29,14 @@ describe Watir::ElementLocator do
   end
 
   def element(opts = {})
-    mock(Watir::Element, opts)
+    attrs = opts.delete(:attributes)
+    el = mock(Watir::Element, opts)
+
+    attrs.each do |key, value|
+      el.stub!(:attribute).with(key).and_return(value)
+    end if attrs
+
+    el
   end
 
   describe "finds a single element" do
@@ -175,14 +182,74 @@ describe Watir::ElementLocator do
       end
     end
 
+    describe "with regexp selectors" do
+      it "handles selector with tag name and a single regexp attribute" do
+        elements = [
+          element(:tag_name => "div", :attributes => { :class => "foo" }),
+          element(:tag_name => "div", :attributes => { :class => "foob"})
+        ]
+
+        expect_all(:xpath, ".//div").and_return(elements)
+        locate_one(:tag_name => "div", :class => /oob/).should == elements[1]
+      end
+
+      it "handles :tag_name, :index and a single regexp attribute" do
+        elements = [
+          element(:tag_name => "div", :attributes => { :class => "foo" }),
+          element(:tag_name => "div", :attributes => { :class => "foo" })
+        ]
+
+        expect_all(:xpath, ".//div").and_return(elements)
+
+        selector = {
+          :tag_name => "div",
+          :class    => /foo/,
+          :index    => 1
+        }
+
+        locate_one(selector).should == elements[1]
+      end
+
+      it "handles mix of string and regexp attributes" do
+        elements = [
+          element(:tag_name => "div", :attributes => { :class => "foo", :title => "bar" }),
+          element(:tag_name => "div", :attributes => { :class => "foo", :title => "baz" })
+        ]
+
+        expect_all(:xpath, ".//div[@class='foo']").and_return(elements)
+
+        selector = {
+          :tag_name => "div",
+          :class    => "foo",
+          :title    => /baz/
+        }
+
+        locate_one(selector).should == elements[1]
+      end
+
+      it "handles :label => /regexp/ selector" do
+        label_elements = [
+          element(:tag_name => "label", :text => "foo", :attributes => { :for => "bar"}),
+          element(:tag_name => "label", :text => "foob", :attributes => { :for => "baz"})
+        ]
+        div_elements = [element(:tag_name => "div")]
+
+        expect_all(:tag_name, "label").and_return(label_elements)
+        expect_all(:xpath, ".//div[@id='baz']").and_return(div_elements)
+
+        locate_one(:tag_name => "div", :label => /oob/).should == div_elements.first
+      end
+
+    end
+
     it "finds all if :index is given" do
       # or could we use XPath indeces reliably instead?
-      arr = [
+      elements = [
         element(:tag_name => "div"),
         element(:tag_name => "div")
       ]
 
-      expect_all(:xpath, ".//div[@class='foo']").and_return(arr)
+      expect_all(:xpath, ".//div[@class='foo']").and_return(elements)
 
       selector = {
         :tag_name => "div",
@@ -190,12 +257,20 @@ describe Watir::ElementLocator do
         :index    => 1
       }
 
-      locate_one(selector).should == arr[1]
+      locate_one(selector).should == elements[1]
     end
 
-    # TODO: locate_one for regexp selectors.
-    # TODO: locate_all
+    it "returns nil if found element didn't match the selector tag_name" do
+      expect_one(:xpath, "//div").and_return(element(:tag_name => "div"))
 
+      selector = {
+        :tag_name => "input",
+        :type     => "radio",
+        :xpath    => "//div"
+      }
+
+      locate_one(selector, Watir::Input.attributes).should be_nil
+    end
 
     #
     # errors
@@ -221,5 +296,8 @@ describe Watir::ElementLocator do
         locate_one(bad_selector, valid_attributes)
       }.should raise_error(MissingWayOfFindingObjectException, "invalid attribute: :href")
     end
+  end
+
+  describe "finds several elements" do
   end
 end
