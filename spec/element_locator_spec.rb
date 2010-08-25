@@ -111,7 +111,7 @@ describe Watir::ElementLocator do
 
 
     describe "with special cased selectors" do
-      it "uses normalize-space() for :text" do
+      it "normalizes space for :text" do
         expect_one :xpath, ".//div[normalize-space()='foo']"
         locate_one :tag_name => "div",
                    :text     => "foo"
