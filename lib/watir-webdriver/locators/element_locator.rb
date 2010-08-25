@@ -193,9 +193,8 @@ module Watir
         [:text, what]
       when :class_name
         [:class, what]
-      when :tag_name, :text, :xpath, :index, :class # include class since the attribute method is 'class_name'
-        [how, what]
-      when /^data_.+$/
+      when :tag_name, :text, :xpath, :index, :class, /^data_.+$/
+        # include class since the valid attribute is 'class_name'
         [how, what]
       else
         assert_valid_as_attribute how

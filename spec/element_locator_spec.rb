@@ -78,7 +78,7 @@ describe Watir::ElementLocator do
         expect_one :xpath, ".//div[@class='foo']"
 
         locate_one :tag_name => "div",
-                     :class    => "foo"
+                   :class    => "foo"
       end
 
       it "handles selector with no tag name and and a single attribute" do
@@ -90,15 +90,15 @@ describe Watir::ElementLocator do
         expect_one :xpath, ".//div[@class='foo' and @title='bar']"
 
         locate_one :tag_name => "div",
-                     :class    => "foo",
-                     :title    => 'bar'
+                   :class    => "foo",
+                   :title    => 'bar'
       end
 
       it "handles selector with no tag name and multiple attributes" do
         expect_one :xpath, ".//*[@class='foo' and @title='bar']"
 
         locate_one :class => "foo",
-                     :title => "bar"
+                   :title => "bar"
       end
     end
 
@@ -107,14 +107,28 @@ describe Watir::ElementLocator do
       it "uses normalize-space() for :text" do
         expect_one :xpath, ".//div[normalize-space()='foo']"
         locate_one :tag_name => "div",
-                     :text     => "foo"
+                   :text     => "foo"
       end
 
       it "translates :caption to :text" do
         expect_one :xpath, ".//div[normalize-space()='foo']"
 
         locate_one :tag_name => "div",
-                     :caption => "foo"
+                   :caption => "foo"
+      end
+
+      it "translates :class_name to :class" do
+        expect_one :xpath, ".//div[@class='foo']"
+
+        locate_one :tag_name => "div",
+                   :class_name => "foo"
+      end
+
+      it "handles data-* attributes" do
+        expect_one :xpath, ".//div[@data-name='foo']"
+
+        locate_one :tag_name => "div",
+                   :data_name => "foo"
       end
 
       it "normalizes space for the :href attribute" do
@@ -144,7 +158,7 @@ describe Watir::ElementLocator do
         expect_one :xpath, ".//option[@label='foo']"
 
         locate_one :tag_name => "option",
-                     :label    => "foo"
+                   :label    => "foo"
       end
 
       it "translates ruby attribute names to content attribute names" do
