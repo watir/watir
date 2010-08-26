@@ -50,6 +50,8 @@ module Watir
       end
     end
 
+    private
+
     def find_first_by_one
       how, what = @selector.to_a.first
       check_type how, what

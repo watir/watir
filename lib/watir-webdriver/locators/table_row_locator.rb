@@ -5,6 +5,8 @@ module Watir
       find_all_by_multiple
     end
 
+    private
+
     def build_xpath(selectors)
       return if selectors.values.any? { |e| e.kind_of? Regexp }
 

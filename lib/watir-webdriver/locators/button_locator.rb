@@ -7,6 +7,8 @@ module Watir
       find_all_by_multiple
     end
 
+    private
+
     def wd_find_first_by(how, what)
       if how == :tag_name
         how  = :xpath
