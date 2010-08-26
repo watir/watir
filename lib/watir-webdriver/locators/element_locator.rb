@@ -99,7 +99,7 @@ module Watir
       selector = normalized_selector
 
       if selector.has_key? :index
-        raise Error, "can't locate all elements by :index"
+        raise ArgumentError, "can't locate all elements by :index"
       end
 
       xpath = selector[:xpath] || build_xpath(selector)
