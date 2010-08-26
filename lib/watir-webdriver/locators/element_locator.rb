@@ -114,7 +114,7 @@ module Watir
       if what.kind_of? String
         @wd.find_element(how, what)
       else
-        all_elements.find { |e| fetch_value(how, e) =~ what }
+        all_elements.find { |element| fetch_value(element, how) =~ what }
       end
     end
 
@@ -122,7 +122,7 @@ module Watir
       if what.kind_of? String
         @wd.find_elements(how, what)
       else
-        all_elements.select { |e| fetch_value(how, e) =~ what }
+        all_elements.select { |element| fetch_value(element, how) =~ what }
       end
     end
 
@@ -163,22 +163,22 @@ module Watir
       label.attribute(:for) if label
     end
 
-    def fetch_value(how, element)
+    def fetch_value(element, how)
       case how
       when :text
         element.text
       when :tag_name
         element.tag_name
+      when :href
+        element.attribute(:href).strip
       else
         element.attribute(how)
       end
     end
 
     def matches_selector?(element, selector)
-      # p :start => selector
       selector.all? do |how, what|
-        # p :comparing => [how, what], :to => fetch_value(how, element)
-        what === fetch_value(how, element)
+        what === fetch_value(element, how)
       end
     end
 
