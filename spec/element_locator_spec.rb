@@ -1,79 +1,15 @@
 require File.expand_path("spec_helper", File.dirname(__FILE__))
 
 describe Watir::ElementLocator do
-
-  before { @driver = mock(Selenium::WebDriver::Driver) }
-
-  #
-  # helpers
-  #
-
-  def locator(selector, attrs = Watir::HTMLElement.attributes)
-    Watir::ElementLocator.new(@driver, selector, attrs)
-  end
-
-  def expect_one(*args)
-    @driver.should_receive(:find_element).with(*args)
-  end
-
-  def expect_all(*args)
-    @driver.should_receive(:find_elements).with(*args)
-  end
-
-  def locate_one(*args)
-    locator(*args).locate
-  end
-
-  def locate_all(*args)
-    locator(*args).locate_all
-  end
-
-  def element(opts = {})
-    attrs = opts.delete(:attributes)
-    el = mock(Watir::Element, opts)
-
-    attrs.each do |key, value|
-      el.stub!(:attribute).with(key).and_return(value)
-    end if attrs
-
-    el
-  end
+  include LocatorSpecHelper
 
   describe "finds a single element" do
     describe "by delegating to webdriver" do
-      it "delegates to webdriver's :class locator" do
-        expect_one :class, "bar"
-        locate_one :class => "bar"
-      end
-
-      it "delegates to webdriver's :class_name locator" do
-        expect_one :class_name, "bar"
-        locate_one :class_name => "bar"
-      end
-
-      it "delegates to webdriver's :css locator" do
-        expect_one :css, ".foo"
-        locate_one :css => ".foo"
-      end
-
-      it "delegates to webdriver's :id locator" do
-        expect_one(:id, "foo").and_return(element)
-        locate_one :id => "foo"
-      end
-
-      it "delegates to webdriver's :name locator" do
-        expect_one :name, "foo"
-        locate_one :name => "foo"
-      end
-
-      it "delegates to webdriver's :tag_name locator" do
-        expect_one :tag_name, "div"
-        locate_one :tag_name => "div"
-      end
-
-      it "delegates to webdriver's :xpath locator" do
-        expect_one :xpath, "//foo"
-        locate_one :xpath => "//foo"
+      WEBDRIVER_SELECTORS.each do |loc|
+        it "delegates to webdriver's #{loc} locator" do
+          expect_one(loc, "bar").and_return(element(:tag_name => "div"))
+          locate_one loc => "bar"
+        end
       end
     end
 
@@ -277,32 +213,47 @@ describe Watir::ElementLocator do
       locate_one(selector, Watir::Input.attributes).should be_nil
     end
 
-    #
-    # errors
-    #
+    describe "errors" do
+      it "raises a TypeError if :index is not a Fixnum" do
+        lambda {
+          locate_one(:tag_name => "div", :index => "bar")
+        }.should raise_error(TypeError, %[expected Fixnum, got "bar":String])
+      end
 
-    it "raises a TypeError if :index is not a Fixnum" do
-      lambda {
-        locate_one(:tag_name => "div", :index => "bar")
-      }.should raise_error(TypeError, %[expected Fixnum, got "bar":String])
-    end
+      it "raises a TypeError if selector value is not a String or Regexp" do
+        lambda {
+          locate_one(:tag_name => 123)
+        }.should raise_error(TypeError, %[expected one of [String, Regexp], got 123:Fixnum])
+      end
 
-    it "raises a TypeError if selector value is not a String or Regexp" do
-      lambda {
-        locate_one(:tag_name => 123)
-      }.should raise_error(TypeError, %[expected one of [String, Regexp], got 123:Fixnum])
-    end
+      it "raises a MissingWayOfFindingObjectException if the attribute is not valid" do
+        bad_selector = {:tag_name => "input", :href => "foo"}
+        valid_attributes = Watir::Input.attributes
 
-    it "raises a MissingWayOfFindingObjectException if the attribute is not valid" do
-      bad_selector = {:tag_name => "input", :href => "foo"}
-      valid_attributes = Watir::Input.attributes
-
-      lambda {
-        locate_one(bad_selector, valid_attributes)
-      }.should raise_error(MissingWayOfFindingObjectException, "invalid attribute: :href")
+        lambda {
+          locate_one(bad_selector, valid_attributes)
+        }.should raise_error(MissingWayOfFindingObjectException, "invalid attribute: :href")
+      end
     end
   end
 
   describe "finds several elements" do
+    describe "by delegating to webdriver" do
+      WEBDRIVER_SELECTORS.each do |loc|
+        it "delegates to webdriver's #{loc} locator" do
+          expect_all(loc, "bar").and_return([element(:tag_name => "div")])
+          locate_all(loc => "bar")
+        end
+      end
+    end
+
+
+    describe "errors" do
+      it "raises an error if :index is given" do
+        lambda {
+          locate_all(:tag_name => "div", :index => 1)
+        }.should raise_error(ArgumentError, "can't locate all elements by :index")
+      end
+    end
   end
 end
