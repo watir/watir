@@ -172,7 +172,7 @@ module Watir
       when :tag_name
         element.tag_name
       when :href
-        element.attribute(:href).strip
+        (href = element.attribute(:href)) && href.strip
       else
         element.attribute(how)
       end
