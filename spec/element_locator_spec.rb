@@ -247,13 +247,63 @@ describe Watir::ElementLocator do
       end
     end
 
+    describe "with selectors not supported by webdriver" do
+      it "handles selector with tag name and a single attribute" do
+        expect_all :xpath, ".//div[@class='foo']"
+
+        locate_all :tag_name => "div",
+                   :class    => "foo"
+      end
+
+      it "handles selector with tag name and multiple attributes" do
+        expect_all :xpath, ".//div[@class='foo' and @title='bar']"
+
+        locate_all :tag_name => "div",
+                   :class    => "foo",
+                   :title    => 'bar'
+      end
+    end
+
+    describe "with regexp selectors" do
+      it "handles selector with tag name and a single regexp attribute" do
+        elements = [
+          element(:tag_name => "div", :attributes => { :class => "foo" }),
+          element(:tag_name => "div", :attributes => { :class => "foob"}),
+          element(:tag_name => "div", :attributes => { :class => "doob"}),
+          element(:tag_name => "div", :attributes => { :class => "noob"})
+        ]
+
+        expect_all(:xpath, ".//div").and_return(elements)
+        locate_all(:tag_name => "div", :class => /oob/).should == elements.last(3)
+      end
+
+      it "handles mix of string and regexp attributes" do
+        elements = [
+          element(:tag_name => "div", :attributes => { :class => "foo", :title => "bar" }),
+          element(:tag_name => "div", :attributes => { :class => "foo", :title => "baz" }),
+          element(:tag_name => "div", :attributes => { :class => "foo", :title => "bazt"})
+        ]
+
+        expect_all(:xpath, ".//div[@class='foo']").and_return(elements)
+
+        selector = {
+          :tag_name => "div",
+          :class    => "foo",
+          :title    => /baz/
+        }
+
+        locate_all(selector).should == elements.last(2)
+      end
+
+    end
 
     describe "errors" do
-      it "raises an error if :index is given" do
+      it "raises ArgumentError if :index is given" do
         lambda {
           locate_all(:tag_name => "div", :index => 1)
         }.should raise_error(ArgumentError, "can't locate all elements by :index")
       end
     end
   end
+
 end
