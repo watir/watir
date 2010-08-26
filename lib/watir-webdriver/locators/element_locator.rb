@@ -203,7 +203,7 @@ module Watir
         [:text, what]
       when :class_name
         [:class, what]
-      when :tag_name, :text, :xpath, :index, :class, /^data_.+$/
+      when :tag_name, :text, :xpath, :index, :class
         # include class since the valid attribute is 'class_name'
         [how, what]
       else
@@ -225,7 +225,7 @@ module Watir
     end
 
     def assert_valid_as_attribute(attribute)
-      unless valid_attribute? attribute
+      unless valid_attribute? attribute or attribute.to_s =~ /^data_.+$/
         raise MissingWayOfFindingObjectException, "invalid attribute: #{attribute.inspect}"
       end
     end

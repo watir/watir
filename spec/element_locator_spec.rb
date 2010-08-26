@@ -13,9 +13,6 @@ describe Watir::ElementLocator do
       end
     end
 
-    #
-    # selectors not supported by webdriver
-    #
     describe "with selectors not supported by webdriver" do
       it "handles selector with tag name and a single attribute" do
         expect_one :xpath, ".//div[@class='foo']"
@@ -30,7 +27,7 @@ describe Watir::ElementLocator do
       end
 
       it "handles selector with tag name and multiple attributes" do
-        expect_one :xpath, ".//div[@class='foo' and @title='bar']"
+        expect_one :xpath, %r".//div\[(@class='foo' and @title='bar'|@title='bar' and @class='foo')\]"
 
         locate_one :tag_name => "div",
                    :class    => "foo",
@@ -38,7 +35,7 @@ describe Watir::ElementLocator do
       end
 
       it "handles selector with no tag name and multiple attributes" do
-        expect_one :xpath, ".//*[@class='foo' and @title='bar']"
+        expect_one :xpath, %r".//\*\[(@class='foo' and @title='bar'|@title='bar' and @class='foo')\]"
 
         locate_one :class => "foo",
                    :title => "bar"
@@ -57,20 +54,20 @@ describe Watir::ElementLocator do
         expect_one :xpath, ".//div[normalize-space()='foo']"
 
         locate_one :tag_name => "div",
-                   :caption => "foo"
+                   :caption  => "foo"
       end
 
       it "translates :class_name to :class" do
         expect_one :xpath, ".//div[@class='foo']"
 
-        locate_one :tag_name => "div",
+        locate_one :tag_name   => "div",
                    :class_name => "foo"
       end
 
       it "handles data-* attributes" do
         expect_one :xpath, ".//div[@data-name='foo']"
 
-        locate_one :tag_name => "div",
+        locate_one :tag_name  => "div",
                    :data_name => "foo"
       end
 
@@ -170,8 +167,8 @@ describe Watir::ElementLocator do
         ]
         div_elements = [element(:tag_name => "div")]
 
-        expect_all(:tag_name, "label").and_return(label_elements)
-        expect_all(:xpath, ".//div[@id='baz']").and_return(div_elements)
+        expect_all(:tag_name, "label").ordered.and_return(label_elements)
+        expect_all(:xpath, ".//div[@id='baz']").ordered.and_return(div_elements)
 
         locate_one(:tag_name => "div", :label => /oob/).should == div_elements.first
       end
@@ -294,7 +291,6 @@ describe Watir::ElementLocator do
 
         locate_all(selector).should == elements.last(2)
       end
-
     end
 
     describe "errors" do

@@ -1,6 +1,4 @@
 module LocatorSpecHelper
-  WEBDRIVER_SELECTORS = [:class, :class_name, :css, :id, :name, :tag_name, :xpath]
-
   def driver
     @driver ||= mock(Selenium::WebDriver::Driver)
   end

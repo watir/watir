@@ -11,6 +11,7 @@ require 'spec/autorun'
 include Watir
 include Watir::Exception
 
+WEBDRIVER_SELECTORS = [:class, :class_name, :css, :id, :name, :tag_name, :xpath]
 
 if defined?(WatirSpec)
   browser = (ENV['WATIR_WEBDRIVER_BROWSER'] || :firefox).to_sym
@@ -25,3 +26,4 @@ if defined?(WatirSpec)
     }
   end
 end
+
