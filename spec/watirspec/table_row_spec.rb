@@ -36,9 +36,11 @@ describe "TableRow" do
   end
 
   describe "#click" do
-    it "fires the rows's onclick event" do
-      browser.row(:id, 'inner_first').click
-      messages.should include('tr')
+    bug "http://github.com/jarib/watir-webdriver/issues/issue/32", [:webdriver, :ie] do
+      it "fires the rows's onclick event" do
+        browser.row(:id, 'inner_first').click
+        messages.should include('tr')
+      end
     end
   end
 
@@ -87,7 +89,7 @@ describe "TableRow" do
   bug "http://github.com/jarib/watir-webdriver/issues/#issue/2", :webdriver do
     describe "#each" do
       it "iterates correctly through the cells of the row" do
-        browser.table(:id, 'outer')[1].each_with_index do |cell,idx|
+        browser.table(:id, 'outer')[1].each_with_index do |cell, idx|
           cell.id.should == "t1_r2_c#{idx + 1}"
         end
       end

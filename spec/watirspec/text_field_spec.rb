@@ -25,7 +25,7 @@ describe "TextField" do
       browser.text_field(:xpath, "//input[@id='new_user_email']").should exist
       browser.text_field(:label, "First name").should exist
       browser.text_field(:label, /(Last|First) name/).should exist
-     end
+    end
 
     it "returns the first text field if given no args" do
       browser.text_field.should exist
@@ -184,16 +184,20 @@ describe "TextField" do
 
   # Manipulation methods
   describe "#append" do
-    it "appends the text to the text field" do
-      browser.text_field(:name, "new_user_occupation").append(" Append This")
-      browser.text_field(:name, "new_user_occupation").value.should == "Developer Append This"
+    bug "http://code.google.com/p/selenium/issues/detail?id=698", [:webdriver, :ie] do
+      it "appends the text to the text field" do
+        browser.text_field(:name, "new_user_occupation").append(" Append This")
+        browser.text_field(:name, "new_user_occupation").value.should == "Developer Append This"
+      end
     end
 
-    it "appends multi-byte characters" do
-      browser.text_field(:name, "new_user_occupation").append(" ĳĳ")
-      browser.text_field(:name, "new_user_occupation").value.should == "Developer ĳĳ"
+    bug "http://code.google.com/p/selenium/issues/detail?id=698", [:webdriver, :ie] do
+      it "appends multi-byte characters" do
+        browser.text_field(:name, "new_user_occupation").append(" ĳĳ")
+        browser.text_field(:name, "new_user_occupation").value.should == "Developer ĳĳ"
+      end
     end
-
+    
     it "raises ObjectReadOnlyException if the object is read only" do
       lambda { browser.text_field(:id, "new_user_code").append("Append This") }.should raise_error(ObjectReadOnlyException)
     end
@@ -258,13 +262,13 @@ describe "TextField" do
     end
 
     it "sets the value of a password field" do
-      browser.text_field(:name , 'new_user_password').set('secret')
-      browser.text_field(:name , 'new_user_password').value.should == 'secret'
+      browser.text_field(:name, 'new_user_password').set('secret')
+      browser.text_field(:name, 'new_user_password').value.should == 'secret'
     end
 
     it "sets the value when accessed through the enclosing Form" do
-      browser.form(:id, 'new_user').text_field(:name , 'new_user_password').set('secret')
-      browser.form(:id, 'new_user').text_field(:name , 'new_user_password').value.should == 'secret'
+      browser.form(:id, 'new_user').text_field(:name, 'new_user_password').set('secret')
+      browser.form(:id, 'new_user').text_field(:name, 'new_user_password').value.should == 'secret'
     end
 
     it "is able to set multi-byte characters" do

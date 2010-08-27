@@ -209,16 +209,19 @@ describe "Radio" do
       end
     end
 
-    it "fires the onchange event" do
-      browser.radio(:value, 'certainly').set
-      messages.should == ["changed: new_user_newsletter"]
+    # http://webbugtrack.blogspot.com/2007/11/bug-193-onchange-does-not-fire-properly.html
+    not_compliant_on [:webdriver, :ie] do
+      it "fires the onchange event" do
+        browser.radio(:value, 'certainly').set
+        messages.should == ["changed: new_user_newsletter"]
 
-      browser.radio(:value, 'certainly').set
-      messages.should == ["changed: new_user_newsletter"] # no event fired here - didn't change
+        browser.radio(:value, 'certainly').set
+        messages.should == ["changed: new_user_newsletter"] # no event fired here - didn't change
 
-      browser.radio(:value, 'yes').set
-      browser.radio(:value, 'certainly').set
-      messages.should == ["changed: new_user_newsletter", "clicked: new_user_newsletter_yes", "changed: new_user_newsletter"]
+        browser.radio(:value, 'yes').set
+        browser.radio(:value, 'certainly').set
+        messages.should == ["changed: new_user_newsletter", "clicked: new_user_newsletter_yes", "changed: new_user_newsletter"]
+      end
     end
 
     it "raises UnknownObjectException if the radio button doesn't exist" do

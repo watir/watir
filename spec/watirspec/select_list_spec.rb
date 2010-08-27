@@ -141,7 +141,7 @@ describe "SelectList" do
       browser.select_list(:index, 0).should_not be_disabled
     end
 
-    it "shoulds raise UnknownObjectException when the select list does not exist" do
+    it "should raise UnknownObjectException when the select list does not exist" do
       lambda { browser.select_list(:index, 1337).disabled? }.should raise_error(UnknownObjectException)
     end
   end
@@ -156,7 +156,7 @@ describe "SelectList" do
   end
 
   describe "#options" do
-    it "shoulds raise UnknownObjectException if the select list doesn't exist" do
+    it "should raise UnknownObjectException if the select list doesn't exist" do
       lambda { browser.select_list(:name, 'no_such_name').options }.should raise_error(UnknownObjectException)
     end
 
@@ -166,7 +166,7 @@ describe "SelectList" do
 
     not_compliant_on :webdriver do
       it "returns all the options as an Array" do
-        browser.select_list(:name, "new_user_country").options.should == ["Denmark" ,"Norway" , "Sweden" , "United Kingdom", "USA", "Germany"]
+        browser.select_list(:name, "new_user_country").options.should == ["Denmark", "Norway", "Sweden", "United Kingdom", "USA", "Germany"]
       end
     end
 
@@ -174,13 +174,13 @@ describe "SelectList" do
       it "returns all the options as a collection of Options" do
         options = browser.select_list(:name, "new_user_country").options
         options.should be_kind_of(OptionCollection)
-        options.map { |opt| opt.text }.should == ["Denmark" ,"Norway" , "Sweden" , "United Kingdom", "USA", "Germany"]
+        options.map { |opt| opt.text }.should == ["Denmark", "Norway", "Sweden", "United Kingdom", "USA", "Germany"]
       end
     end
   end
 
   describe "#selected_options" do
-    it "shoulds raise UnknownObjectException if the select list doesn't exist" do
+    it "should raise UnknownObjectException if the select list doesn't exist" do
       lambda { browser.select_list(:name, 'no_such_name').selected_options }.should raise_error(UnknownObjectException)
     end
 
@@ -197,7 +197,7 @@ describe "SelectList" do
     end
 
     it "does not clear selections when not possible" do
-      lambda { browser.select_list(:name , "new_user_country").clear }.should raise_error
+      lambda { browser.select_list(:name, "new_user_country").clear }.should raise_error
       browser.select_list(:name, "new_user_country").selected_options.should == ["Norway"]
     end
 
@@ -284,18 +284,22 @@ describe "SelectList" do
       browser.select_list(:name, "new_user_languages").select(/ish/).should == "Danish"
     end
 
-    it "fires onchange event when selecting an item" do
-      browser.select_list(:id, "new_user_languages").select("Danish")
-      messages.should == ['changed language']
+    bug "http://code.google.com/p/selenium/issues/detail?id=695", [:webdriver, :ie] do
+      it "fires onchange event when selecting an item" do
+        browser.select_list(:id, "new_user_languages").select("Danish")
+        messages.should == ['changed language']
+      end
     end
 
-    it "doesn't fire onchange event when selecting an already selected item" do
-      browser.select_list(:id, "new_user_languages").clear # removes the two pre-selected options
-      browser.select_list(:id, "new_user_languages").select("English")
-      messages.size.should == 3
+    bug "http://code.google.com/p/selenium/issues/detail?id=695", [:webdriver, :ie] do
+      it "doesn't fire onchange event when selecting an already selected item" do
+        browser.select_list(:id, "new_user_languages").clear # removes the two pre-selected options
+        browser.select_list(:id, "new_user_languages").select("English")
+        messages.size.should == 3
 
-      browser.select_list(:id, "new_user_languages").select("English")
-      messages.size.should == 3
+        browser.select_list(:id, "new_user_languages").select("English")
+        messages.size.should == 3
+      end
     end
 
     it "raises NoValueFoundException if the option doesn't exist" do
@@ -306,7 +310,7 @@ describe "SelectList" do
     it "raises a TypeError if argument is not a String, Regexp or Numeric" do
       lambda { browser.select_list(:id, "new_user_languages").select([]) }.should raise_error(TypeError)
     end
-   end
+  end
 
   # deprecate?
   describe "#select_value" do
