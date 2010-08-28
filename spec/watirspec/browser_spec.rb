@@ -81,7 +81,7 @@ describe "Browser" do
     end
   end
 
-  not_compliant_on [:webdriver, :ie] do # hang?
+  bug "http://github.com/jarib/watirspec/issues/issue/8" [:webdriver, :ie], [:webdriver, :chrome] do
     describe ".start" do
       it "goes to the given URL and return an instance of itself" do
         browser = WatirSpec.implementation.browser_class.start("#{WatirSpec.files}/non_control_elements.html")
