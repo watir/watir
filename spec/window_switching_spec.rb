@@ -12,7 +12,7 @@ describe Watir::Browser do
     it "returns an array of window handles" do
       wins = browser.windows
       wins.should_not be_empty
-      wins.each { |win| win.should be_kind_of(Watir::WindowHandle) }
+      wins.each { |win| win.should be_kind_of(Watir::Window) }
     end
   end
 
@@ -22,13 +22,13 @@ describe Watir::Browser do
 
     it "finds window by :url" do
       w = browser.window(:url => /closeable\.html/)
-      w.should be_kind_of(Watir::WindowHandle)
+      w.should be_kind_of(Watir::Window)
       w.close
     end
 
     it "finds window by :title" do
       w = browser.window(:title => "closeable window")
-      w.should be_kind_of(Watir::WindowHandle)
+      w.should be_kind_of(Watir::Window)
       w.close
     end
 
@@ -45,7 +45,7 @@ describe Watir::Browser do
   end
 end
 
-describe "Watir::WindowHandle" do
+describe Watir::Window do
   before do
     url = "file://" + File.expand_path("html/window_switching.html", File.dirname(__FILE__))
     browser.goto url

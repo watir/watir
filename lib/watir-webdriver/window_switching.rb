@@ -3,7 +3,7 @@ module Watir
 
     def windows
       @driver.window_handles.map do |id|
-        WindowHandle.new(@driver, id)
+        Window.new(@driver, id)
       end
     end
 
@@ -26,7 +26,7 @@ module Watir
     end
   end # WindowSwitching
 
-  class WindowHandle
+  class Window
     def initialize(driver, id)
       @driver, @id = driver, id
     end
@@ -62,5 +62,5 @@ module Watir
       @driver.switch_to.window(@id, &blk)
       self
     end
-  end # WindowHandle
+  end # Window
 end # Watir
