@@ -7,6 +7,7 @@ module Watir
 
   class Browser
     include Container
+    include WindowSwitching
 
     attr_reader :driver
     alias_method :wd, :driver # ensures duck typing with Watir::Element
@@ -94,6 +95,7 @@ module Watir
     end
 
     def html
+      # use body.html instead?
       @driver.page_source
     end
 
