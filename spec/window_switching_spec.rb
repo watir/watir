@@ -90,7 +90,7 @@ describe "Watir::WindowHandle" do
 
   describe "#url" do
     it "returns the url of the window" do
-      browser.windows.first.url.should =~ /window_switching\.html$/
+      browser.windows.first.url.should =~ /window_switching\.html/
       browser.windows.last.url.should =~ /closeable\.html$/
     end
 
