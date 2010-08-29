@@ -6,6 +6,12 @@ describe Watir::Browser do
   before do
     url = "file://" + File.expand_path("html/window_switching.html", File.dirname(__FILE__))
     browser.goto url
+    browser.a(:id => "open").click
+  end
+
+  after do
+    win = browser.window(:title => "closeable window")
+    win && win.close
   end
 
   describe "#windows" do
@@ -14,22 +20,21 @@ describe Watir::Browser do
       wins.should_not be_empty
       wins.each { |win| win.should be_kind_of(Watir::Window) }
     end
+
+    it "only returns windows matching the given selector" do
+      browser.windows(:title => "closeable window").size.should == 1
+    end
   end
 
   describe "#window" do
-
-    before { browser.a(:id => "open").click }
-
     it "finds window by :url" do
       w = browser.window(:url => /closeable\.html/)
       w.should be_kind_of(Watir::Window)
-      w.close
     end
 
     it "finds window by :title" do
       w = browser.window(:title => "closeable window")
       w.should be_kind_of(Watir::Window)
-      w.close
     end
 
     it "it executes the given block in the window" do
@@ -58,11 +63,13 @@ describe Watir::Window do
 
   describe "#close" do
     it "closes the window" do
+      pending
     end
   end
 
   describe "#use" do
     it "switches to the window" do
+      pending
     end
   end
 

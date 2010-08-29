@@ -1,28 +1,40 @@
 module Watir
   module WindowSwitching
 
-    def windows
-      @driver.window_handles.map do |id|
+    def windows(*args)
+      wins = @driver.window_handles.map do |id|
         Window.new(@driver, id)
+      end
+
+      if args.empty?
+        wins
+      else
+        filter_windows(args, wins, :select)
       end
     end
 
     def window(*args, &blk)
-      sel = extract_selector(args)
-
-      unless sel.keys.all? { |k| [:title, :url].include? k }
-        raise ArgumentError, "invalid window selector: #{sel}"
-      end
-
-      win = windows.find do |win|
-        sel.all? { |key, value| value === win.send(key) }
-      end
+      win = filter_windows(args, windows, :find)
 
       if win && block_given?
         win.use(&blk)
       end
 
       win
+    end
+
+    private
+
+    def filter_windows(args, wins, method)
+      sel = extract_selector(args)
+
+      unless sel.keys.all? { |k| [:title, :url].include? k }
+        raise ArgumentError, "invalid window selector: #{sel}"
+      end
+
+      wins.send(method) do |win|
+        sel.all? { |key, value| value === win.send(key) }
+      end
     end
   end # WindowSwitching
 
