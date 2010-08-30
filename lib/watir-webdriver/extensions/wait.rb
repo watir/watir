@@ -56,9 +56,10 @@ module Watir
       end
 
       Watir::Wait.until(@timeout) { @element.present? }
+      
       @element.send(m, *args, &block)
     end
-  end
+  end # WhenPresentDecorator
 
   class Element
 
@@ -87,7 +88,7 @@ module Watir
         Watir::Wait.until(timeout) { self.present? }
         yield self
       else
-        return WhenPresentDecorator.new(self, timeout)
+        WhenPresentDecorator.new(self, timeout)
       end
     end
 
@@ -98,7 +99,7 @@ module Watir
     def wait_while_present(timeout = 30)
       Watir::Wait.while(timeout) { self.present? }
     end
-  end
+  end # Element
 
 
 end # Watir
