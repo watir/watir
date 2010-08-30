@@ -85,25 +85,31 @@ describe Watir::Window do
 
   describe "#title" do
     it "returns the title of the window" do
-      browser.windows.map { |e| e.title }.should == ["window switching", "closeable window"]
+      titles = browser.windows.map { |e| e.title }
+      titles.size.should == 2
+      
+      ["window switching", "closeable window"].each do |title|
+        titles.should include(title)
+      end
     end
 
     it "does not change the current window" do
       browser.title.should == "window switching"
-      browser.windows.last.title.should == "closeable window"
+      browser.windows.find { |w| w.title ==  "closeable window" }.should_not be_nil
       browser.title.should == "window switching"
     end
   end
 
   describe "#url" do
     it "returns the url of the window" do
-      browser.windows.first.url.should =~ /window_switching\.html/
-      browser.windows.last.url.should =~ /closeable\.html$/
+      browser.windows.size.should == 2
+      browser.windows.select { |w| w.url =~ /window_switching\.html/ }.size.should == 1
+      browser.windows.select { |w| w.url =~ /closeable\.html$/ }.size.should == 1
     end
 
     it "does not change the current window" do
       browser.url.should =~ /window_switching\.html/
-      browser.windows.last.url.should =~ /closeable\.html/
+      browser.windows.find { |w| w.url =~ /closeable\.html/ }.should_not be_nil
       browser.url.should =~ /window_switching/
     end
   end
