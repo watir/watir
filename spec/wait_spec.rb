@@ -82,6 +82,11 @@ describe Watir::Element do
       browser.a(:id, 'hide_foo').click
       browser.div(:id, 'foo').wait_while_present(1)
     end
+
+    it "invokes subsequent methods after waiting until the element's removal" do
+      browser.a(:id, 'remove_foo').click
+      browser.div(:id, 'foo').wait_while_present(1)
+    end
     
     it "times out" do 
       lambda do

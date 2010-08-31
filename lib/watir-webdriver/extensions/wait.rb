@@ -97,7 +97,10 @@ module Watir
     end
 
     def wait_while_present(timeout = 30)
-      Watir::Wait.while(timeout) { self.present? }
+      begin
+        Watir::Wait.while(timeout) { self.present? }
+      rescue Selenium::WebDriver::Error::ObsoleteElementError
+      end
     end
   end # Element
 
