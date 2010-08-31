@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jari Bakken"]
-  s.date = %q{2010-08-20}
+  s.date = %q{2010-08-31}
   s.description = %q{WebDriver-backed Watir}
   s.email = %q{jari.bakken@gmail.com}
   s.extra_rdoc_files = [
@@ -20,6 +20,8 @@ Gem::Specification.new do |s|
     ".document",
      ".gitignore",
      ".gitmodules",
+     "Gemfile",
+     "Gemfile.lock",
      "LICENSE",
      "README.rdoc",
      "Rakefile",
@@ -28,13 +30,12 @@ Gem::Specification.new do |s|
      "lib/watir-webdriver/attribute_helper.rb",
      "lib/watir-webdriver/browser.rb",
      "lib/watir-webdriver/browserbot.js",
-     "lib/watir-webdriver/collections/element_collection.rb",
-     "lib/watir-webdriver/collections/table_row_collection.rb",
      "lib/watir-webdriver/container.rb",
      "lib/watir-webdriver/core_ext/string.rb",
-     "lib/watir-webdriver/element.rb",
+     "lib/watir-webdriver/element_collection.rb",
      "lib/watir-webdriver/elements/button.rb",
      "lib/watir-webdriver/elements/checkbox.rb",
+     "lib/watir-webdriver/elements/element.rb",
      "lib/watir-webdriver/elements/file_field.rb",
      "lib/watir-webdriver/elements/font.rb",
      "lib/watir-webdriver/elements/form.rb",
@@ -52,6 +53,7 @@ Gem::Specification.new do |s|
      "lib/watir-webdriver/elements/text_field.rb",
      "lib/watir-webdriver/exception.rb",
      "lib/watir-webdriver/extensions/nokogiri.rb",
+     "lib/watir-webdriver/extensions/wait.rb",
      "lib/watir-webdriver/html.rb",
      "lib/watir-webdriver/html/generator.rb",
      "lib/watir-webdriver/html/idl_sorter.rb",
@@ -62,12 +64,22 @@ Gem::Specification.new do |s|
      "lib/watir-webdriver/locators/element_locator.rb",
      "lib/watir-webdriver/locators/table_row_locator.rb",
      "lib/watir-webdriver/locators/text_field_locator.rb",
+     "lib/watir-webdriver/window_switching.rb",
      "lib/watir-webdriver/xpath_support.rb",
      "lib/yard/handlers/watir.rb",
+     "spec/browser_spec.rb",
+     "spec/container_spec.rb",
+     "spec/element_locator_spec.rb",
      "spec/element_spec.rb",
+     "spec/html/closeable.html",
+     "spec/html/data_attributes.html",
      "spec/html/keylogger.html",
+     "spec/html/window_switching.html",
      "spec/input_spec.rb",
+     "spec/locator_spec_helper.rb",
      "spec/spec_helper.rb",
+     "spec/wait_spec.rb",
+     "spec/window_switching_spec.rb",
      "support/html5.html",
      "watir-webdriver.gemspec"
   ]
@@ -77,9 +89,14 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{Watir on WebDriver}
   s.test_files = [
-    "spec/element_spec.rb",
+    "spec/browser_spec.rb",
+     "spec/container_spec.rb",
+     "spec/element_locator_spec.rb",
+     "spec/element_spec.rb",
      "spec/input_spec.rb",
+     "spec/locator_spec_helper.rb",
      "spec/spec_helper.rb",
+     "spec/wait_spec.rb",
      "spec/watirspec/area_spec.rb",
      "spec/watirspec/areas_spec.rb",
      "spec/watirspec/browser_spec.rb",
@@ -162,7 +179,8 @@ Gem::Specification.new do |s|
      "spec/watirspec/text_field_spec.rb",
      "spec/watirspec/text_fields_spec.rb",
      "spec/watirspec/ul_spec.rb",
-     "spec/watirspec/uls_spec.rb"
+     "spec/watirspec/uls_spec.rb",
+     "spec/window_switching_spec.rb"
   ]
 
   if s.respond_to? :specification_version then
@@ -170,27 +188,30 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<selenium-webdriver>, [">= 0.0.26"])
+      s.add_runtime_dependency(%q<selenium-webdriver>, [">= 0.0.28"])
       s.add_development_dependency(%q<rspec>, [">= 0"])
+      s.add_development_dependency(%q<yard>, ["~> 0.6"])
       s.add_development_dependency(%q<webidl>, [">= 0.0.4"])
-      s.add_development_dependency(%q<sinatra>, [">= 1.0"])
+      s.add_development_dependency(%q<sinatra>, ["~> 1.0"])
       s.add_development_dependency(%q<nokogiri>, [">= 0"])
-      s.add_development_dependency(%q<activesupport>, [">= 2.3.5"])
+      s.add_development_dependency(%q<activesupport>, ["~> 2.3.5"])
     else
-      s.add_dependency(%q<selenium-webdriver>, [">= 0.0.26"])
+      s.add_dependency(%q<selenium-webdriver>, [">= 0.0.28"])
       s.add_dependency(%q<rspec>, [">= 0"])
+      s.add_dependency(%q<yard>, ["~> 0.6"])
       s.add_dependency(%q<webidl>, [">= 0.0.4"])
-      s.add_dependency(%q<sinatra>, [">= 1.0"])
+      s.add_dependency(%q<sinatra>, ["~> 1.0"])
       s.add_dependency(%q<nokogiri>, [">= 0"])
-      s.add_dependency(%q<activesupport>, [">= 2.3.5"])
+      s.add_dependency(%q<activesupport>, ["~> 2.3.5"])
     end
   else
-    s.add_dependency(%q<selenium-webdriver>, [">= 0.0.26"])
+    s.add_dependency(%q<selenium-webdriver>, [">= 0.0.28"])
     s.add_dependency(%q<rspec>, [">= 0"])
+    s.add_dependency(%q<yard>, ["~> 0.6"])
     s.add_dependency(%q<webidl>, [">= 0.0.4"])
-    s.add_dependency(%q<sinatra>, [">= 1.0"])
+    s.add_dependency(%q<sinatra>, ["~> 1.0"])
     s.add_dependency(%q<nokogiri>, [">= 0"])
-    s.add_dependency(%q<activesupport>, [">= 2.3.5"])
+    s.add_dependency(%q<activesupport>, ["~> 2.3.5"])
   end
 end
 

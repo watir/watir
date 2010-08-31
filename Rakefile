@@ -14,6 +14,7 @@ begin
     gem.add_dependency "selenium-webdriver", '>= 0.0.28'
 
     gem.add_development_dependency "rspec"
+    gem.add_development_dependency "yard", "~> 0.6"
     gem.add_development_dependency "webidl", ">= 0.0.4"
     gem.add_development_dependency "sinatra", "~> 1.0"
     gem.add_development_dependency "nokogiri"
