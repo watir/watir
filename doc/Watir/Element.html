@@ -673,7 +673,10 @@ Returns true if the element exists and is visible on the page.
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>
+Waits until the element is present.
+</p>
+</div></span>
   
 </li>
 
@@ -694,7 +697,10 @@ Returns true if the element exists and is visible on the page.
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>
+Waits while the element is present.
+</p>
+</div></span>
   
 </li>
 
@@ -1413,6 +1419,9 @@ href="http://code.google.com/p/selenium/issues/detail?id=157">code.google.com/p/
     <p>
 Returns true if the element exists and is visible on the page
 </p>
+<p>
+This method is provided by an optional require.
+</p>
 
 
   </div>
@@ -1432,18 +1441,25 @@ Returns true if the element exists and is visible on the page
   
 </ul>
 
+  <h3>See Also:</h3>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="Wait.html" title="Watir::Wait (module)">Watir::Wait</a></span></li>
+    
+  </ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-70
-71
-72</pre>
+80
+81
+82</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/extensions/wait.rb', line 70</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/extensions/wait.rb', line 80</span>
 
 <span class='kw'>def</span> <span class='id present?'>present?</span>
   <span class='id exists?'>exists?</span> <span class='op'>&amp;&amp;</span> <span class='id visible?'>visible?</span>
@@ -1764,18 +1780,64 @@ Returns true if the element exists and is visible on the page
   
 
   
-</p><table class="source_code">
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Waits until the element is present.
+</p>
+<p>
+This method is provided by an optional require.
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <span class='name'>timeout</span>
+      
+      
+        <em class="default">(defaults to: <tt>30</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>
+seconds to wait before timing out
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <h3>See Also:</h3>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="Wait.html" title="Watir::Wait (module)">Watir::Wait</a></span></li>
+    
+      <li><span class='object_link'><a href="#present%3F-instance_method" title="Watir::Element#present? (method)">#present?</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-95
-96
-97</pre>
+118
+119
+120</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/extensions/wait.rb', line 95</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/extensions/wait.rb', line 118</span>
 
 <span class='kw'>def</span> <span class='id wait_until_present'>wait_until_present</span><span class='lparen'>(</span><span class='id timeout'>timeout</span> <span class='op'>=</span> <span class='int'>30</span><span class='rparen'>)</span>
   <span class='const'>Watir</span><span class='op'>::</span><span class='const'>Wait</span><span class='period'>.</span><span class='id until'>until</span><span class='lparen'>(</span><span class='id timeout'>timeout</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='kw'>self</span><span class='period'>.</span><span class='id present?'>present?</span> <span class='rbrace'>}</span>
@@ -1792,20 +1854,66 @@ Returns true if the element exists and is visible on the page
   
 
   
-</p><table class="source_code">
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Waits while the element is present.
+</p>
+<p>
+This method is provided by an optional require.
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <span class='name'>timeout</span>
+      
+      
+        <em class="default">(defaults to: <tt>30</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>
+seconds to wait before timing out
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <h3>See Also:</h3>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="Wait.html" title="Watir::Wait (module)">Watir::Wait</a></span></li>
+    
+      <li><span class='object_link'><a href="#present%3F-instance_method" title="Watir::Element#present? (method)">#present?</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-99
-100
-101
-102
-103</pre>
+133
+134
+135
+136
+137</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/extensions/wait.rb', line 99</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/extensions/wait.rb', line 133</span>
 
 <span class='kw'>def</span> <span class='id wait_while_present'>wait_while_present</span><span class='lparen'>(</span><span class='id timeout'>timeout</span> <span class='op'>=</span> <span class='int'>30</span><span class='rparen'>)</span>
   <span class='const'>Watir</span><span class='op'>::</span><span class='const'>Wait</span><span class='period'>.</span><span class='id while'>while</span><span class='lparen'>(</span><span class='id timeout'>timeout</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='kw'>self</span><span class='period'>.</span><span class='id present?'>present?</span> <span class='rbrace'>}</span>
@@ -1830,37 +1938,65 @@ Returns true if the element exists and is visible on the page
 Waits until the element is present.
 </p>
 <p>
-Optional argument:
+This method is provided by an optional require. Example:
 </p>
 <pre class="code">
-  timeout   -  seconds to wait before timing out (default: 30)
-
-    browser.button(:id, 'foo').when_present.click
-    browser.div(:id, 'bar').when_present { |div| ... }
-    browser.p(:id, 'baz').when_present(60).text</pre>
+  browser.button(:id, 'foo').when_present.click
+  browser.div(:id, 'bar').when_present { |div| ... }
+  browser.p(:id, 'baz').when_present(60).text</pre>
 
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <span class='name'>timeout</span>
+      
+      
+        <em class="default">(defaults to: <tt>30</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>
+seconds to wait before timing out
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <h3>See Also:</h3>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="Wait.html" title="Watir::Wait (module)">Watir::Wait</a></span></li>
+    
+  </ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-86
-87
-88
-89
-90
-91
-92
-93</pre>
+98
+99
+100
+101
+102
+103
+104
+105</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/extensions/wait.rb', line 86</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/extensions/wait.rb', line 98</span>
 
 <span class='kw'>def</span> <span class='id when_present'>when_present</span><span class='lparen'>(</span><span class='id timeout'>timeout</span> <span class='op'>=</span> <span class='int'>30</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id block_given?'>block_given?</span>
@@ -1880,7 +2016,7 @@ Optional argument:
 </div>
     
     <div id="footer">
-  Generated on Tue Aug 31 16:33:40 2010 by 
+  Generated on Tue Aug 31 17:27:31 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.0 (ruby-1.9.2).
 </div>

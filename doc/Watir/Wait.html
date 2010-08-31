@@ -64,7 +64,20 @@
 </dl>
 <div class="clear"></div>
 
-<h2>Defined Under Namespace</h2>
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>
+Module provided by optional require:
+</p>
+<pre class="code">
+  <span class='id require'>require</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>watir-webdriver/extensions/wait</span><span class='tstring_end'>&quot;</span></span></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><h2>Defined Under Namespace</h2>
 <p class="children">
    
     
@@ -179,20 +192,20 @@ Wait until the block evaluates to true or times out.
       <pre class="lines">
 
 
-13
-14
-15
-16
-17
-18
-19
 20
 21
 22
-23</pre>
+23
+24
+25
+26
+27
+28
+29
+30</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/extensions/wait.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/extensions/wait.rb', line 20</span>
 
 <span class='kw'>def</span> <span class='kw'>until</span><span class='lparen'>(</span><span class='id timeout'>timeout</span> <span class='op'>=</span> <span class='int'>30</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id block'>block</span><span class='rparen'>)</span>
   <span class='id end_time'>end_time</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>Time</span><span class='period'>.</span><span class='id now'>now</span> <span class='op'>+</span> <span class='id timeout'>timeout</span>
@@ -247,19 +260,19 @@ Wait while the block evaluates to true or times out.
       <pre class="lines">
 
 
-29
-30
-31
-32
-33
-34
-35
 36
 37
-38</pre>
+38
+39
+40
+41
+42
+43
+44
+45</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/extensions/wait.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/extensions/wait.rb', line 36</span>
 
 <span class='kw'>def</span> <span class='kw'>while</span><span class='lparen'>(</span><span class='id timeout'>timeout</span> <span class='op'>=</span> <span class='int'>30</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id block'>block</span><span class='rparen'>)</span>
   <span class='id end_time'>end_time</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>Time</span><span class='period'>.</span><span class='id now'>now</span> <span class='op'>+</span> <span class='id timeout'>timeout</span>
@@ -281,7 +294,7 @@ Wait while the block evaluates to true or times out.
 </div>
     
     <div id="footer">
-  Generated on Tue Aug 31 16:33:40 2010 by 
+  Generated on Tue Aug 31 17:27:30 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.0 (ruby-1.9.2).
 </div>
