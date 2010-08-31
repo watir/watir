@@ -24,7 +24,7 @@
       <div id="menu">
   
     <a href="../_index.html">Index (E)</a> &raquo; 
-    <span class='title'><a href="../Watir.html" title="Watir (module)">Watir</a></span>
+    <span class='title'><span class='object_link'><a href="../Watir.html" title="Watir (module)">Watir</a></span></span>
      &raquo; 
     <span class="title">Element</span>
   
@@ -53,10 +53,10 @@
   
     <dt class="r1">Inherits:</dt>
     <dd class="r1">
-      <span class="inheritName">Object</span>
+      <span class="inheritName"><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></span>
       
         <ul class="fullTree">
-          <li>Object</li>
+          <li><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></li>
           
             <li class="next">Watir::Element</li>
           
@@ -69,27 +69,40 @@
   
     
       <dt class="r2">Extended by:</dt>
-      <dd class="r2"><a href="AttributeHelper.html" title="Watir::AttributeHelper (module)">AttributeHelper</a></dd>
+      <dd class="r2"><span class='object_link'><a href="AttributeHelper.html" title="Watir::AttributeHelper (module)">AttributeHelper</a></span></dd>
       
     
   
     
       <dt class="r1">Includes:</dt>
-      <dd class="r1">Selenium, <a href="Container.html" title="Watir::Container (module)">Container</a>, <a href="Exception.html" title="Watir::Exception (module)">Exception</a></dd>
+      <dd class="r1">Selenium, <span class='object_link'><a href="Container.html" title="Watir::Container (module)">Container</a></span>, <span class='object_link'><a href="Exception.html" title="Watir::Exception (module)">Exception</a></span></dd>
       
     
   
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">lib/watir-webdriver/element.rb</dd>
+    <dd class="r2 last">lib/watir-webdriver/extensions/wait.rb<span class="defines">,<br />
+  lib/watir-webdriver/elements/element.rb</span>
+</dd>
   
 </dl>
 <div class="clear"></div>
 
-<div id="subclasses">
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>
+Base class for HTML elements.
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><div id="subclasses">
   <h2>Direct Known Subclasses</h2>
-  <p class="children"><a href="HTMLElement.html" title="Watir::HTMLElement (class)">HTMLElement</a></p>
+  <p class="children"><span class='object_link'><a href="HTMLElement.html" title="Watir::HTMLElement (class)">HTMLElement</a></span></p>
 </div>
 
 
@@ -97,8 +110,8 @@
   
   
   
-  <h3 class="inherited">Constants included from <a href="AttributeHelper.html" title="Watir::AttributeHelper (module)">AttributeHelper</a></h3>
-  <p class="inherited"><a href="AttributeHelper.html#IGNORED_ATTRIBUTES-constant" title="Watir::AttributeHelper::IGNORED_ATTRIBUTES (constant)">IGNORED_ATTRIBUTES</a></p>
+  <h3 class="inherited">Constants included from <span class='object_link'><a href="AttributeHelper.html" title="Watir::AttributeHelper (module)">AttributeHelper</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="AttributeHelper.html#IGNORED_ATTRIBUTES-constant" title="Watir::AttributeHelper::IGNORED_ATTRIBUTES (constant)">IGNORED_ATTRIBUTES</a></span></p>
 
   
   
@@ -122,6 +135,29 @@
     </h2>
 
     <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#%3D%3D-instance_method" title="#== (instance method)">- (Object) <strong>==</strong>(other) </a>
+    
+
+    
+      (also: #eql?)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
       
         <li class="public ">
   <span class="summary_signature">
@@ -322,6 +358,27 @@ Note: Firefox queues focus events until the window actually has focus.
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#hash-instance_method" title="#hash (instance method)">- (Object) <strong>hash</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#html-instance_method" title="#html (instance method)">- (Object) <strong>html</strong> </a>
     
 
@@ -404,6 +461,30 @@ A new instance of Element.
 
   
     <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#present%3F-instance_method" title="#present? (instance method)">- (Boolean) <strong>present?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Returns true if the element exists and is visible on the page.
+</p>
+</div></span>
   
 </li>
 
@@ -576,6 +657,72 @@ A new instance of Element.
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#wait_until_present-instance_method" title="#wait_until_present (instance method)">- (Object) <strong>wait_until_present</strong>(timeout = 30) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#wait_while_present-instance_method" title="#wait_while_present (instance method)">- (Object) <strong>wait_while_present</strong>(timeout = 30) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#when_present-instance_method" title="#when_present (instance method)">- (Object) <strong>when_present</strong>(timeout = 30) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Waits until the element is present.
+</p>
+</div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -587,8 +734,8 @@ A new instance of Element.
   
   
   
-  <h3 class="inherited">Methods included from <a href="AttributeHelper.html" title="Watir::AttributeHelper (module)">AttributeHelper</a></h3>
-  <p class="inherited"><a href="AttributeHelper.html#attribute_list-instance_method" title="Watir::AttributeHelper#attribute_list (method)">attribute_list</a>, <a href="AttributeHelper.html#attributes-instance_method" title="Watir::AttributeHelper#attributes (method)">attributes</a>, <a href="AttributeHelper.html#typed_attributes-instance_method" title="Watir::AttributeHelper#typed_attributes (method)">typed_attributes</a></p>
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="AttributeHelper.html" title="Watir::AttributeHelper (module)">AttributeHelper</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="AttributeHelper.html#attribute_list-instance_method" title="Watir::AttributeHelper#attribute_list (method)">attribute_list</a></span>, <span class='object_link'><a href="AttributeHelper.html#attributes-instance_method" title="Watir::AttributeHelper#attributes (method)">attributes</a></span>, <span class='object_link'><a href="AttributeHelper.html#typed_attributes-instance_method" title="Watir::AttributeHelper#typed_attributes (method)">typed_attributes</a></span></p>
 
   
   
@@ -598,12 +745,8 @@ A new instance of Element.
   
   
   
-  
-  
-  
-  
-  <h3 class="inherited">Methods included from <a href="Container.html" title="Watir::Container (module)">Container</a></h3>
-  <p class="inherited"><a href="Container.html#a-instance_method" title="Watir::Container#a (method)">#a</a>, <a href="Container.html#abbr-instance_method" title="Watir::Container#abbr (method)">#abbr</a>, <a href="Container.html#abbrs-instance_method" title="Watir::Container#abbrs (method)">#abbrs</a>, <a href="Container.html#address-instance_method" title="Watir::Container#address (method)">#address</a>, <a href="Container.html#addresses-instance_method" title="Watir::Container#addresses (method)">#addresses</a>, <a href="Container.html#area-instance_method" title="Watir::Container#area (method)">#area</a>, <a href="Container.html#areas-instance_method" title="Watir::Container#areas (method)">#areas</a>, <a href="Container.html#article-instance_method" title="Watir::Container#article (method)">#article</a>, <a href="Container.html#articles-instance_method" title="Watir::Container#articles (method)">#articles</a>, <a href="Container.html#as-instance_method" title="Watir::Container#as (method)">#as</a>, <a href="Container.html#aside-instance_method" title="Watir::Container#aside (method)">#aside</a>, <a href="Container.html#asides-instance_method" title="Watir::Container#asides (method)">#asides</a>, <a href="Container.html#audio-instance_method" title="Watir::Container#audio (method)">#audio</a>, <a href="Container.html#audios-instance_method" title="Watir::Container#audios (method)">#audios</a>, <a href="Container.html#b-instance_method" title="Watir::Container#b (method)">#b</a>, <a href="Container.html#base-instance_method" title="Watir::Container#base (method)">#base</a>, <a href="Container.html#bases-instance_method" title="Watir::Container#bases (method)">#bases</a>, <a href="Container.html#bdo-instance_method" title="Watir::Container#bdo (method)">#bdo</a>, <a href="Container.html#bdos-instance_method" title="Watir::Container#bdos (method)">#bdos</a>, <a href="Container.html#blockquote-instance_method" title="Watir::Container#blockquote (method)">#blockquote</a>, <a href="Container.html#blockquotes-instance_method" title="Watir::Container#blockquotes (method)">#blockquotes</a>, <a href="Container.html#body-instance_method" title="Watir::Container#body (method)">#body</a>, <a href="Container.html#bodys-instance_method" title="Watir::Container#bodys (method)">#bodys</a>, <a href="Container.html#br-instance_method" title="Watir::Container#br (method)">#br</a>, <a href="Container.html#brs-instance_method" title="Watir::Container#brs (method)">#brs</a>, <a href="Container.html#bs-instance_method" title="Watir::Container#bs (method)">#bs</a>, <a href="Container.html#button-instance_method" title="Watir::Container#button (method)">#button</a>, <a href="Container.html#buttons-instance_method" title="Watir::Container#buttons (method)">#buttons</a>, <a href="Container.html#canvas-instance_method" title="Watir::Container#canvas (method)">#canvas</a>, <a href="Container.html#canvases-instance_method" title="Watir::Container#canvases (method)">#canvases</a>, <a href="Container.html#caption-instance_method" title="Watir::Container#caption (method)">#caption</a>, <a href="Container.html#captions-instance_method" title="Watir::Container#captions (method)">#captions</a>, <a href="Container.html#checkbox-instance_method" title="Watir::Container#checkbox (method)">#checkbox</a>, <a href="Container.html#checkboxes-instance_method" title="Watir::Container#checkboxes (method)">#checkboxes</a>, <a href="Container.html#cite-instance_method" title="Watir::Container#cite (method)">#cite</a>, <a href="Container.html#cites-instance_method" title="Watir::Container#cites (method)">#cites</a>, <a href="Container.html#code-instance_method" title="Watir::Container#code (method)">#code</a>, <a href="Container.html#codes-instance_method" title="Watir::Container#codes (method)">#codes</a>, <a href="Container.html#col-instance_method" title="Watir::Container#col (method)">#col</a>, <a href="Container.html#colgroup-instance_method" title="Watir::Container#colgroup (method)">#colgroup</a>, <a href="Container.html#colgroups-instance_method" title="Watir::Container#colgroups (method)">#colgroups</a>, <a href="Container.html#cols-instance_method" title="Watir::Container#cols (method)">#cols</a>, <a href="Container.html#command-instance_method" title="Watir::Container#command (method)">#command</a>, <a href="Container.html#commands-instance_method" title="Watir::Container#commands (method)">#commands</a>, <a href="Container.html#datalist-instance_method" title="Watir::Container#datalist (method)">#datalist</a>, <a href="Container.html#datalists-instance_method" title="Watir::Container#datalists (method)">#datalists</a>, <a href="Container.html#dd-instance_method" title="Watir::Container#dd (method)">#dd</a>, <a href="Container.html#dds-instance_method" title="Watir::Container#dds (method)">#dds</a>, <a href="Container.html#del-instance_method" title="Watir::Container#del (method)">#del</a>, <a href="Container.html#dels-instance_method" title="Watir::Container#dels (method)">#dels</a>, <a href="Container.html#details-instance_method" title="Watir::Container#details (method)">#details</a>, <a href="Container.html#dfn-instance_method" title="Watir::Container#dfn (method)">#dfn</a>, <a href="Container.html#dfns-instance_method" title="Watir::Container#dfns (method)">#dfns</a>, <a href="Container.html#div-instance_method" title="Watir::Container#div (method)">#div</a>, <a href="Container.html#divs-instance_method" title="Watir::Container#divs (method)">#divs</a>, <a href="Container.html#dl-instance_method" title="Watir::Container#dl (method)">#dl</a>, <a href="Container.html#dls-instance_method" title="Watir::Container#dls (method)">#dls</a>, <a href="Container.html#dt-instance_method" title="Watir::Container#dt (method)">#dt</a>, <a href="Container.html#dts-instance_method" title="Watir::Container#dts (method)">#dts</a>, <a href="Container.html#em-instance_method" title="Watir::Container#em (method)">#em</a>, <a href="Container.html#embed-instance_method" title="Watir::Container#embed (method)">#embed</a>, <a href="Container.html#embeds-instance_method" title="Watir::Container#embeds (method)">#embeds</a>, <a href="Container.html#ems-instance_method" title="Watir::Container#ems (method)">#ems</a>, <a href="Container.html#fieldset-instance_method" title="Watir::Container#fieldset (method)">#fieldset</a>, <a href="Container.html#fieldsets-instance_method" title="Watir::Container#fieldsets (method)">#fieldsets</a>, <a href="Container.html#figcaption-instance_method" title="Watir::Container#figcaption (method)">#figcaption</a>, <a href="Container.html#figcaptions-instance_method" title="Watir::Container#figcaptions (method)">#figcaptions</a>, <a href="Container.html#figure-instance_method" title="Watir::Container#figure (method)">#figure</a>, <a href="Container.html#figures-instance_method" title="Watir::Container#figures (method)">#figures</a>, <a href="Container.html#file_field-instance_method" title="Watir::Container#file_field (method)">#file_field</a>, <a href="Container.html#file_fields-instance_method" title="Watir::Container#file_fields (method)">#file_fields</a>, <a href="Container.html#font-instance_method" title="Watir::Container#font (method)">#font</a>, <a href="Container.html#fonts-instance_method" title="Watir::Container#fonts (method)">#fonts</a>, <a href="Container.html#footer-instance_method" title="Watir::Container#footer (method)">#footer</a>, <a href="Container.html#footers-instance_method" title="Watir::Container#footers (method)">#footers</a>, <a href="Container.html#form-instance_method" title="Watir::Container#form (method)">#form</a>, <a href="Container.html#forms-instance_method" title="Watir::Container#forms (method)">#forms</a>, <a href="Container.html#frame-instance_method" title="Watir::Container#frame (method)">#frame</a>, <a href="Container.html#frames-instance_method" title="Watir::Container#frames (method)">#frames</a>, <a href="Container.html#h1-instance_method" title="Watir::Container#h1 (method)">#h1</a>, <a href="Container.html#h1s-instance_method" title="Watir::Container#h1s (method)">#h1s</a>, <a href="Container.html#h2-instance_method" title="Watir::Container#h2 (method)">#h2</a>, <a href="Container.html#h2s-instance_method" title="Watir::Container#h2s (method)">#h2s</a>, <a href="Container.html#h3-instance_method" title="Watir::Container#h3 (method)">#h3</a>, <a href="Container.html#h3s-instance_method" title="Watir::Container#h3s (method)">#h3s</a>, <a href="Container.html#h4-instance_method" title="Watir::Container#h4 (method)">#h4</a>, <a href="Container.html#h4s-instance_method" title="Watir::Container#h4s (method)">#h4s</a>, <a href="Container.html#h5-instance_method" title="Watir::Container#h5 (method)">#h5</a>, <a href="Container.html#h5s-instance_method" title="Watir::Container#h5s (method)">#h5s</a>, <a href="Container.html#h6-instance_method" title="Watir::Container#h6 (method)">#h6</a>, <a href="Container.html#h6s-instance_method" title="Watir::Container#h6s (method)">#h6s</a>, <a href="Container.html#head-instance_method" title="Watir::Container#head (method)">#head</a>, <a href="Container.html#header-instance_method" title="Watir::Container#header (method)">#header</a>, <a href="Container.html#headers-instance_method" title="Watir::Container#headers (method)">#headers</a>, <a href="Container.html#heads-instance_method" title="Watir::Container#heads (method)">#heads</a>, <a href="Container.html#hgroup-instance_method" title="Watir::Container#hgroup (method)">#hgroup</a>, <a href="Container.html#hgroups-instance_method" title="Watir::Container#hgroups (method)">#hgroups</a>, <a href="Container.html#hidden-instance_method" title="Watir::Container#hidden (method)">#hidden</a>, <a href="Container.html#hiddens-instance_method" title="Watir::Container#hiddens (method)">#hiddens</a>, <a href="Container.html#hr-instance_method" title="Watir::Container#hr (method)">#hr</a>, <a href="Container.html#hrs-instance_method" title="Watir::Container#hrs (method)">#hrs</a>, <a href="Container.html#htmls-instance_method" title="Watir::Container#htmls (method)">#htmls</a>, <a href="Container.html#i-instance_method" title="Watir::Container#i (method)">#i</a>, <a href="Container.html#iframe-instance_method" title="Watir::Container#iframe (method)">#iframe</a>, <a href="Container.html#iframes-instance_method" title="Watir::Container#iframes (method)">#iframes</a>, <a href="Container.html#image-instance_method" title="Watir::Container#image (method)">#image</a>, <a href="Container.html#images-instance_method" title="Watir::Container#images (method)">#images</a>, <a href="Container.html#input-instance_method" title="Watir::Container#input (method)">#input</a>, <a href="Container.html#inputs-instance_method" title="Watir::Container#inputs (method)">#inputs</a>, <a href="Container.html#ins-instance_method" title="Watir::Container#ins (method)">#ins</a>, <a href="Container.html#inses-instance_method" title="Watir::Container#inses (method)">#inses</a>, <a href="Container.html#is-instance_method" title="Watir::Container#is (method)">#is</a>, <a href="Container.html#kbd-instance_method" title="Watir::Container#kbd (method)">#kbd</a>, <a href="Container.html#kbds-instance_method" title="Watir::Container#kbds (method)">#kbds</a>, <a href="Container.html#keygen-instance_method" title="Watir::Container#keygen (method)">#keygen</a>, <a href="Container.html#keygens-instance_method" title="Watir::Container#keygens (method)">#keygens</a>, <a href="Container.html#label-instance_method" title="Watir::Container#label (method)">#label</a>, <a href="Container.html#labels-instance_method" title="Watir::Container#labels (method)">#labels</a>, <a href="Container.html#legend-instance_method" title="Watir::Container#legend (method)">#legend</a>, <a href="Container.html#legends-instance_method" title="Watir::Container#legends (method)">#legends</a>, <a href="Container.html#li-instance_method" title="Watir::Container#li (method)">#li</a>, <a href="Container.html#lis-instance_method" title="Watir::Container#lis (method)">#lis</a>, <a href="Container.html#map-instance_method" title="Watir::Container#map (method)">#map</a>, <a href="Container.html#maps-instance_method" title="Watir::Container#maps (method)">#maps</a>, <a href="Container.html#mark-instance_method" title="Watir::Container#mark (method)">#mark</a>, <a href="Container.html#marks-instance_method" title="Watir::Container#marks (method)">#marks</a>, <a href="Container.html#menu-instance_method" title="Watir::Container#menu (method)">#menu</a>, <a href="Container.html#menus-instance_method" title="Watir::Container#menus (method)">#menus</a>, <a href="Container.html#meta-instance_method" title="Watir::Container#meta (method)">#meta</a>, <a href="Container.html#metas-instance_method" title="Watir::Container#metas (method)">#metas</a>, <a href="Container.html#meter-instance_method" title="Watir::Container#meter (method)">#meter</a>, <a href="Container.html#meters-instance_method" title="Watir::Container#meters (method)">#meters</a>, <a href="Container.html#nav-instance_method" title="Watir::Container#nav (method)">#nav</a>, <a href="Container.html#navs-instance_method" title="Watir::Container#navs (method)">#navs</a>, <a href="Container.html#noscript-instance_method" title="Watir::Container#noscript (method)">#noscript</a>, <a href="Container.html#noscripts-instance_method" title="Watir::Container#noscripts (method)">#noscripts</a>, <a href="Container.html#object-instance_method" title="Watir::Container#object (method)">#object</a>, <a href="Container.html#objects-instance_method" title="Watir::Container#objects (method)">#objects</a>, <a href="Container.html#ol-instance_method" title="Watir::Container#ol (method)">#ol</a>, <a href="Container.html#ols-instance_method" title="Watir::Container#ols (method)">#ols</a>, <a href="Container.html#optgroup-instance_method" title="Watir::Container#optgroup (method)">#optgroup</a>, <a href="Container.html#optgroups-instance_method" title="Watir::Container#optgroups (method)">#optgroups</a>, <a href="Container.html#option-instance_method" title="Watir::Container#option (method)">#option</a>, <a href="Container.html#options-instance_method" title="Watir::Container#options (method)">#options</a>, <a href="Container.html#output-instance_method" title="Watir::Container#output (method)">#output</a>, <a href="Container.html#outputs-instance_method" title="Watir::Container#outputs (method)">#outputs</a>, <a href="Container.html#p-instance_method" title="Watir::Container#p (method)">#p</a>, <a href="Container.html#param-instance_method" title="Watir::Container#param (method)">#param</a>, <a href="Container.html#params-instance_method" title="Watir::Container#params (method)">#params</a>, <a href="Container.html#pre-instance_method" title="Watir::Container#pre (method)">#pre</a>, <a href="Container.html#pres-instance_method" title="Watir::Container#pres (method)">#pres</a>, <a href="Container.html#progress-instance_method" title="Watir::Container#progress (method)">#progress</a>, <a href="Container.html#progresses-instance_method" title="Watir::Container#progresses (method)">#progresses</a>, <a href="Container.html#ps-instance_method" title="Watir::Container#ps (method)">#ps</a>, <a href="Container.html#q-instance_method" title="Watir::Container#q (method)">#q</a>, <a href="Container.html#qs-instance_method" title="Watir::Container#qs (method)">#qs</a>, <a href="Container.html#radio-instance_method" title="Watir::Container#radio (method)">#radio</a>, <a href="Container.html#radios-instance_method" title="Watir::Container#radios (method)">#radios</a>, <a href="Container.html#rp-instance_method" title="Watir::Container#rp (method)">#rp</a>, <a href="Container.html#rps-instance_method" title="Watir::Container#rps (method)">#rps</a>, <a href="Container.html#rt-instance_method" title="Watir::Container#rt (method)">#rt</a>, <a href="Container.html#rts-instance_method" title="Watir::Container#rts (method)">#rts</a>, <a href="Container.html#rubies-instance_method" title="Watir::Container#rubies (method)">#rubies</a>, <a href="Container.html#ruby-instance_method" title="Watir::Container#ruby (method)">#ruby</a>, <a href="Container.html#samp-instance_method" title="Watir::Container#samp (method)">#samp</a>, <a href="Container.html#samps-instance_method" title="Watir::Container#samps (method)">#samps</a>, <a href="Container.html#script-instance_method" title="Watir::Container#script (method)">#script</a>, <a href="Container.html#scripts-instance_method" title="Watir::Container#scripts (method)">#scripts</a>, <a href="Container.html#section-instance_method" title="Watir::Container#section (method)">#section</a>, <a href="Container.html#sections-instance_method" title="Watir::Container#sections (method)">#sections</a>, <a href="Container.html#select-instance_method" title="Watir::Container#select (method)">#select</a>, <a href="Container.html#selects-instance_method" title="Watir::Container#selects (method)">#selects</a>, <a href="Container.html#small-instance_method" title="Watir::Container#small (method)">#small</a>, <a href="Container.html#smalls-instance_method" title="Watir::Container#smalls (method)">#smalls</a>, <a href="Container.html#source-instance_method" title="Watir::Container#source (method)">#source</a>, <a href="Container.html#sources-instance_method" title="Watir::Container#sources (method)">#sources</a>, <a href="Container.html#span-instance_method" title="Watir::Container#span (method)">#span</a>, <a href="Container.html#spans-instance_method" title="Watir::Container#spans (method)">#spans</a>, <a href="Container.html#strong-instance_method" title="Watir::Container#strong (method)">#strong</a>, <a href="Container.html#strongs-instance_method" title="Watir::Container#strongs (method)">#strongs</a>, <a href="Container.html#styles-instance_method" title="Watir::Container#styles (method)">#styles</a>, <a href="Container.html#sub-instance_method" title="Watir::Container#sub (method)">#sub</a>, <a href="Container.html#subs-instance_method" title="Watir::Container#subs (method)">#subs</a>, <a href="Container.html#summaries-instance_method" title="Watir::Container#summaries (method)">#summaries</a>, <a href="Container.html#summary-instance_method" title="Watir::Container#summary (method)">#summary</a>, <a href="Container.html#sup-instance_method" title="Watir::Container#sup (method)">#sup</a>, <a href="Container.html#sups-instance_method" title="Watir::Container#sups (method)">#sups</a>, <a href="Container.html#table-instance_method" title="Watir::Container#table (method)">#table</a>, <a href="Container.html#tables-instance_method" title="Watir::Container#tables (method)">#tables</a>, <a href="Container.html#tbody-instance_method" title="Watir::Container#tbody (method)">#tbody</a>, <a href="Container.html#tbodys-instance_method" title="Watir::Container#tbodys (method)">#tbodys</a>, <a href="Container.html#td-instance_method" title="Watir::Container#td (method)">#td</a>, <a href="Container.html#tds-instance_method" title="Watir::Container#tds (method)">#tds</a>, <a href="Container.html#text_field-instance_method" title="Watir::Container#text_field (method)">#text_field</a>, <a href="Container.html#text_fields-instance_method" title="Watir::Container#text_fields (method)">#text_fields</a>, <a href="Container.html#textarea-instance_method" title="Watir::Container#textarea (method)">#textarea</a>, <a href="Container.html#textareas-instance_method" title="Watir::Container#textareas (method)">#textareas</a>, <a href="Container.html#tfoot-instance_method" title="Watir::Container#tfoot (method)">#tfoot</a>, <a href="Container.html#tfoots-instance_method" title="Watir::Container#tfoots (method)">#tfoots</a>, <a href="Container.html#th-instance_method" title="Watir::Container#th (method)">#th</a>, <a href="Container.html#thead-instance_method" title="Watir::Container#thead (method)">#thead</a>, <a href="Container.html#theads-instance_method" title="Watir::Container#theads (method)">#theads</a>, <a href="Container.html#ths-instance_method" title="Watir::Container#ths (method)">#ths</a>, <a href="Container.html#time-instance_method" title="Watir::Container#time (method)">#time</a>, <a href="Container.html#times-instance_method" title="Watir::Container#times (method)">#times</a>, <a href="Container.html#title-instance_method" title="Watir::Container#title (method)">#title</a>, <a href="Container.html#titles-instance_method" title="Watir::Container#titles (method)">#titles</a>, <a href="Container.html#tr-instance_method" title="Watir::Container#tr (method)">#tr</a>, <a href="Container.html#track-instance_method" title="Watir::Container#track (method)">#track</a>, <a href="Container.html#tracks-instance_method" title="Watir::Container#tracks (method)">#tracks</a>, <a href="Container.html#trs-instance_method" title="Watir::Container#trs (method)">#trs</a>, <a href="Container.html#ul-instance_method" title="Watir::Container#ul (method)">#ul</a>, <a href="Container.html#uls-instance_method" title="Watir::Container#uls (method)">#uls</a>, <a href="Container.html#var-instance_method" title="Watir::Container#var (method)">#var</a>, <a href="Container.html#vars-instance_method" title="Watir::Container#vars (method)">#vars</a>, <a href="Container.html#video-instance_method" title="Watir::Container#video (method)">#video</a>, <a href="Container.html#videos-instance_method" title="Watir::Container#videos (method)">#videos</a>, <a href="Container.html#wbr-instance_method" title="Watir::Container#wbr (method)">#wbr</a>, <a href="Container.html#wbrs-instance_method" title="Watir::Container#wbrs (method)">#wbrs</a></p>
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Container.html" title="Watir::Container (module)">Container</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Container.html#a-instance_method" title="Watir::Container#a (method)">#a</a></span>, <span class='object_link'><a href="Container.html#abbr-instance_method" title="Watir::Container#abbr (method)">#abbr</a></span>, <span class='object_link'><a href="Container.html#abbrs-instance_method" title="Watir::Container#abbrs (method)">#abbrs</a></span>, <span class='object_link'><a href="Container.html#address-instance_method" title="Watir::Container#address (method)">#address</a></span>, <span class='object_link'><a href="Container.html#addresses-instance_method" title="Watir::Container#addresses (method)">#addresses</a></span>, <span class='object_link'><a href="Container.html#area-instance_method" title="Watir::Container#area (method)">#area</a></span>, <span class='object_link'><a href="Container.html#areas-instance_method" title="Watir::Container#areas (method)">#areas</a></span>, <span class='object_link'><a href="Container.html#article-instance_method" title="Watir::Container#article (method)">#article</a></span>, <span class='object_link'><a href="Container.html#articles-instance_method" title="Watir::Container#articles (method)">#articles</a></span>, <span class='object_link'><a href="Container.html#as-instance_method" title="Watir::Container#as (method)">#as</a></span>, <span class='object_link'><a href="Container.html#aside-instance_method" title="Watir::Container#aside (method)">#aside</a></span>, <span class='object_link'><a href="Container.html#asides-instance_method" title="Watir::Container#asides (method)">#asides</a></span>, <span class='object_link'><a href="Container.html#audio-instance_method" title="Watir::Container#audio (method)">#audio</a></span>, <span class='object_link'><a href="Container.html#audios-instance_method" title="Watir::Container#audios (method)">#audios</a></span>, <span class='object_link'><a href="Container.html#b-instance_method" title="Watir::Container#b (method)">#b</a></span>, <span class='object_link'><a href="Container.html#base-instance_method" title="Watir::Container#base (method)">#base</a></span>, <span class='object_link'><a href="Container.html#bases-instance_method" title="Watir::Container#bases (method)">#bases</a></span>, <span class='object_link'><a href="Container.html#bdo-instance_method" title="Watir::Container#bdo (method)">#bdo</a></span>, <span class='object_link'><a href="Container.html#bdos-instance_method" title="Watir::Container#bdos (method)">#bdos</a></span>, <span class='object_link'><a href="Container.html#blockquote-instance_method" title="Watir::Container#blockquote (method)">#blockquote</a></span>, <span class='object_link'><a href="Container.html#blockquotes-instance_method" title="Watir::Container#blockquotes (method)">#blockquotes</a></span>, <span class='object_link'><a href="Container.html#body-instance_method" title="Watir::Container#body (method)">#body</a></span>, <span class='object_link'><a href="Container.html#bodys-instance_method" title="Watir::Container#bodys (method)">#bodys</a></span>, <span class='object_link'><a href="Container.html#br-instance_method" title="Watir::Container#br (method)">#br</a></span>, <span class='object_link'><a href="Container.html#brs-instance_method" title="Watir::Container#brs (method)">#brs</a></span>, <span class='object_link'><a href="Container.html#bs-instance_method" title="Watir::Container#bs (method)">#bs</a></span>, <span class='object_link'><a href="Container.html#button-instance_method" title="Watir::Container#button (method)">#button</a></span>, <span class='object_link'><a href="Container.html#buttons-instance_method" title="Watir::Container#buttons (method)">#buttons</a></span>, <span class='object_link'><a href="Container.html#canvas-instance_method" title="Watir::Container#canvas (method)">#canvas</a></span>, <span class='object_link'><a href="Container.html#canvases-instance_method" title="Watir::Container#canvases (method)">#canvases</a></span>, <span class='object_link'><a href="Container.html#caption-instance_method" title="Watir::Container#caption (method)">#caption</a></span>, <span class='object_link'><a href="Container.html#captions-instance_method" title="Watir::Container#captions (method)">#captions</a></span>, <span class='object_link'><a href="Container.html#checkbox-instance_method" title="Watir::Container#checkbox (method)">#checkbox</a></span>, <span class='object_link'><a href="Container.html#checkboxes-instance_method" title="Watir::Container#checkboxes (method)">#checkboxes</a></span>, <span class='object_link'><a href="Container.html#cite-instance_method" title="Watir::Container#cite (method)">#cite</a></span>, <span class='object_link'><a href="Container.html#cites-instance_method" title="Watir::Container#cites (method)">#cites</a></span>, <span class='object_link'><a href="Container.html#code-instance_method" title="Watir::Container#code (method)">#code</a></span>, <span class='object_link'><a href="Container.html#codes-instance_method" title="Watir::Container#codes (method)">#codes</a></span>, <span class='object_link'><a href="Container.html#col-instance_method" title="Watir::Container#col (method)">#col</a></span>, <span class='object_link'><a href="Container.html#colgroup-instance_method" title="Watir::Container#colgroup (method)">#colgroup</a></span>, <span class='object_link'><a href="Container.html#colgroups-instance_method" title="Watir::Container#colgroups (method)">#colgroups</a></span>, <span class='object_link'><a href="Container.html#cols-instance_method" title="Watir::Container#cols (method)">#cols</a></span>, <span class='object_link'><a href="Container.html#command-instance_method" title="Watir::Container#command (method)">#command</a></span>, <span class='object_link'><a href="Container.html#commands-instance_method" title="Watir::Container#commands (method)">#commands</a></span>, <span class='object_link'><a href="Container.html#datalist-instance_method" title="Watir::Container#datalist (method)">#datalist</a></span>, <span class='object_link'><a href="Container.html#datalists-instance_method" title="Watir::Container#datalists (method)">#datalists</a></span>, <span class='object_link'><a href="Container.html#dd-instance_method" title="Watir::Container#dd (method)">#dd</a></span>, <span class='object_link'><a href="Container.html#dds-instance_method" title="Watir::Container#dds (method)">#dds</a></span>, <span class='object_link'><a href="Container.html#del-instance_method" title="Watir::Container#del (method)">#del</a></span>, <span class='object_link'><a href="Container.html#dels-instance_method" title="Watir::Container#dels (method)">#dels</a></span>, <span class='object_link'><a href="Container.html#details-instance_method" title="Watir::Container#details (method)">#details</a></span>, <span class='object_link'><a href="Container.html#dfn-instance_method" title="Watir::Container#dfn (method)">#dfn</a></span>, <span class='object_link'><a href="Container.html#dfns-instance_method" title="Watir::Container#dfns (method)">#dfns</a></span>, <span class='object_link'><a href="Container.html#div-instance_method" title="Watir::Container#div (method)">#div</a></span>, <span class='object_link'><a href="Container.html#divs-instance_method" title="Watir::Container#divs (method)">#divs</a></span>, <span class='object_link'><a href="Container.html#dl-instance_method" title="Watir::Container#dl (method)">#dl</a></span>, <span class='object_link'><a href="Container.html#dls-instance_method" title="Watir::Container#dls (method)">#dls</a></span>, <span class='object_link'><a href="Container.html#dt-instance_method" title="Watir::Container#dt (method)">#dt</a></span>, <span class='object_link'><a href="Container.html#dts-instance_method" title="Watir::Container#dts (method)">#dts</a></span>, <span class='object_link'><a href="Container.html#em-instance_method" title="Watir::Container#em (method)">#em</a></span>, <span class='object_link'><a href="Container.html#embed-instance_method" title="Watir::Container#embed (method)">#embed</a></span>, <span class='object_link'><a href="Container.html#embeds-instance_method" title="Watir::Container#embeds (method)">#embeds</a></span>, <span class='object_link'><a href="Container.html#ems-instance_method" title="Watir::Container#ems (method)">#ems</a></span>, <span class='object_link'><a href="Container.html#fieldset-instance_method" title="Watir::Container#fieldset (method)">#fieldset</a></span>, <span class='object_link'><a href="Container.html#fieldsets-instance_method" title="Watir::Container#fieldsets (method)">#fieldsets</a></span>, <span class='object_link'><a href="Container.html#figcaption-instance_method" title="Watir::Container#figcaption (method)">#figcaption</a></span>, <span class='object_link'><a href="Container.html#figcaptions-instance_method" title="Watir::Container#figcaptions (method)">#figcaptions</a></span>, <span class='object_link'><a href="Container.html#figure-instance_method" title="Watir::Container#figure (method)">#figure</a></span>, <span class='object_link'><a href="Container.html#figures-instance_method" title="Watir::Container#figures (method)">#figures</a></span>, <span class='object_link'><a href="Container.html#file_field-instance_method" title="Watir::Container#file_field (method)">#file_field</a></span>, <span class='object_link'><a href="Container.html#file_fields-instance_method" title="Watir::Container#file_fields (method)">#file_fields</a></span>, <span class='object_link'><a href="Container.html#font-instance_method" title="Watir::Container#font (method)">#font</a></span>, <span class='object_link'><a href="Container.html#fonts-instance_method" title="Watir::Container#fonts (method)">#fonts</a></span>, <span class='object_link'><a href="Container.html#footer-instance_method" title="Watir::Container#footer (method)">#footer</a></span>, <span class='object_link'><a href="Container.html#footers-instance_method" title="Watir::Container#footers (method)">#footers</a></span>, <span class='object_link'><a href="Container.html#form-instance_method" title="Watir::Container#form (method)">#form</a></span>, <span class='object_link'><a href="Container.html#forms-instance_method" title="Watir::Container#forms (method)">#forms</a></span>, <span class='object_link'><a href="Container.html#frame-instance_method" title="Watir::Container#frame (method)">#frame</a></span>, <span class='object_link'><a href="Container.html#frames-instance_method" title="Watir::Container#frames (method)">#frames</a></span>, <span class='object_link'><a href="Container.html#h1-instance_method" title="Watir::Container#h1 (method)">#h1</a></span>, <span class='object_link'><a href="Container.html#h1s-instance_method" title="Watir::Container#h1s (method)">#h1s</a></span>, <span class='object_link'><a href="Container.html#h2-instance_method" title="Watir::Container#h2 (method)">#h2</a></span>, <span class='object_link'><a href="Container.html#h2s-instance_method" title="Watir::Container#h2s (method)">#h2s</a></span>, <span class='object_link'><a href="Container.html#h3-instance_method" title="Watir::Container#h3 (method)">#h3</a></span>, <span class='object_link'><a href="Container.html#h3s-instance_method" title="Watir::Container#h3s (method)">#h3s</a></span>, <span class='object_link'><a href="Container.html#h4-instance_method" title="Watir::Container#h4 (method)">#h4</a></span>, <span class='object_link'><a href="Container.html#h4s-instance_method" title="Watir::Container#h4s (method)">#h4s</a></span>, <span class='object_link'><a href="Container.html#h5-instance_method" title="Watir::Container#h5 (method)">#h5</a></span>, <span class='object_link'><a href="Container.html#h5s-instance_method" title="Watir::Container#h5s (method)">#h5s</a></span>, <span class='object_link'><a href="Container.html#h6-instance_method" title="Watir::Container#h6 (method)">#h6</a></span>, <span class='object_link'><a href="Container.html#h6s-instance_method" title="Watir::Container#h6s (method)">#h6s</a></span>, <span class='object_link'><a href="Container.html#head-instance_method" title="Watir::Container#head (method)">#head</a></span>, <span class='object_link'><a href="Container.html#header-instance_method" title="Watir::Container#header (method)">#header</a></span>, <span class='object_link'><a href="Container.html#headers-instance_method" title="Watir::Container#headers (method)">#headers</a></span>, <span class='object_link'><a href="Container.html#heads-instance_method" title="Watir::Container#heads (method)">#heads</a></span>, <span class='object_link'><a href="Container.html#hgroup-instance_method" title="Watir::Container#hgroup (method)">#hgroup</a></span>, <span class='object_link'><a href="Container.html#hgroups-instance_method" title="Watir::Container#hgroups (method)">#hgroups</a></span>, <span class='object_link'><a href="Container.html#hidden-instance_method" title="Watir::Container#hidden (method)">#hidden</a></span>, <span class='object_link'><a href="Container.html#hiddens-instance_method" title="Watir::Container#hiddens (method)">#hiddens</a></span>, <span class='object_link'><a href="Container.html#hr-instance_method" title="Watir::Container#hr (method)">#hr</a></span>, <span class='object_link'><a href="Container.html#hrs-instance_method" title="Watir::Container#hrs (method)">#hrs</a></span>, <span class='object_link'><a href="Container.html#htmls-instance_method" title="Watir::Container#htmls (method)">#htmls</a></span>, <span class='object_link'><a href="Container.html#i-instance_method" title="Watir::Container#i (method)">#i</a></span>, <span class='object_link'><a href="Container.html#iframe-instance_method" title="Watir::Container#iframe (method)">#iframe</a></span>, <span class='object_link'><a href="Container.html#iframes-instance_method" title="Watir::Container#iframes (method)">#iframes</a></span>, <span class='object_link'><a href="Container.html#img-instance_method" title="Watir::Container#img (method)">#img</a></span>, <span class='object_link'><a href="Container.html#imgs-instance_method" title="Watir::Container#imgs (method)">#imgs</a></span>, <span class='object_link'><a href="Container.html#input-instance_method" title="Watir::Container#input (method)">#input</a></span>, <span class='object_link'><a href="Container.html#inputs-instance_method" title="Watir::Container#inputs (method)">#inputs</a></span>, <span class='object_link'><a href="Container.html#ins-instance_method" title="Watir::Container#ins (method)">#ins</a></span>, <span class='object_link'><a href="Container.html#inses-instance_method" title="Watir::Container#inses (method)">#inses</a></span>, <span class='object_link'><a href="Container.html#is-instance_method" title="Watir::Container#is (method)">#is</a></span>, <span class='object_link'><a href="Container.html#kbd-instance_method" title="Watir::Container#kbd (method)">#kbd</a></span>, <span class='object_link'><a href="Container.html#kbds-instance_method" title="Watir::Container#kbds (method)">#kbds</a></span>, <span class='object_link'><a href="Container.html#keygen-instance_method" title="Watir::Container#keygen (method)">#keygen</a></span>, <span class='object_link'><a href="Container.html#keygens-instance_method" title="Watir::Container#keygens (method)">#keygens</a></span>, <span class='object_link'><a href="Container.html#label-instance_method" title="Watir::Container#label (method)">#label</a></span>, <span class='object_link'><a href="Container.html#labels-instance_method" title="Watir::Container#labels (method)">#labels</a></span>, <span class='object_link'><a href="Container.html#legend-instance_method" title="Watir::Container#legend (method)">#legend</a></span>, <span class='object_link'><a href="Container.html#legends-instance_method" title="Watir::Container#legends (method)">#legends</a></span>, <span class='object_link'><a href="Container.html#li-instance_method" title="Watir::Container#li (method)">#li</a></span>, <span class='object_link'><a href="Container.html#lis-instance_method" title="Watir::Container#lis (method)">#lis</a></span>, <span class='object_link'><a href="Container.html#map-instance_method" title="Watir::Container#map (method)">#map</a></span>, <span class='object_link'><a href="Container.html#maps-instance_method" title="Watir::Container#maps (method)">#maps</a></span>, <span class='object_link'><a href="Container.html#mark-instance_method" title="Watir::Container#mark (method)">#mark</a></span>, <span class='object_link'><a href="Container.html#marks-instance_method" title="Watir::Container#marks (method)">#marks</a></span>, <span class='object_link'><a href="Container.html#menu-instance_method" title="Watir::Container#menu (method)">#menu</a></span>, <span class='object_link'><a href="Container.html#menus-instance_method" title="Watir::Container#menus (method)">#menus</a></span>, <span class='object_link'><a href="Container.html#meta-instance_method" title="Watir::Container#meta (method)">#meta</a></span>, <span class='object_link'><a href="Container.html#metas-instance_method" title="Watir::Container#metas (method)">#metas</a></span>, <span class='object_link'><a href="Container.html#meter-instance_method" title="Watir::Container#meter (method)">#meter</a></span>, <span class='object_link'><a href="Container.html#meters-instance_method" title="Watir::Container#meters (method)">#meters</a></span>, <span class='object_link'><a href="Container.html#nav-instance_method" title="Watir::Container#nav (method)">#nav</a></span>, <span class='object_link'><a href="Container.html#navs-instance_method" title="Watir::Container#navs (method)">#navs</a></span>, <span class='object_link'><a href="Container.html#noscript-instance_method" title="Watir::Container#noscript (method)">#noscript</a></span>, <span class='object_link'><a href="Container.html#noscripts-instance_method" title="Watir::Container#noscripts (method)">#noscripts</a></span>, <span class='object_link'><a href="Container.html#object-instance_method" title="Watir::Container#object (method)">#object</a></span>, <span class='object_link'><a href="Container.html#objects-instance_method" title="Watir::Container#objects (method)">#objects</a></span>, <span class='object_link'><a href="Container.html#ol-instance_method" title="Watir::Container#ol (method)">#ol</a></span>, <span class='object_link'><a href="Container.html#ols-instance_method" title="Watir::Container#ols (method)">#ols</a></span>, <span class='object_link'><a href="Container.html#optgroup-instance_method" title="Watir::Container#optgroup (method)">#optgroup</a></span>, <span class='object_link'><a href="Container.html#optgroups-instance_method" title="Watir::Container#optgroups (method)">#optgroups</a></span>, <span class='object_link'><a href="Container.html#option-instance_method" title="Watir::Container#option (method)">#option</a></span>, <span class='object_link'><a href="Container.html#options-instance_method" title="Watir::Container#options (method)">#options</a></span>, <span class='object_link'><a href="Container.html#output-instance_method" title="Watir::Container#output (method)">#output</a></span>, <span class='object_link'><a href="Container.html#outputs-instance_method" title="Watir::Container#outputs (method)">#outputs</a></span>, <span class='object_link'><a href="Container.html#p-instance_method" title="Watir::Container#p (method)">#p</a></span>, <span class='object_link'><a href="Container.html#param-instance_method" title="Watir::Container#param (method)">#param</a></span>, <span class='object_link'><a href="Container.html#params-instance_method" title="Watir::Container#params (method)">#params</a></span>, <span class='object_link'><a href="Container.html#pre-instance_method" title="Watir::Container#pre (method)">#pre</a></span>, <span class='object_link'><a href="Container.html#pres-instance_method" title="Watir::Container#pres (method)">#pres</a></span>, <span class='object_link'><a href="Container.html#progress-instance_method" title="Watir::Container#progress (method)">#progress</a></span>, <span class='object_link'><a href="Container.html#progresses-instance_method" title="Watir::Container#progresses (method)">#progresses</a></span>, <span class='object_link'><a href="Container.html#ps-instance_method" title="Watir::Container#ps (method)">#ps</a></span>, <span class='object_link'><a href="Container.html#q-instance_method" title="Watir::Container#q (method)">#q</a></span>, <span class='object_link'><a href="Container.html#qs-instance_method" title="Watir::Container#qs (method)">#qs</a></span>, <span class='object_link'><a href="Container.html#radio-instance_method" title="Watir::Container#radio (method)">#radio</a></span>, <span class='object_link'><a href="Container.html#radios-instance_method" title="Watir::Container#radios (method)">#radios</a></span>, <span class='object_link'><a href="Container.html#rp-instance_method" title="Watir::Container#rp (method)">#rp</a></span>, <span class='object_link'><a href="Container.html#rps-instance_method" title="Watir::Container#rps (method)">#rps</a></span>, <span class='object_link'><a href="Container.html#rt-instance_method" title="Watir::Container#rt (method)">#rt</a></span>, <span class='object_link'><a href="Container.html#rts-instance_method" title="Watir::Container#rts (method)">#rts</a></span>, <span class='object_link'><a href="Container.html#rubies-instance_method" title="Watir::Container#rubies (method)">#rubies</a></span>, <span class='object_link'><a href="Container.html#ruby-instance_method" title="Watir::Container#ruby (method)">#ruby</a></span>, <span class='object_link'><a href="Container.html#samp-instance_method" title="Watir::Container#samp (method)">#samp</a></span>, <span class='object_link'><a href="Container.html#samps-instance_method" title="Watir::Container#samps (method)">#samps</a></span>, <span class='object_link'><a href="Container.html#script-instance_method" title="Watir::Container#script (method)">#script</a></span>, <span class='object_link'><a href="Container.html#scripts-instance_method" title="Watir::Container#scripts (method)">#scripts</a></span>, <span class='object_link'><a href="Container.html#section-instance_method" title="Watir::Container#section (method)">#section</a></span>, <span class='object_link'><a href="Container.html#sections-instance_method" title="Watir::Container#sections (method)">#sections</a></span>, <span class='object_link'><a href="Container.html#select-instance_method" title="Watir::Container#select (method)">#select</a></span>, <span class='object_link'><a href="Container.html#selects-instance_method" title="Watir::Container#selects (method)">#selects</a></span>, <span class='object_link'><a href="Container.html#small-instance_method" title="Watir::Container#small (method)">#small</a></span>, <span class='object_link'><a href="Container.html#smalls-instance_method" title="Watir::Container#smalls (method)">#smalls</a></span>, <span class='object_link'><a href="Container.html#source-instance_method" title="Watir::Container#source (method)">#source</a></span>, <span class='object_link'><a href="Container.html#sources-instance_method" title="Watir::Container#sources (method)">#sources</a></span>, <span class='object_link'><a href="Container.html#span-instance_method" title="Watir::Container#span (method)">#span</a></span>, <span class='object_link'><a href="Container.html#spans-instance_method" title="Watir::Container#spans (method)">#spans</a></span>, <span class='object_link'><a href="Container.html#strong-instance_method" title="Watir::Container#strong (method)">#strong</a></span>, <span class='object_link'><a href="Container.html#strongs-instance_method" title="Watir::Container#strongs (method)">#strongs</a></span>, <span class='object_link'><a href="Container.html#styles-instance_method" title="Watir::Container#styles (method)">#styles</a></span>, <span class='object_link'><a href="Container.html#sub-instance_method" title="Watir::Container#sub (method)">#sub</a></span>, <span class='object_link'><a href="Container.html#subs-instance_method" title="Watir::Container#subs (method)">#subs</a></span>, <span class='object_link'><a href="Container.html#summaries-instance_method" title="Watir::Container#summaries (method)">#summaries</a></span>, <span class='object_link'><a href="Container.html#summary-instance_method" title="Watir::Container#summary (method)">#summary</a></span>, <span class='object_link'><a href="Container.html#sup-instance_method" title="Watir::Container#sup (method)">#sup</a></span>, <span class='object_link'><a href="Container.html#sups-instance_method" title="Watir::Container#sups (method)">#sups</a></span>, <span class='object_link'><a href="Container.html#table-instance_method" title="Watir::Container#table (method)">#table</a></span>, <span class='object_link'><a href="Container.html#tables-instance_method" title="Watir::Container#tables (method)">#tables</a></span>, <span class='object_link'><a href="Container.html#tbody-instance_method" title="Watir::Container#tbody (method)">#tbody</a></span>, <span class='object_link'><a href="Container.html#tbodys-instance_method" title="Watir::Container#tbodys (method)">#tbodys</a></span>, <span class='object_link'><a href="Container.html#td-instance_method" title="Watir::Container#td (method)">#td</a></span>, <span class='object_link'><a href="Container.html#tds-instance_method" title="Watir::Container#tds (method)">#tds</a></span>, <span class='object_link'><a href="Container.html#text_field-instance_method" title="Watir::Container#text_field (method)">#text_field</a></span>, <span class='object_link'><a href="Container.html#text_fields-instance_method" title="Watir::Container#text_fields (method)">#text_fields</a></span>, <span class='object_link'><a href="Container.html#textarea-instance_method" title="Watir::Container#textarea (method)">#textarea</a></span>, <span class='object_link'><a href="Container.html#textareas-instance_method" title="Watir::Container#textareas (method)">#textareas</a></span>, <span class='object_link'><a href="Container.html#tfoot-instance_method" title="Watir::Container#tfoot (method)">#tfoot</a></span>, <span class='object_link'><a href="Container.html#tfoots-instance_method" title="Watir::Container#tfoots (method)">#tfoots</a></span>, <span class='object_link'><a href="Container.html#th-instance_method" title="Watir::Container#th (method)">#th</a></span>, <span class='object_link'><a href="Container.html#thead-instance_method" title="Watir::Container#thead (method)">#thead</a></span>, <span class='object_link'><a href="Container.html#theads-instance_method" title="Watir::Container#theads (method)">#theads</a></span>, <span class='object_link'><a href="Container.html#ths-instance_method" title="Watir::Container#ths (method)">#ths</a></span>, <span class='object_link'><a href="Container.html#time-instance_method" title="Watir::Container#time (method)">#time</a></span>, <span class='object_link'><a href="Container.html#times-instance_method" title="Watir::Container#times (method)">#times</a></span>, <span class='object_link'><a href="Container.html#title-instance_method" title="Watir::Container#title (method)">#title</a></span>, <span class='object_link'><a href="Container.html#titles-instance_method" title="Watir::Container#titles (method)">#titles</a></span>, <span class='object_link'><a href="Container.html#tr-instance_method" title="Watir::Container#tr (method)">#tr</a></span>, <span class='object_link'><a href="Container.html#track-instance_method" title="Watir::Container#track (method)">#track</a></span>, <span class='object_link'><a href="Container.html#tracks-instance_method" title="Watir::Container#tracks (method)">#tracks</a></span>, <span class='object_link'><a href="Container.html#trs-instance_method" title="Watir::Container#trs (method)">#trs</a></span>, <span class='object_link'><a href="Container.html#ul-instance_method" title="Watir::Container#ul (method)">#ul</a></span>, <span class='object_link'><a href="Container.html#uls-instance_method" title="Watir::Container#uls (method)">#uls</a></span>, <span class='object_link'><a href="Container.html#var-instance_method" title="Watir::Container#var (method)">#var</a></span>, <span class='object_link'><a href="Container.html#vars-instance_method" title="Watir::Container#vars (method)">#vars</a></span>, <span class='object_link'><a href="Container.html#video-instance_method" title="Watir::Container#video (method)">#video</a></span>, <span class='object_link'><a href="Container.html#videos-instance_method" title="Watir::Container#videos (method)">#videos</a></span>, <span class='object_link'><a href="Container.html#wbr-instance_method" title="Watir::Container#wbr (method)">#wbr</a></span>, <span class='object_link'><a href="Container.html#wbrs-instance_method" title="Watir::Container#wbrs (method)">#wbrs</a></span></p>
 
   
   
@@ -612,9 +755,13 @@ A new instance of Element.
   
   
   
-  <h3 class="inherited">Methods included from <a href="XpathSupport.html" title="Watir::XpathSupport (module)">XpathSupport</a></h3>
-  <p class="inherited"><a href="XpathSupport.html#element_by_xpath-instance_method" title="Watir::XpathSupport#element_by_xpath (method)">#element_by_xpath</a>, <a href="XpathSupport.html#elements_by_xpath-instance_method" title="Watir::XpathSupport#elements_by_xpath (method)">#elements_by_xpath</a></p>
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="XpathSupport.html" title="Watir::XpathSupport (module)">XpathSupport</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="XpathSupport.html#element_by_xpath-instance_method" title="Watir::XpathSupport#element_by_xpath (method)">#element_by_xpath</a></span>, <span class='object_link'><a href="XpathSupport.html#elements_by_xpath-instance_method" title="Watir::XpathSupport#elements_by_xpath (method)">#elements_by_xpath</a></span></p>
 
+  
+  
+  
+  
   
   <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
@@ -622,7 +769,7 @@ A new instance of Element.
     <div class="method_details first">
   <p class="signature first" id="initialize-instance_method">
   
-    - (<tt><a href="" title="Watir::Element (class)">Element</a></tt>) <strong>initialize</strong>(parent, selector) 
+    - (<tt><span class='object_link'><a href="" title="Watir::Element (class)">Element</a></span></tt>) <strong>initialize</strong>(parent, selector) 
   
 
   
@@ -643,21 +790,21 @@ A new instance of Element
       <pre class="lines">
 
 
-10
-11
-12
-13
-14
 15
 16
 17
 18
 19
 20
-21</pre>
+21
+22
+23
+24
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/element.rb', line 10</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/elements/element.rb', line 15</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span><span class='lparen'>(</span><span class='id parent'>parent</span><span class='comma'>,</span> <span class='id selector'>selector</span><span class='rparen'>)</span>
   <span class='ivar'>@parent</span>   <span class='op'>=</span> <span class='id parent'>parent</span>
@@ -677,16 +824,17 @@ A new instance of Element
 </div>
   
 </div>
-
-
-  <div id="instance_method_details" class="method_details_list">
-    <h2>Instance Method Details</h2>
+<div id="method_missing_details" class="method_details_list">
+  <h2>Dynamic Method Handling</h2>
+  <p class="notice this">
+    This class handles dynamic methods through the <tt>method_missing</tt> method
     
-    
-      <div class="method_details first">
-  <p class="signature first" id="attribute_value-instance_method">
+  </p>
   
-    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>attribute_value</strong>(attribute_name) 
+    <div class="method_details first">
+  <p class="signature first" id="method_missing-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Object.html" title="Watir::Object (class)">Object</a></span></tt>) <strong>method_missing</strong>(meth, *args, &amp;blk)  <span class="extras">(private)</span>
   
 
   
@@ -696,13 +844,92 @@ A new instance of Element
       <pre class="lines">
 
 
-91
-92
-93
-94</pre>
+215
+216
+217
+218
+219
+220
+221
+222</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/element.rb', line 91</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/elements/element.rb', line 215</span>
+
+<span class='kw'>def</span> <span class='id method_missing'>method_missing</span><span class='lparen'>(</span><span class='id meth'>meth</span><span class='comma'>,</span> <span class='op'>*</span><span class='id args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id blk'>blk</span><span class='rparen'>)</span>
+  <span class='id method'>method</span> <span class='op'>=</span> <span class='id meth'>meth</span><span class='period'>.</span><span class='id to_s'>to_s</span>
+  <span class='kw'>if</span> <span class='id method'>method</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^data_(.+)$</span><span class='regexp_end'>/</span></span>
+    <span class='id attribute_value'>attribute_value</span><span class='lparen'>(</span><span class='id method'>method</span><span class='period'>.</span><span class='id gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>-</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='op'>*</span><span class='id args'>args</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='kw'>super</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="==-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Object.html" title="Watir::Object (class)">Object</a></span></tt>) <strong>==</strong>(other) 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='eql?-instance_method'>eql?</span></span>
+    </span>
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+44
+45
+46
+47</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/elements/element.rb', line 44</span>
+
+<span class='kw'>def</span> <span class='op'>==</span><span class='lparen'>(</span><span class='id other'>other</span><span class='rparen'>)</span>
+  <span class='id assert_exists'>assert_exists</span>
+  <span class='ivar'>@element</span> <span class='op'>==</span> <span class='id other'>other</span><span class='period'>.</span><span class='id element'>element</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="attribute_value-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Object.html" title="Watir::Object (class)">Object</a></span></tt>) <strong>attribute_value</strong>(attribute_name) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+106
+107
+108
+109</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/elements/element.rb', line 106</span>
 
 <span class='kw'>def</span> <span class='id attribute_value'>attribute_value</span><span class='lparen'>(</span><span class='id attribute_name'>attribute_name</span><span class='rparen'>)</span>
   <span class='id assert_exists'>assert_exists</span>
@@ -716,7 +943,7 @@ A new instance of Element
       <div class="method_details ">
   <p class="signature " id="click-instance_method">
   
-    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>click</strong> 
+    - (<tt><span class='object_link'><a href="Object.html" title="Watir::Object (class)">Object</a></span></tt>) <strong>click</strong> 
   
 
   
@@ -726,15 +953,15 @@ A new instance of Element
       <pre class="lines">
 
 
-49
-50
-51
-52
-53
-54</pre>
+64
+65
+66
+67
+68
+69</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/element.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/elements/element.rb', line 64</span>
 
 <span class='kw'>def</span> <span class='id click'>click</span>
   <span class='id assert_exists'>assert_exists</span>
@@ -750,7 +977,7 @@ A new instance of Element
       <div class="method_details ">
   <p class="signature " id="double_click-instance_method">
   
-    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>double_click</strong> 
+    - (<tt><span class='object_link'><a href="Object.html" title="Watir::Object (class)">Object</a></span></tt>) <strong>double_click</strong> 
   
 
   
@@ -781,16 +1008,16 @@ A new instance of Element
       <pre class="lines">
 
 
-56
-57
-58
-59
-60
-61
-62</pre>
+71
+72
+73
+74
+75
+76
+77</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/element.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/elements/element.rb', line 71</span>
 
 <span class='kw'>def</span> <span class='id double_click'>double_click</span>
   <span class='id assert_exists'>assert_exists</span>
@@ -807,7 +1034,7 @@ A new instance of Element
       <div class="method_details ">
   <p class="signature " id="driver-instance_method">
   
-    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>driver</strong> 
+    - (<tt><span class='object_link'><a href="Object.html" title="Watir::Object (class)">Object</a></span></tt>) <strong>driver</strong> 
   
 
   
@@ -817,12 +1044,12 @@ A new instance of Element
       <pre class="lines">
 
 
-133
-134
-135</pre>
+148
+149
+150</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/element.rb', line 133</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/elements/element.rb', line 148</span>
 
 <span class='kw'>def</span> <span class='id driver'>driver</span>
   <span class='ivar'>@parent</span><span class='period'>.</span><span class='id driver'>driver</span>
@@ -835,7 +1062,7 @@ A new instance of Element
       <div class="method_details ">
   <p class="signature " id="element-instance_method">
   
-    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>element</strong> 
+    - (<tt><span class='object_link'><a href="Object.html" title="Watir::Object (class)">Object</a></span></tt>) <strong>element</strong> 
   
 
   
@@ -849,13 +1076,13 @@ A new instance of Element
       <pre class="lines">
 
 
-137
-138
-139
-140</pre>
+152
+153
+154
+155</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/element.rb', line 137</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/elements/element.rb', line 152</span>
 
 <span class='kw'>def</span> <span class='id element'>element</span>
   <span class='id assert_exists'>assert_exists</span>
@@ -904,15 +1131,15 @@ A new instance of Element
       <pre class="lines">
 
 
-23
-24
-25
-26
-27
-28</pre>
+28
+29
+30
+31
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/element.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/elements/element.rb', line 28</span>
 
 <span class='kw'>def</span> <span class='id exists?'>exists?</span>
   <span class='id assert_exists'>assert_exists</span>
@@ -928,7 +1155,7 @@ A new instance of Element
       <div class="method_details ">
   <p class="signature " id="fire_event-instance_method">
   
-    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>fire_event</strong>(event_name, bubble = false) 
+    - (<tt><span class='object_link'><a href="Object.html" title="Watir::Object (class)">Object</a></span></tt>) <strong>fire_event</strong>(event_name, bubble = false) 
   
 
   
@@ -938,14 +1165,14 @@ A new instance of Element
       <pre class="lines">
 
 
-117
-118
-119
-120
-121</pre>
+132
+133
+134
+135
+136</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/element.rb', line 117</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/elements/element.rb', line 132</span>
 
 <span class='kw'>def</span> <span class='id fire_event'>fire_event</span><span class='lparen'>(</span><span class='id event_name'>event_name</span><span class='comma'>,</span> <span class='id bubble'>bubble</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='id assert_exists'>assert_exists</span>
@@ -960,7 +1187,7 @@ A new instance of Element
       <div class="method_details ">
   <p class="signature " id="flash-instance_method">
   
-    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>flash</strong> 
+    - (<tt><span class='object_link'><a href="Object.html" title="Watir::Object (class)">Object</a></span></tt>) <strong>flash</strong> 
   
 
   
@@ -970,21 +1197,21 @@ A new instance of Element
       <pre class="lines">
 
 
-72
-73
-74
-75
-76
-77
-78
-79</pre>
+87
+88
+89
+90
+91
+92
+93
+94</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/element.rb', line 72</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/elements/element.rb', line 87</span>
 
 <span class='kw'>def</span> <span class='id flash'>flash</span>
-  <span class='id assert_exists'>assert_exists</span>
-  <span class='id original_color'>original_color</span> <span class='op'>=</span> <span class='id driver'>driver</span><span class='period'>.</span><span class='id execute_script'>execute_script</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>arguments[0].style.backgroundColor</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='ivar'>@element</span><span class='rparen'>)</span>
+  <span class='id original_color'>original_color</span> <span class='op'>=</span> <span class='id style'>style</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>backgroundColor</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+
   <span class='int'>10</span><span class='period'>.</span><span class='id times'>times</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id n'>n</span><span class='op'>|</span>
     <span class='id color'>color</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id n'>n</span> <span class='op'>%</span> <span class='int'>2</span> <span class='op'>==</span> <span class='int'>0</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>red</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='id original_color'>original_color</span>
     <span class='id driver'>driver</span><span class='period'>.</span><span class='id execute_script'>execute_script</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>arguments[0].style.backgroundColor = '</span><span class='embexpr_beg'>#{</span><span class='id color'>color</span><span class='rbrace'>}</span><span class='tstring_content'>'</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='ivar'>@element</span><span class='rparen'>)</span>
@@ -998,7 +1225,7 @@ A new instance of Element
       <div class="method_details ">
   <p class="signature " id="focus-instance_method">
   
-    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>focus</strong> 
+    - (<tt><span class='object_link'><a href="Object.html" title="Watir::Object (class)">Object</a></span></tt>) <strong>focus</strong> 
   
 
   
@@ -1023,13 +1250,13 @@ href="http://code.google.com/p/selenium/issues/detail?id=157">code.google.com/p/
       <pre class="lines">
 
 
-112
-113
-114
-115</pre>
+127
+128
+129
+130</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/element.rb', line 112</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/elements/element.rb', line 127</span>
 
 <span class='kw'>def</span> <span class='id focus'>focus</span>
   <span class='id assert_exists'>assert_exists</span>
@@ -1041,9 +1268,9 @@ href="http://code.google.com/p/selenium/issues/detail?id=157">code.google.com/p/
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="html-instance_method">
+  <p class="signature " id="hash-instance_method">
   
-    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>html</strong> 
+    - (<tt><span class='object_link'><a href="Object.html" title="Watir::Object (class)">Object</a></span></tt>) <strong>hash</strong> 
   
 
   
@@ -1053,13 +1280,41 @@ href="http://code.google.com/p/selenium/issues/detail?id=157">code.google.com/p/
       <pre class="lines">
 
 
-96
-97
-98
-99</pre>
+50
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/element.rb', line 96</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/elements/element.rb', line 50</span>
+
+<span class='kw'>def</span> <span class='id hash'>hash</span>
+  <span class='ivar'>@element</span> <span class='op'>?</span> <span class='ivar'>@element</span><span class='period'>.</span><span class='id hash'>hash</span> <span class='op'>:</span> <span class='kw'>super</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="html-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Object.html" title="Watir::Object (class)">Object</a></span></tt>) <strong>html</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+111
+112
+113
+114</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/elements/element.rb', line 111</span>
 
 <span class='kw'>def</span> <span class='id html'>html</span>
   <span class='id assert_exists'>assert_exists</span>
@@ -1073,7 +1328,7 @@ href="http://code.google.com/p/selenium/issues/detail?id=157">code.google.com/p/
       <div class="method_details ">
   <p class="signature " id="inspect-instance_method">
   
-    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>inspect</strong> 
+    - (<tt><span class='object_link'><a href="Object.html" title="Watir::Object (class)">Object</a></span></tt>) <strong>inspect</strong> 
   
 
   
@@ -1083,16 +1338,16 @@ href="http://code.google.com/p/selenium/issues/detail?id=157">code.google.com/p/
       <pre class="lines">
 
 
-31
-32
-33
-34
-35
 36
-37</pre>
+37
+38
+39
+40
+41
+42</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/element.rb', line 31</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/elements/element.rb', line 36</span>
 
 <span class='kw'>def</span> <span class='id inspect'>inspect</span>
   <span class='kw'>if</span> <span class='ivar'>@selector</span><span class='period'>.</span><span class='id has_key?'>has_key?</span><span class='lparen'>(</span><span class='symbol'>:element</span><span class='rparen'>)</span>
@@ -1109,7 +1364,7 @@ href="http://code.google.com/p/selenium/issues/detail?id=157">code.google.com/p/
       <div class="method_details ">
   <p class="signature " id="parent-instance_method">
   
-    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>parent</strong> 
+    - (<tt><span class='object_link'><a href="Object.html" title="Watir::Object (class)">Object</a></span></tt>) <strong>parent</strong> 
   
 
   
@@ -1119,18 +1374,18 @@ href="http://code.google.com/p/selenium/issues/detail?id=157">code.google.com/p/
       <pre class="lines">
 
 
-123
-124
-125
-126
-127
-128
-129
-130
-131</pre>
+138
+139
+140
+141
+142
+143
+144
+145
+146</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/element.rb', line 123</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/elements/element.rb', line 138</span>
 
 <span class='kw'>def</span> <span class='id parent'>parent</span>
   <span class='id assert_exists'>assert_exists</span>
@@ -1147,9 +1402,61 @@ href="http://code.google.com/p/selenium/issues/detail?id=157">code.google.com/p/
 </div>
     
       <div class="method_details ">
+  <p class="signature " id="present?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>present?</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Returns true if the element exists and is visible on the page
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+70
+71
+72</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/extensions/wait.rb', line 70</span>
+
+<span class='kw'>def</span> <span class='id present?'>present?</span>
+  <span class='id exists?'>exists?</span> <span class='op'>&amp;&amp;</span> <span class='id visible?'>visible?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <p class="signature " id="right_click-instance_method">
   
-    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>right_click</strong> 
+    - (<tt><span class='object_link'><a href="Object.html" title="Watir::Object (class)">Object</a></span></tt>) <strong>right_click</strong> 
   
 
   
@@ -1180,16 +1487,16 @@ href="http://code.google.com/p/selenium/issues/detail?id=157">code.google.com/p/
       <pre class="lines">
 
 
-64
-65
-66
-67
-68
-69
-70</pre>
+79
+80
+81
+82
+83
+84
+85</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/element.rb', line 64</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/elements/element.rb', line 79</span>
 
 <span class='kw'>def</span> <span class='id right_click'>right_click</span>
   <span class='id assert_exists'>assert_exists</span>
@@ -1206,7 +1513,7 @@ href="http://code.google.com/p/selenium/issues/detail?id=157">code.google.com/p/
       <div class="method_details ">
   <p class="signature " id="run_checkers-instance_method">
   
-    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>run_checkers</strong> 
+    - (<tt><span class='object_link'><a href="Object.html" title="Watir::Object (class)">Object</a></span></tt>) <strong>run_checkers</strong> 
   
 
   
@@ -1216,12 +1523,12 @@ href="http://code.google.com/p/selenium/issues/detail?id=157">code.google.com/p/
       <pre class="lines">
 
 
-157
-158
-159</pre>
+172
+173
+174</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/element.rb', line 157</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/elements/element.rb', line 172</span>
 
 <span class='kw'>def</span> <span class='id run_checkers'>run_checkers</span>
   <span class='ivar'>@parent</span><span class='period'>.</span><span class='id run_checkers'>run_checkers</span>
@@ -1234,7 +1541,7 @@ href="http://code.google.com/p/selenium/issues/detail?id=157">code.google.com/p/
       <div class="method_details ">
   <p class="signature " id="send_keys-instance_method">
   
-    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>send_keys</strong>(*args) 
+    - (<tt><span class='object_link'><a href="Object.html" title="Watir::Object (class)">Object</a></span></tt>) <strong>send_keys</strong>(*args) 
   
 
   
@@ -1244,13 +1551,13 @@ href="http://code.google.com/p/selenium/issues/detail?id=157">code.google.com/p/
       <pre class="lines">
 
 
-101
-102
-103
-104</pre>
+116
+117
+118
+119</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/element.rb', line 101</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/elements/element.rb', line 116</span>
 
 <span class='kw'>def</span> <span class='id send_keys'>send_keys</span><span class='lparen'>(</span><span class='op'>*</span><span class='id args'>args</span><span class='rparen'>)</span>
   <span class='id assert_exists'>assert_exists</span>
@@ -1264,7 +1571,7 @@ href="http://code.google.com/p/selenium/issues/detail?id=157">code.google.com/p/
       <div class="method_details ">
   <p class="signature " id="style-instance_method">
   
-    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>style</strong>(property = nil) 
+    - (<tt><span class='object_link'><a href="Object.html" title="Watir::Object (class)">Object</a></span></tt>) <strong>style</strong>(property = nil) 
   
 
   
@@ -1274,24 +1581,24 @@ href="http://code.google.com/p/selenium/issues/detail?id=157">code.google.com/p/
       <pre class="lines">
 
 
-148
-149
-150
-151
-152
-153
-154
-155</pre>
+163
+164
+165
+166
+167
+168
+169
+170</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/element.rb', line 148</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/elements/element.rb', line 163</span>
 
 <span class='kw'>def</span> <span class='id style'>style</span><span class='lparen'>(</span><span class='id property'>property</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id property'>property</span>
     <span class='id assert_exists'>assert_exists</span>
     <span class='ivar'>@element</span><span class='period'>.</span><span class='id style'>style</span> <span class='id property'>property</span>
   <span class='kw'>else</span>
-    <span class='id attribute_value'>attribute_value</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>style</span><span class='tstring_end'>&quot;</span></span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span>
+    <span class='id attribute_value'>attribute_value</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>style</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1302,7 +1609,7 @@ href="http://code.google.com/p/selenium/issues/detail?id=157">code.google.com/p/
       <div class="method_details ">
   <p class="signature " id="tag_name-instance_method">
   
-    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>tag_name</strong> 
+    - (<tt><span class='object_link'><a href="Object.html" title="Watir::Object (class)">Object</a></span></tt>) <strong>tag_name</strong> 
   
 
   
@@ -1312,13 +1619,13 @@ href="http://code.google.com/p/selenium/issues/detail?id=157">code.google.com/p/
       <pre class="lines">
 
 
-44
-45
-46
-47</pre>
+59
+60
+61
+62</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/element.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/elements/element.rb', line 59</span>
 
 <span class='kw'>def</span> <span class='id tag_name'>tag_name</span>
   <span class='id assert_exists'>assert_exists</span>
@@ -1332,7 +1639,7 @@ href="http://code.google.com/p/selenium/issues/detail?id=157">code.google.com/p/
       <div class="method_details ">
   <p class="signature " id="text-instance_method">
   
-    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>text</strong> 
+    - (<tt><span class='object_link'><a href="Object.html" title="Watir::Object (class)">Object</a></span></tt>) <strong>text</strong> 
   
 
   
@@ -1342,13 +1649,13 @@ href="http://code.google.com/p/selenium/issues/detail?id=157">code.google.com/p/
       <pre class="lines">
 
 
-39
-40
-41
-42</pre>
+54
+55
+56
+57</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/element.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/elements/element.rb', line 54</span>
 
 <span class='kw'>def</span> <span class='id text'>text</span>
   <span class='id assert_exists'>assert_exists</span>
@@ -1362,7 +1669,7 @@ href="http://code.google.com/p/selenium/issues/detail?id=157">code.google.com/p/
       <div class="method_details ">
   <p class="signature " id="value-instance_method">
   
-    - (<tt><a href="Object.html" title="Watir::Object (class)">Object</a></tt>) <strong>value</strong> 
+    - (<tt><span class='object_link'><a href="Object.html" title="Watir::Object (class)">Object</a></span></tt>) <strong>value</strong> 
   
 
   
@@ -1372,24 +1679,24 @@ href="http://code.google.com/p/selenium/issues/detail?id=157">code.google.com/p/
       <pre class="lines">
 
 
-81
-82
-83
-84
-85
-86
-87
-88
-89</pre>
+96
+97
+98
+99
+100
+101
+102
+103
+104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/element.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/elements/element.rb', line 96</span>
 
 <span class='kw'>def</span> <span class='id value'>value</span>
   <span class='id assert_exists'>assert_exists</span>
 
   <span class='kw'>begin</span>
-    <span class='ivar'>@element</span><span class='period'>.</span><span class='id value'>value</span>
+    <span class='ivar'>@element</span><span class='period'>.</span><span class='id value'>value</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span>
   <span class='kw'>rescue</span> <span class='const'>WebDriver</span><span class='op'>::</span><span class='const'>Error</span><span class='op'>::</span><span class='const'>ElementNotEnabledError</span>
     <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
@@ -1433,17 +1740,135 @@ href="http://code.google.com/p/selenium/issues/detail?id=157">code.google.com/p/
       <pre class="lines">
 
 
-143
-144
-145
-146</pre>
+158
+159
+160
+161</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/element.rb', line 143</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/elements/element.rb', line 158</span>
 
 <span class='kw'>def</span> <span class='id visible?'>visible?</span>
   <span class='id assert_exists'>assert_exists</span>
   <span class='ivar'>@element</span><span class='period'>.</span><span class='id displayed?'>displayed?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="wait_until_present-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Object.html" title="Watir::Object (class)">Object</a></span></tt>) <strong>wait_until_present</strong>(timeout = 30) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+95
+96
+97</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/extensions/wait.rb', line 95</span>
+
+<span class='kw'>def</span> <span class='id wait_until_present'>wait_until_present</span><span class='lparen'>(</span><span class='id timeout'>timeout</span> <span class='op'>=</span> <span class='int'>30</span><span class='rparen'>)</span>
+  <span class='const'>Watir</span><span class='op'>::</span><span class='const'>Wait</span><span class='period'>.</span><span class='id until'>until</span><span class='lparen'>(</span><span class='id timeout'>timeout</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='kw'>self</span><span class='period'>.</span><span class='id present?'>present?</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="wait_while_present-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Object.html" title="Watir::Object (class)">Object</a></span></tt>) <strong>wait_while_present</strong>(timeout = 30) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+99
+100
+101
+102
+103</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/extensions/wait.rb', line 99</span>
+
+<span class='kw'>def</span> <span class='id wait_while_present'>wait_while_present</span><span class='lparen'>(</span><span class='id timeout'>timeout</span> <span class='op'>=</span> <span class='int'>30</span><span class='rparen'>)</span>
+  <span class='const'>Watir</span><span class='op'>::</span><span class='const'>Wait</span><span class='period'>.</span><span class='id while'>while</span><span class='lparen'>(</span><span class='id timeout'>timeout</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='kw'>self</span><span class='period'>.</span><span class='id present?'>present?</span> <span class='rbrace'>}</span>
+<span class='kw'>rescue</span> <span class='const'>Selenium</span><span class='op'>::</span><span class='const'>WebDriver</span><span class='op'>::</span><span class='const'>Error</span><span class='op'>::</span><span class='const'>ObsoleteElementError</span>
+  <span class='comment'># it's not present
+</span><span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="when_present-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Object.html" title="Watir::Object (class)">Object</a></span></tt>) <strong>when_present</strong>(timeout = 30) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Waits until the element is present.
+</p>
+<p>
+Optional argument:
+</p>
+<pre class="code">
+  timeout   -  seconds to wait before timing out (default: 30)
+
+    browser.button(:id, 'foo').when_present.click
+    browser.div(:id, 'bar').when_present { |div| ... }
+    browser.p(:id, 'baz').when_present(60).text</pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+86
+87
+88
+89
+90
+91
+92
+93</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/extensions/wait.rb', line 86</span>
+
+<span class='kw'>def</span> <span class='id when_present'>when_present</span><span class='lparen'>(</span><span class='id timeout'>timeout</span> <span class='op'>=</span> <span class='int'>30</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id block_given?'>block_given?</span>
+    <span class='const'>Watir</span><span class='op'>::</span><span class='const'>Wait</span><span class='period'>.</span><span class='id until'>until</span><span class='lparen'>(</span><span class='id timeout'>timeout</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='kw'>self</span><span class='period'>.</span><span class='id present?'>present?</span> <span class='rbrace'>}</span>
+    <span class='kw'>yield</span> <span class='kw'>self</span>
+  <span class='kw'>else</span>
+    <span class='const'>WhenPresentDecorator</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id timeout'>timeout</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1455,9 +1880,9 @@ href="http://code.google.com/p/selenium/issues/detail?id=157">code.google.com/p/
 </div>
     
     <div id="footer">
-  Generated on Fri Aug 20 19:22:29 2010 by 
-  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
-  0.5.8 (ruby-1.9.1).
+  Generated on Tue Aug 31 16:33:40 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.0 (ruby-1.9.2).
 </div>
 
   </body>
