@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{watir-webdriver}
-  s.version = "0.0.7"
+  s.version = "0.0.8"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jari Bakken"]
@@ -74,6 +74,7 @@ Gem::Specification.new do |s|
      "spec/html/closeable.html",
      "spec/html/data_attributes.html",
      "spec/html/keylogger.html",
+     "spec/html/wait.html",
      "spec/html/window_switching.html",
      "spec/input_spec.rb",
      "spec/locator_spec_helper.rb",
