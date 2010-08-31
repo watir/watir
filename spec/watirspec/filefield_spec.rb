@@ -115,6 +115,37 @@ describe "FileField" do
       messages.first.should include(File.basename(path))
       browser.button(:name, "new_user_submit").click
     end
+
+    it "raises an error if the file does not exist" do
+      lambda {
+        browser.file_field.set('/tmp/unlikely-to-exist')
+      }.should raise_error(Errno::ENOENT)
+    end
+  end
+
+
+  describe "#value=" do
+    it "is able to set a file path in the field and click the upload button and fire the onchange event" do
+      browser.goto("#{WatirSpec.host}/forms_with_input_elements.html")
+
+      path = File.expand_path(__FILE__)
+
+      browser.file_field(:name, "new_user_portrait").value = path
+      browser.file_field(:name, "new_user_portrait").value.should include(File.basename(path)) # only some browser will return the full path
+      messages.first.should include(File.basename(path))
+      browser.button(:name, "new_user_submit").click
+    end
+
+    it "does not raise an error if the file does not exist" do
+      browser.file_field.value = '/tmp/unlikely-to-exist'
+      browser.file_field.value.should == '/tmp/unlikely-to-exist'
+    end
+
+    it "does not alter its argument" do
+      value = '/foo/bar'
+      browser.file_field.value = value
+      value.should == '/foo/bar'
+    end
   end
 
 end
