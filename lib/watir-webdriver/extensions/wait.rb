@@ -57,7 +57,7 @@ module Watir
 
       Watir::Wait.until(@timeout) { @element.present? }
       
-      @element.send(m, *args, &block)
+      @element.__send__(m, *args, &block)
     end
   end # WhenPresentDecorator
 
