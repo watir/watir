@@ -1,5 +1,12 @@
 # encoding: utf-8
 module Watir
+
+  #
+  # Module provided by optional require:
+  #
+  #   require "watir-webdriver/extensions/wait"
+  #
+
   module Wait
     module_function
 
@@ -56,7 +63,7 @@ module Watir
       end
 
       Watir::Wait.until(@timeout) { @element.present? }
-      
+
       @element.__send__(m, *args, &block)
     end
   end # WhenPresentDecorator
@@ -66,6 +73,9 @@ module Watir
     #
     # Returns true if the element exists and is visible on the page
     #
+    # This method is provided by an optional require.
+    # @see Watir::Wait
+    #
 
     def present?
       exists? && visible?
@@ -74,13 +84,15 @@ module Watir
     #
     # Waits until the element is present.
     #
-    # Optional argument:
+    # This method is provided by an optional require.
+    # @see Watir::Wait
     #
-    #   timeout   -  seconds to wait before timing out (default: 30)
+    # Example:
+    #   browser.button(:id, 'foo').when_present.click
+    #   browser.div(:id, 'bar').when_present { |div| ... }
+    #   browser.p(:id, 'baz').when_present(60).text
     #
-    #     browser.button(:id, 'foo').when_present.click
-    #     browser.div(:id, 'bar').when_present { |div| ... }
-    #     browser.p(:id, 'baz').when_present(60).text
+    # @param [Integer] timeout seconds to wait before timing out
     #
 
     def when_present(timeout = 30)
@@ -92,9 +104,31 @@ module Watir
       end
     end
 
+    #
+    # Waits until the element is present.
+    #
+    # This method is provided by an optional require.
+    #
+    # @param [Integer] timeout seconds to wait before timing out
+    #
+    # @see Watir::Wait
+    # @see Watir::Element#present?
+    #
+
     def wait_until_present(timeout = 30)
       Watir::Wait.until(timeout) { self.present? }
     end
+
+    #
+    # Waits while the element is present.
+    #
+    # This method is provided by an optional require.
+    #
+    # @param [Integer] timeout seconds to wait before timing out
+    #
+    # @see Watir::Wait
+    # @see Watir::Element#present?
+    #
 
     def wait_while_present(timeout = 30)
       Watir::Wait.while(timeout) { self.present? }
