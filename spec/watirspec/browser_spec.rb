@@ -204,7 +204,7 @@ describe "Browser" do
       browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
     end
 
-    not_compliant_on [:webdriver, :ie] do
+    not_compliant_on [:webdriver, :ie], :celerity do
       it "returns an Array of matching elements" do
         objects = browser.elements_by_xpath("//*[@type='text']")
         objects.should be_kind_of(Array)
@@ -213,7 +213,7 @@ describe "Browser" do
       end
     end
 
-    deviates_on [:webdriver, :ie] do
+    deviates_on [:webdriver, :ie], :celerity do
       it "returns an Array of matching elements" do
         objects = browser.elements_by_xpath("//*[@type='text']")
         objects.should be_kind_of(Array)
