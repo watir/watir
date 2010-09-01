@@ -46,7 +46,7 @@ module WatirSpec
 
     def load_requires
       # load spec_helper from containing folder, if it exists
-      hook = File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper.rb")
+      hook = File.expand_path("../../spec_helper.rb", File.dirname(__FILE__))
       raise(Errno::ENOENT, hook) unless File.exist?(hook)
 
       load hook
