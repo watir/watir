@@ -12,6 +12,8 @@ describe "Label" do
     it "returns true if the element exists" do
       browser.label(:id, 'first_label').should exist
       browser.label(:id, /first_label/).should exist
+      browser.label(:for, "new_user_first_name").should exist
+      browser.label(:for, /new_user_first_name/).should exist
       browser.label(:text, 'First name').should exist
       browser.label(:text, /First name/).should exist
       browser.label(:index, 0).should exist
