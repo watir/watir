@@ -42,6 +42,8 @@ module Watir
     end
 
     def ==(other)
+      return false unless other.kind_of? self.class
+      
       assert_exists
       @element == other.element
     end

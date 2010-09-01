@@ -29,6 +29,10 @@ describe Watir::Element do
       a.should_not == b
       a.should_not eql(b)
     end
+    
+    it "returns false if the other object is not an Element" do
+      browser.dl.should_not == 1
+    end
   end
 
   describe "data-* attributes" do
