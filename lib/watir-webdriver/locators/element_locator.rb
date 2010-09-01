@@ -203,8 +203,9 @@ module Watir
         [:text, what]
       when :class_name
         [:class, what]
-      when :tag_name, :text, :xpath, :index, :class
-        # include class since the valid attribute is 'class_name'
+      when :tag_name, :text, :xpath, :index, :class, :for
+        # include :class since the valid attribute is 'class_name'
+        # include :for since the valid attribute is 'html_for'
         [how, what]
       else
         assert_valid_as_attribute how
