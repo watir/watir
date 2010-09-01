@@ -253,7 +253,7 @@ describe Watir::ElementLocator do
       end
 
       it "handles selector with tag name and multiple attributes" do
-        expect_all :xpath, ".//div[@class='foo' and @title='bar']"
+        expect_all :xpath, %r"\.//div\[(@class='foo' and @title='bar'|@title='bar' and @class='foo')\]"
 
         locate_all :tag_name => "div",
                    :class    => "foo",
