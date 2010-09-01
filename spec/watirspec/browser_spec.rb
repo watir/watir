@@ -87,7 +87,7 @@ describe "Browser" do
         browser = WatirSpec.implementation.browser_class.start("#{WatirSpec.files}/non_control_elements.html")
         browser.should be_instance_of(WatirSpec.implementation.browser_class)
         browser.title.should == "Non-control elements"
-        browser.quit
+        browser.close
       end
     end
   end
