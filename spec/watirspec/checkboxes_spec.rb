@@ -24,6 +24,7 @@ describe "CheckBoxes" do
       count = 0
 
       browser.checkboxes.each_with_index do |c, index|
+        c.should be_instance_of(CheckBox)
         c.name.should == browser.checkbox(:index, index).name
         c.id.should == browser.checkbox(:index, index).id
         c.value.should == browser.checkbox(:index, index).value
