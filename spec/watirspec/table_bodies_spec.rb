@@ -9,7 +9,7 @@ describe "TableBodies" do
 
   describe "with selectors" do
     it "returns the matching elements" do
-      browser.tbodys(:id => "first").to_a.should == [browser.tbody(:name => "first")]
+      browser.tbodys(:id => "first").to_a.should == [browser.tbody(:id => "first")]
     end
   end
 
