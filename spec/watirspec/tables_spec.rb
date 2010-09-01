@@ -7,6 +7,12 @@ describe "Tables" do
     browser.goto(WatirSpec.files + "/tables.html")
   end
 
+  describe "with selectors" do
+    it "returns the matching elements" do
+      browser.tables(:rules => "groups").to_a.should == [browser.table(:rules => "groups")]
+    end
+  end
+
   describe "#length" do
     it "returns the number of tables" do
       browser.tables.length.should == 4

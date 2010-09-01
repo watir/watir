@@ -7,6 +7,12 @@ describe "Metas" do
     browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
   end
 
+  describe "with selectors" do
+    it "returns the matching elements" do
+      browser.metas(:name => "description").to_a.should == [browser.meta(:name => "description")]
+    end
+  end
+
   describe "#length" do
     it "returns the number of meta elements" do
       browser.metas.length.should == 2

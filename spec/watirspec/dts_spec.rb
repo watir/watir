@@ -7,6 +7,12 @@ describe "Dts" do
     browser.goto(WatirSpec.files + "/definition_lists.html")
   end
 
+  describe "with selectors" do
+    it "returns the matching elements" do
+      browser.dts(:class => "current-industry").to_a.should == [browser.dt(:class => "current-industry")]
+    end
+  end
+
   describe "#length" do
     it "returns the number of dts" do
       browser.dts.length.should == 11

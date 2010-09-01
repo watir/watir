@@ -7,6 +7,12 @@ describe "Dds" do
     browser.goto(WatirSpec.files + "/definition_lists.html")
   end
 
+  describe "with selectors" do
+    it "returns the matching elements" do
+      browser.dds(:text => "11 years").to_a.should == [browser.dd(:text => "11 years")]
+    end
+  end
+
   describe "#length" do
     it "returns the number of dds" do
       browser.dds.length.should == 11

@@ -7,6 +7,12 @@ describe "Pres" do
     browser.goto(WatirSpec.files + "/non_control_elements.html")
   end
 
+  describe "with selectors" do
+    it "returns the matching elements" do
+      browser.pres(:class => "c++").to_a.should == [browser.pre(:class => "c++")]
+    end
+  end
+
   describe "#length" do
     it "returns the number of pres" do
       browser.pres.length.should == 7

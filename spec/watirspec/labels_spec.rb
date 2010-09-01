@@ -7,6 +7,12 @@ describe "Labels" do
     browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
   end
 
+  describe "with selectors" do
+    it "returns the matching elements" do
+      browser.labels(:for => "new_user_first_name").to_a.should == [browser.label(:for => "new_user_first_name")]
+    end
+  end
+
   describe "#length" do
     it "returns the number of labels" do
       browser.labels.length.should == 26 # changed this from 25 - Jari

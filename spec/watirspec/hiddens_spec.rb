@@ -7,6 +7,12 @@ describe "Hiddens" do
     browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
   end
 
+  describe "with selectors" do
+    it "returns the matching elements" do
+      browser.hiddens(:value => "dolls").to_a.should == [browser.hidden(:value => "dolls")]
+    end
+  end
+
   describe "#length" do
     it "returns the number of hiddens" do
       browser.hiddens.length.should == 1

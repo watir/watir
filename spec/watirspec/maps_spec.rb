@@ -7,6 +7,12 @@ describe "Maps" do
     browser.goto(WatirSpec.files + "/images.html")
   end
 
+  describe "with selectors" do
+    it "returns the matching elements" do
+      browser.maps(:name => "triangle_map").to_a.should == [browser.map(:name => "triangle_map")]
+    end
+  end
+
   describe "#length" do
     it "returns the number of maps" do
       browser.maps.length.should == 2

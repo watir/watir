@@ -7,6 +7,12 @@ describe "Buttons" do
     browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
   end
 
+  describe "with selectors" do
+    it "returns the matching elements" do
+      browser.buttons(:name => "new_user_button").to_a.should == [browser.button(:name => "new_user_button")]
+    end
+  end
+
   describe "#length" do
     it "returns the number of buttons" do
       browser.buttons.length.should == 8

@@ -7,6 +7,12 @@ describe "Images" do
     browser.goto(WatirSpec.files + "/images.html")
   end
 
+  describe "with selectors" do
+    it "returns the matching elements" do
+      browser.images(:alt => "circle").to_a.should == [browser.image(:alt => "circle")]
+    end
+  end
+
   describe "#length" do
     it "returns the number of images" do
       browser.images.length.should == 9

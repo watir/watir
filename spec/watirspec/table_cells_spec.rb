@@ -7,6 +7,12 @@ describe "TableCells" do
     browser.goto(WatirSpec.files + "/tables.html")
   end
 
+  describe "with selectors" do
+    it "returns the matching elements" do
+      browser.cells(:headers => "before_tax").to_a.should == [browser.cell(:headers => "before_tax")]
+    end
+  end
+
   #  describe "#length" do
   #    it "returns the number of cells" do
   #      browser.table(:id, 'outer').cells.length.should == 6

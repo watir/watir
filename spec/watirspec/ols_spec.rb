@@ -7,6 +7,12 @@ describe "Ols" do
     browser.goto(WatirSpec.files + "/non_control_elements.html")
   end
 
+  describe "with selectors" do
+    it "returns the matching elements" do
+      browser.ols(:class => "chemistry").to_a.should == [browser.ol(:class => "chemistry")]
+    end
+  end
+
   describe "#length" do
     it "returns the number of ols" do
       browser.ols.length.should == 2

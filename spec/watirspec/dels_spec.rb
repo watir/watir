@@ -7,6 +7,12 @@ describe "Dels" do
     browser.goto(WatirSpec.files + "/non_control_elements.html")
   end
 
+  describe "with selectors" do
+    it "returns the matching elements" do
+      browser.dels(:class => "lead").to_a.should == [browser.del(:class => "lead")]
+    end
+  end
+
   describe "#length" do
     it "returns the number of dels" do
       browser.dels.length.should == 5

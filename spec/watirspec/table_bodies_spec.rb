@@ -7,6 +7,12 @@ describe "TableBodies" do
     browser.goto(WatirSpec.files + "/tables.html")
   end
 
+  describe "with selectors" do
+    it "returns the matching elements" do
+      browser.tbodys(:name => "second").to_a.should == [browser.tbody(:name => "second")]
+    end
+  end
+
   describe "#length" do
     it "returns the correct number of table bodies (page context)" do
       browser.tbodys.length.should == 5

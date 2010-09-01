@@ -7,6 +7,12 @@ describe "Inses" do
     browser.goto(WatirSpec.files + "/non_control_elements.html")
   end
 
+  describe "with selectors" do
+    it "returns the matching elements" do
+      browser.inses(:class => "lead").to_a.should == [browser.ins(:class => "lead")]
+    end
+  end
+
   describe "#length" do
     it "returns the number of inses" do
       browser.inses.length.should == 5

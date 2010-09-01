@@ -7,6 +7,12 @@ describe "TableRows" do
     browser.goto(WatirSpec.files + "/tables.html")
   end
 
+  describe "with selectors" do
+    it "returns the matching elements" do
+      browser.rows(:id => "outer_second").to_a.should == [browser.row(:id => "outer_second")]
+    end
+  end
+
   describe "#length" do
     it "returns the correct number of cells (table context)" do
       browser.table(:id, 'inner').rows.length.should == 1

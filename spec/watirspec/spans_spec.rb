@@ -7,6 +7,12 @@ describe "Spans" do
     browser.goto(WatirSpec.files + "/non_control_elements.html")
   end
 
+  describe "with selectors" do
+    it "returns the matching elements" do
+      browser.spans(:class => "footer").to_a.should == [browser.span(:class => "footer")]
+    end
+  end
+
   describe "#length" do
     it "returns the number of spans" do
       browser.spans.length.should == 6

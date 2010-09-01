@@ -7,6 +7,12 @@ describe "Uls" do
     browser.goto(WatirSpec.files + "/non_control_elements.html")
   end
 
+  describe "with selectors" do
+    it "returns the matching elements" do
+      browser.uls(:class => "navigation").to_a.should == [browser.ul(:class => "navigation")]
+    end
+  end
+
   describe "#length" do
     it "returns the number of uls" do
       browser.uls.length.should == 2

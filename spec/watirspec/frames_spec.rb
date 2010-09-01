@@ -9,6 +9,12 @@ bug "http://github.com/jarib/watir-webdriver/issues#issue/17", :webdriver do
       browser.goto(WatirSpec.files + "/frames.html")
     end
 
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.frames(:name => "frame1").to_a.should == [browser.frame(:class => "frame1")]
+      end
+    end
+
     describe "#length" do
       it "returns the correct number of frames" do
         browser.frames.length.should == 2

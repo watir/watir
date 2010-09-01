@@ -7,6 +7,12 @@ describe "Lis" do
     browser.goto(WatirSpec.files + "/non_control_elements.html")
   end
 
+  describe "with selectors" do
+    it "returns the matching elements" do
+      browser.lis(:class => "nonlink").to_a.should == [browser.li(:class => "nonlink")]
+    end
+  end
+
   describe "#length" do
     it "returns the number of lis" do
       browser.lis.length.should == 18

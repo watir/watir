@@ -7,6 +7,12 @@ describe "Divs" do
     browser.goto(WatirSpec.files + "/non_control_elements.html")
   end
 
+  describe "with selectors" do
+    it "returns the matching elements" do
+      browser.divs(:id => "header").to_a.should == [browser.div(:id => "header")]
+    end
+  end
+
   describe "#length" do
     it "returns the number of divs" do
       browser.divs.length.should == 12

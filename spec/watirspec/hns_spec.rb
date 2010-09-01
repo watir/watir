@@ -6,6 +6,12 @@ describe "H1s", "H2s", "H3s", "H4s", "H5s", "H6s" do
     browser.goto(WatirSpec.files + "/non_control_elements.html")
   end
 
+  describe "with selectors" do
+    it "returns the matching elements" do
+      browser.h1s(:class => "primary").to_a.should == [browser.h1(:class => "primary")]
+    end
+  end
+
   describe "#length" do
     it "returns the number of h1s" do
       browser.h2s.length.should == 9
