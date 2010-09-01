@@ -24,6 +24,42 @@ describe "Element" do
     end
   end
 
+  describe "#== and #eql?" do
+    before { browser.goto(WatirSpec.files + "/definition_lists.html") }
+
+    it "returns true if the two elements point to the same DOM element" do
+      a = browser.dl(:id => "experience-list")
+      b = browser.dl
+
+      a.should == b
+      a.should eql(b)
+    end
+
+    it "returns false if the two elements are not the same" do
+      a = browser.dls[0]
+      b = browser.dls[1]
+
+      a.should_not == b
+      a.should_not eql(b)
+    end
+
+    it "returns false if the other object is not an Element" do
+      browser.dl.should_not == 1
+    end
+  end
+
+  describe "data-* attributes" do
+    before { browser.goto("file://" + File.expand_path("html/data_attributes.html", File.dirname(__FILE__))) }
+
+    it "finds elements by a data-* attribute" do
+      browser.p(:data_type => "ruby-library").should exist
+    end
+
+    it "returns the value of a data-* attribute" do
+      browser.p.data_type.should == "ruby-library"
+    end
+  end
+
   describe "#focus" do
     bug "http://github.com/jarib/watir-webdriver/issues/issue/20", [:webdriver, :firefox] do
       it "fires the onfocus event for the given element" do
