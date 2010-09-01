@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 module Watir
   class CheckBox < Input
 
@@ -54,7 +55,6 @@ module Watir
     end
   end # CheckBox
 
-
   module Container
     def checkbox(*args)
       CheckBox.new(self, extract_selector(args).merge(:tag_name => "input", :type => "checkbox"))
@@ -66,7 +66,7 @@ module Watir
   end # Container
 
   class CheckBoxCollection < InputCollection
-    def element_name
+    def element_class
       CheckBox
     end
   end # CheckBoxCollection

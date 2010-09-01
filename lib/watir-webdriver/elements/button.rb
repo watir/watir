@@ -66,5 +66,9 @@ module Watir
     def locator_class
       ButtonLocator
     end
+
+    def element_class
+      Button
+    end
   end # ButtonsCollection
 end # Watir
