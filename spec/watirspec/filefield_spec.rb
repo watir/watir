@@ -108,11 +108,14 @@ describe "FileField" do
     it "is able to set a file path in the field and click the upload button and fire the onchange event" do
       browser.goto("#{WatirSpec.host}/forms_with_input_elements.html")
 
-      path = File.expand_path(__FILE__)
+      path    = File.expand_path(__FILE__)
+      element = browser.file_field(:name, "new_user_portrait")
 
-      browser.file_field(:name, "new_user_portrait").set path
-      browser.file_field(:name, "new_user_portrait").value.should include(File.basename(path)) # only some browser will return the full path
+      element.set path
+
+      element.value.should include(File.basename(path)) # only some browser will return the full path
       messages.first.should include(File.basename(path))
+
       browser.button(:name, "new_user_submit").click
     end
 
@@ -128,17 +131,19 @@ describe "FileField" do
     it "is able to set a file path in the field and click the upload button and fire the onchange event" do
       browser.goto("#{WatirSpec.host}/forms_with_input_elements.html")
 
-      path = File.expand_path(__FILE__)
+      path    = File.expand_path(__FILE__)
+      element = browser.file_field(:name, "new_user_portrait")
 
-      browser.file_field(:name, "new_user_portrait").value = path
-      browser.file_field(:name, "new_user_portrait").value.should include(File.basename(path)) # only some browser will return the full path
-      messages.first.should include(File.basename(path))
-      browser.button(:name, "new_user_submit").click
+      element.value = path
+      element.value.should include(File.basename(path)) # only some browser will return the full path
     end
 
-    it "does not raise an error if the file does not exist" do
-      browser.file_field.value = '/tmp/unlikely-to-exist'
-      browser.file_field.value.should == '/tmp/unlikely-to-exist'
+
+    not_compliant_on [:webdriver, :ie] do
+      it "does not raise an error if the file does not exist" do
+        browser.file_field.value = '/tmp/unlikely-to-exist'
+        browser.file_field.value.should == '/tmp/unlikely-to-exist'
+      end
     end
 
     it "does not alter its argument" do
