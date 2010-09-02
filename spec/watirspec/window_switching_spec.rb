@@ -1,4 +1,4 @@
-require File.expand_path('watirspec/spec_helper', File.dirname(__FILE__))
+require File.expand_path('spec_helper', File.dirname(__FILE__))
 
 
 describe Watir::Browser do
@@ -87,7 +87,7 @@ describe Watir::Window do
     it "returns the title of the window" do
       titles = browser.windows.map { |e| e.title }
       titles.size.should == 2
-      
+
       ["window switching", "closeable window"].each do |title|
         titles.should include(title)
       end
