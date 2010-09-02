@@ -206,24 +206,24 @@ describe "SelectList" do
     end
   end
 
-  describe "#includes?" do
+  describe "#include?" do
     it "returns true if the given option exists" do
-      browser.select_list(:name, 'new_user_country').includes?('Denmark').should be_true
+      browser.select_list(:name, 'new_user_country').should include('Denmark')
     end
 
     it "returns false if the given option doesn't exist" do
-      browser.select_list(:name, 'new_user_country').includes?('Ireland').should be_false
+      browser.select_list(:name, 'new_user_country').should include('Ireland')
     end
   end
 
   describe "#selected?" do
     it "returns true if the given option is selected" do
       browser.select_list(:name, 'new_user_country').select('Denmark')
-      browser.select_list(:name, 'new_user_country').selected?('Denmark').should be_true
+      browser.select_list(:name, 'new_user_country').should be_selected('Denmark')
     end
 
     it "returns false if the given option is not selected" do
-      browser.select_list(:name, 'new_user_country').selected?('Sweden').should be_false
+      browser.select_list(:name, 'new_user_country').should be_selected('Sweden')
     end
 
     it "raises UnknonwObjectException if the option doesn't exist" do
