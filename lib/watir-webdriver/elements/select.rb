@@ -44,7 +44,6 @@ module Watir
       # TODO: optimize similar to selected?
       options.any? { |e| str_or_rx === e.text }
     end
-    alias_method :includes?, :include?
 
     #
     # Select the option(s) whose text or label matches the given string.
