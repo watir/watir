@@ -51,12 +51,14 @@ describe "Element" do
   describe "data-* attributes" do
     before { browser.goto("file://" + File.expand_path("html/data_attributes.html", File.dirname(__FILE__))) }
 
-    it "finds elements by a data-* attribute" do
-      browser.p(:data_type => "ruby-library").should exist
-    end
+    bug "http://github.com/jarib/celerity/issues#issue/27", :celerity do
+      it "finds elements by a data-* attribute" do
+        browser.p(:data_type => "ruby-library").should exist
+      end
 
-    it "returns the value of a data-* attribute" do
-      browser.p.data_type.should == "ruby-library"
+      it "returns the value of a data-* attribute" do
+        browser.p.data_type.should == "ruby-library"
+      end
     end
   end
 
