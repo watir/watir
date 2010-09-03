@@ -24,6 +24,10 @@ describe Browser do
     it "only returns windows matching the given selector" do
       browser.windows(:title => "closeable window").size.should == 1
     end
+    
+    it "raises ArgumentError if the selector is invalid" do
+      lambda { browser.windows(:name => "foo") }.should raise_error(ArgumentError)
+    end
   end
 
   describe "#window" do
