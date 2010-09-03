@@ -7,12 +7,14 @@ describe "FileFields" do
     browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
   end
 
-  describe "with selectors" do
-    it "returns the matching elements" do
-      browser.file_fields(:class => "portrait").to_a.should == [browser.file_field(:class => "portrait")]
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.file_fields(:class => "portrait").to_a.should == [browser.file_field(:class => "portrait")]
+      end
     end
   end
-
+  
   describe "#length" do
     it "returns the correct number of file fields" do
       browser.file_fields.length.should == 2

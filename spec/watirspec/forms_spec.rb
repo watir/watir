@@ -7,12 +7,14 @@ describe "Forms" do
     browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
   end
 
-  describe "with selectors" do
-    it "returns the matching elements" do
-      browser.forms(:method => "post").to_a.should == [browser.form(:method => "post")]
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.forms(:method => "post").to_a.should == [browser.form(:method => "post")]
+      end
     end
   end
-
+  
   describe "#length" do
     it "returns the number of forms in the container" do
       browser.forms.length.should == 2

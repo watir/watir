@@ -7,12 +7,14 @@ describe "Ps" do
     browser.goto(WatirSpec.files + "/non_control_elements.html")
   end
 
-  describe "with selectors" do
-    it "returns the matching elements" do
-      browser.ps(:class => "lead").to_a.should == [browser.p(:class => "lead")]
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.ps(:class => "lead").to_a.should == [browser.p(:class => "lead")]
+      end
     end
   end
-
+  
   describe "#length" do
     it "returns the number of ps" do
       browser.ps.length.should == 5

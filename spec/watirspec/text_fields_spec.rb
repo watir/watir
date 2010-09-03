@@ -7,12 +7,14 @@ describe "TextFields" do
     browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
   end
 
-  describe "with selectors" do
-    it "returns the matching elements" do
-      browser.text_fields(:name => "new_user_email").to_a.should == [browser.text_field(:name => "new_user_email")]
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.text_fields(:name => "new_user_email").to_a.should == [browser.text_field(:name => "new_user_email")]
+      end
     end
   end
-
+  
   describe "#length" do
     it "returns the number of text fields" do
       browser.text_fields.length.should == 9

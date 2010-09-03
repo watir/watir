@@ -7,12 +7,14 @@ describe "Pres" do
     browser.goto(WatirSpec.files + "/non_control_elements.html")
   end
 
-  describe "with selectors" do
-    it "returns the matching elements" do
-      browser.pres(:class => "c++").to_a.should == [browser.pre(:class => "c++")]
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.pres(:class => "c++").to_a.should == [browser.pre(:class => "c++")]
+      end
     end
   end
-
+  
   describe "#length" do
     it "returns the number of pres" do
       browser.pres.length.should == 7

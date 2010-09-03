@@ -6,12 +6,14 @@ describe "TableHeaders" do
     browser.goto(WatirSpec.files + "/tables.html")
   end
 
-  describe "with selectors" do
-    it "returns the matching elements" do
-      browser.theads(:id => "tax_headers").to_a.should == [browser.thead(:id => "tax_headers")]
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.theads(:id => "tax_headers").to_a.should == [browser.thead(:id => "tax_headers")]
+      end
     end
   end
-
+  
   describe "#length" do
     it "returns the correct number of table theads (page context)" do
       browser.theads.length.should == 1

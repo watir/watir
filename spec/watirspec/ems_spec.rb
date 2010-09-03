@@ -7,12 +7,14 @@ describe "Ems" do
     browser.goto(WatirSpec.files + "/non_control_elements.html")
   end
 
-  describe "with selectors" do
-    it "returns the matching elements" do
-      browser.ems(:class => "important-class").to_a.should == [browser.em(:class => "important-class")]
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.ems(:class => "important-class").to_a.should == [browser.em(:class => "important-class")]
+      end
     end
   end
-
+  
   describe "#length" do
     it "returns the number of ems" do
       browser.ems.length.should == 1

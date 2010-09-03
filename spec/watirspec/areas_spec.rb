@@ -7,12 +7,14 @@ describe "Areas" do
     browser.goto(WatirSpec.files + "/images.html")
   end
 
-  describe "with selectors" do
-    it "returns the matching elements" do
-      browser.areas(:alt => "Tables").to_a.should == [browser.area(:alt => "Tables")]
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.areas(:alt => "Tables").to_a.should == [browser.area(:alt => "Tables")]
+      end
     end
   end
-
+  
   describe "#length" do
     it "returns the number of areas" do
       browser.areas.length.should == 3

@@ -7,12 +7,14 @@ describe "Links" do
     browser.goto(WatirSpec.files + "/non_control_elements.html")
   end
 
-  describe "with selectors" do
-    it "returns the matching elements" do
-      browser.links(:title => "link_title_2").to_a.should == [browser.link(:title => "link_title_2")]
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.links(:title => "link_title_2").to_a.should == [browser.link(:title => "link_title_2")]
+      end
     end
   end
-
+  
   describe "#length" do
     it "returns the number of links" do
       browser.links.length.should == 4

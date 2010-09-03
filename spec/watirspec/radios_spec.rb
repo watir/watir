@@ -7,12 +7,14 @@ describe "Radios" do
     browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
   end
 
-  describe "with selectors" do
-    it "returns the matching elements" do
-      browser.radios(:value => "yes").to_a.should == [browser.radio(:value => "yes")]
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.radios(:value => "yes").to_a.should == [browser.radio(:value => "yes")]
+      end
     end
   end
-
+  
   describe "#length" do
     it "returns the number of radios" do
       browser.radios.length.should == 5

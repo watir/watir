@@ -6,12 +6,14 @@ describe "TableFooters" do
     browser.goto(WatirSpec.files + "/tables.html")
   end
 
-  describe "with selectors" do
-    it "returns the matching elements" do
-      browser.tfoots(:id => "tax_totals").to_a.should == [browser.tfoot(:id => "tax_totals")]
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.tfoots(:id => "tax_totals").to_a.should == [browser.tfoot(:id => "tax_totals")]
+      end
     end
   end
-
+  
   describe "#length" do
     it "returns the correct number of table tfoots (page context)" do
       browser.tfoots.length.should == 1

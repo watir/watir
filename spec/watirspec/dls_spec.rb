@@ -7,12 +7,14 @@ describe "Dls" do
     browser.goto(WatirSpec.files + "/definition_lists.html")
   end
 
-  describe "with selectors" do
-    it "returns the matching elements" do
-      browser.dls(:title => "experience").to_a.should == [browser.dl(:title => "experience")]
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.dls(:title => "experience").to_a.should == [browser.dl(:title => "experience")]
+      end
     end
   end
-
+  
   describe "#length" do
     it "returns the number of dls" do
       browser.dls.length.should == 3

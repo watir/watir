@@ -7,12 +7,14 @@ describe "Strongs" do
     browser.goto(WatirSpec.files + "/non_control_elements.html")
   end
 
-  describe "with selectors" do
-    it "returns the matching elements" do
-      browser.strongs(:class => "descartes").to_a.should == [browser.strong(:class => "descartes")]
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.strongs(:class => "descartes").to_a.should == [browser.strong(:class => "descartes")]
+      end
     end
   end
-
+  
   describe "#length" do
     it "returns the number of divs" do
       browser.strongs.length.should == 2

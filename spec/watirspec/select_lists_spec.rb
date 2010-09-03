@@ -7,12 +7,14 @@ describe "SelectLists" do
     browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
   end
 
-  describe "with selectors" do
-    it "returns the matching elements" do
-      browser.select_lists(:name => "delete_user_username").to_a.should == [browser.select_list(:name => "delete_user_username")]
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.select_lists(:name => "delete_user_username").to_a.should == [browser.select_list(:name => "delete_user_username")]
+      end
     end
   end
-
+  
   describe "#length" do
     it "returns the correct number of select lists on the page" do
       browser.select_lists.length.should == 4
