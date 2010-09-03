@@ -3,7 +3,7 @@ module Watir
 
     def windows(*args)
       all = @driver.window_handles.map { |id| Window.new(@driver, id) }
-      
+
       if args.empty?
         all
       else
@@ -25,11 +25,11 @@ module Watir
 
     def filter_windows(args, all, method)
       sel = extract_selector(args)
-      
+
       if sel.empty?
         all.find { |w| w.current? }
       end
-      
+
       unless sel.keys.all? { |k| [:title, :url].include? k }
         raise ArgumentError, "invalid window selector: #{sel.inspect}"
       end
@@ -44,7 +44,6 @@ module Watir
     def initialize(driver, id)
       @driver, @id = driver, id
     end
-
 
     def inspect
       '#<%s:0x%x id=%s>' % [self.class, hash*2, @id.to_s]
@@ -73,6 +72,11 @@ module Watir
     end
 
     def use(&blk)
+      if current?
+        yield if block_given?
+        return self
+      end
+
       @driver.switch_to.window(@id, &blk)
       self
     end
