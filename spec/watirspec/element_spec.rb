@@ -82,8 +82,10 @@ describe "Element" do
   end
 
   describe "#parent" do
-    it "gets the parent of this element" do
-      browser.text_field(:id, "new_user_email").parent.should be_instance_of(FieldSet)
+    bug "http://github.com/jarib/celerity/issues#issue/28", :celerity do
+      it "gets the parent of this element" do
+        browser.text_field(:id, "new_user_email").parent.should be_instance_of(FieldSet)
+      end
     end
   end
 
