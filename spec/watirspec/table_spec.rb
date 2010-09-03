@@ -166,8 +166,10 @@ describe "Table" do
   bug "http://github.com/jarib/watir-webdriver/issues/#issue/2", :webdriver do
     describe "#body" do
       it "returns the correct instance of TableBody" do
-        body = browser.table(:index, 0).body(:id, 'first')
+        body = browser.table(:index, 0).tbody(:id, 'first')
+        
         body.should be_instance_of(TableBody)
+        
         body[0][0].text.should == "March 2008"
       end
     end
@@ -176,8 +178,10 @@ describe "Table" do
   bug "http://github.com/jarib/watir-webdriver/issues/#issue/2", :webdriver do
     describe "#bodies" do
       it "returns the correct instance of TableBodies" do
-        bodies = browser.table(:index, 0).bodies
+        bodies = browser.table(:index, 0).tbodys
+        
         bodies.should be_instance_of(TableBodies)
+        
         bodies[0].id.should == "first"
         bodies[1].id.should == "second"
       end
