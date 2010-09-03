@@ -24,7 +24,7 @@ describe Browser do
     it "only returns windows matching the given selector" do
       browser.windows(:title => "closeable window").size.should == 1
     end
-    
+
     it "raises ArgumentError if the selector is invalid" do
       lambda { browser.windows(:name => "foo") }.should raise_error(ArgumentError)
     end
@@ -39,6 +39,10 @@ describe Browser do
     it "finds window by :title" do
       w = browser.window(:title => "closeable window")
       w.should be_kind_of(Window)
+    end
+
+    it "returns the current window if no argument is given" do
+      browser.window.url.should =~ /window_switching\.html/
     end
 
     it "it executes the given block in the window" do
