@@ -8,7 +8,7 @@ module Watir
     #
 
     def [](idx)
-      td(:index, idx)
+      cell(:index, idx)
     end
 
     private

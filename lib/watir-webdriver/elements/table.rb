@@ -8,13 +8,14 @@ module Watir
     # @return [Array<Array<String>>]
     #
 
-    def to_a
+    def strings
       assert_exists
 
-      trs.inject [] do |res, row|
+      rows.inject [] do |res, row|
         res << row.wd.find_elements(:xpath, ".//td | .//th").map { |cell| cell.text }
       end
     end
+    alias_method :to_a, :strings
 
     #
     # Get the n'th row of this table.
