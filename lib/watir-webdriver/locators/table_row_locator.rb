@@ -14,7 +14,6 @@ module Watir
 
       attr_expr = attribute_expression(selectors)
 
-
       xpath = "./*/child::tr"
       xpath << "[#{attr_expr}]" unless attr_expr.empty?
 

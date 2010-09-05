@@ -1,10 +1,14 @@
 module Watir
   class TableRow < HTMLElement
+    include CellContainer
+
+    # @private
+    attr_writer :locator_class
 
     #
-    # Get the n'th <td> of this element
+    # Get the n'th cell (<th> or <td>) of this row
     #
-    # @return Watir::TableDataCell
+    # @return Watir::TableCell
     #
 
     def [](idx)
@@ -13,24 +17,14 @@ module Watir
 
     private
 
-    def locate
-      if @parent.kind_of?(Watir::Table)
-        @parent.assert_exists
-        TableRowLocator.new(@parent.wd, @selector, self.class.attribute_list).locate
-      else
-        super
-      end
+    def locator_class
+      @locator_class || super
     end
-
   end # TableRow
 
 
   class TableRowCollection < ElementCollection
-    private
-
-    def locator_class
-      @parent.kind_of?(Watir::Table) ? TableRowLocator : super
-    end
-
+    attr_accessor :locator_class
   end # TableRowCollection
+
 end # Watir

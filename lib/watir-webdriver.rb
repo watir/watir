@@ -29,6 +29,8 @@ module Watir
 end
 
 require "watir-webdriver/attribute_helper"
+require "watir-webdriver/row_container"
+require "watir-webdriver/cell_container"
 require "watir-webdriver/element_collection"
 require "watir-webdriver/elements/element"
 require "watir-webdriver/elements/generated"
@@ -54,12 +56,6 @@ Watir.tag_to_class.freeze
 
 module Watir
   module Container
-
-    # TODO: deprecate cell/row in favor of td/tr?
-    alias_method :cell,  :td
-    alias_method :cells, :tds
-    alias_method :row,   :tr
-    alias_method :rows,  :trs
 
   end # Container
 end # Watir

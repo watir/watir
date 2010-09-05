@@ -43,7 +43,7 @@ module Watir
 
     def ==(other)
       return false unless other.kind_of? self.class
-      
+
       assert_exists
       @element == other.element
     end
@@ -191,10 +191,14 @@ module Watir
 
     def locate
       @parent.assert_exists
-      ElementLocator.new(@parent.wd, @selector, self.class.attribute_list).locate
+      locator_class.new(@parent.wd, @selector, self.class.attribute_list).locate
     end
 
   private
+
+    def locator_class
+      ElementLocator
+    end
 
     def selector_string
       @selector.inspect
