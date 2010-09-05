@@ -12,7 +12,7 @@ module Watir
       assert_exists
 
       rows.inject [] do |res, row|
-        res << row.wd.find_elements(:xpath, ".//td | .//th").map { |cell| cell.text }
+        res << row.cells.map { |cell| cell.text }
       end
     end
     alias_method :to_a, :strings
