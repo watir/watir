@@ -52,6 +52,16 @@ module WatirSpec
         false
       end
 
+      def find_free_port_above(int)
+        port = int
+
+        until free_port?(port)
+          port += 1
+        end
+
+        port
+      end
+
       def autorun
         @autorun ||= true
       end
@@ -63,6 +73,14 @@ module WatirSpec
       def running?
         defined?(@running) && @running
       end
+
+      def free_port?(port)
+        s = TCPServer.new(@host, port)
+        s.close
+        true
+      rescue SocketError, Errno::EADDRINUSE
+        false
+      end
     end # class << Server
 
     set :public,      WatirSpec.html
@@ -70,7 +88,7 @@ module WatirSpec
     set :run,         false
     set :environment, :production
     set :bind,        "localhost" if WatirSpec.platform == :windows
-    set :port,        2000
+    set :port,        find_free_port_above(2000)
     set :server,      %w[mongrel webrick]
 
     get '/' do
