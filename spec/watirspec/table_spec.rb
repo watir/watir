@@ -79,6 +79,13 @@ describe "Table" do
     end
   end
 
+  describe "#rows" do
+    it "finds the correct number of rows (excluding nested tables)" do
+      browser.table(:id, 'inner').rows.length.should == 1
+      browser.table(:id, 'outer').rows.length.should == 3
+    end
+  end
+
   describe "#tbody" do
     bug "http://github.com/jarib/watir-webdriver/issues/issue/26", :webdriver do
       it "returns the correct instance of TableSection" do
