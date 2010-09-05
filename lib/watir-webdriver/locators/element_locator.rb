@@ -24,10 +24,8 @@ module Watir
     end
 
     def locate
-      # short-circuit if :id is given
-      if e = by_id
-        return e
-      end
+      e = by_id and return e # short-circuit if :id is given
+
 
       if @selector.size == 1
         element = find_first_by_one
@@ -232,14 +230,15 @@ module Watir
     end
 
     def by_id
+      return unless id = @selector[:id] and id.kind_of? String
+
       selector = @selector.dup
-      id       = selector.delete(:id)
-      return unless id && id.kind_of?(String)
+      selector.delete(:id)
 
       tag_name = selector.delete(:tag_name)
       return unless selector.empty? # multiple attributes
 
-      element  = @wd.find_element(:id, id)
+      element = @wd.find_element(:id, id)
       return if tag_name && !tag_name_matches?(element, tag_name)
 
       element
