@@ -44,13 +44,25 @@ describe "Table" do
   # Other
   describe "#strings" do
     it "returns a two-dimensional array representation of the table" do
-      browser.table(:id, 'inner').strings.should == [["Table 2, Row 1, Cell 1", "Table 2, Row 1, Cell 2"]]
+      browser.table(:id, 'inner').strings.should == [
+        ["Table 2, Row 1, Cell 1",
+         "Table 2, Row 1, Cell 2"]
+      ]
+
+      browser.table(:id, 'outer').strings.should == [
+        ["Table 1, Row 1, Cell 1", "Table 1, Row 1, Cell 2"],
+        ["Table 1, Row 2, Cell 2", "Table 1, Row 2, Cell 2 Table 2, Row 1, Cell 1 Table 2, Row 1, Cell 2"],
+        ["Table 1, Row 3, Cell 1", "Table 1, Row 3, Cell 2"]
+     ]
     end
   end
 
   describe "#hashes" do
     it "returns an Array of Hashes for the common table usage" do
       pending
+      browser.table(:id => "axis_example").hashes.should == [
+        { "" => nil, "Before income tax" => nil, "Income tax" => nil, "After income tax" => nil},
+      ]
     end
 
     it "raises an error if the table could not be parsed" do
@@ -79,10 +91,30 @@ describe "Table" do
     end
   end
 
+  describe "#row" do
+    it "finds rows belonging to this table" do
+      # test both string and regexp
+      pending
+    end
+
+    it "does not find rows from a nested table" do
+      # test both string and regexp
+      pending
+    end
+  end
+
   describe "#rows" do
     it "finds the correct number of rows (excluding nested tables)" do
       browser.table(:id, 'inner').rows.length.should == 1
       browser.table(:id, 'outer').rows.length.should == 3
+    end
+
+    it "finds rows matching the selector" do
+      pending
+    end
+
+    it "does not find rows from a nested table" do
+      pending
     end
   end
 
