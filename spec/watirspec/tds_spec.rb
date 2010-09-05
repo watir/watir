@@ -10,11 +10,11 @@ describe "TableCells" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        browser.cells(:headers => "before_tax").to_a.should == [browser.cell(:headers => "before_tax")]
+        browser.tds(:headers => "before_tax").to_a.should == [browser.td(:headers => "before_tax")]
       end
     end
   end
-  
+
   #  describe "#length" do
   #    it "returns the number of cells" do
   #      browser.table(:id, 'outer').cells.length.should == 6
@@ -31,45 +31,30 @@ describe "TableCells" do
   #  end
 
   describe "#each" do
-    it "iterates through cells correctly" do
-      # All cells on the page
+    it "iterates through all cells on the page correctly" do
       count = 0
 
-      browser.cells.each_with_index do |c, index|
-        c.id.should == browser.cell(:index, index).id
-        c.value.should == browser.cell(:index, index).value
-
-        count += 1
-      end
-
-      count.should > 0
-
-      # Cells inside a table
-      count = 0
-
-      inner_table = browser.table(:id, 'inner')
-      inner_table.cells.each_with_index do |c, index|
-        c.id.should == inner_table.cell(:index, index).id
-        c.value.should == inner_table.cell(:index, index).value
-
-        count += 1
-      end
-
-      count.should > 0
-
-      # Cells inside a table (should not include cells inside a table inside a table)
-      outer_table = browser.table(:id, 'outer')
-      count = 0
-
-      outer_table.cells.each_with_index do |c, index|
-        c.id.should == outer_table.cell(:index, index).id
-        c.value.should == outer_table.cell(:index, index).value
+      browser.tds.each_with_index do |c, index|
+        c.id.should == browser.td(:index, index).id
+        c.value.should == browser.td(:index, index).value
 
         count += 1
       end
 
       count.should > 0
     end
-  end
 
+    it "iterates through cells inside a table" do
+      count = 0
+
+      inner_table = browser.table(:id, 'inner')
+      inner_table.tds.each_with_index do |c, index|
+        c.id.should == inner_table.td(:index, index).id
+        c.value.should == inner_table.td(:index, index).value
+
+        count += 1
+      end
+    end
+
+  end
 end
