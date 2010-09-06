@@ -175,6 +175,36 @@ module Watir
       @parent.run_checkers
     end
 
+    #
+    # Cast an Element instance to a more specific subtype.
+    #
+
+    def subtype
+      elem = element()
+      tag_name = elem.tag_name
+
+      klass = nil
+
+      if tag_name == "input"
+        klass = case elem.attribute(:type)
+          when *Button::VALID_TYPES
+            Button
+          when 'checkbox'
+            CheckBox
+          when 'radio'
+            Radio
+          when 'file'
+            FileField
+          else
+            TextField
+          end
+      else
+        klass = Watir.element_class_for(tag_name)
+      end
+
+      klass.new(@parent, :element => elem)
+    end
+
   protected
 
     def assert_exists

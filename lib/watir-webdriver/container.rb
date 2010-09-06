@@ -3,6 +3,10 @@ module Watir
   module Container
     include XpathSupport
 
+    def element(*args)
+      Element.new(self, extract_selector(args))
+    end
+
     private
 
     def browserbot(function_name, *arguments)

@@ -6,72 +6,34 @@ describe Watir::Input do
     browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
   end
 
-  describe "#to_checkbox" do
+  describe "#subtype" do
     it "returns a CheckBox instance" do
-      e = browser.input(:xpath => "//input[@type='checkbox']").to_checkbox
+      e = browser.input(:xpath => "//input[@type='checkbox']").subtype
       e.should be_kind_of(Watir::CheckBox)
     end
 
-    it "raises an error if the element is not a checkbox" do
-      lambda {
-        browser.input(:xpath => "//input[@type='text']").to_checkbox
-      }.should raise_error(TypeError)
-    end
-  end
-
-  describe "#to_radio" do
     it "returns a Radio instance" do
-      e = browser.input(:xpath => "//input[@type='radio']").to_radio
+      e = browser.input(:xpath => "//input[@type='radio']").subtype
       e.should be_kind_of(Watir::Radio)
     end
 
-    it "raises an error if the element is not a radio button" do
-      lambda {
-        browser.input(:xpath => "//input[@type='text']").to_radio
-      }.should raise_error(TypeError)
-    end
-  end
-
-  describe "#to_button" do
     it "returns a Button instance" do
       es = [
-        browser.input(:xpath => "//input[@type='button']").to_button,
-        browser.input(:xpath => "//input[@type='submit']").to_button
+        browser.input(:xpath => "//input[@type='button']").subtype,
+        browser.input(:xpath => "//input[@type='submit']").subtype
       ]
 
-      es.each { |e| e.should be_kind_of(Watir::Button) }
+      es.all? { |e| e.should be_kind_of(Watir::Button) }
     end
 
-    it "raises an error if the element is not a button" do
-      lambda {
-        browser.input(:xpath => "//input[@type='text']").to_button
-      }.should raise_error(TypeError)
-    end
-  end
-
-  describe "#to_text_field" do
     it "returns a TextField instance" do
-      e = browser.input(:xpath => "//input[@type='text']").to_text_field
+      e = browser.input(:xpath => "//input[@type='text']").subtype
       e.should be_kind_of(Watir::TextField)
     end
 
-    it "raises an error if the element is not a text field" do
-      lambda {
-        browser.input(:xpath => "//input[@type='radio']").to_text_field
-      }.should raise_error(TypeError)
-    end
-  end
-
-  describe "#to_file_field" do
     it "returns a TextField instance" do
-      e = browser.input(:xpath => "//input[@type='file']").to_file_field
+      e = browser.input(:xpath => "//input[@type='file']").subtype
       e.should be_kind_of(Watir::FileField)
-    end
-
-    it "raises an error if the element is not a text field" do
-      lambda {
-        browser.input(:xpath => "//input[@type='radio']").to_file_field
-      }.should raise_error(TypeError)
     end
   end
 end

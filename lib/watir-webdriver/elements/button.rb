@@ -12,13 +12,14 @@ module Watir
     # add the attributes from <input>
     attributes Watir::Input.typed_attributes
 
+    VALID_TYPES = %w[button reset submit image]
 
     def self.from(parent, element)
       if element.tag_name == "button" ||
-         element.tag_name == "input" && ButtonLocator::VALID_TYPES.include?(element.attribute(:type))
+         element.tag_name == "input" && VALID_TYPES.include?(element.attribute(:type))
         Button.new(parent, :element => element)
       else
-        raise TypeError, "expected button or input[@type=#{ButtonLocator::VALID_TYPES.join("|")}] for #{element.inspect}"
+        raise TypeError, "expected button or input[@type=#{VALID_TYPES.join("|")}] for #{element.inspect}"
       end
     end
 
