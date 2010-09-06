@@ -46,7 +46,6 @@ describe "TableRow" do
 
   describe "#[]" do
     it "returns the nth cell of the row" do
-      browser.table(:id, 'outer').tr(:index, 0)[0].text.should == "Table 1, Row 1, Cell 1"
       browser.table(:id, 'outer')[0][0].text.should == "Table 1, Row 1, Cell 1"
       browser.table(:id, 'outer')[2][0].text.should == "Table 1, Row 3, Cell 1"
     end

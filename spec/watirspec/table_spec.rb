@@ -51,7 +51,7 @@ describe "Table" do
 
       browser.table(:id, 'outer').strings.should == [
         ["Table 1, Row 1, Cell 1", "Table 1, Row 1, Cell 2"],
-        ["Table 1, Row 2, Cell 2", "Table 1, Row 2, Cell 2 Table 2, Row 1, Cell 1 Table 2, Row 1, Cell 2"],
+        ["Table 1, Row 2, Cell 1", "Table 1, Row 2, Cell 2 Table 2, Row 1, Cell 1 Table 2, Row 1, Cell 2"],
         ["Table 1, Row 3, Cell 1", "Table 1, Row 3, Cell 2"]
      ]
     end
@@ -59,9 +59,14 @@ describe "Table" do
 
   describe "#hashes" do
     it "returns an Array of Hashes for the common table usage" do
-      pending
       browser.table(:id => "axis_example").hashes.should == [
-        { "" => nil, "Before income tax" => nil, "Income tax" => nil, "After income tax" => nil},
+        { "" => "March 2008",     "Before income tax" => "",       "Income tax" => "",      "After income tax" => ""      },
+        { "" => "Gregory House",  "Before income tax" => "5 934",  "Income tax" => "1 347", "After income tax" => "4 587" },
+        { "" => "Hugh Laurie",    "Before income tax" => "6 300",  "Income tax" => "1 479", "After income tax" => "4 821" },
+        { "" => "April 2008",     "Before income tax" => "",       "Income tax" => "",      "After income tax" => ""      },
+        { "" => "Gregory House",  "Before income tax" => "5 863",  "Income tax" => "1 331", "After income tax" => "4 532" },
+        { "" => "Hugh Laurie",    "Before income tax" => "6 252",  "Income tax" => "1 420", "After income tax" => "4 832" },
+        { "" => "Sum",            "Before income tax" => "24 349", "Income tax" => "5 577", "After income tax" => "18 722"},
       ]
     end
 
