@@ -1,10 +1,6 @@
 module Watir
   class ChildRowLocator < ElementLocator
 
-    def locate_one
-      find_one_by_multiple
-    end
-
     def locate_all
       find_all_by_multiple
     end
@@ -22,8 +18,13 @@ module Watir
 
       attr_expr = attribute_expression(selectors)
 
-      xpath = "./tr | ./tbody/tr | ./thead/tr | ./tfoot/tr"
-      xpath << "[#{attr_expr}]" unless attr_expr.empty?
+      expressions = %w[./tr ./tbody/tr ./thead/tr ./tfoot/tr]
+
+      unless attr_expr.empty?
+        expressions.map! { |e| "#{e}[#{attr_expr}]" }
+      end
+
+      xpath = expressions.join(" | ")
 
       p :build_xpath => xpath if $DEBUG
 

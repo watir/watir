@@ -15,16 +15,11 @@ module Watir
       attr_expr = attribute_expression(selectors)
 
       expressions = %w[./th ./td]
-      %w[tbody thead tfoot].each do |parent_tag|
-        expressions << "./#{parent_tag}/th"
-        expressions << "./#{parent_tag}/td"
+      unless attr_expr.empty?
+        expressions.map! { |e| "#{e}[#{attr_expr}]" }
       end
 
-      if attr_expr.empty?
-        xpath = expressions.join(" | ")
-      else
-        xpath = expressions.map { |exp| "#{exp}[#{attr_expr}]" }.join(" | ")
-      end
+      xpath = expressions.join(" | ")
 
       p :build_xpath => xpath if $DEBUG
 
