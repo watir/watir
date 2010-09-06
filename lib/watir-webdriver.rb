@@ -10,8 +10,8 @@ require "watir-webdriver/container"
 require "watir-webdriver/locators/element_locator"
 require "watir-webdriver/locators/button_locator"
 require "watir-webdriver/locators/text_field_locator"
-require "watir-webdriver/locators/table_row_locator"
-require "watir-webdriver/locators/table_cell_locator"
+require "watir-webdriver/locators/child_row_locator"
+require "watir-webdriver/locators/child_cell_locator"
 require "watir-webdriver/browser"
 
 module Watir

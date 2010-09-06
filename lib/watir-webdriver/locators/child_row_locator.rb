@@ -1,11 +1,19 @@
 module Watir
   class ChildRowLocator < ElementLocator
 
+    def locate_one
+      find_one_by_multiple
+    end
+
     def locate_all
       find_all_by_multiple
     end
 
     private
+
+    def by_id
+      nil # avoid this
+    end
 
     def build_xpath(selectors)
       return if selectors.values.any? { |e| e.kind_of? Regexp }
