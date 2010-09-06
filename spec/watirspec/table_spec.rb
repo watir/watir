@@ -97,14 +97,16 @@ describe "Table" do
   end
 
   describe "#row" do
+    let(:table) { browser.table(:id, 'outer') }
+
     it "finds rows belonging to this table" do
-      # test both string and regexp
-      pending
+      table.row(:id => "outer_last").should exist
+      table.row(:text => /Table 1, Row 1, Cell 1/).should exist
     end
 
     it "does not find rows from a nested table" do
-      # test both string and regexp
-      pending
+      table.row(:id => "inner_first").should_not exist
+      table.row(:text => /^Table 2, Row 1, Cell 1 Table 2, Row 1, Cell 2$/).should_not exist
     end
   end
 
