@@ -31,7 +31,7 @@ module Watir
       # before any rows inside thead/tbody/tfoot...
       elements = super
 
-      if locator_class == ChildRowLocator
+      if locator_class == ChildRowLocator and @parent.kind_of? Table
         elements = elements.sort_by { |row| row.attribute(:rowIndex).to_i }
       end
 
