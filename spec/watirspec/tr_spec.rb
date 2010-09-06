@@ -58,12 +58,16 @@ describe "TableRow" do
     end
   end
 
-  bug "http://github.com/jarib/watir-webdriver/issues/#issue/2", :webdriver do
-    describe "#each" do
-      it "iterates correctly through the cells of the row" do
-        browser.table(:id, 'outer')[1].each_with_index do |cell, idx|
-          cell.id.should == "t1_r2_c#{idx + 1}"
-        end
+  describe "#cells" do
+    it "returns the correct number of cells" do
+      browser.table(:id, 'outer')[0].cells.length.should == 2
+      browser.table(:id, 'outer')[1].cells.length.should == 2
+      browser.table(:id, 'outer')[2].cells.length.should == 2
+    end
+
+    it "iterates correctly through the cells of the row" do
+      browser.table(:id, 'outer').row(:index => 1).cells.each_with_index do |cell, idx|
+        cell.id.should == "t1_r2_c#{idx + 1}"
       end
     end
   end
