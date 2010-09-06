@@ -45,24 +45,36 @@ describe "TableRow" do
   end
 
   describe "#[]" do
+    let(:table) { browser.table(:id => 'outer') }
+    
     it "returns the nth cell of the row" do
-      browser.table(:id, 'outer')[0][0].text.should == "Table 1, Row 1, Cell 1"
-      browser.table(:id, 'outer')[2][0].text.should == "Table 1, Row 3, Cell 1"
+      table[0][0].text.should == "Table 1, Row 1, Cell 1"
+      table[2][0].text.should == "Table 1, Row 3, Cell 1"
     end
 
     bug "http://github.com/jarib/watir-webdriver/issues/issue/26", :webdriver do
       it "raises UnknownCellException if the index is out of bounds" do
-        lambda { browser.table(:id, 'outer').tr(:index, 0)[1337] }.should raise_error(UnknownCellException)
-        lambda { browser.table(:id, 'outer')[0][1337] }.should raise_error(UnknownCellException)
+        lambda { table.tr(:index, 0)[1337] }.should raise_error(UnknownCellException)
+        lambda { table[0][1337] }.should raise_error(UnknownCellException)
       end
     end
   end
 
   describe "#cells" do
+    let(:table) { browser.table(:id => 'outer') }
+
     it "returns the correct number of cells" do
-      browser.table(:id, 'outer')[0].cells.length.should == 2
-      browser.table(:id, 'outer')[1].cells.length.should == 2
-      browser.table(:id, 'outer')[2].cells.length.should == 2
+      table[0].cells.length.should == 2
+      table[1].cells.length.should == 2
+      table[2].cells.length.should == 2
+    end
+
+    it "finds cells in the table" do
+    end
+
+    it "does not find cells from nested tables" do
+      table[1].cell(:id => "t2_r1_c1").should_not exist
+      table[1].cell(:id => /t2_r1_c1/).should_not exist
     end
 
     it "iterates correctly through the cells of the row" do
