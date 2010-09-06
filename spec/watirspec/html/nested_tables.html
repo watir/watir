@@ -8,11 +8,11 @@
     <script>
 // seems like the HTML parser will fix some of the problematic nesting here,
 // so we build this in JS (like the original test).
-function buildRowsTest() 
+function buildRowsTest()
 {
   var rowsTest = document.createElement("div");
-  rowsTest.id = "rows-test";
-  
+  rowsTest.id = "table-rows-test";
+
   function createNoBodyRowNesting(tag, count, idx)
   {
     var table = document.createElement("table");
@@ -79,45 +79,45 @@ function buildRowsTest()
       createNoBodyRowNesting(sectionTags[i], 1, index++)
 
   createNoBodyRowNesting("tr", 1, index++)
-  
+
   document.body.appendChild(rowsTest);
 };
 
 function buildCellsTest() {
   var cellsTest = document.createElement("div");
-  cellsTest.id = "cells-test";
-  
-  function buildCellNesting(tag, count, idx)
+  cellsTest.id = "row-cells-test";
+
+  function createCellNesting(tag, count, idx)
   {
       var row = document.createElement("tr");
       var container = document.createElement(tag);
       var cell = document.createElement("td");
       row.appendChild(container);
       container.appendChild(cell);
-      
+
       row.setAttribute("data-cell-count", count)
       row.setAttribute("data-browser-count", row.cells.length);
       row.setAttribute("id", "row" + idx);
-      
+
       cellsTest.appendChild(row);
   }
 
-  function buildHeaderCellNesting(tag, count, idx)
+  function createHeaderCellNesting(tag, count, idx)
   {
       var row = document.createElement("tr");
       var container = document.createElement(tag);
       var cell = document.createElement("th");
       row.appendChild(container);
       container.appendChild(cell);
-      
+
       row.setAttribute("data-cell-count", count)
       row.setAttribute("data-browser-count", row.cells.length);
       row.setAttribute("id", "row" + idx);
-      
+
       cellsTest.appendChild(row);
   }
-  
-  
+
+
   var tags = [
       "col",
       "colgroup",
@@ -132,25 +132,72 @@ function buildCellsTest() {
   ];
 
   var index = 0;
-  
-  for (i = 0; i < tags.length; ++i)
-      buildCellNesting(tags[i], 0, index++);
-
-  buildCellNesting("td", 1, index++);
-  buildCellNesting("th", 1, index++);
 
   for (i = 0; i < tags.length; ++i)
-      buildHeaderCellNesting(tags[i], 0, index++);
+      createCellNesting(tags[i], 0, index++);
 
-  buildHeaderCellNesting("td", 1, index++)
-  buildHeaderCellNesting("th", 1, index++)
-  
+  createCellNesting("td", 1, index++);
+  createCellNesting("th", 1, index++);
+
+  for (i = 0; i < tags.length; ++i)
+      createHeaderCellNesting(tags[i], 0, index++);
+
+  createHeaderCellNesting("td", 1, index++)
+  createHeaderCellNesting("th", 1, index++)
+
   document.body.appendChild(cellsTest);
+};
+
+function buildBodiesTest() {
+  var bodiesTest = document.createElement("table");
+  bodiesTest.id = "tbody-rows-test";
+
+  function createRowNesting(tag, count, idx)
+  {
+      var body = document.createElement("tbody");
+      var container = document.createElement(tag);
+      var row = document.createElement("tr");
+      body.appendChild(container);
+      container.appendChild(row);
+      bodiesTest.appendChild(body);
+
+      body.setAttribute("data-rows-count", count)
+      body.setAttribute("data-browser-count", body.rows.length);
+      body.setAttribute("id", "body" + idx);
+  }
+
+  var sectionTags = [
+      "tbody",
+      "tfoot",
+      "thead",
+  ];
+
+  var otherTags = [
+      "col",
+      "colgroup",
+      "div",
+      "form",
+      "script",
+      "table",
+      "td",
+      "th",
+  ];
+
+  var index = 0;
+  for (i = 0; i < otherTags.length; ++i)
+      createRowNesting(otherTags[i], 0, index++);
+
+  for (i = 0; i < sectionTags.length; ++i)
+      createRowNesting(sectionTags[i], 0, index++);
+
+  createRowNesting("tr", 1, index++);
+
+  document.body.appendChild(bodiesTest);
 };
 
 buildRowsTest();
 buildCellsTest();
-
+buildBodiesTest();
     </script>
   <body>
 </html>
