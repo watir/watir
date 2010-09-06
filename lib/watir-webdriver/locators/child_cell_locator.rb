@@ -10,11 +10,9 @@ module Watir
     def build_xpath(selectors)
       return if selectors.values.any? { |e| e.kind_of? Regexp }
 
-      # selectors.delete(:tag_name) || raise("internal error: no tag_name?!")
-
-      attr_expr = attribute_expression(selectors)
-
       expressions = %w[./th ./td]
+      attr_expr = attribute_expression(selectors)
+      
       unless attr_expr.empty?
         expressions.map! { |e| "#{e}[#{attr_expr}]" }
       end
