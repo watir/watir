@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>Nested tables from WebKit/LayoutTests/fast/dom/HTMLTableElement/rows.html</title>
+  </head>
+  <body>
+    <script>
+
+    // seems like the HTML parser will fix some of the problematic nesting here,
+    // so we build this in JS (like the original test).
+
+    function createNoBodyRowNesting(tag, count, idx)
+    {
+      var table = document.createElement("table");
+      var container = document.createElement(tag);
+      var row = document.createElement("tr");
+
+      container.innerHTML = count.toString()
+      table.appendChild(container);
+      container.appendChild(row);
+      document.body.appendChild(table);
+
+      table.setAttribute("data-rowcount", count)
+      table.setAttribute("data-browsercount", table.rows.length);
+      table.setAttribute("id", "tbl" + idx);
+    }
+
+    function createRowNesting(tag, count, idx)
+    {
+        var table = document.createElement("table");
+        var body = document.createElement("tbody");
+        var container = document.createElement(tag);
+        var row = document.createElement("tr");
+
+        table.appendChild(body);
+        body.appendChild(container);
+        container.appendChild(row);
+        document.body.appendChild(table)
+
+        table.setAttribute("data-rowcount", count)
+        table.setAttribute("data-browsercount", table.rows.length);
+        table.setAttribute("id", "tbl" + idx);
+    }
+
+    var sectionTags = [
+        "tbody",
+        "tfoot",
+        "thead",
+    ];
+
+    var otherTags = [
+        "col",
+        "colgroup",
+        "div",
+        "form",
+        "script",
+        "table",
+        "td",
+        "th",
+    ];
+
+    var index = 0;
+
+    for (i = 0; i < otherTags.length; ++i)
+        createRowNesting(otherTags[i], 0, index++);
+
+    for (i = 0; i < sectionTags.length; ++i)
+        createRowNesting(sectionTags[i], 0, index++)
+
+    createRowNesting("tr", 1, index++)
+
+    for (i = 0; i < otherTags.length; ++i)
+        createNoBodyRowNesting(otherTags[i], 0, index++)
+
+    for (i = 0; i < sectionTags.length; ++i)
+        createNoBodyRowNesting(sectionTags[i], 1, index++)
+
+    createNoBodyRowNesting("tr", 1, index++)
+    </script>
+  <body>
+</html>
