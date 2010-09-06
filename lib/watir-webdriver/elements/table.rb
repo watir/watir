@@ -3,8 +3,9 @@
 module Watir
   class Table < HTMLElement
     include RowContainer
+
     #
-    # The table as an 2D Array of strings with the text of each cell.
+    # The table as a 2D Array of strings with the text of each cell.
     #
     # @return [Array<Array<String>>]
     #
