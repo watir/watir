@@ -10,11 +10,11 @@ module Watir
     def build_xpath(selectors)
       return if selectors.values.any? { |e| e.kind_of? Regexp }
 
-      selectors.delete(:tag_name) || raise("internal error: no tag_name?!")
+      # selectors.delete(:tag_name) || raise("internal error: no tag_name?!")
 
       attr_expr = attribute_expression(selectors)
 
-      xpath = "./*/child::th | ./*/child::td"
+      xpath = "./th | ./td"
       xpath << "[#{attr_expr}]" unless attr_expr.empty?
 
       p :build_xpath => xpath if $DEBUG

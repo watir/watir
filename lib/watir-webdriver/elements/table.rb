@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 module Watir
   class Table < HTMLElement
     include RowContainer
