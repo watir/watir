@@ -176,10 +176,14 @@ module Watir
     end
 
     #
-    # Cast an Element instance to a more specific subtype.
+    # Cast this Element instance to a more specific subtype.
+    #
+    # Example:
+    #
+    #   browser.element(:xpath => "//input[@type='submit']").to_subtype #=> #<Watir::Button>
     #
 
-    def subtype
+    def to_subtype
       elem = element()
       tag_name = elem.tag_name
 
