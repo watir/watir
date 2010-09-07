@@ -118,6 +118,7 @@ namespace :html5 do
     mv "#{file}.new", file
   end
 
+  task :update => [:download, :generate, :overwrite]
 end # html5
 
 task :default => :spec
