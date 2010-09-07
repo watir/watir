@@ -74,7 +74,7 @@ module Watir
    end
  end
  class Frame < HTMLElement
-   attributes(:string => [:frame_border, :long_desc, :margin_height, :margin_width, :name, :scrolling, :src], :bool => [:no_resize], :document => [:content_document])
+   attributes(:string => [:frame_border, :long_desc, :margin_height, :margin_width, :name, :scrolling, :src, :content_window], :bool => [:no_resize], :document => [:content_document])
  end
  class FrameCollection < ElementCollection
    def element_class
@@ -90,7 +90,7 @@ module Watir
    end
  end
  class Marquee < HTMLElement
-   attributes(:string => [:behavior, :bg_color, :direction, :height, :true_speed, :width], :int => [:hspace, :loop, :scroll_amount, :scroll_delay, :vspace], :function => [:onbounce, :onfinish, :onstart])
+   attributes(:string => [:behavior, :bg_color, :direction, :height, :width], :int => [:hspace, :loop, :scroll_amount, :scroll_delay, :vspace], :bool => [:true_speed], :function => [:onbounce, :onfinish, :onstart])
  end
  class MarqueeCollection < ElementCollection
    def element_class
@@ -410,7 +410,7 @@ module Watir
    end
  end
  class Track < HTMLElement
-   attributes(:string => [:kind, :label, :src, :srclang, :track])
+   attributes(:string => [:kind, :src, :charset, :srclang, :label, :track])
  end
  class TrackCollection < ElementCollection
    def element_class
