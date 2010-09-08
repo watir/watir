@@ -14,7 +14,7 @@ describe "Forms" do
       end
     end
   end
-  
+
   describe "#length" do
     it "returns the number of forms in the container" do
       browser.forms.length.should == 2
@@ -22,11 +22,9 @@ describe "Forms" do
   end
 
   describe "#[]n" do
-    bug "http://github.com/jarib/watir-webdriver/issues/issue/27", [:webdriver, :firefox], [:webdriver, :ie] do
-      it "provides access to the nth form" do
-        browser.forms[0].action.should == 'post_to_me'
-        browser.forms[0].attribute_value('method').should == 'post'
-      end
+    it "provides access to the nth form" do
+      browser.forms[0].action.should =~ /post_to_me$/ # varies between browsers
+      browser.forms[0].attribute_value('method').should == 'post'
     end
   end
 

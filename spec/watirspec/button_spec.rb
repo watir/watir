@@ -105,10 +105,9 @@ describe "Button" do
   end
 
   describe "#src" do
-    bug "http://github.com/jarib/watir-webdriver/issues/issue/27", [:webdriver, :ie], [:webdriver, :firefox] do
-      it "returns the src attribute for the button image" do
-        browser.button(:name, "new_user_image").src.should == "images/button.jpg"
-      end
+    it "returns the src attribute for the button image" do
+      # varies between browsers
+      browser.button(:name, "new_user_image").src.should =~ %r"images/button.jpg$"
     end
 
     it "raises UnknownObjectException if the button does not exist" do
