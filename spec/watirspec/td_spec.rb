@@ -56,11 +56,9 @@ describe "TableCell" do
   end
 
   describe "#colspan" do
-    bug "http://github.com/jarib/watir-webdriver/issues#issue/25", :webdriver do
-      it "gets the colspan attribute" do
-        browser.td(:id, 'colspan_2').colspan.should == 2
-        browser.td(:id, 'no_colspan').colspan.should == 1
-      end
+    it "gets the colspan attribute" do
+      browser.td(:id, 'colspan_2').colspan.should == 2
+      browser.td(:id, 'no_colspan').colspan.should == 1
     end
   end
 
