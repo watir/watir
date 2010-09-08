@@ -62,6 +62,31 @@ describe "Element" do
     end
   end
 
+  describe "finding with unknown tag name" do
+    it "finds an element by xpath" do
+      browser.element(:xpath => "//*[@for='new_user_first_name']").should exist
+    end
+
+    it "finds an element by arbitrary attribute" do
+      browser.element(:id => "new_user").should exist
+    end
+
+    it "finds several elements by xpath" do
+      browser.elements(:xpath => "//a").length.should == 1
+    end
+
+    it "finds finds several elements by arbitrary attribute" do
+      browser.elements(:name => /^new_user/).length.should == 30
+    end
+  end
+
+  describe "#to_subtype" do
+    it "returns a more precise subtype of Element" do
+      el = browser.element(:xpath => "//input[@type='radio']").to_subtype
+      el.should be_kind_of(Watir::Radio)
+    end
+  end
+
   describe "#focus" do
     bug "http://github.com/jarib/watir-webdriver/issues/issue/20", [:webdriver, :firefox] do
       it "fires the onfocus event for the given element" do
