@@ -72,15 +72,24 @@ bug "http://github.com/jarib/celerity/issues#issue/17", :celerity do
       browser.window(:title => "closeable window").close
     end
 
-    describe "#close" do
-      it "closes the window" do
-        pending
-      end
-    end
+    bug "http://github.com/jarib/watir-webdriver/issues/issue/35", :webdriver do
+      describe "#close" do
+        it "closes the window" do
+          browser.windows.size.should == 2
 
-    describe "#use" do
-      it "switches to the window" do
-        pending
+          browser.a(:id => "open").click
+          browser.windows.size.should == 3
+
+          browser.windows(:title => "closeable window").close
+          browser.windows.size.should == 2
+        end
+      end
+
+      describe "#use" do
+        it "switches to the window" do
+          browser.window(:title => "closeable window").use
+          browser.title.should == "closeable window"
+        end
       end
     end
 
