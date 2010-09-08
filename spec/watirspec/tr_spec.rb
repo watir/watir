@@ -46,13 +46,13 @@ describe "TableRow" do
 
   describe "#[]" do
     let(:table) { browser.table(:id => 'outer') }
-    
+
     it "returns the nth cell of the row" do
       table[0][0].text.should == "Table 1, Row 1, Cell 1"
       table[2][0].text.should == "Table 1, Row 3, Cell 1"
     end
 
-    bug "http://github.com/jarib/watir-webdriver/issues/issue/26", :webdriver do
+    not_compliant_on :webdriver do
       it "raises UnknownCellException if the index is out of bounds" do
         lambda { table.tr(:index, 0)[1337] }.should raise_error(UnknownCellException)
         lambda { table[0][1337] }.should raise_error(UnknownCellException)
@@ -70,6 +70,7 @@ describe "TableRow" do
     end
 
     it "finds cells in the table" do
+      pending
     end
 
     it "does not find cells from nested tables" do

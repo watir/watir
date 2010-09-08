@@ -89,7 +89,7 @@ describe "Table" do
       browser.table(:id, 'outer')[2].id.should == "outer_last"
     end
 
-    bug "http://github.com/jarib/watir-webdriver/issues/issue/26", :webdriver do
+    not_compliant_on :webdriver do
       it "raises UnknownRowException if the index is out of bounds" do
         lambda { browser.table(:id, 'outer')[1337] }.should raise_error(UnknownRowException)
       end
@@ -126,12 +126,10 @@ describe "Table" do
   end
 
   describe "#tbody" do
-    bug "http://github.com/jarib/watir-webdriver/issues/issue/26", :webdriver do
-      it "returns the correct instance of TableSection" do
-        body = browser.table(:index, 0).tbody(:id, 'first')
-        body.should be_instance_of(TableSection)
-        body[0][0].text.should == "March 2008"
-      end
+    it "returns the correct instance of TableSection" do
+      body = browser.table(:index, 0).tbody(:id, 'first')
+      body.should be_instance_of(TableSection)
+      body[0][0].text.should == "March 2008"
     end
   end
 
