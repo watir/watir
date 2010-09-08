@@ -25,6 +25,8 @@ if defined?(WatirSpec)
       args.any? { |arg| arg == :webdriver || arg == [:webdriver, browser] }
     }
   end
+
+  # WatirSpec.unguarded = true
 end
 
-#WatirSpec.unguarded = true
+
