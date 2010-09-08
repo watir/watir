@@ -1,15 +1,15 @@
 module Watir
-  
+
   #
   # @private
-  # 
+  #
   # Extended by Element, provides methods for defining attributes on the element classes.
-  # 
-  
+  #
+
   module AttributeHelper
-    
+
     IGNORED_ATTRIBUTES = [:text, :hash]
-    
+
     def typed_attributes
       @typed_attributes ||= Hash.new { |hash, type| hash[type] = []  }
     end
@@ -74,7 +74,8 @@ module Watir
     def define_int_attribute(mname, aname)
       define_method mname do
         assert_exists
-        @element.attribute(aname).to_i
+        value = @element.attribute(aname)
+        value && Integer(value)
       end
     end
 
@@ -85,7 +86,7 @@ module Watir
     end
 
     def method_name_for(type, attribute)
-      # TODO: rethink this - this list could get pretty long...
+      # http://github.com/jarib/watir-webdriver/issues/issue/26
       name = case attribute
              when :html_for
                'for'
@@ -103,6 +104,8 @@ module Watir
     end
 
     def attribute_for_method(method)
+      # http://github.com/jarib/watir-webdriver/issues/issue/26
+
       case method.to_sym
       when :class_name
         'class'
@@ -112,10 +115,14 @@ module Watir
         'readonly'
       when :http_equiv
         'http-equiv'
+      when :col_span
+        'colspan'
+      when :row_span
+        'rowspan'
       else
         method.to_s
       end
     end
-    
+
   end # AttributeHelper
 end # Watir

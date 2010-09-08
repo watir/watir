@@ -6,6 +6,11 @@ module Watir
     def locator_class
       @locator_class || super
     end
+
+    def colspan
+      value = attribute_value :colspan
+      value ? Integer(value) : 1
+    end
   end
 
   class TableCellCollection < ElementCollection

@@ -27,3 +27,4 @@ if defined?(WatirSpec)
   end
 end
 
+#WatirSpec.unguarded = true
