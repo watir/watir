@@ -1,9 +1,12 @@
+require 'active_support/ordered_hash'
+
 module LocatorSpecHelper
   def driver
     @driver ||= mock(Selenium::WebDriver::Driver)
   end
 
-  def locator(selector, attrs = Watir::HTMLElement.attributes)
+  def locator(selector, attrs)
+    attrs ||= Watir::HTMLElement.attributes
     Watir::ElementLocator.new(driver, selector, attrs)
   end
 
@@ -15,12 +18,12 @@ module LocatorSpecHelper
     driver.should_receive(:find_elements).with(*args)
   end
 
-  def locate_one(*args)
-    locator(*args).locate
+  def locate_one(selector, attrs = nil)
+    locator(ordered_hash(selector), attrs).locate
   end
 
-  def locate_all(*args)
-    locator(*args).locate_all
+  def locate_all(selector, attrs = nil)
+    locator(ordered_hash(selector), attrs).locate_all
   end
 
   def element(opts = {})
@@ -32,6 +35,17 @@ module LocatorSpecHelper
     end if attrs
 
     el
+  end
+
+  def ordered_hash(selector)
+    case selector
+    when Hash
+      selector
+    when Array
+      ActiveSupport::OrderedHash[*selector]
+    else
+      raise ArgumentError, "couldn't create hash for #{selector.inspect}"
+    end
   end
 end
 

@@ -27,18 +27,18 @@ describe Watir::ElementLocator do
       end
 
       it "handles selector with tag name and multiple attributes" do
-        expect_one :xpath, %r".//div\[(@class='foo' and @title='bar'|@title='bar' and @class='foo')\]"
+        expect_one :xpath, ".//div[@class='foo' and @title='bar']"
 
-        locate_one :tag_name => "div",
-                   :class    => "foo",
-                   :title    => 'bar'
+        locate_one [:tag_name, "div",
+                    :class   , "foo",
+                    :title   , 'bar']
       end
 
       it "handles selector with no tag name and multiple attributes" do
-        expect_one :xpath, %r".//\*\[(@class='foo' and @title='bar'|@title='bar' and @class='foo')\]"
+        expect_one :xpath, ".//*[@class='foo' and @title='bar']"
 
-        locate_one :class => "foo",
-                   :title => "bar"
+        locate_one [:class, "foo",
+                    :title, "bar"]
       end
     end
 
@@ -85,11 +85,11 @@ describe Watir::ElementLocator do
       it "uses the corresponding <label>'s @for attribute when locating by label" do
         expect_one :xpath, ".//input[@type='text' and @id=//label[normalize-space()='foo']/@for]"
 
-        selector = {
-          :tag_name => "input",
-          :type     => "text",
-          :label    => "foo"
-        }
+        selector = [
+          :tag_name, "input",
+          :type    , "text",
+          :label   , "foo"
+        ]
 
         locate_one selector, Watir::Input.attributes
       end
@@ -253,11 +253,11 @@ describe Watir::ElementLocator do
       end
 
       it "handles selector with tag name and multiple attributes" do
-        expect_all :xpath, %r"\.//div\[(@class='foo' and @title='bar'|@title='bar' and @class='foo')\]"
+        expect_all :xpath, ".//div[@class='foo' and @title='bar']"
 
-        locate_all :tag_name => "div",
-                   :class    => "foo",
-                   :title    => 'bar'
+        locate_all [:tag_name, "div",
+                    :class   , "foo",
+                    :title   , 'bar']
       end
     end
 
