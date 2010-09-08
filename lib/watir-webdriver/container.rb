@@ -4,7 +4,11 @@ module Watir
     include XpathSupport
 
     def element(*args)
-      Element.new(self, extract_selector(args))
+      HTMLElement.new(self, extract_selector(args))
+    end
+
+    def elements(*args)
+      HTMLElementCollection.new(self, extract_selector(args))
     end
 
     private
