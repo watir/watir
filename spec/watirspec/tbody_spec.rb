@@ -51,45 +51,35 @@ describe "TableBody" do
     end
   end
 
-  bug "http://github.com/jarib/watir-webdriver/issues/#issue/2", :webdriver do
-    describe "#length" do
-      it "returns the correct number of table bodies (page context)" do
-        browser.tbody(:id, 'first').length.should == 3
-      end
+  describe "#[]" do
+    it "returns the row at the given index (page context)" do
+      browser.tbody(:id, 'first')[0].text.should == 'March 2008'
+      browser.tbody(:id, 'first')[1][0].text.should == 'Gregory House'
+      browser.tbody(:id, 'first')[2][0].text.should == 'Hugh Laurie'
+    end
 
-      it "returns the correct number of table bodies (table context)" do
-        browser.table(:index, 0).tbody(:id, 'first').length.should == 3
-      end
+    it "returns the row at the given index (table context)" do
+      browser.table(:index, 0).tbody(:id, 'first')[0].text.should == 'March 2008'
+      browser.table(:index, 0).tbody(:id, 'first')[1][0].text.should == 'Gregory House'
+      browser.table(:index, 0).tbody(:id, 'first')[2][0].text.should == 'Hugh Laurie'
     end
   end
 
-  bug "http://github.com/jarib/watir-webdriver/issues/#issue/2", :webdriver do
-    describe "#[]" do
-      it "returns the row at the given index (page context)" do
-        browser.tbody(:id, 'first')[0].text.should == 'March 2008'
-        browser.tbody(:id, 'first')[1][0].text.should == 'Gregory House'
-        browser.tbody(:id, 'first')[2][0].text.should == 'Hugh Laurie'
-      end
-
-      it "returns the row at the given index (table context)" do
-        browser.table(:index, 0).tbody(:id, 'first')[0].text.should == 'March 2008'
-        browser.table(:index, 0).tbody(:id, 'first')[1][0].text.should == 'Gregory House'
-        browser.table(:index, 0).tbody(:id, 'first')[2][0].text.should == 'Hugh Laurie'
-      end
+  describe "#row" do
+    it "finds the first row matching the selector" do
+      pending
     end
   end
 
-  bug "http://github.com/jarib/watir-webdriver/issues/#issue/2", :webdriver do
-    describe "#each" do
-      it "iterates through rows correctly" do
-        body = browser.table(:index, 0).tbody(:id, 'first')
-        expected_texts = ["march", "gregory", "hugh"]
-
-        body.each_with_index do |row, idx|
-          row.id.should == expected_texts[idx]
-        end
-      end
+  describe "#rows" do
+    it "finds rows matching the selector" do
+      pending
     end
   end
 
+  describe "#strings" do
+    it "returns the text of child cells" do
+      pending
+    end
+  end
 end

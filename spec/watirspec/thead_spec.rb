@@ -51,43 +51,35 @@ describe "TableHeader" do
     end
   end
 
-  bug "http://github.com/jarib/watir-webdriver/issues/#issue/2", :webdriver do
-    describe "#length" do
-      it "returns the correct number of table bodies (page context)" do
-        browser.thead(:id, 'tax_headers').length.should == 1
-      end
+  describe "#[]" do
+    it "returns the row at the given index (page context)" do
+      browser.thead(:id, 'tax_headers')[0].id.should == 'thead_row_1'
+      browser.thead(:id, 'tax_headers')[0][1].text.should == 'Before income tax'
+      browser.thead(:id, 'tax_headers')[0][2].text.should == 'Income tax'
+    end
 
-      it "returns the correct number of table bodies (table context)" do
-        browser.table(:index, 0).thead(:id, 'tax_headers').length.should == 1
-      end
+    it "returns the row at the given index (table context)" do
+      browser.table(:index, 0).thead(:id, 'tax_headers')[0].id.should == 'thead_row_1'
+      browser.table(:index, 0).thead(:id, 'tax_headers')[0][1].text.should == 'Before income tax'
+      browser.table(:index, 0).thead(:id, 'tax_headers')[0][2].text.should == 'Income tax'
     end
   end
 
-  bug "http://github.com/jarib/watir-webdriver/issues/#issue/2", :webdriver do
-    describe "#[]" do
-      it "returns the row at the given index (page context)" do
-        browser.thead(:id, 'tax_headers')[0].id.should == 'thead_row_1'
-        browser.thead(:id, 'tax_headers')[0][1].text.should == 'Before income tax'
-        browser.thead(:id, 'tax_headers')[0][2].text.should == 'Income tax'
-      end
-
-      it "returns the row at the given index (table context)" do
-        browser.table(:index, 0).thead(:id, 'tax_headers')[0].id.should == 'thead_row_1'
-        browser.table(:index, 0).thead(:id, 'tax_headers')[0][1].text.should == 'Before income tax'
-        browser.table(:index, 0).thead(:id, 'tax_headers')[0][2].text.should == 'Income tax'
-      end
+  describe "#row" do
+    it "finds the first row matching the selector" do
+      pending
     end
   end
 
-  bug "http://github.com/jarib/watir-webdriver/issues/#issue/2", :webdriver do
-    describe "#each" do
-      it "iterates through rows correctly" do
-        theader = browser.table(:index, 0).thead(:id, 'tax_headers')
-        theader.each_with_index do |r, index|
-          r.id.should == browser.row(:index, index).id
-          r.value.should == browser.row(:index, index).value
-        end
-      end
+  describe "#rows" do
+    it "finds rows matching the selector" do
+      pending
+    end
+  end
+
+  describe "#strings" do
+    it "returns the text of child cells" do
+      pending
     end
   end
 

@@ -50,42 +50,35 @@ describe "TableFooter" do
     end
   end
 
-  bug "http://github.com/jarib/watir-webdriver/issues/#issue/2", :webdriver do
-    describe "#length" do
-      it "returns the correct number of table footers (page context)" do
-        browser.tfoot(:id, 'tax_totals').length.should == 1
-      end
+  describe "#[]" do
+    it "returns the row at the given index (page context)" do
+      browser.tfoot(:id, 'tax_totals')[0].id.should == 'tfoot_row_1'
+      browser.tfoot(:id, 'tax_totals')[0][1].text.should == '24 349'
+      browser.tfoot(:id, 'tax_totals')[0][2].text.should == '5 577'
+    end
 
-      it "returns the correct number of table footers (table context)" do
-        browser.table(:index, 0).tfoot(:id, 'tax_totals').length.should == 1
-      end
+    it "returns the row at the given index (table context)" do
+      browser.table(:index, 0).tfoot(:id, 'tax_totals')[0].id.should == "tfoot_row_1"
+      browser.table(:index, 0).tfoot(:id, 'tax_totals')[0][1].text.should == '24 349'
+      browser.table(:index, 0).tfoot(:id, 'tax_totals')[0][2].text.should == '5 577'
     end
   end
 
-  bug "http://github.com/jarib/watir-webdriver/issues/#issue/2", :webdriver do
-    describe "#[]" do
-      it "returns the row at the given index (page context)" do
-        browser.tfoot(:id, 'tax_totals')[0].id.should == 'tfoot_row_1'
-        browser.tfoot(:id, 'tax_totals')[0][1].text.should == '24 349'
-        browser.tfoot(:id, 'tax_totals')[0][2].text.should == '5 577'
-      end
-
-      it "returns the row at the given index (table context)" do
-        browser.table(:index, 0).tfoot(:id, 'tax_totals')[0].id.should == "tfoot_row_1"
-        browser.table(:index, 0).tfoot(:id, 'tax_totals')[0][1].text.should == '24 349'
-        browser.table(:index, 0).tfoot(:id, 'tax_totals')[0][2].text.should == '5 577'
-      end
+  describe "#row" do
+    it "finds the first row matching the selector" do
+      pending
     end
   end
 
-  bug "http://github.com/jarib/watir-webdriver/issues/#issue/2", :webdriver do
-    describe "#each" do
-      it "iterates through rows correctly" do
-        tfoot = browser.table(:index, 0).tfoot(:id, 'tax_totals')
-        tfoot.each_with_index do |r, idx|
-          r.id.should == "tfoot_row_#{idx + 1}"
-        end
-      end
+  describe "#rows" do
+    it "finds rows matching the selector" do
+      pending
+    end
+  end
+
+  describe "#strings" do
+    it "returns the text of child cells" do
+      pending
     end
   end
 
