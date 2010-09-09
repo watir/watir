@@ -20,9 +20,9 @@ module Watir
     #
 
     def alert(&blk)
-      execute_script "window.alert = function(msg) { window.lastAlert = msg; }"
+      execute_script "window.alert = function(msg) { window.__lastWatirAlert = msg; }"
       yield
-      execute_script "return window.lastAlert"
+      execute_script "return window.__lastWatirAlert"
     end
 
     #
@@ -36,9 +36,9 @@ module Watir
     #   end #=> "the confirm message"
 
     def confirm(bool, &blk)
-      execute_script "window.confirm = function(msg) { window.lastConfirm = msg; return #{!!bool} }"
+      execute_script "window.confirm = function(msg) { window.__lastWatirConfirm = msg; return #{!!bool} }"
       yield
-      execute_script "return window.lastConfirm"
+      execute_script "return window.__lastWatirConfirm"
     end
 
     #
@@ -53,9 +53,9 @@ module Watir
     #
 
     def prompt(answer, &blk)
-      execute_script "window.prompt = function(text, value) { window.lastPrompt = { message: text, default: value }; return #{answer.to_json}; }"
+      execute_script "window.prompt = function(text, value) { window.__lastWatirPrompt = { message: text, default: value }; return #{answer.to_json}; }"
       yield
-      result = execute_script "return window.lastPrompt"
+      result = execute_script "return window.__lastWatirPrompt"
 
       result && result.dup.each_key { |k| result[k.to_sym] = result.delete(k)}
       result
