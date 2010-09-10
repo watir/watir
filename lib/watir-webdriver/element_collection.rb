@@ -53,7 +53,7 @@ module Watir
     #
 
     def first
-      to_a[0] || element_class.new(@parent, :index => 0)
+      self[0]
     end
 
     #
@@ -63,7 +63,7 @@ module Watir
     #
 
     def last
-      to_a[-1] || element_class.new(@parent, :index => -1)
+      self[-1]
     end
 
     #
