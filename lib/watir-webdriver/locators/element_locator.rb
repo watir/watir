@@ -197,14 +197,14 @@ module Watir
 
     def normalize_selector(how, what)
       case how
-      when :caption
-        [:text, what]
-      when :class_name
-        [:class, what]
       when :tag_name, :text, :xpath, :index, :class, :for
         # include :class since the valid attribute is 'class_name'
         # include :for since the valid attribute is 'html_for'
         [how, what]
+      when :class_name
+        [:class, what]
+      when :caption
+        [:text, what]
       else
         assert_valid_as_attribute how
         [how, what]
