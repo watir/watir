@@ -203,7 +203,6 @@ describe Watir::ElementLocator do
 
       selector = {
         :tag_name => "input",
-        :type     => "radio",
         :xpath    => "//div"
       }
 
