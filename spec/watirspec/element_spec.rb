@@ -140,6 +140,10 @@ describe "Element" do
     it "doesn't raise when called on nested elements" do
       browser.div(:id, 'no_such_div').link(:id, 'no_such_id').should_not exist
     end
+    
+    it "raises ArgumentError error if selector hash with :xpath has multiple entries" do
+      lambda { browser.div(:xpath => "//div", :class => "foo").exists? }.should raise_error(ArgumentError)
+    end
   end
 
 end
