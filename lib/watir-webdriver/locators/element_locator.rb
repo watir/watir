@@ -76,7 +76,7 @@ module Watir
       selector = normalized_selector
 
       idx   = selector.delete(:index)
-      xpath = selector[:xpath] || build_xpath(selector)
+      xpath = given_xpath(selector) || build_xpath(selector)
 
       if xpath
         # could build xpath for selector
@@ -102,7 +102,7 @@ module Watir
         raise ArgumentError, "can't locate all elements by :index"
       end
 
-      xpath = selector[:xpath] || build_xpath(selector)
+      xpath = given_xpath(selector) || build_xpath(selector)
       if xpath
         @wd.find_elements(:xpath, xpath)
       else
@@ -324,6 +324,16 @@ module Watir
       end
 
       element
+    end
+
+    def given_xpath(selector)
+      return unless xpath = selector.delete(:xpath)
+
+      unless selector.empty?
+        raise ArgumentError, ":xpath cannot be combined with other selectors (#{selector.inspect})"
+      end
+
+      xpath
     end
 
   end # ElementLocator
