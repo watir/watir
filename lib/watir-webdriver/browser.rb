@@ -28,7 +28,7 @@ module Watir
     # @param args Passed to the underlying driver
     #
 
-    def initialize(browser, *args)
+    def initialize(browser = :firefox, *args)
       case browser
       when Symbol, String
         @driver = Selenium::WebDriver.for browser.to_sym, *args
