@@ -1,5 +1,8 @@
 module Watir
   module WindowSwitching
+    
+    class NoMatchingWindowFoundException < StandardError
+    end
 
     def windows(*args)
       all = @driver.window_handles.map { |id| Window.new(@driver, id) }
@@ -18,7 +21,7 @@ module Watir
         win.use(&blk)
       end
 
-      win
+      win or raise NoMatchingWindowFoundException, args.inspect
     end
 
     private
