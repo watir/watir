@@ -1,6 +1,6 @@
 module Watir
   module WindowSwitching
-    
+
     class NoMatchingWindowFoundException < StandardError
     end
 
@@ -52,6 +52,17 @@ module Watir
       '#<%s:0x%x id=%s>' % [self.class, hash*2, @id.to_s]
     end
 
+    def ==(other)
+      return false unless other.kind_of?(self.class)
+
+      @id == other.id
+    end
+    alias_method :eql?, :==
+
+    def hash
+      @id.hash ^ self.class.hash
+    end
+
     def current?
       @driver.window_handle == @id
     end
@@ -83,5 +94,12 @@ module Watir
       @driver.switch_to.window(@id, &blk)
       self
     end
+
+    protected
+
+    def id
+      @id
+    end
+
   end # Window
 end # Watir
