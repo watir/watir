@@ -148,5 +148,18 @@ bug "http://github.com/jarib/celerity/issues#issue/17", :celerity do
         browser.url.should =~ /window_switching/
       end
     end
+
+    describe "#==" do
+      it "knows when two windows are equal" do
+        browser.window.should == browser.window
+      end
+
+      it "knows when two windows are not equal" do
+        win1 = browser.window
+        win2 = browser.window(:title => "closeable window")
+
+        win1.should_not == win2
+      end
+    end
   end
 end
