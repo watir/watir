@@ -10,8 +10,11 @@ describe Browser do
   end
 
   after do
-    win = browser.window(:title => "closeable window")
-    win && win.close
+    begin
+      browser.window(:title => "closeable window").close
+    rescue
+      # not ideal - clean these up
+    end
   end
 
   describe "#windows" do
@@ -27,6 +30,10 @@ describe Browser do
 
     it "raises ArgumentError if the selector is invalid" do
       lambda { browser.windows(:name => "foo") }.should raise_error(ArgumentError)
+    end
+
+    it "raises returns an empty array if no window matches the selector" do
+      browser.windows(:title => "noop").should == []
     end
   end
 
@@ -55,6 +62,14 @@ describe Browser do
 
         browser.windows.size.should == 1
       end
+    end
+
+    it "raises ArgumentError if the selector is invalid" do
+      lambda { browser.window(:name => "foo") }.should raise_error(ArgumentError)
+    end
+
+    it "raises an error if no window matches the selector" do
+      lambda { browser.window(:title => "noop") }.should raise_error
     end
 
   end
