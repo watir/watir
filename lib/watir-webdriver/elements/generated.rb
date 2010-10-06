@@ -42,7 +42,7 @@ module Watir
 
 
  class HTMLElement < Element
-   attributes(:string => [:innerhtml, :outerhtml, :id, :title, :lang, :dir, :class_name, :item_type, :item_id, :item_value, :access_key, :access_key_label, :content_editable, :command_type, :label, :icon], :token_list => [:class_list, :item_ref, :item_prop], :string_map => [:dataset], :bool => [:item_scope, :hidden, :draggable, :is_content_editable, :spellcheck, :disabled, :checked], :properties_collection => [:properties], :int => [:tab_index], :html_element => [:context_menu], :style => [:style], :function => [:onabort, :onblur, :oncanplay, :oncanplaythrough, :onchange, :onclick, :oncontextmenu, :oncuechange, :ondblclick, :ondrag, :ondragend, :ondragenter, :ondragleave, :ondragover, :ondragstart, :ondrop, :ondurationchange, :onemptied, :onended, :onerror, :onfocus, :onformchange, :onforminput, :oninput, :oninvalid, :onkeydown, :onkeypress, :onkeyup, :onload, :onloadeddata, :onloadedmetadata, :onloadstart, :onmousedown, :onmousemove, :onmouseout, :onmouseover, :onmouseup, :onmousewheel, :onpause, :onplay, :onplaying, :onprogress, :onratechange, :onreadystatechange, :onscroll, :onseeked, :onseeking, :onselect, :onshow, :onstalled, :onsubmit, :onsuspend, :ontimeupdate, :onvolumechange, :onwaiting])
+   attributes(:string => [:innerhtml, :outerhtml, :id, :title, :lang, :dir, :class_name, :item_type, :item_id, :item_value, :access_key, :access_key_label, :content_editable, :command_type, :label, :icon], :token_list => [:class_list, :item_ref, :item_prop], :string_map => [:dataset], :bool => [:item_scope, :hidden, :draggable, :is_content_editable, :spellcheck, :disabled, :checked], :properties_collection => [:properties], :int => [:tab_index], :html_element => [:context_menu], :style => [:style], :function => [:onabort, :onblur, :oncanplay, :oncanplaythrough, :onchange, :onclick, :oncontextmenu, :oncuechange, :ondblclick, :ondrag, :ondragend, :ondragenter, :ondragleave, :ondragover, :ondragstart, :ondrop, :ondurationchange, :onemptied, :onended, :onerror, :onfocus, :onformchange, :onforminput, :oninput, :oninvalid, :onkeydown, :onkeypress, :onkeyup, :onload, :onloadeddata, :onloadedmetadata, :onloadstart, :onmousedown, :onmousemove, :onmouseout, :onmouseover, :onmouseup, :onmousewheel, :onpause, :onplay, :onplaying, :onprogress, :onratechange, :onreadystatechange, :onreset, :onscroll, :onseeked, :onseeking, :onselect, :onshow, :onstalled, :onsubmit, :onsuspend, :ontimeupdate, :onvolumechange, :onwaiting])
  end
  class HTMLElementCollection < ElementCollection
    def element_class
@@ -82,7 +82,7 @@ module Watir
    end
  end
  class FrameSet < HTMLElement
-   attributes(:string => [:cols, :rows], :function => [:onafterprint, :onbeforeprint, :onbeforeunload, :onblur, :onerror, :onfocus, :onhashchange, :onload, :onmessage, :onoffline, :ononline, :onpagehide, :onpageshow, :onpopstate, :onredo, :onresize, :onstorage, :onundo, :onunload])
+   attributes(:string => [:cols, :rows], :function => [:onafterprint, :onbeforeprint, :onbeforeunload, :onblur, :onerror, :onfocus, :onhashchange, :onload, :onmessage, :onoffline, :ononline, :onpagehide, :onpageshow, :onpopstate, :onredo, :onresize, :onscroll, :onstorage, :onundo, :onunload])
  end
  class FrameSetCollection < ElementCollection
    def element_class
@@ -262,7 +262,7 @@ module Watir
    end
  end
  class Form < HTMLElement
-   attributes(:string => [:accept_charset, :action, :autocomplete, :enctype, :method, :name, :target], :bool => [:no_validate], :html_collection => [:elements], :int => [:length])
+   attributes(:string => [:accept_charset, :action, :autocomplete, :enctype, :encoding, :method, :name, :target], :bool => [:no_validate], :html_collection => [:elements], :int => [:length])
  end
  class FormCollection < ElementCollection
    def element_class
@@ -402,7 +402,7 @@ module Watir
    end
  end
  class Video < Media
-   attributes(:string => [:width, :height, :poster], :int => [:video_width, :video_height])
+   attributes(:int => [:width, :height, :video_width, :video_height], :string => [:poster])
  end
  class VideoCollection < ElementCollection
    def element_class
@@ -582,7 +582,7 @@ module Watir
  end
  # do nothing
  class OList < HTMLElement
-   attributes(:bool => [:reversed], :int => [:start])
+   attributes(:bool => [:reversed], :int => [:start], :string => [:type])
  end
  class OListCollection < ElementCollection
    def element_class
@@ -590,7 +590,7 @@ module Watir
    end
  end
  class OList < HTMLElement
-   attributes(:bool => [:compact], :string => [:type])
+   attributes(:bool => [:compact])
  end
  # do nothing
  class Quote < HTMLElement
@@ -650,7 +650,7 @@ module Watir
  end
  # do nothing
  class Body < HTMLElement
-   attributes(:function => [:onafterprint, :onbeforeprint, :onbeforeunload, :onblur, :onerror, :onfocus, :onhashchange, :onload, :onmessage, :onoffline, :ononline, :onpopstate, :onpagehide, :onpageshow, :onredo, :onresize, :onstorage, :onundo, :onunload])
+   attributes(:function => [:onafterprint, :onbeforeprint, :onbeforeunload, :onblur, :onerror, :onfocus, :onhashchange, :onload, :onmessage, :onoffline, :ononline, :onpopstate, :onpagehide, :onpageshow, :onredo, :onresize, :onscroll, :onstorage, :onundo, :onunload])
  end
  class BodyCollection < ElementCollection
    def element_class
@@ -2061,6 +2061,23 @@ module Watir
    end
 
    Watir.tag_to_class[:ruby] = HTMLElement
+   #
+   # @return [HTMLElement]
+   #
+
+   def s(*args)
+     HTMLElement.new(self, extract_selector(args).merge(:tag_name => "s"))
+   end
+
+   #
+   # @return [HTMLElementCollection]
+   #
+
+   def ss(*args)
+     HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "s"))
+   end
+
+   Watir.tag_to_class[:s] = HTMLElement
    #
    # @return [HTMLElement]
    #

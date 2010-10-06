@@ -5,10 +5,11 @@ require "webidl"
 require "active_support/inflector"
 
 ActiveSupport::Inflector.inflections do |inflect|
-  inflect.irregular 'body', 'bodys'
-  inflect.irregular 'tbody', 'tbodys'
-  inflect.irregular 'canvas', 'canvases'
-  inflect.irregular 'ins', 'inses'
+  inflect.plural 'body', 'bodys'
+  inflect.plural 'tbody', 'tbodys'
+  inflect.plural 'canvas', 'canvases'
+  inflect.plural 'ins', 'inses'
+  inflect.plural /^s$/, 'ss'
 end
 
 require "watir-webdriver/html/util"
