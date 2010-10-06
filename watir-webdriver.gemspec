@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{watir-webdriver}
-  s.version = "0.0.9"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jari Bakken"]
-  s.date = %q{2010-09-01}
+  s.date = %q{2010-10-06}
   s.description = %q{WebDriver-backed Watir}
   s.email = %q{jari.bakken@gmail.com}
   s.extra_rdoc_files = [
@@ -21,7 +21,6 @@ Gem::Specification.new do |s|
      ".gitignore",
      ".gitmodules",
      "Gemfile",
-     "Gemfile.lock",
      "LICENSE",
      "README.rdoc",
      "Rakefile",
@@ -30,6 +29,7 @@ Gem::Specification.new do |s|
      "lib/watir-webdriver/attribute_helper.rb",
      "lib/watir-webdriver/browser.rb",
      "lib/watir-webdriver/browserbot.js",
+     "lib/watir-webdriver/cell_container.rb",
      "lib/watir-webdriver/container.rb",
      "lib/watir-webdriver/core_ext/string.rb",
      "lib/watir-webdriver/element_collection.rb",
@@ -49,10 +49,14 @@ Gem::Specification.new do |s|
      "lib/watir-webdriver/elements/radio.rb",
      "lib/watir-webdriver/elements/select.rb",
      "lib/watir-webdriver/elements/table.rb",
+     "lib/watir-webdriver/elements/table_cell.rb",
      "lib/watir-webdriver/elements/table_row.rb",
+     "lib/watir-webdriver/elements/table_section.rb",
      "lib/watir-webdriver/elements/text_field.rb",
      "lib/watir-webdriver/exception.rb",
+     "lib/watir-webdriver/extensions/alerts.rb",
      "lib/watir-webdriver/extensions/nokogiri.rb",
+     "lib/watir-webdriver/extensions/performance.rb",
      "lib/watir-webdriver/extensions/wait.rb",
      "lib/watir-webdriver/html.rb",
      "lib/watir-webdriver/html/generator.rb",
@@ -61,26 +65,26 @@ Gem::Specification.new do |s|
      "lib/watir-webdriver/html/util.rb",
      "lib/watir-webdriver/html/visitor.rb",
      "lib/watir-webdriver/locators/button_locator.rb",
+     "lib/watir-webdriver/locators/child_cell_locator.rb",
+     "lib/watir-webdriver/locators/child_row_locator.rb",
      "lib/watir-webdriver/locators/element_locator.rb",
-     "lib/watir-webdriver/locators/table_row_locator.rb",
      "lib/watir-webdriver/locators/text_field_locator.rb",
+     "lib/watir-webdriver/row_container.rb",
      "lib/watir-webdriver/window_switching.rb",
      "lib/watir-webdriver/xpath_support.rb",
      "lib/yard/handlers/watir.rb",
+     "spec/alert_spec.rb",
      "spec/browser_spec.rb",
      "spec/container_spec.rb",
      "spec/element_locator_spec.rb",
      "spec/element_spec.rb",
-     "spec/html/closeable.html",
-     "spec/html/data_attributes.html",
+     "spec/html/alerts.html",
      "spec/html/keylogger.html",
      "spec/html/wait.html",
-     "spec/html/window_switching.html",
      "spec/input_spec.rb",
      "spec/locator_spec_helper.rb",
      "spec/spec_helper.rb",
      "spec/wait_spec.rb",
-     "spec/window_switching_spec.rb",
      "support/html5.html",
      "watir-webdriver.gemspec"
   ]
@@ -90,98 +94,100 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{Watir on WebDriver}
   s.test_files = [
-    "spec/element_spec.rb",
-     "spec/wait_spec.rb",
+    "spec/alert_spec.rb",
+     "spec/browser_spec.rb",
+     "spec/container_spec.rb",
      "spec/element_locator_spec.rb",
-     "spec/locator_spec_helper.rb",
+     "spec/element_spec.rb",
      "spec/input_spec.rb",
-     "spec/window_switching_spec.rb",
-     "spec/watirspec/select_list_spec.rb",
-     "spec/watirspec/span_spec.rb",
-     "spec/watirspec/hiddens_spec.rb",
-     "spec/watirspec/element_spec.rb",
-     "spec/watirspec/dt_spec.rb",
-     "spec/watirspec/buttons_spec.rb",
-     "spec/watirspec/collections_spec.rb",
-     "spec/watirspec/button_spec.rb",
-     "spec/watirspec/table_header_spec.rb",
-     "spec/watirspec/link_spec.rb",
-     "spec/watirspec/labels_spec.rb",
-     "spec/watirspec/table_footer_spec.rb",
-     "spec/watirspec/label_spec.rb",
-     "spec/watirspec/ols_spec.rb",
+     "spec/locator_spec_helper.rb",
+     "spec/spec_helper.rb",
+     "spec/wait_spec.rb",
+     "spec/watirspec/area_spec.rb",
      "spec/watirspec/areas_spec.rb",
+     "spec/watirspec/browser_spec.rb",
+     "spec/watirspec/button_spec.rb",
+     "spec/watirspec/buttons_spec.rb",
+     "spec/watirspec/checkbox_spec.rb",
+     "spec/watirspec/checkboxes_spec.rb",
+     "spec/watirspec/collections_spec.rb",
      "spec/watirspec/dd_spec.rb",
-     "spec/watirspec/frames_spec.rb",
-     "spec/watirspec/ems_spec.rb",
-     "spec/watirspec/option_spec.rb",
+     "spec/watirspec/dds_spec.rb",
+     "spec/watirspec/del_spec.rb",
+     "spec/watirspec/dels_spec.rb",
      "spec/watirspec/div_spec.rb",
      "spec/watirspec/divs_spec.rb",
-     "spec/watirspec/checkboxes_spec.rb",
-     "spec/watirspec/strong_spec.rb",
-     "spec/watirspec/table_bodies_spec.rb",
-     "spec/watirspec/table_headers_spec.rb",
-     "spec/watirspec/font_spec.rb",
-     "spec/watirspec/pre_spec.rb",
-     "spec/watirspec/select_lists_spec.rb",
-     "spec/watirspec/dls_spec.rb",
-     "spec/watirspec/lis_spec.rb",
-     "spec/watirspec/table_spec.rb",
-     "spec/watirspec/filefields_spec.rb",
-     "spec/watirspec/map_spec.rb",
-     "spec/watirspec/dds_spec.rb",
-     "spec/watirspec/inses_spec.rb",
-     "spec/watirspec/radio_spec.rb",
-     "spec/watirspec/frame_spec.rb",
-     "spec/watirspec/filefield_spec.rb",
-     "spec/watirspec/hns_spec.rb",
-     "spec/watirspec/del_spec.rb",
      "spec/watirspec/dl_spec.rb",
-     "spec/watirspec/text_field_spec.rb",
-     "spec/watirspec/hidden_spec.rb",
-     "spec/watirspec/checkbox_spec.rb",
-     "spec/watirspec/lib/server.rb",
-     "spec/watirspec/lib/watirspec.rb",
-     "spec/watirspec/lib/guards.rb",
-     "spec/watirspec/lib/spec_helper.rb",
-     "spec/watirspec/lib/implementation.rb",
+     "spec/watirspec/dls_spec.rb",
+     "spec/watirspec/dt_spec.rb",
      "spec/watirspec/dts_spec.rb",
-     "spec/watirspec/table_cells_spec.rb",
-     "spec/watirspec/ins_spec.rb",
-     "spec/watirspec/dels_spec.rb",
-     "spec/watirspec/li_spec.rb",
-     "spec/watirspec/links_spec.rb",
-     "spec/watirspec/hn_spec.rb",
-     "spec/watirspec/uls_spec.rb",
-     "spec/watirspec/table_body_spec.rb",
-     "spec/watirspec/form_spec.rb",
-     "spec/watirspec/table_cell_spec.rb",
-     "spec/watirspec/table_footers_spec.rb",
-     "spec/watirspec/spec_helper.rb",
-     "spec/watirspec/table_rows_spec.rb",
-     "spec/watirspec/forms_spec.rb",
-     "spec/watirspec/images_spec.rb",
-     "spec/watirspec/strongs_spec.rb",
-     "spec/watirspec/ol_spec.rb",
-     "spec/watirspec/radios_spec.rb",
-     "spec/watirspec/meta_spec.rb",
-     "spec/watirspec/ps_spec.rb",
+     "spec/watirspec/element_spec.rb",
      "spec/watirspec/em_spec.rb",
-     "spec/watirspec/text_fields_spec.rb",
-     "spec/watirspec/ul_spec.rb",
-     "spec/watirspec/table_row_spec.rb",
-     "spec/watirspec/spans_spec.rb",
-     "spec/watirspec/area_spec.rb",
+     "spec/watirspec/ems_spec.rb",
+     "spec/watirspec/filefield_spec.rb",
+     "spec/watirspec/filefields_spec.rb",
+     "spec/watirspec/font_spec.rb",
+     "spec/watirspec/form_spec.rb",
+     "spec/watirspec/forms_spec.rb",
+     "spec/watirspec/frame_spec.rb",
+     "spec/watirspec/frames_spec.rb",
+     "spec/watirspec/hidden_spec.rb",
+     "spec/watirspec/hiddens_spec.rb",
+     "spec/watirspec/hn_spec.rb",
+     "spec/watirspec/hns_spec.rb",
      "spec/watirspec/image_spec.rb",
-     "spec/watirspec/p_spec.rb",
-     "spec/watirspec/pres_spec.rb",
+     "spec/watirspec/images_spec.rb",
+     "spec/watirspec/ins_spec.rb",
+     "spec/watirspec/inses_spec.rb",
+     "spec/watirspec/label_spec.rb",
+     "spec/watirspec/labels_spec.rb",
+     "spec/watirspec/li_spec.rb",
+     "spec/watirspec/lib/guards.rb",
+     "spec/watirspec/lib/implementation.rb",
+     "spec/watirspec/lib/server.rb",
+     "spec/watirspec/lib/spec_helper.rb",
+     "spec/watirspec/lib/watirspec.rb",
+     "spec/watirspec/link_spec.rb",
+     "spec/watirspec/links_spec.rb",
+     "spec/watirspec/lis_spec.rb",
+     "spec/watirspec/map_spec.rb",
      "spec/watirspec/maps_spec.rb",
+     "spec/watirspec/meta_spec.rb",
      "spec/watirspec/metas_spec.rb",
-     "spec/watirspec/browser_spec.rb",
+     "spec/watirspec/ol_spec.rb",
+     "spec/watirspec/ols_spec.rb",
+     "spec/watirspec/option_spec.rb",
+     "spec/watirspec/p_spec.rb",
+     "spec/watirspec/pre_spec.rb",
+     "spec/watirspec/pres_spec.rb",
+     "spec/watirspec/ps_spec.rb",
+     "spec/watirspec/radio_spec.rb",
+     "spec/watirspec/radios_spec.rb",
+     "spec/watirspec/select_list_spec.rb",
+     "spec/watirspec/select_lists_spec.rb",
+     "spec/watirspec/span_spec.rb",
+     "spec/watirspec/spans_spec.rb",
+     "spec/watirspec/spec_helper.rb",
+     "spec/watirspec/strong_spec.rb",
+     "spec/watirspec/strongs_spec.rb",
+     "spec/watirspec/table_nesting_spec.rb",
+     "spec/watirspec/table_spec.rb",
      "spec/watirspec/tables_spec.rb",
-     "spec/container_spec.rb",
-     "spec/spec_helper.rb",
-     "spec/browser_spec.rb"
+     "spec/watirspec/tbody_spec.rb",
+     "spec/watirspec/tbodys_spec.rb",
+     "spec/watirspec/td_spec.rb",
+     "spec/watirspec/tds_spec.rb",
+     "spec/watirspec/text_field_spec.rb",
+     "spec/watirspec/text_fields_spec.rb",
+     "spec/watirspec/tfoot_spec.rb",
+     "spec/watirspec/tfoots_spec.rb",
+     "spec/watirspec/thead_spec.rb",
+     "spec/watirspec/theads_spec.rb",
+     "spec/watirspec/tr_spec.rb",
+     "spec/watirspec/trs_spec.rb",
+     "spec/watirspec/ul_spec.rb",
+     "spec/watirspec/uls_spec.rb",
+     "spec/watirspec/window_switching_spec.rb"
   ]
 
   if s.respond_to? :specification_version then
@@ -189,7 +195,7 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<selenium-webdriver>, [">= 0.0.28"])
+      s.add_runtime_dependency(%q<selenium-webdriver>, ["= 0.0.28"])
       s.add_development_dependency(%q<rspec>, [">= 0"])
       s.add_development_dependency(%q<yard>, ["~> 0.6"])
       s.add_development_dependency(%q<webidl>, [">= 0.0.4"])
@@ -197,7 +203,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<nokogiri>, [">= 0"])
       s.add_development_dependency(%q<activesupport>, ["~> 2.3.5"])
     else
-      s.add_dependency(%q<selenium-webdriver>, [">= 0.0.28"])
+      s.add_dependency(%q<selenium-webdriver>, ["= 0.0.28"])
       s.add_dependency(%q<rspec>, [">= 0"])
       s.add_dependency(%q<yard>, ["~> 0.6"])
       s.add_dependency(%q<webidl>, [">= 0.0.4"])
@@ -206,7 +212,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<activesupport>, ["~> 2.3.5"])
     end
   else
-    s.add_dependency(%q<selenium-webdriver>, [">= 0.0.28"])
+    s.add_dependency(%q<selenium-webdriver>, ["= 0.0.28"])
     s.add_dependency(%q<rspec>, [">= 0"])
     s.add_dependency(%q<yard>, ["~> 0.6"])
     s.add_dependency(%q<webidl>, [">= 0.0.4"])
