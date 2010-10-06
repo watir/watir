@@ -14,6 +14,21 @@ module Watir
 
       rows
     end
+    
+    #
+    # The table as a 2D Array of strings with the text of each cell.
+    #
+    # @return [Array<Array<String>>]
+    #
+
+    def strings
+      assert_exists
+
+      rows.inject [] do |res, row|
+        res << row.cells.map { |cell| cell.text }
+      end
+    end
+    alias_method :to_a, :strings
 
   end
 end

@@ -4,21 +4,6 @@ module Watir
   class Table < HTMLElement
     include RowContainer
 
-    #
-    # The table as a 2D Array of strings with the text of each cell.
-    #
-    # @return [Array<Array<String>>]
-    #
-
-    def strings
-      assert_exists
-
-      rows.inject [] do |res, row|
-        res << row.cells.map { |cell| cell.text }
-      end
-    end
-    alias_method :to_a, :strings
-
     def hashes
       all_rows   = rows.to_a
       header_row = all_rows.shift or raise Exception::Error, "no rows in table"
