@@ -67,19 +67,31 @@ describe "TableBody" do
 
   describe "#row" do
     it "finds the first row matching the selector" do
-      pending
+      row = browser.tbody(:id, 'first').row(:id => "gregory")
+
+      row.tag_name.should == "tr"
+      row.id.should == "gregory"
     end
   end
 
   describe "#rows" do
     it "finds rows matching the selector" do
-      pending
+      rows = browser.tbody(:id, 'first').rows(:id => /h$/)
+
+      rows.size.should == 2
+
+      rows.first.id.should == "march"
+      rows.last.id.should == "hugh"
     end
   end
 
   describe "#strings" do
     it "returns the text of child cells" do
-      pending
+      browser.tbody(:id, 'first').strings.should == [
+        ["March 2008", "", "", ""],
+        ["Gregory House", "5 934", "1 347", "4 587"],
+        ["Hugh Laurie", "6 300", "1 479", "4 821"]
+      ]
     end
   end
 end

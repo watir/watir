@@ -67,19 +67,25 @@ describe "TableHeader" do
 
   describe "#row" do
     it "finds the first row matching the selector" do
-      pending
+      row = browser.thead(:id, 'tax_headers').row(:class => "dark")
+      row.id.should == "thead_row_1"
     end
   end
 
   describe "#rows" do
     it "finds rows matching the selector" do
-      pending
+      rows = browser.thead(:id, 'tax_headers').rows(:class => "dark")
+
+      rows.size.should == 1
+      rows.first.id.should == "thead_row_1"
     end
   end
 
   describe "#strings" do
     it "returns the text of child cells" do
-      pending
+      browser.thead(:id, 'tax_headers').strings.should == [
+        ["", "Before income tax", "Income tax", "After income tax"]
+      ]
     end
   end
 

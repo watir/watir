@@ -66,19 +66,26 @@ describe "TableFooter" do
 
   describe "#row" do
     it "finds the first row matching the selector" do
-      pending
+      row = browser.tfoot(:id, 'tax_totals').row(:id => "tfoot_row_1")
+
+      row.id.should == "tfoot_row_1"
     end
   end
 
   describe "#rows" do
     it "finds rows matching the selector" do
-      pending
+      rows = browser.tfoot(:id, 'tax_totals').rows(:id => "tfoot_row_1")
+
+      rows.size.should == 1
+      rows.first.id.should == "tfoot_row_1"
     end
   end
 
   describe "#strings" do
     it "returns the text of child cells" do
-      pending
+      browser.tfoot(:id, 'tax_totals').strings.should == [
+        ["Sum", "24 349", "5 577", "18 722"]
+      ]
     end
   end
 

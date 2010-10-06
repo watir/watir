@@ -117,11 +117,14 @@ describe "Table" do
     end
 
     it "finds rows matching the selector" do
-      pending
+      rows = browser.table(:id, 'outer').rows(:id => /first|last/)
+
+      rows.first.id.should == "outer_first"
+      rows.last.id.should  == "outer_last"
     end
 
     it "does not find rows from a nested table" do
-      pending
+      browser.table(:id, "outer").rows(:id => "t2_r1_c1").size.should == 0
     end
   end
 

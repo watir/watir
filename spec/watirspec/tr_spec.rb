@@ -70,7 +70,7 @@ describe "TableRow" do
     end
 
     it "finds cells in the table" do
-      pending
+      table[0].cells(:text => /Table 1/).size.should == 2
     end
 
     it "does not find cells from nested tables" do
