@@ -11,7 +11,7 @@ begin
     gem.homepage    = "http://github.com/jarib/watir-webdriver"
     gem.authors     = ["Jari Bakken"]
 
-    gem.add_dependency "selenium-webdriver", '>= 0.0.28'
+    gem.add_dependency "selenium-webdriver", '0.0.28'
 
     gem.add_development_dependency "rspec"
     gem.add_development_dependency "yard", "~> 0.6"
