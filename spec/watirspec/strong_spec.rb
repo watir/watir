@@ -12,12 +12,8 @@ describe "Strong" do
     it "returns true if the element exists" do
       browser.strong(:id, "descartes").should exist
       browser.strong(:id, /descartes/).should exist
-
-      bug "http://code.google.com/p/selenium/issues/detail?id=748", :webdriver do
-        browser.strong(:text, "Dubito, ergo cogito, ergo sum.").should exist
-        browser.strong(:text, /Dubito, ergo cogito, ergo sum/).should exist
-      end
-
+      browser.strong(:text, "Dubito, ergo cogito, ergo sum.").should exist
+      browser.strong(:text, /Dubito, ergo cogito, ergo sum/).should exist
       browser.strong(:class, "descartes").should exist
       browser.strong(:class, /descartes/).should exist
       browser.strong(:index, 0).should exist
@@ -75,10 +71,8 @@ describe "Strong" do
   end
 
   describe "#text" do
-    bug "http://code.google.com/p/selenium/issues/detail?id=748", :webdriver do
-      it "returns the text of the element" do
-        browser.strong(:index, 0).text.should == "Dubito, ergo cogito, ergo sum."
-      end
+    it "returns the text of the element" do
+      browser.strong(:index, 0).text.should == "Dubito, ergo cogito, ergo sum."
     end
 
     it "raises UnknownObjectException if the element doesn't exist" do

@@ -12,12 +12,8 @@ describe "Span" do
     it "returns true if the 'span' exists" do
       browser.span(:id, "lead").should exist
       browser.span(:id, /lead/).should exist
-
-      bug "http://code.google.com/p/selenium/issues/detail?id=748", :webdriver do
-        browser.span(:text, "Dubito, ergo cogito, ergo sum.").should exist
-        browser.span(:text, /Dubito, ergo cogito, ergo sum/).should exist
-      end
-
+      browser.span(:text, "Dubito, ergo cogito, ergo sum.").should exist
+      browser.span(:text, /Dubito, ergo cogito, ergo sum/).should exist
       browser.span(:class, "lead").should exist
       browser.span(:class, /lead/).should exist
       browser.span(:index, 0).should exist
