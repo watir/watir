@@ -329,11 +329,23 @@ module Watir
     def given_xpath(selector)
       return unless xpath = selector.delete(:xpath)
 
-      unless selector.empty? || selector.keys == [:tag_name] || (selector[:tag_name] == "input" && selector.keys == [:tag_name, :type])
+      unless selector.empty? || can_be_combined_with_xpath?(selector)
         raise ArgumentError, ":xpath cannot be combined with other selectors (#{selector.inspect})"
       end
 
       xpath
+    end
+
+    def can_be_combined_with_xpath?(selector)
+      # ouch - is this worth it?
+      keys = selector.keys
+      return true if keys == [:tag_name]
+
+      if selector[:tag_name] == "input"
+        return keys == [:tag_name, :type] || keys == [:type, :tag_name]
+      end
+
+      false
     end
 
   end # ElementLocator

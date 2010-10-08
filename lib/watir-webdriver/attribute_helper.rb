@@ -67,7 +67,7 @@ module Watir
     def define_boolean_attribute(mname, aname)
       define_method mname do
         assert_exists
-        !!@element.attribute(aname)
+        @element.attribute(aname) == "true"
       end
     end
 
