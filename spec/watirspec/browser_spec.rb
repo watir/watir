@@ -26,7 +26,7 @@ describe "Browser" do
         html = browser.html.downcase # varies between browsers
 
         html.should =~ /^<html/
-        html.should include('<meta http-equiv="content-type" content="text/html; charset=utf-8">')
+        html.should include('<meta content="text/html; charset=utf-8" http-equiv="content-type" />')
       end
     end
 
