@@ -1,5 +1,5 @@
 module WatirSpec
-  module SpecHelper
+  module Runner
 
     module BrowserHelper
       def browser; @browser; end

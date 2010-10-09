@@ -8,11 +8,11 @@ require "sinatra/base"
 require "#{File.dirname(__FILE__)}/lib/watirspec"
 require "#{File.dirname(__FILE__)}/lib/implementation"
 require "#{File.dirname(__FILE__)}/lib/server"
-require "#{File.dirname(__FILE__)}/lib/spec_helper"
+require "#{File.dirname(__FILE__)}/lib/runner"
 require "#{File.dirname(__FILE__)}/lib/guards"
 
 if __FILE__ == $0
   WatirSpec::Server.run!
 else
-  WatirSpec::SpecHelper.execute
+  WatirSpec::Runner.execute
 end
