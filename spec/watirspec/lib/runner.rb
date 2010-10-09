@@ -1,6 +1,6 @@
 # encoding: utf-8
 module WatirSpec
-  module SpecHelper
+  module Runner
 
     module BrowserHelper
       def browser; @browser; end
@@ -23,6 +23,12 @@ module WatirSpec
       start_server
       configure
       add_guard_hook
+
+      @executed = true
+    end
+
+    def execute_if_necessary
+      execute unless @exectued
     end
 
     def configure
@@ -45,13 +51,11 @@ module WatirSpec
     end
 
     def load_requires
-      # load spec_helper from containing folder, if it exists
-      hook = File.expand_path("../../spec_helper.rb", File.dirname(__FILE__))
-      raise(Errno::ENOENT, hook) unless File.exist?(hook)
-
-      load hook
       require "fileutils"
       require "spec"
+
+      implementation = File.expand_path("../../../implementation.rb", __FILE__)
+      load implementation
 
       begin
         require "ruby-debug"
