@@ -11,13 +11,7 @@ module WatirSpec
           Thread.new { run! }
           sleep 0.1 until WatirSpec::Server.running?
         when :windows
-          require "win32/process"
-          pid = Process.create(
-            :app_name        => "#{WatirSpec.ruby} #{File.dirname(__FILE__)}/../spec_helper.rb",
-            :process_inherit => true,
-            :thread_inherit  => true,
-            :inherit         => true
-          ).process_id
+          run_in_child_process
         else
           pid = fork { run! }
           sleep 0.5 until listening?
@@ -80,6 +74,19 @@ module WatirSpec
         true
       rescue SocketError, Errno::EADDRINUSE
         false
+      end
+
+      private
+
+      def run_in_child_process
+        begin
+          require "childprocess"
+        rescue LoadError => ex
+          raise "please run `gem install childprocess` for WatirSpec on Windows + MRI\n\t(caught: #{ex.message})"
+        end
+
+        process = ChildProcess.build(WatirSpec.ruby, File.expand_path("../../spec_helper", __FILE__))
+        at_exit { process.stop }
       end
     end # class << Server
 
