@@ -20,7 +20,8 @@ describe "Element" do
 
     bug "WTR-351", :watir do
       it "raises ArgumentError if given the wrong number of arguments" do
-        container = mock("container", :null_object => true)
+        container = mock("container").as_null_object
+
         lambda { Element.new(container, 1,2,3,4) }.should raise_error(ArgumentError, "wrong number of arguments (4 for 2)")
         lambda { Element.new(container, "foo") }.should raise_error(ArgumentError, "wrong number of arguments (1 for 2)")
       end
