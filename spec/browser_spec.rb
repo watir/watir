@@ -1,6 +1,5 @@
 require File.expand_path('watirspec/spec_helper', File.dirname(__FILE__))
 
-
 describe Watir::Browser do
 
   describe ".new" do

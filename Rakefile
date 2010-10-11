@@ -13,7 +13,7 @@ begin
 
     gem.add_dependency "selenium-webdriver", '0.0.29'
 
-    gem.add_development_dependency "rspec"
+    gem.add_development_dependency "rspec", "~> 2.0.0"
     gem.add_development_dependency "yard", "~> 0.6"
     gem.add_development_dependency "webidl", ">= 0.0.6"
     gem.add_development_dependency "sinatra", "~> 1.0"
@@ -26,31 +26,30 @@ rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
 end
 
-require 'spec/rake/spectask'
-Spec::Rake::SpecTask.new(:spec) do |spec|
-  spec.libs << 'lib' << 'spec'
-  spec.spec_files = FileList['spec/**/*_spec.rb']
+require 'rspec/core/rake_task'
+RSpec::Core::RakeTask.new(:spec) do |spec|
+  spec.ruby_opts = "-I lib:spec"
+  spec.pattern   = 'spec/**/*_spec.rb'
 end
 
 namespace :spec do
-  Spec::Rake::SpecTask.new(:rcov) do |spec|
-    spec.libs << 'lib' << 'spec'
-    spec.pattern = 'spec/**/*_spec.rb'
-    spec.rcov = true
+  RSpec::Core::RakeTask.new(:rcov) do |spec|
+    spec.ruby_opts = "-I lib:spec"
+    spec.pattern   = 'spec/**/*_spec.rb'
+    spec.rcov      = true
     spec.rcov_opts = %w[--exclude spec,ruby-debug,/Library/Ruby,.gem --include lib/watir-webdriver]
   end
 
   desc 'Run specs for CI'
-  Spec::Rake::SpecTask.new(:ci) do |spec|
-    spec.libs << 'lib' << 'spec'
-    spec.pattern = 'spec/**/*_spec.rb'
-    spec.spec_opts = ["--format", "html:results/#{RUBY_PLATFORM}/#{ENV['WATIR_WEBDRIVER_BROWSER'] || 'firefox'}/spec-results.html",
+  RSpec::Core::RakeTask.new(:ci) do |spec|
+    spec.ruby_opts  = "-I lib:spec"
+    spec.pattern    = 'spec/**/*_spec.rb'
+    spec.rspec_opts = ["--format", "html:results/#{RUBY_PLATFORM}/#{ENV['WATIR_WEBDRIVER_BROWSER'] || 'firefox'}/spec-results.html",
                       "--format", "progress",
                       "--backtrace"]
-    spec.rcov = true
-    spec.rcov_opts = %w[--exclude spec,ruby-debug,/Library/Ruby,.gem --include lib/watir-webdriver]
+    spec.rcov       = true
+    spec.rcov_opts  = %w[--exclude spec,ruby-debug,/Library/Ruby,.gem --include lib/watir-webdriver]
   end
-
 end
 
 task :spec => :check_dependencies

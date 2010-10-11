@@ -5,8 +5,7 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'watir-webdriver'
 require 'locator_spec_helper'
 require 'rubygems'
-require 'spec'
-require 'spec/autorun'
+require 'rspec'
 
 include Watir
 include Watir::Exception
