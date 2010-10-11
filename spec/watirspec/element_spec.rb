@@ -18,7 +18,7 @@ describe "Element" do
     end
 
     it "raises ArgumentError if given the wrong number of arguments" do
-      container = mock("container", :null_object => true)
+      container = mock("container").as_null_object
       lambda { Element.new(container, 1,2,3,4) }.should raise_error(ArgumentError)
       lambda { Element.new(container, "foo") }.should raise_error(ArgumentError)
     end
