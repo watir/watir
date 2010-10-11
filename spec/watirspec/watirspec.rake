@@ -1,9 +1,9 @@
 begin
-  require 'spec'
+  require 'rspec'
 rescue LoadError
   begin
     require 'rubygems'
-    require 'spec'
+    require 'rspec'
   rescue LoadError
       puts <<-EOS
     To use rspec for testing you must install rspec gem:
@@ -13,11 +13,11 @@ rescue LoadError
   end
 end
 
-require 'spec/rake/spectask'
+require 'rspec/core/rake_task'
 namespace :watirspec do
   desc "Run the specs under #{File.dirname(__FILE__)}"
-  Spec::Rake::SpecTask.new(:run) do |t|
-    t.spec_files = FileList["#{File.dirname(__FILE__)}/*_spec.rb"]
+  RSpec::Core::RakeTask.new(:run) do |t|
+    t.pattern = "#{File.dirname(__FILE__)}/*_spec.rb"
   end
 end
 
@@ -40,5 +40,4 @@ namespace :watirspec do
     system "git config --file #{watirspec_config} remote.origin.url git://github.com/jarib/watirspec.git"
     puts "\nYou're now accessing watirspec via the anonymous URL."
   end
-
 end
