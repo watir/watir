@@ -34,7 +34,7 @@ module WatirSpec
     def configure
       Thread.abort_on_exception = true
 
-      Spec::Runner.configure do |config|
+      RSpec.configure do |config|
         config.include(MessagesHelper)
 
         if WatirSpec.persistent_browser == false
@@ -51,8 +51,8 @@ module WatirSpec
     end
 
     def load_requires
+      require "rspec"
       require "fileutils"
-      require "spec"
 
       implementation = File.expand_path("../../../implementation.rb", __FILE__)
       load implementation
