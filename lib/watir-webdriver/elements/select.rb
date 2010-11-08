@@ -27,6 +27,12 @@ module Watir
       end
     end
 
+    #
+    # Get all the options in the select list
+    #
+    # @return [Watir::OptionCollection]
+    #
+
     def options
       assert_exists
       super
