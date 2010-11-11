@@ -41,8 +41,10 @@ module Watir
 
 
 
+
+
  class HTMLElement < Element
-   attributes(:string => [:innerhtml, :outerhtml, :id, :title, :lang, :dir, :class_name, :item_type, :item_id, :item_value, :access_key, :access_key_label, :content_editable, :command_type, :label, :icon], :token_list => [:class_list, :item_ref, :item_prop], :string_map => [:dataset], :bool => [:item_scope, :hidden, :draggable, :is_content_editable, :spellcheck, :disabled, :checked], :properties_collection => [:properties], :int => [:tab_index], :html_element => [:context_menu], :style => [:style], :function => [:onabort, :onblur, :oncanplay, :oncanplaythrough, :onchange, :onclick, :oncontextmenu, :oncuechange, :ondblclick, :ondrag, :ondragend, :ondragenter, :ondragleave, :ondragover, :ondragstart, :ondrop, :ondurationchange, :onemptied, :onended, :onerror, :onfocus, :onformchange, :onforminput, :oninput, :oninvalid, :onkeydown, :onkeypress, :onkeyup, :onload, :onloadeddata, :onloadedmetadata, :onloadstart, :onmousedown, :onmousemove, :onmouseout, :onmouseover, :onmouseup, :onmousewheel, :onpause, :onplay, :onplaying, :onprogress, :onratechange, :onreadystatechange, :onreset, :onscroll, :onseeked, :onseeking, :onselect, :onshow, :onstalled, :onsubmit, :onsuspend, :ontimeupdate, :onvolumechange, :onwaiting])
+   attributes(:string => [:innerhtml, :outerhtml, :id, :title, :lang, :dir, :class_name, :item_type, :item_id, :item_value, :access_key, :access_key_label, :content_editable, :command_type, :label, :icon], :token_list => [:class_list, :item_ref, :item_prop, :dropzone], :string_map => [:dataset], :bool => [:item_scope, :hidden, :draggable, :is_content_editable, :spellcheck, :disabled, :checked], :properties_collection => [:properties], :int => [:tab_index], :html_element => [:context_menu], :style => [:style], :function => [:onabort, :onblur, :oncanplay, :oncanplaythrough, :onchange, :onclick, :oncontextmenu, :oncuechange, :ondblclick, :ondrag, :ondragend, :ondragenter, :ondragleave, :ondragover, :ondragstart, :ondrop, :ondurationchange, :onemptied, :onended, :onerror, :onfocus, :onformchange, :onforminput, :oninput, :oninvalid, :onkeydown, :onkeypress, :onkeyup, :onload, :onloadeddata, :onloadedmetadata, :onloadstart, :onmousedown, :onmousemove, :onmouseout, :onmouseover, :onmouseup, :onmousewheel, :onpause, :onplay, :onplaying, :onprogress, :onratechange, :onreadystatechange, :onreset, :onscroll, :onseeked, :onseeking, :onselect, :onshow, :onstalled, :onsubmit, :onsuspend, :ontimeupdate, :onvolumechange, :onwaiting])
  end
  class HTMLElementCollection < ElementCollection
    def element_class
@@ -174,7 +176,7 @@ module Watir
    end
  end
  class TextArea < HTMLElement
-   attributes(:bool => [:autofocus, :disabled, :read_only, :required, :will_validate], :int => [:cols, :max_length, :rows, :text_length, :selection_start, :selection_end], :html_element => [:form], :string => [:name, :placeholder, :wrap, :type, :default_value, :value, :validity, :validation_message], :list => [:labels])
+   attributes(:bool => [:autofocus, :disabled, :read_only, :required, :will_validate], :int => [:cols, :max_length, :rows, :text_length, :selection_start, :selection_end], :string => [:dir_name, :name, :placeholder, :wrap, :type, :default_value, :value, :validity, :validation_message], :html_element => [:form], :list => [:labels])
  end
  class TextAreaCollection < ElementCollection
    def element_class
@@ -222,7 +224,7 @@ module Watir
    end
  end
  class Input < HTMLElement
-   attributes(:string => [:accept, :alt, :autocomplete, :form_action, :form_enctype, :form_method, :form_target, :height, :max, :min, :name, :pattern, :placeholder, :src, :step, :type, :default_value, :value, :width, :validity, :validation_message], :bool => [:autofocus, :default_checked, :checked, :disabled, :form_no_validate, :indeterminate, :multiple, :read_only, :required, :will_validate], :html_element => [:form, :list, :selected_option], :list => [:files, :labels], :int => [:max_length, :size, :selection_start, :selection_end], :date => [:value_as_date], :float => [:value_as_number])
+   attributes(:string => [:accept, :alt, :autocomplete, :dir_name, :form_action, :form_enctype, :form_method, :form_target, :height, :max, :min, :name, :pattern, :placeholder, :src, :step, :type, :default_value, :value, :width, :validity, :validation_message], :bool => [:autofocus, :default_checked, :checked, :disabled, :form_no_validate, :indeterminate, :multiple, :read_only, :required, :will_validate], :html_element => [:form, :list, :selected_option], :list => [:files, :labels], :int => [:max_length, :size, :selection_start, :selection_end], :date => [:value_as_date], :float => [:value_as_number])
  end
  class InputCollection < ElementCollection
    def element_class
@@ -402,7 +404,7 @@ module Watir
    end
  end
  class Video < Media
-   attributes(:int => [:width, :height, :video_width, :video_height], :string => [:poster])
+   attributes(:int => [:width, :height, :video_width, :video_height], :string => [:poster], :token_list => [:audio])
  end
  class VideoCollection < ElementCollection
    def element_class
@@ -905,6 +907,23 @@ module Watir
    end
 
    Watir.tag_to_class[:base] = Base
+   #
+   # @return [HTMLElement]
+   #
+
+   def bdi(*args)
+     HTMLElement.new(self, extract_selector(args).merge(:tag_name => "bdi"))
+   end
+
+   #
+   # @return [HTMLElementCollection]
+   #
+
+   def bdis(*args)
+     HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "bdi"))
+   end
+
+   Watir.tag_to_class[:bdi] = HTMLElement
    #
    # @return [HTMLElement]
    #

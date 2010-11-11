@@ -12,6 +12,9 @@ module Watir
         extract_idl_parts
         extract_interface_map
         build_result
+      rescue
+        p errors
+        raise
       end
 
       def errors
