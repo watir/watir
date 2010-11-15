@@ -58,19 +58,17 @@ module WatirSpec
     end
 
     def ruby
-      if @ruby.nil?
+      @ruby ||= (
         if defined?(Gem)
-          @ruby = Gem.ruby
+          Gem.ruby
         else
           require "rbconfig"
           rb = File.join(RbConfig::CONFIG.values_at('BINDIR', 'RUBY_INSTALL_NAME').compact)
           ext = RbConfig::CONFIG['EXEEXT']
 
-          @ruby = "#{rb}#{ext}"
+          "#{rb}#{ext}"
         end
-      end
-
-      @ruby
+      )
     end
 
   end # class << WatirSpec

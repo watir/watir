@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+require "socket"
+
 module WatirSpec
   class Server < Sinatra::Base
     class << self
@@ -68,11 +70,14 @@ module WatirSpec
         defined?(@running) && @running
       end
 
+      SOCKET_ERRORS = [Errno::EADDRINUSE]
+      SOCKET_ERRORS << SocketError if defined?(SocketError) # ruby versions...
+
       def free_port?(port)
         s = TCPServer.new(@host, port)
         s.close
         true
-      rescue SocketError, Errno::EADDRINUSE
+      rescue *SOCKET_ERRORS
         false
       end
 
@@ -85,7 +90,12 @@ module WatirSpec
           raise "please run `gem install childprocess` for WatirSpec on Windows + MRI\n\t(caught: #{ex.message})"
         end
 
-        process = ChildProcess.build(WatirSpec.ruby, File.expand_path("../../spec_helper", __FILE__))
+        path = File.expand_path("../../spec_helper.rb", __FILE__)
+
+        process = ChildProcess.build(WatirSpec.ruby, path)
+        process.io.inherit! if $DEBUG
+        process.start
+
         at_exit { process.stop }
       end
     end # class << Server
