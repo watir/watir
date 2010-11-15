@@ -144,12 +144,12 @@ describe "FileField" do
         browser.file_field.value = '/tmp/unlikely-to-exist'
         browser.file_field.value.should == '/tmp/unlikely-to-exist'
       end
-    end
 
-    it "does not alter its argument" do
-      value = '/foo/bar'
-      browser.file_field.value = value
-      value.should == '/foo/bar'
+      it "does not alter its argument" do
+        value = '/foo/bar'
+        browser.file_field.value = value
+        value.should == '/foo/bar'
+      end
     end
   end
 
