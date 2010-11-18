@@ -297,9 +297,9 @@ module Watir
     def equal_pair(key, value)
       # we assume :label means a corresponding label element, not the attribute
       if key == :label && should_use_label_element?
-        "@id=//label[normalize-space()='#{value}']/@for"
+        "@id=//label[normalize-space()=#{xpath_string(value)}]/@for"
       else
-        "#{lhs_for(key)}='#{value}'"
+        "#{lhs_for(key)}=#{xpath_string(value)}"
       end
     end
 
@@ -346,6 +346,17 @@ module Watir
       end
 
       false
+    end
+
+    def xpath_string(value)
+      if value.include? "'"
+        parts = value.split("'", -1).map { |part| "'#{part}'" }
+        string = parts.join(%{,"'",})
+
+        "concat(#{string})"
+      else
+        "'#{value}'"
+      end
     end
 
   end # ElementLocator

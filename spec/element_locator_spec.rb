@@ -26,6 +26,11 @@ describe Watir::ElementLocator do
         locate_one :title => "foo"
       end
 
+      it "handles single quotes in the attribute string" do
+        expect_one :xpath, %{.//*[@title=concat('foo and ',"'",'bar',"'",'')]}
+        locate_one :title => "foo and 'bar'"
+      end
+
       it "handles selector with tag name and multiple attributes" do
         expect_one :xpath, ".//div[@class='foo' and @title='bar']"
 

@@ -1,0 +1,17 @@
+require File.expand_path('watirspec/spec_helper', File.dirname(__FILE__))
+
+describe Watir::Browser do
+
+  before do
+    browser.goto("file://" + File.expand_path("../html/special_chars.html", __FILE__))
+  end
+
+  it "should find elements with single quotes" do
+    browser.div(:text => "single 'quotes'").should exist
+  end
+
+  it "should find elements with exclamantion points" do
+    browser.div(:text => "exclamation!").should exist
+  end
+
+end
