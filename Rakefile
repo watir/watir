@@ -40,16 +40,12 @@ namespace :spec do
     spec.rcov_opts = %w[--exclude spec,ruby-debug,/Library/Ruby,.gem --include lib/watir-webdriver]
   end
 
-  desc 'Run specs for CI'
-  RSpec::Core::RakeTask.new(:ci) do |spec|
+  RSpec::Core::RakeTask.new(:html) do |spec|
     spec.ruby_opts  = "-I lib:spec"
     spec.pattern    = 'spec/**/*_spec.rb'
-    spec.rspec_opts = ["--format", "html:results/#{RUBY_PLATFORM}/#{ENV['WATIR_WEBDRIVER_BROWSER'] || 'firefox'}/spec-results.html",
-                      "--format", "progress",
-                      "--backtrace"]
-    spec.rcov       = true
-    spec.rcov_opts  = %w[--exclude spec,ruby-debug,/Library/Ruby,.gem --include lib/watir-webdriver]
+    spec.rspec_opts = "--format html --out #{ENV["SPEC_REPORT"] || "specs.html"}"
   end
+
 end
 
 task :spec => :check_dependencies

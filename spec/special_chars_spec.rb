@@ -10,8 +10,4 @@ describe Watir::Browser do
     browser.div(:text => "single 'quotes'").should exist
   end
 
-  it "should find elements with exclamantion points" do
-    browser.div(:text => "exclamation!").should exist
-  end
-
 end
