@@ -3,20 +3,21 @@
   <head>
     <title>wait test</title>
     <script type="text/javascript" charset="utf-8">
-        function setTimeoutDisplay(id, display, timeout) {
-	    setTimeout(function() {
-	       document.getElementById(id).style.display = display;
-	    }, timeout);
-        }
-        function setTimeoutRemove(id, timeout) {
-	    setTimeout(function() {
-	       var e = document.getElementById(id);
-	       e.parentNode.removeChild(e);
-	    }, timeout);
-        }
+      function setTimeoutDisplay(id, display, timeout) {
+          setTimeout(function() {
+              document.getElementById(id).style.display = display;
+          }, timeout);
+      }
+
+      function setTimeoutRemove(id, timeout) {
+          setTimeout(function() {
+              var e = document.getElementById(id);
+              e.parentNode.removeChild(e);
+          }, timeout);
+      }
     </script>
   </head>
-  
+
   <body>
     <div id="foo" style="display:block;">foo</div>
     <div id="bar" style="display:none;">bar</div>

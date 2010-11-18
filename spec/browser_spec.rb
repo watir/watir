@@ -38,5 +38,4 @@ describe Watir::Browser do
     end
   end
 
-
 end

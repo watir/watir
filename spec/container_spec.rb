@@ -36,7 +36,5 @@ describe Watir::Container do
       }.should raise_error(ArgumentError)
     end
 
-
-
   end
 end
