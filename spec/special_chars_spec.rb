@@ -6,7 +6,7 @@ describe Watir::Browser do
     browser.goto("file://" + File.expand_path("../html/special_chars.html", __FILE__))
   end
 
-  it "should find elements with single quotes" do
+  it "finds elements with single quotes" do
     browser.div(:text => "single 'quotes'").should exist
   end
 
