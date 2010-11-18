@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{watir-webdriver}
-  s.version = "0.1.2"
+  s.version = "0.1.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jari Bakken"]
-  s.date = %q{2010-11-11}
+  s.date = %q{2010-11-18}
   s.description = %q{WebDriver-backed Watir}
   s.email = %q{jari.bakken@gmail.com}
   s.extra_rdoc_files = [
@@ -80,11 +80,13 @@ Gem::Specification.new do |s|
      "spec/element_spec.rb",
      "spec/html/alerts.html",
      "spec/html/keylogger.html",
+     "spec/html/special_chars.html",
      "spec/html/wait.html",
      "spec/implementation.rb",
      "spec/input_spec.rb",
      "spec/locator_spec_helper.rb",
      "spec/spec_helper.rb",
+     "spec/special_chars_spec.rb",
      "spec/wait_spec.rb",
      "support/html5.html",
      "watir-webdriver.gemspec"
@@ -104,6 +106,7 @@ Gem::Specification.new do |s|
      "spec/input_spec.rb",
      "spec/locator_spec_helper.rb",
      "spec/spec_helper.rb",
+     "spec/special_chars_spec.rb",
      "spec/wait_spec.rb",
      "spec/watirspec/area_spec.rb",
      "spec/watirspec/areas_spec.rb",
