@@ -161,6 +161,12 @@ describe "Link" do
       lambda { browser.link(:index, 1337).click }.should raise_error(UnknownObjectException)
     end
 
+    it "clicks a link with no text content but an img child" do
+      browser.goto "#{WatirSpec.files}/images.html"
+      browser.link(:href => "definition_lists.html").click
+      browser.title.should == 'definition_lists'
+    end
+
   end
 
 end
