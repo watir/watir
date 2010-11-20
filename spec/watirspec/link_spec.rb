@@ -142,17 +142,17 @@ describe "Link" do
 
   # Manipulation methods
   describe "#click" do
-    it "finds an existing link by (:text, String) and click it" do
+    it "finds an existing link by (:text, String) and clicks it" do
       browser.link(:text, "Link 3").click
       browser.text.include?("User administration").should be_true
     end
 
-    it "finds an existing link by (:text, Regexp) and click it" do
+    it "finds an existing link by (:text, Regexp) and clicks it" do
       browser.link(:href, /forms_with_input_elements/).click
       browser.text.include?("User administration").should be_true
     end
 
-    it "finds an existing link by (:index, Integer) and click it" do
+    it "finds an existing link by (:index, Integer) and clicks it" do
       browser.link(:index, 2).click
       browser.text.include?("User administration").should be_true
     end
