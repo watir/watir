@@ -14,10 +14,10 @@ describe "Images" do
       end
     end
   end
-  
+
   describe "#length" do
     it "returns the number of images" do
-      browser.images.length.should == 9
+      browser.images.length.should == 10
     end
   end
 
