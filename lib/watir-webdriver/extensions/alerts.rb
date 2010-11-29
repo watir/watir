@@ -49,11 +49,11 @@ module Watir
     # @example
     #   browser.prompt("hello") do
     #     browser.button(:value => "Prompt").click
-    #   end #=> { :message => "foo", :default => "bar" }
+    #   end #=> { :message => "foo", :default_value => "bar" }
     #
 
     def prompt(answer, &blk)
-      execute_script "window.prompt = function(text, value) { window.__lastWatirPrompt = { message: text, default: value }; return #{answer.to_json}; }"
+      execute_script "window.prompt = function(text, value) { window.__lastWatirPrompt = { message: text, default_value: value }; return #{answer.to_json}; }"
       yield
       result = execute_script "return window.__lastWatirPrompt"
 
