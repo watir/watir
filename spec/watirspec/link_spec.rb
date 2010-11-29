@@ -16,7 +16,9 @@ describe "Link" do
       browser.link(:title, /link_title_2/).should exist
       browser.link(:text, "Link 2").should exist
       browser.link(:text, /Link 2/i).should exist
-      browser.link(:href, 'non_control_elements.html').should exist
+      not_compliant_on [:webdriver, :ie] do
+        browser.link(:href, 'non_control_elements.html').should exist
+      end
       browser.link(:href, /non_control_elements.html/).should exist
       browser.link(:index, 1).should exist
       browser.link(:xpath, "//a[@id='link_2']").should exist
@@ -163,7 +165,7 @@ describe "Link" do
 
     it "clicks a link with no text content but an img child" do
       browser.goto "#{WatirSpec.files}/images.html"
-      browser.link(:href => "definition_lists.html").click
+      browser.link(:href => /definition_lists.html/).click
       browser.title.should == 'definition_lists'
     end
 
