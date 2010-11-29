@@ -40,8 +40,8 @@ describe "AlertHelper" do
     end
 
     returned.should == {
-      :message => "enter your name",
-      :default => "John Doe"
+      :message       => "enter your name",
+      :default_value => "John Doe"
     }
 
     browser.button(:id => "prompt").value.should == "my name"
