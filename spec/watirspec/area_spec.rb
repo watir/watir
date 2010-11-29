@@ -15,7 +15,10 @@ describe "Area" do
       browser.area(:title, "Tables").should exist
       browser.area(:title, /Tables/).should exist
 
-      browser.area(:href, "tables.html").should exist
+      not_compliant_on [:webdriver, :ie] do
+        browser.area(:href, "tables.html").should exist
+      end
+
       browser.area(:href, /tables/).should exist
 
       browser.area(:index, 0).should exist

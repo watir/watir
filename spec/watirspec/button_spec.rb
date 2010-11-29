@@ -16,7 +16,9 @@ describe "Button" do
       browser.button(:name, /new_user_reset/).should exist
       browser.button(:value, "Button 2").should exist
       browser.button(:value, /Button 2/).should exist
-      browser.button(:src, "images/button.jpg").should exist
+      not_compliant_on [:webdriver, :ie] do
+        browser.button(:src, "images/button.jpg").should exist
+      end
       browser.button(:src, /button.jpg/).should exist
       browser.button(:text, "Button 2").should exist
       browser.button(:text, /Button 2/).should exist
