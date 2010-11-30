@@ -3,3 +3,6 @@
 coverage
 rdoc
 pkg
+.bundle
+.yardoc
+Gemfile.lock
