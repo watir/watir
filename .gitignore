@@ -1,8 +1,9 @@
+pkg/*
+*.gem
+.bundle
 *.sw?
 .DS_Store
 coverage
 rdoc
-pkg
-.bundle
 .yardoc
 Gemfile.lock

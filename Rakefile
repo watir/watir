@@ -1,30 +1,5 @@
-require 'rubygems'
-require 'rake'
-
-begin
-  require 'jeweler'
-  Jeweler::Tasks.new do |gem|
-    gem.name        = "watir-webdriver"
-    gem.summary     = %Q{Watir on WebDriver}
-    gem.description = %Q{WebDriver-backed Watir}
-    gem.email       = "jari.bakken@gmail.com"
-    gem.homepage    = "http://github.com/jarib/watir-webdriver"
-    gem.authors     = ["Jari Bakken"]
-
-    gem.add_dependency "selenium-webdriver", '>= 0.1.0'
-
-    gem.add_development_dependency "rspec", "~> 2.1.0"
-    gem.add_development_dependency "yard", "~> 0.6"
-    gem.add_development_dependency "webidl", ">= 0.0.6"
-    gem.add_development_dependency "sinatra", "~> 1.0"
-    gem.add_development_dependency "nokogiri"
-    gem.add_development_dependency "activesupport", "~> 2.3.5" # for pluralization during code generation
-  end
-
-  Jeweler::GemcutterTasks.new
-rescue LoadError
-  puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
-end
+require 'bundler'
+Bundler::GemHelper.install_tasks
 
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec) do |spec|
@@ -48,7 +23,7 @@ namespace :spec do
 
 end
 
-task :spec => :check_dependencies
+task :spec
 
 task :lib do
   $LOAD_PATH.unshift(File.expand_path("lib", File.dirname(__FILE__)))

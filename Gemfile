@@ -1,4 +1,4 @@
-source :rubygems
+source "http://rubygems.org"
 
-gem "jeweler"
+# Specify your gem's dependencies in watir-webdriver.gemspec
 gemspec
