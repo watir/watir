@@ -268,12 +268,12 @@ A new instance of SpecExtractor
       <pre class="lines">
 
 
-17
-18
-19</pre>
+20
+21
+22</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/html/spec_extractor.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/html/spec_extractor.rb', line 20</span>
 
 <span class='kw'>def</span> <span class='id errors'>errors</span>
   <span class='ivar'>@errors</span> <span class='op'>||=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -296,13 +296,13 @@ A new instance of SpecExtractor
       <pre class="lines">
 
 
-33
-34
-35
-36</pre>
+36
+37
+38
+39</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/html/spec_extractor.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/html/spec_extractor.rb', line 36</span>
 
 <span class='kw'>def</span> <span class='id print_hierarchy'>print_hierarchy</span>
   <span class='id process'>process</span> <span class='kw'>if</span> <span class='ivar'>@interfaces</span><span class='period'>.</span><span class='id nil?'>nil?</span>
@@ -331,7 +331,10 @@ A new instance of SpecExtractor
 12
 13
 14
-15</pre>
+15
+16
+17
+18</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/watir-webdriver/html/spec_extractor.rb', line 10</span>
@@ -341,6 +344,9 @@ A new instance of SpecExtractor
   <span class='id extract_idl_parts'>extract_idl_parts</span>
   <span class='id extract_interface_map'>extract_interface_map</span>
   <span class='id build_result'>build_result</span>
+<span class='kw'>rescue</span>
+  <span class='id p'>p</span> <span class='id errors'>errors</span>
+  <span class='id raise'>raise</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -371,16 +377,16 @@ returns a topoligically sorted array of WebIDL::Ast::Interface objects
       <pre class="lines">
 
 
-25
-26
-27
 28
 29
 30
-31</pre>
+31
+32
+33
+34</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/html/spec_extractor.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/html/spec_extractor.rb', line 28</span>
 
 <span class='kw'>def</span> <span class='id sorted_interfaces'>sorted_interfaces</span>
   <span class='id process'>process</span> <span class='kw'>if</span> <span class='ivar'>@interfaces</span><span class='period'>.</span><span class='id nil?'>nil?</span>
@@ -399,9 +405,9 @@ returns a topoligically sorted array of WebIDL::Ast::Interface objects
 </div>
     
     <div id="footer">
-  Generated on Tue Aug 31 17:28:19 2010 by 
+  Generated on Wed Dec  1 22:14:48 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.0 (ruby-1.9.2).
+  0.6.3 (ruby-1.9.2).
 </div>
 
   </body>

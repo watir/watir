@@ -68,6 +68,16 @@
 </dl>
 <div class="clear"></div>
 
+<h2>Defined Under Namespace</h2>
+<p class="children">
+   
+    
+   
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="WindowSwitching/NoMatchingWindowFoundException.html" title="Watir::WindowSwitching::NoMatchingWindowFoundException (class)">NoMatchingWindowFoundException</a></span>
+    
+  
+</p>
 
 
 
@@ -143,7 +153,6 @@
       <pre class="lines">
 
 
-16
 17
 18
 19
@@ -151,10 +160,11 @@
 21
 22
 23
-24</pre>
+24
+25</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/window_switching.rb', line 16</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/window_switching.rb', line 17</span>
 
 <span class='kw'>def</span> <span class='id window'>window</span><span class='lparen'>(</span><span class='op'>*</span><span class='id args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id blk'>blk</span><span class='rparen'>)</span>
   <span class='id win'>win</span> <span class='op'>=</span> <span class='id filter_windows'>filter_windows</span><span class='lparen'>(</span><span class='id args'>args</span><span class='comma'>,</span> <span class='id windows'>windows</span><span class='comma'>,</span> <span class='symbol'>:find</span><span class='rparen'>)</span>
@@ -163,7 +173,7 @@
     <span class='id win'>win</span><span class='period'>.</span><span class='id use'>use</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id blk'>blk</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
-  <span class='id win'>win</span>
+  <span class='id win'>win</span> <span class='kw'>or</span> <span class='id raise'>raise</span> <span class='const'>NoMatchingWindowFoundException</span><span class='comma'>,</span> <span class='id args'>args</span><span class='period'>.</span><span class='id inspect'>inspect</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -183,9 +193,6 @@
       <pre class="lines">
 
 
-4
-5
-6
 7
 8
 9
@@ -193,20 +200,19 @@
 11
 12
 13
-14</pre>
+14
+15</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/window_switching.rb', line 4</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/window_switching.rb', line 7</span>
 
 <span class='kw'>def</span> <span class='id windows'>windows</span><span class='lparen'>(</span><span class='op'>*</span><span class='id args'>args</span><span class='rparen'>)</span>
-  <span class='id wins'>wins</span> <span class='op'>=</span> <span class='ivar'>@driver</span><span class='period'>.</span><span class='id window_handles'>window_handles</span><span class='period'>.</span><span class='id map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id id'>id</span><span class='op'>|</span>
-    <span class='const'>Window</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='ivar'>@driver</span><span class='comma'>,</span> <span class='id id'>id</span><span class='rparen'>)</span>
-  <span class='kw'>end</span>
+  <span class='id all'>all</span> <span class='op'>=</span> <span class='ivar'>@driver</span><span class='period'>.</span><span class='id window_handles'>window_handles</span><span class='period'>.</span><span class='id map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id id'>id</span><span class='op'>|</span> <span class='const'>Window</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='ivar'>@driver</span><span class='comma'>,</span> <span class='id id'>id</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
 
   <span class='kw'>if</span> <span class='id args'>args</span><span class='period'>.</span><span class='id empty?'>empty?</span>
-    <span class='id wins'>wins</span>
+    <span class='id all'>all</span>
   <span class='kw'>else</span>
-    <span class='id filter_windows'>filter_windows</span><span class='lparen'>(</span><span class='id args'>args</span><span class='comma'>,</span> <span class='id wins'>wins</span><span class='comma'>,</span> <span class='symbol'>:select</span><span class='rparen'>)</span>
+    <span class='id filter_windows'>filter_windows</span><span class='lparen'>(</span><span class='id args'>args</span><span class='comma'>,</span> <span class='id all'>all</span><span class='comma'>,</span> <span class='symbol'>:select</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -219,9 +225,9 @@
 </div>
     
     <div id="footer">
-  Generated on Tue Aug 31 17:27:33 2010 by 
+  Generated on Wed Dec  1 22:13:53 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.0 (ruby-1.9.2).
+  0.6.3 (ruby-1.9.2).
 </div>
 
   </body>

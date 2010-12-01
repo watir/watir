@@ -85,7 +85,7 @@
 
 <div id="subclasses">
   <h2>Direct Known Subclasses</h2>
-  <p class="children"><span class='object_link'><a href="ButtonLocator.html" title="Watir::ButtonLocator (class)">ButtonLocator</a></span>, <span class='object_link'><a href="TableRowLocator.html" title="Watir::TableRowLocator (class)">TableRowLocator</a></span>, <span class='object_link'><a href="TextFieldLocator.html" title="Watir::TextFieldLocator (class)">TextFieldLocator</a></span></p>
+  <p class="children"><span class='object_link'><a href="ButtonLocator.html" title="Watir::ButtonLocator (class)">ButtonLocator</a></span>, <span class='object_link'><a href="ChildCellLocator.html" title="Watir::ChildCellLocator (class)">ChildCellLocator</a></span>, <span class='object_link'><a href="ChildRowLocator.html" title="Watir::ChildRowLocator (class)">ChildRowLocator</a></span>, <span class='object_link'><a href="TextFieldLocator.html" title="Watir::TextFieldLocator (class)">TextFieldLocator</a></span></p>
 </div>
 
   <h2>Constant Summary</h2>
@@ -289,18 +289,14 @@ A new instance of ElementLocator
 38
 39
 40
-41
-42
-43</pre>
+41</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/watir-webdriver/locators/element_locator.rb', line 26</span>
 
 <span class='kw'>def</span> <span class='id locate'>locate</span>
-  <span class='comment'># short-circuit if :id is given
-</span>  <span class='kw'>if</span> <span class='id e'>e</span> <span class='op'>=</span> <span class='id by_id'>by_id</span>
-    <span class='kw'>return</span> <span class='id e'>e</span>
-  <span class='kw'>end</span>
+  <span class='id e'>e</span> <span class='op'>=</span> <span class='id by_id'>by_id</span> <span class='kw'>and</span> <span class='kw'>return</span> <span class='id e'>e</span> <span class='comment'># short-circuit if :id is given
+</span>
 
   <span class='kw'>if</span> <span class='ivar'>@selector</span><span class='period'>.</span><span class='id size'>size</span> <span class='op'>==</span> <span class='int'>1</span>
     <span class='id element'>element</span> <span class='op'>=</span> <span class='id find_first_by_one'>find_first_by_one</span>
@@ -332,16 +328,16 @@ A new instance of ElementLocator
       <pre class="lines">
 
 
+43
+44
 45
 46
 47
 48
-49
-50
-51</pre>
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/locators/element_locator.rb', line 45</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/locators/element_locator.rb', line 43</span>
 
 <span class='kw'>def</span> <span class='id locate_all'>locate_all</span>
   <span class='kw'>if</span> <span class='ivar'>@selector</span><span class='period'>.</span><span class='id size'>size</span> <span class='op'>==</span> <span class='int'>1</span>
@@ -360,9 +356,9 @@ A new instance of ElementLocator
 </div>
     
     <div id="footer">
-  Generated on Tue Aug 31 17:28:21 2010 by 
+  Generated on Wed Dec  1 22:14:50 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.0 (ruby-1.9.2).
+  0.6.3 (ruby-1.9.2).
 </div>
 
   </body>

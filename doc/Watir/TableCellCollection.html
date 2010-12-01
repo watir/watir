@@ -76,7 +76,9 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">lib/watir-webdriver/elements/generated.rb</dd>
+    <dd class="r2 last">lib/watir-webdriver/elements/generated.rb<span class="defines">,<br />
+  lib/watir-webdriver/elements/table_cell.rb</span>
+</dd>
   
 </dl>
 <div class="clear"></div>
@@ -88,6 +90,35 @@
   
   
   
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#locator_class-instance_method" title="#locator_class (instance method)">- (Object) <strong>locator_class</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+  </ul>
+
 
   
     <h2>
@@ -101,6 +132,27 @@
   <span class="summary_signature">
     
       <a href="#element_class-instance_method" title="#element_class (instance method)">- (Object) <strong>element_class</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#elements-instance_method" title="#elements (instance method)">- (Object) <strong>elements</strong> </a>
     
 
     
@@ -139,6 +191,42 @@
   
 </div>
 
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="locator_class=-instance_method"></span>
+      <span id="locator_class-instance_method"></span>
+      <div class="method_details first">
+  <p class="signature first" id="locator_class-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Object.html" title="Watir::Object (class)">Object</a></span></tt>) <strong>locator_class</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+19
+20
+21</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/elements/table_cell.rb', line 19</span>
+
+<span class='kw'>def</span> <span class='id locator_class'>locator_class</span>
+  <span class='ivar'>@locator_class</span> <span class='op'>||</span> <span class='kw'>super</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
@@ -157,15 +245,59 @@
       <pre class="lines">
 
 
-276
-277
-278</pre>
+278
+279
+280</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/elements/generated.rb', line 276</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/elements/generated.rb', line 278</span>
 
 <span class='kw'>def</span> <span class='id element_class'>element_class</span>
   <span class='const'>TableCell</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="elements-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Object.html" title="Watir::Object (class)">Object</a></span></tt>) <strong>elements</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/elements/table_cell.rb', line 23</span>
+
+<span class='kw'>def</span> <span class='id elements'>elements</span>
+  <span class='comment'># we do this craziness since the xpath used will find direct child rows
+</span>  <span class='comment'># before any rows inside thead/tbody/tfoot...
+</span>  <span class='id elements'>elements</span> <span class='op'>=</span> <span class='kw'>super</span>
+
+  <span class='kw'>if</span> <span class='id locator_class'>locator_class</span> <span class='op'>==</span> <span class='const'>ChildCellLocator</span>
+    <span class='id elements'>elements</span> <span class='op'>=</span> <span class='id elements'>elements</span><span class='period'>.</span><span class='id sort_by'>sort_by</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id row'>row</span><span class='op'>|</span> <span class='id row'>row</span><span class='period'>.</span><span class='id attribute'>attribute</span><span class='lparen'>(</span><span class='symbol'>:cellIndex</span><span class='rparen'>)</span><span class='period'>.</span><span class='id to_i'>to_i</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+
+  <span class='id elements'>elements</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -177,9 +309,9 @@
 </div>
     
     <div id="footer">
-  Generated on Tue Aug 31 17:27:50 2010 by 
+  Generated on Wed Dec  1 22:14:14 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.0 (ruby-1.9.2).
+  0.6.3 (ruby-1.9.2).
 </div>
 
   </body>

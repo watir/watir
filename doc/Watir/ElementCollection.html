@@ -467,7 +467,7 @@ Returns an instance of a Watir::Element subclass
       <pre class="code"><span class="info file"># File 'lib/watir-webdriver/element_collection.rb', line 55</span>
 
 <span class='kw'>def</span> <span class='id first'>first</span>
-  <span class='id to_a'>to_a</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id element_class'>element_class</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='ivar'>@parent</span><span class='comma'>,</span> <span class='symbol'>:index</span> <span class='op'>=&gt;</span> <span class='int'>0</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -525,7 +525,7 @@ Returns an instance of a Watir::Element subclass
       <pre class="code"><span class="info file"># File 'lib/watir-webdriver/element_collection.rb', line 65</span>
 
 <span class='kw'>def</span> <span class='id last'>last</span>
-  <span class='id to_a'>to_a</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id element_class'>element_class</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='ivar'>@parent</span><span class='comma'>,</span> <span class='symbol'>:index</span> <span class='op'>=&gt;</span> <span class='op'>-</span><span class='int'>1</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -653,9 +653,9 @@ This collection as an Array
 </div>
     
     <div id="footer">
-  Generated on Tue Aug 31 17:27:34 2010 by 
+  Generated on Wed Dec  1 22:13:54 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.0 (ruby-1.9.2).
+  0.6.3 (ruby-1.9.2).
 </div>
 
   </body>
