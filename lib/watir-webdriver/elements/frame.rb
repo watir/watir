@@ -2,30 +2,26 @@
 module Watir
   class Frame < HTMLElement
 
-    VALID_LOCATORS = [:id, :name, :index]
-
-    def initialize(*args)
-      super
-      @frame_id = nil
-    end
-
     def locate
       @parent.assert_exists
 
-      if @iframe
-        switch_to_iframe(@iframe)
-        driver
-      elsif @frame_id.nil?
-        locate_iframe || locate_frame
-      else
+      if element = @iframe
+        driver.switch_to.frame @iframe
+      elsif element = @frame
         switch!
-        driver
+      else
+        element = locate_iframe || locate_frame
+        element or raise UnknownFrameException, "unable to locate frame/iframe using #{selector_string}"
       end
+
+      element && FramedDriver.new(element, driver)
     end
 
     def assert_exists
-      # we always run locate(), to make sure the frame is switched
-      @element = locate
+      # we set @element to nil here to make sure the frame is switched
+      # if it's in the selector, that's equally good
+      @element = @selector[:element]
+      super
     end
 
     def execute_script(*args)
@@ -49,53 +45,27 @@ module Watir
       @iframe = IFrame.new(@parent, @selector.merge(:tag_name => "iframe")).locate
 
       if @iframe
-        switch_to_iframe @iframe
-        driver
+        driver.switch_to.frame @iframe
+        @iframe
       end
     end
 
     def locate_frame
-      loc = VALID_LOCATORS.find { |loc| @selector.has_key? loc }
+      locator = locator_class.new(@parent.wd, @selector.merge(:tag_name => "frame"), self.class.attribute_list)
+      @frame = locator.locate
 
-      unless loc
-        raise MissingWayOfFindingObjectException, "can only locate frames by #{VALID_LOCATORS.inspect}"
+      if @frame
+        switch!
+        @frame
       end
-
-      @frame_id = @selector[loc]
-
-      unless [String, Integer].any? { |e| @frame_id.kind_of?(e) }
-        raise TypeError, "can't locate frame using #{@frame_id.inspect}:#{@frame_id.class}"
-      end
-
-      switch!
-
-      driver
     end
 
     def switch!
-      driver.switch_to.frame @frame_id
+      driver.switch_to.frame @frame
     rescue Selenium::WebDriver::Error::NoSuchFrameError => e
       raise UnknownFrameException, e.message
     end
 
-    def switch_to_iframe(element)
-      loc = [:id, :name].find { |e| not [nil, ""].include?(element.attribute(e)) }
-      if loc.nil?
-        raise MissingWayOfFindingObjectException, "can't switch to frame without :id or :name"
-      end
-
-      # TODO: get rid of this when we can switch to elements
-      # http://groups.google.com/group/selenium-developers/browse_thread/thread/428bd68e9e8bfecd/19a02ecd20835249
-
-      if @parent.kind_of? Frame
-        parent_id = @parent.instance_variable_get("@frame_id")
-        loc = [parent_id, element.attribute(loc)].join(".")
-      else
-        loc = element.attribute(loc)
-      end
-
-      driver.switch_to.frame loc
-    end
   end # Frame
 
   module Container
@@ -104,7 +74,27 @@ module Watir
     end
 
     def frames(*args)
-      FrameCollection.new(self, extract_selector(args))
+      FrameCollection.new(self, extract_selector(args).merge(:tag_name => /^(iframe|frame)$/)) # hack
     end
   end
+
+  # @api private
+  #
+  # another hack..
+  #
+
+  class FramedDriver
+    def initialize(element, driver)
+      @element = element
+      @driver = driver
+    end
+
+    def method_missing(meth, *args, &blk)
+      if @driver.respond_to?(meth)
+        @driver.send(meth, *args, &blk)
+      else
+        @element.send(meth, *args, &blk)
+      end
+    end
+  end # FramedDriver
 end # Watir

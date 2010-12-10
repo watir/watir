@@ -11,15 +11,15 @@ Gem::Specification.new do |s|
   s.homepage    = "http://github.com/jarib/watir-webdriver"
   s.summary     = %q{Watir on WebDriver}
   s.description = %q{WebDriver-backed Watir}
-  
+
   s.rubyforge_project = "watir-webdriver"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
-  
-  s.add_dependency "selenium-webdriver", '>= 0.1.0'
+
+  s.add_dependency "selenium-webdriver", '>= 0.1.2.dev'
 
   s.add_development_dependency "rspec", "~> 2.1.0"
   s.add_development_dependency "yard", "~> 0.6"
