@@ -10,7 +10,6 @@ describe "<frame> Frames" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        debugger
         browser.frames(:name => "frame1").to_a.should == [browser.frame(:name => "frame1")]
       end
     end
