@@ -19,16 +19,13 @@ describe "Frame" do
       browser.frame(:id, "frame_1").should exist
       browser.frame(:name, "frame1").should exist
       browser.frame(:index, 0).should exist
-
-      bug "http://github.com/jarib/watir-webdriver/issues#issue/17", :webdriver do
-        browser.frame(:class, "half").should exist
-        browser.frame(:xpath, "//frame[@id='frame_1']").should exist
-        browser.frame(:src, "frame_1.html").should exist
-        browser.frame(:id, /frame/).should exist
-        browser.frame(:name, /frame/).should exist
-        browser.frame(:src, /frame_1/).should exist
-        browser.frame(:class, /half/).should exist
-      end
+      browser.frame(:class, "half").should exist
+      browser.frame(:xpath, "//frame[@id='frame_1']").should exist
+      browser.frame(:src, "frame_1.html").should exist
+      browser.frame(:id, /frame/).should exist
+      browser.frame(:name, /frame/).should exist
+      browser.frame(:src, /frame_1/).should exist
+      browser.frame(:class, /half/).should exist
     end
 
     it "returns true if the iframe exists" do
@@ -45,10 +42,8 @@ describe "Frame" do
       browser.frame(:xpath, "//iframe[@id='frame_1']").should exist
     end
 
-    bug "http://github.com/jarib/watir-webdriver/issues#issue/17", :webdriver do
-      it "returns the first frame if given no args" do
-        browser.frame.should exist
-      end
+    it "returns the first frame if given no args" do
+      browser.frame.should exist
     end
 
     it "returns false if the frame doesn't exist" do
@@ -56,15 +51,13 @@ describe "Frame" do
       browser.frame(:name, "no_such_text").should_not exist
       browser.frame(:index, 1337).should_not exist
 
-      bug "http://github.com/jarib/watir-webdriver/issues#issue/17", :webdriver do
-        browser.frame(:src, "no_such_src").should_not exist
-        browser.frame(:class, "no_such_class").should_not exist
-        browser.frame(:id, /no_such_id/).should_not exist
-        browser.frame(:name, /no_such_text/).should_not exist
-        browser.frame(:src, /no_such_src/).should_not exist
-        browser.frame(:class, /no_such_class/).should_not exist
-        browser.frame(:xpath, "//frame[@id='no_such_id']").should_not exist
-      end
+      browser.frame(:src, "no_such_src").should_not exist
+      browser.frame(:class, "no_such_class").should_not exist
+      browser.frame(:id, /no_such_id/).should_not exist
+      browser.frame(:name, /no_such_text/).should_not exist
+      browser.frame(:src, /no_such_src/).should_not exist
+      browser.frame(:class, /no_such_class/).should_not exist
+      browser.frame(:xpath, "//frame[@id='no_such_id']").should_not exist
     end
 
     it "handles nested frames" do
