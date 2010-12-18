@@ -6,7 +6,7 @@ describe Watir::Wait do
     it "waits until the block returns true" do
       Wait::until(1) { true }.should be_true
     end
-    
+
     it "times out" do
       lambda do
         Wait::until(1) { false }
@@ -18,7 +18,7 @@ describe Watir::Wait do
     it "waits while the block returns true" do
       Wait::while(1) { false }.should == nil
     end
-    
+
     it "times out" do
       lambda do
         Wait::while(1) { true }
@@ -37,40 +37,54 @@ describe Watir::Element do
     it "returns true if the element exists and is visible" do
       browser.div(:id, 'foo').should be_present
     end
-    
+
     it "returns false if the element exists but is not visible" do
       browser.div(:id, 'bar').should_not be_present
     end
-    
+
     it "returns false if the element does not exist" do
       browser.div(:id, 'should-not-exist').should_not be_present
     end
   end
-  
+
   describe "#when_present" do
-    it "invokes subsequent methods after waiting for the element's presence" do
-      browser.a(:id, 'show_bar').click
+    it "yields when the element becomes present" do
       called = false
-      browser.div(:id, 'bar').when_present(1) do
-        called = true
-      end
-      called.should == true
+
+      browser.a(:id, 'show_bar').click
+      browser.div(:id, 'bar').when_present(1) { called = true }
+
+      called.should be_true
     end
-    
-    it "times out" do 
-      lambda do
+
+    it "invokes subsequent method calls when the element becomes present" do
+      browser.a(:id, 'show_bar').click
+
+      bar = browser.div(:id, 'bar')
+      bar.when_present(1).click
+      bar.text.should == "changed"
+    end
+
+    it "times out when given a block" do
+      lambda {
         browser.div(:id, 'bar').when_present(1) {}
-      end.should raise_error(Watir::Wait::TimeoutError)
+      }.should raise_error(Watir::Wait::TimeoutError)
+    end
+
+    it "times out when not given a block" do
+      lambda {
+        browser.div(:id, 'bar').when_present(1).click
+      }.should raise_error(Watir::Wait::TimeoutError)
     end
   end
 
   describe "#wait_until_present" do
-    it "invokes subsequent methods after waiting until the element's appereance" do
+    it "it waits until the element appears" do
       browser.a(:id, 'show_bar').click
       browser.div(:id, 'bar').wait_until_present(1)
     end
-    
-    it "times out" do 
+
+    it "times out if the element doesn't appear" do
       lambda do
         browser.div(:id, 'bar').wait_until_present(1)
       end.should raise_error(Watir::Wait::TimeoutError)
@@ -87,12 +101,12 @@ describe Watir::Element do
       browser.a(:id, 'remove_foo').click
       browser.div(:id, 'foo').wait_while_present(1)
     end
-    
-    it "times out" do 
+
+    it "times out" do
       lambda do
         browser.div(:id, 'foo').wait_while_present(1)
       end.should raise_error(Watir::Wait::TimeoutError)
     end
   end
-  
+
 end

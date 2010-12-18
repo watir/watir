@@ -20,7 +20,7 @@
 
   <body>
     <div id="foo" style="display:block;">foo</div>
-    <div id="bar" style="display:none;">bar</div>
+    <div id="bar" style="display:none;" onclick='this.innerHTML = "changed"'>bar</div>
     <a id="show_bar" href="#" onclick="setTimeoutDisplay('bar', 'block', 500);">show bar</a>
     <a id="hide_foo" href="#" onclick="setTimeoutDisplay('foo', 'none', 500);">hide foo</a>
     <a id="remove_foo" href="#" onclick="setTimeoutRemove('foo', 500);">remove foo</a>
