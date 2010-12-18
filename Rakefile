@@ -8,13 +8,6 @@ RSpec::Core::RakeTask.new(:spec) do |spec|
 end
 
 namespace :spec do
-  RSpec::Core::RakeTask.new(:rcov) do |spec|
-    spec.ruby_opts = "-I lib:spec"
-    spec.pattern   = 'spec/**/*_spec.rb'
-    spec.rcov      = true
-    spec.rcov_opts = %w[--exclude spec,ruby-debug,/Library/Ruby,.gem --include lib/watir-webdriver]
-  end
-
   RSpec::Core::RakeTask.new(:html) do |spec|
     spec.ruby_opts  = "-I lib:spec"
     spec.pattern    = 'spec/**/*_spec.rb'
