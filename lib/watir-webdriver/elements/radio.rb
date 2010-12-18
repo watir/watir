@@ -1,13 +1,6 @@
 # encoding: utf-8
 module Watir
   class Radio < Input
-    def self.from(parent, element)
-      if element.attribute(:type) != "radio"
-        raise TypeError, "expected type=radio for #{element.inspect}"
-      end
-
-      super
-    end
     #
     # Select this radio button.
     #

@@ -5,16 +5,6 @@ module Watir
     attributes Watir::TextArea.typed_attributes
     remove_method :type # we want Input#type here, which was overriden by TextArea's attributes
 
-    def self.from(parent, element)
-      type = element.attribute(:type)
-
-      if TextFieldLocator::NON_TEXT_TYPES.include?(type)
-        raise TypeError, "expected type != #{type} for #{element.inspect}"
-      end
-
-      super
-    end
-
     #
     # Clear the element, the type in the given value.
     #

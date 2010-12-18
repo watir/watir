@@ -8,7 +8,7 @@ module Watir
       element = locate_iframe || locate_frame
       element or raise UnknownFrameException, "unable to locate frame/iframe using #{selector_string}"
 
-      element && FramedDriver.new(element, driver)
+      FramedDriver.new(element, driver)
     end
 
     def assert_exists
@@ -16,7 +16,6 @@ module Watir
         @parent.assert_exists
         @element = FramedDriver.new(element, driver)
       else
-        # we set @element to nil here to make sure the frame is switched
         @element = nil
       end
 

@@ -4,20 +4,6 @@ module Watir
 
     alias_method :readonly?, :read_only?
 
-    #
-    # @private
-    #
-    # subclasses can use this to validate the incoming element
-    #
-
-    def self.from(parent, element)
-      unless element.tag_name == "input"
-        raise TypeError, "can't create #{self} from #{element.inspect}"
-      end
-
-      new(parent, :element => element)
-    end
-
     def enabled?
       !disabled?
     end

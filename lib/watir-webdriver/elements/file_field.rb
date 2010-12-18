@@ -1,14 +1,6 @@
 # encoding: utf-8
 module Watir
   class FileField < Input
-    def self.from(parent, element)
-      if element.attribute(:type) != "file"
-        raise TypeError, "expected type=file for #{element.inspect}"
-      end
-
-      super
-    end
-
     #
     # Set the file field to the given path
     #
