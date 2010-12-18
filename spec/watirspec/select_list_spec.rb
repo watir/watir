@@ -302,6 +302,14 @@ describe "SelectList" do
       end
     end
 
+    it "returns the text of the selected option" do
+      browser.select_list(:id, "new_user_languages").select("English").should == "English"
+    end
+
+    it "returns an empty string when selecting an option that disappears when selected" do
+      browser.select_list(:id, 'obsolete').select('sweden').should == ''
+    end
+
     it "raises NoValueFoundException if the option doesn't exist" do
       lambda { browser.select_list(:name, "new_user_country").select("missing_option") }.should raise_error(NoValueFoundException)
       lambda { browser.select_list(:name, "new_user_country").select(/missing_option/) }.should raise_error(NoValueFoundException)

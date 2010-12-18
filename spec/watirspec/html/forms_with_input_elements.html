@@ -113,14 +113,21 @@
     </form>
 
   <!-- testing popup windows  -->
-        <input type="button" name="new_popup_window" value="Open window" id="new_popup_window" onclick="window.open('tables.html')">
+  <input type="button" name="new_popup_window" value="Open window" id="new_popup_window" onclick="window.open('tables.html')">
 
-        <!-- used for testing javascript events and styles -->
-        <div id="changed_language" style="visibility: hidden;">
-          <div id="hidden_parent"></div>
-        </div>
-        <div id="wants_newsletter" style="display: none;"></div>
-        <div id="onfocus_test"></div>
+  <!-- used for testing javascript events and styles -->
+  <div id="changed_language" style="visibility: hidden;">
+    <div id="hidden_parent"></div>
+  </div>
+  <div id="wants_newsletter" style="display: none;"></div>
+  <div id="onfocus_test"></div>
+
+
+  <!-- option disappears onchange -->
+  <select id="obsolete" onchange="this.innerHTML = '';">
+    <option value="norway">norway</option>
+    <option value="sweden">sweden</option>
+  </select>
 
   </body>
 </html>
