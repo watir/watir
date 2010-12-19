@@ -412,7 +412,7 @@ module Watir
    end
  end
  class Track < HTMLElement
-   attributes(:string => [:kind, :src, :charset, :srclang, :label, :track])
+   attributes(:string => [:kind, :src, :srclang, :label, :track], :bool => [:default])
  end
  class TrackCollection < ElementCollection
    def element_class
@@ -739,6 +739,7 @@ module Watir
      Unknown
    end
  end
+
 
 
 
