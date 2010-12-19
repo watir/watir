@@ -112,11 +112,7 @@ module Watir
       args.map! { |e| e.kind_of?(Watir::Element) ? e.element : e }
       returned = @driver.execute_script(script, *args)
 
-      if returned.kind_of? WebDriver::Element
-        Watir.element_class_for(returned.tag_name).new(self, :element => returned)
-      else
-        returned
-      end
+      wrap_elements_in(returned)
     end
 
     def add_checker(checker = nil, &block)
@@ -158,6 +154,27 @@ module Watir
 
     def browser
       self
+    end
+
+    private
+
+    def wrap_elements_in(obj)
+      case obj
+      when WebDriver::Element
+        wrap_element(obj)
+      when Array
+        obj.map { |e| wrap_elements_in(e) }
+      when Hash
+        obj.each { |k,v| obj[k] = wrap_elements_in(v) }
+
+        obj
+      else
+        obj
+      end
+    end
+
+    def wrap_element(element)
+      Watir.element_class_for(element.tag_name).new(self, :element => element)
     end
 
   end # Browser

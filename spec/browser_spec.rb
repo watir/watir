@@ -21,10 +21,29 @@ describe Watir::Browser do
   end
 
   describe "#execute_script" do
-    it "returns DOM elements as Watir objects" do
-      browser.goto(WatirSpec.files + "/definition_lists.html")
-      returned = browser.execute_script("return document.getElementById('experience-list')")
-      returned.should be_kind_of(Watir::DList)
+    before { browser.goto(WatirSpec.files + "/definition_lists.html") }
+
+    it "wraps elements as Watir objects" do
+      returned = browser.execute_script("return document.body")
+      returned.should be_kind_of(Watir::Body)
+    end
+
+    it "wraps elements in an array" do
+      list = browser.execute_script("return [document.body];")
+      list.size.should == 1
+      list.first.should be_kind_of(Watir::Body)
+    end
+
+    it "wraps elements in a Hash" do
+      hash = browser.execute_script("return {element: document.body};")
+      hash['element'].should be_kind_of(Watir::Body)
+    end
+
+    it "wraps elements in a deep object" do
+      hash = browser.execute_script("return {elements: [document.body], body: {element: document.body }}")
+
+      hash['elements'].first.should be_kind_of(Watir::Body)
+      hash['body']['element'].should be_kind_of(Watir::Body)
     end
   end
 
