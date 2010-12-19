@@ -81,9 +81,14 @@ describe "Element" do
   end
 
   describe "#to_subtype" do
-    it "returns a more precise subtype of Element" do
+    it "returns a more precise subtype of Element (input element)" do
       el = browser.element(:xpath => "//input[@type='radio']").to_subtype
       el.should be_kind_of(Watir::Radio)
+    end
+
+    it "returns a more precise subtype of Element" do
+      el = browser.element(:xpath => "//*[@id='messages']").to_subtype
+      el.should be_kind_of(Watir::Div)
     end
   end
 
