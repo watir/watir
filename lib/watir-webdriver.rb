@@ -3,7 +3,6 @@ require "selenium-webdriver"
 require "json"
 
 require "watir-webdriver/version"
-require "watir-webdriver/core_ext/string"
 require "watir-webdriver/exception"
 require "watir-webdriver/xpath_support"
 require "watir-webdriver/window_switching"
