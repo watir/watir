@@ -888,18 +888,18 @@ Returns the value of attribute driver
       <pre class="lines">
 
 
+118
+119
+120
+121
 122
 123
 124
 125
-126
-127
-128
-129
-130</pre>
+126</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/browser.rb', line 122</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/browser.rb', line 118</span>
 
 <span class='kw'>def</span> <span class='id add_checker'>add_checker</span><span class='lparen'>(</span><span class='id checker'>checker</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id block'>block</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id block_given?'>block_given?</span>
@@ -943,17 +943,17 @@ Protocol shared with Watir::Element
       <pre class="lines">
 
 
+142
+143
+144
+145
 146
 147
 148
-149
-150
-151
-152
-153</pre>
+149</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/browser.rb', line 146</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/browser.rb', line 142</span>
 
 <span class='kw'>def</span> <span class='id assert_exists'>assert_exists</span>
   <span class='kw'>if</span> <span class='ivar'>@closed</span>
@@ -1009,12 +1009,12 @@ Protocol shared with Watir::Element
       <pre class="lines">
 
 
-159
-160
-161</pre>
+155
+156
+157</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/browser.rb', line 159</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/browser.rb', line 155</span>
 
 <span class='kw'>def</span> <span class='id browser'>browser</span>
   <span class='kw'>self</span>
@@ -1101,12 +1101,12 @@ Protocol shared with Watir::Element
       <pre class="lines">
 
 
-132
-133
-134</pre>
+128
+129
+130</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/browser.rb', line 132</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/browser.rb', line 128</span>
 
 <span class='kw'>def</span> <span class='id disable_checker'>disable_checker</span><span class='lparen'>(</span><span class='id checker'>checker</span><span class='rparen'>)</span>
   <span class='ivar'>@error_checkers</span><span class='period'>.</span><span class='id delete'>delete</span><span class='lparen'>(</span><span class='id checker'>checker</span><span class='rparen'>)</span>
@@ -1134,11 +1134,7 @@ Protocol shared with Watir::Element
 113
 114
 115
-116
-117
-118
-119
-120</pre>
+116</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/watir-webdriver/browser.rb', line 111</span>
@@ -1147,11 +1143,7 @@ Protocol shared with Watir::Element
   <span class='id args'>args</span><span class='period'>.</span><span class='id map!'>map!</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id e'>e</span><span class='op'>|</span> <span class='id e'>e</span><span class='period'>.</span><span class='id kind_of?'>kind_of?</span><span class='lparen'>(</span><span class='const'>Watir</span><span class='op'>::</span><span class='const'>Element</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id e'>e</span><span class='period'>.</span><span class='id element'>element</span> <span class='op'>:</span> <span class='id e'>e</span> <span class='rbrace'>}</span>
   <span class='id returned'>returned</span> <span class='op'>=</span> <span class='ivar'>@driver</span><span class='period'>.</span><span class='id execute_script'>execute_script</span><span class='lparen'>(</span><span class='id script'>script</span><span class='comma'>,</span> <span class='op'>*</span><span class='id args'>args</span><span class='rparen'>)</span>
 
-  <span class='kw'>if</span> <span class='id returned'>returned</span><span class='period'>.</span><span class='id kind_of?'>kind_of?</span> <span class='const'>WebDriver</span><span class='op'>::</span><span class='const'>Element</span>
-    <span class='const'>Watir</span><span class='period'>.</span><span class='id element_class_for'>element_class_for</span><span class='lparen'>(</span><span class='id returned'>returned</span><span class='period'>.</span><span class='id tag_name'>tag_name</span><span class='rparen'>)</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:element</span> <span class='op'>=&gt;</span> <span class='id returned'>returned</span><span class='rparen'>)</span>
-  <span class='kw'>else</span>
-    <span class='id returned'>returned</span>
-  <span class='kw'>end</span>
+  <span class='id wrap_elements_in'>wrap_elements_in</span><span class='lparen'>(</span><span class='id returned'>returned</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1192,12 +1184,12 @@ Protocol shared with Watir::Element
       <pre class="lines">
 
 
-155
-156
-157</pre>
+151
+152
+153</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/browser.rb', line 155</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/browser.rb', line 151</span>
 
 <span class='kw'>def</span> <span class='id exist?'>exist?</span>
   <span class='kw'>not</span> <span class='ivar'>@closed</span>
@@ -1238,7 +1230,7 @@ Protocol shared with Watir::Element
       <div class="method_details ">
   <p class="signature " id="goto-instance_method">
   
-    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>goto</strong>(uri) 
+    - (<tt>String</tt>) <strong>goto</strong>(uri) 
   
 
   
@@ -1257,7 +1249,7 @@ Goto the given URL
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
         <span class='name'>uri</span>
@@ -1278,7 +1270,7 @@ The url.
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
       
@@ -1425,12 +1417,12 @@ The url you end up at.
       <pre class="lines">
 
 
-136
-137
-138</pre>
+132
+133
+134</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/browser.rb', line 136</span>
+      <pre class="code"><span class="info file"># File 'lib/watir-webdriver/browser.rb', line 132</span>
 
 <span class='kw'>def</span> <span class='id run_checkers'>run_checkers</span>
   <span class='ivar'>@error_checkers</span><span class='period'>.</span><span class='id each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id e'>e</span><span class='op'>|</span> <span class='id e'>e</span><span class='lbracket'>[</span><span class='kw'>self</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
@@ -1563,9 +1555,9 @@ The url you end up at.
 </div>
     
     <div id="footer">
-  Generated on Wed Dec  1 22:13:39 2010 by 
+  Generated on Wed Dec 22 11:57:28 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.3 (ruby-1.9.2).
+  0.6.4 (ruby-1.9.2).
 </div>
 
   </body>
