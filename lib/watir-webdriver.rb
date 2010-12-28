@@ -54,6 +54,9 @@ require "watir-webdriver/elements/table_row"
 require "watir-webdriver/elements/table_cell"
 require "watir-webdriver/elements/table_section"
 
+require "watir-webdriver/wait"
+
+
 Watir.tag_to_class.freeze
 
 module Watir
