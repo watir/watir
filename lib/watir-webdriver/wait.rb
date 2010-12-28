@@ -1,12 +1,6 @@
 # encoding: utf-8
 module Watir
 
-  #
-  # Module provided by optional require:
-  #
-  #   require "watir-webdriver/extensions/wait"
-  #
-
   module Wait
     module_function
 
@@ -73,7 +67,6 @@ module Watir
     #
     # Returns true if the element exists and is visible on the page
     #
-    # This method is provided by an optional require.
     # @see Watir::Wait
     #
 
@@ -84,7 +77,6 @@ module Watir
     #
     # Waits until the element is present.
     #
-    # This method is provided by an optional require.
     # @see Watir::Wait
     #
     # Example:
@@ -107,8 +99,6 @@ module Watir
     #
     # Waits until the element is present.
     #
-    # This method is provided by an optional require.
-    #
     # @param [Integer] timeout seconds to wait before timing out
     #
     # @see Watir::Wait
@@ -121,8 +111,6 @@ module Watir
 
     #
     # Waits while the element is present.
-    #
-    # This method is provided by an optional require.
     #
     # @param [Integer] timeout seconds to wait before timing out
     #

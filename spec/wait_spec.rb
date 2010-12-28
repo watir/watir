@@ -1,5 +1,4 @@
 require File.expand_path("watirspec/spec_helper", File.dirname(__FILE__))
-require "watir-webdriver/extensions/wait"
 
 describe Watir::Wait do
   describe "#until" do
