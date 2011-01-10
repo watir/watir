@@ -52,4 +52,4 @@ Specs specific to watir-webdriver are found in spec/*_spec.rb, with watirspec in
 
 == Copyright
 
-Copyright (c) 2009-2010 Jari Bakken. See LICENSE for details.
+Copyright (c) 2009-2011 Jari Bakken. See LICENSE for details.
