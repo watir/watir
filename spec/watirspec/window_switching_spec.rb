@@ -68,7 +68,7 @@ describe Browser do
     end
 
     it "raises an error if no window matches the selector" do
-      lambda { browser.window(:title => "noop") }.should raise_error
+      lambda { browser.window(:title => "noop").use }.should raise_error
     end
 
   end
