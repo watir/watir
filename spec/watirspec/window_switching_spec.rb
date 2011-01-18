@@ -160,5 +160,17 @@ bug "http://github.com/jarib/celerity/issues#issue/17", :celerity do
         win1.should_not == win2
       end
     end
+    
+    describe "#when_present" do
+      it "waits until the window is present" do
+        # TODO: improve this spec.
+        did_yield = false
+        browser.window(:title => "closeable window").when_present do
+          did_yield = true
+        end
+        
+        did_yield.should be_true
+      end
+    end
   end
 end
