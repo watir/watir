@@ -48,11 +48,21 @@ describe Watir::Browser do
   end
 
   describe "#send_key{,s}" do
-    before { browser.goto WatirSpec.files + "/forms_with_input_elements.html" }
-
     it "sends keystrokes to the active element" do
+      browser.goto WatirSpec.files + "/forms_with_input_elements.html"
+
       browser.send_keys "hello"
       browser.text_field(:id => "new_user_first_name").value.should == "hello"
+    end
+
+    it "sends keys to a frame" do
+      browser.goto WatirSpec.files + "/frames.html"
+      tf = browser.frame.text_field(:id => "senderElement")
+      tf.clear
+
+      browser.frame.send_keys "hello"
+
+      tf.value.should == "hello"
     end
   end
 

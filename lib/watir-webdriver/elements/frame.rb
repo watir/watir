@@ -69,18 +69,23 @@ module Watir
       @element = element
       @driver = driver
     end
-    
+
     def ==(other)
       @element == other.element
     end
     alias_method :eql?, :==
-    
+
+    def send_keys(*args)
+      switch!
+      @driver.switch_to.active_element.send_keys(*args)
+    end
+
     protected
-    
+
     def element
       @element
     end
-    
+
     private
 
     def method_missing(meth, *args, &blk)
