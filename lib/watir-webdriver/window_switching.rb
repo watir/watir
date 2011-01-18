@@ -5,7 +5,7 @@ module Watir
     end
 
     def windows(*args)
-      all = @driver.window_handles.map { |id| Window.new(@driver, id) }
+      all = @driver.window_handles.map { |handle| Window.new(@driver, :handle => handle) }
 
       if args.empty?
         all
@@ -15,23 +15,17 @@ module Watir
     end
 
     def window(*args, &blk)
-      win = filter_windows(args, windows, :find)
+      win = Window.new @driver, extract_selector(args)
 
-      if win && block_given?
-        win.use(&blk)
-      end
+      win.use(&blk) if block_given?
 
-      win or raise NoMatchingWindowFoundException, args.inspect
+      win
     end
 
     private
 
     def filter_windows(args, all, method)
       sel = extract_selector(args)
-
-      if sel.empty?
-        all.find { |w| w.current? }
-      end
 
       unless sel.keys.all? { |k| [:title, :url].include? k }
         raise ArgumentError, "invalid window selector: #{sel.inspect}"
@@ -44,27 +38,38 @@ module Watir
   end # WindowSwitching
 
   class Window
-    def initialize(driver, id)
-      @driver, @id = driver, id
+    def initialize(driver, selector)
+      @driver   = driver
+      @selector = selector
+
+      if selector.empty?
+        @handle = driver.window_handle
+      elsif selector.has_key? :handle
+        @handle = selector.delete :handle
+      else
+        unless selector.keys.all? { |k| [:title, :url].include? k }
+          raise ArgumentError, "invalid window selector: #{selector.inspect}"
+        end
+      end
     end
 
     def inspect
-      '#<%s:0x%x id=%s>' % [self.class, hash*2, @id.to_s]
+      '#<%s:0x%x located=%s>' % [self.class, hash*2, !!@handle]
     end
 
     def ==(other)
       return false unless other.kind_of?(self.class)
 
-      @id == other.id
+      handle == other.handle
     end
     alias_method :eql?, :==
 
     def hash
-      @id.hash ^ self.class.hash
+      handle.hash ^ self.class.hash
     end
 
     def current?
-      @driver.window_handle == @id
+      @driver.window_handle == handle
     end
 
     def close
@@ -91,14 +96,33 @@ module Watir
         return self
       end
 
-      @driver.switch_to.window(@id, &blk)
+      @driver.switch_to.window(handle, &blk)
       self
     end
 
     protected
 
-    def id
-      @id
+    def handle
+      @handle ||= locate
+    end
+
+    private
+
+    def locate
+      handle = @driver.window_handles.find { |handle|
+        matches?(handle)
+      }
+
+      handle or raise NoMatchingWindowFoundException, @selector.inspect
+    end
+
+    def matches?(handle)
+      @driver.switch_to.window(handle) {
+        matches_title = @selector[:title].nil? || @selector[:title] === @driver.title
+        matches_url   = @selector[:url].nil? || @selector[:url] === @driver.current_url
+
+        matches_title && matches_url
+      }
     end
 
   end # Window
