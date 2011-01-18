@@ -115,6 +115,10 @@ module Watir
       wrap_elements_in(returned)
     end
 
+    def send_keys(*args)
+      @driver.switch_to.active_element.send_keys(*args)
+    end
+
     def add_checker(checker = nil, &block)
       if block_given?
         @error_checkers << block

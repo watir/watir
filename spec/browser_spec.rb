@@ -47,6 +47,15 @@ describe Watir::Browser do
     end
   end
 
+  describe "#send_key{,s}" do
+    before { browser.goto WatirSpec.files + "/forms_with_input_elements.html" }
+
+    it "sends keystrokes to the active element" do
+      browser.send_keys "hello"
+      browser.text_field(:id => "new_user_first_name").value.should == "hello"
+    end
+  end
+
   bug "http://github.com/jarib/watirspec/issues/issue/8", [:webdriver, :ie], [:webdriver, :chrome] do
     it "raises an error when trying to interact with a closed browser" do
       b = WatirSpec.new_browser
