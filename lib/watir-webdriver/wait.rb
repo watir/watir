@@ -62,18 +62,13 @@ module Watir
     end
   end # WhenPresentDecorator
 
-  class Element
+  #
+  # Convenience methods for things that eventually become present.
+  #
+  # Includers should implement a public #present? method.
+  #
 
-    #
-    # Returns true if the element exists and is visible on the page
-    #
-    # @see Watir::Wait
-    #
-
-    def present?
-      exists? && visible?
-    end
-
+  module EventuallyPresent
     #
     # Waits until the element is present.
     #
@@ -89,7 +84,7 @@ module Watir
 
     def when_present(timeout = 30)
       if block_given?
-        Watir::Wait.until(timeout) { self.present? }
+        Watir::Wait.until(timeout) { present? }
         yield self
       else
         WhenPresentDecorator.new(self, timeout)
@@ -106,7 +101,7 @@ module Watir
     #
 
     def wait_until_present(timeout = 30)
-      Watir::Wait.until(timeout) { self.present? }
+      Watir::Wait.until(timeout) { present? }
     end
 
     #
@@ -119,11 +114,9 @@ module Watir
     #
 
     def wait_while_present(timeout = 30)
-      Watir::Wait.while(timeout) { self.present? }
+      Watir::Wait.while(timeout) { present? }
     rescue Selenium::WebDriver::Error::ObsoleteElementError
       # it's not present
     end
-  end # Element
-
-
+  end # EventuallyPresent
 end # Watir

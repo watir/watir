@@ -7,10 +7,12 @@ module Watir
   #
 
   class Element
+    extend AttributeHelper
+
     include Exception
     include Container
     include Selenium
-    extend AttributeHelper
+    include EventuallyPresent
 
     def initialize(parent, selector)
       @parent   = parent
@@ -157,9 +159,23 @@ module Watir
     end
     alias_method :wd, :element # ensures duck typing with Browser
 
+    #
+    # Returns true if this element is visible on the page
+    #
+
     def visible?
       assert_exists
       @element.displayed?
+    end
+
+    #
+    # Returns true if the element exists and is visible on the page
+    #
+    # @see Watir::Wait
+    #
+
+    def present?
+      exists? && visible?
     end
 
     def style(property = nil)

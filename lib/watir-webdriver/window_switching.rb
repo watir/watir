@@ -38,6 +38,8 @@ module Watir
   end # WindowSwitching
 
   class Window
+    include EventuallyPresent
+
     def initialize(driver, selector)
       @driver   = driver
       @selector = selector
@@ -56,6 +58,14 @@ module Watir
     def inspect
       '#<%s:0x%x located=%s>' % [self.class, hash*2, !!@handle]
     end
+
+    def exists?
+      handle
+      true
+    rescue NoMatchingWindowFoundException
+      false
+    end
+    alias_method :present?, :exists? # for Wait::EventuallyPresent
 
     def ==(other)
       return false unless other.kind_of?(self.class)

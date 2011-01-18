@@ -3,6 +3,7 @@ require "selenium-webdriver"
 require "json"
 
 require "watir-webdriver/version"
+require "watir-webdriver/wait"
 require "watir-webdriver/exception"
 require "watir-webdriver/xpath_support"
 require "watir-webdriver/window_switching"
@@ -53,9 +54,6 @@ require "watir-webdriver/elements/table"
 require "watir-webdriver/elements/table_row"
 require "watir-webdriver/elements/table_cell"
 require "watir-webdriver/elements/table_section"
-
-require "watir-webdriver/wait"
-
 
 Watir.tag_to_class.freeze
 
