@@ -1,19 +1,19 @@
 # encoding: utf-8
-require "selenium-webdriver"
-require "json"
+require 'selenium-webdriver'
+require 'json'
 
-require "watir-webdriver/version"
-require "watir-webdriver/wait"
-require "watir-webdriver/exception"
-require "watir-webdriver/xpath_support"
-require "watir-webdriver/window_switching"
-require "watir-webdriver/container"
-require "watir-webdriver/locators/element_locator"
-require "watir-webdriver/locators/button_locator"
-require "watir-webdriver/locators/text_field_locator"
-require "watir-webdriver/locators/child_row_locator"
-require "watir-webdriver/locators/child_cell_locator"
-require "watir-webdriver/browser"
+require 'watir-webdriver/version'
+require 'watir-webdriver/wait'
+require 'watir-webdriver/exception'
+require 'watir-webdriver/xpath_support'
+require 'watir-webdriver/window_switching'
+require 'watir-webdriver/container'
+require 'watir-webdriver/locators/element_locator'
+require 'watir-webdriver/locators/button_locator'
+require 'watir-webdriver/locators/text_field_locator'
+require 'watir-webdriver/locators/child_row_locator'
+require 'watir-webdriver/locators/child_cell_locator'
+require 'watir-webdriver/browser'
 
 module Watir
   include Selenium
@@ -30,39 +30,32 @@ module Watir
 
 end
 
-require "watir-webdriver/attribute_helper"
-require "watir-webdriver/row_container"
-require "watir-webdriver/cell_container"
-require "watir-webdriver/element_collection"
-require "watir-webdriver/elements/element"
-require "watir-webdriver/elements/generated"
-require "watir-webdriver/elements/frame"
-require "watir-webdriver/elements/input"
-require "watir-webdriver/elements/button"
-require "watir-webdriver/elements/checkbox"
-require "watir-webdriver/elements/file_field"
-require "watir-webdriver/elements/image"
-require "watir-webdriver/elements/link"
-require "watir-webdriver/elements/font"
-require "watir-webdriver/elements/radio"
-require "watir-webdriver/elements/text_field"
-require "watir-webdriver/elements/hidden"
-require "watir-webdriver/elements/select"
-require "watir-webdriver/elements/form"
-require "watir-webdriver/elements/option"
-require "watir-webdriver/elements/table"
-require "watir-webdriver/elements/table_row"
-require "watir-webdriver/elements/table_cell"
-require "watir-webdriver/elements/table_section"
+require 'watir-webdriver/attribute_helper'
+require 'watir-webdriver/row_container'
+require 'watir-webdriver/cell_container'
+require 'watir-webdriver/element_collection'
+require 'watir-webdriver/elements/element'
+require 'watir-webdriver/elements/generated'
+require 'watir-webdriver/elements/frame'
+require 'watir-webdriver/elements/input'
+require 'watir-webdriver/elements/button'
+require 'watir-webdriver/elements/checkbox'
+require 'watir-webdriver/elements/file_field'
+require 'watir-webdriver/elements/image'
+require 'watir-webdriver/elements/link'
+require 'watir-webdriver/elements/font'
+require 'watir-webdriver/elements/radio'
+require 'watir-webdriver/elements/text_field'
+require 'watir-webdriver/elements/hidden'
+require 'watir-webdriver/elements/select'
+require 'watir-webdriver/elements/form'
+require 'watir-webdriver/elements/option'
+require 'watir-webdriver/elements/table'
+require 'watir-webdriver/elements/table_row'
+require 'watir-webdriver/elements/table_cell'
+require 'watir-webdriver/elements/table_section'
 
 Watir.tag_to_class.freeze
-
-module Watir
-  module Container
-
-  end # Container
-end # Watir
-
 
 # undefine deprecated methods to use them for Element attributes
 class Object
