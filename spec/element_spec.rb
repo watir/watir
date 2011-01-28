@@ -10,4 +10,18 @@ describe Watir::Element do
     end
   end
 
+  describe "#present?" do
+    it "returns true if the element exists and is visible" do
+      browser.div(:id, 'foo').should be_present
+    end
+
+    it "returns false if the element exists but is not visible" do
+      browser.div(:id, 'bar').should_not be_present
+    end
+
+    it "returns false if the element does not exist" do
+      browser.div(:id, 'should-not-exist').should_not be_present
+    end
+  end
+
 end
