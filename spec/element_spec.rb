@@ -11,6 +11,10 @@ describe Watir::Element do
   end
 
   describe "#present?" do
+    before do
+      browser.goto("file://" + File.expand_path("html/wait.html", File.dirname(__FILE__)))
+    end
+
     it "returns true if the element exists and is visible" do
       browser.div(:id, 'foo').should be_present
     end
