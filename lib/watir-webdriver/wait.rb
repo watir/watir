@@ -2,42 +2,51 @@
 module Watir
 
   module Wait
-    module_function
 
     class TimeoutError < StandardError
     end
 
-    #
-    # Wait until the block evaluates to true or times out.
-    #
+    class << self
+      #
+      # Wait until the block evaluates to true or times out.
+      #
 
-    def until(timeout = 30, &block)
-      end_time = ::Time.now + timeout
+      def until(timeout = 30, message = nil, &block)
+        end_time = ::Time.now + timeout
 
-      until ::Time.now > end_time
-        result = yield(self)
-        return result if result
-        sleep 0.5
+        until ::Time.now > end_time
+          result = yield(self)
+          return result if result
+          sleep 0.5
+        end
+
+        raise TimeoutError, message_for(timeout, message)
       end
 
-      raise TimeoutError, "timed out after #{timeout} seconds"
-    end
+      #
+      # Wait while the block evaluates to true or times out.
+      #
 
-    #
-    # Wait while the block evaluates to true or times out.
-    #
+      def while(timeout = 30, message = nil, &block)
+        end_time = ::Time.now + timeout
 
-    def while(timeout = 30, &block)
-      end_time = ::Time.now + timeout
+        until ::Time.now > end_time
+          return unless yield(self)
+          sleep 0.5
+        end
 
-      until ::Time.now > end_time
-        return unless yield(self)
-        sleep 0.5
+        raise TimeoutError, message_for(timeout, message)
       end
 
-      raise TimeoutError, "timed out after #{timeout} seconds"
-    end
+      private
 
+      def message_for(timeout, message)
+        err = "timed out after #{timeout} seconds"
+        err << ", #{message}" if message
+
+        err
+      end
+    end # class << self
   end # Wait
 
   #
@@ -46,9 +55,10 @@ module Watir
   #
 
   class WhenPresentDecorator
-    def initialize(element, timeout)
+    def initialize(element, timeout, message = nil)
       @element = element
       @timeout = timeout
+      @message = message
     end
 
     def method_missing(m, *args, &block)
@@ -56,7 +66,7 @@ module Watir
         raise NoMethodError, "undefined method `#{m}' for #{@element.inspect}:#{@element.class}"
       end
 
-      Watir::Wait.until(@timeout) { @element.present? }
+      Watir::Wait.until(@timeout, @message) { @element.present? }
 
       @element.__send__(m, *args, &block)
     end
@@ -65,7 +75,7 @@ module Watir
   #
   # Convenience methods for things that eventually become present.
   #
-  # Includers should implement a public #present? method.
+  # Includers should implement a public #present? and a (possibly private) #selector_string method.
   #
 
   module EventuallyPresent
@@ -83,11 +93,13 @@ module Watir
     #
 
     def when_present(timeout = 30)
+      message = "waiting for #{selector_string} to become present"
+
       if block_given?
-        Watir::Wait.until(timeout) { present? }
+        Watir::Wait.until(timeout, message) { present? }
         yield self
       else
-        WhenPresentDecorator.new(self, timeout)
+        WhenPresentDecorator.new(self, timeout, message)
       end
     end
 
@@ -101,7 +113,8 @@ module Watir
     #
 
     def wait_until_present(timeout = 30)
-      Watir::Wait.until(timeout) { present? }
+      message = "waiting for #{selector_string} to become present"
+      Watir::Wait.until(timeout, message) { present? }
     end
 
     #
@@ -114,9 +127,11 @@ module Watir
     #
 
     def wait_while_present(timeout = 30)
-      Watir::Wait.while(timeout) { present? }
+      message = "waiting for #{selector_string} to disappear"
+      Watir::Wait.while(timeout, message) { present? }
     rescue Selenium::WebDriver::Error::ObsoleteElementError
       # it's not present
     end
+
   end # EventuallyPresent
 end # Watir

@@ -118,6 +118,10 @@ module Watir
 
     private
 
+    def selector_string
+      @selector.inspect
+    end
+
     def locate
       handle = @driver.window_handles.find { |handle|
         matches?(handle)
