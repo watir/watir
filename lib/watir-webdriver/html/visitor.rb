@@ -161,7 +161,8 @@ module Watir
           :date
         when 'Element'
           :element
-        when 'WindowProxy', 'ValidityState', 'MediaError', 'TimeRanges', 'Location', 'Any', 'TimedTrackArray', 'TimedTrack'
+        when 'WindowProxy', 'ValidityState', 'MediaError', 'TimeRanges', 'Location',
+             'Any', 'TimedTrackArray', 'TimedTrack', 'TextTrackArray', 'TextTrack'
           # probably completely wrong.
           :string
         else
