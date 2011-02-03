@@ -101,11 +101,6 @@ module Watir
     end
 
     def use(&blk)
-      if current?
-        yield if block_given?
-        return self
-      end
-
       @driver.switch_to.window(handle, &blk)
       self
     end
