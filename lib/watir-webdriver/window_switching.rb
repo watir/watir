@@ -1,9 +1,6 @@
 module Watir
   module WindowSwitching
 
-    class NoMatchingWindowFoundException < StandardError
-    end
-
     def windows(*args)
       all = @driver.window_handles.map { |handle| Window.new(@driver, :handle => handle) }
 
@@ -62,7 +59,7 @@ module Watir
     def exists?
       handle
       true
-    rescue NoMatchingWindowFoundException
+    rescue Exception::NoMatchingWindowFoundException
       false
     end
     alias_method :present?, :exists? # for Wait::EventuallyPresent
@@ -122,7 +119,7 @@ module Watir
         matches?(handle)
       }
 
-      handle or raise NoMatchingWindowFoundException, @selector.inspect
+      handle or raise Exception::NoMatchingWindowFoundException, @selector.inspect
     end
 
     def matches?(handle)
