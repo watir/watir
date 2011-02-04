@@ -155,6 +155,7 @@ module Watir
     def exist?
       not @closed
     end
+    alias_method :exists?, :exist?
 
     def browser
       self
