@@ -49,6 +49,16 @@ module Watir
     end # class << self
   end # Wait
 
+  module Waitable
+    def wait_until(*args, &blk)
+      Wait.until(*args, &blk)
+    end
+
+    def wait_while(*args, &blk)
+      Wait.while(*args, &blk)
+    end
+  end
+
   #
   # Wraps an Element so that any subsequent method calls are
   # put on hold until the element is present (exists and is visible) on the page.

@@ -8,6 +8,7 @@ module Watir
   class Browser
     include Container
     include WindowSwitching
+    include Waitable
 
     attr_reader :driver
     alias_method :wd, :driver # ensures duck typing with Watir::Element

@@ -76,4 +76,26 @@ describe Watir::Browser do
     end
   end
 
+  describe "#wait_while" do
+    it "delegates to the Wait module" do
+      Wait.should_receive(:while).with(3, "foo").and_yield
+
+      called = false
+      browser.wait_while(3, "foo") { called = true }
+
+      called.should be_true
+    end
+  end
+
+  describe "#wait_until" do
+    it "delegates to the Wait module" do
+      Wait.should_receive(:until).with(3, "foo").and_yield
+
+      called = false
+      browser.wait_until(3, "foo") { called = true }
+
+      called.should be_true
+    end
+  end
+
 end
