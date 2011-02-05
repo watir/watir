@@ -123,10 +123,10 @@ module Watir
     def add_checker(checker = nil, &block)
       if block_given?
         @error_checkers << block
-      elsif Proc === checker
+      elsif checker.respond_to? :call
         @error_checkers << checker
       else
-        raise ArgumentError, "argument must be a Proc or block"
+        raise ArgumentError, "expected block or object responding to #call"
       end
     end
 
@@ -135,7 +135,7 @@ module Watir
     end
 
     def run_checkers
-      @error_checkers.each { |e| e[self] }
+      @error_checkers.each { |e| e.call(self) }
     end
 
     #
