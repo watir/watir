@@ -5,7 +5,7 @@ module Watir
     class TimeoutError < StandardError
     end
 
-    INTERVAL = 0.5
+    INTERVAL = 0.1
 
     class << self
       #
