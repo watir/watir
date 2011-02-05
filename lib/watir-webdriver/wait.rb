@@ -1,10 +1,11 @@
 # encoding: utf-8
 module Watir
-
   module Wait
 
     class TimeoutError < StandardError
     end
+
+    INTERVAL = 0.5
 
     class << self
       #
@@ -17,7 +18,7 @@ module Watir
         until ::Time.now > end_time
           result = yield(self)
           return result if result
-          sleep 0.5
+          sleep INTERVAL
         end
 
         raise TimeoutError, message_for(timeout, message)
@@ -32,7 +33,7 @@ module Watir
 
         until ::Time.now > end_time
           return unless yield(self)
-          sleep 0.5
+          sleep INTERVAL
         end
 
         raise TimeoutError, message_for(timeout, message)
