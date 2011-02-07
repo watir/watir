@@ -71,7 +71,9 @@ describe Watir::Element do
     it "times out when not given a block" do
       lambda {
         browser.div(:id, 'bar').when_present(1).click
-      }.should raise_error(Watir::Wait::TimeoutError, 'timed out after 1 seconds, waiting for {:id=>"bar", :tag_name=>"div"} to become present')
+      }.should raise_error(Watir::Wait::TimeoutError, 
+        /^timed out after 1 seconds, waiting for (\{:id=>"bar", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"bar"\}) to become present$/
+      )
     end
   end
 
@@ -84,7 +86,9 @@ describe Watir::Element do
     it "times out if the element doesn't appear" do
       lambda do
         browser.div(:id, 'bar').wait_until_present(1)
-      end.should raise_error(Watir::Wait::TimeoutError, 'timed out after 1 seconds, waiting for {:id=>"bar", :tag_name=>"div"} to become present')
+      end.should raise_error(Watir::Wait::TimeoutError, 
+        /^timed out after 1 seconds, waiting for (\{:id=>"bar", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"bar"\}) to become present$/
+      )
     end
   end
 
@@ -102,7 +106,9 @@ describe Watir::Element do
     it "times out" do
       lambda do
         browser.div(:id, 'foo').wait_while_present(1)
-      end.should raise_error(Watir::Wait::TimeoutError, 'timed out after 1 seconds, waiting for {:id=>"foo", :tag_name=>"div"} to disappear')
+      end.should raise_error(Watir::Wait::TimeoutError, 
+        /^timed out after 1 seconds, waiting for (\{:id=>"foo", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"foo"\}) to disappear$/
+      )
     end
   end
 
