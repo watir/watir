@@ -56,7 +56,7 @@ module Watir
     #
 
     def goto(uri)
-      uri = "http://#{uri}" unless uri.include?("://")
+      uri = "http://#{uri}" unless uri == "about:blank" || uri.include?("://")
 
       @driver.navigate.to uri
       run_checkers
