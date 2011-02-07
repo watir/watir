@@ -104,6 +104,10 @@ describe "Browser" do
       lambda { browser.goto(WatirSpec.files + "/non_control_elements.html") }.should_not raise_error
     end
 
+    it "goes to the url 'about:blank' without raising errors" do
+      lambda { browser.goto("about:blank") }.should_not raise_error
+    end
+
     it "updates the page when location is changed with setTimeout + window.location" do
       browser.goto(WatirSpec.files + "/timeout_window_location.html")
       sleep 1
