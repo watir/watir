@@ -105,6 +105,16 @@ module Watir
       run_checkers
     end
 
+    def wait(timeout = 5)
+      wait_until(timeout, "waiting for document.readyState == 'complete'") do
+        ready_state == "complete"
+      end
+    end
+
+    def ready_state
+      execute_script 'return document.readyState'
+    end
+
     def status
       execute_script "return window.status;"
     end

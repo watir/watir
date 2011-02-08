@@ -98,4 +98,20 @@ describe Watir::Browser do
     end
   end
 
+  describe "#wait" do
+    it "waits until document.readyState == 'complete'" do
+      browser.should_receive(:ready_state).and_return('incomplete')
+      browser.should_receive(:ready_state).and_return('complete')
+
+      browser.wait
+    end
+  end
+
+  describe "#ready_state" do
+    it "gets the documents readyState property" do
+      browser.should_receive(:execute_script).with('return document.readyState')
+      browser.ready_state
+    end
+  end
+
 end
