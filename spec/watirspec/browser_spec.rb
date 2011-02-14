@@ -116,14 +116,12 @@ describe "Browser" do
   end
 
   describe "#refresh" do
-    not_compliant_on [:webdriver, :ie] do
-      it "refreshes the page" do
-        browser.goto(WatirSpec.files + "/non_control_elements.html")
-        browser.span(:class, 'footer').click
-        browser.span(:class, 'footer').text.should include('Javascript')
-        browser.refresh
-        browser.span(:class, 'footer').text.should_not include('Javascript')
-      end
+    it "refreshes the page" do
+      browser.goto(WatirSpec.files + "/non_control_elements.html")
+      browser.span(:class, 'footer').click
+      browser.span(:class, 'footer').text.should include('Javascript')
+      browser.refresh
+      browser.span(:class, 'footer').text.should_not include('Javascript')
     end
   end
 

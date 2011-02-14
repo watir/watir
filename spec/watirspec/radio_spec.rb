@@ -201,12 +201,10 @@ describe "Radio" do
       browser.radio(:xpath, "//input[@id='new_user_newsletter_no']").should be_set
     end
 
-    bug "http://code.google.com/p/selenium/issues/detail?id=695", [:webdriver, :ie] do
-      it "fires the onclick event" do
-        browser.radio(:id, "new_user_newsletter_no").set
-        browser.radio(:id, "new_user_newsletter_yes").set
-        messages.should == ["clicked: new_user_newsletter_no", "clicked: new_user_newsletter_yes"]
-      end
+    it "fires the onclick event" do
+      browser.radio(:id, "new_user_newsletter_no").set
+      browser.radio(:id, "new_user_newsletter_yes").set
+      messages.should == ["clicked: new_user_newsletter_no", "clicked: new_user_newsletter_yes"]
     end
 
     # http://webbugtrack.blogspot.com/2007/11/bug-193-onchange-does-not-fire-properly.html

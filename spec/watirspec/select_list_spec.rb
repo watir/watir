@@ -284,22 +284,18 @@ describe "SelectList" do
       browser.select_list(:name, "new_user_languages").select(/ish/).should == "Danish"
     end
 
-    bug "http://code.google.com/p/selenium/issues/detail?id=695", [:webdriver, :ie] do
-      it "fires onchange event when selecting an item" do
-        browser.select_list(:id, "new_user_languages").select("Danish")
-        messages.should == ['changed language']
-      end
+    it "fires onchange event when selecting an item" do
+      browser.select_list(:id, "new_user_languages").select("Danish")
+      messages.should == ['changed language']
     end
 
-    bug "http://code.google.com/p/selenium/issues/detail?id=695", [:webdriver, :ie] do
-      it "doesn't fire onchange event when selecting an already selected item" do
-        browser.select_list(:id, "new_user_languages").clear # removes the two pre-selected options
-        browser.select_list(:id, "new_user_languages").select("English")
-        messages.size.should == 3
+    it "doesn't fire onchange event when selecting an already selected item" do
+      browser.select_list(:id, "new_user_languages").clear # removes the two pre-selected options
+      browser.select_list(:id, "new_user_languages").select("English")
+      messages.size.should == 3
 
-        browser.select_list(:id, "new_user_languages").select("English")
-        messages.size.should == 3
-      end
+      browser.select_list(:id, "new_user_languages").select("English")
+      messages.size.should == 3
     end
 
     it "returns the text of the selected option" do
