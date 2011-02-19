@@ -78,7 +78,7 @@ describe "Table" do
   describe "#click" do
     it "fires the table's onclick event" do
       browser.table(:id, 'inner').click
-      messages.first.should == 'table'
+      messages.should include('table')
     end
   end
 

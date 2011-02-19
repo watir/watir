@@ -9,12 +9,10 @@ describe "Browser" do
       browser.should exist
     end
 
-    bug "http://github.com/jarib/watir-webdriver/issues/issue/29", [:webdriver, :ie] do
-      it "returns false after Browser#close" do
-        b = WatirSpec.new_browser
-        b.close
-        b.should_not exist
-      end
+    it "returns false after Browser#close" do
+      b = WatirSpec.new_browser
+      b.close
+      b.should_not exist
     end
   end
 
@@ -49,12 +47,13 @@ describe "Browser" do
   end
 
   describe "#status" do
-    not_compliant_on :webdriver do # need to set Firefox preference, might do this when selenium-webdriver exposes the profile used
+    # for firefox, this needs to be enabled in
+    # Preferences -> Content -> Advanced -> Change status bar text
+    #
+    not_compliant_on [:webdriver, :firefox] do 
       it "returns the current value of window.status" do
         browser.goto(WatirSpec.files + "/non_control_elements.html")
 
-        # for firefox, this needs to be enabled in
-        # Preferences -> Content -> Advanced -> Change status bar text
         browser.execute_script "window.status = 'All done!';"
         browser.status.should == "All done!"
       end
@@ -81,15 +80,28 @@ describe "Browser" do
     end
   end
 
-  bug "http://github.com/jarib/watirspec/issues/issue/8", [:webdriver, :ie], [:webdriver, :chrome] do
-    describe ".start" do
+  describe ".start" do
+    not_compliant_on(:webdriver) {
       it "goes to the given URL and return an instance of itself" do
         browser = WatirSpec.implementation.browser_class.start("#{WatirSpec.files}/non_control_elements.html")
+
         browser.should be_instance_of(WatirSpec.implementation.browser_class)
         browser.title.should == "Non-control elements"
         browser.close
       end
-    end
+    }
+
+    # we need to specify what browser to use
+    deviates_on(:webdriver) {
+      it "goes to the given URL and return an instance of itself" do
+        driver = (ENV['WATIR_WEBDRIVER_BROWSER'] || :firefox).to_sym
+        browser = Watir::Browser.start("#{WatirSpec.files}/non_control_elements.html", driver)
+
+        browser.should be_instance_of(Watir::Browser)
+        browser.title.should == "Non-control elements"
+        browser.close
+      end
+    }
   end
 
   describe "#goto" do
