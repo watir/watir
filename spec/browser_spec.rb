@@ -66,7 +66,7 @@ describe Watir::Browser do
     end
   end
 
-  bug "http://github.com/jarib/watirspec/issues/issue/8", [:webdriver, :ie], [:webdriver, :chrome] do
+  not_compliant_on [:webdriver, :chrome] do
     it "raises an error when trying to interact with a closed browser" do
       b = WatirSpec.new_browser
       b.goto(WatirSpec.files + "/definition_lists.html")
@@ -108,7 +108,7 @@ describe Watir::Browser do
   end
 
   describe "#ready_state" do
-    it "gets the documents readyState property" do
+    it "gets the document's readyState property" do
       browser.should_receive(:execute_script).with('return document.readyState')
       browser.ready_state
     end
