@@ -7,3 +7,4 @@ coverage
 rdoc
 .yardoc
 Gemfile.lock
+.rvmrc
