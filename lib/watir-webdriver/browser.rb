@@ -190,7 +190,7 @@ module Watir
     end
 
     def wrap_element(element)
-      Watir.element_class_for(element.tag_name).new(self, :element => element)
+      Watir.element_class_for(element.tag_name.downcase).new(self, :element => element)
     end
 
   end # Browser

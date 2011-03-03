@@ -62,7 +62,7 @@ module Watir
 
     def tag_name
       assert_exists
-      @element.tag_name
+      @element.tag_name.downcase
     end
 
     def click

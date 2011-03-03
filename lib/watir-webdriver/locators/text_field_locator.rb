@@ -46,9 +46,11 @@ module Watir
     def matches_selector?(element, rx_selector)
       rx_selector = rx_selector.dup
 
+      tag_name = element.tag_name.downcase
+
       [:text, :value, :label].each do |key|
         if rx_selector.has_key?(key)
-          correct_key = element.tag_name == 'input' ? :value : :text
+          correct_key = tag_name == 'input' ? :value : :text
           rx_selector[correct_key] = rx_selector.delete(key)
         end
       end
@@ -58,8 +60,8 @@ module Watir
 
     VALID_TEXT_FIELD_TAGS = %w[input textarea]
 
-    def tag_name_matches?(element, _)
-      VALID_TEXT_FIELD_TAGS.include?(element.tag_name)
+    def tag_name_matches?(tag_name, _)
+      VALID_TEXT_FIELD_TAGS.include?(tag_name)
     end
   end # TextFieldLocator
 end # Watir

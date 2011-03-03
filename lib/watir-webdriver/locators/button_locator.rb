@@ -50,10 +50,11 @@ module Watir
 
     def matches_selector?(element, rx_selector)
       rx_selector = rx_selector.dup
+      tag_name    = element.tag_name.downcase
 
       [:value, :caption].each do |key|
         if rx_selector.has_key?(key)
-          correct_key = element.tag_name == 'button' ? :text : :value
+          correct_key = tag_name == 'button' ? :text : :value
           rx_selector[correct_key] = rx_selector.delete(key)
         end
       end
@@ -61,12 +62,12 @@ module Watir
       super
     end
 
-    def tag_name_matches?(element, _)
-      !!(/^(input|button)$/ === element.tag_name)
+    def tag_name_matches?(tag_name, _)
+      !!(/^(input|button)$/ === tag_name)
     end
 
     def validate_element(element)
-      return if element.tag_name == "input" && !Button::VALID_TYPES.include?(element.attribute(:type))
+      return if element.tag_name.downcase == "input" && !Button::VALID_TYPES.include?(element.attribute(:type))
       super
     end
 

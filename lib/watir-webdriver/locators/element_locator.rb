@@ -168,7 +168,7 @@ module Watir
       when :text
         element.text
       when :tag_name
-        element.tag_name
+        element.tag_name.downcase
       when :href
         (href = element.attribute(:href)) && href.strip
       else
@@ -239,7 +239,7 @@ module Watir
       return unless selector.empty? # multiple attributes
 
       element = @wd.find_element(:id, id)
-      return if tag_name && !tag_name_matches?(element, tag_name)
+      return if tag_name && !tag_name_matches?(element.tag_name.downcase, tag_name)
 
       element
     rescue WebDriver::Error::NoSuchElementError => wde
@@ -250,8 +250,8 @@ module Watir
       @wd.find_elements(:xpath => ".//*")
     end
 
-    def tag_name_matches?(element, tag_name)
-      tag_name === element.tag_name
+    def tag_name_matches?(element_tag_name, tag_name)
+      tag_name === element_tag_name
     end
 
     def valid_attribute?(attribute)
@@ -317,9 +317,11 @@ module Watir
 
     def validate_element(element)
       tn = @selector[:tag_name]
-      return if tn && !tag_name_matches?(element, tn)
+      element_tag_name = element.tag_name.downcase
 
-      if element.tag_name == 'input'
+      return if tn && !tag_name_matches?(element_tag_name, tn)
+
+      if element_tag_name == 'input'
         return if @selector[:type] && @selector[:type] != element.attribute(:type)
       end
 

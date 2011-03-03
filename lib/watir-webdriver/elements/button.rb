@@ -23,13 +23,16 @@ module Watir
 
     def text
       assert_exists
-      case @element.tag_name
+
+      tn = @element.tag_name.downcase
+
+      case tn
       when 'input'
         @element.attribute(:value)
       when 'button'
         @element.text
       else
-        raise Exception::Error, "unknown tag name for button: #{@element.tag_name}"
+        raise Exception::Error, "unknown tag name for button: #{tn}"
       end
     end
 
