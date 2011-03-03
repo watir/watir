@@ -51,17 +51,15 @@ describe Browser do
       browser.window.url.should =~ /window_switching\.html/
     end
 
-    not_compliant_on [:webdriver, :ie] do
-      bug "http://github.com/jarib/celerity/issues#issue/17", :celerity do
-        it "it executes the given block in the window" do
-          browser.window(:title => "closeable window") do
-            link = browser.a(:id => "close")
-            link.should exist
-            link.click
-          end
-
-          browser.windows.size.should == 1
+    bug "http://github.com/jarib/celerity/issues#issue/17", :celerity do
+      it "it executes the given block in the window" do
+        browser.window(:title => "closeable window") do
+          link = browser.a(:id => "close")
+          link.should exist
+          link.click
         end
+
+        browser.windows.size.should == 1
       end
     end
 
