@@ -102,7 +102,7 @@ module Watir
 
       begin
         @element.value || ''
-      rescue WebDriver::Error::ElementNotEnabledError
+      rescue WebDriver::Error::InvalidElementStateError
         ""
       end
     end
