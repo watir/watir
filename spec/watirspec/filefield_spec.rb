@@ -142,7 +142,11 @@ describe "FileField" do
     not_compliant_on [:webdriver, :ie] do
       it "does not raise an error if the file does not exist" do
         browser.file_field.value = '/tmp/unlikely-to-exist'
-        browser.file_field.value.should == '/tmp/unlikely-to-exist'
+
+        expected = '/tmp/unlikely-to-exist'
+        expected.gsub!("/", "\\") if WatirSpec.platform == :windows
+
+        browser.file_field.value.should == expected
       end
 
       it "does not alter its argument" do
