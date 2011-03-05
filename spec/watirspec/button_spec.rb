@@ -17,9 +17,9 @@ describe "Button" do
       browser.button(:value, "Button 2").should exist
       browser.button(:value, /Button 2/).should exist
       not_compliant_on [:webdriver, :ie] do
-        browser.button(:src, "images/button.jpg").should exist
+        browser.button(:src, "images/button.png").should exist
       end
-      browser.button(:src, /button.jpg/).should exist
+      browser.button(:src, /button\.png/).should exist
       browser.button(:text, "Button 2").should exist
       browser.button(:text, /Button 2/).should exist
       browser.button(:class, "image").should exist
@@ -109,7 +109,7 @@ describe "Button" do
   describe "#src" do
     it "returns the src attribute for the button image" do
       # varies between browsers
-      browser.button(:name, "new_user_image").src.should =~ %r"images/button.jpg$"
+      browser.button(:name, "new_user_image").src.should include("images/button.png")
     end
 
     it "raises UnknownObjectException if the button does not exist" do

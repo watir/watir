@@ -13,7 +13,7 @@ describe "Image" do
       browser.image(:id, 'square').should exist
       browser.image(:id, /square/).should exist
 
-      browser.image(:src, 'images/circle.jpg').should exist
+      browser.image(:src, 'images/circle.png').should exist
 
       browser.image(:src, /circle/).should exist
       browser.image(:alt, 'circle').should exist
@@ -77,7 +77,7 @@ describe "Image" do
 
   describe "#src" do
     it "returns the src attribute of the image if the image exists" do
-      browser.image(:id, 'square').src.should =~ /square\.jpg/i
+      browser.image(:id, 'square').src.should include("square.png")
     end
 
     it "returns an empty string if the image exists and the attribute doesn't" do
@@ -139,7 +139,7 @@ describe "Image" do
   not_compliant_on :webdriver do  # WTR-346
     describe "#file_size" do
       it "returns the file size of the image if the image exists" do
-        browser.image(:id, 'square').file_size.should == File.size("#{WatirSpec.files}/images/square.jpg".sub("file://", ''))
+        browser.image(:id, 'square').file_size.should == File.size("#{WatirSpec.files}/images/square.png".sub("file://", ''))
       end
     end
 
