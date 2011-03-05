@@ -201,7 +201,7 @@ module Watir
 
     def to_subtype
       elem = element()
-      tag_name = elem.tag_name
+      tag_name = elem.tag_name.downcase
 
       klass = nil
 
