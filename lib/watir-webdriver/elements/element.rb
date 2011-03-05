@@ -183,7 +183,7 @@ module Watir
         assert_exists
         @element.style property
       else
-        attribute_value("style") || ''
+        attribute_value("style").to_s.strip
       end
     end
 
