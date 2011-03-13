@@ -41,7 +41,6 @@ module Watir
     # @return [Watir::Element] Returns an instance of a Watir::Element subclass
     #
 
-
     def [](idx)
       to_a[idx] || element_class.new(@parent, :index => idx)
     end

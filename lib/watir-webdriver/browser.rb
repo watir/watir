@@ -120,7 +120,7 @@ module Watir
     end
 
     def execute_script(script, *args)
-      args.map! { |e| e.kind_of?(Watir::Element) ? e.element : e }
+      args.map! { |e| e.kind_of?(Watir::Element) ? e.wd : e }
       returned = @driver.execute_script(script, *args)
 
       wrap_elements_in(returned)

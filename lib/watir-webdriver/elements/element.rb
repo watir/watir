@@ -47,7 +47,7 @@ module Watir
       return false unless other.kind_of? self.class
 
       assert_exists
-      @element == other.element
+      @element == other.wd
     end
     alias_method :eql?, :==
 
@@ -149,15 +149,22 @@ module Watir
       end
     end
 
+    #
+    # @api private
+    #
+
     def driver
       @parent.driver
     end
 
-    def element
+    #
+    # @api private
+    #
+
+    def wd
       assert_exists
       @element
     end
-    alias_method :wd, :element # ensures duck typing with Browser
 
     #
     # Returns true if this element is visible on the page
@@ -200,7 +207,7 @@ module Watir
     #
 
     def to_subtype
-      elem = element()
+      elem = wd()
       tag_name = elem.tag_name.downcase
 
       klass = nil

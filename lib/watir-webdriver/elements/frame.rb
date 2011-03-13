@@ -71,7 +71,7 @@ module Watir
     end
 
     def ==(other)
-      @element == other.element
+      @element == other.wd
     end
     alias_method :eql?, :==
 
@@ -82,7 +82,7 @@ module Watir
 
     protected
 
-    def element
+    def wd
       @element
     end
 
