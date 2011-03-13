@@ -78,6 +78,14 @@ describe "Element" do
     it "finds finds several elements by arbitrary attribute" do
       browser.elements(:name => /^new_user/).length.should == 30
     end
+
+    it "finds an element from an element's subtree" do
+      browser.fieldset.element(:id => "first_label").should exist
+    end
+
+    it "finds several elements from an element's subtree" do
+      browser.fieldset.elements(:xpath => ".//label").length.should == 10
+    end
   end
 
   describe "#to_subtype" do
@@ -145,7 +153,7 @@ describe "Element" do
     it "doesn't raise when called on nested elements" do
       browser.div(:id, 'no_such_div').link(:id, 'no_such_id').should_not exist
     end
-    
+
     it "raises ArgumentError error if selector hash with :xpath has multiple entries" do
       lambda { browser.div(:xpath => "//div", :class => "foo").exists? }.should raise_error(ArgumentError)
     end
