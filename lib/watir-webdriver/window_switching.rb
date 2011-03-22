@@ -46,7 +46,7 @@ module Watir
       elsif selector.has_key? :handle
         @handle = selector.delete :handle
       else
-        unless selector.keys.all? { |k| [:title, :url].include? k }
+        unless selector.keys.all? { |k| [:title, :url, :index].include? k }
           raise ArgumentError, "invalid window selector: #{selector.inspect}"
         end
       end
@@ -115,9 +115,11 @@ module Watir
     end
 
     def locate
-      handle = @driver.window_handles.find { |handle|
-        matches?(handle)
-      }
+      handle = if @selector.has_key?(:index)
+                  @driver.window_handles[Integer(@selector[:index])]
+                else
+                  @driver.window_handles.find { |handle| matches?(handle) }
+                end
 
       handle or raise Exception::NoMatchingWindowFoundException, @selector.inspect
     end
