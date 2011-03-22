@@ -7,7 +7,7 @@ module Watir
       if args.empty?
         all
       else
-        filter_windows(args, all, :select)
+        filter_windows extract_selector(args), all
       end
     end
 
@@ -21,15 +21,13 @@ module Watir
 
     private
 
-    def filter_windows(args, all, method)
-      sel = extract_selector(args)
-
-      unless sel.keys.all? { |k| [:title, :url].include? k }
-        raise ArgumentError, "invalid window selector: #{sel.inspect}"
+    def filter_windows(selector, windows)
+      unless selector.keys.all? { |k| [:title, :url].include? k }
+        raise ArgumentError, "invalid window selector: #{selector.inspect}"
       end
 
-      all.send(method) do |win|
-        sel.all? { |key, value| value === win.send(key) }
+      windows.select do |win|
+        selector.all? { |key, value| value === win.send(key) }
       end
     end
   end # WindowSwitching
