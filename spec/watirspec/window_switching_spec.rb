@@ -38,12 +38,17 @@ describe Browser do
 
   describe "#window" do
     it "finds window by :url" do
-      w = browser.window(:url => /closeable\.html/)
+      w = browser.window(:url => /closeable\.html/).use
       w.should be_kind_of(Window)
     end
 
     it "finds window by :title" do
-      w = browser.window(:title => "closeable window")
+      w = browser.window(:title => "closeable window").use
+      w.should be_kind_of(Window)
+    end
+    
+    it "finds window by :index" do
+      w = browser.window(:index => 1).use
       w.should be_kind_of(Window)
     end
 
@@ -69,6 +74,10 @@ describe Browser do
 
     it "raises an error if no window matches the selector" do
       lambda { browser.window(:title => "noop").use }.should raise_error
+    end
+    
+    it "raises an error if there's no window at the given index" do
+      lambda { browser.window(:index => 100).use }.should raise_error
     end
 
   end
