@@ -28,17 +28,17 @@ module Watir
 
     def file_created_date
       assert_exists
-      raise NotImplementedError
+      raise NotImplementedError, "not currently supported by WebDriver"
     end
 
     def file_size
       assert_exists
-      raise NotImplementedError
+      raise NotImplementedError, "not currently supported by WebDriver"
     end
 
     def save(path)
       assert_exists
-      raise NotImplementedError
+      raise NotImplementedError, "not currently supported by WebDriver"
     end
 
   end # Image
