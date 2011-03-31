@@ -38,16 +38,6 @@ module Watir
       @element.clear
     end
 
-    #
-    # Returns the text in the text field.
-    #
-
-    def value
-      # since 'value' is an attribute on input fields, we override this here
-      assert_exists
-      @element.value
-    end
-
     private
 
     def locate

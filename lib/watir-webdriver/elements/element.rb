@@ -101,7 +101,7 @@ module Watir
       assert_exists
 
       begin
-        @element.value || ''
+        @element.attribute('value') || ''
       rescue WebDriver::Error::InvalidElementStateError
         ""
       end

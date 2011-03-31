@@ -24,23 +24,6 @@ module Watir
       path = path.gsub(File::SEPARATOR, File::ALT_SEPARATOR) if File::ALT_SEPARATOR
       @element.send_keys path
     end
-
-    #
-    # Return the value of this field
-    #
-    # In IE, the path returned depends on the "Include local directory path
-    # when uploading files to a server" security setting:
-    #
-    # @see http://msdn.microsoft.com/en-us/library/ms535128(VS.85).aspx
-    #
-    # @return [String]
-    #
-
-    def value
-      # since 'value' is an attribute on input fields, we override this here
-      assert_exists
-      @element.value
-    end
   end
 
   module Container
