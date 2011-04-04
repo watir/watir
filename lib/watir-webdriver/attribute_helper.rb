@@ -52,6 +52,8 @@ module Watir
         define_boolean_attribute(method_name, attribute_name)
       when :int
         define_int_attribute(method_name, attribute_name)
+      when :float
+        define_float_attribute(method_name, attribute_name)
       else
         # $stderr.puts "treating #{type.inspect} as string for now"
       end
@@ -76,6 +78,14 @@ module Watir
         assert_exists
         value = @element.attribute(aname)
         value && Integer(value)
+      end
+    end
+
+    def define_float_attribute(mname, aname)
+      define_method mname do
+        assert_exists
+        value = @element.attribute(aname)
+        value && Float(value)
       end
     end
 
