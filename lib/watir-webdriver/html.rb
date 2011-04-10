@@ -10,6 +10,7 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.plural 'canvas', 'canvases'
   inflect.plural 'ins', 'inses'
   inflect.plural /^s$/, 'ss'
+  inflect.plural 'meta', 'metas'
 end
 
 require "watir-webdriver/html/util"

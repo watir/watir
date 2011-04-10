@@ -162,7 +162,7 @@ module Watir
         when 'Element'
           :element
         when 'WindowProxy', 'ValidityState', 'MediaError', 'TimeRanges', 'Location',
-             'Any', 'TimedTrackArray', 'TimedTrack', 'TextTrackArray', 'TextTrack'
+             'Any', 'TimedTrackArray', 'TimedTrack', 'TextTrackArray', 'TextTrack', 'MediaController'
           # probably completely wrong.
           :string
         else

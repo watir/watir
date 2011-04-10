@@ -43,8 +43,22 @@ module Watir
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  class HTMLElement < Element
-   attributes(:string => [:innerhtml, :outerhtml, :id, :title, :lang, :dir, :class_name, :item_type, :item_id, :item_value, :access_key, :access_key_label, :content_editable, :command_type, :label, :icon], :token_list => [:class_list, :item_ref, :item_prop, :dropzone], :string_map => [:dataset], :bool => [:item_scope, :hidden, :draggable, :is_content_editable, :spellcheck, :disabled, :checked], :properties_collection => [:properties], :int => [:tab_index], :html_element => [:context_menu], :style => [:style], :function => [:onabort, :onblur, :oncanplay, :oncanplaythrough, :onchange, :onclick, :oncontextmenu, :oncuechange, :ondblclick, :ondrag, :ondragend, :ondragenter, :ondragleave, :ondragover, :ondragstart, :ondrop, :ondurationchange, :onemptied, :onended, :onerror, :onfocus, :onformchange, :onforminput, :oninput, :oninvalid, :onkeydown, :onkeypress, :onkeyup, :onload, :onloadeddata, :onloadedmetadata, :onloadstart, :onmousedown, :onmousemove, :onmouseout, :onmouseover, :onmouseup, :onmousewheel, :onpause, :onplay, :onplaying, :onprogress, :onratechange, :onreadystatechange, :onreset, :onscroll, :onseeked, :onseeking, :onselect, :onshow, :onstalled, :onsubmit, :onsuspend, :ontimeupdate, :onvolumechange, :onwaiting])
+   attributes(:string => [:innerhtml, :outerhtml, :id, :title, :lang, :dir, :class_name, :item_type, :item_id, :item_value, :access_key, :access_key_label, :content_editable, :command_type, :label, :icon], :token_list => [:class_list, :item_ref, :item_prop, :dropzone], :string_map => [:dataset], :bool => [:item_scope, :hidden, :draggable, :is_content_editable, :spellcheck, :disabled, :checked], :properties_collection => [:properties], :int => [:tab_index], :html_element => [:context_menu], :style => [:style], :function => [:onabort, :onblur, :oncanplay, :oncanplaythrough, :onchange, :onclick, :oncontextmenu, :oncuechange, :ondblclick, :ondrag, :ondragend, :ondragenter, :ondragleave, :ondragover, :ondragstart, :ondrop, :ondurationchange, :onemptied, :onended, :onerror, :onfocus, :oninput, :oninvalid, :onkeydown, :onkeypress, :onkeyup, :onload, :onloadeddata, :onloadedmetadata, :onloadstart, :onmousedown, :onmousemove, :onmouseout, :onmouseover, :onmouseup, :onmousewheel, :onpause, :onplay, :onplaying, :onprogress, :onratechange, :onreadystatechange, :onreset, :onscroll, :onseeked, :onseeking, :onselect, :onshow, :onstalled, :onsubmit, :onsuspend, :ontimeupdate, :onvolumechange, :onwaiting])
  end
  class HTMLElementCollection < ElementCollection
    def element_class
@@ -105,14 +119,6 @@ module Watir
  class AppletCollection < ElementCollection
    def element_class
      Applet
-   end
- end
- class Device < HTMLElement
-   attributes(:string => [:type, :data])
- end
- class DeviceCollection < ElementCollection
-   def element_class
-     Device
    end
  end
  class Menu < HTMLElement
@@ -388,7 +394,7 @@ module Watir
    end
  end
  class Media < HTMLElement
-   attributes(:string => [:error, :src, :current_src, :preload, :buffered, :played, :seekable, :tracks], :int => [:network_state, :ready_state], :bool => [:seeking, :paused, :ended, :autoplay, :loop, :controls, :muted], :float => [:current_time, :initial_time, :duration, :default_playback_rate, :playback_rate, :volume], :date => [:start_offset_time])
+   attributes(:string => [:error, :src, :current_src, :preload, :buffered, :played, :seekable, :media_group, :controller, :text_tracks], :int => [:network_state, :ready_state], :bool => [:seeking, :paused, :ended, :autoplay, :loop, :controls, :muted], :float => [:current_time, :initial_time, :duration, :default_playback_rate, :playback_rate, :volume], :date => [:start_offset_time], :list => [:audio_tracks, :video_tracks])
  end
  class MediaCollection < ElementCollection
    def element_class
