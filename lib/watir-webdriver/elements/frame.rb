@@ -12,13 +12,11 @@ module Watir
     end
 
     def assert_exists
-      if element = @selector[:element]
-        @parent.assert_exists
-        @element = FramedDriver.new(element, driver)
-      else
-        @element = nil
+      if @selector.has_key? :element
+        raise UnknownFrameException, "wrapping a WebDriver element as a Frame is not currently supported"
       end
 
+      @element = nil # we need to re-locate every time
       super
     end
 
@@ -39,7 +37,7 @@ module Watir
     private
 
     def locate_iframe
-      # hack - frame doesn't have IFrame's attributes either
+      # hack - Frame doesn't have IFrame's attributes either
       IFrame.new(@parent, @selector.merge(:tag_name => "iframe")).locate
     end
 
@@ -56,6 +54,12 @@ module Watir
 
     def frames(*args)
       FrameCollection.new(self, extract_selector(args).merge(:tag_name => /^(iframe|frame)$/)) # hack
+    end
+  end
+
+  class FrameCollection < ElementCollection
+    def to_a
+      (0...elements.size).map { |idx| element_class.new @parent, :index => idx }
     end
   end
 
