@@ -121,7 +121,7 @@ describe "FileField" do
 
     it "raises an error if the file does not exist" do
       lambda {
-        browser.file_field.set('/tmp/unlikely-to-exist')
+        browser.file_field.set(File.join(Dir.tmpdir, 'unlikely-to-exist'))
       }.should raise_error(Errno::ENOENT)
     end
   end
@@ -141,9 +141,10 @@ describe "FileField" do
 
     not_compliant_on [:webdriver, :ie] do
       it "does not raise an error if the file does not exist" do
-        browser.file_field.value = '/tmp/unlikely-to-exist'
+        path = File.join(Dir.tmpdir, 'unlikely-to-exist')
+        browser.file_field.value = path
 
-        expected = '/tmp/unlikely-to-exist'
+        expected = path
         expected.gsub!("/", "\\") if WatirSpec.platform == :windows
 
         browser.file_field.value.should == expected

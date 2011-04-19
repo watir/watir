@@ -4,6 +4,7 @@ begin
 rescue LoadError
 end
 
+require "tmpdir"
 require "sinatra/base"
 require "#{File.dirname(__FILE__)}/lib/watirspec"
 require "#{File.dirname(__FILE__)}/lib/implementation"
