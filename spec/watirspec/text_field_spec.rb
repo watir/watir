@@ -184,18 +184,14 @@ describe "TextField" do
 
   # Manipulation methods
   describe "#append" do
-    bug "http://code.google.com/p/selenium/issues/detail?id=698", [:webdriver, :ie] do
-      it "appends the text to the text field" do
-        browser.text_field(:name, "new_user_occupation").append(" Append This")
-        browser.text_field(:name, "new_user_occupation").value.should == "Developer Append This"
-      end
+    it "appends the text to the text field" do
+      browser.text_field(:name, "new_user_occupation").append(" Append This")
+      browser.text_field(:name, "new_user_occupation").value.should == "Developer Append This"
     end
 
-    bug "http://code.google.com/p/selenium/issues/detail?id=698", [:webdriver, :ie] do
-      it "appends multi-byte characters" do
-        browser.text_field(:name, "new_user_occupation").append(" ĳĳ")
-        browser.text_field(:name, "new_user_occupation").value.should == "Developer ĳĳ"
-      end
+    it "appends multi-byte characters" do
+      browser.text_field(:name, "new_user_occupation").append(" ĳĳ")
+      browser.text_field(:name, "new_user_occupation").value.should == "Developer ĳĳ"
     end
     
     it "raises ObjectReadOnlyException if the object is read only" do
