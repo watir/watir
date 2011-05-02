@@ -114,7 +114,7 @@ module Watir
 
     def html
       assert_exists
-      browserbot('getOuterHTML', @element).strip
+      execute_atom(:getOuterHtml, @element).strip
     end
 
     def send_keys(*args)
@@ -133,10 +133,10 @@ module Watir
       driver.execute_script "return arguments[0].focus()", @element
     end
 
-    def fire_event(event_name, bubble = false)
+    def fire_event(event_name)
       assert_exists
-      event_name = event_name.to_s.sub(/^on/, '')
-      browserbot('triggerEvent', @element, event_name, bubble)
+      event_name = event_name.to_s.sub(/^on/, '').downcase
+      execute_atom(:fireEvent, @element, event_name)
     end
 
     def parent

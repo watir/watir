@@ -13,13 +13,14 @@ module Watir
 
     private
 
-    def browserbot(function_name, *arguments)
-      script = browserbot_script + "return browserbot.#{function_name}.apply(browserbot, arguments);"
-      driver.execute_script(script, *arguments)
-    end
+    ATOMS = {
+      :fireEvent    => File.read(File.expand_path("../atoms/fireEvent.js", __FILE__)),
+      :getOuterHtml => File.read(File.expand_path("../atoms/getOuterHtml.js", __FILE__))
+    }
 
-    def browserbot_script
-      @browserbot_script ||= File.read("#{File.dirname(__FILE__)}/browserbot.js")
+    def execute_atom(function_name, *arguments)
+      script = "return (%s).apply(null, arguments)" % ATOMS.fetch(function_name)
+      driver.execute_script(script, *arguments)
     end
 
     def extract_selector(selectors)
