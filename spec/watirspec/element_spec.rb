@@ -124,6 +124,10 @@ describe "Element" do
       it "gets the parent of this element" do
         browser.text_field(:id, "new_user_email").parent.should be_instance_of(FieldSet)
       end
+
+      it "returns nil if the element has no parent" do
+        browser.body.parent.parent.should be_nil
+      end
     end
   end
 
