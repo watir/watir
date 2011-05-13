@@ -142,7 +142,16 @@ module Watir
     def parent
       assert_exists
 
-      e = driver.execute_script "return arguments[0].parentNode", @element
+      # TODO: atom?
+      script = <<-JS
+        var element = arguments[0].parentNode;
+        if(element.nodeType != Node.ELEMENT_NODE)
+          return null;
+
+        return element;
+      JS
+
+      e = driver.execute_script(script, @element)
 
       if e.kind_of?(WebDriver::Element)
         Watir.element_class_for(e.tag_name.downcase).new(@parent, :element => e)
