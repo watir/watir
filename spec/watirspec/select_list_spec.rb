@@ -306,6 +306,10 @@ describe "SelectList" do
       browser.select_list(:id, 'obsolete').select('sweden').should == ''
     end
 
+    it "selects options with a single-quoted value" do
+      browser.select_list(:id, 'single-quote').select("'foo'")
+    end
+
     it "raises NoValueFoundException if the option doesn't exist" do
       lambda { browser.select_list(:name, "new_user_country").select("missing_option") }.should raise_error(NoValueFoundException)
       lambda { browser.select_list(:name, "new_user_country").select(/missing_option/) }.should raise_error(NoValueFoundException)

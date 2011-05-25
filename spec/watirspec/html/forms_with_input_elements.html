@@ -122,12 +122,15 @@
   <div id="wants_newsletter" style="display: none;"></div>
   <div id="onfocus_test"></div>
 
-
   <!-- option disappears onchange -->
   <select id="obsolete" onchange="this.innerHTML = '';">
     <option value="norway">norway</option>
     <option value="sweden">sweden</option>
   </select>
 
+  <!-- single quote in attribute -->
+  <select id="single-quote">
+    <option>'foo'</option>
+  </select>
   </body>
 </html>
