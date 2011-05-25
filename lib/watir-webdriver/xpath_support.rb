@@ -23,6 +23,16 @@ module Watir
         Watir.element_class_for(e.tag_name.downcase).new(self, :element => e)
       end
     end
+    
+    def self.escape(value)
+      if value.include? "'"
+        parts = value.split("'", -1).map { |part| "'#{part}'" }
+        string = parts.join(%{,"'",})
 
+        "concat(#{string})"
+      else
+        "'#{value}'"
+      end
+    end
   end # XpathSupport
 end # Watir
