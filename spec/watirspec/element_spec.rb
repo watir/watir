@@ -68,7 +68,7 @@ describe "Element" do
     end
 
     it "finds an element by arbitrary attribute" do
-      browser.element(:id => "new_user").should exist
+      browser.element(:for => "new_user_species").should exist
     end
 
     it "finds several elements by xpath" do
