@@ -134,4 +134,16 @@ describe "Frame" do
     end
   end
 
+  describe "#html" do
+    it "returns the full HTML source of the frame" do
+      browser.goto(WatirSpec.files + "/frames.html")
+      browser.frame.html.should include("<title>Frame 1</title>")
+    end
+
+    it "returns the full HTML source of the iframe" do
+      browser.goto(WatirSpec.files + "/iframes.html")
+      browser.frame.html.should include("<title>Frame 1</title>")
+    end
+  end
+
 end
