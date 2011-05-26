@@ -20,6 +20,14 @@ module Watir
       super
     end
 
+    def html
+      assert_exists
+
+      # this will actually give us the innerHTML instead of the outerHTML of the <frame>,
+      # but given the choice this seems more useful
+      execute_atom(:getOuterHtml, @element.find_element(:tag_name => "html")).strip
+    end
+
     def execute_script(*args)
       browser.execute_script(*args)
     end
