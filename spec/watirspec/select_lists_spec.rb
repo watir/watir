@@ -14,10 +14,10 @@ describe "SelectLists" do
       end
     end
   end
-  
+
   describe "#length" do
     it "returns the correct number of select lists on the page" do
-      browser.select_lists.length.should == 5
+      browser.select_lists.length.should == 6
     end
   end
 
