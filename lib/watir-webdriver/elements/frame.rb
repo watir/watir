@@ -63,6 +63,16 @@ module Watir
     def frames(*args)
       FrameCollection.new(self, extract_selector(args).merge(:tag_name => /^(iframe|frame)$/)) # hack
     end
+
+    def iframe(*args)
+      warn "Watir::Container#iframe is replaced by Watir::Container#frame"
+      frame(*args)
+    end
+
+    def iframes(*args)
+      warn "Watir::Container#iframes is replaced by Watir::Container#frames"
+      frame(*args)
+    end
   end
 
   class FrameCollection < ElementCollection
