@@ -23,7 +23,7 @@ module Watir
       raise Error, "you can only clear multi-selects" unless multiple?
 
       options.each do |o|
-        o.toggle if o.selected?
+        o.click if o.selected?
       end
     end
 
@@ -141,7 +141,7 @@ module Watir
         elements = @element.find_elements(:xpath, xpath)
         no_value_found(string) if elements.empty?
 
-        elements.each { |e| e.select unless e.selected? }
+        elements.each { |e| e.click unless e.selected? }
         elements.first.text
       else
         begin
@@ -150,7 +150,7 @@ module Watir
           no_value_found(string)
         end
 
-        e.select unless e.selected?
+        e.click unless e.selected?
 
         safe_text(e)
       end
@@ -163,7 +163,7 @@ module Watir
       if multiple?
         found = elements.select do |e|
           next unless matches_regexp?(how, e, exp)
-          e.select unless e.selected?
+          e.click unless e.selected?
           true
         end
 
@@ -174,7 +174,7 @@ module Watir
         element = elements.find { |e| matches_regexp?(how, e, exp) }
         no_value_found(exp) unless element
 
-        element.select unless element.selected?
+        element.click unless element.selected?
 
         safe_text(element)
       end

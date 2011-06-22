@@ -13,9 +13,7 @@ module Watir
 
     def select
       assert_exists
-
-      @element.select
-      fire_event("onclick") rescue nil
+      @element.click
     end
 
     #
@@ -24,7 +22,7 @@ module Watir
 
     def toggle
       assert_exists
-      @element.toggle
+      @element.click
     end
 
     #
