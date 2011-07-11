@@ -3,7 +3,10 @@ require File.expand_path('watirspec/spec_helper', File.dirname(__FILE__))
 describe Watir::Element do
 
   describe '#send_keys' do
-    before(:each) { browser.goto('file://' + File.expand_path('html/keylogger.html', File.dirname(__FILE__))) }
+    before(:each) do
+      @c = Selenium::WebDriver::Platform.os == :macosx ? :command : :control
+      browser.goto('file://' + File.expand_path('html/keylogger.html', File.dirname(__FILE__)))
+    end
 
     let(:receiver) { browser.element(:id => 'receiver')       }
     let(:events)   { browser.element(:id => 'output').ps.size }
@@ -22,7 +25,7 @@ describe Watir::Element do
 
     it 'performs key combinations' do
       receiver.send_keys 'foo'
-      receiver.send_keys [:control, 'a']
+      receiver.send_keys [@c, 'a']
       receiver.send_keys :backspace
       receiver.value.should be_empty
       events.should == 6
@@ -30,13 +33,13 @@ describe Watir::Element do
 
     it 'performs arbitrary list of key combinations' do
       receiver.send_keys 'foo'
-      receiver.send_keys [:control, 'a'], [:control, 'x']
+      receiver.send_keys [@c, 'a'], [@c, 'x']
       receiver.value.should be_empty
       events.should == 7
     end
 
     it 'supports combination of strings and arrays' do
-      receiver.send_keys 'foo', [:control, 'a'], :backspace
+      receiver.send_keys 'foo', [@c, 'a'], :backspace
       receiver.value.should be_empty
       events.should == 6
     end
