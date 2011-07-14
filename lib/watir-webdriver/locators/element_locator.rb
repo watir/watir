@@ -197,7 +197,7 @@ module Watir
 
     def normalize_selector(how, what)
       case how
-      when :tag_name, :text, :xpath, :index, :class, :for
+      when :tag_name, :text, :xpath, :index, :class, :for, :label
         # include :class since the valid attribute is 'class_name'
         # include :for since the valid attribute is 'html_for'
         [how, what]
