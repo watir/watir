@@ -61,7 +61,7 @@ module Watir
 
 
  class HTMLElement < Element
-   attributes(:string => [:innerhtml, :outerhtml, :id, :title, :lang, :dir, :class_name, :item_type, :item_id, :item_value, :access_key, :access_key_label, :content_editable, :command_type, :command_label, :command_icon], :token_list => [:class_list, :item_ref, :item_prop, :dropzone], :string_map => [:dataset], :bool => [:item_scope, :hidden, :draggable, :is_content_editable, :spellcheck, :command_hidden, :command_disabled, :command_checked], :properties_collection => [:properties], :int => [:tab_index], :html_element => [:context_menu], :style => [:style], :function => [:onabort, :onblur, :oncanplay, :oncanplaythrough, :onchange, :onclick, :oncontextmenu, :oncuechange, :ondblclick, :ondrag, :ondragend, :ondragenter, :ondragleave, :ondragover, :ondragstart, :ondrop, :ondurationchange, :onemptied, :onended, :onerror, :onfocus, :oninput, :oninvalid, :onkeydown, :onkeypress, :onkeyup, :onload, :onloadeddata, :onloadedmetadata, :onloadstart, :onmousedown, :onmousemove, :onmouseout, :onmouseover, :onmouseup, :onmousewheel, :onpause, :onplay, :onplaying, :onprogress, :onratechange, :onreadystatechange, :onreset, :onscroll, :onseeked, :onseeking, :onselect, :onshow, :onstalled, :onsubmit, :onsuspend, :ontimeupdate, :onvolumechange, :onwaiting])
+   attributes(:string => [:innerhtml, :outerhtml, :id, :title, :lang, :dir, :class_name, :item_type, :item_id, :item_value, :access_key, :access_key_label, :content_editable, :command_type, :command_label, :command_icon], :token_list => [:class_list, :item_ref, :item_prop, :dropzone], :string_map => [:dataset], :bool => [:item_scope, :hidden, :draggable, :content_editable, :spellcheck, :command_hidden, :command_disabled, :command_checked], :properties_collection => [:properties], :int => [:tab_index], :html_element => [:context_menu], :style => [:style], :function => [:onabort, :onblur, :oncanplay, :oncanplaythrough, :onchange, :onclick, :oncontextmenu, :oncuechange, :ondblclick, :ondrag, :ondragend, :ondragenter, :ondragleave, :ondragover, :ondragstart, :ondrop, :ondurationchange, :onemptied, :onended, :onerror, :onfocus, :oninput, :oninvalid, :onkeydown, :onkeypress, :onkeyup, :onload, :onloadeddata, :onloadedmetadata, :onloadstart, :onmousedown, :onmousemove, :onmouseout, :onmouseover, :onmouseup, :onmousewheel, :onpause, :onplay, :onplaying, :onprogress, :onratechange, :onreadystatechange, :onreset, :onscroll, :onseeked, :onseeking, :onselect, :onshow, :onstalled, :onsubmit, :onsuspend, :ontimeupdate, :onvolumechange, :onwaiting])
  end
  class HTMLElementCollection < ElementCollection
    def element_class
@@ -485,7 +485,7 @@ module Watir
  end
  # do nothing
  class Image < HTMLElement
-   attributes(:string => [:alt, :src, :cross_origin, :use_map], :bool => [:is_map, :complete], :int => [:width, :height, :natural_width, :natural_height])
+   attributes(:string => [:alt, :src, :cross_origin, :use_map], :bool => [:map, :complete], :int => [:width, :height, :natural_width, :natural_height])
  end
  class ImageCollection < ElementCollection
    def element_class

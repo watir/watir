@@ -111,10 +111,21 @@ module Watir
 
         attrs = Hash.new { |hash, key| hash[key] = [] }
         attributes.each do |a|
-          attrs[ruby_type_for(a.type)] << a.name.snake_case.to_sym
+          type = ruby_type_for(a.type)
+          attrs[type] << ruby_attribute_for(type, a.name)
         end
 
         call :attributes, [literal_hash(attrs)]
+      end
+
+      def ruby_attribute_for(type, str)
+        str = str.snake_case
+
+        if str =~ /^is_(.+)/ && type == :bool
+          str = $1
+        end
+
+        str.to_sym
       end
 
       def literal_hash(hash)
