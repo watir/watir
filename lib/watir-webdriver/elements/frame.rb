@@ -8,6 +8,8 @@ module Watir
       element = locate_iframe || locate_frame
       element or raise UnknownFrameException, "unable to locate frame/iframe using #{selector_string}"
 
+      @parent.reset!
+
       FramedDriver.new(element, driver)
     end
 

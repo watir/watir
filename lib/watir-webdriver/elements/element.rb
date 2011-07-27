@@ -261,6 +261,11 @@ module Watir
       @parent.browser
     end
 
+    def reset!
+      @parent.reset!
+      @element = nil
+    end
+
     def locate
       @parent.assert_exists
       locator_class.new(@parent.wd, @selector, self.class.attribute_list).locate

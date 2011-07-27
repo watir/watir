@@ -168,6 +168,10 @@ module Watir
     end
     alias_method :exists?, :exist?
 
+    def reset!
+      # no-op
+    end
+
     def browser
       self
     end
