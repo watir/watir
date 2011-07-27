@@ -63,4 +63,14 @@ describe Watir::Element do
     end
   end
 
+  describe "#reset!" do
+    it "successfully relocates collection elements after a reset!" do
+      element = browser.divs(:id, 'foo').to_a.first
+      element.should_not be_nil
+
+      element.send :reset!
+      element.should exist
+    end
+  end
+
 end

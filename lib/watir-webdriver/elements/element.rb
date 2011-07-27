@@ -21,10 +21,6 @@ module Watir
       unless @selector.kind_of? Hash
         raise ArgumentError, "invalid argument: #{selector.inspect}"
       end
-
-      if @selector.has_key?(:element)
-        @element = @selector[:element]
-      end
     end
 
     def exists?
@@ -250,7 +246,7 @@ module Watir
   protected
 
     def assert_exists
-      @element ||= locate
+      @element ||= (@selector[:element] || locate)
 
       unless @element
         raise UnknownObjectException, "unable to locate element, using #{selector_string}"
