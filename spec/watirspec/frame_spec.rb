@@ -109,6 +109,15 @@ describe "Frame" do
     browser.frame(:index, 0).text_field(:name, 'senderElement').value.should == "new value"
   end
 
+  it "can access the frame's parent element after use" do
+    # TODO: use browser.frameset - not supported by watir-webdriver, caused by a
+    # bug in the spec: http://www.w3.org/Bugs/Public/show_bug.cgi?id=13369
+
+    el = browser.element(:tag_name => "frameset")
+    el.frame.text_field.value
+    el.attribute_value("cols").should be_kind_of(String)
+  end
+
   describe "#execute_script" do
     it "executes the given javascript in the specified frame" do
       frame = browser.frame(:index, 0)
