@@ -2,6 +2,7 @@
 module Watir
   module Container
     include XpathSupport
+    include Atoms
 
     def element(*args)
       HTMLElement.new(self, extract_selector(args))
@@ -9,18 +10,6 @@ module Watir
 
     def elements(*args)
       HTMLElementCollection.new(self, extract_selector(args))
-    end
-
-    private
-
-    ATOMS = {
-      :fireEvent    => File.read(File.expand_path("../atoms/fireEvent.js", __FILE__)),
-      :getOuterHtml => File.read(File.expand_path("../atoms/getOuterHtml.js", __FILE__))
-    }
-
-    def execute_atom(function_name, *arguments)
-      script = "return (%s).apply(null, arguments)" % ATOMS.fetch(function_name)
-      driver.execute_script(script, *arguments)
     end
 
     def extract_selector(selectors)
