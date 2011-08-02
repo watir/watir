@@ -138,22 +138,14 @@ module Watir
     def fire_event(event_name)
       assert_exists
       event_name = event_name.to_s.sub(/^on/, '').downcase
-      execute_atom(:fireEvent, @element, event_name)
+
+      execute_atom :fireEvent, @element, event_name
     end
 
     def parent
       assert_exists
 
-      # TODO: atom?
-      script = <<-JS
-        var element = arguments[0].parentNode;
-        if(element.nodeType != Node.ELEMENT_NODE)
-          return null;
-
-        return element;
-      JS
-
-      e = driver.execute_script(script, @element)
+      e = execute_atom :getParentElement, @element
 
       if e.kind_of?(WebDriver::Element)
         Watir.element_class_for(e.tag_name.downcase).new(@parent, :element => e)

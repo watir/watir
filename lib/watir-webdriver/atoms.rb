@@ -9,6 +9,7 @@ module Watir
 
     load :fireEvent
     load :getOuterHtml
+    load :getParentElement
 
     private
 
