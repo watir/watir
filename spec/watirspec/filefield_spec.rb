@@ -139,7 +139,7 @@ describe "FileField" do
     end
 
 
-    not_compliant_on [:webdriver, :ie] do
+    not_compliant_on [:webdriver, :ie], [:webdriver, :chrome] do
       it "does not raise an error if the file does not exist" do
         path = File.join(Dir.tmpdir, 'unlikely-to-exist')
         browser.file_field.value = path
