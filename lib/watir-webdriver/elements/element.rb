@@ -238,7 +238,7 @@ module Watir
   protected
 
     def assert_exists
-      @element ||= (@selector[:element] || locate)
+      @element = (@selector[:element] || locate)
 
       unless @element
         raise UnknownObjectException, "unable to locate element, using #{selector_string}"
