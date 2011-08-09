@@ -84,7 +84,7 @@ describe "Browser" do
 end
 
 bug "http://github.com/jarib/celerity/issues#issue/17", :celerity do
-  describe Window do
+  describe "Window" do
     before do
       url = "file://" + File.expand_path("html/window_switching.html", File.dirname(__FILE__))
       browser.goto url
