@@ -238,6 +238,10 @@ module Watir
   protected
 
     def assert_exists
+      if @element and not Watir.always_locate?
+        return
+      end
+
       @element = (@selector[:element] || locate)
 
       unless @element

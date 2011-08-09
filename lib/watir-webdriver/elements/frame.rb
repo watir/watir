@@ -18,6 +18,8 @@ module Watir
         raise UnknownFrameException, "wrapping a WebDriver element as a Frame is not currently supported"
       end
 
+      @element = nil # we need to re-locate every time
+
       super
     end
 

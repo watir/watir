@@ -19,10 +19,33 @@ require 'watir-webdriver/browser'
 module Watir
   include Selenium
 
+  @always_locate = true
+
   class << self
+    def always_locate?
+      @always_locate
+    end
+
+    #
+    # Whether or not Watir should cache element references or always re-locate an Element on use.
+    # Defaults to true.
+    #
+
+    def always_locate=(bool)
+      @always_locate = bool
+    end
+
+    #
+    # @api private
+    #
+
     def tag_to_class
       @tag_to_class ||= {}
     end
+
+    #
+    # @api private
+    #
 
     def element_class_for(tag_name)
       tag_to_class[tag_name.to_sym] || HTMLElement
