@@ -180,8 +180,10 @@ describe "SelectList" do
   end
 
   describe "#selected_options" do
-    it "should raise UnknownObjectException if the select list doesn't exist" do
-      lambda { browser.select_list(:name, 'no_such_name').selected_options }.should raise_error(UnknownObjectException)
+    not_compliant_on :safariwatir do
+      it "should raise UnknownObjectException if the select list doesn't exist" do
+        lambda { browser.select_list(:name, 'no_such_name').selected_options }.should raise_error(UnknownObjectException)
+      end
     end
 
     it "gets the currently selected item(s)" do
