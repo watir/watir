@@ -9,10 +9,12 @@ describe "Browser" do
       browser.should exist
     end
 
-    it "returns false after Browser#close" do
-      b = WatirSpec.new_browser
-      b.close
-      b.should_not exist
+    not_compliant_on(:safariwatir) do
+      it "returns false after Browser#close" do
+        b = WatirSpec.new_browser
+        b.close
+        b.should_not exist
+      end
     end
   end
 
@@ -81,7 +83,7 @@ describe "Browser" do
   end
 
   describe ".start" do
-    not_compliant_on(:webdriver) {
+    not_compliant_on(:webdriver, :safariwatir) {
       it "goes to the given URL and return an instance of itself" do
         browser = WatirSpec.implementation.browser_class.start("#{WatirSpec.files}/non_control_elements.html")
 
