@@ -76,7 +76,7 @@ describe "Image" do
   end
 
   describe "#fileSize" do
-    bug "WTR-346", :watir do
+    not_compliant_on :celerity do
       it "behaves like #file_size" do
         browser.image(:id, 'square').fileSize.should == 788
       end
@@ -84,13 +84,11 @@ describe "Image" do
   end
 
   describe "#fileCreatedDate" do
-    bug "WTR-347", :watir do
-      it "behaves like #file_created_date" do
-        browser.goto(WatirSpec.host + "/images.html")
-        image = browser.image(:index, 2)
-        path = File.dirname(__FILE__) + "/html/#{image.src}"
-        image.file_created_date.to_i.should == File.mtime(path).to_i
-      end
+    it "behaves like #file_created_date" do
+      browser.goto(WatirSpec.host + "/images.html")
+      image = browser.image(:index, 2)
+      path = File.dirname(__FILE__) + "/html/#{image.src}"
+      image.file_created_date.to_i.should == File.mtime(path).to_i
     end
   end
 

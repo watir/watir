@@ -151,35 +151,30 @@ describe "Image" do
   end
 
   # File methods
-  bug "WTR-347", :watir do
-    describe "#file_created_date" do
-      it "returns the date the image was created as reported by the file system" do
-        browser.goto(WatirSpec.host + "/images.html")
-        image = browser.image(:index, 2)
-        path = "#{File.dirname(__FILE__)}/html/#{image.src}"
-        image.file_created_date.to_i.should == File.mtime(path).to_i
-      end
+  describe "#file_created_date" do
+    it "returns the date the image was created as reported by the file system" do
+      browser.goto(WatirSpec.host + "/images.html")
+      image = browser.image(:index, 2)
+      path = "#{File.dirname(__FILE__)}/html/#{image.src}"
+      image.file_created_date.to_i.should == File.mtime(path).to_i
     end
   end
 
-
-  bug "WTR-346", :watir do
-    describe "#file_size" do
+  describe "#file_size" do
+    not_compliant_on :celerity do # HtmlUnit 2.9 bug?
       it "returns the file size of the image if the image exists" do
         browser.image(:id, 'square').file_size.should == File.size("#{WatirSpec.files}/images/square.jpg".sub("file://", ''))
       end
     end
+  end
 
-    it "raises UnknownObjectException if the image doesn't exist" do
-      lambda { browser.image(:index, 1337).file_size }.should raise_error(UnknownObjectException)
-    end
+  it "raises UnknownObjectException if the image doesn't exist" do
+    lambda { browser.image(:index, 1337).file_size }.should raise_error(UnknownObjectException)
   end
 
   describe "#height" do
-    not_compliant_on :watir do
-      it "returns the height of the image if the image exists" do
-        browser.image(:id, 'square').height.should == 88
-      end
+    it "returns the height of the image if the image exists" do
+      browser.image(:id, 'square').height.should == 88
     end
 
     it "raises UnknownObjectException if the image doesn't exist" do
