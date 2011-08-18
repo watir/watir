@@ -110,9 +110,8 @@ describe "Frame" do
   end
 
   it "can access the frame's parent element after use" do
-    # TODO: use browser.frameset - not supported by watir-webdriver, caused by a
-    # bug in the spec: http://www.w3.org/Bugs/Public/show_bug.cgi?id=13369
-
+    # TODO: fix html to be confirming (remove frameset)
+    
     el = browser.element(:tag_name => "frameset")
     el.frame.text_field.value
     el.attribute_value("cols").should be_kind_of(String)
