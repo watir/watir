@@ -48,13 +48,17 @@ module Watir
     private
 
     def locate_iframe
-      # hack - Frame doesn't have IFrame's attributes either
-      IFrame.new(@parent, @selector.merge(:tag_name => "iframe")).locate
+      locator = locator_class.new(@parent.wd, @selector.merge(:tag_name => "iframe"), attribute_list)
+      locator.locate
     end
 
     def locate_frame
-      locator = locator_class.new(@parent.wd, @selector.merge(:tag_name => "frame"), self.class.attribute_list)
+      locator = locator_class.new(@parent.wd, @selector.merge(:tag_name => "frame"), attribute_list)
       locator.locate
+    end
+
+    def attribute_list
+      self.class.attribute_list | IFrame.attribute_list
     end
   end # Frame
 
