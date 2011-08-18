@@ -18,7 +18,14 @@ module Watir
         raise UnknownFrameException, "wrapping a WebDriver element as a Frame is not currently supported"
       end
 
-      @element = nil # we need to re-locate every time
+      if @element && !Watir.always_locate?
+        begin
+          @element.tag_name # rpc
+          return @element
+        rescue Selenium::WebDriver::Error::ObsoleteElementError
+          @element = nil # re-locate
+        end
+      end
 
       super
     end
