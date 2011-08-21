@@ -9,7 +9,7 @@ WatirSpec.implementation do |imp|
   imp.browser_args  = [browser]
 
   imp.guard_proc = lambda { |args|
-    args.any? { |arg| arg == name || arg == [name, browser] }
+    args.any? { |arg| arg == name || arg == browser || arg == [name, browser]}
   }
 end
 
