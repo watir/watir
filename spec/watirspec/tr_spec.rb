@@ -36,7 +36,9 @@ describe "TableRow" do
   end
 
   describe "#click" do
-    bug "http://github.com/jarib/watir-webdriver/issues/issue/32", [:webdriver, :ie] do
+    bug "http://github.com/jarib/watir-webdriver/issues/issue/32",
+      [:webdriver, :ie],
+      [:webdriver, :chrome] do
       it "fires the rows's onclick event" do
         browser.tr(:id, 'inner_first').click
         messages.should include('tr')
