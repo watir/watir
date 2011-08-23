@@ -96,7 +96,7 @@ describe "Option" do
 
     # there's no onclick event for Option in IE
     # http://msdn.microsoft.com/en-us/library/ms535877(VS.85).aspx
-    not_compliant_on [:webdriver, :ie] do
+    not_compliant_on [:webdriver, :ie], [:webdriver, :chrome] do
       it "fires the onclick event (page context)" do
         browser.option(:text, "Username 3").select
         browser.text_field(:id, 'delete_user_comment').value.should == 'Don\'t do it!'
@@ -105,7 +105,7 @@ describe "Option" do
 
     # there's no onclick event for Option in IE
     # http://msdn.microsoft.com/en-us/library/ms535877(VS.85).aspx
-    not_compliant_on [:webdriver, :ie] do
+    not_compliant_on [:webdriver, :ie], [:webdriver, :chrome] do
       it "fires onclick event (select_list context)" do
         browser.select_list(:id, 'delete_user_username').option(:text, "Username 3").select
         browser.text_field(:id, 'delete_user_comment').value.should == 'Don\'t do it!'
