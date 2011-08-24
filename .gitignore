@@ -8,3 +8,4 @@ rdoc
 .yardoc
 Gemfile.lock
 .rvmrc
+*.rbc
