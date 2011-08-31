@@ -71,22 +71,22 @@ module Watir
     def double_click
       assert_exists
 
-      unless driver.respond_to?(:mouse)
-        raise NotImplementedError, "need support in WebDriver"
+      unless driver.kind_of? WebDriver::DriverExtensions::HasInputDevices
+        raise NotImplementedError, "Element#double_click is not supported by this driver"
       end
 
-      driver.mouse.double_click @element
+      driver.action.double_click(@element).perform
       run_checkers
     end
 
     def right_click
       assert_exists
 
-      unless driver.respond_to?(:mouse)
-        raise NotImplementedError, "need support in WebDriver"
+      unless driver.kind_of? WebDriver::DriverExtensions::HasInputDevices
+        raise NotImplementedError, "Element#context_click is not supported by this driver"
       end
 
-      driver.mouse.context_click @element
+      driver.action.context_click(@element).perform
       run_checkers
     end
 
