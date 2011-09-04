@@ -1,0 +1,8 @@
+rvm:
+  - 1.9.2
+notifications:
+  recipients:
+    - jari.bakken@gmail.com
+  irc: "irc.freenode.net#watir"
+before_script: 
+  - git submodule update --init

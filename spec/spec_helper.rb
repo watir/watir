@@ -19,7 +19,11 @@ include Watir::Exception
 
 WEBDRIVER_SELECTORS = [:class, :class_name, :css, :id, :name, :tag_name, :xpath]
 
-# fail fast.
-if Selenium::WebDriver::Platform.linux? && !ENV['DISPLAY']
-  raise "no DISPLAY set"
+if ENV['TRAVIS']
+  require 'headless'
+  display = Headless.new
+  display.start
+
+  pid = Process.pid
+  at_exit { display.stop if Process.pid == pid }
 end
