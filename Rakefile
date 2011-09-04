@@ -4,8 +4,9 @@ Bundler::GemHelper.install_tasks
 
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec) do |spec|
-  spec.ruby_opts = "-I lib:spec"
-  spec.pattern   = 'spec/**/*_spec.rb'
+  spec.ruby_opts  = "-I lib:spec"
+  spec.rspec_opts = %w[--color --require fuubar --format Fuubar]
+  spec.pattern    = 'spec/**/*_spec.rb'
 end
 
 namespace :spec do
@@ -14,10 +15,11 @@ namespace :spec do
     spec.pattern    = 'spec/**/*_spec.rb'
     spec.rspec_opts = "--format html --out #{ENV["SPEC_REPORT"] || "specs.html"}"
   end
-
 end
 
-task :spec
+task :default => :spec
+
+
 
 task :lib do
   $LOAD_PATH.unshift(File.expand_path("lib", File.dirname(__FILE__)))
@@ -85,8 +87,6 @@ namespace :html5 do
   desc 'download spec -> generate -> generated.rb'
   task :update => [:download, :generate, :overwrite]
 end # html5
-
-task :default => :spec
 
 begin
   require 'yard'
