@@ -73,7 +73,7 @@ module Watir
     end
 
     def url
-      @driver.current_url
+      @driver.execute_script("return document.location.toString();")
     end
 
     def title
