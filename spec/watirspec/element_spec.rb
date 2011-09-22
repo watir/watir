@@ -162,5 +162,49 @@ describe "Element" do
       lambda { browser.div(:xpath => "//div", :class => "foo").exists? }.should raise_error(ArgumentError)
     end
   end
+  
+  describe '#send_keys' do
+    before(:each) do
+      @c = RUBY_PLATFORM =~ /darwin/ ? :command : :control
+      browser.goto(WatirSpec.files + '/keylogger.html')
+    end
+
+    let(:receiver) { browser.element(:id => 'receiver')       }
+    let(:events)   { browser.element(:id => 'output').ps.size }
+
+    it 'sends keystrokes to the element' do
+      receiver.send_keys 'hello world'
+      receiver.value.should == 'hello world'
+      events.should == 11
+    end
+
+    it 'accepts arbitrary list of arguments' do
+      receiver.send_keys 'hello', 'world'
+      receiver.value.should == 'helloworld'
+      events.should == 10
+    end
+
+    it 'performs key combinations' do
+      receiver.send_keys 'foo'
+      receiver.send_keys [@c, 'a']
+      receiver.send_keys :backspace
+      receiver.value.should be_empty
+      events.should == 6
+    end
+
+    it 'performs arbitrary list of key combinations' do
+      receiver.send_keys 'foo'
+      receiver.send_keys [@c, 'a'], [@c, 'x']
+      receiver.value.should be_empty
+      events.should == 7
+    end
+
+    it 'supports combination of strings and arrays' do
+      receiver.send_keys 'foo', [@c, 'a'], :backspace
+      receiver.value.should be_empty
+      events.should == 6
+    end
+  end
+
 
 end
