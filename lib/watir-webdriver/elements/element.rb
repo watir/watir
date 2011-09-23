@@ -275,7 +275,7 @@ module Watir
 
     def attribute?(attribute)
       assert_exists
-      driver.execute_script "return !!arguments[0].getAttributeNode(arguments[1]);", @element, attribute.to_s.downcase
+      !!execute_atom(:getAttribute, @element, attribute.to_s.downcase)
     end
 
     def assert_enabled
