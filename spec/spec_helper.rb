@@ -20,10 +20,5 @@ include Watir::Exception
 WEBDRIVER_SELECTORS = [:class, :class_name, :css, :id, :name, :tag_name, :xpath]
 
 if ENV['TRAVIS']
-  require 'headless'
-  display = Headless.new
-  display.start
-
-  pid = Process.pid
-  at_exit { display.stop if Process.pid == pid }
+  ENV['DISPLAY'] = ":99.0"
 end

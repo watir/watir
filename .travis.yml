@@ -5,4 +5,5 @@ notifications:
     - jari.bakken@gmail.com
   irc: "irc.freenode.net#watir"
 before_script: 
+  - sh -e /etc/init.d/xvfb start
   - git submodule update --init
