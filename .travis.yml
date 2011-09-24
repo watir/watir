@@ -1,9 +1,10 @@
 rvm:
   - 1.9.2
+  - 1.9.3
 notifications:
   recipients:
     - jari.bakken@gmail.com
   irc: "irc.freenode.net#watir"
-before_script: 
+before_script:
   - sh -e /etc/init.d/xvfb start
   - git submodule update --init
