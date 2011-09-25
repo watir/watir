@@ -18,3 +18,7 @@ include Watir
 include Watir::Exception
 
 WEBDRIVER_SELECTORS = [:class, :class_name, :css, :id, :name, :tag_name, :xpath]
+
+if Selenium::WebDriver::Platform.linux? && ENV['DISPLAY'].nil?
+  raise "DISPLAY not set"
+end
