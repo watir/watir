@@ -93,13 +93,8 @@ describe Watir::Element do
   end
 
   describe "#wait_while_present" do
-    it "invokes subsequent methods after waiting until the element's disappearance" do
+    it "waits until the element disappears" do
       browser.a(:id, 'hide_foo').click
-      browser.div(:id, 'foo').wait_while_present(1)
-    end
-
-    it "invokes subsequent methods after waiting until the element's removal" do
-      browser.a(:id, 'remove_foo').click
       browser.div(:id, 'foo').wait_while_present(1)
     end
 
