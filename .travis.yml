@@ -6,7 +6,7 @@ notifications:
     - jari.bakken@gmail.com
   irc: "irc.freenode.net#watir"
 before_script:
-  - sh -e /etc/init.d/xvfb start
-  - git submodule update --init
+  - support/travis.sh
 env:
   - WATIR_WEBDRIVER_BROWSER=firefox
+  - WATIR_WEBDRIVER_BROWSER=chrome
