@@ -6,7 +6,7 @@ if [[ "$WATIR_WEBDRIVER_BROWSER" = "chrome" ]]; then
   sudo apt-get update
   sudo apt-get -y install google-chrome-unstable unzip
   # curl -k http://chromium.googlecode.com/files/chromedriver_linux32_14.0.836.0.zip | sudo -s 'funzip > /usr/bin/chromedriver'
-  sudo curl http://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux/102682/chrome-linux.test/chromedriver > /usr/bin/chromedriver
+  sudo -s 'curl http://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux/102682/chrome-linux.test/chromedriver > /usr/bin/chromedriver'
   sudo chmod +x /usr/bin/chromedriver
 fi
 
