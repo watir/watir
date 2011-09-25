@@ -69,7 +69,10 @@ module WatirSpec
     def new_browser
       klass = WatirSpec.implementation.browser_class
       args = WatirSpec.implementation.browser_args
-      args ? klass.new(*args) : klass.new
+
+      with_travis_debug do
+        args ? klass.new(*args) : klass.new
+      end
     end
 
     def ruby
@@ -84,6 +87,20 @@ module WatirSpec
           "#{rb}#{ext}"
         end
       )
+    end
+    
+    def with_travis_debug(&blk)
+      old_debug = $DEBUG
+      r = nil
+      
+      begin
+        $DEBUG = true if ENV['TRAVIS']
+        r = yield
+      ensure
+        $DEBUG = old_debug
+      end
+      
+      r
     end
 
   end # class << WatirSpec
