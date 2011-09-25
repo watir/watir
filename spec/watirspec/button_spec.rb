@@ -132,7 +132,10 @@ describe "Button" do
 
     deviates_on [:webdriver, :chrome] do
       it "returns the style attribute if the button exists" do
-        browser.button(:id, 'delete_user_submit').style.should == "border-top-width: 4px; border-right-width: 4px; border-bottom-width: 4px; border-left-width: 4px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: red; border-right-color: red; border-bottom-color: red; border-left-color: red;"
+        style = browser.button(:id, 'delete_user_submit').style
+        style.should include("border-top-width: 4px;")
+        style.should include("border-left-style: solid;")
+        style.should include("border-right-color: red;")
       end
     end
 
