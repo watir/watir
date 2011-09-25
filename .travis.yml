@@ -1,18 +1,12 @@
 rvm:
   - 1.9.2
+  - 1.9.3
 notifications:
   recipients:
     - jari.bakken@gmail.com
   irc: "irc.freenode.net#watir"
 before_script:
   - sh -e /etc/init.d/xvfb start
-  - curl -k https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-  - sudo echo 'deb http://dl.google.com/linux/deb/ stable non-free main' >> /etc/apt/sources.list
-  - sudo apt-get update
-  - sudo apt-get install google-chrome-unstable funzip
-  - curl -k http://chromium.googlecode.com/files/chromedriver_linux32_14.0.836.0.zip | sudo funzip > /usr/bin/chromedriver
-  - sudo chmod +x /usr/bin/chromedriver
   - git submodule update --init
 env:
   - WATIR_WEBDRIVER_BROWSER=firefox
-  - WATIR_WEBDRIVER_BROWSER=chrome
