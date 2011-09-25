@@ -34,7 +34,7 @@ end # WatirSpec
 
 if __FILE__ == $0
   require "rubygems"
-  require 'spec/autorun'
+  require 'rspec/autorun'
 
   describe WatirSpec::Implementation do
     before { @impl = WatirSpec::Implementation.new }
