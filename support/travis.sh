@@ -11,6 +11,4 @@ if [[ "$WATIR_WEBDRIVER_BROWSER" = "chrome" ]]; then
 fi
 
 sh -e /etc/init.d/xvfb start
-export DISPLAY=:99.0
-
 git submodule update --init
