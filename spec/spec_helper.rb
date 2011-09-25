@@ -18,7 +18,3 @@ include Watir
 include Watir::Exception
 
 WEBDRIVER_SELECTORS = [:class, :class_name, :css, :id, :name, :tag_name, :xpath]
-
-if ENV['TRAVIS']
-  ENV['DISPLAY'] = ":99.0"
-end
