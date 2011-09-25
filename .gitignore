@@ -9,3 +9,4 @@ rdoc
 Gemfile.lock
 .rvmrc
 *.rbc
+.rbx/*
