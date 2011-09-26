@@ -182,13 +182,11 @@ describe "Div" do
     end
   end
 
-  not_compliant_on :webdriver do
-    describe "#right_click" do
-      it "fires the oncontextmenu event" do
-        browser.goto(WatirSpec.files + "/right_click.html")
-        browser.div(:id, "click").right_click
-        messages.first.should == 'right-clicked'
-      end
+  describe "#right_click" do
+    it "fires the oncontextmenu event" do
+      browser.goto(WatirSpec.files + "/right_click.html")
+      browser.div(:id, "click").right_click
+      messages.first.should == 'right-clicked'
     end
   end
 
