@@ -116,7 +116,7 @@ module Watir
       handle = if @selector.has_key?(:index)
                   @driver.window_handles[Integer(@selector[:index])]
                 else
-                  @driver.window_handles.find { |handle| matches?(handle) }
+                  @driver.window_handles.find { |wh| matches?(wh) }
                 end
 
       handle or raise Exception::NoMatchingWindowFoundException, @selector.inspect
@@ -129,6 +129,9 @@ module Watir
 
         matches_title && matches_url
       }
+    rescue Selenium::WebDriver::Error::NoSuchWindowError, Selenium::WebDriver::Error::NoSuchDriverError
+      # the window may disappear while we're iterating.
+      false
     end
 
   end # Window
