@@ -10,5 +10,4 @@ if [[ "$WATIR_WEBDRIVER_BROWSER" = "chrome" ]]; then
   sudo chmod +x /usr/bin/chromedriver
 fi
 
-sh -e /etc/init.d/xvfb start
-git submodule update --init
+sh -e /etc/init.d/xvfb start && git submodule update --init
