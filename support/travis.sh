@@ -1,5 +1,7 @@
 #/bin/sh
 
+sh -e /etc/init.d/xvfb start && git submodule update --init || exit 1
+
 if [[ "$WATIR_WEBDRIVER_BROWSER" = "chrome" ]]; then
   curl -L https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - 
   sudo -s 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list'
@@ -10,4 +12,3 @@ if [[ "$WATIR_WEBDRIVER_BROWSER" = "chrome" ]]; then
   sudo chmod +x /usr/bin/chromedriver
 fi
 
-sh -e /etc/init.d/xvfb start && git submodule update --init
