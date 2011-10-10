@@ -60,7 +60,12 @@ module Watir
     rescue Exception::NoMatchingWindowFoundException
       false
     end
-    alias_method :present?, :exists? # for Wait::EventuallyPresent
+    
+    def present?
+      @handle = nil # relocate
+      
+      exists?
+    end
 
     def ==(other)
       return false unless other.kind_of?(self.class)
