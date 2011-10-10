@@ -62,7 +62,7 @@ describe "Browser" do
           link = browser.a(:id => "close")
           link.should exist
           link.click
-        end
+        end.wait_while_present
 
         browser.windows.size.should == 1
       end
