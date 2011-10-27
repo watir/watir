@@ -184,27 +184,27 @@ describe "Element" do
       events.should == 10
     end
 
-    it 'performs key combinations' do
-      receiver.send_keys 'foo'
-      receiver.send_keys [@c, 'a']
-      receiver.send_keys :backspace
-      receiver.value.should be_empty
-      events.should == 6
-    end
+    bug "http://code.google.com/p/chromium/issues/detail?id=93879", [:webdriver, :chrome] do
+      it 'performs key combinations' do
+        receiver.send_keys 'foo'
+        receiver.send_keys [@c, 'a']
+        receiver.send_keys :backspace
+        receiver.value.should be_empty
+        events.should == 6
+      end
 
-    it 'performs arbitrary list of key combinations' do
-      receiver.send_keys 'foo'
-      receiver.send_keys [@c, 'a'], [@c, 'x']
-      receiver.value.should be_empty
-      events.should == 7
-    end
+      it 'performs arbitrary list of key combinations' do
+        receiver.send_keys 'foo'
+        receiver.send_keys [@c, 'a'], [@c, 'x']
+        receiver.value.should be_empty
+        events.should == 7
+      end
 
-    it 'supports combination of strings and arrays' do
-      receiver.send_keys 'foo', [@c, 'a'], :backspace
-      receiver.value.should be_empty
-      events.should == 6
+      it 'supports combination of strings and arrays' do
+        receiver.send_keys 'foo', [@c, 'a'], :backspace
+        receiver.value.should be_empty
+        events.should == 6
+      end
     end
   end
-
-
 end
