@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>obsolete element</title>
+    <script type="text/javascript" charset="utf-8">
+      function removeText() {
+        var e = document.getElementById("text");
+        e.parentNode.removeChild(e);
+      }
+    </script>
+  </head>
+
+  <body>
+    <button id='remove-button' onclick="removeText()">Remove text</button>
+    <div id="text">Text</div>
+  </body>
+</html>

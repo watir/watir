@@ -30,4 +30,17 @@ describe Watir::Element do
     end
   end
 
+  describe "#exists?" do
+    it "should not propagate ObsoleteElementErrors" do
+      browser.goto 'file://' + File.expand_path('html/removed_element.html', File.dirname(__FILE__))
+
+      button  = browser.button(:id => "remove-button")
+      element = browser.div(:id => "text")
+
+      element.should exist
+      button.click
+      element.should_not exist
+    end
+  end
+
 end

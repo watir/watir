@@ -239,6 +239,7 @@ module Watir
 
     def assert_exists
       if @element and not Watir.always_locate?
+        assert_not_stale
         return
       end
 
@@ -247,6 +248,12 @@ module Watir
       unless @element
         raise UnknownObjectException, "unable to locate element, using #{selector_string}"
       end
+    end
+
+    def assert_not_stale
+      @element.enabled? # do a staleness check - any wire call will do.
+    rescue Selenium::WebDriver::Error::ObsoleteElementError => ex
+      raise UnknownObjectException, "#{ex.message} - #{selector_string}"
     end
 
     def browser
