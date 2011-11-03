@@ -17,6 +17,10 @@ require 'rspec'
 include Watir
 include Watir::Exception
 
+if ENV['ALWAYS_LOCATE'] == "false"
+  Watir.always_locate = false
+end
+
 WEBDRIVER_SELECTORS = [:class, :class_name, :css, :id, :name, :tag_name, :xpath]
 
 if ENV['TRAVIS']

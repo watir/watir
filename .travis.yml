@@ -7,5 +7,7 @@ notifications:
 before_script:
   - support/travis.sh
 env:
-  - WATIR_WEBDRIVER_BROWSER=firefox
-  - WATIR_WEBDRIVER_BROWSER=chrome
+  - WATIR_WEBDRIVER_BROWSER=firefox ALWAYS_LOCATE=false
+  - WATIR_WEBDRIVER_BROWSER=firefox ALWAYS_LOCATE=true
+  - WATIR_WEBDRIVER_BROWSER=chrome ALWAYS_LOCATE=false
+  - WATIR_WEBDRIVER_BROWSER=chrome ALWAYS_LOCATE=true
