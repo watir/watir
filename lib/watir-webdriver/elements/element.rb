@@ -186,6 +186,10 @@ module Watir
 
     def present?
       exists? && visible?
+    rescue Selenium::WebDriver::Error::ObsoleteElementError
+      # if the element disappears between the exists? and visible? calls, 
+      # consider it not present.
+      false
     end
 
     def style(property = nil)
