@@ -12,14 +12,12 @@ end
 namespace :spec do
   RSpec::Core::RakeTask.new(:html) do |spec|
     spec.ruby_opts  = "-I lib:spec"
-    spec.pattern    = 'spec/**/*_spec.rb'
     spec.rspec_opts = "--format html --out #{ENV["SPEC_REPORT"] || "specs.html"}"
+    spec.pattern    = 'spec/**/*_spec.rb'
   end
 end
 
 task :default => :spec
-
-
 
 task :lib do
   $LOAD_PATH.unshift(File.expand_path("lib", File.dirname(__FILE__)))

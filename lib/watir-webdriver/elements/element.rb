@@ -14,6 +14,15 @@ module Watir
     include Selenium
     include EventuallyPresent
 
+    #
+    # need to add this here since we no longer get them from the spec
+    # @see http://html5.org/r/6605
+    # @see http://www.w3.org/Bugs/Public/show_bug.cgi?id=13610
+    #
+    # TODO: use IDL from DOM core?
+    #
+    attributes :string => [:id]
+
     def initialize(parent, selector)
       @parent   = parent
       @selector = selector
@@ -187,7 +196,7 @@ module Watir
     def present?
       exists? && visible?
     rescue Selenium::WebDriver::Error::ObsoleteElementError, UnknownObjectException
-      # if the element disappears between the exists? and visible? calls, 
+      # if the element disappears between the exists? and visible? calls,
       # consider it not present.
       false
     end

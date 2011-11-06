@@ -110,11 +110,11 @@ module Watir
         return if attributes.empty?
 
         attrs = Hash.new { |hash, key| hash[key] = [] }
-        attributes.each do |a|
+        attributes.sort_by { |a| a.name }.each do |a|
           type = ruby_type_for(a.type)
           attrs[type] << ruby_attribute_for(type, a.name)
         end
-
+        
         call :attributes, [literal_hash(attrs)]
       end
 
