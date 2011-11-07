@@ -1229,7 +1229,7 @@ module Watir
    # @return [DetailsCollection]
    #
 
-   def details(*args)
+   def detailses(*args)
      DetailsCollection.new(self, extract_selector(args).merge(:tag_name => "details"))
    end
 

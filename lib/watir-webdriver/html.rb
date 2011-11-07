@@ -11,6 +11,7 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.plural 'ins', 'inses'
   inflect.plural /^s$/, 'ss'
   inflect.plural 'meta', 'metas'
+  inflect.plural 'details', 'detailses'
 end
 
 require "watir-webdriver/html/util"
