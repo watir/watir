@@ -100,13 +100,13 @@ module WatirSpec
       end
     end # class << Server
 
-    set :public,      WatirSpec.html
-    set :static,      true
-    set :run,         false
-    set :environment, :production
-    set :bind,        "localhost" if WatirSpec.platform == :windows
-    set :port,        find_free_port_above(2000)
-    set :server,      %w[mongrel webrick]
+    set :public_folder, WatirSpec.html
+    set :static,        true
+    set :run,           false
+    set :environment,   :production
+    set :bind,          "localhost" if WatirSpec.platform == :windows
+    set :port,          find_free_port_above(2000)
+    set :server,        %w[mongrel webrick]
 
     get '/' do
       self.class.name
