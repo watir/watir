@@ -7,7 +7,7 @@ module Watir
 
   class Browser
     include Container
-    include WindowSwitching
+    include HasWindow
     include Waitable
 
     attr_reader :driver
