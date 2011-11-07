@@ -21,6 +21,34 @@ module Watir
       '#<%s:0x%x located=%s>' % [self.class, hash*2, !!@handle]
     end
 
+    def size
+      size = nil
+      use { size = @driver.manage.window.size }
+
+      size
+    end
+
+    def position
+      pos = nil
+      use { pos = @driver.manage.window.position }
+
+      pos
+    end
+
+    def resize_to(width, height)
+      dimension = Selenium::WebDriver::Dimension.new(width, height)
+      use { @driver.manage.window.size = dimension }
+
+      dimension
+    end
+
+    def move_to(x, y)
+      point = Selenium::WebDriver::Point.new(x, y)
+      use { @driver.manage.window.position = point }
+
+      point
+    end
+
     def exists?
       handle
       true
