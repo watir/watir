@@ -11,9 +11,9 @@ WatirSpec.implementation do |imp|
     profile = Selenium::WebDriver::Firefox::Profile.new
     profile.native_events = true
 
-    imp.browser_args = [:firefox, :profile => profile]
+    imp.browser_args = [:firefox, {:profile => profile}]
   elsif browser == :chrome && ENV['NATIVE_EVENTS'] == "true"
-    imp.browser_args = [:chrome, :native_events => true]
+    imp.browser_args = [:chrome, {:native_events => true}]
   else
     imp.browser_args = [browser]
   end
