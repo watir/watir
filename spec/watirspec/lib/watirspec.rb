@@ -69,7 +69,11 @@ module WatirSpec
     def new_browser
       klass = WatirSpec.implementation.browser_class
       args = WatirSpec.implementation.browser_args
-      args ? klass.new(*args) : klass.new
+      instance = args ? klass.new(*args) : klass.new
+
+      print_browser_info_once(instance)
+
+      instance
     end
 
     def ruby
@@ -84,6 +88,29 @@ module WatirSpec
           "#{rb}#{ext}"
         end
       )
+    end
+
+    private
+
+    def print_browser_info_once(instance)
+      return if defined?(@did_print_browser_info) && @did_print_browser_info
+      @did_print_browser_info = true
+
+      info = []
+
+      info << instance.class.name
+
+      if instance.respond_to?(:driver) && instance.driver.class.name == "Selenium::WebDriver::Driver"
+        info << "(webdriver)"
+        caps = instance.driver.capabilities
+
+        info << "#{caps.browser_name}"
+        info << "#{caps.version}"
+      end
+
+      $stderr.puts "running watirspec against #{info.join ' '}"
+    rescue
+      # ignored
     end
 
   end # class << WatirSpec
