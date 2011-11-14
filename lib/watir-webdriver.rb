@@ -81,10 +81,3 @@ require 'watir-webdriver/elements/table_cell'
 require 'watir-webdriver/elements/table_section'
 
 Watir.tag_to_class.freeze
-
-# undefine deprecated methods to use them for Element attributes
-class Object
-  undef_method :id if method_defined? "id"
-  undef_method :type if method_defined? "type"
-end
-
