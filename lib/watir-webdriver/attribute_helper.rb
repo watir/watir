@@ -39,6 +39,13 @@ module Watir
 
     private
 
+    def self.extended(klass)
+      klass.class_eval do
+        # undefine deprecated methods to use them for Element attributes
+        [:id, :type].each { |m| undef_method m if method_defined? m }
+      end
+    end
+
     def define_attribute(type, name)
       method_name    = method_name_for(type, name)
       attribute_name = attribute_for_method(name)
