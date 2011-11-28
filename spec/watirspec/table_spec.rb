@@ -71,7 +71,11 @@ describe "Table" do
     end
 
     it "raises an error if the table could not be parsed" do
-      pending
+      browser.goto(WatirSpec.files + "/uneven_table.html")
+
+      lambda {
+        browser.table.hashes
+      }.should raise_error("row at index 0 has 2 cells, expected 3")
     end
   end
 
