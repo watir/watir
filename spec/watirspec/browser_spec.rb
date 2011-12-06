@@ -124,8 +124,10 @@ describe "Browser" do
       lambda { browser.goto("about:blank") }.should_not raise_error
     end
 
-    it "goes to a data URL scheme address without raising errors" do
-      lambda { browser.goto("data:text/html;content-type=utf-8,foobar") }.should_not raise_error
+    not_compliant_on :ie do
+      it "goes to a data URL scheme address without raising errors" do
+        lambda { browser.goto("data:text/html;content-type=utf-8,foobar") }.should_not raise_error
+      end
     end
 
     compliant_on :firefox do
