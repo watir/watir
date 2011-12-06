@@ -53,7 +53,7 @@ module Watir
     #
 
     def prompt(answer, &blk)
-      execute_script "window.prompt = function(text, value) { window.__lastWatirPrompt = { message: text, default_value: value }; return #{answer.to_json}; }"
+      execute_script "window.prompt = function(text, value) { window.__lastWatirPrompt = { message: text, default_value: value }; return #{MultiJson.encode answer}; }"
       yield
       result = execute_script "return window.__lastWatirPrompt"
 

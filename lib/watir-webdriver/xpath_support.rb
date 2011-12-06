@@ -8,6 +8,8 @@ module Watir
     #
 
     def element_by_xpath(xpath)
+      warn 'element_by_xpath is deprecated and replaced by .element(:xpath, ...)'
+
       e = wd.find_element(:xpath, xpath)
       Watir.element_class_for(e.tag_name.downcase).new(self, :element => e)
     rescue WebDriver::Error::NoSuchElementError
@@ -19,11 +21,13 @@ module Watir
     #
 
     def elements_by_xpath(xpath)
+      warn 'elements_by_xpath is deprecated and replaced by .elements(:xpath, ...)'
+
       wd.find_elements(:xpath, xpath).map do |e|
         Watir.element_class_for(e.tag_name.downcase).new(self, :element => e)
       end
     end
-    
+
     def self.escape(value)
       if value.include? "'"
         parts = value.split("'", -1).map { |part| "'#{part}'" }
