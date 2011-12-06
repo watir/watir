@@ -1,6 +1,5 @@
 # encoding: utf-8
 require 'selenium-webdriver'
-require 'json'
 
 require 'watir-webdriver/version'
 require 'watir-webdriver/wait'
