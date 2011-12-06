@@ -20,7 +20,7 @@ describe "Browser" do
 
   # this should be rewritten - the actual string returned varies alot between implementations
   describe "#html" do
-    not_compliant_on [:webdriver, :ie] do
+    not_compliant_on :ie do
       it "returns the DOM of the page as an HTML string" do
         browser.goto(WatirSpec.files + "/right_click.html")
         html = browser.html.downcase # varies between browsers
@@ -32,7 +32,7 @@ describe "Browser" do
       end
     end
 
-    deviates_on [:webdriver, :ie] do
+    deviates_on :ie do
       it "returns the DOM of the page as an HTML string" do
         browser.goto(WatirSpec.files + "/right_click.html")
         html = browser.html.downcase # varies between browsers
