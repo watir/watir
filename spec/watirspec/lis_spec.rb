@@ -7,6 +7,14 @@ describe "Lis" do
     browser.goto(WatirSpec.files + "/non_control_elements.html")
   end
 
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.lis(:class => "nonlink").to_a.should == [browser.li(:class => "nonlink")]
+      end
+    end
+  end
+  
   describe "#length" do
     it "returns the number of lis" do
       browser.lis.length.should == 18
@@ -14,8 +22,8 @@ describe "Lis" do
   end
 
   describe "#[]" do
-    it "returns the p at the given index" do
-      browser.lis[5].id.should == "non_link_1"
+    it "returns the li at the given index" do
+      browser.lis[4].id.should == "non_link_1"
     end
   end
 
@@ -24,9 +32,8 @@ describe "Lis" do
       count = 0
 
       browser.lis.each_with_index do |l, index|
-        l.name.should == browser.li(:index, index+1).name
-        l.id.should == browser.li(:index, index+1).id
-        l.value.should == browser.li(:index, index+1).value
+        l.id.should == browser.li(:index, index).id
+        l.value.should == browser.li(:index, index).value
 
         count += 1
       end

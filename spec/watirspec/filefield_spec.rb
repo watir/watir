@@ -15,16 +15,12 @@ describe "FileField" do
       browser.file_field(:name, /new_user_portrait/).should exist
       browser.file_field(:class, 'portrait').should exist
       browser.file_field(:class, /portrait/).should exist
-      browser.file_field(:index, 1).should exist
+      browser.file_field(:index, 0).should exist
       browser.file_field(:xpath, "//input[@id='new_user_portrait']").should exist
     end
 
     it "returns the first file field if given no args" do
       browser.file_field.should exist
-    end
-
-    it "returns true if the element exists (default how = :name)" do
-      browser.file_field("new_user_portrait").should exist
     end
 
     it "returns false if the file field doesn't exist" do
@@ -51,7 +47,7 @@ describe "FileField" do
 
   describe "#class_name" do
     it "returns the class attribute if the text field exists" do
-      browser.file_field(:index, 1).class_name.should == "portrait"
+      browser.file_field(:index, 0).class_name.should == "portrait"
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -61,7 +57,7 @@ describe "FileField" do
 
   describe "#id" do
     it "returns the id attribute if the text field exists" do
-      browser.file_field(:index, 1).id.should == "new_user_portrait"
+      browser.file_field(:index, 0).id.should == "new_user_portrait"
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -71,7 +67,7 @@ describe "FileField" do
 
   describe "#name" do
     it "returns the name attribute if the text field exists" do
-      browser.file_field(:index, 1).name.should == "new_user_portrait"
+      browser.file_field(:index, 0).name.should == "new_user_portrait"
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -87,7 +83,7 @@ describe "FileField" do
 
   describe "#type" do
     it "returns the type attribute if the text field exists" do
-      browser.file_field(:index, 1).type.should == "file"
+      browser.file_field(:index, 0).type.should == "file"
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -97,31 +93,71 @@ describe "FileField" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.file_field(:index, 1).should respond_to(:class_name)
-      browser.file_field(:index, 1).should respond_to(:id)
-      browser.file_field(:index, 1).should respond_to(:name)
-      browser.file_field(:index, 1).should respond_to(:title)
-      browser.file_field(:index, 1).should respond_to(:type)
-      browser.file_field(:index, 1).should respond_to(:value)
+      browser.file_field(:index, 0).should respond_to(:class_name)
+      browser.file_field(:index, 0).should respond_to(:id)
+      browser.file_field(:index, 0).should respond_to(:name)
+      browser.file_field(:index, 0).should respond_to(:title)
+      browser.file_field(:index, 0).should respond_to(:type)
+      browser.file_field(:index, 0).should respond_to(:value)
     end
   end
 
   # Manipulation methods
 
   describe "#set" do
-    bug "WTR-336", :watir do
-      it "is able to set a file path in the field and click the upload button and fire the onchange event" do
-        browser.goto("#{WatirSpec.host}/forms_with_input_elements.html")
+    it "is able to set a file path in the field and click the upload button and fire the onchange event" do
+      browser.goto("#{WatirSpec.host}/forms_with_input_elements.html")
 
-        path = File.expand_path(__FILE__)
+      path    = File.expand_path(__FILE__)
+      element = browser.file_field(:name, "new_user_portrait")
 
-        browser.file_field(:name, "new_user_portrait").set path
-        browser.file_field(:name, "new_user_portrait").value.should == path
-        messages.first.should == path
-        browser.button(:name, "new_user_submit").click
-      end
+      element.set path
+
+      element.value.should include(File.basename(path)) # only some browser will return the full path
+      messages.first.should include(File.basename(path))
+
+      browser.button(:name, "new_user_submit").click
     end
 
+    it "raises an error if the file does not exist" do
+      lambda {
+        browser.file_field.set(File.join(Dir.tmpdir, 'unlikely-to-exist'))
+      }.should raise_error(Errno::ENOENT)
+    end
+  end
+
+
+  describe "#value=" do
+    it "is able to set a file path in the field and click the upload button and fire the onchange event" do
+      browser.goto("#{WatirSpec.host}/forms_with_input_elements.html")
+
+      path    = File.expand_path(__FILE__)
+      element = browser.file_field(:name, "new_user_portrait")
+
+      element.value = path
+      element.value.should include(File.basename(path)) # only some browser will return the full path
+    end
+
+
+    not_compliant_on [:webdriver, :ie], [:webdriver, :chrome] do
+      # for chrome, the check also happens in the driver
+
+      it "does not raise an error if the file does not exist" do
+        path = File.join(Dir.tmpdir, 'unlikely-to-exist')
+        browser.file_field.value = path
+
+        expected = path
+        expected.gsub!("/", "\\") if WatirSpec.platform == :windows
+
+        browser.file_field.value.should == expected
+      end
+
+      it "does not alter its argument" do
+        value = '/foo/bar'
+        browser.file_field.value = value
+        value.should == '/foo/bar'
+      end
+    end
   end
 
 end

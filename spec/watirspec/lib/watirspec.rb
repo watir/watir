@@ -1,6 +1,22 @@
+# encoding: utf-8
+
+# see http://redmine.ruby-lang.org/issues/5218
+if defined?(RUBY_ENGINE) && RUBY_ENGINE == "ruby" && RUBY_VERSION >= "1.9"
+  module Kernel
+    alias :__at_exit :at_exit
+    def at_exit(&block)
+      __at_exit do
+        exit_status = $!.status if $!.is_a?(SystemExit)
+        block.call
+        exit exit_status if exit_status
+      end
+    end
+  end
+end
+
 module WatirSpec
   class << self
-    attr_accessor :persistent_browser, :unguarded
+    attr_accessor :browser_args, :persistent_browser, :unguarded, :implementation
 
     def html
       File.expand_path("#{File.dirname(__FILE__)}/../html")
@@ -53,7 +69,11 @@ module WatirSpec
     def new_browser
       klass = WatirSpec.implementation.browser_class
       args = WatirSpec.implementation.browser_args
-      args ? klass.new(*args) : klass.new
+      instance = args ? klass.new(*args) : klass.new
+
+      print_browser_info_once(instance)
+
+      instance
     end
 
     def ruby
@@ -68,6 +88,29 @@ module WatirSpec
           "#{rb}#{ext}"
         end
       )
+    end
+
+    private
+
+    def print_browser_info_once(instance)
+      return if defined?(@did_print_browser_info) && @did_print_browser_info
+      @did_print_browser_info = true
+
+      info = []
+
+      info << instance.class.name
+
+      if instance.respond_to?(:driver) && instance.driver.class.name == "Selenium::WebDriver::Driver"
+        info << "(webdriver)"
+        caps = instance.driver.capabilities
+
+        info << "#{caps.browser_name}"
+        info << "#{caps.version}"
+      end
+
+      $stderr.puts "running watirspec against #{info.join ' '}"
+    rescue
+      # ignored
     end
 
   end # class << WatirSpec

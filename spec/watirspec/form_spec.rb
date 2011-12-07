@@ -12,16 +12,14 @@ describe "Form" do
       browser.form(:id, 'new_user').should exist
       browser.form(:id, /new_user/).should exist
 
-      bug "WTR-355", :watir do
-        browser.form(:class, 'user').should exist
-        browser.form(:class, /user/).should exist
-      end
+      browser.form(:class, 'user').should exist
+      browser.form(:class, /user/).should exist
 
       browser.form(:method, 'post').should exist
       browser.form(:method, /post/).should exist
       browser.form(:action, 'post_to_me').should exist
       browser.form(:action, /to_me/).should exist
-      browser.form(:index, 1).should exist
+      browser.form(:index, 0).should exist
       browser.form(:xpath, "//form[@id='new_user']").should exist
     end
 
@@ -29,18 +27,12 @@ describe "Form" do
       browser.form.should exist
     end
 
-    it "returns true if the element exists (default how = :name)" do
-      browser.form("user_new").should exist
-    end
-
     it "returns false if the form doesn't exist" do
       browser.form(:id, 'no_such_id').should_not exist
       browser.form(:id, /no_such_id/).should_not exist
 
-      bug "WTR-355", :watir do
-        browser.form(:class, 'no_such_class').should_not exist
-        browser.form(:class, /no_such_class/).should_not exist
-      end
+      browser.form(:class, 'no_such_class').should_not exist
+      browser.form(:class, /no_such_class/).should_not exist
 
       browser.form(:method, 'no_such_method').should_not exist
       browser.form(:method, /no_such_method/).should_not exist
@@ -50,10 +42,8 @@ describe "Form" do
       browser.form(:xpath, "//form[@id='no_such_id']").should_not exist
     end
 
-    bug "WTR-356", :watir do
-      it "raises TypeError when 'what' argument is invalid" do
-        lambda { browser.form(:id, 3.14).exists? }.should raise_error(TypeError)
-      end
+    it "raises TypeError when 'what' argument is invalid" do
+      lambda { browser.form(:id, 3.14).exists? }.should raise_error(TypeError)
     end
 
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do

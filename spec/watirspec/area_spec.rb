@@ -12,24 +12,17 @@ describe "Area" do
     it "returns true if the area exists" do
       browser.area(:id, "NCE").should exist
       browser.area(:id, /NCE/).should exist
-      browser.area(:name, "NCE").should exist
-      browser.area(:name, /NCE/).should exist
       browser.area(:title, "Tables").should exist
       browser.area(:title, /Tables/).should exist
 
-      bug "WTR-342", :watir do
-        browser.area(:url, "tables.html").should exist
-        browser.area(:url, /tables/).should exist
+      not_compliant_on [:webdriver, :ie], :watir do
         browser.area(:href, "tables.html").should exist
-        browser.area(:href, /tables/).should exist
       end
 
-      browser.area(:index, 1).should exist
-      browser.area(:xpath, "//area[@id='NCE']").should exist
-    end
+      browser.area(:href, /tables/).should exist
 
-    it "returns true if the element exists (default how = :id)" do
-      browser.area("NCE").should exist
+      browser.area(:index, 0).should exist
+      browser.area(:xpath, "//area[@id='NCE']").should exist
     end
 
     it "returns the first area if given no args" do
@@ -39,17 +32,11 @@ describe "Area" do
     it "returns false if the area doesn't exist" do
       browser.area(:id, "no_such_id").should_not exist
       browser.area(:id, /no_such_id/).should_not exist
-      browser.area(:name, "no_such_id").should_not exist
-      browser.area(:name, /no_such_id/).should_not exist
       browser.area(:title, "no_such_title").should_not exist
       browser.area(:title, /no_such_title/).should_not exist
 
-      bug "WTR-342", :watir do
-        browser.area(:url, "no_such_href").should_not exist
-        browser.area(:url, /no_such_href/).should_not exist
-        browser.area(:href, "tables.html").should exist
-        browser.area(:href, /tables/).should exist
-      end
+      browser.area(:href, "no-tables.html").should_not exist
+      browser.area(:href, /no-tables/).should_not exist
 
       browser.area(:index, 1337).should_not exist
       browser.area(:xpath, "//area[@id='no_such_id']").should_not exist
@@ -67,11 +54,11 @@ describe "Area" do
   # Attribute methods
   describe "#id" do
     it "returns the id attribute" do
-      browser.area(:index, 1).id.should == "NCE"
+      browser.area(:index, 0).id.should == "NCE"
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.area(:index, 3).id.should == ''
+      browser.area(:index, 2).id.should == ''
     end
 
     it "raises UnknownObjectException if the area doesn't exist" do
@@ -81,25 +68,9 @@ describe "Area" do
 
   end
 
-  describe "#name" do
-    it "returns the name attribute" do
-      browser.area(:index, 1).name.should == "NCE"
-    end
-
-    it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.area(:index, 3).name.should == ''
-    end
-
-    it "raises UnknownObjectException if the area doesn't exist" do
-      lambda { browser.area(:id, "no_such_id").name }.should raise_error(UnknownObjectException)
-      lambda { browser.area(:index, 1337).name }.should raise_error(UnknownObjectException)
-    end
-  end
-
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.area(:index, 1).should respond_to(:id)
-      browser.area(:index, 1).should respond_to(:name)
+      browser.area(:index, 0).should respond_to(:id)
     end
   end
 

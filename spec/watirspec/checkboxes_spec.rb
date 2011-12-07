@@ -7,6 +7,14 @@ describe "CheckBoxes" do
     browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
   end
 
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.checkboxes(:value => "books").to_a.should == [browser.checkbox(:value => "books")]
+      end
+    end
+  end
+  
   describe "#length" do
     it "returns the number of checkboxes" do
       browser.checkboxes.length.should == 7
@@ -15,7 +23,7 @@ describe "CheckBoxes" do
 
   describe "#[]" do
     it "returns the checkbox at the given index" do
-      browser.checkboxes[1].id.should == "new_user_interests_books"
+      browser.checkboxes[0].id.should == "new_user_interests_books"
     end
   end
 
@@ -24,9 +32,10 @@ describe "CheckBoxes" do
       count = 0
 
       browser.checkboxes.each_with_index do |c, index|
-        c.name.should == browser.checkbox(:index, index+1).name
-        c.id.should == browser.checkbox(:index, index+1).id
-        c.value.should == browser.checkbox(:index, index+1).value
+        c.should be_instance_of(CheckBox)
+        c.name.should == browser.checkbox(:index, index).name
+        c.id.should == browser.checkbox(:index, index).id
+        c.value.should == browser.checkbox(:index, index).value
 
         count += 1
       end

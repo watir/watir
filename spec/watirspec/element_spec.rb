@@ -10,30 +10,104 @@ describe "Element" do
   describe ".new" do
     it "finds elements matching the conditions when given a hash of :how => 'what' arguments" do
       browser.checkbox(:name => 'new_user_interests', :title => 'Dancing is fun!').value.should == 'dancing'
-      browser.text_field(:class_name => 'name', :index => 2).id.should == 'new_user_last_name'
+      browser.text_field(:class_name => 'name', :index => 1).id.should == 'new_user_last_name'
     end
 
     it "raises UnknownObjectException with a sane error message when given a hash of :how => 'what' arguments (non-existing object)" do
-      conditions = {:index => 100, :name => "foo"}
-      lambda { browser.text_field(conditions).id }.should raise_error(UnknownObjectException, /Unable to locate TextField, using (\{:name=>"foo", :index=>100\}|\{:index=>100, :name=>"foo"\})/)
+      lambda { browser.text_field(:index => 100, :name => "foo").id }.should raise_error(UnknownObjectException)
     end
 
-    bug "WTR-351", :watir do
-      it "raises ArgumentError if given the wrong number of arguments" do
-        container = mock("container").as_null_object
+    it "raises ArgumentError if given the wrong number of arguments" do
+      container = mock("container").as_null_object
+      lambda { Element.new(container, 1,2,3,4) }.should raise_error(ArgumentError)
+      lambda { Element.new(container, "foo") }.should raise_error(ArgumentError)
+    end
+  end
 
-        lambda { Element.new(container, 1,2,3,4) }.should raise_error(ArgumentError, "wrong number of arguments (4 for 2)")
-        lambda { Element.new(container, "foo") }.should raise_error(ArgumentError, "wrong number of arguments (1 for 2)")
+  describe "#== and #eql?" do
+    before { browser.goto(WatirSpec.files + "/definition_lists.html") }
+
+    it "returns true if the two elements point to the same DOM element" do
+      a = browser.dl(:id => "experience-list")
+      b = browser.dl
+
+      a.should == b
+      a.should eql(b)
+    end
+
+    it "returns false if the two elements are not the same" do
+      a = browser.dls[0]
+      b = browser.dls[1]
+
+      a.should_not == b
+      a.should_not eql(b)
+    end
+
+    it "returns false if the other object is not an Element" do
+      browser.dl.should_not == 1
+    end
+  end
+
+  describe "data-* attributes" do
+    before { browser.goto("file://" + File.expand_path("html/data_attributes.html", File.dirname(__FILE__))) }
+
+    bug "http://github.com/jarib/celerity/issues#issue/27", :celerity do
+      it "finds elements by a data-* attribute" do
+        browser.p(:data_type => "ruby-library").should exist
+      end
+
+      it "returns the value of a data-* attribute" do
+        browser.p.data_type.should == "ruby-library"
       end
     end
   end
 
+  describe "finding with unknown tag name" do
+    it "finds an element by xpath" do
+      browser.element(:xpath => "//*[@for='new_user_first_name']").should exist
+    end
+
+    it "finds an element by arbitrary attribute" do
+      browser.element(:for => "new_user_species").should exist
+    end
+
+    it "finds several elements by xpath" do
+      browser.elements(:xpath => "//a").length.should == 1
+    end
+
+    it "finds finds several elements by arbitrary attribute" do
+      browser.elements(:name => /^new_user/).length.should == 30
+    end
+
+    it "finds an element from an element's subtree" do
+      browser.fieldset.element(:id => "first_label").should exist
+    end
+
+    it "finds several elements from an element's subtree" do
+      browser.fieldset.elements(:xpath => ".//label").length.should == 10
+    end
+  end
+
+  describe "#to_subtype" do
+    it "returns a more precise subtype of Element (input element)" do
+      el = browser.element(:xpath => "//input[@type='radio']").to_subtype
+      el.should be_kind_of(Watir::Radio)
+    end
+
+    it "returns a more precise subtype of Element" do
+      el = browser.element(:xpath => "//*[@id='messages']").to_subtype
+      el.should be_kind_of(Watir::Div)
+    end
+  end
+
   describe "#focus" do
-    it "fires the onfocus event for the given element" do
-      tf = browser.text_field(:id, "new_user_occupation")
-      tf.value.should == "Developer"
-      tf.focus
-      browser.div(:id, "onfocus_test").text.should == "changed by onfocus event"
+    bug "http://code.google.com/p/selenium/issues/detail?id=157", [:webdriver, :firefox] do
+      it "fires the onfocus event for the given element" do
+        tf = browser.text_field(:id, "new_user_occupation")
+        tf.value.should == "Developer"
+        tf.focus
+        browser.div(:id, "onfocus_test").text.should == "changed by onfocus event"
+      end
     end
   end
 
@@ -46,9 +120,13 @@ describe "Element" do
   end
 
   describe "#parent" do
-    bug "WTR-352", :watir do
+    bug "http://github.com/jarib/celerity/issues#issue/28", :celerity do
       it "gets the parent of this element" do
-        browser.text_field(:id, "new_user_email").parent.should be_instance_of(Form)
+        browser.text_field(:id, "new_user_email").parent.should be_instance_of(FieldSet)
+      end
+
+      it "returns nil if the element has no parent" do
+        browser.body.parent.parent.should be_nil
       end
     end
   end
@@ -62,10 +140,8 @@ describe "Element" do
       browser.text_field(:id, "new_user_interests_dolls").should_not be_visible
     end
 
-    bug "WTR-336", :watir do
-      it "returns false if the element has style='display: none;'" do
-        browser.div(:id, 'changed_language').should_not be_visible
-      end
+    it "returns false if the element has style='display: none;'" do
+      browser.div(:id, 'changed_language').should_not be_visible
     end
 
     it "returns false if the element has style='visibility: hidden;" do
@@ -81,6 +157,54 @@ describe "Element" do
     it "doesn't raise when called on nested elements" do
       browser.div(:id, 'no_such_div').link(:id, 'no_such_id').should_not exist
     end
-  end
 
+    it "raises ArgumentError error if selector hash with :xpath has multiple entries" do
+      lambda { browser.div(:xpath => "//div", :class => "foo").exists? }.should raise_error(ArgumentError)
+    end
+  end
+  
+  describe '#send_keys' do
+    before(:each) do
+      @c = RUBY_PLATFORM =~ /darwin/ ? :command : :control
+      browser.goto(WatirSpec.files + '/keylogger.html')
+    end
+
+    let(:receiver) { browser.element(:id => 'receiver')       }
+    let(:events)   { browser.element(:id => 'output').ps.size }
+
+    it 'sends keystrokes to the element' do
+      receiver.send_keys 'hello world'
+      receiver.value.should == 'hello world'
+      events.should == 11
+    end
+
+    it 'accepts arbitrary list of arguments' do
+      receiver.send_keys 'hello', 'world'
+      receiver.value.should == 'helloworld'
+      events.should == 10
+    end
+
+    bug "http://code.google.com/p/chromium/issues/detail?id=93879", [:webdriver, :chrome] do
+      it 'performs key combinations' do
+        receiver.send_keys 'foo'
+        receiver.send_keys [@c, 'a']
+        receiver.send_keys :backspace
+        receiver.value.should be_empty
+        events.should == 6
+      end
+
+      it 'performs arbitrary list of key combinations' do
+        receiver.send_keys 'foo'
+        receiver.send_keys [@c, 'a'], [@c, 'x']
+        receiver.value.should be_empty
+        events.should == 7
+      end
+
+      it 'supports combination of strings and arrays' do
+        receiver.send_keys 'foo', [@c, 'a'], :backspace
+        receiver.value.should be_empty
+        events.should == 6
+      end
+    end
+  end
 end

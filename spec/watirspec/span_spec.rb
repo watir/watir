@@ -16,12 +16,8 @@ describe "Span" do
       browser.span(:text, /Dubito, ergo cogito, ergo sum/).should exist
       browser.span(:class, "lead").should exist
       browser.span(:class, /lead/).should exist
-      browser.span(:index, 1).should exist
+      browser.span(:index, 0).should exist
       browser.span(:xpath, "//span[@id='lead']").should exist
-    end
-
-    it "returns true if the element exists (default how = :id)" do
-      browser.span("lead").should exist
     end
 
     it "returns the first span if given no args" do
@@ -51,11 +47,11 @@ describe "Span" do
   # Attribute methods
   describe "#class_name" do
     it "returns the class attribute" do
-      browser.span(:index, 1).class_name.should == 'lead'
+      browser.span(:index, 0).class_name.should == 'lead'
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.span(:index, 3).class_name.should == ''
+      browser.span(:index, 2).class_name.should == ''
     end
 
     it "raises UnknownObjectException if the span doesn't exist" do
@@ -65,11 +61,11 @@ describe "Span" do
 
   describe "#id" do
     it "returns the id attribute" do
-      browser.span(:index, 1).id.should == "lead"
+      browser.span(:index, 0).id.should == "lead"
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.span(:index, 3).id.should == ''
+      browser.span(:index, 2).id.should == ''
     end
 
     it "raises UnknownObjectException if the span doesn't exist" do
@@ -78,28 +74,13 @@ describe "Span" do
     end
   end
 
-  describe "#name" do
-    it "returns the name attribute" do
-      browser.span(:index, 2).name.should == "invalid_attribute"
-    end
-
-    it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.span(:index, 3).name.should == ''
-    end
-
-    it "raises UnknownObjectException if the span doesn't exist" do
-      lambda { browser.span(:id, "no_such_id").name }.should raise_error(UnknownObjectException)
-      lambda { browser.span(:index, 1337).name }.should raise_error(UnknownObjectException)
-    end
-  end
-
   describe "#title" do
     it "returns the title attribute" do
-      browser.span(:index, 1).title.should == 'Lorem ipsum'
+      browser.span(:index, 0).title.should == 'Lorem ipsum'
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.span(:index, 3).title.should == ''
+      browser.span(:index, 2).title.should == ''
     end
 
     it "raises UnknownObjectException if the span doesn't exist" do
@@ -110,11 +91,11 @@ describe "Span" do
 
   describe "#text" do
     it "returns the text of the span" do
-      browser.span(:index, 2).text.should == 'Sed pretium metus et quam. Nullam odio dolor, vestibulum non, tempor ut, vehicula sed, sapien. Vestibulum placerat ligula at quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.'
+      browser.span(:index, 1).text.should == 'Sed pretium metus et quam. Nullam odio dolor, vestibulum non, tempor ut, vehicula sed, sapien. Vestibulum placerat ligula at quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.'
     end
 
     it "returns an empty string if the element doesn't contain any text" do
-      browser.span(:index, 5).text.should == ''
+      browser.span(:index, 4).text.should == ''
     end
 
     it "raises UnknownObjectException if the span doesn't exist" do
@@ -125,11 +106,11 @@ describe "Span" do
 
   describe "#value" do
     it "returns the value attribute" do
-      browser.span(:index, 2).value.should == "invalid_attribute"
+      browser.span(:index, 1).value.should == "invalid_attribute"
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.span(:index, 3).value.should == ''
+      browser.span(:index, 2).value.should == ''
     end
 
     it "raises UnknownObjectException if the span doesn't exist" do
@@ -140,41 +121,25 @@ describe "Span" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.span(:index, 1).should respond_to(:class_name)
-      browser.span(:index, 1).should respond_to(:id)
-      browser.span(:index, 1).should respond_to(:name)
-      browser.span(:index, 1).should respond_to(:title)
-      browser.span(:index, 1).should respond_to(:text)
-      browser.span(:index, 1).should respond_to(:value)
+      browser.span(:index, 0).should respond_to(:class_name)
+      browser.span(:index, 0).should respond_to(:id)
+      browser.span(:index, 0).should respond_to(:title)
+      browser.span(:index, 0).should respond_to(:text)
+      browser.span(:index, 0).should respond_to(:value)
     end
   end
 
   # Other
   describe "#click" do
     it "fires events" do
-      browser.span(:name, 'footer').text.should_not include('Javascript')
-      browser.span(:name, 'footer').click
-      browser.span(:name, 'footer').text.should include('Javascript')
+      browser.span(:class, 'footer').text.should_not include('Javascript')
+      browser.span(:class, 'footer').click
+      browser.span(:class, 'footer').text.should include('Javascript')
     end
 
     it "raises UnknownObjectException if the span doesn't exist" do
       lambda { browser.span(:id, "no_such_id").click }.should raise_error(UnknownObjectException)
       lambda { browser.span(:title, "no_such_title").click }.should raise_error(UnknownObjectException)
-    end
-  end
-
-  describe "#to_s" do
-    bug "WTR-350", :watir do
-      it "returns a human readable representation of the element" do
-        browser.span(:index, 2).to_s.should == "tag:          span\n" +
-                                        "  name:         invalid_attribute\n" +
-                                        "  value:        invalid_attribute\n" +
-                                        "  text:         Sed pretium metus et quam. Nullam odio dolor, vestibulum non, tempor ut, vehicula sed, sapien. Vestibulum placerat ligula at quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas."
-      end
-    end
-
-    it "raises UnknownObjectException if the p doesn't exist" do
-      lambda { browser.span(:xpath, "//span[@id='no_such_id']").to_s }.should raise_error( UnknownObjectException)
     end
   end
 

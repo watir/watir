@@ -16,16 +16,12 @@ describe "Ins" do
       browser.ins(:text, /This is an inserted text tag 1/).should exist
       browser.ins(:class, "lead").should exist
       browser.ins(:class, /lead/).should exist
-      browser.ins(:index, 1).should exist
+      browser.ins(:index, 0).should exist
       browser.ins(:xpath, "//ins[@id='lead']").should exist
     end
 
     it "returns the first ins if given no args" do
       browser.ins.should exist
-    end
-
-    it "returns true if the element exists (default how = :id)" do
-      browser.ins("lead").should exist
     end
 
     it "returns false if the element doesn't exist" do
@@ -51,11 +47,11 @@ describe "Ins" do
   # Attribute methods
   describe "#class_name" do
     it "returns the class attribute" do
-      browser.ins(:index, 1).class_name.should == 'lead'
+      browser.ins(:index, 0).class_name.should == 'lead'
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.ins(:index, 3).class_name.should == ''
+      browser.ins(:index, 2).class_name.should == ''
     end
 
     it "raises UnknownObjectException if the ins doesn't exist" do
@@ -65,11 +61,11 @@ describe "Ins" do
 
   describe "#id" do
     it "returns the id attribute" do
-      browser.ins(:index, 1).id.should == "lead"
+      browser.ins(:index, 0).id.should == "lead"
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.ins(:index, 3).id.should == ''
+      browser.ins(:index, 2).id.should == ''
     end
 
     it "raises UnknownObjectException if the ins doesn't exist" do
@@ -78,28 +74,13 @@ describe "Ins" do
     end
   end
 
-  describe "#name" do
-    it "returns the name attribute" do
-      browser.ins(:index, 2).name.should == "invalid_attribute"
-    end
-
-    it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.ins(:index, 3).name.should == ''
-    end
-
-    it "raises UnknownObjectException if the ins doesn't exist" do
-      lambda { browser.ins(:id, "no_such_id").name }.should raise_error(UnknownObjectException)
-      lambda { browser.ins(:index, 1337).name }.should raise_error(UnknownObjectException)
-    end
-  end
-
   describe "#title" do
     it "returns the title attribute" do
-      browser.ins(:index, 1).title.should == 'Lorem ipsum'
+      browser.ins(:index, 0).title.should == 'Lorem ipsum'
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.ins(:index, 3).title.should == ''
+      browser.ins(:index, 2).title.should == ''
     end
 
     it "raises UnknownObjectException if the ins doesn't exist" do
@@ -110,11 +91,11 @@ describe "Ins" do
 
   describe "#text" do
     it "returns the text of the ins" do
-      browser.ins(:index, 2).text.should == 'This is an inserted text tag 2'
+      browser.ins(:index, 1).text.should == 'This is an inserted text tag 2'
     end
 
     it "returns an empty string if the element doesn't contain any text" do
-      browser.ins(:index, 4).text.should == ''
+      browser.ins(:index, 3).text.should == ''
     end
 
     it "raises UnknownObjectException if the ins doesn't exist" do
@@ -125,11 +106,11 @@ describe "Ins" do
 
   describe "#value" do
     it "returns the value attribute" do
-      browser.ins(:index, 2).value.should == "invalid_attribute"
+      browser.ins(:index, 1).value.should == "invalid_attribute"
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.ins(:index, 4).value.should == ''
+      browser.ins(:index, 3).value.should == ''
     end
 
     it "raises UnknownObjectException if the ins doesn't exist" do
@@ -140,41 +121,25 @@ describe "Ins" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.ins(:index, 1).should respond_to(:class_name)
-      browser.ins(:index, 1).should respond_to(:id)
-      browser.ins(:index, 1).should respond_to(:name)
-      browser.ins(:index, 1).should respond_to(:title)
-      browser.ins(:index, 1).should respond_to(:text)
-      browser.ins(:index, 1).should respond_to(:value)
+      browser.ins(:index, 0).should respond_to(:class_name)
+      browser.ins(:index, 0).should respond_to(:id)
+      browser.ins(:index, 0).should respond_to(:title)
+      browser.ins(:index, 0).should respond_to(:text)
+      browser.ins(:index, 0).should respond_to(:value)
     end
   end
 
   # Other
   describe "#click" do
     it "fires events" do
-      browser.ins(:name, 'footer').text.should_not include('Javascript')
-      browser.ins(:name, 'footer').click
-      browser.ins(:name, 'footer').text.should include('Javascript')
+      browser.ins(:class, 'footer').text.should_not include('Javascript')
+      browser.ins(:class, 'footer').click
+      browser.ins(:class, 'footer').text.should include('Javascript')
     end
 
     it "raises UnknownObjectException if the ins doesn't exist" do
       lambda { browser.ins(:id, "no_such_id").click }.should raise_error(UnknownObjectException)
       lambda { browser.ins(:title, "no_such_title").click }.should raise_error(UnknownObjectException)
-    end
-  end
-
-  describe "#to_s" do
-    bug "WTR-350", :watir do
-      it "returns a human readable representation of the element" do
-        browser.ins(:index, 2).to_s.should == "tag:          ins\n" +
-                                        "  name:         invalid_attribute\n" +
-                                        "  value:        invalid_attribute\n" +
-                                        "  text:         This is an inserted text tag 2"
-      end
-    end
-
-    it "raises UnknownObjectException if the p doesn't exist" do
-      lambda { browser.ins(:xpath, "//ins[@id='no_such_id']").to_s }.should raise_error( UnknownObjectException)
     end
   end
 

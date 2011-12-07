@@ -7,6 +7,14 @@ describe "Links" do
     browser.goto(WatirSpec.files + "/non_control_elements.html")
   end
 
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.links(:title => "link_title_2").to_a.should == [browser.link(:title => "link_title_2")]
+      end
+    end
+  end
+  
   describe "#length" do
     it "returns the number of links" do
       browser.links.length.should == 4
@@ -15,7 +23,7 @@ describe "Links" do
 
   describe "#[]" do
     it "returns the link at the given index" do
-      browser.links[3].id.should == "link_3"
+      browser.links[2].id.should == "link_3"
     end
 
     it "returns a Link object also when the index is out of bounds" do
@@ -25,14 +33,16 @@ describe "Links" do
 
   describe "#each" do
     it "iterates through links correctly" do
-      index = 0
-      browser.links.each do |c|
-        index += 1
-        c.name.should == browser.link(:index, index).name
+      count = 0
+
+      browser.links.each_with_index do |c, index|
         c.id.should == browser.link(:index, index).id
         c.value.should == browser.link(:index, index).value
+
+        count += 1
       end
-      browser.links.length.should == index
+
+      count.should > 0
     end
   end
 

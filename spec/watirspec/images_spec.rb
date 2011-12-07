@@ -7,15 +7,23 @@ describe "Images" do
     browser.goto(WatirSpec.files + "/images.html")
   end
 
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.images(:alt => "circle").to_a.should == [browser.image(:alt => "circle")]
+      end
+    end
+  end
+
   describe "#length" do
     it "returns the number of images" do
-      browser.images.length.should == 9
+      browser.images.length.should == 10
     end
   end
 
   describe "#[]" do
     it "returns the image at the given index" do
-      browser.images[6].id.should == "square"
+      browser.images[5].id.should == "square"
     end
   end
 
@@ -24,9 +32,8 @@ describe "Images" do
       count = 0
 
       browser.images.each_with_index do |c, index|
-        c.name.should == browser.image(:index, index+1).name
-        c.id.should == browser.image(:index, index+1).id
-        c.value.should == browser.image(:index, index+1).value
+        c.id.should == browser.image(:index, index).id
+        c.value.should == browser.image(:index, index).value
 
         count += 1
       end

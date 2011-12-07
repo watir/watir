@@ -13,7 +13,7 @@ describe "Dt" do
       browser.dt(:id, "experience").should exist
       browser.dt(:class, "current-industry").should exist
       browser.dt(:xpath, "//dt[@id='experience']").should exist
-      browser.dt(:index, 1).should exist
+      browser.dt(:index, 0).should exist
     end
 
     it "returns the first dt if given no args" do
@@ -92,11 +92,11 @@ describe "Dt" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.dt(:index, 1).should respond_to(:id)
-      browser.dt(:index, 1).should respond_to(:class_name)
-      browser.dt(:index, 1).should respond_to(:style)
-      browser.dt(:index, 1).should respond_to(:text)
-      browser.dt(:index, 1).should respond_to(:title)
+      browser.dt(:index, 0).should respond_to(:id)
+      browser.dt(:index, 0).should respond_to(:class_name)
+      browser.dt(:index, 0).should respond_to(:style)
+      browser.dt(:index, 0).should respond_to(:text)
+      browser.dt(:index, 0).should respond_to(:title)
     end
   end
 
@@ -119,21 +119,8 @@ describe "Dt" do
   describe "#html" do
     it "returns the HTML of the element" do
       html = browser.dt(:id, 'name').html
-      html.should match(%r"<div>.*Name.*</div>"m)
+      html.should =~ %r[<div>.*Name.*</div>]mi
       html.should_not include('</body>')
-    end
-  end
-
-  describe "#to_s" do
-    bug "WTR-350", :watir do
-      it "returns a human readable representation of the element" do
-        browser.dt(:id, 'experience').to_s.should ==
-%q{tag:          dt
-  id:           experience
-  class:        industry
-  title:        experience
-  text:         Experience}
-      end
     end
   end
 

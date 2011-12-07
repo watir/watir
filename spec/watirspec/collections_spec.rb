@@ -14,5 +14,4 @@ describe "Collections" do
   it "returns inner elements of parent element having same html tag" do
     browser.span(:id => "a_span").spans.size.should == 2
   end
-
 end

@@ -7,6 +7,14 @@ describe "Ps" do
     browser.goto(WatirSpec.files + "/non_control_elements.html")
   end
 
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.ps(:class => "lead").to_a.should == [browser.p(:class => "lead")]
+      end
+    end
+  end
+  
   describe "#length" do
     it "returns the number of ps" do
       browser.ps.length.should == 5
@@ -15,7 +23,7 @@ describe "Ps" do
 
   describe "#[]" do
     it "returns the p at the given index" do
-      browser.ps[1].id.should == "lead"
+      browser.ps[0].id.should == "lead"
     end
   end
 
@@ -24,9 +32,8 @@ describe "Ps" do
       count = 0
 
       browser.ps.each_with_index do |p, index|
-        p.name.should == browser.p(:index, index+1).name
-        p.id.should == browser.p(:index, index+1).id
-        p.value.should == browser.p(:index, index+1).value
+        p.id.should == browser.p(:index, index).id
+        p.value.should == browser.p(:index, index).value
 
         count += 1
       end

@@ -16,12 +16,8 @@ describe "Del" do
       browser.del(:text, /This is a deleted text tag 1/).should exist
       browser.del(:class, "lead").should exist
       browser.del(:class, /lead/).should exist
-      browser.del(:index, 1).should exist
+      browser.del(:index, 0).should exist
       browser.del(:xpath, "//del[@id='lead']").should exist
-    end
-
-    it "returns true if the element exists (default how = :id)" do
-      browser.del("lead").should exist
     end
 
     it "returns the first del if given no args" do
@@ -51,11 +47,11 @@ describe "Del" do
   # Attribute methods
   describe "#class_name" do
     it "returns the class attribute" do
-      browser.del(:index, 1).class_name.should == 'lead'
+      browser.del(:index, 0).class_name.should == 'lead'
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.del(:index, 3).class_name.should == ''
+      browser.del(:index, 2).class_name.should == ''
     end
 
     it "raises UnknownObjectException if the del doesn't exist" do
@@ -65,11 +61,11 @@ describe "Del" do
 
   describe "#id" do
     it "returns the id attribute" do
-      browser.del(:index, 1).id.should == "lead"
+      browser.del(:index, 0).id.should == "lead"
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.del(:index, 3).id.should == ''
+      browser.del(:index, 2).id.should == ''
     end
 
     it "raises UnknownObjectException if the del doesn't exist" do
@@ -78,28 +74,13 @@ describe "Del" do
     end
   end
 
-  describe "#name" do
-    it "returns the name attribute" do
-      browser.del(:index, 2).name.should == "invalid_attribute"
-    end
-
-    it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.del(:index, 3).name.should == ''
-    end
-
-    it "raises UnknownObjectException if the del doesn't exist" do
-      lambda { browser.del(:id, "no_such_id").name }.should raise_error(UnknownObjectException)
-      lambda { browser.del(:index, 1337).name }.should raise_error(UnknownObjectException)
-    end
-  end
-
   describe "#title" do
     it "returns the title attribute" do
-      browser.del(:index, 1).title.should == 'Lorem ipsum'
+      browser.del(:index, 0).title.should == 'Lorem ipsum'
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.del(:index, 3).title.should == ''
+      browser.del(:index, 2).title.should == ''
     end
 
     it "raises UnknownObjectException if the del doesn't exist" do
@@ -110,11 +91,11 @@ describe "Del" do
 
   describe "#text" do
     it "returns the text of the del" do
-      browser.del(:index, 2).text.should == 'This is a deleted text tag 2'
+      browser.del(:index, 1).text.should == 'This is a deleted text tag 2'
     end
 
     it "returns an empty string if the element doesn't contain any text" do
-      browser.del(:index, 4).text.should == ''
+      browser.del(:index, 3).text.should == ''
     end
 
     it "raises UnknownObjectException if the del doesn't exist" do
@@ -125,11 +106,11 @@ describe "Del" do
 
   describe "#value" do
     it "returns the value attribute" do
-      browser.del(:index, 2).value.should == "invalid_attribute"
+      browser.del(:index, 1).value.should == "invalid_attribute"
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.del(:index, 4).value.should == ''
+      browser.del(:index, 3).value.should == ''
     end
 
     it "raises UnknownObjectException if the del doesn't exist" do
@@ -140,21 +121,20 @@ describe "Del" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.del(:index, 1).should respond_to(:class_name)
-      browser.del(:index, 1).should respond_to(:id)
-      browser.del(:index, 1).should respond_to(:name)
-      browser.del(:index, 1).should respond_to(:title)
-      browser.del(:index, 1).should respond_to(:text)
-      browser.del(:index, 1).should respond_to(:value)
+      browser.del(:index, 0).should respond_to(:class_name)
+      browser.del(:index, 0).should respond_to(:id)
+      browser.del(:index, 0).should respond_to(:title)
+      browser.del(:index, 0).should respond_to(:text)
+      browser.del(:index, 0).should respond_to(:value)
     end
   end
 
   # Other
   describe "#click" do
     it "fires events" do
-      browser.del(:name, 'footer').text.should_not include('Javascript')
-      browser.del(:name, 'footer').click
-      browser.del(:name, 'footer').text.should include('Javascript')
+      browser.del(:class, 'footer').text.should_not include('Javascript')
+      browser.del(:class, 'footer').click
+      browser.del(:class, 'footer').text.should include('Javascript')
     end
 
     it "raises UnknownObjectException if the del doesn't exist" do
@@ -162,20 +142,4 @@ describe "Del" do
       lambda { browser.del(:title, "no_such_title").click }.should raise_error(UnknownObjectException)
     end
   end
-
-  describe "#to_s" do
-    bug "WTR-350", :watir do
-      it "returns a human readable representation of the element" do
-        browser.del(:index, 2).to_s.should == "tag:          del\n" +
-                                        "  name:         invalid_attribute\n" +
-                                        "  value:        invalid_attribute\n" +
-                                        "  text:         This is a deleted text tag 2"
-      end
-    end
-
-    it "raises UnknownObjectException if the p doesn't exist" do
-      lambda { browser.del(:xpath, "//del[@id='no_such_id']").to_s }.should raise_error( UnknownObjectException)
-    end
-  end
-
 end

@@ -14,12 +14,8 @@ describe "Map" do
       browser.map(:id, /triangle_map/).should exist
       browser.map(:name, "triangle_map").should exist
       browser.map(:name, /triangle_map/).should exist
-      browser.map(:index, 1).should exist
+      browser.map(:index, 0).should exist
       browser.map(:xpath, "//map[@id='triangle_map']").should exist
-    end
-
-    it "returns true if the element exists (default how = :id)" do
-      browser.map("triangle_map").should exist
     end
 
     it "returns the first map if given no args" do
@@ -47,11 +43,11 @@ describe "Map" do
   # Attribute methods
   describe "#id" do
     it "returns the id attribute" do
-      browser.map(:index, 1).id.should == "triangle_map"
+      browser.map(:index, 0).id.should == "triangle_map"
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.map(:index, 2).id.should == ''
+      browser.map(:index, 1).id.should == ''
     end
 
     it "raises UnknownObjectException if the p doesn't exist" do
@@ -62,14 +58,14 @@ describe "Map" do
 
   describe "#name" do
     it "returns the name attribute" do
-      browser.map(:index, 1).name.should == "triangle_map"
+      browser.map(:index, 0).name.should == "triangle_map"
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.map(:index, 2).name.should == ''
+      browser.map(:index, 1).name.should == ''
     end
 
-    it "raises UnknownObjectException if the p doesn't exist" do
+    it "raises UnknownObjectException if the map doesn't exist" do
       lambda { browser.map(:id, "no_such_id").name }.should raise_error(UnknownObjectException)
       lambda { browser.map(:index, 1337).name }.should raise_error(UnknownObjectException)
     end
@@ -77,24 +73,8 @@ describe "Map" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.map(:index, 1).should respond_to(:id)
-      browser.map(:index, 1).should respond_to(:name)
+      browser.map(:index, 0).should respond_to(:id)
+      browser.map(:index, 0).should respond_to(:name)
     end
   end
-
-  # Other
-  describe "#to_s" do
-    bug "WTR-350", :watir do
-      it "returns a human readable representation of the element" do
-        browser.map(:index, 1).to_s.should == "tag:          map\n" +
-                                        "  id:           triangle_map\n" +
-                                        "  name:         triangle_map"
-      end
-    end
-
-    it "raises UnknownObjectException if the p doesn't exist" do
-      lambda { browser.map(:xpath, "//map[@id='no_such_id']").to_s }.should raise_error( UnknownObjectException)
-    end
-  end
-
 end

@@ -7,6 +7,14 @@ describe "Hiddens" do
     browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
   end
 
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.hiddens(:value => "dolls").to_a.should == [browser.hidden(:value => "dolls")]
+      end
+    end
+  end
+  
   describe "#length" do
     it "returns the number of hiddens" do
       browser.hiddens.length.should == 1
@@ -15,7 +23,7 @@ describe "Hiddens" do
 
   describe "#[]" do
     it "returns the Hidden at the given index" do
-      browser.hiddens[1].id.should == "new_user_interests_dolls"
+      browser.hiddens[0].id.should == "new_user_interests_dolls"
     end
   end
 
@@ -24,9 +32,9 @@ describe "Hiddens" do
       count = 0
 
       browser.hiddens.each_with_index do |h, index|
-        h.name.should == browser.hidden(:index, index+1).name
-        h.id.should == browser.hidden(:index, index+1).id
-        h.value.should == browser.hidden(:index, index+1).value
+        h.name.should == browser.hidden(:index, index).name
+        h.id.should == browser.hidden(:index, index).id
+        h.value.should == browser.hidden(:index, index).value
 
         count += 1
       end

@@ -7,32 +7,42 @@ describe "SelectLists" do
     browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
   end
 
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.select_lists(:name => "delete_user_username").to_a.should == [browser.select_list(:name => "delete_user_username")]
+      end
+    end
+  end
+
   describe "#length" do
     it "returns the correct number of select lists on the page" do
-      browser.select_lists.length.should == 4
+      browser.select_lists.length.should == 6
     end
   end
 
   describe "#[]" do
     it "returns the correct item" do
-      browser.select_lists[1].value.should == "2"
-      browser.select_lists[1].name.should == "new_user_country"
-      browser.select_lists[1].type.should == "select-one"
-      browser.select_lists[2].type.should == "select-multiple"
+      browser.select_lists[0].value.should == "2"
+      browser.select_lists[0].name.should == "new_user_country"
+      browser.select_lists[0].should_not be_multiple
+      browser.select_lists[1].should be_multiple
     end
   end
 
   describe "#each" do
     it "iterates through the select lists correctly" do
-      index=1
-      browser.select_lists.each do |l|
+      count = 0
+
+      browser.select_lists.each_with_index do |l, index|
         browser.select_list(:index, index).name.should == l.name
         browser.select_list(:index, index).id.should ==  l.id
-        browser.select_list(:index, index).type.should == l.type
         browser.select_list(:index, index).value.should == l.value
-        index += 1
+
+        count += 1
       end
-      (index - 1).should == browser.select_lists.length
+
+      count.should > 0
     end
   end
 

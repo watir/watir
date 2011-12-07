@@ -7,6 +7,14 @@ describe "Forms" do
     browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
   end
 
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.forms(:method => "post").to_a.should == [browser.form(:method => "post")]
+      end
+    end
+  end
+
   describe "#length" do
     it "returns the number of forms in the container" do
       browser.forms.length.should == 2
@@ -15,8 +23,8 @@ describe "Forms" do
 
   describe "#[]n" do
     it "provides access to the nth form" do
-      browser.forms[1].action.should == 'post_to_me'
-      browser.forms[1].attribute_value('method').should == 'post'
+      browser.forms[0].action.should =~ /post_to_me$/ # varies between browsers
+      browser.forms[0].attribute_value('method').should == 'post'
     end
   end
 
@@ -25,9 +33,9 @@ describe "Forms" do
       count = 0
 
       browser.forms.each_with_index do |f, index|
-        f.name.should == browser.form(:index, index+1).name
-        f.id.should == browser.form(:index, index+1).id
-        f.class_name.should == browser.form(:index, index+1).class_name
+        f.name.should == browser.form(:index, index).name
+        f.id.should == browser.form(:index, index).id
+        f.class_name.should == browser.form(:index, index).class_name
 
         count += 1
       end

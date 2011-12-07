@@ -13,7 +13,7 @@ describe "Em" do
       browser.em(:id, "important-id").should exist
       browser.em(:class, "important-class").should exist
       browser.em(:xpath, "//em[@id='important-id']").should exist
-      browser.em(:index, 1).should exist
+      browser.em(:index, 0).should exist
     end
 
     it "returns the first em if given no args" do
@@ -80,11 +80,11 @@ describe "Em" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.em(:index, 1).should respond_to(:id)
-      browser.em(:index, 1).should respond_to(:class_name)
-      browser.em(:index, 1).should respond_to(:style)
-      browser.em(:index, 1).should respond_to(:text)
-      browser.em(:index, 1).should respond_to(:title)
+      browser.em(:index, 0).should respond_to(:id)
+      browser.em(:index, 0).should respond_to(:class_name)
+      browser.em(:index, 0).should respond_to(:style)
+      browser.em(:index, 0).should respond_to(:text)
+      browser.em(:index, 0).should respond_to(:title)
     end
   end
 
@@ -95,19 +95,6 @@ describe "Em" do
       lambda { browser.em(:title, "no_such_title").click }.should raise_error(UnknownObjectException)
       lambda { browser.em(:index, 1337).click }.should raise_error(UnknownObjectException)
       lambda { browser.em(:xpath, "//em[@id='no_such_id']").click }.should raise_error(UnknownObjectException)
-    end
-  end
-
-  describe "#to_s" do
-    bug "WTR-350", :watir do
-      it "returns a human readable representation of the element" do
-        browser.em(:id, 'important-id').to_s.should ==
-%q{tag:          em
-  class:        important-class
-  id:           important-id
-  title:        ergo cogito
-  text:         ergo cogito}
-      end
     end
   end
 

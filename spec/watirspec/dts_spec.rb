@@ -7,6 +7,14 @@ describe "Dts" do
     browser.goto(WatirSpec.files + "/definition_lists.html")
   end
 
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.dts(:class => "current-industry").to_a.should == [browser.dt(:class => "current-industry")]
+      end
+    end
+  end
+  
   describe "#length" do
     it "returns the number of dts" do
       browser.dts.length.should == 11
@@ -15,7 +23,7 @@ describe "Dts" do
 
   describe "#[]" do
     it "returns the dt at the given index" do
-      browser.dts[1].id.should == "experience"
+      browser.dts[0].id.should == "experience"
     end
   end
 
@@ -24,9 +32,8 @@ describe "Dts" do
       count = 0
 
       browser.dts.each_with_index do |d, index|
-        d.name.should == browser.dt(:index, index+1).name
-        d.id.should == browser.dt(:index, index+1).id
-        d.class_name.should == browser.dt(:index, index+1).class_name
+        d.id.should == browser.dt(:index, index).id
+        d.class_name.should == browser.dt(:index, index).class_name
 
         count += 1
       end

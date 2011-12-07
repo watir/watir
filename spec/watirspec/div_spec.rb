@@ -18,12 +18,8 @@ describe "Div" do
       browser.div(:text, /This is a footer\./).should exist
       browser.div(:class, "profile").should exist
       browser.div(:class, /profile/).should exist
-      browser.div(:index, 1).should exist
+      browser.div(:index, 0).should exist
       browser.div(:xpath, "//div[@id='header']").should exist
-    end
-
-    it "returns true if the element exists (default how = :id)" do
-      browser.div("header").should exist
     end
 
     it "returns the first div if given no args" do
@@ -56,11 +52,11 @@ describe "Div" do
   # Attribute methods
   describe "#class_name" do
     it "returns the class attribute if the element exists" do
-      browser.div(:id , "footer").class_name.should == "profile"
+      browser.div(:id, "footer").class_name.should == "profile"
     end
 
     it "returns an empty string if the element exists but the attribute doesn't" do
-      browser.div(:id , "content").class_name.should == ""
+      browser.div(:id, "content").class_name.should == ""
     end
 
     it "raises UnknownObjectException if the element does not exist" do
@@ -73,56 +69,37 @@ describe "Div" do
 
   describe "#id" do
     it "returns the id attribute if the element exists" do
-      browser.div(:index, 2).id.should == "outer_container"
+      browser.div(:index, 1).id.should == "outer_container"
     end
 
     it "returns an empty string if the element exists, but the attribute doesn't" do
-      browser.div(:index, 1).id.should == ""
+      browser.div(:index, 0).id.should == ""
     end
 
     it "raises UnknownObjectException if the element does not exist" do
-      lambda {browser.div(:id, "no_such_id").id }.should raise_error(UnknownObjectException)
-      lambda {browser.div(:title, "no_such_id").id }.should raise_error(UnknownObjectException)
-      lambda {browser.div(:index, 1337).id }.should raise_error(UnknownObjectException)
+      lambda { browser.div(:id, "no_such_id").id }.should raise_error(UnknownObjectException)
+      lambda { browser.div(:title, "no_such_id").id }.should raise_error(UnknownObjectException)
+      lambda { browser.div(:index, 1337).id }.should raise_error(UnknownObjectException)
     end
 
     it "should take all conditions into account when locating by id" do
-      browser.goto WatirSpec.files + "/multiple_ids.html"
+      browser.goto "#{WatirSpec.files}/multiple_ids.html"
       browser.div(:id => "multiple", :class => "bar").class_name.should == "bar"
     end
   end
 
-  describe "#name" do
-    it "returns the name attribute if the element exists" do
-      browser.div(:id, 'promo').name.should == "invalid_attribute"
-    end
-
-    it "returns an empty string if the element exists but the attribute doesn't" do
-      browser.div(:index, 1).name.should == ""
-    end
-
-    it "raises UnknownObjectException if the element does not exist" do
-      lambda {browser.div(:id, "no_such_id").name }.should raise_error(UnknownObjectException)
-      lambda {browser.div(:title, "no_such_title").name }.should raise_error(UnknownObjectException)
-      lambda {browser.div(:index, 1337).name }.should raise_error(UnknownObjectException)
-    end
-  end
-
   describe "#style" do
-    not_compliant_on :watir do
+    not_compliant_on [:webdriver, :ie] do
       it "returns the style attribute if the element exists" do
         browser.div(:id, 'best_language').style.should == "color: red; text-decoration: underline; cursor: pointer;"
       end
     end
 
-    deviates_on :watir do
+    deviates_on [:webdriver, :ie] do
       it "returns the style attribute if the element exists" do
-        # just different order and missing semicolon here
-        browser.div(:id, 'best_language').style.should == "cursor: pointer; color: red; text-decoration: underline"
+        browser.div(:id, 'best_language').style.should == "COLOR: red; CURSOR: pointer; TEXT-DECORATION: underline"
       end
     end
-
-
 
     it "returns an empty string if the element exists but the attribute doesn't" do
       browser.div(:id, 'promo').style.should == ""
@@ -141,13 +118,11 @@ describe "Div" do
     end
 
     it "returns an empty string if the element exists but contains no text" do
-      browser.div(:index, 1).text.strip.should == ""
+      browser.div(:index, 0).text.strip.should == ""
     end
 
-    deviates_on :celerity do
-      it "returns an empty string if the div is hidden" do
-        browser.div(:id, 'hidden').text.should == ""
-      end
+    it "returns an empty string if the div is hidden" do
+      browser.div(:id, 'hidden').text.should == ""
     end
 
     it "raises UnknownObjectException if the element does not exist" do
@@ -164,7 +139,7 @@ describe "Div" do
     end
 
     it "returns an empty string if the element exists but the attribute doesn't" do
-      browser.div(:index, 1).value.should == ""
+      browser.div(:index, 0).value.should == ""
     end
 
     it "raises UnknownObjectException if the element does not exist" do
@@ -176,12 +151,11 @@ describe "Div" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.div(:index, 1).should respond_to(:class_name)
-      browser.div(:index, 1).should respond_to(:id)
-      browser.div(:index, 1).should respond_to(:name)
-      browser.div(:index, 1).should respond_to(:style)
-      browser.div(:index, 1).should respond_to(:text)
-      browser.div(:index, 1).should respond_to(:value)
+      browser.div(:index, 0).should respond_to(:class_name)
+      browser.div(:index, 0).should respond_to(:id)
+      browser.div(:index, 0).should respond_to(:style)
+      browser.div(:index, 0).should respond_to(:text)
+      browser.div(:index, 0).should respond_to(:value)
     end
   end
 
@@ -201,42 +175,43 @@ describe "Div" do
     end
   end
 
-  not_compliant_on :watir do
-    describe "#double_click" do
-      it "fires the ondblclick event" do
-        browser.div(:id, 'html_test').double_click
-        messages.should include('double clicked')
-      end
+  describe "#double_click" do
+    it "fires the ondblclick event" do
+      browser.div(:id, 'html_test').double_click
+      messages.should include('double clicked')
     end
+  end
 
-    describe "#right_click" do
-      it "fires the oncontextmenu event" do
-        browser.goto(WatirSpec.files + "/right_click.html")
-        browser.div(:id, "click").right_click
-        messages.first.should == 'right-clicked'
-      end
+  describe "#right_click" do
+    it "fires the oncontextmenu event" do
+      browser.goto(WatirSpec.files + "/right_click.html")
+      browser.div(:id, "click").right_click
+      messages.first.should == 'right-clicked'
     end
   end
 
   describe "#html" do
-    it "returns the HTML of the element" do
-      html = browser.div(:id, 'footer').html
-      html.should include('<div id="footer" title="Closing remarks" class="profile">')
-      html.should include('This is a footer.')
-      html.should_not include('<div id="content">')
-      html.should_not include('</body>')
-    end
-  end
+    not_compliant_on [:webdriver, :ie] do
+      it "returns the HTML of the element" do
+        html = browser.div(:id, 'footer').html.downcase
+        html.should include('id="footer"')
+        html.should include('title="closing remarks"')
+        html.should include('class="profile"')
 
-  describe "#to_s" do
-    bug "WTR-350", :watir do
-      it "returns a human readable representation of the element" do
-        browser.div(:id, 'footer').to_s.should ==
-%q{tag:          div
-  id:           footer
-  title:        Closing remarks
-  class:        profile
-  text:         This is a footer.}
+        html.should_not include('<div id="content">')
+        html.should_not include('</body>')
+      end
+    end
+
+    deviates_on [:webdriver, :ie] do
+      it "returns the HTML of the element" do
+        html = browser.div(:id, 'footer').html.downcase
+        html.should include('id=footer')
+        html.should include('title="closing remarks"')
+        html.should include('class=profile')
+
+        html.should_not include('<div id=content>')
+        html.should_not include('</body>')
       end
     end
   end

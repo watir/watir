@@ -7,6 +7,14 @@ describe "Dds" do
     browser.goto(WatirSpec.files + "/definition_lists.html")
   end
 
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.dds(:text => "11 years").to_a.should == [browser.dd(:text => "11 years")]
+      end
+    end
+  end
+  
   describe "#length" do
     it "returns the number of dds" do
       browser.dds.length.should == 11
@@ -15,7 +23,7 @@ describe "Dds" do
 
   describe "#[]" do
     it "returns the dd at the given index" do
-      browser.dds[2].title.should == "education"
+      browser.dds[1].title.should == "education"
     end
   end
 
@@ -24,9 +32,8 @@ describe "Dds" do
       count = 0
 
       browser.dds.each_with_index do |d, index|
-        d.name.should == browser.dd(:index, index+1).name
-        d.id.should == browser.dd(:index, index+1).id
-        d.class_name.should == browser.dd(:index, index+1).class_name
+        d.id.should == browser.dd(:index, index).id
+        d.class_name.should == browser.dd(:index, index).class_name
 
         count += 1
       end

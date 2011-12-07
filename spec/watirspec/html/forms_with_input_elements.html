@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="watirspec.css" type="text/css" media="screen" title="no title" charset="utf-8">
     <script src="javascript/helpers.js" type="text/javascript" charset="utf-8"></script>
   </head>
-  <body onload="document.forms[0].elements[0].focus()">
+  <body onload="document.user_new.new_user_first_name.focus()">
     <div id="messages"></div>
     <h1><a href="">User administration</a></h1>
     <h2>Add user</h2>
@@ -51,7 +51,7 @@
         <fieldset>
             <legend>Login information</legend>
             <label for="new_user_username">Username (max 20 characters)</label>
-            <input type="text" name="new_user_username" id="new_user_username" maxlength="20" size="20" onkeypress="var elem = document.getElementById('current_length'); elem.innerHTML = parseInt(elem.innerHTML)+1"/> <span id="current_length">0</span><br />
+            <input type="text" name="new_user_username" id="new_user_username" maxlength="20" size="20" onkeyup="document.getElementById('current_length').innerHTML = this.value.length"/> <span id="current_length">0</span><br />
             <label for="new_user_password">Password</label>
             <input type="password" name="new_user_password" id="new_user_password" /> <br />
             <label for="new_user_role">Role</label>
@@ -91,7 +91,7 @@
             <input type="reset" name="new_user_reset" id="new_user_reset" value="Reset" />
             <input type="button" name="new_user_button" id="new_user_button" alt="Create a new user" value="Button" onclick="this.value = 'new_value_set_by_onclick_event'" />
             <button name="new_user_button_2">Button 2</button>
-            <input type="image" class="image" name="new_user_image" src="images/button.jpg" alt="Submittable button" />
+            <input type="image" class="image" name="new_user_image" src="images/button.png" alt="Submittable button" />
             <input type="submit" name="new_user_submit_disabled" id="disabled_button" value="Disabled" disabled="disabled" />
             <input type="checkbox" name="new_user_submit_disabled" id="toggle_button_checkbox" onclick="var elem = document.getElementById('disabled_button'); elem.disabled = !elem.disabled" />
         </fieldset>
@@ -113,14 +113,24 @@
     </form>
 
   <!-- testing popup windows  -->
-        <input type="button" name="new_popup_window" value="Open window" id="new_popup_window" onclick="window.open('tables.html')">
+  <input type="button" name="new_popup_window" value="Open window" id="new_popup_window" onclick="window.open('tables.html')">
 
-        <!-- used for testing javascript events and styles -->
-        <div id="changed_language" style="visibility: hidden;">
-          <div id="hidden_parent"></div>
-        </div>
-        <div id="wants_newsletter" style="display: none;"></div>
-        <div id="onfocus_test"></div>
+  <!-- used for testing javascript events and styles -->
+  <div id="changed_language" style="visibility: hidden;">
+    <div id="hidden_parent"></div>
+  </div>
+  <div id="wants_newsletter" style="display: none;"></div>
+  <div id="onfocus_test"></div>
 
+  <!-- option disappears onchange -->
+  <select id="obsolete" onchange="this.innerHTML = '';">
+    <option value="norway">norway</option>
+    <option value="sweden">sweden</option>
+  </select>
+
+  <!-- single quote in attribute -->
+  <select id="single-quote">
+    <option>'foo'</option>
+  </select>
   </body>
 </html>

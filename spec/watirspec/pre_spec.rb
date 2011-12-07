@@ -16,12 +16,8 @@ describe "Pre" do
       browser.pre(:text, /browser\.pre/).should exist
       browser.pre(:class, "ruby").should exist
       browser.pre(:class, /ruby/).should exist
-      browser.pre(:index, 1).should exist
+      browser.pre(:index, 0).should exist
       browser.pre(:xpath, "//pre[@id='rspec']").should exist
-    end
-
-    it "returns true if the element exists (default how = :id)" do
-      browser.pre("rspec").should exist
     end
 
     it "returns the first pre if given no args" do
@@ -55,7 +51,7 @@ describe "Pre" do
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.pre(:index, 1).class_name.should == ''
+      browser.pre(:index, 0).class_name.should == ''
     end
 
     it "raises UnknownObjectException if the p doesn't exist" do
@@ -69,10 +65,10 @@ describe "Pre" do
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.pre(:index, 1).id.should == ''
+      browser.pre(:index, 0).id.should == ''
     end
 
-    it "raises UnknownObjectException if the p doesn't exist" do
+    it "raises UnknownObjectException if the pre doesn't exist" do
       lambda { browser.pre(:id, "no_such_id").id }.should raise_error(UnknownObjectException)
       lambda { browser.pre(:index, 1337).id }.should raise_error(UnknownObjectException)
     end
@@ -84,25 +80,25 @@ describe "Pre" do
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.pre(:index, 1).title.should == ''
+      browser.pre(:index, 0).title.should == ''
     end
 
-    it "raises UnknownObjectException if the p doesn't exist" do
+    it "raises UnknownObjectException if the pre doesn't exist" do
       lambda { browser.pre(:id, 'no_such_id').title }.should raise_error( UnknownObjectException)
       lambda { browser.pre(:xpath, "//pre[@id='no_such_id']").title }.should raise_error( UnknownObjectException)
     end
   end
 
   describe "#text" do
-    it "returns the text of the p" do
+    it "returns the text of the pre" do
       browser.pre(:class, 'haskell').text.should == 'main = putStrLn "Hello World"'
     end
 
     it "returns an empty string if the element doesn't contain any text" do
-      browser.pre(:index, 1).text.should == ''
+      browser.pre(:index, 0).text.should == ''
     end
 
-    it "raises UnknownObjectException if the p doesn't exist" do
+    it "raises UnknownObjectException if the pre doesn't exist" do
       lambda { browser.pre(:id, 'no_such_id').text }.should raise_error( UnknownObjectException)
       lambda { browser.pre(:xpath , "//pre[@id='no_such_id']").text }.should raise_error( UnknownObjectException)
     end
@@ -110,23 +106,10 @@ describe "Pre" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.image(:index, 1).should respond_to(:class_name)
-      browser.image(:index, 1).should respond_to(:id)
-      browser.image(:index, 1).should respond_to(:title)
-      browser.image(:index, 1).should respond_to(:text)
-    end
-  end
-
-  # Other
-  describe "#to_s" do
-    bug "WTR-350", :watir do
-      it "returns a human readable representation of the element" do
-        browser.pre(:index, 1).to_s.should == "tag:          pre"
-      end
-    end
-
-    it "raises UnknownObjectException if the p doesn't exist" do
-      lambda { browser.pre(:xpath, "//pre[@id='no_such_id']").to_s }.should raise_error( UnknownObjectException)
+      browser.image(:index, 0).should respond_to(:class_name)
+      browser.image(:index, 0).should respond_to(:id)
+      browser.image(:index, 0).should respond_to(:title)
+      browser.image(:index, 0).should respond_to(:text)
     end
   end
 

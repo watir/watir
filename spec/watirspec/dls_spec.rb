@@ -7,6 +7,14 @@ describe "Dls" do
     browser.goto(WatirSpec.files + "/definition_lists.html")
   end
 
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.dls(:title => "experience").to_a.should == [browser.dl(:title => "experience")]
+      end
+    end
+  end
+  
   describe "#length" do
     it "returns the number of dls" do
       browser.dls.length.should == 3
@@ -15,7 +23,7 @@ describe "Dls" do
 
   describe "#[]" do
     it "returns the dl at the given index" do
-      browser.dls[1].id.should == "experience-list"
+      browser.dls[0].id.should == "experience-list"
     end
   end
 
@@ -24,9 +32,9 @@ describe "Dls" do
       count = 0
 
       browser.dls.each_with_index do |d, index|
-        d.text.should == browser.dl(:index, index+1).text
-        d.id.should == browser.dl(:index, index+1).id
-        d.class_name.should == browser.dl(:index, index+1).class_name
+        d.text.should == browser.dl(:index, index).text
+        d.id.should == browser.dl(:index, index).id
+        d.class_name.should == browser.dl(:index, index).class_name
 
         count += 1
       end

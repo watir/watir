@@ -7,6 +7,14 @@ describe "Maps" do
     browser.goto(WatirSpec.files + "/images.html")
   end
 
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.maps(:name => "triangle_map").to_a.should == [browser.map(:name => "triangle_map")]
+      end
+    end
+  end
+  
   describe "#length" do
     it "returns the number of maps" do
       browser.maps.length.should == 2
@@ -15,7 +23,7 @@ describe "Maps" do
 
   describe "#[]" do
     it "returns the p at the given index" do
-      browser.maps[1].id.should == "triangle_map"
+      browser.maps[0].id.should == "triangle_map"
     end
   end
 
@@ -24,9 +32,9 @@ describe "Maps" do
       count = 0
 
       browser.maps.each_with_index do |m, index|
-        m.name.should == browser.map(:index, index+1).name
-        m.id.should == browser.map(:index, index+1).id
-        m.value.should == browser.map(:index, index+1).value
+        m.name.should == browser.map(:index, index).name
+        m.id.should == browser.map(:index, index).id
+        m.value.should == browser.map(:index, index).value
 
         count += 1
       end

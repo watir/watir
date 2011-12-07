@@ -16,12 +16,8 @@ describe "Li" do
       browser.li(:text, /Non-link 3/).should exist
       browser.li(:class, "nonlink").should exist
       browser.li(:class, /nonlink/).should exist
-      browser.li(:index, 1).should exist
+      browser.li(:index, 0).should exist
       browser.li(:xpath, "//li[@id='non_link_1']").should exist
-    end
-
-    it "returns true if the element exists (default how = :id)" do
-      browser.li("non_link_1").should exist
     end
 
     it "returns the first element if given no args" do
@@ -55,7 +51,7 @@ describe "Li" do
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.li(:index, 1).class_name.should == ''
+      browser.li(:index, 0).class_name.should == ''
     end
 
     it "raises UnknownObjectException if the li doesn't exist" do
@@ -69,7 +65,7 @@ describe "Li" do
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.li(:index, 1).id.should == ''
+      browser.li(:index, 0).id.should == ''
     end
 
     it "raises UnknownObjectException if the li doesn't exist" do
@@ -84,7 +80,7 @@ describe "Li" do
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.li(:index, 1).title.should == ''
+      browser.li(:index, 0).title.should == ''
     end
 
     it "raises UnknownObjectException if the li doesn't exist" do
@@ -94,12 +90,12 @@ describe "Li" do
   end
 
   describe "#text" do
-    it "returns the text of the p" do
+    it "returns the text of the li" do
       browser.li(:id, 'non_link_1').text.should == 'Non-link 1'
     end
 
     it "returns an empty string if the element doesn't contain any text" do
-      browser.li(:index, 1).text.should == ''
+      browser.li(:index, 0).text.should == ''
     end
 
     it "raises UnknownObjectException if the li doesn't exist" do
@@ -110,25 +106,10 @@ describe "Li" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.li(:index, 1).should respond_to(:class_name)
-      browser.li(:index, 1).should respond_to(:id)
-      browser.li(:index, 1).should respond_to(:text)
-      browser.li(:index, 1).should respond_to(:title)
-    end
-  end
-
-  # Other
-  describe "#to_s" do
-    it "returns a human readable representation of the element" do
-      browser.li(:id, 'non_link_1').to_s.should == "tag:          li\n" +
-                                      "  id:           non_link_1\n" +
-                                      "  class:        nonlink\n" +
-                                      "  title:        This is not a link!\n" +
-                                      "  text:         Non-link 1"
-    end
-
-    it "raises UnknownObjectException if the li doesn't exist" do
-      lambda { browser.li(:xpath, "//li[@id='no_such_id']").to_s }.should raise_error( UnknownObjectException)
+      browser.li(:index, 0).should respond_to(:class_name)
+      browser.li(:index, 0).should respond_to(:id)
+      browser.li(:index, 0).should respond_to(:text)
+      browser.li(:index, 0).should respond_to(:title)
     end
   end
 

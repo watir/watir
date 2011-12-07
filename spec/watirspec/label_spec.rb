@@ -12,16 +12,12 @@ describe "Label" do
     it "returns true if the element exists" do
       browser.label(:id, 'first_label').should exist
       browser.label(:id, /first_label/).should exist
+      browser.label(:for, "new_user_first_name").should exist
+      browser.label(:for, /new_user_first_name/).should exist
       browser.label(:text, 'First name').should exist
       browser.label(:text, /First name/).should exist
-      browser.label(:index, 1).should exist
+      browser.label(:index, 0).should exist
       browser.label(:xpath, "//label[@id='first_label']").should exist
-    end
-
-    bug "WTR-361", :watir do
-      it "returns true if the element exists (default how = :text)" do
-        browser.label("First name").should exist
-      end
     end
 
     it "returns the first label if given no args" do
@@ -56,7 +52,7 @@ describe "Label" do
   # Attribute methods
   describe "#id" do
     it "returns the id attribute if the label exists" do
-      browser.label(:index, 1).id.should == "first_label"
+      browser.label(:index, 0).id.should == "first_label"
     end
 
     it "raises UnknownObjectException if the label doesn't exist" do
@@ -66,7 +62,7 @@ describe "Label" do
 
   describe "#for" do
     it "returns the 'for' attribute if the label exists" do
-      browser.label(:index, 1).for.should == "new_user_first_name"
+      browser.label(:index, 0).for.should == "new_user_first_name"
     end
 
     it "raises UnknownObjectException if the label doesn't exist" do
@@ -76,8 +72,8 @@ describe "Label" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.label(:index, 1).should respond_to(:id)
-      browser.label(:index, 1).should respond_to(:for)
+      browser.label(:index, 0).should respond_to(:id)
+      browser.label(:index, 0).should respond_to(:for)
     end
   end
 

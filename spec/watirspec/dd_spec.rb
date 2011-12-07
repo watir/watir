@@ -13,7 +13,7 @@ describe "Dd" do
       browser.dd(:id, "someone").should exist
       browser.dd(:class, "name").should exist
       browser.dd(:xpath, "//dd[@id='someone']").should exist
-      browser.dd(:index, 1).should exist
+      browser.dd(:index, 0).should exist
     end
 
     it "returns the first dd if given no args" do
@@ -92,11 +92,11 @@ describe "Dd" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.dd(:index, 1).should respond_to(:id)
-      browser.dd(:index, 1).should respond_to(:class_name)
-      browser.dd(:index, 1).should respond_to(:style)
-      browser.dd(:index, 1).should respond_to(:text)
-      browser.dd(:index, 1).should respond_to(:title)
+      browser.dd(:index, 0).should respond_to(:id)
+      browser.dd(:index, 0).should respond_to(:class_name)
+      browser.dd(:index, 0).should respond_to(:style)
+      browser.dd(:index, 0).should respond_to(:text)
+      browser.dd(:index, 0).should respond_to(:title)
     end
   end
 
@@ -119,21 +119,8 @@ describe "Dd" do
   describe "#html" do
     it "returns the HTML of the element" do
       html = browser.dd(:id, 'someone').html
-      html.should match(%r"John Doe"m)
+      html.should =~ /John Doe/m
       html.should_not include('</body>')
-    end
-  end
-
-  describe "#to_s" do
-    bug "WTR-350", :watir do
-      it "returns a human readable representation of the element" do
-        browser.dd(:id, 'someone').to_s.should ==
-%q{tag:          dd
-  id:           someone
-  class:        name
-  title:        someone
-  text:         John Doe}
-      end
     end
   end
 

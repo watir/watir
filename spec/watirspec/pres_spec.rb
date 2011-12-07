@@ -7,6 +7,14 @@ describe "Pres" do
     browser.goto(WatirSpec.files + "/non_control_elements.html")
   end
 
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.pres(:class => "c++").to_a.should == [browser.pre(:class => "c++")]
+      end
+    end
+  end
+  
   describe "#length" do
     it "returns the number of pres" do
       browser.pres.length.should == 7
@@ -15,7 +23,7 @@ describe "Pres" do
 
   describe "#[]" do
     it "returns the pre at the given index" do
-      browser.pres[2].id.should == "rspec"
+      browser.pres[1].id.should == "rspec"
     end
   end
 
@@ -24,9 +32,8 @@ describe "Pres" do
       count = 0
 
       browser.pres.each_with_index do |p, index|
-        p.name.should == browser.pre(:index, index+1).name
-        p.id.should == browser.pre(:index, index+1).id
-        p.value.should == browser.pre(:index, index+1).value
+        p.id.should == browser.pre(:index, index).id
+        p.value.should == browser.pre(:index, index).value
 
         count += 1
       end

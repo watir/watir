@@ -7,6 +7,14 @@ describe "Tables" do
     browser.goto(WatirSpec.files + "/tables.html")
   end
 
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.tables(:rules => "groups").to_a.should == [browser.table(:rules => "groups")]
+      end
+    end
+  end
+  
   describe "#length" do
     it "returns the number of tables" do
       browser.tables.length.should == 4
@@ -15,9 +23,9 @@ describe "Tables" do
 
   describe "#[]" do
     it "returns the p at the given index" do
-      browser.tables[1].id.should == "axis_example"
-      browser.tables[2].id.should == "outer"
-      browser.tables[3].id.should == "inner"
+      browser.tables[0].id.should == "axis_example"
+      browser.tables[1].id.should == "outer"
+      browser.tables[2].id.should == "inner"
     end
   end
 
@@ -26,9 +34,8 @@ describe "Tables" do
       count = 0
 
       browser.tables.each_with_index do |t, index|
-        t.name.should == browser.table(:index, index+1).name
-        t.id.should == browser.table(:index, index+1).id
-        t.value.should == browser.table(:index, index+1).value
+        t.id.should == browser.table(:index, index).id
+        t.value.should == browser.table(:index, index).value
 
         count += 1
       end

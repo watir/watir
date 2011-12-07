@@ -16,18 +16,15 @@ describe "TextField" do
       browser.text_field(:name, /new_user_email/).should exist
       browser.text_field(:value, 'Developer').should exist
       browser.text_field(:value, /Developer/).should exist
+      browser.text_field(:value, "Default comment.").should exist # textarea
       browser.text_field(:text, 'Developer').should exist
       browser.text_field(:text, /Developer/).should exist
       browser.text_field(:class, 'name').should exist
       browser.text_field(:class, /name/).should exist
-      browser.text_field(:index, 1).should exist
+      browser.text_field(:index, 0).should exist
       browser.text_field(:xpath, "//input[@id='new_user_email']").should exist
       browser.text_field(:label, "First name").should exist
       browser.text_field(:label, /(Last|First) name/).should exist
-     end
-
-    it "returns true if the element exists (default how = :name)" do
-      browser.text_field("new_user_email").should exist
     end
 
     it "returns the first text field if given no args" do
@@ -71,7 +68,7 @@ describe "TextField" do
   # Attribute methods
   describe "#id" do
     it "returns the id attribute if the text field exists" do
-      browser.text_field(:index, 4).id.should == "new_user_occupation"
+      browser.text_field(:index, 3).id.should == "new_user_occupation"
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -81,7 +78,7 @@ describe "TextField" do
 
   describe "#name" do
     it "returns the name attribute if the text field exists" do
-      browser.text_field(:index, 4).name.should == "new_user_occupation"
+      browser.text_field(:index, 3).name.should == "new_user_occupation"
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -101,7 +98,7 @@ describe "TextField" do
 
   describe "#type" do
     it "returns the type attribute if the text field exists" do
-      browser.text_field(:index, 4).type.should == "text"
+      browser.text_field(:index, 3).type.should == "text"
     end
 
     it "returns 'text' if the type attribute is invalid" do
@@ -120,7 +117,7 @@ describe "TextField" do
   describe "#value" do
     it "returns the value attribute if the text field exists" do
       browser.text_field(:name, "new_user_occupation").value.should == "Developer"
-      browser.text_field(:index, 4).value.should == "Developer"
+      browser.text_field(:index, 3).value.should == "Developer"
       browser.text_field(:name, /new_user_occupation/i).value.should == "Developer"
     end
 
@@ -131,12 +128,12 @@ describe "TextField" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.text_field(:index, 1).should respond_to(:class_name)
-      browser.text_field(:index, 1).should respond_to(:id)
-      browser.text_field(:index, 1).should respond_to(:name)
-      browser.text_field(:index, 1).should respond_to(:title)
-      browser.text_field(:index, 1).should respond_to(:type)
-      browser.text_field(:index, 1).should respond_to(:value)
+      browser.text_field(:index, 0).should respond_to(:class_name)
+      browser.text_field(:index, 0).should respond_to(:id)
+      browser.text_field(:index, 0).should respond_to(:name)
+      browser.text_field(:index, 0).should respond_to(:title)
+      browser.text_field(:index, 0).should respond_to(:type)
+      browser.text_field(:index, 0).should respond_to(:value)
     end
   end
 
@@ -162,7 +159,7 @@ describe "TextField" do
     end
 
     it "returns false if the text field is enabled" do
-      browser.text_field(:index, 1).should_not be_disabled
+      browser.text_field(:index, 0).should_not be_disabled
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -196,7 +193,7 @@ describe "TextField" do
       browser.text_field(:name, "new_user_occupation").append(" ĳĳ")
       browser.text_field(:name, "new_user_occupation").value.should == "Developer ĳĳ"
     end
-
+    
     it "raises ObjectReadOnlyException if the object is read only" do
       lambda { browser.text_field(:id, "new_user_code").append("Append This") }.should raise_error(ObjectReadOnlyException)
     end
@@ -220,20 +217,6 @@ describe "TextField" do
 
     it "raises UnknownObjectException if the text field doesn't exist" do
       lambda { browser.text_field(:id, "no_such_id").clear }.should raise_error(UnknownObjectException)
-    end
-  end
-
-  describe "#drag_contents_to" do
-    it "drags contents to another text field" do
-      browser.text_field(:name, "new_user_first_name").set("Smith")
-      browser.text_field(:name, "new_user_first_name").drag_contents_to(:name, "new_user_last_name")
-      browser.text_field(:name, "new_user_first_name").value.should be_empty
-      browser.text_field(:id, "new_user_last_name").value.should == "Smith"
-    end
-
-    it "raises UnknownObjectException if either of the text fields doesn't exist" do
-      lambda { browser.text_field(:id, "no_such_id").drag_contents_to(:name, "new_user_last_name") }.should raise_error(UnknownObjectException)
-      lambda { browser.text_field(:name, "new_user_first_name").drag_contents_to(:id, "no_such_id") }.should raise_error(UnknownObjectException)
     end
   end
 
@@ -269,21 +252,19 @@ describe "TextField" do
       browser.text_field(:id, "delete_user_comment").value.should == 'Hello Cruel World'
     end
 
-    bug "WTR-341", :watir do
-      it "fires events" do
-        browser.text_field(:id, "new_user_username").set("Hello World")
-        browser.span(:id, "current_length").text.should == "11"
-      end
+    it "fires events" do
+      browser.text_field(:id, "new_user_username").set("Hello World")
+      browser.span(:id, "current_length").text.should == "11"
     end
 
     it "sets the value of a password field" do
-      browser.text_field(:name , 'new_user_password').set('secret')
-      browser.text_field(:name , 'new_user_password').value.should == 'secret'
+      browser.text_field(:name, 'new_user_password').set('secret')
+      browser.text_field(:name, 'new_user_password').value.should == 'secret'
     end
 
     it "sets the value when accessed through the enclosing Form" do
-      browser.form(:id, 'new_user').text_field(:name , 'new_user_password').set('secret')
-      browser.form(:id, 'new_user').text_field(:name , 'new_user_password').value.should == 'secret'
+      browser.form(:id, 'new_user').text_field(:name, 'new_user_password').set('secret')
+      browser.form(:id, 'new_user').text_field(:name, 'new_user_password').value.should == 'secret'
     end
 
     it "is able to set multi-byte characters" do
@@ -295,21 +276,4 @@ describe "TextField" do
       lambda { browser.text_field(:id, "no_such_id").set('secret') }.should raise_error(UnknownObjectException)
     end
   end
-
-  describe "#verify_contains" do
-    it "verifys that a text field contains its value" do
-      browser.text_field(:name, "new_user_occupation").verify_contains("Developer").should be_true
-      browser.text_field(:name, "new_user_occupation").verify_contains(/Developer/).should be_true
-    end
-
-    it "doesn't verify that a text field contains a non-existing value" do
-      browser.text_field(:name, "new_user_email").verify_contains("no_such_text").should be_false
-      browser.text_field(:name, "new_user_email").verify_contains(/no_such_text/).should be_false
-    end
-
-    it "raises UnknownObjectException if the text field doesn't exist" do
-      lambda { browser.text_field(:id, "no_such_id").verify_contains("Developer") }.should raise_error(UnknownObjectException)
-    end
-  end
-
 end

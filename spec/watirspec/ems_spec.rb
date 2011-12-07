@@ -7,6 +7,14 @@ describe "Ems" do
     browser.goto(WatirSpec.files + "/non_control_elements.html")
   end
 
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.ems(:class => "important-class").to_a.should == [browser.em(:class => "important-class")]
+      end
+    end
+  end
+  
   describe "#length" do
     it "returns the number of ems" do
       browser.ems.length.should == 1
@@ -15,7 +23,7 @@ describe "Ems" do
 
   describe "#[]" do
     it "returns the em at the given index" do
-      browser.ems[1].id.should == "important-id"
+      browser.ems[0].id.should == "important-id"
     end
   end
 
@@ -24,9 +32,9 @@ describe "Ems" do
       count = 0
 
       browser.ems.each_with_index do |e, index|
-        e.text.should == browser.em(:index, index+1).text
-        e.id.should == browser.em(:index, index+1).id
-        e.class_name.should == browser.em(:index, index+1).class_name
+        e.text.should == browser.em(:index, index).text
+        e.id.should == browser.em(:index, index).id
+        e.class_name.should == browser.em(:index, index).class_name
 
         count += 1
       end

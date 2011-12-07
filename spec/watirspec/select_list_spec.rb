@@ -14,19 +14,16 @@ describe "SelectList" do
       browser.select_list(:id, /new_user_country/).should exist
       browser.select_list(:name, 'new_user_country').should exist
       browser.select_list(:name, /new_user_country/).should exist
-      # TODO: check behaviour in Watir
-      # browser.select_list(:value, 'Norway').should exist
-      # browser.select_list(:value, /Norway/).should exist
-      browser.select_list(:text, 'Norway').should exist
-      browser.select_list(:text, /Norway/).should exist
+
+      not_compliant_on :webdriver do
+        browser.select_list(:text, 'Norway').should exist
+        browser.select_list(:text, /Norway/).should exist
+      end
+
       browser.select_list(:class, 'country').should exist
       browser.select_list(:class, /country/).should exist
-      browser.select_list(:index, 1).should exist
+      browser.select_list(:index, 0).should exist
       browser.select_list(:xpath, "//select[@id='new_user_country']").should exist
-    end
-
-    it "returns true if the element exists (default how = :name)" do
-      browser.select_list("new_user_country").should exist
     end
 
     it "returns the first select if given no args" do
@@ -70,7 +67,7 @@ describe "SelectList" do
 
   describe "#id" do
     it "returns the id of the element" do
-      browser.select_list(:index, 1).id.should == "new_user_country"
+      browser.select_list(:index, 0).id.should == "new_user_country"
     end
 
     it "raises UnknownObjectException if the select list doesn't exist" do
@@ -80,7 +77,7 @@ describe "SelectList" do
 
   describe "#name" do
     it "returns the name of the element" do
-      browser.select_list(:index, 1).name.should == "new_user_country"
+      browser.select_list(:index, 0).name.should == "new_user_country"
     end
 
     it "raises UnknownObjectException if the select list doesn't exist" do
@@ -88,22 +85,22 @@ describe "SelectList" do
     end
   end
 
-  describe "#type" do
-    it "returns the type of the element" do
-      browser.select_list(:index, 1).type.should == "select-one"
-      browser.select_list(:index, 2).type.should == "select-multiple"
+  describe "#multiple?" do
+    it "knows whether the select list allows multiple slections" do
+      browser.select_list(:index, 0).should_not be_multiple
+      browser.select_list(:index, 1).should be_multiple
     end
 
     it "raises UnknownObjectException if the select list doesn't exist" do
-      lambda { browser.select_list(:index, 1337).type }.should raise_error(UnknownObjectException)
+      lambda { browser.select_list(:index, 1337).multiple? }.should raise_error(UnknownObjectException)
     end
   end
 
   describe "#value" do
     it "returns the value of the selected option" do
-      browser.select_list(:index, 1).value.should == "2"
-      browser.select_list(:index, 1).select(/Sweden/)
-      browser.select_list(:index, 1).value.should == "3"
+      browser.select_list(:index, 0).value.should == "2"
+      browser.select_list(:index, 0).select(/Sweden/)
+      browser.select_list(:index, 0).value.should == "3"
     end
 
     it "raises UnknownObjectException if the select list doesn't exist" do
@@ -113,11 +110,10 @@ describe "SelectList" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.select_list(:index, 1).should respond_to(:class_name)
-      browser.select_list(:index, 1).should respond_to(:id)
-      browser.select_list(:index, 1).should respond_to(:name)
-      browser.select_list(:index, 1).should respond_to(:type)
-      browser.select_list(:index, 1).should respond_to(:value)
+      browser.select_list(:index, 0).should respond_to(:class_name)
+      browser.select_list(:index, 0).should respond_to(:id)
+      browser.select_list(:index, 0).should respond_to(:name)
+      browser.select_list(:index, 0).should respond_to(:value)
     end
   end
 
@@ -138,14 +134,14 @@ describe "SelectList" do
 
   describe "#disabled?" do
     it "returns true if the select list is disabled" do
-      browser.select_list(:index, 3).should be_disabled
+      browser.select_list(:index, 2).should be_disabled
     end
 
     it "returns false if the select list is enabled" do
-      browser.select_list(:index, 1).should_not be_disabled
+      browser.select_list(:index, 0).should_not be_disabled
     end
 
-    it "shoulds raise UnknownObjectException when the select list does not exist" do
+    it "should raise UnknownObjectException when the select list does not exist" do
       lambda { browser.select_list(:index, 1337).disabled? }.should raise_error(UnknownObjectException)
     end
   end
@@ -160,20 +156,34 @@ describe "SelectList" do
   end
 
   describe "#options" do
-    it "shoulds raise UnknownObjectException if the select list doesn't exist" do
+    it "should raise UnknownObjectException if the select list doesn't exist" do
       lambda { browser.select_list(:name, 'no_such_name').options }.should raise_error(UnknownObjectException)
     end
 
-    bug "WTR-339", :watir do
+    #
+    # The correct behaviour here needs to be discussed.
+    #
+
+    not_compliant_on :webdriver do
       it "returns all the options as an Array" do
-        browser.select_list(:name, "new_user_country").options.should == ["Denmark" ,"Norway" , "Sweden" , "United Kingdom", "USA", "Germany"]
+        browser.select_list(:name, "new_user_country").options.should == ["Denmark", "Norway", "Sweden", "United Kingdom", "USA", "Germany"]
+      end
+    end
+
+    deviates_on :webdriver do
+      it "returns all the options as a collection of Options" do
+        options = browser.select_list(:name, "new_user_country").options
+        options.should be_kind_of(OptionCollection)
+        options.map { |opt| opt.text }.should == ["Denmark", "Norway", "Sweden", "United Kingdom", "USA", "Germany"]
       end
     end
   end
 
   describe "#selected_options" do
-    it "shoulds raise UnknownObjectException if the select list doesn't exist" do
-      lambda { browser.select_list(:name, 'no_such_name').selected_options }.should raise_error(UnknownObjectException)
+    not_compliant_on :safariwatir do
+      it "should raise UnknownObjectException if the select list doesn't exist" do
+        lambda { browser.select_list(:name, 'no_such_name').selected_options }.should raise_error(UnknownObjectException)
+      end
     end
 
     it "gets the currently selected item(s)" do
@@ -189,7 +199,7 @@ describe "SelectList" do
     end
 
     it "does not clear selections when not possible" do
-      browser.select_list(:name , "new_user_country").clear
+      lambda { browser.select_list(:name, "new_user_country").clear }.should raise_error
       browser.select_list(:name, "new_user_country").selected_options.should == ["Norway"]
     end
 
@@ -198,24 +208,24 @@ describe "SelectList" do
     end
   end
 
-  describe "#includes?" do
+  describe "#include?" do
     it "returns true if the given option exists" do
-      browser.select_list(:name, 'new_user_country').includes?('Denmark').should be_true
+      browser.select_list(:name, 'new_user_country').should include('Denmark')
     end
 
     it "returns false if the given option doesn't exist" do
-      browser.select_list(:name, 'new_user_country').includes?('Ireland').should be_false
+      browser.select_list(:name, 'new_user_country').should_not include('Ireland')
     end
   end
 
   describe "#selected?" do
     it "returns true if the given option is selected" do
       browser.select_list(:name, 'new_user_country').select('Denmark')
-      browser.select_list(:name, 'new_user_country').selected?('Denmark').should be_true
+      browser.select_list(:name, 'new_user_country').should be_selected('Denmark')
     end
 
     it "returns false if the given option is not selected" do
-      browser.select_list(:name, 'new_user_country').selected?('Sweden').should be_false
+      browser.select_list(:name, 'new_user_country').should_not be_selected('Sweden')
     end
 
     it "raises UnknonwObjectException if the option doesn't exist" do
@@ -251,18 +261,16 @@ describe "SelectList" do
       browser.select_list(:name, "new_user_languages").selected_options.should == ["Danish", "Swedish"]
     end
 
-    bug "WTR-362", :watir do
-      it "selects multiple items using :name and a Regexp" do
-        browser.select_list(:name, "new_user_languages").clear
-        browser.select_list(:name, "new_user_languages").select(/ish/)
-        browser.select_list(:name, "new_user_languages").selected_options.should == ["Danish", "English", "Swedish"]
-      end
+    it "selects multiple items using :name and a Regexp" do
+      browser.select_list(:name, "new_user_languages").clear
+      browser.select_list(:name, "new_user_languages").select(/ish/)
+      browser.select_list(:name, "new_user_languages").selected_options.should == ["Danish", "English", "Swedish"]
+    end
 
-      it "selects multiple items using :xpath" do
-        browser.select_list(:xpath, "//select[@name='new_user_languages']").clear
-        browser.select_list(:xpath, "//select[@name='new_user_languages']").select(/ish/)
-        browser.select_list(:xpath, "//select[@name='new_user_languages']").selected_options.should == ["Danish", "English", "Swedish"]
-      end
+    it "selects multiple items using :xpath" do
+      browser.select_list(:xpath, "//select[@name='new_user_languages']").clear
+      browser.select_list(:xpath, "//select[@name='new_user_languages']").select(/ish/)
+      browser.select_list(:xpath, "//select[@name='new_user_languages']").selected_options.should == ["Danish", "English", "Swedish"]
     end
 
     it "selects empty options" do
@@ -270,14 +278,12 @@ describe "SelectList" do
       browser.select_list(:id, "delete_user_username").selected_options.should == [""]
     end
 
-    bug "WTR-363", :watir do
-      it "returns the value selected" do
-        browser.select_list(:name, "new_user_languages").select("Danish").should == "Danish"
-      end
+    it "returns the value selected" do
+      browser.select_list(:name, "new_user_languages").select("Danish").should == "Danish"
+    end
 
-      it "returns the first matching value if there are multiple matches" do
-        browser.select_list(:name, "new_user_languages").select(/ish/).should == "Danish"
-      end
+    it "returns the first matching value if there are multiple matches" do
+      browser.select_list(:name, "new_user_languages").select(/ish/).should == "Danish"
     end
 
     it "fires onchange event when selecting an item" do
@@ -285,23 +291,38 @@ describe "SelectList" do
       messages.should == ['changed language']
     end
 
-    bug "WTR-364", :watir do
-      it "doesn't fire onchange event when selecting an already selected item" do
-        browser.select_list(:id, "new_user_languages").clear # removes the two pre-selected options
-        browser.select_list(:id, "new_user_languages").select("English")
-        messages.size.should == 3
+    it "doesn't fire onchange event when selecting an already selected item" do
+      browser.select_list(:id, "new_user_languages").clear # removes the two pre-selected options
+      browser.select_list(:id, "new_user_languages").select("English")
+      messages.size.should == 3
 
-        browser.select_list(:id, "new_user_languages").select("English")
-        messages.size.should == 3
-      end
+      browser.select_list(:id, "new_user_languages").select("English")
+      messages.size.should == 3
+    end
+
+    it "returns the text of the selected option" do
+      browser.select_list(:id, "new_user_languages").select("English").should == "English"
+    end
+
+    it "returns an empty string when selecting an option that disappears when selected" do
+      browser.select_list(:id, 'obsolete').select('sweden').should == ''
+    end
+
+    it "selects options with a single-quoted value" do
+      browser.select_list(:id, 'single-quote').select("'foo'")
     end
 
     it "raises NoValueFoundException if the option doesn't exist" do
       lambda { browser.select_list(:name, "new_user_country").select("missing_option") }.should raise_error(NoValueFoundException)
       lambda { browser.select_list(:name, "new_user_country").select(/missing_option/) }.should raise_error(NoValueFoundException)
     end
-   end
 
+    it "raises a TypeError if argument is not a String, Regexp or Numeric" do
+      lambda { browser.select_list(:id, "new_user_languages").select([]) }.should raise_error(TypeError)
+    end
+  end
+
+  # deprecate?
   describe "#select_value" do
     it "selects the item by value string" do
       browser.select_list(:name, "new_user_languages").clear
@@ -309,12 +330,10 @@ describe "SelectList" do
       browser.select_list(:name, "new_user_languages").selected_options.should == %w[English]
     end
 
-    bug "WTR-362", :watir do
-      it "selects the items by value regexp" do
-        browser.select_list(:name, "new_user_languages").clear
-        browser.select_list(:name, "new_user_languages").select_value(/1|3/)
-        browser.select_list(:name, "new_user_languages").selected_options.should == %w[Danish Norwegian]
-      end
+    it "selects the items by value regexp" do
+      browser.select_list(:name, "new_user_languages").clear
+      browser.select_list(:name, "new_user_languages").select_value(/1|3/)
+      browser.select_list(:name, "new_user_languages").selected_options.should == %w[Danish Norwegian]
     end
 
     it "raises NoValueFoundException if the option doesn't exist" do

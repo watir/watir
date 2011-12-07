@@ -7,6 +7,14 @@ describe "Strongs" do
     browser.goto(WatirSpec.files + "/non_control_elements.html")
   end
 
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        browser.strongs(:class => "descartes").to_a.should == [browser.strong(:class => "descartes")]
+      end
+    end
+  end
+  
   describe "#length" do
     it "returns the number of divs" do
       browser.strongs.length.should == 2
@@ -15,7 +23,7 @@ describe "Strongs" do
 
   describe "#[]" do
     it "returns the div at the given index" do
-      browser.strongs[1].id.should == "descartes"
+      browser.strongs[0].id.should == "descartes"
     end
   end
 
@@ -24,8 +32,7 @@ describe "Strongs" do
       count = 0
 
       browser.strongs.each_with_index do |s, index|
-        strong = browser.strong(:index, index+1)
-        s.name.should       == strong.name
+        strong = browser.strong(:index, index)
         s.id.should         == strong.id
         s.class_name.should == strong.class_name
 

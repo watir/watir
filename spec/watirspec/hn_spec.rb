@@ -14,13 +14,9 @@ describe "H1", "H2", "H3", "H4", "H5", "H6" do
       browser.h2(:id, /header2/).should exist
       browser.h3(:text, "Header 3").should exist
       browser.h4(:text, /Header 4/).should exist
-      browser.h5(:index, 1).should exist
-      browser.h6(:index, 1).should exist
+      browser.h5(:index, 0).should exist
+      browser.h6(:index, 0).should exist
       browser.h1(:xpath, "//h1[@id='first_header']").should exist
-    end
-
-    it "returns true if the element exists (default how = :id)" do
-      browser.h1("first_header").should exist
     end
 
     it "returns the first h1 if given no args" do
@@ -48,11 +44,11 @@ describe "H1", "H2", "H3", "H4", "H5", "H6" do
   # Attribute methods
   describe "#class_name" do
     it "returns the class attribute" do
-      browser.h1(:index, 1).class_name.should == 'primary'
+      browser.h1(:index, 0).class_name.should == 'primary'
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.h2(:index, 1).class_name.should == ''
+      browser.h2(:index, 0).class_name.should == ''
     end
 
     it "raises UnknownObjectException if the p doesn't exist" do
@@ -62,11 +58,11 @@ describe "H1", "H2", "H3", "H4", "H5", "H6" do
 
   describe "#id" do
     it "returns the id attribute" do
-      browser.h1(:index, 1).id.should == "first_header"
+      browser.h1(:index, 0).id.should == "first_header"
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.h3(:index, 1).id.should == ''
+      browser.h3(:index, 0).id.should == ''
     end
 
     it "raises UnknownObjectException if the p doesn't exist" do
@@ -77,7 +73,7 @@ describe "H1", "H2", "H3", "H4", "H5", "H6" do
 
   describe "#text" do
     it "returns the text of the element" do
-      browser.h1(:index, 1).text.should == 'Header 1'
+      browser.h1(:index, 0).text.should == 'Header 1'
     end
 
     it "returns an empty string if the element doesn't contain any text" do
@@ -92,9 +88,9 @@ describe "H1", "H2", "H3", "H4", "H5", "H6" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.h1(:index, 1).should respond_to(:class_name)
-      browser.h1(:index, 1).should respond_to(:id)
-      browser.h1(:index, 1).should respond_to(:text)
+      browser.h1(:index, 0).should respond_to(:class_name)
+      browser.h1(:index, 0).should respond_to(:id)
+      browser.h1(:index, 0).should respond_to(:text)
     end
   end
 

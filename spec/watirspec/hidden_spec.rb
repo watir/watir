@@ -18,16 +18,12 @@ describe "Hidden" do
       browser.hidden(:value, /dolls/).should exist
       browser.hidden(:class, 'fun').should exist
       browser.hidden(:class, /fun/).should exist
-      browser.hidden(:index, 1).should exist
+      browser.hidden(:index, 0).should exist
       browser.hidden(:xpath, "//input[@id='new_user_interests_dolls']").should exist
     end
 
     it "returns the first hidden if given no args" do
       browser.hidden.should exist
-    end
-
-    it "returns true if the element exists (default how = :name)" do
-      browser.hidden("new_user_interests").should exist
     end
 
     it "returns false if the element does not exist" do
@@ -57,7 +53,7 @@ describe "Hidden" do
   # Attribute methods
   describe "#id" do
     it "returns the id attribute if the text field exists" do
-      browser.hidden(:index, 1).id.should == "new_user_interests_dolls"
+      browser.hidden(:index, 0).id.should == "new_user_interests_dolls"
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -67,7 +63,7 @@ describe "Hidden" do
 
   describe "#name" do
     it "returns the name attribute if the text field exists" do
-      browser.hidden(:index, 1).name.should == "new_user_interests"
+      browser.hidden(:index, 0).name.should == "new_user_interests"
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -77,7 +73,7 @@ describe "Hidden" do
 
   describe "#type" do
     it "returns the type attribute if the text field exists" do
-      browser.hidden(:index, 1).type.should == "hidden"
+      browser.hidden(:index, 0).type.should == "hidden"
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -87,7 +83,7 @@ describe "Hidden" do
 
   describe "#value" do
     it "returns the value attribute if the text field exists" do
-      browser.hidden(:index, 1).value.should == "dolls"
+      browser.hidden(:index, 0).value.should == "dolls"
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -97,24 +93,11 @@ describe "Hidden" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.hidden(:index, 1).should respond_to(:id)
-      browser.hidden(:index, 1).should respond_to(:name)
-      browser.hidden(:index, 1).should respond_to(:type)
-      browser.hidden(:index, 1).should respond_to(:value)
+      browser.hidden(:index, 0).should respond_to(:id)
+      browser.hidden(:index, 0).should respond_to(:name)
+      browser.hidden(:index, 0).should respond_to(:type)
+      browser.hidden(:index, 0).should respond_to(:value)
     end
   end
-
-  # Manipulation methods
-  describe "#value=" do
-    it "sets the value of the element" do
-      browser.hidden(:id, 'new_user_interests_dolls').value = 'guns'
-      browser.hidden(:id, "new_user_interests_dolls").value.should == 'guns'
-    end
-
-    it "raises UnknownObjectException if the text field doesn't exist" do
-      lambda { browser.hidden(:id, 'no_such_id').value = 'guns' }.should raise_error(UnknownObjectException)
-    end
-  end
-
 
 end
