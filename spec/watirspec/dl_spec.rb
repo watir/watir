@@ -117,7 +117,7 @@ describe "Dl" do
   end
 
   describe "#html" do
-    not_compliant_on [:webdriver, :ie] do
+    not_compliant_on :ie do
       it "returns the HTML of the element" do
         html = browser.dl(:id, 'experience-list').html.downcase
         html.should include('<dt class="current-industry">')
@@ -125,7 +125,7 @@ describe "Dl" do
       end
     end
 
-    deviates_on [:webdriver, :ie] do
+    deviates_on :ie do
       it "returns the HTML of the element" do
         html = browser.dl(:id, 'experience-list').html.downcase
         html.should include('<dt class=current-industry>')
