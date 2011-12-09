@@ -13,7 +13,13 @@ describe "Image" do
       browser.image(:id, 'square').should exist
       browser.image(:id, /square/).should exist
 
-      browser.image(:src, 'images/circle.png').should exist
+      not_compliant_on :watir do
+        browser.image(:src, 'images/circle.png').should exist
+      end
+
+      deviates_on :watir do
+        browser.image(:src, %r{images/circle.png}).should exist
+      end
 
       browser.image(:src, /circle/).should exist
       browser.image(:alt, 'circle').should exist
