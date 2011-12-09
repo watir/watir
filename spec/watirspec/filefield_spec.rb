@@ -139,7 +139,7 @@ describe "FileField" do
     end
 
 
-    not_compliant_on [:webdriver, :ie], [:webdriver, :chrome] do
+    not_compliant_on :ie, [:webdriver, :chrome] do
       # for chrome, the check also happens in the driver
 
       it "does not raise an error if the file does not exist" do
