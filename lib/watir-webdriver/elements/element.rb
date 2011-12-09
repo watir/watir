@@ -266,6 +266,8 @@ module Watir
     def assert_not_stale
       @element.enabled? # do a staleness check - any wire call will do.
     rescue Selenium::WebDriver::Error::ObsoleteElementError => ex
+      # don't cache a stale element - it will never come back
+      @element = nil
       raise UnknownObjectException, "#{ex.message} - #{selector_string}"
     end
 
