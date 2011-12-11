@@ -208,7 +208,7 @@ describe "Radio" do
     end
 
     # http://webbugtrack.blogspot.com/2007/11/bug-193-onchange-does-not-fire-properly.html
-    not_compliant_on [:webdriver, :ie] do
+    not_compliant_on :ie do
       it "fires the onchange event" do
         browser.radio(:value, 'certainly').set
         messages.should == ["changed: new_user_newsletter"]
