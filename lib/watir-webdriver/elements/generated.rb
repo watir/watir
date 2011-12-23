@@ -62,18 +62,6 @@ module Watir
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
  class HTMLElement < Element
    attributes(:string => [:access_key, :access_key_label, :class_name, :command_icon, :command_label, :command_type, :content_editable, :dir, :item_id, :item_value, :lang, :title], :token_list => [:class_list, :dropzone, :item_prop, :item_ref, :item_type], :bool => [:command_checked, :command_disabled, :command_hidden, :draggable, :hidden, :content_editable, :item_scope, :spellcheck], :html_element => [:context_menu], :string_map => [:dataset], :function => [:onabort, :onblur, :oncanplay, :oncanplaythrough, :onchange, :onclick, :oncontextmenu, :oncuechange, :ondblclick, :ondrag, :ondragend, :ondragenter, :ondragleave, :ondragover, :ondragstart, :ondrop, :ondurationchange, :onemptied, :onended, :onerror, :onfocus, :oninput, :oninvalid, :onkeydown, :onkeypress, :onkeyup, :onload, :onloadeddata, :onloadedmetadata, :onloadstart, :onmousedown, :onmousemove, :onmouseout, :onmouseover, :onmouseup, :onmousewheel, :onpause, :onplay, :onplaying, :onprogress, :onratechange, :onreset, :onscroll, :onseeked, :onseeking, :onselect, :onshow, :onstalled, :onsubmit, :onsuspend, :ontimeupdate, :onvolumechange, :onwaiting], :properties_collection => [:properties], :style => [:style], :int => [:tab_index])
  end
@@ -536,6 +524,14 @@ module Watir
  class SpanCollection < ElementCollection
    def element_class
      Span
+   end
+ end
+ class Time < HTMLElement
+   attributes(:string => [:datetime])
+ end
+ class TimeCollection < ElementCollection
+   def element_class
+     Time
    end
  end
  class Data < HTMLElement
@@ -2458,6 +2454,23 @@ module Watir
    end
 
    Watir.tag_to_class[:thead] = TableSection
+   #
+   # @return [Time]
+   #
+
+   def time(*args)
+     Time.new(self, extract_selector(args).merge(:tag_name => "time"))
+   end
+
+   #
+   # @return [TimeCollection]
+   #
+
+   def times(*args)
+     TimeCollection.new(self, extract_selector(args).merge(:tag_name => "time"))
+   end
+
+   Watir.tag_to_class[:time] = Time
    #
    # @return [Title]
    #
