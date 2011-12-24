@@ -73,30 +73,51 @@ module Watir
     def click
       assert_exists
       assert_enabled
+
       @element.click
       run_checkers
     end
 
+    #
+    # Double clicks the element.
+    #
+    # Note that browser support may vary.
+    #
+
+
     def double_click
       assert_exists
-
-      unless driver.kind_of? WebDriver::DriverExtensions::HasInputDevices
-        raise NotImplementedError, "Element#double_click is not supported by this driver"
-      end
+      assert_has_input_devices_for :double_click
 
       driver.action.double_click(@element).perform
       run_checkers
     end
 
+    #
+    # Right clicks the element.
+    #
+    # Note that browser support may vary.
+    #
+
     def right_click
       assert_exists
-
-      unless driver.kind_of? WebDriver::DriverExtensions::HasInputDevices
-        raise NotImplementedError, "Element#context_click is not supported by this driver"
-      end
+      assert_has_input_devices_for :right_click
 
       driver.action.context_click(@element).perform
       run_checkers
+    end
+
+    #
+    # Moves the mouse to the middle of this element.
+    #
+    # Note that browser/platform support may vary.
+    #
+
+    def hover
+      assert_exists
+      assert_has_input_devices_for :hover
+
+      driver.action.move_to(@element).perform
     end
 
     def flash
@@ -307,6 +328,12 @@ module Watir
     def assert_writable
       assert_enabled
       raise ObjectReadOnlyException if respond_to?(:readonly?) && readonly?
+    end
+
+    def assert_has_input_devices_for(name)
+      unless driver.kind_of? WebDriver::DriverExtensions::HasInputDevices
+        raise NotImplementedError, "#{self.class}##{name} is not supported by this driver"
+      end
     end
 
     def method_missing(meth, *args, &blk)

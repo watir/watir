@@ -32,7 +32,7 @@ describe Watir::Element do
 
   describe "#exists?" do
     it "should not propagate ObsoleteElementErrors" do
-      browser.goto 'file://' + File.expand_path('html/removed_element.html', File.dirname(__FILE__))
+      browser.goto 'file://' + File.expand_path('../html/removed_element.html', __FILE__)
 
       button  = browser.button(:id => "remove-button")
       element = browser.div(:id => "text")
@@ -40,6 +40,19 @@ describe Watir::Element do
       element.should exist
       button.click
       element.should_not exist
+    end
+  end
+
+  describe "#hover" do
+    not_compliant_on [:webdriver, :firefox, :synthesized_events] do
+      it "should hover over the element" do
+        browser.goto 'file://' + File.expand_path('../html/hover.html', __FILE__)
+        link = browser.a
+
+        link.style("font-size").should == "10px"
+        link.hover
+        link.style("font-size").should == "20px"
+      end
     end
   end
 
