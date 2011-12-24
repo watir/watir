@@ -70,11 +70,41 @@ module Watir
       @element.tag_name.downcase
     end
 
-    def click
+    #
+    # Clicks the element, optionally while pressing the given mofifier keys.
+    # Note that support for holding a modifier key is currently experimental,
+    # and may not work at all.
+    #
+    # @example Click an element
+    #
+    #   element.click
+    #
+    # @example Click an element with shift key pressed
+    #
+    #   element.click(:shift)
+    #
+    # @example Click an element with several modifier keys pressed
+    #
+    #   element.click(:shift, :control)
+    #
+    # @param [:shift, :alt, :control, :command, :meta] Modifier key(s) to press while clicking.
+    #
+
+    def click(*modifiers)
       assert_exists
       assert_enabled
 
-      @element.click
+      if modifiers.any?
+        action = driver.action
+        modifiers.each { |mod| action.key_down mod }
+        action.click @element
+        modifiers.each { |mod| action.key_up mod }
+
+        action.perform
+      else
+        @element.click
+      end
+
       run_checkers
     end
 

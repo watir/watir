@@ -1,0 +1,16 @@
+<html>
+  <head>
+    <script src="../watirspec/html/javascript/jquery-1.7.1.min.js" type="text/javascript" charset="utf-8"></script>
+  </head>
+  <script>
+  $(document).ready(function() {
+    $("#click-logger").click(function(evt) {
+      $("#log").append("<p>shift=" + evt.shiftKey + " alt=" + evt.altKey + "</p>");
+    });
+  });
+  </script>
+  <body>
+    <div id="click-logger">click me</div>
+    <div id="log"></div>
+  </body>
+</html>
