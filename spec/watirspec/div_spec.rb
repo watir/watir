@@ -161,10 +161,12 @@ describe "Div" do
 
   # Manipulation methods
   describe "#click" do
-    it "fires events when clicked" do
-      browser.div(:id, 'best_language').text.should_not == 'Ruby!'
-      browser.div(:id, 'best_language').click
-      browser.div(:id, 'best_language').text.should == 'Ruby!'
+    not_compliant_on [:webdriver, :firefox] do # this should be fixed by selenium-webdriver 2.16
+      it "fires events when clicked" do
+        browser.div(:id, 'best_language').text.should_not == 'Ruby!'
+        browser.div(:id, 'best_language').click
+        browser.div(:id, 'best_language').text.should == 'Ruby!'
+      end
     end
 
     it "raises UnknownObjectException if the element does not exist" do
