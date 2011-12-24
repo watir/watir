@@ -95,6 +95,8 @@ module Watir
       assert_enabled
 
       if modifiers.any?
+        assert_has_input_devices_for "click(#{modifiers.join ', '})"
+
         action = driver.action
         modifiers.each { |mod| action.key_down mod }
         action.click @element
