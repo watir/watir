@@ -1418,6 +1418,23 @@ module Watir
 
    Watir.tag_to_class[:form] = Form
    #
+   # @return [FrameSet]
+   #
+
+   def frameset(*args)
+     FrameSet.new(self, extract_selector(args).merge(:tag_name => "frameset"))
+   end
+
+   #
+   # @return [FrameSetCollection]
+   #
+
+   def framesets(*args)
+     FrameSetCollection.new(self, extract_selector(args).merge(:tag_name => "frameset"))
+   end
+
+   Watir.tag_to_class[:frameset] = FrameSet
+   #
    # @return [Heading]
    #
 

@@ -70,8 +70,11 @@ module Watir
         result = {}
 
         @interface_map.each do |tag, interface|
-          result[tag] = @interfaces_by_name[interface] or raise "#{interface} not found in IDL"
+          result[tag] = fetch_interface(interface)
         end
+
+        # missing from the elements-1 table
+        result['frameset'] = fetch_interface('HTMLFrameSetElement')
 
         result
       end
@@ -88,6 +91,10 @@ module Watir
 
           result
         end
+      end
+
+      def fetch_interface(interface)
+        @interfaces_by_name[interface] or raise "#{interface} not found in IDL"
       end
 
       def parse_idl(str)
