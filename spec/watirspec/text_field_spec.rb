@@ -54,6 +54,9 @@ describe "TextField" do
       browser.text_field(:xpath, "//input[@id='no_such_id']").should_not exist
       browser.text_field(:label, "bad label").should_not exist
       browser.text_field(:label, /bad label/).should_not exist
+
+      # input type='hidden' should not be found by #text_field
+      browser.text_field(:id, "new_user_interests_dolls").should_not exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do

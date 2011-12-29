@@ -81,6 +81,7 @@ describe "Element" do
 
     it "finds an element from an element's subtree" do
       browser.fieldset.element(:id => "first_label").should exist
+      browser.field_set.element(:id => "first_label").should exist
     end
 
     it "finds several elements from an element's subtree" do
@@ -137,7 +138,7 @@ describe "Element" do
     end
 
     it "returns false if the element is input element where type == 'hidden'" do
-      browser.text_field(:id, "new_user_interests_dolls").should_not be_visible
+      browser.hidden(:id, "new_user_interests_dolls").should_not be_visible
     end
 
     it "returns false if the element has style='display: none;'" do
