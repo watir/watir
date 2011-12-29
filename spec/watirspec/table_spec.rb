@@ -93,7 +93,7 @@ describe "Table" do
       browser.table(:id, 'outer')[2].id.should == "outer_last"
     end
 
-    not_compliant_on :webdriver do
+    not_compliant_on :webdriver, :watir do
       it "raises UnknownRowException if the index is out of bounds" do
         lambda { browser.table(:id, 'outer')[1337] }.should raise_error(UnknownRowException)
       end
