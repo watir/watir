@@ -116,9 +116,7 @@ describe "Frame" do
   end
 
   it "can access the frame's parent element after use" do
-    # TODO: fix html to be confirming (remove frameset)
-    
-    el = browser.element(:tag_name => "frameset")
+    el = browser.frameset
     el.frame.text_field.value
     el.attribute_value("cols").should be_kind_of(String)
   end

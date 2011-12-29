@@ -198,8 +198,11 @@ describe "SelectList" do
       browser.select_list(:name, "new_user_languages").selected_options.should be_empty
     end
 
-    it "does not clear selections when not possible" do
-      lambda { browser.select_list(:name, "new_user_country").clear }.should raise_error
+    it "does not clear selections if the <select> does not allow multiple selections" do
+      lambda {
+        browser.select_list(:name, "new_user_country").clear
+      }.should raise_error(/you can only clear multi-selects/)
+
       browser.select_list(:name, "new_user_country").selected_options.should == ["Norway"]
     end
 
