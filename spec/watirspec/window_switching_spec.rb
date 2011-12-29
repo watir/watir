@@ -182,7 +182,7 @@ bug "http://github.com/jarib/celerity/issues#issue/17", :celerity do
       it "times out waiting for a non-present window" do
         lambda {
           browser.window(:title => "noop").wait_until_present(0.5)
-        }.should raise_error(Wait::TimeoutError, 'timed out after 0.5 seconds, waiting for {:title=>"noop"} to become present')
+        }.should raise_error(Wait::TimeoutError)
       end
     end
 
