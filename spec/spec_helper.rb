@@ -25,8 +25,7 @@ WEBDRIVER_SELECTORS = [:class, :class_name, :css, :id, :name, :tag_name, :xpath]
 
 if ENV['TRAVIS']
   ENV['DISPLAY'] = ":99.0"
-  require 'pp'
-  pp ENV['PATH'].split(":").sort
+  ENV['PATH'] += ":#{File.expand_path "chrome-linux"}" if ENV['WATIR_WEBDRIVER_BROWSER'] == "chrome"
 end
 
 if Selenium::WebDriver::Platform.linux? && ENV['DISPLAY'].nil?
