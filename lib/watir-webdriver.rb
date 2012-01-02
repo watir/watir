@@ -78,5 +78,6 @@ require 'watir-webdriver/elements/table'
 require 'watir-webdriver/elements/table_row'
 require 'watir-webdriver/elements/table_cell'
 require 'watir-webdriver/elements/table_section'
+require 'watir-webdriver/aliases'
 
 Watir.tag_to_class.freeze
