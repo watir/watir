@@ -13,8 +13,13 @@ WatirSpec.implementation do |imp|
     profile.native_events = true
 
     imp.browser_args = [:firefox, {:profile => profile}]
-  elsif browser == :chrome && use_native_events
-    imp.browser_args = [:chrome, {:native_events => true}]
+  elsif browser == :chrome
+    opts = {
+      :switches => ["--disable-translate"],
+      :native_events => use_native_events
+    }
+
+    imp.browser_args = [:chrome, opts]
   else
     imp.browser_args = [browser]
   end
