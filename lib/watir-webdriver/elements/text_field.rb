@@ -40,9 +40,8 @@ module Watir
 
     private
 
-    def locate
-      @parent.assert_exists
-      TextFieldLocator.new(@parent.wd, @selector, self.class.attribute_list).locate
+    def locator_class
+      TextFieldLocator
     end
 
     def selector_string

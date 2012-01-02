@@ -63,5 +63,10 @@ module Watir
     def tag_name_matches?(tag_name, _)
       VALID_TEXT_FIELD_TAGS.include?(tag_name)
     end
+
+    def by_id
+      el = super
+      el if el and not NON_TEXT_TYPES.include? el.attribute(:type)
+    end
   end # TextFieldLocator
 end # Watir
