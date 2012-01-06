@@ -15,7 +15,7 @@ describe "SelectList" do
       browser.select_list(:name, 'new_user_country').should exist
       browser.select_list(:name, /new_user_country/).should exist
 
-      not_compliant_on :webdriver do
+      not_compliant_on :webdriver, :watir do
         browser.select_list(:text, 'Norway').should exist
         browser.select_list(:text, /Norway/).should exist
       end
@@ -209,6 +209,16 @@ describe "SelectList" do
     it "raises UnknownObjectException if the select list doesn't exist" do
       lambda { browser.select_list(:name, 'no_such_name').clear }.should raise_error(UnknownObjectException)
     end
+
+    it "fires onchange event" do
+      browser.select_list(:name, "new_user_languages").clear
+      messages.size.should == 2
+    end
+
+    it "doesn't fire onchange event for already cleared option" do
+      browser.select_list(:name, "new_user_languages").option.clear
+      messages.size.should == 0
+    end
   end
 
   describe "#include?" do
@@ -231,7 +241,7 @@ describe "SelectList" do
       browser.select_list(:name, 'new_user_country').should_not be_selected('Sweden')
     end
 
-    it "raises UnknonwObjectException if the option doesn't exist" do
+    it "raises UnknownObjectException if the option doesn't exist" do
       lambda { browser.select_list(:name, 'new_user_country').selected?('missing_option') }.should raise_error(UnknownObjectException)
     end
   end
