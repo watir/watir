@@ -160,22 +160,9 @@ describe "SelectList" do
       lambda { browser.select_list(:name, 'no_such_name').options }.should raise_error(UnknownObjectException)
     end
 
-    #
-    # The correct behaviour here needs to be discussed.
-    #
-
-    not_compliant_on :webdriver do
-      it "returns all the options as an Array" do
-        browser.select_list(:name, "new_user_country").options.should == ["Denmark", "Norway", "Sweden", "United Kingdom", "USA", "Germany"]
-      end
-    end
-
-    deviates_on :webdriver do
-      it "returns all the options as a collection of Options" do
-        options = browser.select_list(:name, "new_user_country").options
-        options.should be_kind_of(OptionCollection)
-        options.map { |opt| opt.text }.should == ["Denmark", "Norway", "Sweden", "United Kingdom", "USA", "Germany"]
-      end
+    it "returns all the options" do
+      options = browser.select_list(:name, "new_user_country").options
+      options.map(&:text).should == ["Denmark", "Norway", "Sweden", "United Kingdom", "USA", "Germany"]
     end
   end
 
@@ -187,8 +174,8 @@ describe "SelectList" do
     end
 
     it "gets the currently selected item(s)" do
-      browser.select_list(:name, "new_user_country").selected_options.should == ["Norway"]
-      browser.select_list(:name, "new_user_languages").selected_options.should == ["English", "Norwegian"]
+      browser.select_list(:name, "new_user_country").selected_options.map(&:text).should == ["Norway"]
+      browser.select_list(:name, "new_user_languages").selected_options.map(&:text).should == ["English", "Norwegian"]
     end
   end
 
@@ -203,7 +190,7 @@ describe "SelectList" do
         browser.select_list(:name, "new_user_country").clear
       }.should raise_error(/you can only clear multi-selects/)
 
-      browser.select_list(:name, "new_user_country").selected_options.should == ["Norway"]
+      browser.select_list(:name, "new_user_country").selected_options.map(&:text).should == ["Norway"]
     end
 
     it "raises UnknownObjectException if the select list doesn't exist" do
@@ -249,46 +236,46 @@ describe "SelectList" do
   describe "#select" do
     it "selects the given item when given a String" do
       browser.select_list(:name, "new_user_country").select("Denmark")
-      browser.select_list(:name, "new_user_country").selected_options.should == ["Denmark"]
+      browser.select_list(:name, "new_user_country").selected_options.map(&:text).should == ["Denmark"]
     end
 
     it "selects options by label" do
       browser.select_list(:name, "new_user_country").select("Germany")
-      browser.select_list(:name, "new_user_country").selected_options.should == ["Germany"]
+      browser.select_list(:name, "new_user_country").selected_options.map(&:text).should == ["Germany"]
     end
 
     it "selects the given item when given a Regexp" do
       browser.select_list(:name, "new_user_country").select(/Denmark/)
-      browser.select_list(:name, "new_user_country").selected_options.should == ["Denmark"]
+      browser.select_list(:name, "new_user_country").selected_options.map(&:text).should == ["Denmark"]
     end
 
     it "selects the given item when given an Xpath" do
       browser.select_list(:xpath, "//select[@name='new_user_country']").select("Denmark")
-      browser.select_list(:xpath, "//select[@name='new_user_country']").selected_options.should == ["Denmark"]
+      browser.select_list(:xpath, "//select[@name='new_user_country']").selected_options.map(&:text).should == ["Denmark"]
     end
 
     it "selects multiple items using :name and a String" do
       browser.select_list(:name, "new_user_languages").clear
       browser.select_list(:name, "new_user_languages").select("Danish")
       browser.select_list(:name, "new_user_languages").select("Swedish")
-      browser.select_list(:name, "new_user_languages").selected_options.should == ["Danish", "Swedish"]
+      browser.select_list(:name, "new_user_languages").selected_options.map(&:text).should == ["Danish", "Swedish"]
     end
 
     it "selects multiple items using :name and a Regexp" do
       browser.select_list(:name, "new_user_languages").clear
       browser.select_list(:name, "new_user_languages").select(/ish/)
-      browser.select_list(:name, "new_user_languages").selected_options.should == ["Danish", "English", "Swedish"]
+      browser.select_list(:name, "new_user_languages").selected_options.map(&:text).should == ["Danish", "English", "Swedish"]
     end
 
     it "selects multiple items using :xpath" do
       browser.select_list(:xpath, "//select[@name='new_user_languages']").clear
       browser.select_list(:xpath, "//select[@name='new_user_languages']").select(/ish/)
-      browser.select_list(:xpath, "//select[@name='new_user_languages']").selected_options.should == ["Danish", "English", "Swedish"]
+      browser.select_list(:xpath, "//select[@name='new_user_languages']").selected_options.map(&:text).should == ["Danish", "English", "Swedish"]
     end
 
     it "selects empty options" do
       browser.select_list(:id, "delete_user_username").select("")
-      browser.select_list(:id, "delete_user_username").selected_options.should == [""]
+      browser.select_list(:id, "delete_user_username").selected_options.map(&:text).should == [""]
     end
 
     it "returns the value selected" do
@@ -340,13 +327,13 @@ describe "SelectList" do
     it "selects the item by value string" do
       browser.select_list(:name, "new_user_languages").clear
       browser.select_list(:name, "new_user_languages").select_value("2")
-      browser.select_list(:name, "new_user_languages").selected_options.should == %w[English]
+      browser.select_list(:name, "new_user_languages").selected_options.map(&:text).should == %w[English]
     end
 
     it "selects the items by value regexp" do
       browser.select_list(:name, "new_user_languages").clear
       browser.select_list(:name, "new_user_languages").select_value(/1|3/)
-      browser.select_list(:name, "new_user_languages").selected_options.should == %w[Danish Norwegian]
+      browser.select_list(:name, "new_user_languages").selected_options.map(&:text).should == %w[Danish Norwegian]
     end
 
     it "raises NoValueFoundException if the option doesn't exist" do

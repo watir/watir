@@ -75,12 +75,12 @@ describe "Option" do
   describe "#select" do
     it "selects the chosen option (page context)" do
       browser.option(:text, "Denmark").select
-      browser.select_list(:name, "new_user_country").selected_options.should == ["Denmark"]
+      browser.select_list(:name, "new_user_country").selected_options.map(&:text).should == ["Denmark"]
     end
 
     it "selects the chosen option (select_list context)" do
       browser.select_list(:name, "new_user_country").option(:text, "Denmark").select
-      browser.select_list(:name, "new_user_country").selected_options.should == ["Denmark"]
+      browser.select_list(:name, "new_user_country").selected_options.map(&:text).should == ["Denmark"]
     end
 
     it "selects the option when found by text (page context)" do
