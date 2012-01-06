@@ -241,8 +241,8 @@ describe "Button" do
   describe "#click" do
     it "clicks the button if it exists" do
       browser.goto(WatirSpec.host + "/forms_with_input_elements.html")
-      browser.button(:id, 'new_user_submit').click
-      browser.text.should include("You posted the following content:")
+      browser.button(:id, 'delete_user_submit').click
+      browser.text.should include("Semantic table")
     end
 
     it "fires events" do
