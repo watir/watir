@@ -58,7 +58,7 @@ describe "Form" do
         browser.text.should include("Semantic table")
       end
 
-      it "triggers onsubmit event and takes it's result into account" do
+      it "triggers onsubmit event and takes its result into account" do
         form = browser.form(:name, "user_new")
         form.submit  
         form.should exist
