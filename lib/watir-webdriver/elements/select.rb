@@ -111,12 +111,12 @@ module Watir
 
 
     #
-    # @return [Array<String>] An array of strings representing the text value of the currently selected options.
+    # @return [Array<Watir::Option>] An array of Watir::Option elements that are currently selected.
     #
 
     def selected_options
       assert_exists
-      options.map { |e| e.text if e.selected? }.compact
+      options.select { |e| e.selected? }
     end
 
     private
