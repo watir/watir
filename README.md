@@ -43,7 +43,7 @@ See also
 --------
 
 * http://github.com/jarib/webidl
-* http://github.com/jarib/watirspec/tree/watir2
+* http://github.com/watir/watirspec
 * http://selenium.googlecode.com
 
 Dependencies
