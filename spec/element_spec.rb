@@ -44,7 +44,7 @@ describe Watir::Element do
   end
 
   describe "#hover" do
-    not_compliant_on [:webdriver, :firefox, :synthesized_events] do
+    not_compliant_on [:webdriver, :firefox, :synthesized_events], [:webdriver, :ie] do
       it "should hover over the element" do
         browser.goto 'file://' + File.expand_path('../html/hover.html', __FILE__)
         link = browser.a
