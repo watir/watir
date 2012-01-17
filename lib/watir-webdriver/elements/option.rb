@@ -25,6 +25,10 @@ module Watir
       @element.click
     end
 
+    def clear
+      @element.click if selected?
+    end
+
     #
     # Is this option selected?
     #
