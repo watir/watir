@@ -68,7 +68,13 @@ describe "Element" do
     end
 
     it "finds an element by arbitrary attribute" do
-      browser.element(:for => "new_user_species").should exist
+      browser.element(:title => "no title").should exist
+    end
+
+    it "raises MissingWayOfFindingObjectException if the attribute is invalid for the element type" do
+      lambda {
+        browser.element(:for => "no title").exists?
+      }.should raise_error(MissingWayOfFindingObjectException)
     end
 
     it "finds several elements by xpath" do
@@ -163,7 +169,7 @@ describe "Element" do
       lambda { browser.div(:xpath => "//div", :class => "foo").exists? }.should raise_error(ArgumentError)
     end
   end
-  
+
   describe '#send_keys' do
     before(:each) do
       @c = RUBY_PLATFORM =~ /darwin/ ? :command : :control
