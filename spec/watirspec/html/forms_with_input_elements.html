@@ -22,12 +22,16 @@
             <input type="text" name="new_user_email" id="new_user_email" /> <br />
             <label for="new_user_country">Country</label>
             <select name="new_user_country" id="new_user_country" class="country">
-                <option class="scandinavia" value="1">Denmark</option>
-                <option id="nor" class="scandinavia" value="2" selected="selected">Norway</option>
-                <option class="scandinavia" value="3">Sweden</option>
-                <option value="4">United Kingdom</option>
-                <option value="5">USA</option>
-                <option label="Germany" />
+                <optgroup label="nordic">
+                  <option class="scandinavia" value="1">Denmark</option>
+                  <option id="nor" class="scandinavia" value="2" selected="selected">Norway</option>
+                  <option class="scandinavia" value="3">Sweden</option>
+                </optgroup>
+                <optgroup label="other">
+                  <option value="4">United Kingdom</option>
+                  <option value="5">USA</option>
+                  <option label="Germany" />
+              </optgroup>
             </select> <br />
             <label for="new_user_occupation">Occupation</label>
             <input type="text" name="new_user_occupation" id="new_user_occupation" value="Developer" onfocus="document.getElementById('onfocus_test').innerHTML = 'changed by onfocus event'"/> <br />
