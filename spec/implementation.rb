@@ -1,47 +1,84 @@
 require File.expand_path("../spec_helper", __FILE__)
 
-WatirSpec.implementation do |imp|
-  browser = (ENV['WATIR_WEBDRIVER_BROWSER'] || :firefox).to_sym
+class ImplementationConfig
+  def initialize(imp)
+    @imp = imp
+  end
 
-  imp.name          = :webdriver
-  imp.browser_class = Watir::Browser
+  def configure
+    set_webdriver
+    set_browser_args
+    set_guard_proc
+  end
 
-  use_native_events = ENV['NATIVE_EVENTS'] == "true"
+  private
 
-  if browser == :firefox && use_native_events
+  def set_webdriver
+    @imp.name          = :webdriver
+    @imp.browser_class = Watir::Browser
+  end
+
+  def set_browser_args
+    case browser
+    when :firefox
+      set_firefox_args
+    when :chrome
+      set_chrome_args
+    else
+      @imp.browser_args = [browser]
+    end
+  end
+
+  def set_guard_proc
+    matching_guards = [
+      :webdriver,            # guard only applies to webdriver
+      browser,               # guard only applies to this browser
+      [:webdriver, browser]  # guard only applies to this browser on webdriver
+    ]
+
+    if native_events? || native_events_by_default?
+      # guard only applies to this browser on webdriver with native events enabled
+      matching_guards << [:webdriver, browser, :native_events]
+    else
+      # guard only applies to this browser on webdriver with native events disabled
+      matching_guards << [:webdriver, browser, :synthesized_events]
+    end
+
+    @imp.guard_proc = lambda { |args|
+      args.any? { |arg| matching_guards.include?(arg) }
+    }
+  end
+
+  def set_firefox_args
     profile = Selenium::WebDriver::Firefox::Profile.new
-    profile.native_events = true
+    profile.native_events = native_events?
 
-    imp.browser_args = [:firefox, {:profile => profile}]
-  elsif browser == :chrome
+    @imp.browser_args = [:firefox, {:profile => profile}]
+  end
+
+  def set_chrome_args
+    require 'selenium/webdriver/remote/http/persistent'
+
     opts = {
-      :switches => ["--disable-translate"],
-      :native_events => use_native_events
+      :switches      => ["--disable-translate"],
+      :native_events => native_events?,
+      :http_client   => Selenium::WebDriver::Remote::Http::Persistent.new
     }
 
-    imp.browser_args = [:chrome, opts]
-  else
-    imp.browser_args = [browser]
+    @imp.browser_args = [:chrome, opts]
   end
 
-  matching_guards = [
-    :webdriver,            # guard only applies to webdriver
-    browser,               # guard only applies to this browser
-    [:webdriver, browser]  # guard only applies to this browser on webdriver
-  ]
-
-  if use_native_events || (Selenium::WebDriver::Platform.windows? && [:firefox, :ie].include?(browser))
-    # guard only applies to this browser on webdriver with native events enabled
-    matching_guards << [:webdriver, browser, :native_events]
-  else
-    # guard only applies to this browser on webdriver with native events disabled
-    matching_guards << [:webdriver, browser, :synthesized_events]
+  def browser
+    @browser ||= (ENV['WATIR_WEBDRIVER_BROWSER'] || :firefox).to_sym
   end
 
-  imp.guard_proc = lambda { |args|
-    args.any? { |arg| matching_guards.include?(arg) }
-  }
+  def native_events?
+    ENV['NATIVE_EVENTS'] == "true"
+  end
+
+  def native_events_by_default?
+    Selenium::WebDriver::Platform.windows? && [:firefox, :ie].include?(browser)
+  end
 end
 
-
-
+ImplementationConfig.new(WatirSpec.implementation).configure
