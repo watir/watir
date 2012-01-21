@@ -57,12 +57,9 @@ class ImplementationConfig
   end
 
   def set_chrome_args
-    require 'selenium/webdriver/remote/http/persistent'
-
     opts = {
       :switches      => ["--disable-translate"],
-      :native_events => native_events?,
-      :http_client   => Selenium::WebDriver::Remote::Http::Persistent.new
+      :native_events => native_events?
     }
 
     if url = ENV['WATIR_WEBDRIVER_CHROME_SERVER']
