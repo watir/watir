@@ -80,7 +80,7 @@ describe Watir::Element do
   describe "#wait_until_present" do
     it "it waits until the element appears" do
       browser.a(:id, 'show_bar').click
-      browser.div(:id, 'bar').wait_until_present(1)
+      browser.div(:id, 'bar').wait_until_present(5)
     end
 
     it "times out if the element doesn't appear" do
