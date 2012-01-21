@@ -4,6 +4,7 @@ set -x
 
 CHROME_REVISION=117966
 sh -e /etc/init.d/xvfb start && git submodule update --init || exit 1
+export DISPLAY=:99.0
 
 if [[ "$WATIR_WEBDRIVER_BROWSER" = "chrome" ]]; then
   # deps
