@@ -14,7 +14,7 @@ if [[ "$WATIR_WEBDRIVER_BROWSER" = "chrome" ]]; then
 
   # download chromedriver
   curl -L "http://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux/$CHROME_REVISION/chrome-linux.test/chromedriver" > chromedriver
-  chmod +x chrome-linux/chromedriver
+  chmod +x chromedriver
 
   # start the server
   ./chromedriver &
