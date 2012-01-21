@@ -29,6 +29,8 @@ if ENV['TRAVIS']
   if ENV['WATIR_WEBDRIVER_BROWSER'] == "chrome"
     ENV['PATH'] += ":#{File.expand_path "chrome-linux"}"
     ENV['WATIR_WEBDRIVER_CHROME_SERVER'] = 'http://localhost:9515'
+
+    Selenium::WebDriver::Chrome.path = File.expand_path "chrome-linux/chrome"
   end
 end
 
