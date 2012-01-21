@@ -65,6 +65,10 @@ class ImplementationConfig
       :http_client   => Selenium::WebDriver::Remote::Http::Persistent.new
     }
 
+    if url = ENV['WATIR_WEBDRIVER_CHROME_SERVER']
+      opts[:url] = url
+    end
+
     @imp.browser_args = [:chrome, opts]
   end
 
