@@ -28,6 +28,7 @@ module Watir
 
       @element.send_keys(*args)
     end
+    alias_method :<<, :append
 
     #
     # Clear the text field.
