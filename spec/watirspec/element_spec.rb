@@ -118,6 +118,13 @@ describe "Element" do
     end
   end
 
+  describe "#focused?" do
+    it "knows if the element is focused" do
+      browser.element(:id => 'new_user_first_name').should be_focused
+      browser.element(:id => 'new_user_last_name').should_not be_focused
+    end
+  end
+
   describe "#fire_event" do
     it "should fire the given event" do
       browser.div(:id, "onfocus_test").text.should be_empty
