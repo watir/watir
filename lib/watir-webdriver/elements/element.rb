@@ -197,6 +197,11 @@ module Watir
       driver.execute_script "return arguments[0].focus()", @element
     end
 
+    def focused?
+      assert_exists
+      @element == driver.switch_to.active_element
+    end
+
     def fire_event(event_name)
       assert_exists
       event_name = event_name.to_s.sub(/^on/, '').downcase
