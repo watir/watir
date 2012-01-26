@@ -1,12 +1,10 @@
-require "watir-webdriver/core_ext/string"
-
 module YARD
   module Handlers
     module Watir
       #
       # @private
-      # 
-      
+      #
+
       class AttributesHandler < YARD::Handlers::Ruby::Base
         handles method_call(:attributes)
 

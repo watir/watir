@@ -1,3 +1,5 @@
+$LOAD_PATH.unshift File.expand_path("../lib", __FILE__)
+
 require 'rubygems'
 require 'bundler'
 Bundler::GemHelper.install_tasks
@@ -18,10 +20,6 @@ namespace :spec do
 end
 
 task :default => :spec
-
-task :lib do
-  $LOAD_PATH.unshift(File.expand_path("lib", File.dirname(__FILE__)))
-end
 
 namespace :html5 do
   SPEC_URI  = "http://www.whatwg.org/specs/web-apps/current-work/"
@@ -86,17 +84,11 @@ namespace :html5 do
   task :update => [:download, :generate, :overwrite]
 end # html5
 
-begin
-  require 'yard'
-  Rake::Task[:lib].invoke
-  require "yard/handlers/watir"
-  YARD::Rake::YardocTask.new do |task|
-    task.options = %w[--debug] # this is pretty slow, so nice with some output
-  end
-rescue LoadError
-  task :yard do
-    abort "YARD is not available. In order to run yardoc, you must: sudo gem install yard"
-  end
+
+require 'yard'
+require "yard/handlers/watir"
+YARD::Rake::YardocTask.new do |task|
+  task.options = %w[--debug] # this is pretty slow, so nice with some output
 end
 
 load "spec/watirspec/watirspec.rake" if File.exist?("spec/watirspec/watirspec.rake")
