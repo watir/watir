@@ -72,6 +72,10 @@ module Watir
       @message = message
     end
 
+    def respond_to?(*args)
+      @element.respond_to?(*args)
+    end
+
     def method_missing(m, *args, &block)
       unless @element.respond_to?(m)
         raise NoMethodError, "undefined method `#{m}' for #{@element.inspect}:#{@element.class}"
