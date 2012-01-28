@@ -168,6 +168,16 @@ describe "Element" do
   end
 
   describe "#exist?" do
+    it "matches attribute 'class' partially" do
+      form = browser.form(:class => "user")
+      form.should exist
+      form.class_name.should == "user  new "
+
+      form = browser.form(:class => /user/)
+      form.should exist
+      form.class_name.should == "user  new "
+    end
+
     it "doesn't raise when called on nested elements" do
       browser.div(:id, 'no_such_div').link(:id, 'no_such_id').should_not exist
     end
