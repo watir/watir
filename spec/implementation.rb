@@ -66,6 +66,14 @@ class ImplementationConfig
       opts[:url] = url
     end
 
+    if driver = ENV['WATIR_WEBDRIVER_CHROME_DRIVER']
+      Selenium::WebDriver::Chrome.driver_path = driver
+    end
+
+    if path = ENV['WATIR_WEBDRIVER_CHROME_BINARY']
+      Selenium::WebDriver::Chrome.path = path
+    end
+
     @imp.browser_args = [:chrome, opts]
   end
 

@@ -9,6 +9,5 @@ if [[ "$WATIR_WEBDRIVER_BROWSER" = "chrome" ]]; then
   unzip chrome-linux.zip
   curl -L "http://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux/$CHROME_REVISION/chrome-linux.test/chromedriver" > chrome-linux/chromedriver
   chmod +x chrome-linux/chromedriver
-  ln -s chrome-linux/chrome chrome-linux/google-chrome
 fi
 
