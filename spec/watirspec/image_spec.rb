@@ -171,25 +171,22 @@ describe "Image" do
   end
 
   # Other
+  describe "#loaded?" do
+    it "returns true if the image has been loaded" do
+      browser.image(:title, 'Circle').should be_loaded
+      browser.image(:alt, 'circle').should be_loaded
+      browser.image(:alt, /circle/).should be_loaded
+    end
 
-  not_compliant_on :webdriver do
-    describe "#loaded?" do
-      it "returns true if the image has been loaded" do
-        browser.image(:title, 'Circle').should be_loaded
-        browser.image(:alt, 'circle').should be_loaded
-        browser.image(:alt, /circle/).should be_loaded
-      end
+    it "returns false if the image has not been loaded" do
+      browser.image(:id, 'no_such_file').should_not be_loaded
+    end
 
-      it "returns false if the image has not been loaded" do
-        browser.image(:id, 'no_such_file').should_not be_loaded
-      end
-
-      it "raises UnknownObjectException if the image doesn't exist" do
-        lambda { browser.image(:id, 'no_such_image').loaded? }.should raise_error(UnknownObjectException)
-        lambda { browser.image(:src, 'no_such_image').loaded? }.should raise_error(UnknownObjectException)
-        lambda { browser.image(:alt, 'no_such_image').loaded? }.should raise_error(UnknownObjectException)
-        lambda { browser.image(:index, 1337).loaded? }.should raise_error(UnknownObjectException)
-      end
+    it "raises UnknownObjectException if the image doesn't exist" do
+      lambda { browser.image(:id, 'no_such_image').loaded? }.should raise_error(UnknownObjectException)
+      lambda { browser.image(:src, 'no_such_image').loaded? }.should raise_error(UnknownObjectException)
+      lambda { browser.image(:alt, 'no_such_image').loaded? }.should raise_error(UnknownObjectException)
+      lambda { browser.image(:index, 1337).loaded? }.should raise_error(UnknownObjectException)
     end
   end
 
