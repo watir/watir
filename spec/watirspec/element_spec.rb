@@ -168,14 +168,30 @@ describe "Element" do
   end
 
   describe "#exist?" do
-    it "matches attribute 'class' partially" do
-      form = browser.form(:class => "user")
-      form.should exist
-      form.class_name.should == "user  new "
+    context ":class locator" do
+      before do
+        browser.goto(WatirSpec.files + "/class_locator.html")
+      end
 
-      form = browser.form(:class => /user/)
-      form.should exist
-      form.class_name.should == "user  new "
+      it "matches when the element has a single class" do
+        e = browser.div(:class => "a")
+        e.should exist
+        e.class_name.should == "a"
+      end
+
+      it "matches when the element has several classes" do
+        e = browser.div(:class => "b")
+        e.should exist
+        e.class_name.should == "a b"
+      end
+
+      it "does not match only part of the class name" do
+        browser.div(:class => "c").should_not exist
+      end
+
+      it "matches part of the class name when given a regexp" do
+        browser.div(:class => /c/).should exist
+      end
     end
 
     it "doesn't raise when called on nested elements" do
