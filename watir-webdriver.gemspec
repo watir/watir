@@ -29,4 +29,14 @@ Gem::Specification.new do |s|
   s.add_development_dependency "fuubar", "~> 0.0.6"
   s.add_development_dependency "nokogiri"
   s.add_development_dependency "activesupport", "~> 2.3.5" # for pluralization during code generation
+
+  s.post_install_message = <<-MSG
+Please note that watir-webdriver 0.5.0 brings some backwards incompatible changes:
+
+  * Watir::Select#selected_options no longer returns Array<String>, but Array<Watir::Option>
+      [ https://github.com/watir/watir-webdriver/issues/21 ]
+  * Finding elements by :class now matches partial class attributes.
+      [ https://github.com/watir/watir-webdriver/issues/36 ]
+
+  MSG
 end
