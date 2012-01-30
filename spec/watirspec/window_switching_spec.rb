@@ -187,7 +187,7 @@ bug "http://github.com/jarib/celerity/issues#issue/17", :celerity do
     end
 
     describe "size and position" do
-      compliant_on [:webdriver, :firefox] do
+      compliant_on [:webdriver, :firefox], [:webdriver, :chrome] do
         it "should get the size of the current window" do
           size = browser.window.size
 
