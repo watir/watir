@@ -2,7 +2,14 @@
 module Watir
   class Image < HTMLElement
 
-    alias_method :loaded?, :complete?
+    def loaded?
+      return false unless complete?
+
+      driver.execute_script(
+        'return typeof arguments[0].naturalWidth != "undefined" && arguments[0].naturalWidth > 0',
+        @element
+      )
+    end
 
     #
     # returns the image's width in pixels
