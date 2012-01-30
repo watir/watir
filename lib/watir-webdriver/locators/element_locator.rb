@@ -298,8 +298,11 @@ module Watir
     end
 
     def equal_pair(key, value)
-      # we assume :label means a corresponding label element, not the attribute
-      if key == :label && should_use_label_element?
+      if key == :class
+        klass = XpathSupport.escape " #{value} "
+        "contains(concat(' ', @class, ' '), #{klass})"
+      elsif key == :label && should_use_label_element?
+        # we assume :label means a corresponding label element, not the attribute
         "@id=//label[normalize-space()=#{XpathSupport.escape value}]/@for"
       else
         "#{lhs_for(key)}=#{XpathSupport.escape value}"

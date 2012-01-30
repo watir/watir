@@ -15,10 +15,10 @@ describe Watir::ElementLocator do
 
     describe "with selectors not supported by webdriver" do
       it "handles selector with tag name and a single attribute" do
-        expect_one :xpath, ".//div[@class='foo']"
+        expect_one :xpath, ".//div[@title='foo']"
 
         locate_one :tag_name => "div",
-                   :class    => "foo"
+                   :title    => "foo"
       end
 
       it "handles selector with no tag name and and a single attribute" do
@@ -32,17 +32,17 @@ describe Watir::ElementLocator do
       end
 
       it "handles selector with tag name and multiple attributes" do
-        expect_one :xpath, ".//div[@class='foo' and @title='bar']"
+        expect_one :xpath, ".//div[@title='foo' and @dir='bar']"
 
         locate_one [:tag_name, "div",
-                    :class   , "foo",
-                    :title   , 'bar']
+                    :title   , "foo",
+                    :dir     , 'bar']
       end
 
       it "handles selector with no tag name and multiple attributes" do
-        expect_one :xpath, ".//*[@class='foo' and @title='bar']"
+        expect_one :xpath, ".//*[@dir='foo' and @title='bar']"
 
-        locate_one [:class, "foo",
+        locate_one [:dir,   "foo",
                     :title, "bar"]
       end
     end
@@ -63,7 +63,7 @@ describe Watir::ElementLocator do
       end
 
       it "translates :class_name to :class" do
-        expect_one :xpath, ".//div[@class='foo']"
+        expect_one :xpath, ".//div[contains(concat(' ', @class, ' '), ' foo ')]"
 
         locate_one :tag_name   => "div",
                    :class_name => "foo"
@@ -150,15 +150,15 @@ describe Watir::ElementLocator do
 
       it "handles mix of string and regexp attributes" do
         elements = [
-          element(:tag_name => "div", :attributes => { :class => "foo", :title => "bar" }),
-          element(:tag_name => "div", :attributes => { :class => "foo", :title => "baz" })
+          element(:tag_name => "div", :attributes => { :dir => "foo", :title => "bar" }),
+          element(:tag_name => "div", :attributes => { :dir => "foo", :title => "baz" })
         ]
 
-        expect_all(:xpath, ".//div[@class='foo']").and_return(elements)
+        expect_all(:xpath, ".//div[@dir='foo']").and_return(elements)
 
         selector = {
           :tag_name => "div",
-          :class    => "foo",
+          :dir      => "foo",
           :title    => /baz/
         }
 
@@ -192,11 +192,11 @@ describe Watir::ElementLocator do
         element(:tag_name => "div")
       ]
 
-      expect_all(:xpath, ".//div[@class='foo']").and_return(elements)
+      expect_all(:xpath, ".//div[@dir='foo']").and_return(elements)
 
       selector = {
         :tag_name => "div",
-        :class    => "foo",
+        :dir      => "foo",
         :index    => 1
       }
 
@@ -250,17 +250,17 @@ describe Watir::ElementLocator do
 
     describe "with selectors not supported by webdriver" do
       it "handles selector with tag name and a single attribute" do
-        expect_all :xpath, ".//div[@class='foo']"
+        expect_all :xpath, ".//div[@dir='foo']"
 
         locate_all :tag_name => "div",
-                   :class    => "foo"
+                   :dir      => "foo"
       end
 
       it "handles selector with tag name and multiple attributes" do
-        expect_all :xpath, ".//div[@class='foo' and @title='bar']"
+        expect_all :xpath, ".//div[@dir='foo' and @title='bar']"
 
         locate_all [:tag_name, "div",
-                    :class   , "foo",
+                    :dir     , "foo",
                     :title   , 'bar']
       end
     end
@@ -280,16 +280,16 @@ describe Watir::ElementLocator do
 
       it "handles mix of string and regexp attributes" do
         elements = [
-          element(:tag_name => "div", :attributes => { :class => "foo", :title => "bar" }),
-          element(:tag_name => "div", :attributes => { :class => "foo", :title => "baz" }),
-          element(:tag_name => "div", :attributes => { :class => "foo", :title => "bazt"})
+          element(:tag_name => "div", :attributes => { :dir => "foo", :title => "bar" }),
+          element(:tag_name => "div", :attributes => { :dir => "foo", :title => "baz" }),
+          element(:tag_name => "div", :attributes => { :dir => "foo", :title => "bazt"})
         ]
 
-        expect_all(:xpath, ".//div[@class='foo']").and_return(elements)
+        expect_all(:xpath, ".//div[@dir='foo']").and_return(elements)
 
         selector = {
           :tag_name => "div",
-          :class    => "foo",
+          :dir      => "foo",
           :title    => /baz/
         }
 
