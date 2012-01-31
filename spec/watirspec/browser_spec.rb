@@ -216,66 +216,6 @@ describe "Browser" do
     end
   end
 
-  not_compliant_on :watir do
-    describe "#element_by_xpath" do
-      before :each do
-        browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
-      end
-
-      it "finds submit buttons matching the given xpath" do
-        browser.element_by_xpath("//input[@type='submit']").should exist
-      end
-
-      it "finds reset buttons matching the given xpath" do
-        browser.element_by_xpath("//input[@type='reset']").should exist
-      end
-
-      it "finds image buttons matching the given xpath" do
-        browser.element_by_xpath("//input[@type='image']").should exist
-      end
-
-      it "finds the element matching the given xpath" do
-        browser.element_by_xpath("//input[@type='password']").should exist
-      end
-
-      it "will not find elements that doesn't exist" do
-        e = browser.element_by_xpath("//input[@type='foobar']")
-        e.should_not exist
-        lambda { e.text }.should raise_error(UnknownObjectException)
-      end
-    end
-
-    describe "#elements_by_xpath" do
-      before :each do
-        browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
-      end
-
-      not_compliant_on [:webdriver, :ie], :celerity do
-        it "returns an Array of matching elements" do
-          objects = browser.elements_by_xpath("//*[@type='text']")
-          objects.should be_kind_of(Array)
-
-          objects.size.should == 5
-        end
-      end
-
-      deviates_on [:webdriver, :ie], :celerity do
-        it "returns an Array of matching elements" do
-          objects = browser.elements_by_xpath("//*[@type='text']")
-          objects.should be_kind_of(Array)
-
-          objects.size.should == 6
-        end
-      end
-
-      it "returns an empty Array if there are no matching elements" do
-        objects = browser.elements_by_xpath("//*[@type='foobar']")
-        objects.should be_kind_of(Array)
-        objects.size.should == 0
-      end
-    end
-  end
-
   describe "#add_checker" do
     it "raises ArgumentError when not given any arguments" do
       lambda { browser.add_checker }.should raise_error(ArgumentError)
