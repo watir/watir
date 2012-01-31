@@ -43,5 +43,10 @@ Additionally, watir-webdriver 0.5.1 removes the following deprecated methods:
   * element_by_xpath  : replaced by .element(:xpath, '...')
   * elements_by_xpath : replaced by .elements(:xpath, '...')
 
+And deprecates the following methods:
+
+ * Browser#clear_cookies - replaced by Browser#cookies API
+   [ https://github.com/watir/watir-webdriver/issues/24 ]
+
   MSG
 end
