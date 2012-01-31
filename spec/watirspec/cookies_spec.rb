@@ -28,26 +28,28 @@ describe "Browser#cookies" do
     browser.cookies.to_a.size.should == 2
   end
 
-  it 'adds a cookie with options' do
-    browser.goto WatirSpec.url_for('set_cookie', :needs_server => true)
+  not_compliant_on [:webdriver, :chrome] do
+    it 'adds a cookie with options' do
+      browser.goto WatirSpec.url_for('set_cookie', :needs_server => true)
 
-    expires = Time.now + 10000
-    browser.cookies.add 'a', 'b', :path => "/set_cookie",
-                                  :secure => true,
-                                  :expires => expires
+      expires = Time.now + 10000
+      browser.cookies.add 'a', 'b', :path    => "/set_cookie",
+                                    :secure  => true,
+                                    :expires => expires
 
-    cookie = browser.cookies.to_a.find { |e| e[:name] == 'a' }
-    cookie.should_not be_nil
+      cookie = browser.cookies.to_a.find { |e| e[:name] == 'a' }
+      cookie.should_not be_nil
 
-    cookie[:name].should == 'a'
-    cookie[:value].should == 'b'
-    cookie[:path].should == "/set_cookie"
-    cookie[:secure].should be_true
+      cookie[:name].should == 'a'
+      cookie[:value].should == 'b'
+      cookie[:path].should == "/set_cookie"
+      cookie[:secure].should be_true
 
-    cookie[:expires].should be_kind_of(Time)
+      cookie[:expires].should be_kind_of(Time)
 
-    # a few ms slack
-    cookie[:expires].to_i.should be_within(2).of(expires.to_i)
+      # a few ms slack
+      cookie[:expires].to_i.should be_within(2).of(expires.to_i)
+    end
   end
 
   it 'removes a cookie' do
