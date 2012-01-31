@@ -88,7 +88,12 @@ module Watir
     alias_method :quit, :close # TODO: close vs quit
 
     def clear_cookies
+      warn 'Browser#clear_cookies is deprecated and replaced by Browser#cookies (i.e. browser.cookies.clear)'
       @driver.manage.delete_all_cookies
+    end
+
+    def cookies
+      @cookies ||= Cookies.new driver.manage
     end
 
     def text
