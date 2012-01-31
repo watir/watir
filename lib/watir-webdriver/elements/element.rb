@@ -152,6 +152,46 @@ module Watir
       driver.action.move_to(@element).perform
     end
 
+    #
+    # Drag and drop this element on to another element instance.
+    #
+    # Example:
+    #
+    #    a = browser.div(:id => "draggable")
+    #    b = browser.div(:id => "droppable")
+    #
+    #    a.drag_and_drop_on b
+    #
+
+    def drag_and_drop_on(other)
+      assert_is_element other
+      assert_exists
+      assert_has_input_devices_for :drag_and_drop_on
+
+      driver.action.
+             drag_and_drop(@element, other.wd).
+             perform
+    end
+
+    #
+    # Drag and drop this element by the given offsets.
+    #
+    # Example:
+    #
+    #    a = browser.div(:id => "draggable")
+    #
+    #    a.drag_and_drop_by 100, -200
+    #
+
+    def drag_and_drop_by(right_by, down_by)
+      assert_exists
+      assert_has_input_devices_for :drag_and_drop_by
+
+      driver.action.
+             drag_and_drop_by(@element, right_by, down_by).
+             perform
+    end
+
     def flash
       original_color = style("backgroundColor")
 
@@ -370,6 +410,12 @@ module Watir
     def assert_has_input_devices_for(name)
       unless driver.kind_of? WebDriver::DriverExtensions::HasInputDevices
         raise NotImplementedError, "#{self.class}##{name} is not supported by this driver"
+      end
+    end
+
+    def assert_is_element(obj)
+      unless obj.kind_of? Watir::Element
+        raise TypeError, "execpted Watir::Element, got #{obj.inspect}:#{obj.class}"
       end
     end
 
