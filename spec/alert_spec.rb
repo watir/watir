@@ -3,7 +3,7 @@ require "watir-webdriver/extensions/alerts"
 
 describe "AlertHelper" do
   before do
-    browser.goto("file://" + File.expand_path("html/alerts.html", File.dirname(__FILE__)))
+    browser.goto WatirSpec.url_for("alerts.html", :needs_server => true)
   end
 
   it "handles an alert()" do

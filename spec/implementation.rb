@@ -9,6 +9,9 @@ class ImplementationConfig
     set_webdriver
     set_browser_args
     set_guard_proc
+    add_html_routes
+
+    WatirSpec.always_use_server = mobile?
   end
 
   private
@@ -27,6 +30,10 @@ class ImplementationConfig
     else
       @imp.browser_args = [browser]
     end
+  end
+
+  def mobile?
+    [:android, :iphone].include? browser
   end
 
   def set_guard_proc
@@ -75,6 +82,13 @@ class ImplementationConfig
     end
 
     @imp.browser_args = [:chrome, opts]
+  end
+
+  def add_html_routes
+    glob = File.expand_path("../html/*.html", __FILE__)
+    Dir[glob].each do |path|
+      WatirSpec::Server.get("/#{File.basename path}") { File.read(path) }
+    end
   end
 
   def browser

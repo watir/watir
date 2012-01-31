@@ -4,7 +4,7 @@ describe Watir::Element do
 
   describe '#present?' do
     before do
-      browser.goto('file://' + File.expand_path('html/wait.html', File.dirname(__FILE__)))
+      browser.goto(WatirSpec.url_for("wait.html", :needs_server => true))
     end
 
     it 'returns true if the element exists and is visible' do

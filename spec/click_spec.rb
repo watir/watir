@@ -3,7 +3,7 @@ require File.expand_path('../watirspec/spec_helper', __FILE__)
 describe Watir::Element do
   describe "#click" do
     before {
-      browser.goto('file://' + File.expand_path('../html/clicks.html', __FILE__))
+      browser.goto WatirSpec.url_for('clicks.html', :needs_server => true)
     }
 
     let(:clicker) { browser.element(:id => "click-logger") }

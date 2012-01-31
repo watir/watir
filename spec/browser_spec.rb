@@ -21,7 +21,7 @@ describe Watir::Browser do
   end
 
   describe "#execute_script" do
-    before { browser.goto(WatirSpec.files + "/definition_lists.html") }
+    before { browser.goto WatirSpec.url_for("definition_lists.html") }
 
     it "wraps elements as Watir objects" do
       returned = browser.execute_script("return document.body")
@@ -49,14 +49,14 @@ describe Watir::Browser do
 
   describe "#send_key{,s}" do
     it "sends keystrokes to the active element" do
-      browser.goto WatirSpec.files + "/forms_with_input_elements.html"
+      browser.goto WatirSpec.url_for "forms_with_input_elements.html"
 
       browser.send_keys "hello"
       browser.text_field(:id => "new_user_first_name").value.should == "hello"
     end
 
     it "sends keys to a frame" do
-      browser.goto WatirSpec.files + "/frames.html"
+      browser.goto WatirSpec.url_for "frames.html"
       tf = browser.frame.text_field(:id => "senderElement")
       tf.clear
 
@@ -68,7 +68,7 @@ describe Watir::Browser do
 
   it "raises an error when trying to interact with a closed browser" do
     b = WatirSpec.new_browser
-    b.goto(WatirSpec.files + "/definition_lists.html")
+    b.goto WatirSpec.url_for "definition_lists.html"
     b.close
 
     lambda { b.dl(:id => "experience-list").id }.should raise_error(Error, "browser was closed")

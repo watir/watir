@@ -3,7 +3,7 @@ require File.expand_path('watirspec/spec_helper', File.dirname(__FILE__))
 describe Watir::Browser do
 
   before do
-    browser.goto("file://" + File.expand_path("../html/special_chars.html", __FILE__))
+    browser.goto WatirSpec.url_for("special_chars.html", :needs_server => true)
   end
 
   it "finds elements with single quotes" do

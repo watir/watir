@@ -41,7 +41,7 @@ end
 describe Watir::Element do
 
   before do
-    browser.goto("file://" + File.expand_path("html/wait.html", File.dirname(__FILE__)))
+    browser.goto WatirSpec.url_for("wait.html", :needs_server => true)
   end
 
   describe "#when_present" do
