@@ -11,7 +11,6 @@ module Watir
 
     include Exception
     include Container
-    include Selenium
     include EventuallyPresent
 
     #
@@ -206,7 +205,7 @@ module Watir
 
       begin
         @element.attribute('value') || ''
-      rescue WebDriver::Error::InvalidElementStateError
+      rescue Selenium::WebDriver::Error::InvalidElementStateError
         ""
       end
     end
@@ -254,7 +253,7 @@ module Watir
 
       e = execute_atom :getParentElement, @element
 
-      if e.kind_of?(WebDriver::Element)
+      if e.kind_of?(Selenium::WebDriver::Element)
         Watir.element_class_for(e.tag_name.downcase).new(@parent, :element => e)
       end
     end
@@ -408,7 +407,7 @@ module Watir
     end
 
     def assert_has_input_devices_for(name)
-      unless driver.kind_of? WebDriver::DriverExtensions::HasInputDevices
+      unless driver.kind_of? Selenium::WebDriver::DriverExtensions::HasInputDevices
         raise NotImplementedError, "#{self.class}##{name} is not supported by this driver"
       end
     end

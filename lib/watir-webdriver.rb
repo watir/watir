@@ -18,8 +18,6 @@ require 'watir-webdriver/locators/child_cell_locator'
 require 'watir-webdriver/browser'
 
 module Watir
-  include Selenium
-
   @always_locate = true
 
   class << self

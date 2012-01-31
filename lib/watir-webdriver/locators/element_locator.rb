@@ -2,7 +2,6 @@
 module Watir
   class ElementLocator
     include Watir::Exception
-    include Selenium
 
     WD_FINDERS =  [
       :class,
@@ -36,7 +35,7 @@ module Watir
       # this actually only applies when finding by xpath - browser.text_field(:xpath, "//input[@type='radio']")
       # we don't need to validate the element if we built the xpath ourselves.
       validate_element(element) if element
-    rescue WebDriver::Error::NoSuchElementError => wde
+    rescue Selenium::WebDriver::Error::NoSuchElementError => wde
       nil
     end
 
@@ -245,7 +244,7 @@ module Watir
       return if tag_name && !tag_name_matches?(element.tag_name.downcase, tag_name)
 
       element
-    rescue WebDriver::Error::NoSuchElementError => wde
+    rescue Selenium::WebDriver::Error::NoSuchElementError => wde
       nil
     end
 

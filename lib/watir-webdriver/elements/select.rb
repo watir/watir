@@ -146,7 +146,7 @@ module Watir
       else
         begin
           e = @element.find_element(:xpath, xpath)
-        rescue WebDriver::Error::NoSuchElementError
+        rescue Selenium::WebDriver::Error::NoSuchElementError
           no_value_found(string)
         end
 

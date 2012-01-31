@@ -185,7 +185,7 @@ module Watir
 
     def wrap_elements_in(obj)
       case obj
-      when WebDriver::Element
+      when Selenium::WebDriver::Element
         wrap_element(obj)
       when Array
         obj.map { |e| wrap_elements_in(e) }
