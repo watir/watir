@@ -86,7 +86,7 @@ end
 bug "http://github.com/jarib/celerity/issues#issue/17", :celerity do
   describe "Window" do
     before do
-      url = "file://" + File.expand_path("html/window_switching.html", File.dirname(__FILE__))
+      url = WatirSpec.url_for("window_switching.html")
       browser.goto url
       browser.a(:id => "open").click
     end
