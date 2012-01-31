@@ -49,7 +49,7 @@ describe "Element" do
   end
 
   describe "data-* attributes" do
-    before { browser.goto("file://" + File.expand_path("html/data_attributes.html", File.dirname(__FILE__))) }
+    before { browser.goto WatirSpec.url_for("data_attributes.html") }
 
     bug "http://github.com/jarib/celerity/issues#issue/27", :celerity do
       it "finds elements by a data-* attribute" do
