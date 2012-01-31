@@ -126,12 +126,12 @@ describe "Frame" do
 
   describe "#html" do
     it "returns the full HTML source of the frame" do
-      browser.goto(WatirSpec.url_for("frames.html"))
+      browser.goto WatirSpec.url_for("frames.html")
       browser.frame.html.downcase.should include("<title>frame 1</title>")
     end
 
     it "returns the full HTML source of the iframe" do
-      browser.goto(WatirSpec.url_for("iframes.html"))
+      browser.goto WatirSpec.url_for("iframes.html")
       browser.frame.html.downcase.should include("<title>frame 1</title>")
     end
   end
