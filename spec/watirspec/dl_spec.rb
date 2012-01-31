@@ -4,7 +4,7 @@ require File.expand_path("../spec_helper", __FILE__)
 describe "Dl" do
 
   before :each do
-    browser.goto(WatirSpec.files + "/definition_lists.html")
+    browser.goto(WatirSpec.url_for("definition_lists.html"))
   end
 
   # Exists method

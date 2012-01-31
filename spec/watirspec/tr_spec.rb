@@ -4,7 +4,7 @@ require File.expand_path("../spec_helper", __FILE__)
 describe "TableRow" do
 
   before :each do
-    browser.goto(WatirSpec.files + "/tables.html")
+    browser.goto(WatirSpec.url_for("tables.html"))
   end
 
   describe "#exists?" do

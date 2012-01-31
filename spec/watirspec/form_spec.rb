@@ -4,7 +4,7 @@ require File.expand_path("../spec_helper", __FILE__)
 describe "Form" do
 
   before :each do
-   browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
+   browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
   end
 
   describe "#exists?" do

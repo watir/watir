@@ -4,7 +4,7 @@ require File.expand_path("../spec_helper", __FILE__)
 describe "Table" do
 
   before :each do
-    browser.goto(WatirSpec.files + "/nested_tables.html")
+    browser.goto(WatirSpec.url_for("nested_tables.html"))
   end
 
   # not a webdriver bug - IE seems unable to deal with the invalid nesting

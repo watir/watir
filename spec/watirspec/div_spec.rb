@@ -4,7 +4,7 @@ require File.expand_path("../spec_helper", __FILE__)
 describe "Div" do
 
   before :each do
-    browser.goto(WatirSpec.files + "/non_control_elements.html")
+    browser.goto(WatirSpec.url_for("non_control_elements.html"))
   end
 
   # Exists method
@@ -83,7 +83,7 @@ describe "Div" do
     end
 
     it "should take all conditions into account when locating by id" do
-      browser.goto "#{WatirSpec.files}/multiple_ids.html"
+      browser.goto WatirSpec.url_for "multiple_ids.html"
       browser.div(:id => "multiple", :class => "bar").class_name.should == "bar"
     end
   end
@@ -184,7 +184,7 @@ describe "Div" do
 
   describe "#right_click" do
     it "fires the oncontextmenu event" do
-      browser.goto(WatirSpec.files + "/right_click.html")
+      browser.goto(WatirSpec.url_for("right_click.html"))
       browser.div(:id, "click").right_click
       messages.first.should == 'right-clicked'
     end

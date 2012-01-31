@@ -4,7 +4,7 @@ require File.expand_path("../spec_helper", __FILE__)
 describe "Element" do
 
   before :each do
-    browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
+    browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
   end
 
   describe ".new" do
@@ -25,7 +25,7 @@ describe "Element" do
   end
 
   describe "#== and #eql?" do
-    before { browser.goto(WatirSpec.files + "/definition_lists.html") }
+    before { browser.goto WatirSpec.url_for("definition_lists.html") }
 
     it "returns true if the two elements point to the same DOM element" do
       a = browser.dl(:id => "experience-list")
@@ -170,7 +170,7 @@ describe "Element" do
   describe "#exist?" do
     context ":class locator" do
       before do
-        browser.goto(WatirSpec.files + "/class_locator.html")
+        browser.goto(WatirSpec.url_for("class_locator.html"))
       end
 
       it "matches when the element has a single class" do
@@ -206,7 +206,7 @@ describe "Element" do
   describe '#send_keys' do
     before(:each) do
       @c = RUBY_PLATFORM =~ /darwin/ ? :command : :control
-      browser.goto(WatirSpec.files + '/keylogger.html')
+      browser.goto(WatirSpec.url_for('keylogger.html'))
     end
 
     let(:receiver) { browser.element(:id => 'receiver')       }

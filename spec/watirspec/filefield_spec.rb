@@ -4,7 +4,7 @@ require File.expand_path("../spec_helper", __FILE__)
 describe "FileField" do
 
   before :each do
-    browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
+    browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
   end
 
   describe "#exist?" do
@@ -106,7 +106,7 @@ describe "FileField" do
 
   describe "#set" do
     it "is able to set a file path in the field and click the upload button and fire the onchange event" do
-      browser.goto("#{WatirSpec.host}/forms_with_input_elements.html")
+      browser.goto WatirSpec.url_for("forms_with_input_elements.html", :needs_server => true)
 
       path    = File.expand_path(__FILE__)
       element = browser.file_field(:name, "new_user_portrait")
@@ -129,7 +129,7 @@ describe "FileField" do
 
   describe "#value=" do
     it "is able to set a file path in the field and click the upload button and fire the onchange event" do
-      browser.goto("#{WatirSpec.host}/forms_with_input_elements.html")
+      browser.goto WatirSpec.url_for("forms_with_input_elements.html", :needs_server => true)
 
       path    = File.expand_path(__FILE__)
       element = browser.file_field(:name, "new_user_portrait")
@@ -141,7 +141,6 @@ describe "FileField" do
 
     not_compliant_on :ie, [:webdriver, :chrome] do
       # for chrome, the check also happens in the driver
-
       it "does not raise an error if the file does not exist" do
         path = File.join(Dir.tmpdir, 'unlikely-to-exist')
         browser.file_field.value = path

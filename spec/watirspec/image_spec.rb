@@ -4,7 +4,7 @@ require File.expand_path("../spec_helper", __FILE__)
 describe "Image" do
 
   before :each do
-    browser.goto(WatirSpec.files + "/images.html")
+    browser.goto(WatirSpec.url_for("images.html"))
   end
 
   # Exists method
@@ -132,7 +132,7 @@ describe "Image" do
   not_compliant_on :webdriver do
     describe "#file_created_date" do
       it "returns the date the image was created as reported by the file system" do
-        browser.goto(WatirSpec.host + "/images.html")
+        browser.goto(WatirSpec.url_for("images.html", :needs_server => true))
         image = browser.image(:index, 1)
         path = "#{File.dirname(__FILE__)}/html/#{image.src}"
         image.file_created_date.to_i.should == File.mtime(path).to_i

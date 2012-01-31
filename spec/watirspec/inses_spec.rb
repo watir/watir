@@ -4,7 +4,7 @@ require File.expand_path("../spec_helper", __FILE__)
 describe "Inses" do
 
   before :each do
-    browser.goto(WatirSpec.files + "/non_control_elements.html")
+    browser.goto(WatirSpec.url_for("non_control_elements.html"))
   end
 
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do

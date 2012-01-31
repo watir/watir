@@ -5,7 +5,7 @@ describe "Browser" do
 
   describe "#exists?" do
     it "returns true if we are at a page" do
-      browser.goto(WatirSpec.files + "/non_control_elements.html")
+      browser.goto(WatirSpec.url_for("non_control_elements.html"))
       browser.should exist
     end
 
@@ -22,7 +22,7 @@ describe "Browser" do
   describe "#html" do
     not_compliant_on :ie do
       it "returns the DOM of the page as an HTML string" do
-        browser.goto(WatirSpec.files + "/right_click.html")
+        browser.goto(WatirSpec.url_for("right_click.html"))
         html = browser.html.downcase # varies between browsers
 
         html.should =~ /^<html/
@@ -34,7 +34,7 @@ describe "Browser" do
 
     deviates_on :ie do
       it "returns the DOM of the page as an HTML string" do
-        browser.goto(WatirSpec.files + "/right_click.html")
+        browser.goto(WatirSpec.url_for("right_click.html"))
         html = browser.html.downcase # varies between browsers
 
         html.should =~ /^<html/
@@ -45,7 +45,7 @@ describe "Browser" do
 
   describe "#title" do
     it "returns the current page title" do
-      browser.goto(WatirSpec.files + "/non_control_elements.html")
+      browser.goto(WatirSpec.url_for("non_control_elements.html"))
       browser.title.should == "Non-control elements"
     end
   end
@@ -56,7 +56,7 @@ describe "Browser" do
     #
     not_compliant_on [:webdriver, :firefox] do 
       it "returns the current value of window.status" do
-        browser.goto(WatirSpec.files + "/non_control_elements.html")
+        browser.goto(WatirSpec.url_for("non_control_elements.html"))
 
         browser.execute_script "window.status = 'All done!';"
         browser.status.should == "All done!"
@@ -66,28 +66,29 @@ describe "Browser" do
 
   describe "#text" do
     it "returns the text of the page" do
-      browser.goto(WatirSpec.files + "/non_control_elements.html")
+      browser.goto(WatirSpec.url_for("non_control_elements.html"))
       browser.text.should include("Dubito, ergo cogito, ergo sum.")
     end
 
     it "returns the text also if the content-type is text/plain" do
       # more specs for text/plain? what happens if we call other methods?
-      browser.goto(WatirSpec.host + "/plain_text")
+      browser.goto(WatirSpec.url_for("plain_text", :needs_server => true))
       browser.text.strip.should == 'This is text/plain'
     end
   end
 
   describe "#url" do
     it "returns the current url" do
-      browser.goto(WatirSpec.host + "/non_control_elements.html")
-      browser.url.should == WatirSpec.host + "/non_control_elements.html"
+      browser.goto(WatirSpec.url_for("non_control_elements.html", :needs_server => true))
+      browser.url.should == WatirSpec.url_for("non_control_elements.html", :needs_server => true)
     end
   end
 
   describe ".start" do
     not_compliant_on(:webdriver, :safariwatir) {
       it "goes to the given URL and return an instance of itself" do
-        browser = WatirSpec.implementation.browser_class.start("#{WatirSpec.files}/non_control_elements.html")
+        url = WatirSpec.url_for("non_control_elements.html")
+        browser = WatirSpec.implementation.browser_class.start(WatirSpec.url_for("non_control_elements.html"))
 
         browser.should be_instance_of(WatirSpec.implementation.browser_class)
         browser.title.should == "Non-control elements"
@@ -99,7 +100,7 @@ describe "Browser" do
     deviates_on(:webdriver) {
       it "goes to the given URL and return an instance of itself" do
         driver = (ENV['WATIR_WEBDRIVER_BROWSER'] || :firefox).to_sym
-        browser = Watir::Browser.start("#{WatirSpec.files}/non_control_elements.html", driver)
+        browser = Watir::Browser.start(WatirSpec.url_for("non_control_elements.html"), driver)
 
         browser.should be_instance_of(Watir::Browser)
         browser.title.should == "Non-control elements"
@@ -117,7 +118,7 @@ describe "Browser" do
     end
 
     it "goes to the given url without raising errors" do
-      lambda { browser.goto(WatirSpec.files + "/non_control_elements.html") }.should_not raise_error
+      lambda { browser.goto(WatirSpec.url_for("non_control_elements.html")) }.should_not raise_error
     end
 
     it "goes to the url 'about:blank' without raising errors" do
@@ -149,7 +150,7 @@ describe "Browser" do
     end
 
     it "updates the page when location is changed with setTimeout + window.location" do
-      browser.goto(WatirSpec.files + "/timeout_window_location.html")
+      browser.goto(WatirSpec.url_for("timeout_window_location.html"))
       sleep 1
       browser.url.should include("non_control_elements.html")
     end
@@ -157,7 +158,7 @@ describe "Browser" do
 
   describe "#refresh" do
     it "refreshes the page" do
-      browser.goto(WatirSpec.files + "/non_control_elements.html")
+      browser.goto(WatirSpec.url_for("non_control_elements.html"))
       browser.span(:class, 'footer').click
       browser.span(:class, 'footer').text.should include('Javascript')
       browser.refresh
@@ -167,7 +168,7 @@ describe "Browser" do
 
   describe "#execute_script" do
     it "executes the given JavaScript on the current page" do
-      browser.goto(WatirSpec.files + "/non_control_elements.html")
+      browser.goto(WatirSpec.url_for("non_control_elements.html"))
       browser.pre(:id, 'rspec').text.should_not == "javascript text"
       browser.execute_script("document.getElementById('rspec').innerHTML = 'javascript text'")
       browser.pre(:id, 'rspec').text.should == "javascript text"
@@ -176,9 +177,9 @@ describe "Browser" do
 
   describe "#back and #forward" do
     it "goes to the previous page" do
-      browser.goto("#{WatirSpec.host}/non_control_elements.html")
+      browser.goto WatirSpec.url_for("non_control_elements.html", :needs_server => true)
       orig_url = browser.url
-      browser.goto("#{WatirSpec.host}/tables.html")
+      browser.goto(WatirSpec.url_for("tables.html", :needs_server => true))
       new_url = browser.url
       orig_url.should_not == new_url
       browser.back
@@ -187,9 +188,9 @@ describe "Browser" do
 
     it "goes to the next page" do
       urls = []
-      browser.goto(WatirSpec.host + "/non_control_elements.html")
+      browser.goto WatirSpec.url_for("non_control_elements.html", :needs_server => true)
       urls << browser.url
-      browser.goto(WatirSpec.host + "/tables.html")
+      browser.goto WatirSpec.url_for("tables.html", :needs_server => true)
       urls << browser.url
 
       browser.back
@@ -199,12 +200,12 @@ describe "Browser" do
     end
 
     it "navigates between several history items" do
-      urls = [ "#{WatirSpec.host}/non_control_elements.html",
-               "#{WatirSpec.host}/tables.html",
-               "#{WatirSpec.host}/forms_with_input_elements.html",
-               "#{WatirSpec.host}/definition_lists.html"
+      urls = [ "non_control_elements.html",
+               "tables.html",
+               "forms_with_input_elements.html",
+               "definition_lists.html"
       ].map do |page|
-        browser.goto page
+        browser.goto WatirSpec.url_for(page, :needs_server => true)
         browser.url
       end
 
@@ -218,7 +219,7 @@ describe "Browser" do
   not_compliant_on :watir do
     describe "#element_by_xpath" do
       before :each do
-        browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
+        browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
       end
 
       it "finds submit buttons matching the given xpath" do
@@ -246,7 +247,7 @@ describe "Browser" do
 
     describe "#elements_by_xpath" do
       before :each do
-        browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
+        browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
       end
 
       not_compliant_on [:webdriver, :ie], :celerity do
@@ -286,7 +287,7 @@ describe "Browser" do
 
       begin
         browser.add_checker(proc)
-        browser.goto(WatirSpec.files + "/non_control_elements.html")
+        browser.goto(WatirSpec.url_for("non_control_elements.html"))
 
         output.should include('Dubito, ergo cogito, ergo sum')
       ensure
@@ -301,17 +302,17 @@ describe "Browser" do
       checker = lambda { |browser| output << browser.text }
 
       browser.add_checker(checker)
-      browser.goto(WatirSpec.files + "/non_control_elements.html")
+      browser.goto(WatirSpec.url_for("non_control_elements.html"))
       output.should include('Dubito, ergo cogito, ergo sum')
 
       browser.disable_checker(checker)
-      browser.goto(WatirSpec.files + "/definition_lists.html")
+      browser.goto(WatirSpec.url_for("definition_lists.html"))
       output.should_not include('definition_lists')
     end
   end
 
   it "raises UnknownObjectException when trying to access DOM elements on plain/text-page" do
-    browser.goto(WatirSpec.host + "/plain_text")
+    browser.goto(WatirSpec.url_for("plain_text", :needs_server => true))
     lambda { browser.div(:id, 'foo').id }.should raise_error(UnknownObjectException)
   end
 

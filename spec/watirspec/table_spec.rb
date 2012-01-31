@@ -4,7 +4,7 @@ require File.expand_path("../spec_helper", __FILE__)
 describe "Table" do
 
   before :each do
-    browser.goto(WatirSpec.files + "/tables.html")
+    browser.goto(WatirSpec.url_for("tables.html"))
   end
 
   # Exists
@@ -81,7 +81,7 @@ describe "Table" do
     end
 
     it "raises an error if the table could not be parsed" do
-      browser.goto(WatirSpec.files + "/uneven_table.html")
+      browser.goto(WatirSpec.url_for("uneven_table.html"))
 
       lambda {
         browser.table.hashes

@@ -2,7 +2,7 @@ require File.expand_path("../spec_helper", __FILE__)
 
 describe "Element" do
   context "drag and drop" do
-    before { browser.goto WatirSpec.files + "/drag_and_drop.html" }
+    before { browser.goto WatirSpec.url_for("drag_and_drop.html") }
 
     let(:draggable) { browser.div :id => "draggable" }
     let(:droppable) { browser.div :id => "droppable" }

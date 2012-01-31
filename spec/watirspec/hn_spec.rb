@@ -4,7 +4,7 @@ require File.expand_path("../spec_helper", __FILE__)
 describe "H1", "H2", "H3", "H4", "H5", "H6" do
 
   before :each do
-    browser.goto(WatirSpec.files + "/non_control_elements.html")
+    browser.goto(WatirSpec.url_for("non_control_elements.html"))
   end
 
   # Exists method

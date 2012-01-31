@@ -4,7 +4,7 @@ require File.expand_path("../spec_helper", __FILE__)
 describe "<frame> Frames" do
 
   before :each do
-    browser.goto(WatirSpec.files + "/frames.html")
+    browser.goto(WatirSpec.url_for("frames.html"))
   end
 
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
@@ -46,7 +46,7 @@ end
 describe "<iframe> Frames" do
 
   before :each do
-    browser.goto(WatirSpec.files + "/iframes.html")
+    browser.goto(WatirSpec.url_for("iframes.html"))
   end
 
   describe "#length" do

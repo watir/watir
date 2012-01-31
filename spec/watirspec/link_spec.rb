@@ -4,7 +4,7 @@ require File.expand_path("../spec_helper", __FILE__)
 describe "Link" do
 
   before :each do
-    browser.goto(WatirSpec.files + "/non_control_elements.html")
+    browser.goto(WatirSpec.url_for("non_control_elements.html"))
   end
 
   # Exists method
@@ -164,7 +164,7 @@ describe "Link" do
     end
 
     it "clicks a link with no text content but an img child" do
-      browser.goto "#{WatirSpec.files}/images.html"
+      browser.goto WatirSpec.url_for("images.html")
       browser.link(:href => /definition_lists.html/).click
       browser.title.should == 'definition_lists'
     end

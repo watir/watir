@@ -4,7 +4,7 @@ require File.expand_path("../spec_helper", __FILE__)
 describe "Frame" do
 
   before :each do
-   browser.goto(WatirSpec.files + "/frames.html")
+   browser.goto(WatirSpec.url_for("frames.html"))
   end
 
   it "handles crossframe javascript" do
@@ -29,7 +29,7 @@ describe "Frame" do
     end
 
     it "returns true if the iframe exists" do
-      browser.goto(WatirSpec.files + "/iframes.html")
+      browser.goto(WatirSpec.url_for("iframes.html"))
       browser.frame(:id, "frame_1").should exist
       browser.frame(:id, /frame/).should exist
       browser.frame(:name, "frame1").should exist
@@ -61,7 +61,7 @@ describe "Frame" do
     end
 
     it "handles nested frames" do
-      browser.goto(WatirSpec.host + "/nested_frames.html")
+      browser.goto(WatirSpec.url_for("nested_frames.html", :needs_server => true))
 
       browser.frame(:id, "two").frame(:id, "three").link(:id => "four").click
       browser.title.should == "definition_lists"
@@ -127,7 +127,7 @@ describe "Frame" do
   not_compliant_on :watir do
     describe "#elements_by_xpath" do
       before :each do
-        browser.goto(WatirSpec.files + "/iframes.html")
+        browser.goto(WatirSpec.url_for("iframes.html"))
       end
 
       it "returns an Array of matching elements" do
@@ -144,12 +144,12 @@ describe "Frame" do
 
   describe "#html" do
     it "returns the full HTML source of the frame" do
-      browser.goto(WatirSpec.files + "/frames.html")
+      browser.goto(WatirSpec.url_for("frames.html"))
       browser.frame.html.downcase.should include("<title>frame 1</title>")
     end
 
     it "returns the full HTML source of the iframe" do
-      browser.goto(WatirSpec.files + "/iframes.html")
+      browser.goto(WatirSpec.url_for("iframes.html"))
       browser.frame.html.downcase.should include("<title>frame 1</title>")
     end
   end

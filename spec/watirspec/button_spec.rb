@@ -4,7 +4,7 @@ require File.expand_path("../spec_helper", __FILE__)
 describe "Button" do
 
   before :each do
-    browser.goto(WatirSpec.files + "/forms_with_input_elements.html")
+    browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
   end
 
   # Exists method
@@ -240,7 +240,7 @@ describe "Button" do
   # Manipulation methods
   describe "#click" do
     it "clicks the button if it exists" do
-      browser.goto(WatirSpec.host + "/forms_with_input_elements.html")
+      browser.goto(WatirSpec.url_for("forms_with_input_elements.html", :needs_server => true))
       browser.button(:id, 'delete_user_submit').click
       browser.text.should include("Semantic table")
     end

@@ -16,18 +16,26 @@ end
 
 module WatirSpec
   class << self
-    attr_accessor :browser_args, :persistent_browser, :unguarded, :implementation
+    attr_accessor :browser_args, :persistent_browser, :unguarded, :implementation, :always_use_server
 
     def html
-      File.expand_path("#{File.dirname(__FILE__)}/../html")
+      @html ||= File.expand_path("../../html", __FILE__)
+    end
+
+    def url_for(str, opts = {})
+      if opts[:needs_server] || always_use_server
+        File.join(host, str)
+      else
+        File.join(files, str)
+      end
     end
 
     def files
-      "file://#{html}"
+      @files ||= "file://#{html}"
     end
 
     def host
-      "http://#{Server.bind}:#{Server.port}"
+      @host ||= "http://#{Server.bind}:#{Server.port}"
     end
 
     def unguarded?

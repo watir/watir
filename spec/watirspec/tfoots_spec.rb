@@ -3,7 +3,7 @@ require File.expand_path("../spec_helper", __FILE__)
 
 describe "TableFooters" do
   before :each do
-    browser.goto(WatirSpec.files + "/tables.html")
+    browser.goto(WatirSpec.url_for("tables.html"))
   end
 
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do

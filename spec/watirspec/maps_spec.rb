@@ -4,7 +4,7 @@ require File.expand_path("../spec_helper", __FILE__)
 describe "Maps" do
 
   before :each do
-    browser.goto(WatirSpec.files + "/images.html")
+    browser.goto(WatirSpec.url_for("images.html"))
   end
 
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do

@@ -4,7 +4,7 @@ require File.expand_path("../spec_helper", __FILE__)
 describe "Dts" do
 
   before :each do
-    browser.goto(WatirSpec.files + "/definition_lists.html")
+    browser.goto(WatirSpec.url_for("definition_lists.html"))
   end
 
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do

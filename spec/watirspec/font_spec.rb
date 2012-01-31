@@ -4,7 +4,7 @@ require File.expand_path("../spec_helper", __FILE__)
 describe "Font" do
 
   before :each do
-    browser.goto(WatirSpec.files + "/font.html")
+    browser.goto(WatirSpec.url_for("font.html"))
   end
   
   bug "http://github.com/jarib/celerity/issues#issue/29", :celerity do

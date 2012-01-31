@@ -4,7 +4,7 @@ require File.expand_path("../spec_helper", __FILE__)
 describe "Collections" do
 
   before :each do
-    browser.goto(WatirSpec.files + "/collections.html")
+    browser.goto(WatirSpec.url_for("collections.html"))
   end
 
   it "returns inner elements of parent element having different html tag" do
