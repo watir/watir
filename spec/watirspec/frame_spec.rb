@@ -124,24 +124,6 @@ describe "Frame" do
     end
   end
 
-  not_compliant_on :watir do
-    describe "#elements_by_xpath" do
-      before :each do
-        browser.goto(WatirSpec.url_for("iframes.html"))
-      end
-
-      it "returns an Array of matching elements" do
-        objects = browser.frame(:index, 0).elements_by_xpath("/html")
-        objects.size.should == 1
-      end
-
-      it "returns an empty Array if there are no matching elements" do
-        objects = browser.frame(:index, 0).elements_by_xpath("//*[@type='foobar']")
-        objects.size.should == 0
-      end
-    end
-  end
-
   describe "#html" do
     it "returns the full HTML source of the frame" do
       browser.goto(WatirSpec.url_for("frames.html"))
