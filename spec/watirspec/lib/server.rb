@@ -163,10 +163,10 @@ module WatirSpec
     end
 
     get '/set_cookie' do
-      content_type 'text/plain'
-      headers 'Set-Cookie' => "monster=/"
+      content_type 'text/html'
+      headers 'Set-Cookie' => "monster=1"
 
-      "C is for cookie, it's good enough for me"
+      "<html>C is for cookie, it's good enough for me</html>"
     end
 
     get '/header_echo' do
