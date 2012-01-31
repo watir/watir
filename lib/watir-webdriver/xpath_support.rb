@@ -1,32 +1,6 @@
 # encoding: utf-8
 module Watir
   module XpathSupport
-    include Selenium
-
-    #
-    # Find the first element matching the given XPath
-    #
-
-    def element_by_xpath(xpath)
-      warn 'element_by_xpath is deprecated and replaced by .element(:xpath, ...)'
-
-      e = wd.find_element(:xpath, xpath)
-      Watir.element_class_for(e.tag_name.downcase).new(self, :element => e)
-    rescue WebDriver::Error::NoSuchElementError
-      Element.new(self, :xpath => xpath)
-    end
-
-    #
-    # Find all elements matching the given XPath
-    #
-
-    def elements_by_xpath(xpath)
-      warn 'elements_by_xpath is deprecated and replaced by .elements(:xpath, ...)'
-
-      wd.find_elements(:xpath, xpath).map do |e|
-        Watir.element_class_for(e.tag_name.downcase).new(self, :element => e)
-      end
-    end
 
     def self.escape(value)
       if value.include? "'"
@@ -38,5 +12,6 @@ module Watir
         "'#{value}'"
       end
     end
+
   end # XpathSupport
 end # Watir

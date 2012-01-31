@@ -38,5 +38,10 @@ Please note that watir-webdriver 0.5.0 brings some backwards incompatible change
   * Finding elements by :class now matches partial class attributes.
       [ https://github.com/watir/watir-webdriver/issues/36 ]
 
+Additionally, watir-webdriver 0.5.1 removes the following deprecated methods:
+
+  * element_by_xpath  : replaced by .element(:xpath, '...')
+  * elements_by_xpath : replaced by .elements(:xpath, '...')
+
   MSG
 end
