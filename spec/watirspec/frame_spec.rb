@@ -115,12 +115,14 @@ describe "Frame" do
     el.attribute_value("cols").should be_kind_of(String)
   end
 
-  describe "#execute_script" do
-    it "executes the given javascript in the specified frame" do
-      frame = browser.frame(:index, 0)
-      frame.div(:id, 'set_by_js').text.should == ""
-      frame.execute_script(%Q{document.getElementById('set_by_js').innerHTML = 'Art consists of limitation. The most beautiful part of every picture is the frame.'})
-      frame.div(:id, 'set_by_js').text.should == "Art consists of limitation. The most beautiful part of every picture is the frame."
+  not_compliant_on :ie9 do
+    describe "#execute_script" do
+      it "executes the given javascript in the specified frame" do
+        frame = browser.frame(:index, 0)
+        frame.div(:id, 'set_by_js').text.should == ""
+        frame.execute_script(%Q{document.getElementById('set_by_js').innerHTML = 'Art consists of limitation. The most beautiful part of every picture is the frame.'})
+        frame.div(:id, 'set_by_js').text.should == "Art consists of limitation. The most beautiful part of every picture is the frame."
+      end
     end
   end
 

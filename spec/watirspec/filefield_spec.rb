@@ -105,39 +105,43 @@ describe "FileField" do
   # Manipulation methods
 
   describe "#set" do
-    it "is able to set a file path in the field and click the upload button and fire the onchange event" do
-      browser.goto WatirSpec.url_for("forms_with_input_elements.html", :needs_server => true)
+    not_compliant_on :ie9 do
+      it "is able to set a file path in the field and click the upload button and fire the onchange event" do
+        browser.goto WatirSpec.url_for("forms_with_input_elements.html", :needs_server => true)
 
-      path    = File.expand_path(__FILE__)
-      element = browser.file_field(:name, "new_user_portrait")
+        path    = File.expand_path(__FILE__)
+        element = browser.file_field(:name, "new_user_portrait")
 
-      element.set path
+        element.set path
 
-      element.value.should include(File.basename(path)) # only some browser will return the full path
-      messages.first.should include(File.basename(path))
+        element.value.should include(File.basename(path)) # only some browser will return the full path
+        messages.first.should include(File.basename(path))
 
-      browser.button(:name, "new_user_submit").click
-    end
+        browser.button(:name, "new_user_submit").click
+      end
 
-    it "raises an error if the file does not exist" do
-      lambda {
-        browser.file_field.set(File.join(Dir.tmpdir, 'unlikely-to-exist'))
-      }.should raise_error(Errno::ENOENT)
+      it "raises an error if the file does not exist" do
+        lambda {
+          browser.file_field.set(File.join(Dir.tmpdir, 'unlikely-to-exist'))
+        }.should raise_error(Errno::ENOENT)
+      end
     end
   end
 
 
   describe "#value=" do
-    it "is able to set a file path in the field and click the upload button and fire the onchange event" do
-      browser.goto WatirSpec.url_for("forms_with_input_elements.html", :needs_server => true)
 
-      path    = File.expand_path(__FILE__)
-      element = browser.file_field(:name, "new_user_portrait")
+    not_compliant_on :ie9 do
+      it "is able to set a file path in the field and click the upload button and fire the onchange event" do
+        browser.goto WatirSpec.url_for("forms_with_input_elements.html", :needs_server => true)
 
-      element.value = path
-      element.value.should include(File.basename(path)) # only some browser will return the full path
+        path    = File.expand_path(__FILE__)
+        element = browser.file_field(:name, "new_user_portrait")
+
+        element.value = path
+        element.value.should include(File.basename(path)) # only some browser will return the full path
+      end
     end
-
 
     not_compliant_on :ie, [:webdriver, :chrome] do
       # for chrome, the check also happens in the driver
