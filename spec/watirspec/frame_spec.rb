@@ -115,7 +115,7 @@ describe "Frame" do
     el.attribute_value("cols").should be_kind_of(String)
   end
 
-  not_compliant_on :ie9 do
+  not_compliant_on [:watir, :ie9] do
     describe "#execute_script" do
       it "executes the given javascript in the specified frame" do
         frame = browser.frame(:index, 0)

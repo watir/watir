@@ -209,26 +209,19 @@ describe "Div" do
     end
 
     deviates_on :ie do
-      deviates_on :ie8 do
-        it "returns the HTML of the element" do
-          html = browser.div(:id, 'footer').html.downcase
+      it "returns the HTML of the element" do
+        html = browser.div(:id, 'footer').html.downcase
+        html.should include('title="closing remarks"')
+        html.should_not include('</body>')
+        deviates_on :ie8 do
           html.should include('id=footer')
-          html.should include('title="closing remarks"')
           html.should include('class=profile')
-
           html.should_not include('<div id=content>')
-          html.should_not include('</body>')
         end
-      end
-      deviates_on :ie9 do
-        it "returns the HTML of the element" do
-          html = browser.div(:id, 'footer').html.downcase
+        deviates_on :ie9 do
           html.should include('id="footer"')
-          html.should include('title="closing remarks"')
           html.should include('class="profile"')
-
           html.should_not include('<div id="content">')
-          html.should_not include('</body>')
         end
       end
     end

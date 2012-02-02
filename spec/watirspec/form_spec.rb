@@ -8,38 +8,24 @@ describe "Form" do
   end
 
   describe "#exists?" do
-    not_compliant_on :ie9 do
-      it "returns true if the form exists" do
-        browser.form(:id, 'new_user').should exist
-        browser.form(:id, /new_user/).should exist
+    it "returns true if the form exists" do
+      browser.form(:id, 'new_user').should exist
+      browser.form(:id, /new_user/).should exist
 
-        browser.form(:class, 'user').should exist
-        browser.form(:class, /user/).should exist
+      browser.form(:class, 'user').should exist
+      browser.form(:class, /user/).should exist
 
-        browser.form(:method, 'post').should exist
-        browser.form(:method, /post/).should exist
+      browser.form(:method, 'post').should exist
+      browser.form(:method, /post/).should exist
+      deviates_on :ie8 do
         browser.form(:action, 'post_to_me').should exist
-        browser.form(:action, /to_me/).should exist
-        browser.form(:index, 0).should exist
-        browser.form(:xpath, "//form[@id='new_user']").should exist
       end
-    end
-
-    deviates_on :ie9 do
-      it "returns true if the form exists" do
-        browser.form(:id, 'new_user').should exist
-        browser.form(:id, /new_user/).should exist
-
-        browser.form(:class, 'user').should exist
-        browser.form(:class, /user/).should exist
-
-        browser.form(:method, 'post').should exist
-        browser.form(:method, /post/).should exist
+      deviates_on :ie9 do
         browser.form(:action, /post_to_me/).should exist
-        browser.form(:action, /to_me/).should exist
-        browser.form(:index, 0).should exist
-        browser.form(:xpath, "//form[@id='new_user']").should exist
       end
+      browser.form(:action, /to_me/).should exist
+      browser.form(:index, 0).should exist
+      browser.form(:xpath, "//form[@id='new_user']").should exist
     end
 
     it "returns the first form if given no args" do

@@ -105,7 +105,7 @@ describe "FileField" do
   # Manipulation methods
 
   describe "#set" do
-    not_compliant_on :ie9 do
+    not_compliant_on [:watir, :ie9] do
       it "is able to set a file path in the field and click the upload button and fire the onchange event" do
         browser.goto WatirSpec.url_for("forms_with_input_elements.html", :needs_server => true)
 
@@ -131,7 +131,7 @@ describe "FileField" do
 
   describe "#value=" do
 
-    not_compliant_on :ie9 do
+    not_compliant_on [:watir, :ie9] do
       it "is able to set a file path in the field and click the upload button and fire the onchange event" do
         browser.goto WatirSpec.url_for("forms_with_input_elements.html", :needs_server => true)
 
