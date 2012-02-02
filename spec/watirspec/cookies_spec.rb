@@ -20,15 +20,17 @@ describe "Browser#cookies" do
     cookie[:value].should == '1'
   end
 
-  it 'adds a cookie' do
-    browser.goto WatirSpec.url_for('set_cookie', :needs_server => true)
-    browser.cookies.to_a.size.should == 1
+  not_compliant_on [:webdriver, :ie] do
+    it 'adds a cookie' do
+      browser.goto WatirSpec.url_for('set_cookie', :needs_server => true)
+      browser.cookies.to_a.size.should == 1
 
-    browser.cookies.add 'foo', 'bar'
-    browser.cookies.to_a.size.should == 2
+      browser.cookies.add 'foo', 'bar'
+      browser.cookies.to_a.size.should == 2
+    end
   end
 
-  not_compliant_on [:webdriver, :chrome] do
+  not_compliant_on [:webdriver, :chrome], [:webdriver, :ie] do
     it 'adds a cookie with options' do
       browser.goto WatirSpec.url_for('set_cookie', :needs_server => true)
 
@@ -52,20 +54,22 @@ describe "Browser#cookies" do
     end
   end
 
-  it 'removes a cookie' do
-    browser.goto WatirSpec.url_for('set_cookie', :needs_server => true)
+  not_compliant_on [:webdriver, :ie] do
+    it 'removes a cookie' do
+      browser.goto WatirSpec.url_for('set_cookie', :needs_server => true)
 
-    browser.cookies.to_a.size.should == 1
-    browser.cookies.delete 'monster'
-    browser.cookies.to_a.size.should == 0
-  end
+      browser.cookies.to_a.size.should == 1
+      browser.cookies.delete 'monster'
+      browser.cookies.to_a.size.should == 0
+    end
 
-  it 'clears all cookies' do
-    browser.goto WatirSpec.url_for('set_cookie', :needs_server => true)
-    browser.cookies.add 'foo', 'bar'
-    browser.cookies.to_a.size.should == 2
+    it 'clears all cookies' do
+      browser.goto WatirSpec.url_for('set_cookie', :needs_server => true)
+      browser.cookies.add 'foo', 'bar'
+      browser.cookies.to_a.size.should == 2
 
-    browser.cookies.clear
-    browser.cookies.to_a.size.should == 0
+      browser.cookies.clear
+      browser.cookies.to_a.size.should == 0
+    end
   end
 end
