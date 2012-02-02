@@ -14,6 +14,7 @@ module WatirSpec
           sleep 0.1 until WatirSpec::Server.running?
         when :windows
           run_in_child_process
+          sleep 0.5 until listening?
         else
           pid = fork { run! }
           sleep 0.5 until listening?
