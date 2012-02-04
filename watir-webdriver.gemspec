@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Jari Bakken"]
   s.email       = ["jari.bakken@gmail.com"]
-  s.homepage    = "http://github.com/jarib/watir-webdriver"
+  s.homepage    = "http://github.com/watir/watir-webdriver"
   s.summary     = %q{Watir on WebDriver}
   s.description = %q{WebDriver-backed Watir}
 
