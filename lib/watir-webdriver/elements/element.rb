@@ -346,6 +346,10 @@ module Watir
       klass.new(@parent, :element => elem)
     end
 
+    def browser
+      @parent.browser
+    end
+
   protected
 
     def assert_exists
@@ -367,10 +371,6 @@ module Watir
       # don't cache a stale element - it will never come back
       @element = nil
       raise UnknownObjectException, "#{ex.message} - #{selector_string}"
-    end
-
-    def browser
-      @parent.browser
     end
 
     def reset!
