@@ -25,6 +25,7 @@ module Watir
     def initialize(parent, selector)
       @parent   = parent
       @selector = selector
+      @element  = nil
 
       unless @selector.kind_of? Hash
         raise ArgumentError, "invalid argument: #{selector.inspect}"
