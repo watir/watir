@@ -42,16 +42,6 @@ module Watir
       browser.execute_script(*args)
     end
 
-    def element_by_xpath(*args)
-      assert_exists
-      super
-    end
-
-    def elements_by_xpath(*args)
-      assert_exists
-      super
-    end
-
     private
 
     def locate_iframe
