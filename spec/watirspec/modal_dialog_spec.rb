@@ -6,51 +6,38 @@ describe "Modal Dialog" do
   not_compliant_on :webdriver do
     before :each do
       browser.goto(WatirSpec.url_for("modal_dialog.html"))
-      browser.wait
       browser.button(:value, 'Launch Dialog').click_no_wait
       @modal = browser.modal_dialog
+      # make sure that modal dialog exists
+      @modal.locate
     end
 
     after :each do
-      @modal.close if @modal.exists?
-      browser.wait
+      @modal.close
     end
 
     describe "#exists?" do
-      it "after opening" do
-        @modal.exists?.should be_true
+      it "returns true if modal dialog exists" do
+        @modal.should exist
       end
 
-      it "after closing" do
+      it "returns false if modal dialog doesn't exist" do
         @modal.close
-        browser.wait
-        @modal.exists?.should be_false
+        @modal.should_not exist
       end
     end
 
-    describe "#title" do
-      it "attaches to a modal dialog" do
-        @modal.title.should == 'Forms with input elements'
-      end
+    it "#title" do
+      @modal.title.should == 'Forms with input elements'
     end
 
-    describe "input elements" do
-      it "select_list" do
-        @modal.select_list(:id, 'new_user_country').select 'Denmark'
-      end
-
-      it "text_field" do
-        @modal.text_field(:id, 'new_user_email').value = 'foo@bar.com'
-      end
-
-      it "radio" do
-        @modal.radio(:id, 'new_user_newsletter_no').set
-      end
-
-      it "checkbox" do
-        @modal.checkbox(:id, 'new_user_interests_cars').set
-      end
+    it "allows to access elements within" do
+      @modal.select_list(:id, 'new_user_country').should exist
+      @modal.text_field(:id, 'new_user_email').should exist
+      @modal.radio(:id, 'new_user_newsletter_no').should exist
+      @modal.checkbox(:id, 'new_user_interests_cars').should exist
     end
   end
 
 end
+
