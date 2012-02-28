@@ -33,8 +33,6 @@ describe "Ps" do
 
       browser.ps.each_with_index do |p, index|
         p.id.should == browser.p(:index, index).id
-        p.value.should == browser.p(:index, index).value
-
         count += 1
       end
 

@@ -32,7 +32,6 @@ describe "H1s", "H2s", "H3s", "H4s", "H5s", "H6s" do
         collection = browser.send(:"h#{i}s")
         collection.each_with_index do |h, index|
           h.id.should == browser.send(:"h#{i}", :index, index).id
-          h.value.should == browser.send(:"h#{i}", :index, index).value
         end
         collection.length
       end

@@ -37,8 +37,6 @@ describe "Links" do
 
       browser.links.each_with_index do |c, index|
         c.id.should == browser.link(:index, index).id
-        c.value.should == browser.link(:index, index).value
-
         count += 1
       end
 

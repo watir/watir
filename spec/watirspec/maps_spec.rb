@@ -34,8 +34,6 @@ describe "Maps" do
       browser.maps.each_with_index do |m, index|
         m.name.should == browser.map(:index, index).name
         m.id.should == browser.map(:index, index).id
-        m.value.should == browser.map(:index, index).value
-
         count += 1
       end
 

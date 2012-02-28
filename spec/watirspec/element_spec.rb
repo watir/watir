@@ -75,6 +75,14 @@ describe "Element" do
       lambda {
         browser.element(:for => "no title").exists?
       }.should raise_error(MissingWayOfFindingObjectException)
+
+      lambda {
+        browser.element(:name => "new_user_first_name").exists?
+      }.should raise_error(MissingWayOfFindingObjectException)
+
+      lambda {
+        browser.element(:value => //).exists?
+      }.should raise_error(MissingWayOfFindingObjectException)
     end
 
     it "finds several elements by xpath" do
@@ -82,7 +90,7 @@ describe "Element" do
     end
 
     it "finds finds several elements by arbitrary attribute" do
-      browser.elements(:name => /^new_user/).length.should == 30
+      browser.elements(:id => /^new_user/).length.should == 27
     end
 
     it "finds an element from an element's subtree" do
@@ -209,7 +217,7 @@ describe "Element" do
       browser.goto(WatirSpec.url_for('keylogger.html'))
     end
 
-    let(:receiver) { browser.element(:id => 'receiver')       }
+    let(:receiver) { browser.text_field(:id => 'receiver') }
     let(:events)   { browser.element(:id => 'output').ps.size }
 
     it 'sends keystrokes to the element' do

@@ -33,8 +33,6 @@ describe "Images" do
 
       browser.images.each_with_index do |c, index|
         c.id.should == browser.image(:index, index).id
-        c.value.should == browser.image(:index, index).value
-
         count += 1
       end
 

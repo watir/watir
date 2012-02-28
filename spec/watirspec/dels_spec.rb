@@ -33,8 +33,6 @@ describe "Dels" do
 
       browser.dels.each_with_index do |s, index|
         s.id.should == browser.del(:index, index).id
-        s.value.should == browser.del(:index, index).value
-
         count += 1
       end
 

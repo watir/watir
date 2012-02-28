@@ -104,28 +104,12 @@ describe "Del" do
     end
   end
 
-  describe "#value" do
-    it "returns the value attribute" do
-      browser.del(:index, 1).value.should == "invalid_attribute"
-    end
-
-    it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.del(:index, 3).value.should == ''
-    end
-
-    it "raises UnknownObjectException if the del doesn't exist" do
-      lambda { browser.del(:id , "no_such_id").value }.should raise_error(UnknownObjectException)
-      lambda { browser.del(:index , 1337).value }.should raise_error(UnknownObjectException)
-    end
-  end
-
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
       browser.del(:index, 0).should respond_to(:class_name)
       browser.del(:index, 0).should respond_to(:id)
       browser.del(:index, 0).should respond_to(:title)
       browser.del(:index, 0).should respond_to(:text)
-      browser.del(:index, 0).should respond_to(:value)
     end
   end
 

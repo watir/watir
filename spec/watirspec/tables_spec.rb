@@ -35,8 +35,6 @@ describe "Tables" do
 
       browser.tables.each_with_index do |t, index|
         t.id.should == browser.table(:index, index).id
-        t.value.should == browser.table(:index, index).value
-
         count += 1
       end
 

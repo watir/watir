@@ -104,28 +104,12 @@ describe "P" do
     end
   end
 
-  describe "#value" do
-    it "returns the value attribute" do
-      browser.p(:index, 1).value.should == "invalid_attribute"
-    end
-
-    it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.p(:index, 2).value.should == ''
-    end
-
-    it "raises UnknownObjectException if the p doesn't exist" do
-      lambda { browser.p(:id , "no_such_id").value }.should raise_error(UnknownObjectException)
-      lambda { browser.p(:index , 1337).value }.should raise_error(UnknownObjectException)
-    end
-  end
-
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
       browser.p(:index, 0).should respond_to(:class_name)
       browser.p(:index, 0).should respond_to(:id)
       browser.p(:index, 0).should respond_to(:title)
       browser.p(:index, 0).should respond_to(:text)
-      browser.p(:index, 0).should respond_to(:value)
     end
   end
 

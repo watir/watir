@@ -138,29 +138,12 @@ describe "Div" do
     end
   end
 
-  describe "#value" do
-    it "returns the value attribute if the element exists" do
-      browser.div(:id, 'promo').value.should == "invalid_attribute"
-    end
-
-    it "returns an empty string if the element exists but the attribute doesn't" do
-      browser.div(:index, 0).value.should == ""
-    end
-
-    it "raises UnknownObjectException if the element does not exist" do
-      lambda {browser.div(:id, "no_such_id").value }.should raise_error(UnknownObjectException)
-      lambda {browser.div(:title, "no_such_title").value }.should raise_error(UnknownObjectException)
-      lambda {browser.div(:index, 1337).value }.should raise_error(UnknownObjectException)
-    end
-  end
-
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
       browser.div(:index, 0).should respond_to(:class_name)
       browser.div(:index, 0).should respond_to(:id)
       browser.div(:index, 0).should respond_to(:style)
       browser.div(:index, 0).should respond_to(:text)
-      browser.div(:index, 0).should respond_to(:value)
     end
   end
 

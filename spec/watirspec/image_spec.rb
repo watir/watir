@@ -115,7 +115,6 @@ describe "Image" do
       browser.image(:index, 0).should respond_to(:id)
       browser.image(:index, 0).should respond_to(:style)
       browser.image(:index, 0).should respond_to(:text)
-      browser.image(:index, 0).should respond_to(:value)
     end
   end
 

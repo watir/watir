@@ -33,8 +33,6 @@ describe "Spans" do
 
       browser.spans.each_with_index do |s, index|
         s.id.should == browser.span(:index, index).id
-        s.value.should == browser.span(:index, index).value
-
         count += 1
       end
 

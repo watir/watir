@@ -33,8 +33,6 @@ describe "Labels" do
 
       browser.labels.each_with_index do |l, index|
         l.id.should == browser.label(:index, index).id
-        l.value.should == browser.label(:index, index).value
-
         count += 1
       end
 

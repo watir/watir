@@ -104,28 +104,12 @@ describe "Span" do
     end
   end
 
-  describe "#value" do
-    it "returns the value attribute" do
-      browser.span(:index, 1).value.should == "invalid_attribute"
-    end
-
-    it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.span(:index, 2).value.should == ''
-    end
-
-    it "raises UnknownObjectException if the span doesn't exist" do
-      lambda { browser.span(:id , "no_such_id").value }.should raise_error(UnknownObjectException)
-      lambda { browser.span(:index , 1337).value }.should raise_error(UnknownObjectException)
-    end
-  end
-
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
       browser.span(:index, 0).should respond_to(:class_name)
       browser.span(:index, 0).should respond_to(:id)
       browser.span(:index, 0).should respond_to(:title)
       browser.span(:index, 0).should respond_to(:text)
-      browser.span(:index, 0).should respond_to(:value)
     end
   end
 

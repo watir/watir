@@ -33,8 +33,6 @@ describe "Pres" do
 
       browser.pres.each_with_index do |p, index|
         p.id.should == browser.pre(:index, index).id
-        p.value.should == browser.pre(:index, index).value
-
         count += 1
       end
 

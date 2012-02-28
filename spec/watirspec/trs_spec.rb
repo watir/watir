@@ -43,8 +43,6 @@ describe "TableRows" do
 
       inner_table.trs.each_with_index do |r, index|
         r.id.should == inner_table.tr(:index, index).id
-        r.value.should == inner_table.tr(:index, index).value
-
         count += 1
       end
       count.should > 0
@@ -56,8 +54,6 @@ describe "TableRows" do
 
       outer_table.trs.each_with_index do |r, index|
         r.id.should == outer_table.tr(:index, index).id
-        r.value.should == outer_table.tr(:index, index).value
-
         count += 1
       end
 

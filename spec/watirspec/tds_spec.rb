@@ -36,8 +36,6 @@ describe "TableCells" do
 
       browser.tds.each_with_index do |c, index|
         c.id.should == browser.td(:index, index).id
-        c.value.should == browser.td(:index, index).value
-
         count += 1
       end
 
@@ -50,8 +48,6 @@ describe "TableCells" do
       inner_table = browser.table(:id, 'inner')
       inner_table.tds.each_with_index do |c, index|
         c.id.should == inner_table.td(:index, index).id
-        c.value.should == inner_table.td(:index, index).value
-
         count += 1
       end
     end

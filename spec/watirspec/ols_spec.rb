@@ -31,10 +31,8 @@ describe "Ols" do
     it "iterates through ols correctly" do
       count = 0
 
-      browser.ols.each_with_index do |ul, index|
-        ul.id.should == browser.ol(:index, index).id
-        ul.value.should == browser.ol(:index, index).value
-
+      browser.ols.each_with_index do |ol, index|
+        ol.id.should == browser.ol(:index, index).id
         count += 1
       end
 
