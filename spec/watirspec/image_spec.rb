@@ -129,12 +129,14 @@ describe "Image" do
   end
 
   not_compliant_on :webdriver do
-    describe "#file_created_date" do
-      it "returns the date the image was created as reported by the file system" do
-        browser.goto(WatirSpec.url_for("images.html", :needs_server => true))
-        image = browser.image(:index, 1)
-        path = "#{File.dirname(__FILE__)}/html/#{image.src}"
-        image.file_created_date.to_i.should == File.mtime(path).to_i
+    bug "https://github.com/watir/watir/issues/36", :watir do    
+      describe "#file_created_date" do
+        it "returns the date the image was created as reported by the file system" do
+          browser.goto(WatirSpec.url_for("images.html", :needs_server => true))
+          image = browser.image(:index, 1)
+          path = "#{File.dirname(__FILE__)}/html#{image.src.gsub(WatirSpec.host, '')}"
+          image.file_created_date.to_i.should == File.mtime(path).to_i
+        end
       end
     end
 
