@@ -10,7 +10,7 @@ module Watir
       :id,
       :link,
       :link_text,
-      :name,
+      # :name,     # deliberately excluded to be watirspec compliant
       :partial_link_text,
       :tag_name,
       :xpath
