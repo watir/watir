@@ -210,8 +210,10 @@ describe "Element" do
       lambda { browser.div(:xpath => "//div", :class => "foo").exists? }.should raise_error(ArgumentError)
     end
 
-    it "raises ArgumentError error if selector hash with :css has multiple entries" do
-      lambda { browser.div(:css => "//div", :class => "foo").exists? }.should raise_error(ArgumentError)
+    bug "https://github.com/watir/watir-webdriver/issues/124", :webdriver do
+      it "raises ArgumentError error if selector hash with :css has multiple entries" do
+        lambda { browser.div(:css => "//div", :class => "foo").exists? }.should raise_error(ArgumentError)
+      end
     end
   end
 
