@@ -21,7 +21,7 @@ if ENV['ALWAYS_LOCATE'] == "false"
   Watir.always_locate = false
 end
 
-WEBDRIVER_SELECTORS = [:class, :class_name, :css, :id, :name, :tag_name, :xpath]
+WEBDRIVER_SELECTORS = [:class, :class_name, :css, :id, :tag_name, :xpath]
 
 if ENV['TRAVIS']
   ENV['DISPLAY'] = ":99.0"
