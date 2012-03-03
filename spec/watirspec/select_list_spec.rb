@@ -156,10 +156,6 @@ describe "SelectList" do
   end
 
   describe "#options" do
-    it "should raise UnknownObjectException if the select list doesn't exist" do
-      lambda { browser.select_list(:name, 'no_such_name').options }.should raise_error(UnknownObjectException)
-    end
-
     it "returns all the options" do
       options = browser.select_list(:name, "new_user_country").options
       options.map(&:text).should == ["Denmark", "Norway", "Sweden", "United Kingdom", "USA", "Germany"]
