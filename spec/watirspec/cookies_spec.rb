@@ -1,7 +1,10 @@
 require File.expand_path("../spec_helper", __FILE__)
 
 describe "Browser#cookies" do
-  after { browser.cookies.clear }
+  after do
+    browser.cookies.clear
+    browser.cookies.clear :path => "/set_cookie"
+  end
 
   it 'gets an empty list of cookies' do
     browser.goto WatirSpec.url_for 'collections.html' # no cookie set.
@@ -9,67 +12,114 @@ describe "Browser#cookies" do
   end
 
   it "gets any cookies set" do
-    browser.goto WatirSpec.url_for('set_cookie', :needs_server => true)
+    browser.goto set_cookie_url
 
-    all = browser.cookies.to_a
-    all.size.should == 1
+    verify_cookies_count 1
 
     cookie = browser.cookies.to_a.first
-
     cookie[:name].should == 'monster'
     cookie[:value].should == '1'
   end
 
   not_compliant_on [:webdriver, :ie] do
     it 'adds a cookie' do
-      browser.goto WatirSpec.url_for('set_cookie', :needs_server => true)
-      browser.cookies.to_a.size.should == 1
+      browser.goto set_cookie_url
+      verify_cookies_count 1
 
       browser.cookies.add 'foo', 'bar'
-      browser.cookies.to_a.size.should == 2
+      verify_cookies_count 2
     end
   end
 
   not_compliant_on [:webdriver, :chrome], [:webdriver, :ie] do
     it 'adds a cookie with options' do
-      browser.goto WatirSpec.url_for('set_cookie', :needs_server => true)
+      browser.goto set_cookie_url
 
       expires = Time.now + 10000
-      browser.cookies.add 'a', 'b', :path    => "/set_cookie",
-                                    :secure  => true,
-                                    :expires => expires
+      options = {:path    => "/set_cookie",
+                 :secure  => true,
+                 :expires => expires}
 
+      deviates_on :watir do
+        # secure cookie can't be accessed running on WatirSpec test server
+        options.delete(:secure)
+      end
+
+      browser.cookies.add 'a', 'b', options
       cookie = browser.cookies.to_a.find { |e| e[:name] == 'a' }
       cookie.should_not be_nil
 
       cookie[:name].should == 'a'
       cookie[:value].should == 'b'
-      cookie[:path].should == "/set_cookie"
-      cookie[:secure].should be_true
 
-      cookie[:expires].should be_kind_of(Time)
+      not_compliant_on :watir do
+        cookie[:path].should == "/set_cookie"
+        cookie[:secure].should be_true
 
-      # a few ms slack
-      cookie[:expires].to_i.should be_within(2).of(expires.to_i)
+        cookie[:expires].should be_kind_of(Time)
+
+        # a few ms slack
+        cookie[:expires].to_i.should be_within(2).of(expires.to_i)
+      end
     end
   end
 
   not_compliant_on [:webdriver, :ie] do
     it 'removes a cookie' do
-      browser.goto WatirSpec.url_for('set_cookie', :needs_server => true)
+      browser.goto set_cookie_url
+      verify_cookies_count 1
 
-      browser.cookies.to_a.size.should == 1
       browser.cookies.delete 'monster'
-      browser.cookies.to_a.size.should == 0
+      verify_cookies_count 0
+    end
+
+    it 'removes a cookie with options' do
+      browser.goto set_cookie_url
+      verify_cookies_count 1
+
+      browser.cookies.add 'b', 'c', :path => "/set_cookie"
+      verify_cookies_count 2
+
+      browser.cookies.delete 'b'
+      verify_cookies_count 2
+
+      browser.cookies.delete 'b', :path => "/set_cookie"
+      verify_cookies_count 1
     end
 
     it 'clears all cookies' do
-      browser.goto WatirSpec.url_for('set_cookie', :needs_server => true)
+      browser.goto set_cookie_url
       browser.cookies.add 'foo', 'bar'
-      browser.cookies.to_a.size.should == 2
+      verify_cookies_count 2
 
       browser.cookies.clear
-      browser.cookies.to_a.size.should == 0
+      verify_cookies_count 0
     end
+
+    it 'clears all cookies with options' do
+      browser.goto set_cookie_url
+      browser.cookies.add 'baz', 'bar', :path => "/set_cookie"
+      verify_cookies_count 2
+
+      browser.cookies.clear
+      verify_cookies_count 1
+
+      cookie = browser.cookies.first
+      cookie[:name].should == 'baz'
+      cookie[:value].should == 'bar'
+
+      browser.cookies.clear :path => "/set_cookie"
+      verify_cookies_count 0
+    end
+  end
+
+  def set_cookie_url
+    # add timestamp to url to avoid caching in IE8
+    WatirSpec.url_for('set_cookie/index.html', :needs_server => true) + "?t=#{Time.now.to_i + Time.now.usec}"
+  end
+
+  def verify_cookies_count expected_size
+    cookies = browser.cookies.to_a
+    cookies.size.should eq(expected_size), "expected #{expected_size} cookies, got #{cookies.size}: #{cookies.inspect}"
   end
 end

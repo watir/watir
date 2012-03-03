@@ -170,6 +170,13 @@ module WatirSpec
       "<html>C is for cookie, it's good enough for me</html>"
     end
 
+    get '/set_cookie/index.html' do
+      content_type 'text/html'
+      headers 'Set-Cookie' => "monster=1"
+
+      "<html>C is for cookie, it's good enough for me</html>"
+    end
+
     get '/header_echo' do
       content_type 'text/plain'
       env.inspect
