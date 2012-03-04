@@ -1,10 +1,7 @@
 require File.expand_path("../spec_helper", __FILE__)
 
 describe "Browser#cookies" do
-  after do
-    browser.cookies.clear
-    browser.cookies.clear :path => "/set_cookie"
-  end
+  after { browser.cookies.clear }
 
   it 'gets an empty list of cookies' do
     browser.goto WatirSpec.url_for 'collections.html' # no cookie set.
@@ -73,42 +70,12 @@ describe "Browser#cookies" do
       verify_cookies_count 0
     end
 
-    it 'removes a cookie with options' do
-      browser.goto set_cookie_url
-      verify_cookies_count 1
-
-      browser.cookies.add 'b', 'c', :path => "/set_cookie"
-      verify_cookies_count 2
-
-      browser.cookies.delete 'b'
-      verify_cookies_count 2
-
-      browser.cookies.delete 'b', :path => "/set_cookie"
-      verify_cookies_count 1
-    end
-
     it 'clears all cookies' do
       browser.goto set_cookie_url
       browser.cookies.add 'foo', 'bar'
       verify_cookies_count 2
 
       browser.cookies.clear
-      verify_cookies_count 0
-    end
-
-    it 'clears all cookies with options' do
-      browser.goto set_cookie_url
-      browser.cookies.add 'baz', 'bar', :path => "/set_cookie"
-      verify_cookies_count 2
-
-      browser.cookies.clear
-      verify_cookies_count 1
-
-      cookie = browser.cookies.first
-      cookie[:name].should == 'baz'
-      cookie[:value].should == 'bar'
-
-      browser.cookies.clear :path => "/set_cookie"
       verify_cookies_count 0
     end
   end
