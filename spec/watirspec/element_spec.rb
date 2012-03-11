@@ -238,7 +238,8 @@ describe "Element" do
       events.should == 10
     end
 
-    bug "http://code.google.com/p/chromium/issues/detail?id=93879", [:webdriver, :chrome] do
+    # key combinations probably not ever possible on mobile devices?
+    bug "http://code.google.com/p/chromium/issues/detail?id=93879", [:webdriver, :chrome], [:webdriver, :iphone] do
       it 'performs key combinations' do
         receiver.send_keys 'foo'
         receiver.send_keys [@c, 'a']

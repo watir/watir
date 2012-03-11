@@ -118,7 +118,7 @@ describe "Button" do
   end
 
   describe "#style" do
-    not_compliant_on :ie, [:webdriver, :chrome] do
+    not_compliant_on :ie, [:webdriver, :chrome], [:webdriver, :iphone] do
       it "returns the style attribute if the button exists" do
         browser.button(:id, 'delete_user_submit').style.should == "border: 4px solid red;"
       end
@@ -135,7 +135,7 @@ describe "Button" do
       end
     end
 
-    deviates_on [:webdriver, :chrome] do
+    deviates_on [:webdriver, :chrome], [:webdriver, :iphone] do
       it "returns the style attribute if the button exists" do
         style = browser.button(:id, 'delete_user_submit').style
         style.should include("border-top-width: 4px;")

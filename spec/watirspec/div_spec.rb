@@ -163,18 +163,20 @@ describe "Div" do
     end
   end
 
-  describe "#double_click" do
-    it "fires the ondblclick event" do
-      browser.div(:id, 'html_test').double_click
-      messages.should include('double clicked')
+  not_compliant_on [:webdriver, :iphone] do
+    describe "#double_click" do
+      it "fires the ondblclick event" do
+        browser.div(:id, 'html_test').double_click
+        messages.should include('double clicked')
+      end
     end
-  end
 
-  describe "#right_click" do
-    it "fires the oncontextmenu event" do
-      browser.goto(WatirSpec.url_for("right_click.html"))
-      browser.div(:id, "click").right_click
-      messages.first.should == 'right-clicked'
+    describe "#right_click" do
+      it "fires the oncontextmenu event" do
+        browser.goto(WatirSpec.url_for("right_click.html"))
+        browser.div(:id, "click").right_click
+        messages.first.should == 'right-clicked'
+      end
     end
   end
 

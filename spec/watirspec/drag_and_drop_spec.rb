@@ -7,16 +7,19 @@ describe "Element" do
     let(:draggable) { browser.div :id => "draggable" }
     let(:droppable) { browser.div :id => "droppable" }
 
-    it "can drag and drop an element onto another" do
-      droppable.text.should == 'Drop here'
-      draggable.drag_and_drop_on droppable
-      droppable.text.should == 'Dropped!'
+    not_compliant_on [:webdriver, :iphone] do
+      it "can drag and drop an element onto another" do
+        droppable.text.should == 'Drop here'
+        draggable.drag_and_drop_on droppable
+        droppable.text.should == 'Dropped!'
+      end
+
+      it "can drag an element by the given offset" do
+        droppable.text.should == 'Drop here'
+        draggable.drag_and_drop_by 200, 50
+        droppable.text.should == 'Dropped!'
+      end
     end
 
-    it "can drag an element by the given offset" do
-      droppable.text.should == 'Drop here'
-      draggable.drag_and_drop_by 200, 50
-      droppable.text.should == 'Dropped!'
-    end
   end
 end
