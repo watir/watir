@@ -44,7 +44,7 @@ describe Watir::Element do
   end
 
   describe "#hover" do
-    not_compliant_on [:webdriver, :firefox, :synthesized_events], [:webdriver, :ie] do
+    not_compliant_on [:webdriver, :firefox, :synthesized_events], [:webdriver, :ie], [:webdriver, :iphone] do
       it "should hover over the element" do
         browser.goto WatirSpec.url_for('hover.html', :needs_server => true)
         link = browser.a
