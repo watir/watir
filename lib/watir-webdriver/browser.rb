@@ -161,7 +161,7 @@ module Watir
 
     def assert_exists
       if @closed
-        raise Error, "browser was closed"
+        raise Exception::Error, "browser was closed"
       else
         driver.switch_to.default_content
         true
