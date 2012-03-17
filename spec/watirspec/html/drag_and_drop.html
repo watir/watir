@@ -12,31 +12,60 @@
     </style>
 
   <script type="text/javascript">
-  $(function() {
-    $("#draggable").draggable();
-    $("#droppable").droppable({
-      drop: function(event, ui) {
-        $(this).addClass('ui-state-highlight').find('p').html('Dropped!');
-      }
-  });
-
-        var report_event = function(report_text) {
-          var reportElement = $("#drop_reports");
-          var origText = reportElement.text();
-          reportElement.text(origText + " " + report_text);
+    $(function() {
+      $("#draggable").draggable();
+      $("#droppable").droppable({
+        drop: function(event, ui) {
+          $(this).addClass('ui-state-highlight').find('p').html('Dropped!');
+          $('body').off();
         }
+      });
 
-        $('body').mousedown(function() {
-            report_event('down');
-        });
+      var report_event = function(report_text) {
+        var reportElement = $("#drop_reports");
+        var origText = reportElement.text();
+        reportElement.text(origText + " " + report_text);
+      }
 
-        $('body').mousemove(function() {
-            report_event('move');
-        });
+      $('body').on('mousedown', function() {
+          report_event('down');
+      });
 
-        $('body').mouseup(function() {
-            report_event('up');
-        });
+      $('body').on('mousemove', function() {
+          report_event('move');
+      });
+
+      $('body').on('mouseup', function() {
+          report_event('up');
+      });
+
+      $('body').on('dragstart', function() {
+          report_event('dragstart');
+      });
+
+      $('body').on('drag', function() {
+          report_event('drag');
+      });
+
+      $('body').on('dragenter', function() {
+          report_event('dragenter');
+      });
+
+      $('body').on('dragover', function() {
+          report_event('dragover');
+      });
+
+      $('body').on('dragleave', function() {
+          report_event('dragleave');
+      });
+
+      $('body').on('dragend', function() {
+          report_event('dragend');
+      });
+
+      $('body').on('drop', function() {
+          report_event('drop');
+      });
   });
   </script>
 </head>
