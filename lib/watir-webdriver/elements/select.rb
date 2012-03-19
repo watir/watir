@@ -206,7 +206,7 @@ module Watir
 
     def safe_text(element)
       element.text
-    rescue Selenium::WebDriver::Error::ObsoleteElementError
+    rescue Selenium::WebDriver::Error::ObsoleteElementError, Selenium::WebDriver::Error::UnhandledAlertError
       # guard for scenario where selecting the element changes the page, making our element obsolete
 
       ''
