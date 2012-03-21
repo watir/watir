@@ -11,7 +11,7 @@ class ImplementationConfig
     set_guard_proc
     add_html_routes
 
-    WatirSpec.always_use_server = mobile? || ie?
+    WatirSpec.always_use_server = mobile? || ie? || safari?
   end
 
   private
@@ -38,6 +38,10 @@ class ImplementationConfig
 
   def ie?
     [:ie, :internet_explorer].include? browser
+  end
+
+  def safari?
+    browser == :safari
   end
 
   def set_guard_proc
