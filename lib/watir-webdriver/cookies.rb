@@ -28,9 +28,9 @@ module Watir
 
     private
 
-    def to_time(dt)
-      if dt.respond_to?(:to_time)
-        dt.to_time
+    def to_time(t)
+      if t.respond_to?(:to_time)
+        t.to_time
       else
         Time.local t.year, t.month, t.day, t.hour, t.min, t.sec
       end
