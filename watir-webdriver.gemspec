@@ -29,24 +29,4 @@ Gem::Specification.new do |s|
   s.add_development_dependency "fuubar", "~> 0.0.6"
   s.add_development_dependency "nokogiri"
   s.add_development_dependency "activesupport", "~> 2.3.5" # for pluralization during code generation
-
-  s.post_install_message = <<-MSG
-Please note that watir-webdriver 0.5.0 brings some backwards incompatible changes:
-
-  * Watir::Select#selected_options no longer returns Array<String>, but Array<Watir::Option>
-      [ https://github.com/watir/watir-webdriver/issues/21 ]
-  * Finding elements by :class now matches partial class attributes.
-      [ https://github.com/watir/watir-webdriver/issues/36 ]
-
-Additionally, watir-webdriver 0.5.1 removes the following deprecated methods:
-
-  * element_by_xpath  : replaced by .element(:xpath, '...')
-  * elements_by_xpath : replaced by .elements(:xpath, '...')
-
-And deprecates the following methods:
-
- * Browser#clear_cookies - replaced by Browser#cookies API
-   [ https://github.com/watir/watir-webdriver/issues/24 ]
-
-  MSG
 end
