@@ -75,14 +75,14 @@ module Watir
       selector = normalized_selector
 
       idx   = selector.delete(:index)
-      xpath = given_xpath(selector) || build_xpath(selector)
+      how, what = given_xpath(selector) || build_wd_selector(selector)
 
-      if xpath
+      if how
         # could build xpath for selector
         if idx
-          @wd.find_elements(:xpath, xpath)[idx]
+          @wd.find_elements(how, what)[idx]
         else
-          @wd.find_element(:xpath, xpath)
+          @wd.find_element(how, what)
         end
       else
         # can't use xpath, probably a regexp in there
@@ -101,9 +101,9 @@ module Watir
         raise ArgumentError, "can't locate all elements by :index"
       end
 
-      xpath = given_xpath(selector) || build_xpath(selector)
-      if xpath
-        @wd.find_elements(:xpath, xpath)
+      how, what = given_xpath(selector) || build_wd_selector(selector)
+      if how
+        @wd.find_elements(how, what)
       else
         wd_find_by_regexp_selector(selector, :select)
       end
@@ -132,9 +132,13 @@ module Watir
         selector[:id] = id_from_label(rx_selector.delete(:label)) || return
       end
 
-      xpath = build_xpath(selector) || raise("internal error: unable to build xpath from #{selector.inspect}")
+      how, what = build_wd_selector(selector)
 
-      elements = @wd.find_elements(:xpath, xpath)
+      unless how
+        raise Error, "internal error: unable to build WebDriver selector from #{selector.inspect}"
+      end
+
+      elements = @wd.find_elements(how, what)
       elements.__send__(method) { |el| matches_selector?(el, rx_selector) }
     end
 
@@ -264,7 +268,7 @@ module Watir
       @selector[:tag_name] != "option"
     end
 
-    def build_xpath(selectors)
+    def build_wd_selector(selectors)
       return if selectors.values.any? { |e| e.kind_of? Regexp }
 
       xpath = ".//"
@@ -283,7 +287,7 @@ module Watir
 
       p :xpath => xpath, :selectors => selectors if $DEBUG
 
-      xpath
+      [:xpath, xpath]
     end
 
     def attribute_expression(selectors)
@@ -340,7 +344,7 @@ module Watir
         raise ArgumentError, ":xpath cannot be combined with other selectors (#{selector.inspect})"
       end
 
-      xpath
+      [:xpath, xpath]
     end
 
     def can_be_combined_with_xpath?(selector)

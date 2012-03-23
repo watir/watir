@@ -16,7 +16,7 @@ module Watir
       super
     end
 
-    def build_xpath(selectors)
+    def build_wd_selector(selectors)
       return if selectors.values.any? { |e| e.kind_of? Regexp }
 
       selectors.delete(:tag_name) || raise("internal error: no tag_name?!")
@@ -33,9 +33,9 @@ module Watir
       xpath << " | .//input"
       xpath << "[#{input_attr_exp}]"
 
-      p :build_xpath => xpath if $DEBUG
+      p :build_wd_selector => xpath if $DEBUG
 
-      xpath
+      [:xpath, xpath]
     end
 
     def lhs_for(key)

@@ -11,7 +11,7 @@ module Watir
       nil # avoid this
     end
 
-    def build_xpath(selectors)
+    def build_wd_selector(selectors)
       return if selectors.values.any? { |e| e.kind_of? Regexp }
       selectors.delete(:tag_name) || raise("internal error: no tag_name?!")
 
@@ -28,9 +28,9 @@ module Watir
 
       xpath = expressions.join(" | ")
 
-      p :build_xpath => xpath if $DEBUG
+      p :build_wd_selector => xpath if $DEBUG
 
-      xpath
+      [:xpath, xpath]
     end
 
   end # ChildRowLocator

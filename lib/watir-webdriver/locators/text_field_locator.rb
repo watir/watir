@@ -11,7 +11,7 @@ module Watir
 
     private
 
-    def build_xpath(selectors)
+    def build_wd_selector(selectors)
       return if selectors.values.any? { |e| e.kind_of? Regexp }
 
       selectors.delete(:tag_name)
@@ -28,9 +28,9 @@ module Watir
       xpath << "| .//textarea"
       xpath << "[#{textarea_attr_exp}]" unless textarea_attr_exp.empty?
 
-      p :build_xpath => xpath if $DEBUG
+      p :build_wd_selector => xpath if $DEBUG
 
-      xpath
+      [:xpath, xpath]
     end
 
     def lhs_for(key)
