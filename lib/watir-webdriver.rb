@@ -34,6 +34,19 @@ module Watir
       @always_locate = bool
     end
 
+    def prefer_css?
+      @prefer_css
+    end
+
+    #
+    # Whether or not Watir should prefer CSS when translating the Watir selectors to WebDriver.
+    # Defaults to false.
+    #
+
+    def prefer_css=(bool)
+      @prefer_css = bool
+    end
+
     #
     # @api private
     #

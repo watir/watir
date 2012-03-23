@@ -269,12 +269,16 @@ module Watir
     end
 
     def build_wd_selector(selectors)
-      return if selectors.values.any? { |e| e.kind_of? Regexp }
+      unless selectors.values.any? { |e| e.kind_of? Regexp }
+        build_css(selectors) || build_xpath(selectors)
+      end
+    end
 
+    def build_xpath(selectors)
       xpath = ".//"
       xpath << (selectors.delete(:tag_name) || '*').to_s
 
-      idx = selectors.delete(:index)
+      idx = selectors.delete :index
 
       # the remaining entries should be attributes
       unless selectors.empty?
@@ -290,6 +294,48 @@ module Watir
       [:xpath, xpath]
     end
 
+    def build_css(selectors)
+      return unless use_css?(selectors)
+
+      css = ''
+      css << (selectors.delete(:tag_name) || '')
+
+      klass = selectors.delete(:class)
+      if klass
+        if klass.include? ' '
+          css << %([class="#{css_escape klass}"])
+        else
+          css << ".#{klass}"
+        end
+      end
+
+      href = selectors.delete(:href)
+      if href
+        css << %([href~="#{css_escape href}"])
+      end
+
+      selectors.each do |key, value|
+        key = key.to_s.gsub("_", "-")
+        css << %([#{key}="#{css_escape value}"]) # TODO: proper escaping
+      end
+
+      [:css, css]
+    end
+
+    def use_css?(selectors)
+      return false unless Watir.prefer_css?
+
+      if selectors.has_key?(:text) || selectors.has_key?(:label) || selectors.has_key?(:index)
+        return false
+      end
+
+      if selectors.has_key?(:class) && selectors[:class] !~ /^[\w-]+$/ui
+        return false
+      end
+
+      true
+    end
+
     def attribute_expression(selectors)
       selectors.map do |key, val|
         if val.kind_of?(Array)
@@ -298,6 +344,10 @@ module Watir
           equal_pair(key, val)
         end
       end.join(" and ")
+    end
+
+    def css_escape(str)
+      str.gsub('"', '\\"')
     end
 
     def equal_pair(key, value)

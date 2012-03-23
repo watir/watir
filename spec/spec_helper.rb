@@ -21,6 +21,10 @@ if ENV['ALWAYS_LOCATE'] == "false"
   Watir.always_locate = false
 end
 
+if ENV['PREFER_CSS']
+  Watir.prefer_css = true
+end
+
 WEBDRIVER_SELECTORS = [:class, :class_name, :css, :id, :tag_name, :xpath]
 
 if ENV['TRAVIS']

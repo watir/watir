@@ -22,14 +22,22 @@ class ImplementationConfig
   end
 
   def set_browser_args
-    case browser
-    when :firefox
-      set_firefox_args
-    when :chrome
-      set_chrome_args
-    else
-      @imp.browser_args = [browser]
+    args = case browser
+           when :firefox
+             firefox_args
+           when :chrome
+             chrome_args
+           else
+             [browser, {}]
+           end
+
+    if ENV['SELECTOR_STATS']
+      listener = SelectorListener.new
+      args.last.merge!(:listener => listener)
+      at_exit { listener.report }
     end
+
+    @imp.browser_args = args
   end
 
   def mobile?
@@ -64,14 +72,14 @@ class ImplementationConfig
     }
   end
 
-  def set_firefox_args
+  def firefox_args
     profile = Selenium::WebDriver::Firefox::Profile.new
     profile.native_events = native_events?
 
-    @imp.browser_args = [:firefox, {:profile => profile}]
+    [:firefox, {:profile => profile}]
   end
 
-  def set_chrome_args
+  def chrome_args
     opts = {
       :switches      => ["--disable-translate"],
       :native_events => native_events?
@@ -89,7 +97,7 @@ class ImplementationConfig
       Selenium::WebDriver::Chrome.path = path
     end
 
-    @imp.browser_args = [:chrome, opts]
+    [:chrome, opts]
   end
 
   def add_html_routes
@@ -109,6 +117,25 @@ class ImplementationConfig
 
   def native_events_by_default?
     Selenium::WebDriver::Platform.windows? && [:firefox, :ie].include?(browser)
+  end
+
+  class SelectorListener < Selenium::WebDriver::Support::AbstractEventListener
+    def initialize
+      @counts = Hash.new(0)
+    end
+
+    def before_find(how, what, driver)
+      @counts[how] += 1
+    end
+
+    def report
+      total = @counts.values.inject(0) { |mem, var| mem + var }
+      puts "\nWebDriver selector stats: "
+      @counts.each do |how, count|
+        puts "\t#{how.to_s.ljust(20)}: #{count * 100 / total} (#{count})"
+      end
+    end
+
   end
 end
 
