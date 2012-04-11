@@ -175,6 +175,12 @@ describe "Browser" do
       browser.execute_script("document.getElementById('rspec').innerHTML = 'javascript text'")
       browser.pre(:id, 'rspec').text.should == "javascript text"
     end
+
+    it "executes the given JavaScript in the context of an anonymous function" do
+      browser.goto(WatirSpec.url_for("non_control_elements.html"))
+      browser.execute_script("1 + 1").should == "undefined"
+      browser.execute_script("return 1 + 1").should == "2"
+    end
   end
 
   describe "#back and #forward" do
