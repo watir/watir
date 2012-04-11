@@ -21,7 +21,9 @@ describe "Frame" do
       browser.frame(:index, 0).should exist
       browser.frame(:class, "half").should exist
       browser.frame(:xpath, "//frame[@id='frame_1']").should exist
-      browser.frame(:src, "frame_1.html").should exist
+      not_compliant_on :watir do
+        browser.frame(:src, "frame_1.html").should exist
+      end
       browser.frame(:id, /frame/).should exist
       browser.frame(:name, /frame/).should exist
       browser.frame(:src, /frame_1/).should exist
@@ -34,7 +36,9 @@ describe "Frame" do
       browser.frame(:id, /frame/).should exist
       browser.frame(:name, "frame1").should exist
       browser.frame(:name, /frame/).should exist
-      browser.frame(:src, "frame_1.html").should exist
+      not_compliant_on :watir do
+        browser.frame(:src, "frame_1.html").should exist
+      end
       browser.frame(:src, /frame_1/).should exist
       browser.frame(:class, "iframe").should exist
       browser.frame(:class, /iframe/).should exist
