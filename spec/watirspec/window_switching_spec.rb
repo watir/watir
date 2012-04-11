@@ -1,6 +1,6 @@
 require File.expand_path("../spec_helper", __FILE__)
 
-not_compliant_on [:webdriver, :iphone] do
+not_compliant_on [:webdriver, :iphone], [:webdriver, :safari] do
   describe "Browser" do
     before do
       url = WatirSpec.url_for("window_switching.html")

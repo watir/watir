@@ -54,7 +54,7 @@ describe "Browser" do
     # for firefox, this needs to be enabled in
     # Preferences -> Content -> Advanced -> Change status bar text
     #
-    not_compliant_on [:webdriver, :firefox] do 
+    not_compliant_on [:webdriver, :firefox] do
       it "returns the current value of window.status" do
         browser.goto(WatirSpec.url_for("non_control_elements.html"))
 
@@ -127,7 +127,7 @@ describe "Browser" do
       lambda { browser.goto("about:blank") }.should_not raise_error
     end
 
-    not_compliant_on :ie do
+    not_compliant_on :ie, [:webdriver, :safari] do
       it "goes to a data URL scheme address without raising errors" do
         lambda { browser.goto("data:text/html;content-type=utf-8,foobar") }.should_not raise_error
       end
