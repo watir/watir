@@ -14,7 +14,8 @@ module Watir
     include EventuallyPresent
 
     #
-    # need to add this here since we no longer get them from the spec
+    # need to add :id manually since it's not specified in the HTML spec.
+    #
     # @see http://html5.org/r/6605
     # @see http://www.w3.org/Bugs/Public/show_bug.cgi?id=13610
     #
