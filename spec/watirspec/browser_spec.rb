@@ -180,7 +180,7 @@ describe "Browser" do
 
     it "executes the given JavaScript in the context of an anonymous function" do
       browser.goto(WatirSpec.url_for("non_control_elements.html"))
-      browser.execute_script("1 + 1").should == "undefined"
+      browser.execute_script("1 + 1").should be_nil
       browser.execute_script("return 1 + 1").should == "2"
     end
   end
