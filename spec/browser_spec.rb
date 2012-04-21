@@ -112,4 +112,10 @@ describe Watir::Browser do
     end
   end
 
+  describe "#inspect" do
+    it "works even if browser is closed" do
+      browser.should_receive(:url).and_raise(Errno::ECONNREFUSED)
+      lambda { browser.inspect }.should_not raise_error
+    end
+  end
 end
