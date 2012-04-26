@@ -59,7 +59,7 @@ class ImplementationConfig
       [:webdriver, browser]  # guard only applies to this browser on webdriver
     ]
 
-    if native_events? || native_events_by_default?
+    if native_events?
       # guard only applies to this browser on webdriver with native events enabled
       matching_guards << [:webdriver, browser, :native_events]
     else
@@ -112,7 +112,13 @@ class ImplementationConfig
   end
 
   def native_events?
-    ENV['NATIVE_EVENTS'] == "true"
+    if ENV['NATIVE_EVENTS'] == "true"
+      true
+    elsif ENV['NATIVE_EVENTS'] == "false" && !ie?
+      false
+    else
+      native_events_by_default?
+    end
   end
 
   def native_events_by_default?
