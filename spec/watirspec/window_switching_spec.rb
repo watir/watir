@@ -128,9 +128,7 @@ not_compliant_on [:webdriver, :iphone], [:webdriver, :safari] do
         titles = browser.windows.map { |e| e.title }
         titles.size.should == 2
 
-        ["window switching", "closeable window"].each do |title|
-          titles.should include(title)
-        end
+        titles.sort.should == ["window switching", "closeable window"].sort
       end
 
       it "does not change the current window" do
