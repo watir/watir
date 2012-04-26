@@ -8,11 +8,11 @@ module WatirSpec
       attr_accessor :autorun
 
       def run_async
-        case WatirSpec.platform
-        when :java
+        if WatirSpec.platform == :java || (WatirSpec.platform == :windows && RUBY_VERSION =~ /1\.9/) 
           Thread.new { run! }
           sleep 0.1 until WatirSpec::Server.running?
-        when :windows
+        elsif WatirSpec.platform == :windows
+          # FIXME: this makes use lose implementation-specific routes!
           run_in_child_process
           sleep 0.5 until listening?
         else
