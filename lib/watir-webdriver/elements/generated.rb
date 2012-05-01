@@ -62,8 +62,13 @@ module Watir
 
 
 
+
+
+
+
+
  class HTMLElement < Element
-   attributes(:string => [:access_key, :access_key_label, :class_name, :command_icon, :command_label, :command_type, :content_editable, :dir, :item_id, :item_value, :lang, :title], :token_list => [:class_list, :dropzone, :item_prop, :item_ref, :item_type], :bool => [:command_checked, :command_disabled, :command_hidden, :draggable, :hidden, :content_editable, :item_scope, :spellcheck], :html_element => [:context_menu], :string_map => [:dataset], :function => [:onabort, :onblur, :oncanplay, :oncanplaythrough, :onchange, :onclick, :oncontextmenu, :oncuechange, :ondblclick, :ondrag, :ondragend, :ondragenter, :ondragleave, :ondragover, :ondragstart, :ondrop, :ondurationchange, :onemptied, :onended, :onerror, :onfocus, :oninput, :oninvalid, :onkeydown, :onkeypress, :onkeyup, :onload, :onloadeddata, :onloadedmetadata, :onloadstart, :onmousedown, :onmousemove, :onmouseout, :onmouseover, :onmouseup, :onmousewheel, :onpause, :onplay, :onplaying, :onprogress, :onratechange, :onreset, :onscroll, :onseeked, :onseeking, :onselect, :onshow, :onstalled, :onsubmit, :onsuspend, :ontimeupdate, :onvolumechange, :onwaiting], :properties_collection => [:properties], :style => [:style], :int => [:tab_index])
+   attributes(:string => [:access_key, :access_key_label, :class_name, :command_icon, :command_label, :command_type, :content_editable, :dir, :item_id, :item_value, :lang, :title], :token_list => [:class_list, :dropzone, :item_prop, :item_ref, :item_type], :bool => [:command_checked, :command_disabled, :command_hidden, :draggable, :hidden, :content_editable, :item_scope, :spellcheck, :translate], :html_element => [:context_menu], :string_map => [:dataset], :function => [:onabort, :onblur, :oncancel, :oncanplay, :oncanplaythrough, :onchange, :onclick, :onclose, :oncontextmenu, :oncuechange, :ondblclick, :ondrag, :ondragend, :ondragenter, :ondragleave, :ondragover, :ondragstart, :ondrop, :ondurationchange, :onemptied, :onended, :onerror, :onfocus, :oninput, :oninvalid, :onkeydown, :onkeypress, :onkeyup, :onload, :onloadeddata, :onloadedmetadata, :onloadstart, :onmousedown, :onmousemove, :onmouseout, :onmouseover, :onmouseup, :onmousewheel, :onpause, :onplay, :onplaying, :onprogress, :onratechange, :onreset, :onscroll, :onseeked, :onseeking, :onselect, :onshow, :onstalled, :onsubmit, :onsuspend, :ontimeupdate, :onvolumechange, :onwaiting], :properties_collection => [:properties], :style => [:style], :int => [:tab_index])
  end
  class HTMLElementCollection < ElementCollection
    def element_class
@@ -126,6 +131,14 @@ module Watir
      Applet
    end
  end
+ class Dialog < HTMLElement
+   attributes(:bool => [:open], :string => [:return_value])
+ end
+ class DialogCollection < ElementCollection
+   def element_class
+     Dialog
+   end
+ end
  class Menu < HTMLElement
    attributes(:string => [:label, :type])
  end
@@ -139,7 +152,7 @@ module Watir
  end
  # do nothing
  class Command < HTMLElement
-   attributes(:bool => [:checked, :disabled], :string => [:icon, :label, :radiogroup, :type])
+   attributes(:bool => [:checked, :disabled], :html_element => [:command], :string => [:icon, :label, :radiogroup, :type])
  end
  class CommandCollection < ElementCollection
    def element_class
@@ -399,7 +412,7 @@ module Watir
    end
  end
  class Media < HTMLElement
-   attributes(:list => [:audio_tracks, :text_tracks, :video_tracks], :bool => [:autoplay, :controls, :default_muted, :ended, :loop, :muted, :paused, :seeking], :string => [:buffered, :controller, :cross_origin, :current_src, :error, :media_group, :played, :preload, :seekable, :src], :float => [:current_time, :default_playback_rate, :duration, :initial_time, :playback_rate, :volume], :int => [:network_state, :ready_state], :date => [:start_offset_time])
+   attributes(:list => [:audio_tracks, :text_tracks, :video_tracks], :bool => [:autoplay, :controls, :default_muted, :ended, :loop, :muted, :paused, :seeking], :string => [:buffered, :controller, :cross_origin, :current_src, :error, :media_group, :played, :preload, :seekable, :src], :float => [:current_time, :default_playback_rate, :duration, :playback_rate, :volume], :int => [:network_state, :ready_state], :date => [:start_date])
  end
  class MediaCollection < ElementCollection
    def element_class
@@ -1247,6 +1260,23 @@ module Watir
    end
 
    Watir.tag_to_class[:dfn] = HTMLElement
+   #
+   # @return [Dialog]
+   #
+
+   def dialog(*args)
+     Dialog.new(self, extract_selector(args).merge(:tag_name => "dialog"))
+   end
+
+   #
+   # @return [DialogCollection]
+   #
+
+   def dialogs(*args)
+     DialogCollection.new(self, extract_selector(args).merge(:tag_name => "dialog"))
+   end
+
+   Watir.tag_to_class[:dialog] = Dialog
    #
    # @return [Div]
    #
