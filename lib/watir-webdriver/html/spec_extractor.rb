@@ -38,6 +38,10 @@ module Watir
         sorter.print
       end
 
+      def fetch_interface(interface)
+        @interfaces_by_name[interface] or raise "#{interface} not found in IDL"
+      end
+
       private
 
       def download_and_parse
@@ -55,6 +59,7 @@ module Watir
       end
 
       def extract_interface_map
+        # http://www.whatwg.org/specs/web-apps/current-work/#elements-1
         table = @doc.search("//h3[@id='elements-1']/following-sibling::table[1]").first
         table or raise "could not find elements-1 table"
 
@@ -93,10 +98,6 @@ module Watir
         end
       end
 
-      def fetch_interface(interface)
-        @interfaces_by_name[interface] or raise "#{interface} not found in IDL"
-      end
-
       def parse_idl(str)
         result = idl_parser.parse(str)
 
@@ -113,7 +114,7 @@ module Watir
       end
 
       def sorter
-        @idl_sroter ||= IDLSorter.new(@interfaces)
+        @idl_sorter ||= IDLSorter.new(@interfaces)
       end
 
     end # SpecExtractor
