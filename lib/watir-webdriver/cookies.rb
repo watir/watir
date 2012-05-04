@@ -15,7 +15,8 @@ module Watir
                           :value   => value,
                           :secure  => opts[:secure],
                           :path    => opts[:path],
-                          :expires => opts[:expires]
+                          :expires => opts[:expires],
+                          :domain  => opts[:domain]
     end
 
     def delete(name)
