@@ -1,49 +1,76 @@
 require File.expand_path("watirspec/spec_helper", File.dirname(__FILE__))
-require "watir-webdriver/extensions/alerts"
 
-describe "AlertHelper" do
+describe 'Alert API' do
   before do
     browser.goto WatirSpec.url_for("alerts.html", :needs_server => true)
   end
 
-  it "handles an alert()" do
-    returned = browser.alert do
-      browser.button(:id => "alert").click
+  context 'alert' do
+    after do
+      browser.alert.close if browser.alert.exists?
     end
 
-    returned.should == "ok"
+    describe '#text' do
+      it 'returns text of alert' do
+        browser.button(:id => 'alert').click
+        browser.alert.text.should == 'ok'
+      end
+    end
+
+    describe '#exists?' do
+      it 'returns false if alert is present' do
+        browser.alert.exists?.should be_false
+      end
+
+      it 'returns true if alert is present' do
+        browser.button(:id => 'alert').click
+        browser.alert.exists?.should be_true
+      end
+    end
+
+    describe '#close' do
+      it 'closes alert' do
+        browser.button(:id => 'alert').click
+        browser.alert.close
+        browser.alert.exists?.should be_false
+      end
+    end
   end
 
-  it "handles a confirmed confirm()" do
-    returned = browser.confirm(true) do
-      browser.button(:id => "confirm").click
+  context 'confirm' do
+    after do
+      browser.confirm.dismiss if browser.confirm.exists?
     end
 
-    returned.should == "set the value"
+    describe '#accept' do
+      it 'accepts confirm' do
+        browser.button(:id => 'confirm').click
+        browser.confirm.accept
+        browser.button(:id => "confirm").value.should == "true"
+      end
+    end
 
-    browser.button(:id => "confirm").value.should == "true"
+    describe '#dismiss' do
+      it 'dismisses confirm' do
+        browser.button(:id => 'confirm').click
+        browser.confirm.dismiss
+        browser.button(:id => "confirm").value.should == "false"
+      end
+    end
   end
 
-  it "handles a cancelled confirm()" do
-    returned = browser.confirm(false) do
-      browser.button(:id => "confirm").click
+  context 'prompt' do
+    after do
+      browser.prompt.dismiss if browser.prompt.exists?
     end
 
-    returned.should == "set the value"
-
-    browser.button(:id => "confirm").value.should == "false"
-  end
-
-  it "handles a prompt()" do
-    returned = browser.prompt("my name") do
-      browser.button(:id => "prompt").click
+    describe '#set' do
+      it 'enters text to prompt' do
+        browser.button(:id => 'prompt').click
+        browser.prompt.set 'My Name'
+        browser.prompt.accept
+        browser.button(:id => 'prompt').value.should == 'My Name'
+      end
     end
-
-    returned.should == {
-      :message       => "enter your name",
-      :default_value => "John Doe"
-    }
-
-    browser.button(:id => "prompt").value.should == "my name"
   end
 end
