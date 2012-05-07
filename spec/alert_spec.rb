@@ -19,12 +19,12 @@ describe 'Alert API' do
 
     describe '#exists?' do
       it 'returns false if alert is present' do
-        browser.alert.exists?.should be_false
+        browser.alert.should_not exist
       end
 
       it 'returns true if alert is present' do
         browser.button(:id => 'alert').click
-        browser.alert.exists?.should be_true
+        browser.alert.should exist
       end
     end
 
@@ -32,7 +32,7 @@ describe 'Alert API' do
       it 'closes alert' do
         browser.button(:id => 'alert').click
         browser.alert.close
-        browser.alert.exists?.should be_false
+        browser.alert.should_not exist
       end
     end
   end
