@@ -47,7 +47,7 @@ describe 'Alert API' do
         browser.button(:id => 'timeout-alert').click
         lambda {
           browser.alert.when_present(1).close
-        }.should raise_error(Wait::TimeoutError, 'timed out after 1 seconds, waiting for modal window to become present')
+        }.should raise_error(Watir::Wait::TimeoutError, 'timed out after 1 seconds, waiting for modal window to become present')
       end
     end
   end
