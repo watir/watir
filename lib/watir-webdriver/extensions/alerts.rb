@@ -1,7 +1,7 @@
 module Watir
 
   #
-  # Deprecated, use new Alert API instead.
+  # Deprecated, use the new Alert API instead.
   #
   # Module provided by optional require:
   #
@@ -22,7 +22,7 @@ module Watir
     #
 
     def alert(&blk)
-      warn 'AlertHelper is deprecated. Use new Alert API instead (e.g. browser.alert.close)'
+      warn 'AlertHelper is deprecated. Use the new Alert API instead (e.g. browser.alert.close)'
       execute_script "window.alert = function(msg) { window.__lastWatirAlert = msg; }"
       yield
       execute_script "return window.__lastWatirAlert"
@@ -39,7 +39,7 @@ module Watir
     #   end #=> "the confirm message"
 
     def confirm(bool, &blk)
-      warn 'AlertHelper is deprecated. Use new Alert API instead (e.g. browser.confirm.close)'
+      warn 'AlertHelper is deprecated. Use the new Alert API instead (e.g. browser.confirm.close)'
       execute_script "window.confirm = function(msg) { window.__lastWatirConfirm = msg; return #{!!bool} }"
       yield
       execute_script "return window.__lastWatirConfirm"
@@ -57,7 +57,7 @@ module Watir
     #
 
     def prompt(answer, &blk)
-      warn 'AlertHelper is deprecated. Use new Alert API instead (e.g. browser.prompt.close)'
+      warn 'AlertHelper is deprecated. Use the new Alert API instead (e.g. browser.prompt.close)'
       execute_script "window.prompt = function(text, value) { window.__lastWatirPrompt = { message: text, default_value: value }; return #{MultiJson.encode answer}; }"
       yield
       result = execute_script "return window.__lastWatirPrompt"
