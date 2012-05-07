@@ -35,6 +35,21 @@ describe 'Alert API' do
         browser.alert.should_not exist
       end
     end
+
+    describe 'when_present' do
+      it 'waits until alert is present and goes on' do
+        browser.button(:id => 'timeout-alert').click
+        browser.alert.when_present.close
+        browser.alert.should_not exist
+      end
+
+      it 'raises error if alert is not present after timeout' do
+        browser.button(:id => 'timeout-alert').click
+        lambda {
+          browser.alert.when_present(1).close
+        }.should raise_error(Wait::TimeoutError, 'timed out after 1 seconds, waiting for modal window to become present')
+      end
+    end
   end
 
   context 'confirm' do
