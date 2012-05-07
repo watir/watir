@@ -103,15 +103,15 @@ module Watir
     end
 
     def alert
-      Alert.new driver
+      Alert.new driver.switch_to
     end
 
     def confirm
-      Confirm.new driver
+      Confirm.new driver.switch_to
     end
 
     def prompt
-      Prompt.new driver
+      Prompt.new driver.switch_to
     end
 
     def refresh

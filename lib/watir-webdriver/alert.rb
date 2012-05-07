@@ -4,8 +4,8 @@ module Watir
 
     include EventuallyPresent
 
-    def initialize(driver)
-      @driver = driver
+    def initialize(target_locator)
+      @target_locator = target_locator
       @modal = nil
     end
 
@@ -34,7 +34,7 @@ module Watir
     private
 
     def assert_exists
-      @modal = @driver.switch_to.alert
+      @modal = @target_locator.alert
     rescue Selenium::WebDriver::Error::NoAlertPresentError
       raise UnknownObjectException, 'unable to locate modal dialog'
     end
