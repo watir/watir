@@ -31,7 +31,7 @@ module Watir
       'modal dialog'
     end
 
-    protected
+    private
 
     def assert_exists
       @modal = @driver.switch_to.alert
