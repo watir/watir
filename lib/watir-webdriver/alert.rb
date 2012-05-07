@@ -28,7 +28,7 @@ module Watir
     alias_method :present?, :exists?
 
     def selector_string
-      'modal dialog'
+      'modal window'
     end
 
     private
@@ -36,7 +36,7 @@ module Watir
     def assert_exists
       @modal = @target_locator.alert
     rescue Selenium::WebDriver::Error::NoAlertPresentError
-      raise UnknownObjectException, 'unable to locate modal dialog'
+      raise UnknownObjectException, 'unable to locate modal window'
     end
 
   end # Alert
