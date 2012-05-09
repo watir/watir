@@ -106,14 +106,6 @@ module Watir
       Alert.new driver.switch_to
     end
 
-    def confirm
-      Confirm.new driver.switch_to
-    end
-
-    def prompt
-      Prompt.new driver.switch_to
-    end
-
     def refresh
       @driver.navigate.refresh
       run_checkers

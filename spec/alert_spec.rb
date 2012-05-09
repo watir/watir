@@ -5,11 +5,11 @@ describe 'Alert API' do
     browser.goto WatirSpec.url_for("alerts.html", :needs_server => true)
   end
 
-  context 'alert' do
-    after do
-      browser.alert.close if browser.alert.exists?
-    end
+  after do
+    browser.alert.close if browser.alert.exists?
+  end
 
+  context 'alert' do
     describe '#text' do
       it 'returns text of alert' do
         browser.button(:id => 'alert').click
@@ -53,37 +53,29 @@ describe 'Alert API' do
   end
 
   context 'confirm' do
-    after do
-      browser.confirm.dismiss if browser.confirm.exists?
-    end
-
     describe '#accept' do
       it 'accepts confirm' do
         browser.button(:id => 'confirm').click
-        browser.confirm.accept
-        browser.button(:id => "confirm").value.should == "true"
+        browser.alert.accept
+        browser.button(:id => 'confirm').value.should == "true"
       end
     end
 
-    describe '#dismiss' do
-      it 'dismisses confirm' do
+    describe '#close' do
+      it 'cancels confirm' do
         browser.button(:id => 'confirm').click
-        browser.confirm.dismiss
-        browser.button(:id => "confirm").value.should == "false"
+        browser.alert.close
+        browser.button(:id => 'confirm').value.should == "false"
       end
     end
   end
 
   context 'prompt' do
-    after do
-      browser.prompt.dismiss if browser.prompt.exists?
-    end
-
     describe '#set' do
       it 'enters text to prompt' do
         browser.button(:id => 'prompt').click
-        browser.prompt.set 'My Name'
-        browser.prompt.accept
+        browser.alert.set 'My Name'
+        browser.alert.accept
         browser.button(:id => 'prompt').value.should == 'My Name'
       end
     end

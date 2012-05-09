@@ -6,17 +6,27 @@ module Watir
 
     def initialize(target_locator)
       @target_locator = target_locator
-      @modal = nil
+      @alert = nil
     end
 
     def text
       assert_exists
-      @modal.text
+      @alert.text
+    end
+
+    def accept
+      assert_exists
+      @alert.accept
     end
 
     def close
       assert_exists
-      @modal.dismiss
+      @alert.dismiss
+    end
+
+    def set(value)
+      assert_exists
+      @alert.send_keys(value)
     end
 
     def exists?
@@ -34,34 +44,10 @@ module Watir
     private
 
     def assert_exists
-      @modal = @target_locator.alert
+      @alert = @target_locator.alert
     rescue Selenium::WebDriver::Error::NoAlertPresentError
-      raise UnknownObjectException, 'unable to locate modal window'
+      raise UnknownObjectException, 'unable to locate alert'
     end
 
   end # Alert
-
-
-  class Confirm < Alert
-
-    def accept
-      assert_exists
-      @modal.accept
-    end
-
-    def dismiss
-      close
-    end
-
-  end # Confirm
-
-
-  class Prompt < Confirm
-
-    def set(value)
-      assert_exists
-      @modal.send_keys(value)
-    end
-
-  end # Prompt
 end # Watir
