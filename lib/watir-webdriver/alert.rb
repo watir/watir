@@ -14,7 +14,7 @@ module Watir
       @alert.text
     end
 
-    def accept
+    def ok
       assert_exists
       @alert.accept
     end

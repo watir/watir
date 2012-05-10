@@ -28,6 +28,14 @@ describe 'Alert API' do
       end
     end
 
+    describe '#ok' do
+      it 'closes alert' do
+        browser.button(:id => 'alert').click
+        browser.alert.ok
+        browser.alert.should_not exist
+      end
+    end
+
     describe '#close' do
       it 'closes alert' do
         browser.button(:id => 'alert').click
@@ -53,10 +61,10 @@ describe 'Alert API' do
   end
 
   context 'confirm' do
-    describe '#accept' do
+    describe '#ok' do
       it 'accepts confirm' do
         browser.button(:id => 'confirm').click
-        browser.alert.accept
+        browser.alert.ok
         browser.button(:id => 'confirm').value.should == "true"
       end
     end
@@ -75,7 +83,7 @@ describe 'Alert API' do
       it 'enters text to prompt' do
         browser.button(:id => 'prompt').click
         browser.alert.set 'My Name'
-        browser.alert.accept
+        browser.alert.ok
         browser.button(:id => 'prompt').value.should == 'My Name'
       end
     end
