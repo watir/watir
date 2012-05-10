@@ -38,7 +38,7 @@ module Watir
     alias_method :present?, :exists?
 
     def selector_string
-      'modal window'
+      'alert'
     end
 
     private
