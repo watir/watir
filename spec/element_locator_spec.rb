@@ -217,6 +217,27 @@ describe Watir::ElementLocator do
         locate_one(selector).should == elements[1]
       end
 
+      it "handles data-* attributes with regexp" do
+        elements = [
+          element(:tag_name => "div", :attributes => { :'data-automation-id' => "foo" }),
+          element(:tag_name => "div", :attributes => { :'data-automation-id' => "bar" })
+        ]
+
+        if Watir.prefer_css?
+          expect_all(:css, 'div').and_return(elements)
+        else
+          expect_all(:xpath, ".//div").and_return(elements)
+        end
+
+
+        selector = {
+          :tag_name => "div",
+          :data_automation_id => /bar/
+        }
+
+        locate_one(selector).should == elements[1]
+      end
+
       it "handles :label => /regexp/ selector" do
         label_elements = [
           element(:tag_name => "label", :text => "foo", :attributes => { :for => "bar"}),

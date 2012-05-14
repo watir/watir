@@ -35,7 +35,7 @@ module Watir
       # this actually only applies when finding by xpath - browser.text_field(:xpath, "//input[@type='radio']")
       # we don't need to validate the element if we built the xpath ourselves.
       validate_element(element) if element
-    rescue Selenium::WebDriver::Error::NoSuchElementError => wde
+    rescue Selenium::WebDriver::Error::NoSuchElementError
       nil
     end
 
@@ -175,7 +175,7 @@ module Watir
       when :href
         (href = element.attribute(:href)) && href.strip
       else
-        element.attribute(how)
+        element.attribute(how.to_s.gsub("_", "-").to_sym)
       end
     end
 
@@ -248,7 +248,7 @@ module Watir
       return if tag_name && !tag_name_matches?(element.tag_name.downcase, tag_name)
 
       element
-    rescue Selenium::WebDriver::Error::NoSuchElementError => wde
+    rescue Selenium::WebDriver::Error::NoSuchElementError
       nil
     end
 
