@@ -2,47 +2,67 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
-<title>Module: Watir::HTML::Util</title>
-<link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
-<link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: Watir::HTML::Util
+  
+    &mdash; Documentation by YARD 0.8.1
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  relpath = '../..';
-  if (relpath != '') relpath += '/';
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../../';
+  framesUrl = "../../frames.html#!" + escape(window.location.href);
 </script>
-<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
-<script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
 
   </head>
   <body>
-    <script type="text/javascript" charset="utf-8">
-      if (window.top.frames.main) document.body.className = 'frames';
-    </script>
-    
     <div id="header">
       <div id="menu">
   
-    <a href="../../_index.html">Index (U)</a> &raquo; 
+    <a href="../../_index.html">Index (U)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../../Watir.html" title="Watir (module)">Watir</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../HTML.html" title="Watir::HTML (module)">HTML</a></span></span>
      &raquo; 
     <span class="title">Util</span>
   
-  
+
   <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
       <div id="search">
-  <a id="class_list_link" href="#">Class List</a>
-  <a id="method_list_link" href="#">Method List</a>
-  <a id ="file_list_link" href="#">File List</a>
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../../file_list.html">
+      File List
+    </a>
+  
 </div>
-
       <div class="clear"></div>
     </div>
-    
+
     <iframe id="search_frame"></iframe>
-    
+
     <div id="content"><h1>Module: Watir::HTML::Util
   
   
@@ -67,9 +87,13 @@
 
 
 
+
+
+
+
   
     <h2>
-      Instance Method Summary
+      Class Method Summary
       <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
     </h2>
 
@@ -78,11 +102,12 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#classify-instance_method" title="#classify (instance method)">- (Object) <strong>classify</strong>(name) </a>
+      <a href="#classify-class_method" title="classify (class method)">+ (Object) <strong>classify</strong>(name) </a>
     
 
     
   </span>
+  
   
   
   
@@ -99,11 +124,12 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#paramify-instance_method" title="#paramify (instance method)">- (Object) <strong>paramify</strong>(str) </a>
+      <a href="#paramify-class_method" title="paramify (class method)">+ (Object) <strong>paramify</strong>(str) </a>
     
 
     
   </span>
+  
   
   
   
@@ -122,18 +148,20 @@
 
 
 
-  <div id="instance_method_details" class="method_details_list">
-    <h2>Instance Method Details</h2>
-    
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
     
       <div class="method_details first">
-  <p class="signature first" id="classify-instance_method">
+  <h3 class="signature first" id="classify-class_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Watir::Object (class)">Object</a></span></tt>) <strong>classify</strong>(name) 
+    + (<tt><span class='object_link'><a href="../Object.html" title="Watir::Object (class)">Object</a></span></tt>) <strong>classify</strong>(name) 
   
 
   
-</p><table class="source_code">
+
+  
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -150,11 +178,11 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/watir-webdriver/html/util.rb', line 7</span>
 
-<span class='kw'>def</span> <span class='id classify'>classify</span><span class='lparen'>(</span><span class='id name'>name</span><span class='rparen'>)</span>
-  <span class='kw'>if</span> <span class='id name'>name</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^HTML(.+)Element$</span><span class='regexp_end'>/</span></span>
+<span class='kw'>def</span> <span class='id identifier rubyid_classify'>classify</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_name'>name</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^HTML(.+)Element$</span><span class='regexp_end'>/</span></span>
     <span class='backref'>$1</span>
   <span class='kw'>else</span>
-    <span class='id name'>name</span>
+    <span class='id identifier rubyid_name'>name</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -163,13 +191,15 @@
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="paramify-instance_method">
+  <h3 class="signature " id="paramify-class_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Watir::Object (class)">Object</a></span></tt>) <strong>paramify</strong>(str) 
+    + (<tt><span class='object_link'><a href="../Object.html" title="Watir::Object (class)">Object</a></span></tt>) <strong>paramify</strong>(str) 
   
 
   
-</p><table class="source_code">
+
+  
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -182,8 +212,8 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/watir-webdriver/html/util.rb', line 15</span>
 
-<span class='kw'>def</span> <span class='id paramify'>paramify</span><span class='lparen'>(</span><span class='id str'>str</span><span class='rparen'>)</span>
-  <span class='id classify'>classify</span><span class='lparen'>(</span><span class='id str'>str</span><span class='rparen'>)</span><span class='period'>.</span><span class='id snake_case'>snake_case</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_paramify'>paramify</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_classify'>classify</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_snake_case'>snake_case</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -193,11 +223,11 @@
   </div>
 
 </div>
-    
+
     <div id="footer">
-  Generated on Wed Dec 22 11:57:28 2010 by 
+  Generated on Sat May 19 12:07:31 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.8.1 (ruby-1.9.3).
 </div>
 
   </body>
