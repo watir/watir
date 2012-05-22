@@ -6,12 +6,6 @@ See http://rubyforge.org/pipermail/wtr-development/2009-October/001313.html.
 
 [![Build Status](https://secure.travis-ci.org/watir/watir-webdriver.png)](http://travis-ci.org/watir/watir-webdriver)
 
-API docs
---------
-
-* http://rdoc.info/gems/watir-webdriver/ (basic docs, updated on every release)
-* http://watir.github.com/watir-webdriver/doc/ (includes all attribute methods, updated occasionally)
-
 Example
 -------
 ```ruby
@@ -40,9 +34,16 @@ watir-webdriver uses [watirspec](http://github.com/watir/watirspec) for testing.
 
 Specs specific to watir-webdriver are found in spec/*_spec.rb, with watirspec in spec/watirspec.
 
+API docs
+--------
+
+* http://rdoc.info/gems/watir-webdriver/ (basic docs, updated on every release)
+* http://watir.github.com/watir-webdriver/doc/ (includes all attribute methods, updated occasionally)
+
 See also
 --------
 
+* http://watirwebdriver.com
 * http://github.com/jarib/webidl
 * http://github.com/watir/watirspec
 * http://selenium.googlecode.com
