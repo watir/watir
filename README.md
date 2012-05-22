@@ -9,7 +9,8 @@ See http://rubyforge.org/pipermail/wtr-development/2009-October/001313.html.
 API docs
 --------
 
-http://jarib.github.com/watir-webdriver/doc/
+* http://rdoc.info/gems/watir-webdriver/ (basic docs, updated on every release)
+* http://watir.github.com/watir-webdriver/doc/ (includes all attribute methods, updated occasionally)
 
 Example
 -------
