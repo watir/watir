@@ -102,6 +102,10 @@ module Watir
       @driver.page_source
     end
 
+    def alert
+      Alert.new driver.switch_to
+    end
+
     def refresh
       @driver.navigate.refresh
       run_checkers
