@@ -66,21 +66,45 @@ module Watir
       url
     end
 
+    #
+    # Navigates back in history.
+    #
+
     def back
       @driver.navigate.back
     end
+
+    #
+    # Navigates forward in history.
+    #
 
     def forward
       @driver.navigate.forward
     end
 
+    #
+    # Returns URL of current page.
+    #
+    # @return [String]
+    #
+
     def url
       @driver.current_url
     end
 
+    #
+    # Returns title of current page.
+    #
+    # @return [String]
+    #
+
     def title
       @driver.title
     end
+
+    #
+    # Closes browser.
+    #
 
     def close
       return if @closed
@@ -89,13 +113,31 @@ module Watir
     end
     alias_method :quit, :close # TODO: close vs quit
 
+    #
+    # Handles cookies.
+    #
+    # @return [Watir::Cookies]
+    #
+
     def cookies
       @cookies ||= Cookies.new driver.manage
     end
 
+    #
+    # Returns text of page body.
+    #
+    # @return [String]
+    #
+
     def text
       @driver.find_element(:tag_name, "body").text
     end
+
+    #
+    # Returns HTML code of current page.
+    #
+    # @return [String]
+    #
 
     def html
       # use body.html instead?
@@ -112,10 +154,20 @@ module Watir
       Alert.new driver.switch_to
     end
 
+    #
+    # Refreshes current page.
+    #
+
     def refresh
       @driver.navigate.refresh
       run_checkers
     end
+
+    #
+    # Waits until readyState of document is complete.
+    #
+    # @param [Fixnum] timeout
+    #
 
     def wait(timeout = 5)
       wait_until(timeout, "waiting for document.readyState == 'complete'") do
@@ -123,9 +175,21 @@ module Watir
       end
     end
 
+    #
+    # Returns readyState of document.
+    #
+    # @return [String]
+    #
+
     def ready_state
       execute_script 'return document.readyState'
     end
+
+    #
+    # Returns the text of status bar.
+    #
+    # @return [String]
+    #
 
     def status
       execute_script "return window.status;"
@@ -137,6 +201,17 @@ module Watir
 
       wrap_elements_in(returned)
     end
+
+    #
+    # Sends sequence of keystrokes to currently active element.
+    #
+    # @example
+    #   browser.goto "http://www.google.com"
+    #   browser.send_keys "Watir", :return
+    #
+    # TODO What param type should we use?
+    # @param args
+    #
 
     def send_keys(*args)
       @driver.switch_to.active_element.send_keys(*args)
@@ -161,6 +236,15 @@ module Watir
     end
 
     #
+    # Returns true if browser is not closed and false otherwise.
+    #
+
+    def exist?
+      not @closed
+    end
+    alias_method :exists?, :exist?
+
+    #
     # Protocol shared with Watir::Element
     #
     # @api private
@@ -174,11 +258,6 @@ module Watir
         true
       end
     end
-
-    def exist?
-      not @closed
-    end
-    alias_method :exists?, :exist?
 
     def reset!
       # no-op
