@@ -9,25 +9,67 @@ module Watir
       @alert = nil
     end
 
+    #
+    # Returns text of alert.
+    #
+    # @example
+    #   browser.alert.text
+    #   #=> "This is alert text"
+    #
+    # @return [String]
+    #
+
     def text
       assert_exists
       @alert.text
     end
+
+    #
+    # Closes alert or accepts prompts/confirms.
+    #
+    # @example
+    #   browser.alert.ok
+    #   browser.alert.exists?
+    #   #=> false
+    #
 
     def ok
       assert_exists
       @alert.accept
     end
 
+    #
+    # Closes alert or cancels prompts/confirms.
+    #
+    # @example
+    #   browser.alert.close
+    #   browser.alert.exists?
+    #   #=> false
+    #
+
     def close
       assert_exists
       @alert.dismiss
     end
 
+    #
+    # Enters text to prompt.
+    #
+    # @example
+    #   browser.alert.set "Text for prompt"
+    #   browser.alert.ok
+    #
+    # @param [String] value
+    #
+
     def set(value)
       assert_exists
       @alert.send_keys(value)
     end
+
+    #
+    # Returns true if alert, confirm or prompt is present and false otherwise.
+    #
 
     def exists?
       assert_exists
