@@ -102,6 +102,12 @@ module Watir
       @driver.page_source
     end
 
+    #
+    # Handles JavaScript alerts, confirms and prompts.
+    #
+    # @return [Watir::Alert]
+    #
+
     def alert
       Alert.new driver.switch_to
     end
