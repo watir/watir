@@ -136,6 +136,19 @@ module Watir
       @driver.switch_to.active_element.send_keys(*args)
     end
 
+    #
+    # Handles screenshot of current pages.
+    #
+    # @example
+    #   browser.screenshot.save("screenshot.png")
+    #
+    # @return [Watir::Screenshot]
+    #
+
+    def screenshot
+      Screenshot.new driver
+    end
+
     def add_checker(checker = nil, &block)
       if block_given?
         @error_checkers << block
