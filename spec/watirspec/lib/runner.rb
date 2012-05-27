@@ -28,7 +28,7 @@ module WatirSpec
     end
 
     def execute_if_necessary
-      execute unless @exectued
+      execute unless @executed
     end
 
     def configure
