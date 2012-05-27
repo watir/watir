@@ -118,4 +118,10 @@ describe Watir::Browser do
       lambda { browser.inspect }.should_not raise_error
     end
   end
+
+  describe '#screenshot' do
+    it 'returns an instance of of Watir::Screenshot' do
+      browser.screenshot.should be_kind_of(Watir::Screenshot)
+    end
+  end
 end
