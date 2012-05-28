@@ -78,6 +78,7 @@ require 'watir-webdriver/elements/generated'
 
 require 'watir-webdriver/elements/button'
 require 'watir-webdriver/elements/checkbox'
+require 'watir-webdriver/elements/dlist'
 require 'watir-webdriver/elements/file_field'
 require 'watir-webdriver/elements/font'
 require 'watir-webdriver/elements/form'
