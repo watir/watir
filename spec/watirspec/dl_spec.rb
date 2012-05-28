@@ -134,4 +134,15 @@ describe "Dl" do
     end
   end
 
+  describe "#to_hash" do
+    it "converts the dl to a Hash" do
+      browser.dl(:id, 'experience-list').to_hash.should == {
+        "Experience"                   => "11 years",
+        "Education"                    => "Master",
+        "Current industry"             => "Architecture",
+        "Previous industry experience" => "Architecture"
+      }
+    end
+  end
+
 end
