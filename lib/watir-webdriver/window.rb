@@ -49,6 +49,10 @@ module Watir
       point
     end
 
+    def maximize
+      use { @driver.manage.window.maximize }
+    end
+
     def exists?
       handle
       true
