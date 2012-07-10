@@ -93,6 +93,10 @@ module Watir
       @cookies ||= Cookies.new driver.manage
     end
 
+    def name
+      @driver.browser
+    end
+
     def text
       @driver.find_element(:tag_name, "body").text
     end
