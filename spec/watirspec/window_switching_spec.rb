@@ -225,7 +225,7 @@ not_compliant_on [:webdriver, :iphone], [:webdriver, :safari] do
           new_pos.y.should == initial_pos.y + 10
         end
 
-        compliant_on [:webdriver, :firefox] do
+        compliant_on [:webdriver, :firefox, :window_manager] do
           it "should maximize the window" do
             initial_size = browser.window.size
 
