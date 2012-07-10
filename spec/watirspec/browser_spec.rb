@@ -66,6 +66,12 @@ describe "Browser" do
     end
   end
 
+  describe "#name" do
+    it "returns browser name" do
+      browser.name.should == WatirSpec.implementation.browser_args[0]
+    end
+  end
+
   describe "#text" do
     it "returns the text of the page" do
       browser.goto(WatirSpec.url_for("non_control_elements.html"))
