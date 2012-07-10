@@ -67,6 +67,11 @@ class ImplementationConfig
       matching_guards << [:webdriver, browser, :synthesized_events]
     end
 
+    if !Selenium::WebDriver::Platform.linux? || ENV['DESKTOP_SESSION']
+      # some specs (i.e. Window#maximize) needs a window manager on linux
+      matching_guards << [:webdriver, browser, :window_manager]
+    end
+
     @imp.guard_proc = lambda { |args|
       args.any? { |arg| matching_guards.include?(arg) }
     }
