@@ -14,6 +14,17 @@ module Watir
     alias_method :wd, :driver # ensures duck typing with Watir::Element
 
     class << self
+      #
+      # Creates a Watir::Browser instance and goes to URL.
+      #
+      # @example
+      #   browser = Watir::Browser.start "www.google.com", :chrome
+      #   #=> #<Watir::Browser:0x..fa45a499cb41e1752 url="http://www.google.com" title="Google">
+      #
+      # @param [String] url
+      # @param [Symbol, Selenium::WebDriver] browser :firefox, :ie, :chrome, :remote or Selenium::WebDriver instance
+      # @return [Watir::Browser]
+      #
       def start(url, browser = :firefox)
         b = new(browser)
         b.goto url
@@ -23,9 +34,9 @@ module Watir
     end
 
     #
-    # Create a Watir::Browser instance
+    # Creates a Watir::Browser instance.
     #
-    # @param [:firefox, :ie, :chrome, :remote, Selenium::WebDriver] browser
+    # @param [Symbol, Selenium::WebDriver] browser :firefox, :ie, :chrome, :remote or Selenium::WebDriver instance
     # @param args Passed to the underlying driver
     #
 
@@ -51,7 +62,10 @@ module Watir
     end
 
     #
-    # Goto the given URL
+    # Goes to the given URL.
+    #
+    # @example
+    #   browser.goto "www.google.com"
     #
     # @param [String] uri The url.
     # @return [String] The url you end up at.
@@ -121,6 +135,21 @@ module Watir
 
     def cookies
       @cookies ||= Cookies.new driver.manage
+    end
+
+    #
+    # Returns browser name.
+    #
+    # @example
+    #   browser = Watir::Browser.new :chrome
+    #   browser.name
+    #   #=> :chrome
+    #
+    # @return [String]
+    #
+
+    def name
+      @driver.browser
     end
 
     #
@@ -195,6 +224,21 @@ module Watir
       execute_script "return window.status;"
     end
 
+    #
+    # Executes JavaScript snippet.
+    #
+    # If you are going to use the value snippet returns, make sure to add
+    # explicit `return` to it.
+    #
+    # @example Check that Ajax requests are completed with jQuery
+    #   browser.execute_script("returns jQuery.active" ) == '1'
+    #   # => true
+    #
+    # TODO add example for element and args description
+    #
+    # @param [String] script
+    #
+
     def execute_script(script, *args)
       args.map! { |e| e.kind_of?(Watir::Element) ? e.wd : e }
       returned = @driver.execute_script(script, *args)
@@ -215,6 +259,16 @@ module Watir
 
     def send_keys(*args)
       @driver.switch_to.active_element.send_keys(*args)
+    end
+
+    #
+    # Handles screenshot of current pages.
+    #
+    # @return [Watir::Screenshot]
+    #
+
+    def screenshot
+      Screenshot.new driver
     end
 
     def add_checker(checker = nil, &block)

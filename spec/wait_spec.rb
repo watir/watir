@@ -49,7 +49,7 @@ not_compliant_on [:webdriver, :safari] do
         called = false
 
         browser.a(:id, 'show_bar').click
-        browser.div(:id, 'bar').when_present(1) { called = true }
+        browser.div(:id, 'bar').when_present(2) { called = true }
 
         called.should be_true
       end
@@ -58,7 +58,7 @@ not_compliant_on [:webdriver, :safari] do
         browser.a(:id, 'show_bar').click
 
         bar = browser.div(:id, 'bar')
-        bar.when_present(1).click
+        bar.when_present(2).click
         bar.text.should == "changed"
       end
 

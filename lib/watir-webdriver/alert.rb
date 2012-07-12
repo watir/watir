@@ -74,7 +74,7 @@ module Watir
     def exists?
       assert_exists
       true
-    rescue UnknownObjectException
+    rescue Exception::UnknownObjectException
       false
     end
     alias_method :present?, :exists?
@@ -88,7 +88,7 @@ module Watir
     def assert_exists
       @alert = @target_locator.alert
     rescue Selenium::WebDriver::Error::NoAlertPresentError
-      raise UnknownObjectException, 'unable to locate alert'
+      raise Exception::UnknownObjectException, 'unable to locate alert'
     end
 
   end # Alert

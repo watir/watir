@@ -17,6 +17,7 @@ require 'watir-webdriver/locators/text_field_locator'
 require 'watir-webdriver/locators/child_row_locator'
 require 'watir-webdriver/locators/child_cell_locator'
 require 'watir-webdriver/browser'
+require 'watir-webdriver/screenshot'
 
 module Watir
   @always_locate = true
@@ -77,6 +78,7 @@ require 'watir-webdriver/elements/generated'
 
 require 'watir-webdriver/elements/button'
 require 'watir-webdriver/elements/checkbox'
+require 'watir-webdriver/elements/dlist'
 require 'watir-webdriver/elements/file_field'
 require 'watir-webdriver/elements/font'
 require 'watir-webdriver/elements/form'
