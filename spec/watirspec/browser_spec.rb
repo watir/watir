@@ -177,17 +177,40 @@ describe "Browser" do
   end
 
   describe "#execute_script" do
+    before { browser.goto(WatirSpec.url_for("non_control_elements.html")) }
+
     it "executes the given JavaScript on the current page" do
-      browser.goto(WatirSpec.url_for("non_control_elements.html"))
       browser.pre(:id, 'rspec').text.should_not == "javascript text"
       browser.execute_script("document.getElementById('rspec').innerHTML = 'javascript text'")
       browser.pre(:id, 'rspec').text.should == "javascript text"
     end
 
     it "executes the given JavaScript in the context of an anonymous function" do
-      browser.goto(WatirSpec.url_for("non_control_elements.html"))
       browser.execute_script("1 + 1").should be_nil
       browser.execute_script("return 1 + 1").should == 2
+    end
+
+    it "returns correct Ruby objects" do
+      browser.execute_script("return {a: 1, \"b\": 2}").should == {"a" => 1, "b" => 2}
+      browser.execute_script("return [1, 2, \"3\"]").should == [1, 2, "3"]
+      browser.execute_script("return 1.2 + 1.3").should == 2.5
+      browser.execute_script("return 2 + 2").should == 4
+      browser.execute_script("return \"hello\"").should == "hello"
+      browser.execute_script("return").should be_nil
+      browser.execute_script("return null").should be_nil
+      browser.execute_script("return undefined").should be_nil
+      browser.execute_script("return true").should be_true
+      browser.execute_script("return false").should be_false
+    end
+
+    it "works correctly with multi-line strings and special characters" do
+     browser.execute_script("//multiline rocks!
+                            var a = 22; // comment on same line
+                            /* more
+                            comments */
+                            var b = '33';
+                            var c = \"44\";
+                            return a + b + c").should == "223344"
     end
   end
 
