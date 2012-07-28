@@ -8,7 +8,7 @@ module WatirSpec
       attr_accessor :autorun
 
       def run_async
-        if WatirSpec.platform == :java || (WatirSpec.platform == :windows && RUBY_VERSION =~ /1\.9/) 
+        if WatirSpec.platform == :java || (WatirSpec.platform == :windows && RUBY_VERSION =~ /1\.9/ && !defined?(WIN32OLE)) #WIN32OLE and Thread.new do not play nicely together (https://github.com/ruby/ruby/blob/trunk/test/ruby/test_thread.rb#L607 )
           Thread.new { run! }
           sleep 0.1 until WatirSpec::Server.running?
         elsif WatirSpec.platform == :windows
