@@ -21,7 +21,7 @@ describe "Frame" do
       browser.frame(:index, 0).should exist
       browser.frame(:class, "half").should exist
       browser.frame(:xpath, "//frame[@id='frame_1']").should exist
-      not_compliant_on :watir do
+      not_compliant_on :watir_classic do
         browser.frame(:src, "frame_1.html").should exist
       end
       browser.frame(:id, /frame/).should exist
@@ -36,7 +36,7 @@ describe "Frame" do
       browser.frame(:id, /frame/).should exist
       browser.frame(:name, "frame1").should exist
       browser.frame(:name, /frame/).should exist
-      not_compliant_on :watir do
+      not_compliant_on :watir_classic do
         browser.frame(:src, "frame_1.html").should exist
       end
       browser.frame(:src, /frame_1/).should exist
@@ -119,14 +119,12 @@ describe "Frame" do
     el.attribute_value("cols").should be_kind_of(String)
   end
 
-  not_compliant_on [:watir, :ie9] do
-    describe "#execute_script" do
-      it "executes the given javascript in the specified frame" do
-        frame = browser.frame(:index, 0)
-        frame.div(:id, 'set_by_js').text.should == ""
-        frame.execute_script(%Q{document.getElementById('set_by_js').innerHTML = 'Art consists of limitation. The most beautiful part of every picture is the frame.'})
-        frame.div(:id, 'set_by_js').text.should == "Art consists of limitation. The most beautiful part of every picture is the frame."
-      end
+  describe "#execute_script" do
+    it "executes the given javascript in the specified frame" do
+      frame = browser.frame(:index, 0)
+      frame.div(:id, 'set_by_js').text.should == ""
+      frame.execute_script(%Q{document.getElementById('set_by_js').innerHTML = 'Art consists of limitation. The most beautiful part of every picture is the frame.'})
+      frame.div(:id, 'set_by_js').text.should == "Art consists of limitation. The most beautiful part of every picture is the frame."
     end
   end
 

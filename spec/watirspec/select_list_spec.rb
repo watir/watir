@@ -15,7 +15,7 @@ describe "SelectList" do
       browser.select_list(:name, 'new_user_country').should exist
       browser.select_list(:name, /new_user_country/).should exist
 
-      not_compliant_on :webdriver, :watir do
+      not_compliant_on :webdriver, :watir_classic do
         browser.select_list(:text, 'Norway').should exist
         browser.select_list(:text, /Norway/).should exist
       end

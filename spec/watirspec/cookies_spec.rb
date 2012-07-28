@@ -37,7 +37,7 @@ describe "Browser#cookies" do
                  :secure  => true,
                  :expires => expires}
 
-      deviates_on :watir do
+      deviates_on :watir_classic do
         # secure cookie can't be accessed running on WatirSpec test server
         options.delete(:secure)
       end
@@ -49,7 +49,7 @@ describe "Browser#cookies" do
       cookie[:name].should == 'a'
       cookie[:value].should == 'b'
 
-      not_compliant_on :watir do
+      not_compliant_on :watir_classic do
         cookie[:path].should == "/set_cookie"
         cookie[:secure].should be_true
 

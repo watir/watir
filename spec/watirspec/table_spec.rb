@@ -49,7 +49,7 @@ describe "Table" do
          "Table 2, Row 1, Cell 2"]
       ]
 
-      not_compliant_on :watir do
+      not_compliant_on :watir_classic do
         browser.table(:id, 'outer').strings.should == [
           ["Table 1, Row 1, Cell 1", "Table 1, Row 1, Cell 2"],
           ["Table 1, Row 2, Cell 1", "Table 1, Row 2, Cell 2\nTable 2, Row 1, Cell 1 Table 2, Row 1, Cell 2"],
@@ -57,7 +57,7 @@ describe "Table" do
        ]
       end
 
-      deviates_on :watir do
+      deviates_on :watir_classic do
         browser.table(:id, 'outer').strings.should == [
           ["Table 1, Row 1, Cell 1", "Table 1, Row 1, Cell 2"],
           ["Table 1, Row 2, Cell 1", "Table 1, Row 2, Cell 2 Table 2, Row 1, Cell 1 Table 2, Row 1, Cell 2"],
@@ -103,7 +103,7 @@ describe "Table" do
       browser.table(:id, 'outer')[2].id.should == "outer_last"
     end
 
-    not_compliant_on :webdriver, :watir do
+    not_compliant_on :webdriver, :watir_classic do
       it "raises UnknownRowException if the index is out of bounds" do
         lambda { browser.table(:id, 'outer')[1337] }.should raise_error(UnknownRowException)
       end

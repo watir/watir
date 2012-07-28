@@ -13,11 +13,11 @@ describe "Image" do
       browser.image(:id, 'square').should exist
       browser.image(:id, /square/).should exist
 
-      not_compliant_on :watir do
+      not_compliant_on :watir_classic do
         browser.image(:src, 'images/circle.png').should exist
       end
 
-      deviates_on :watir do
+      deviates_on :watir_classic do
         browser.image(:src, %r{images/circle.png}).should exist
       end
 
@@ -129,7 +129,7 @@ describe "Image" do
   end
 
   not_compliant_on :webdriver do
-    bug "https://github.com/watir/watir/issues/36", :watir do    
+    bug "https://github.com/watir/watir/issues/36", :watir_classic do    
       describe "#file_created_date" do
         it "returns the date the image was created as reported by the file system" do
           browser.goto(WatirSpec.url_for("images.html", :needs_server => true))

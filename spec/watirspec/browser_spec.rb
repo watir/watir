@@ -56,7 +56,7 @@ describe "Browser" do
     #
     # for IE9, this needs to be enabled in
     # View => Toolbars -> Status bar
-    not_compliant_on [:webdriver, :firefox], [:watir, :ie9] do
+    not_compliant_on [:webdriver, :firefox], [:watir_classic, :ie9] do
       it "returns the current value of window.status" do
         browser.goto(WatirSpec.url_for("non_control_elements.html"))
 
@@ -68,8 +68,14 @@ describe "Browser" do
 
   describe "#name" do
     it "returns browser name" do
-      browser.name.should == WatirSpec.implementation.browser_args[0]
-    end
+      not_compliant_on :watir_classic do
+        browser.name.should == WatirSpec.implementation.browser_args[0]
+      end
+
+      deviates_on :watir_classic do
+        browser.name.should == :ie
+      end
+    end    
   end
 
   describe "#text" do
