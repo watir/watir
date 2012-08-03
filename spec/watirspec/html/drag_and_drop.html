@@ -13,6 +13,14 @@
 
   <script type="text/javascript">
     $(function() {
+      $("#repositionDraggable").click(function() {
+        $("#draggable").css("top", "2500px");
+      });
+
+      $("#repositionDroppable").click(function() {
+        $("#droppable").css("top", "2500px");
+      });
+
       $("#draggable").draggable();
       $("#droppable").droppable({
         drop: function(event, ui) {
@@ -70,6 +78,9 @@
   </script>
 </head>
 <body>
+
+<input id="repositionDraggable" type="button" value="repositionDraggable"/>
+<input id="repositionDroppable" type="button" value="repositionDroppable"/>
 <div class="demo">
 
 <div id="draggable" class="ui-widget-content">

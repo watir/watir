@@ -14,9 +14,29 @@ describe "Element" do
         droppable.text.should == 'Dropped!'
       end
 
+      it "can drag and drop an element onto another when draggable is out of viewport" do
+        reposition "draggable"
+        perform_drag_and_drop_on_droppable
+      end
+
+      it "can drag and drop an element onto another when droppable is out of viewport" do
+        reposition "droppable"
+        perform_drag_and_drop_on_droppable
+      end
+
       it "can drag an element by the given offset" do
         droppable.text.should == 'Drop here'
         draggable.drag_and_drop_by 200, 50
+        droppable.text.should == 'Dropped!'
+      end
+
+      def reposition(what)
+        browser.button(:id => "reposition#{what.capitalize}").click
+      end
+
+      def perform_drag_and_drop_on_droppable
+        droppable.text.should == "Drop here"
+        draggable.drag_and_drop_on droppable
         droppable.text.should == 'Dropped!'
       end
     end
