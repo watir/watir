@@ -13,10 +13,12 @@ describe "Element" do
         draggable.drag_and_drop_on droppable
         droppable.text.should == 'Dropped!'
       end
-
-      it "can drag and drop an element onto another when draggable is out of viewport" do
-        reposition "draggable"
-        perform_drag_and_drop_on_droppable
+      
+      bug "http://code.google.com/p/selenium/issues/detail?id=3075", [:webdriver, :firefox] do
+        it "can drag and drop an element onto another when draggable is out of viewport" do
+          reposition "draggable"
+          perform_drag_and_drop_on_droppable
+        end
       end
 
       it "can drag and drop an element onto another when droppable is out of viewport" do
