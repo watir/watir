@@ -1,8 +1,8 @@
-require File.expand_path("watirspec/spec_helper", File.dirname(__FILE__))
+require File.expand_path("../spec_helper", __FILE__)
 
 describe 'Alert API' do
   before do
-    browser.goto WatirSpec.url_for("alerts.html", :needs_server => true)
+    browser.goto WatirSpec.url_for("alerts.html")
   end
 
   after do
@@ -12,25 +12,40 @@ describe 'Alert API' do
   context 'alert' do
     describe '#text' do
       it 'returns text of alert' do
-        browser.button(:id => 'alert').click
-        browser.alert.text.should == 'ok'
+        not_compliant_on :watir_classic do
+          browser.button(:id => 'alert').click
+        end
+        deviates_on :watir_classic do
+          browser.button(:id => 'alert').click_no_wait
+        end
+        browser.alert.text.should include('ok')
       end
     end
 
     describe '#exists?' do
-      it 'returns false if alert is present' do
+      it 'returns false if alert is not present' do
         browser.alert.should_not exist
       end
 
       it 'returns true if alert is present' do
-        browser.button(:id => 'alert').click
-        browser.alert.should exist
+        not_compliant_on :watir_classic do
+          browser.button(:id => 'alert').click
+        end
+        deviates_on :watir_classic do
+          browser.button(:id => 'alert').click_no_wait
+        end
+        browser.wait_until(5) {browser.alert.exists?}
       end
     end
 
     describe '#ok' do
       it 'closes alert' do
-        browser.button(:id => 'alert').click
+        not_compliant_on :watir_classic do
+          browser.button(:id => 'alert').click
+        end
+        deviates_on :watir_classic do
+          browser.button(:id => 'alert').click_no_wait
+        end
         browser.alert.ok
         browser.alert.should_not exist
       end
@@ -38,8 +53,13 @@ describe 'Alert API' do
 
     describe '#close' do
       it 'closes alert' do
-        browser.button(:id => 'alert').click
-        browser.alert.close
+        not_compliant_on :watir_classic do
+          browser.button(:id => 'alert').click
+        end
+        deviates_on :watir_classic do
+          browser.button(:id => 'alert').click_no_wait
+        end
+        browser.alert.when_present.close
         browser.alert.should_not exist
       end
     end
@@ -55,7 +75,7 @@ describe 'Alert API' do
         browser.button(:id => 'timeout-alert').click
         lambda {
           browser.alert.when_present(1).close
-        }.should raise_error(Watir::Wait::TimeoutError, 'timed out after 1 seconds, waiting for alert to become present')
+        }.should raise_error(Watir::Wait::TimeoutError)
       end
     end
   end
@@ -63,7 +83,12 @@ describe 'Alert API' do
   context 'confirm' do
     describe '#ok' do
       it 'accepts confirm' do
-        browser.button(:id => 'confirm').click
+        not_compliant_on :watir_classic do
+          browser.button(:id => 'confirm').click
+        end
+        deviates_on :watir_classic do
+          browser.button(:id => 'confirm').click_no_wait
+        end
         browser.alert.ok
         browser.button(:id => 'confirm').value.should == "true"
       end
@@ -71,8 +96,13 @@ describe 'Alert API' do
 
     describe '#close' do
       it 'cancels confirm' do
-        browser.button(:id => 'confirm').click
-        browser.alert.close
+        not_compliant_on :watir_classic do
+          browser.button(:id => 'confirm').click
+        end
+        deviates_on :watir_classic do
+          browser.button(:id => 'confirm').click_no_wait
+        end
+        browser.alert.when_present.close
         browser.button(:id => 'confirm').value.should == "false"
       end
     end
@@ -81,7 +111,12 @@ describe 'Alert API' do
   context 'prompt' do
     describe '#set' do
       it 'enters text to prompt' do
-        browser.button(:id => 'prompt').click
+        not_compliant_on :watir_classic do
+          browser.button(:id => 'prompt').click
+        end
+        deviates_on :watir_classic do
+          browser.button(:id => 'prompt').click_no_wait
+        end
         browser.alert.set 'My Name'
         browser.alert.ok
         browser.button(:id => 'prompt').value.should == 'My Name'
