@@ -2,6 +2,7 @@ $LOAD_PATH.unshift File.expand_path("../lib", __FILE__)
 
 require 'rubygems'
 require 'bundler'
+require 'watir-webdriver/version'
 Bundler::GemHelper.install_tasks
 
 require 'rspec/core/rake_task'
@@ -89,6 +90,17 @@ require 'yard'
 require "yard/handlers/watir"
 YARD::Rake::YardocTask.new do |task|
   task.options = %w[--debug] # this is pretty slow, so nice with some output
+end
+
+namespace :changes do
+
+  task :update do
+    VersionDiffer.new.update('CHANGES.md')
+  end
+
+  task :generate do
+    VersionDiffer.new.generate('CHANGES.md')
+  end
 end
 
 load "spec/watirspec/watirspec.rake" if File.exist?("spec/watirspec/watirspec.rake")
