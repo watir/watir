@@ -1,11 +1,13 @@
 class VersionDiffer
 
-  def update(path)
-    last_version = released_versions.first
+  def print_latest(io = $stdout)
+    io.puts diff(last_version, ".")
+  end
 
+  def update(path)
     old = File.read(path)
     File.open(path, "w") do |file|
-      file << diff(last_version, ".")
+      show_latest(file)
       file << old
     end
   end
@@ -15,13 +17,17 @@ class VersionDiffer
     versions.unshift "."
 
     versions.each_cons(2) do |new_version, old_version|
-      File.open("CHANGES", "a") do |file|
+      File.open(path, "a") do |file|
         file << diff(old_version, new_version)
       end
     end
   end
 
   private
+
+  def last_version
+    released_versions.first
+  end
 
   def released_versions
     require 'open-uri'
