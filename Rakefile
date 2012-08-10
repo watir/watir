@@ -93,12 +93,13 @@ YARD::Rake::YardocTask.new do |task|
 end
 
 namespace :changes do
-
   task :update do
+    require './support/version_differ'
     VersionDiffer.new.update('CHANGES.md')
   end
 
   task :generate do
+    require './support/version_differ'
     VersionDiffer.new.generate('CHANGES.md')
   end
 end

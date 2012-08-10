@@ -44,7 +44,7 @@ class VersionDiffer
 
     # requires YARD > 0.8.2.1 (i.e. next release at the time of writing)
     content = `yard diff --all --query '!@private && @api.text != "private" && object.visibility == :public' #{left} #{right} 2>&1`
-    str.puts content.split("\n").map { |line| "   #{line}" }
+    str.puts content.split("\n").map { |line| line.empty? ? line : "   #{line}" }
     str.puts "\n\n"
 
     str.string
