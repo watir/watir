@@ -34,7 +34,7 @@ describe 'Alert API' do
         deviates_on :watir_classic do
           browser.button(:id => 'alert').click_no_wait
         end
-        browser.wait_until(5) {browser.alert.exists?}
+        browser.wait_until(10) {browser.alert.exists?}
       end
     end
 
