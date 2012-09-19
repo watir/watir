@@ -21,31 +21,6 @@ module Watir
     end
   end # TableRow
 
-  module Container
-    def row(*args)
-      row = tr(*args)
-      row.locator_class = ChildRowLocator
-
-      row
-    end
-
-    def rows(*args)
-      rows = trs(*args)
-      rows.locator_class = ChildRowLocator
-
-      rows
-    end
-
-    def strings
-      assert_exists
-
-      rows.inject [] do |res, row|
-        res << row.cells.map { |cell| cell.text }
-      end
-    end
-    alias_method :to_a, :strings
-  end # Container
-
   class TableRowCollection < ElementCollection
     attr_writer :locator_class
 
