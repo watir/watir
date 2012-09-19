@@ -4,6 +4,12 @@ module Watir
   class Table < HTMLElement
     include RowContainer
 
+    #
+    # Represents table rows as hashes
+    #
+    # @return [Array<Hash>]
+    #
+
     def hashes
       all_rows   = rows.to_a
       header_row = all_rows.shift or raise Exception::Error, "no rows in table"
@@ -24,8 +30,9 @@ module Watir
     end
 
     #
-    # Get the n'th row of this table.
+    # Returns row of this table with given index.
     #
+    # @param [Fixnum] idx
     # @return Watir::TableRow
     #
 

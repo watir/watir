@@ -14,6 +14,17 @@ module Watir
     alias_method :wd, :driver # ensures duck typing with Watir::Element
 
     class << self
+      #
+      # Creates a Watir::Browser instance and goes to URL.
+      #
+      # @example
+      #   browser = Watir::Browser.start "www.google.com", :chrome
+      #   #=> #<Watir::Browser:0x..fa45a499cb41e1752 url="http://www.google.com" title="Google">
+      #
+      # @param [String] url
+      # @param [Symbol, Selenium::WebDriver] browser :firefox, :ie, :chrome, :remote or Selenium::WebDriver instance
+      # @return [Watir::Browser]
+      #
       def start(url, browser = :firefox)
         b = new(browser)
         b.goto url
@@ -23,9 +34,9 @@ module Watir
     end
 
     #
-    # Create a Watir::Browser instance
+    # Creates a Watir::Browser instance.
     #
-    # @param [:firefox, :ie, :chrome, :remote, Selenium::WebDriver] browser
+    # @param [Symbol, Selenium::WebDriver] browser :firefox, :ie, :chrome, :remote or Selenium::WebDriver instance
     # @param args Passed to the underlying driver
     #
 
@@ -51,7 +62,10 @@ module Watir
     end
 
     #
-    # Goto the given URL
+    # Goes to the given URL.
+    #
+    # @example
+    #   browser.goto "www.google.com"
     #
     # @param [String] uri The url.
     # @return [String] The url you end up at.
@@ -66,21 +80,55 @@ module Watir
       url
     end
 
+    #
+    # Navigates back in history.
+    #
+
     def back
       @driver.navigate.back
     end
+
+    #
+    # Navigates forward in history.
+    #
 
     def forward
       @driver.navigate.forward
     end
 
+    #
+    # Returns URL of current page.
+    #
+    # @example
+    #   browser.goto "http://www.google.com"
+    #   browser.url
+    #   #=> "http://www.google.com"
+    #
+    # @return [String]
+    #
+
     def url
       @driver.current_url
     end
 
+    #
+    # Returns title of current page.
+    #
+    # @example
+    #   browser.goto "http://www.google.com"
+    #   browser.title
+    #   #=> "Google"
+    #
+    # @return [String]
+    #
+
     def title
       @driver.title
     end
+
+    #
+    # Closes browser.
+    #
 
     def close
       return if @closed
@@ -89,31 +137,77 @@ module Watir
     end
     alias_method :quit, :close # TODO: close vs quit
 
+    #
+    # Handles cookies.
+    #
+    # @return [Watir::Cookies]
+    #
+
     def cookies
       @cookies ||= Cookies.new driver.manage
     end
+
+    #
+    # Returns browser name.
+    #
+    # @example
+    #   browser = Watir::Browser.new :chrome
+    #   browser.name
+    #   #=> :chrome
+    #
+    # @return [String]
+    #
 
     def name
       @driver.browser
     end
 
+    #
+    # Returns text of page body.
+    #
+    # @return [String]
+    #
+
     def text
       @driver.find_element(:tag_name, "body").text
     end
+
+    #
+    # Returns HTML code of current page.
+    #
+    # @return [String]
+    #
 
     def html
       # use body.html instead?
       @driver.page_source
     end
 
+    #
+    # Handles JavaScript alerts, confirms and prompts.
+    #
+    # @return [Watir::Alert]
+    #
+
     def alert
       Alert.new driver.switch_to
     end
+
+    #
+    # Refreshes current page.
+    #
 
     def refresh
       @driver.navigate.refresh
       run_checkers
     end
+
+    #
+    # Waits until readyState of document is complete.
+    #
+    # @param [Fixnum] timeout
+    # @raise [Watir::Wait::TimeoutError] if timeout is exceeded
+    #
 
     def wait(timeout = 5)
       wait_until(timeout, "waiting for document.readyState == 'complete'") do
@@ -121,13 +215,44 @@ module Watir
       end
     end
 
+    #
+    # Returns readyState of document.
+    #
+    # @return [String]
+    #
+
     def ready_state
       execute_script 'return document.readyState'
     end
 
+    #
+    # Returns the text of status bar.
+    #
+    # @return [String]
+    #
+
     def status
       execute_script "return window.status;"
     end
+
+    #
+    # Executes JavaScript snippet.
+    #
+    # If you are going to use the value snippet returns, make sure to use
+    # `return` explicitly.
+    #
+    # @example Check that Ajax requests are completed with jQuery
+    #   browser.execute_script("return jQuery.active") == '0'
+    #   #=> true
+    #
+    # @example Get inner HTML of element
+    #   span = browser.span(class: "someclass")
+    #   browser.execute_script "return arguments[0].innerHTML", span
+    #   #=> "Span innerHTML"
+    #
+    # @param [String] script JavaScript snippet to execute
+    # @param *args Arguments will be available in the given script in the 'arguments' pseudo-array
+    #
 
     def execute_script(script, *args)
       args.map! { |e| e.kind_of?(Watir::Element) ? e.wd : e }
@@ -136,15 +261,22 @@ module Watir
       wrap_elements_in(returned)
     end
 
+    #
+    # Sends sequence of keystrokes to currently active element.
+    #
+    # @example
+    #   browser.goto "http://www.google.com"
+    #   browser.send_keys "Watir", :return
+    #
+    # @param [String, Symbol] *args
+    #
+
     def send_keys(*args)
       @driver.switch_to.active_element.send_keys(*args)
     end
 
     #
-    # Handles screenshot of current pages.
-    #
-    # @example
-    #   browser.screenshot.save("screenshot.png")
+    # Handles screenshots of current pages.
     #
     # @return [Watir::Screenshot]
     #
@@ -152,6 +284,27 @@ module Watir
     def screenshot
       Screenshot.new driver
     end
+
+    #
+    # Adds new checker.
+    #
+    # Checkers are generally used to ensure application under test does not encounter
+    # any error. They are automatically executed after following events:
+    #   1. Open URL
+    #   2. Refresh page
+    #   3. Click, double-click or right-click on element
+    #
+    # @example
+    #   browser.add_checker do |page|
+    #     page.text.include?("Server Error") and puts "Application exception or 500 error!"
+    #   end
+    #   browser.goto "www.mywebsite.com/page-with-error"
+    #   "Server error! (RuntimeError)"
+    #
+    # @param [#call] checker Object responding to call
+    # @yield Checker block
+    # @yieldparam [Watir::Browser]
+    #
 
     def add_checker(checker = nil, &block)
       if block_given?
@@ -163,13 +316,42 @@ module Watir
       end
     end
 
+    #
+    # Deletes checker.
+    #
+    # @example
+    #   checker = lambda do |page|
+    #     page.text.include?("Server Error") and puts "Application exception or 500 error!"
+    #   end
+    #   browser.add_checker checker
+    #   browser.goto "www.mywebsite.com/page-with-error"
+    #   "Server error! (RuntimeError)"
+    #   browser.disable_checker checker
+    #   browser.refresh
+    #
+
     def disable_checker(checker)
       @error_checkers.delete(checker)
     end
 
+    #
+    # Runs checkers.
+    #
+
     def run_checkers
       @error_checkers.each { |e| e.call(self) }
     end
+
+    #
+    # Returns true if browser is not closed and false otherwise.
+    #
+    # @return [Boolean]
+    #
+
+    def exist?
+      not @closed
+    end
+    alias_method :exists?, :exist?
 
     #
     # Protocol shared with Watir::Element
@@ -185,11 +367,6 @@ module Watir
         true
       end
     end
-
-    def exist?
-      not @closed
-    end
-    alias_method :exists?, :exist?
 
     def reset!
       # no-op

@@ -10,5 +10,5 @@ module Watir
       doc.inner_text
     end
 
-  end
-end
+  end # Browser
+end # Watir

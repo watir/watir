@@ -6,5 +6,5 @@ module Watir
       assert_exists
       execute_atom :selectText, @element, str
     end
-  end
-end
+  end # Element
+end # Watir

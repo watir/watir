@@ -1,5 +1,16 @@
 module Watir
   module HasWindow
+
+    #
+    # Returns browser windows array.
+    #
+    # @example
+    #   browser.a(:id => "open_new_window").click
+    #   browser.windows(:title => "new")
+    #
+    # @return [Array<Window>]
+    #
+
     def windows(*args)
       all = @driver.window_handles.map { |handle| Window.new(@driver, :handle => handle) }
 
@@ -9,6 +20,16 @@ module Watir
         filter_windows extract_selector(args), all
       end
     end
+
+    #
+    # Returns browser window.
+    #
+    # @example
+    #   browser.a(:id => "open_new_window").click
+    #   browser.window(:title => "new")
+    #
+    # @return [Window]
+    #
 
     def window(*args, &blk)
       win = Window.new @driver, extract_selector(args)
@@ -29,5 +50,6 @@ module Watir
         selector.all? { |key, value| value === win.send(key) }
       end
     end
-  end # WindowSwitching
+
+  end # HasWindow
 end # Watir

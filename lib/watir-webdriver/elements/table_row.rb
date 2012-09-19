@@ -22,7 +22,6 @@ module Watir
     end
   end # TableRow
 
-
   class TableRowCollection < ElementCollection
     attr_writer :locator_class
 

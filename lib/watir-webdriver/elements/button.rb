@@ -20,6 +20,8 @@ module Watir
     # For input elements, returns the "value" attribute.
     # For button elements, returns the inner text.
     #
+    # @return [String]
+    #
 
     def text
       assert_exists
@@ -37,7 +39,7 @@ module Watir
     end
 
     #
-    # Returns true if this element is enabled
+    # Returns true if this element is enabled.
     #
     # @return [Boolean]
     #
