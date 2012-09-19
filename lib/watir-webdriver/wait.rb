@@ -2,14 +2,20 @@
 module Watir
   module Wait
 
-    class TimeoutError < StandardError
-    end
+    class TimeoutError < StandardError ; end
 
     INTERVAL = 0.1
 
     class << self
       #
-      # Wait until the block evaluates to true or times out.
+      # Waits until the block evaluates to true or times out.
+      #
+      # @example
+      #   Watir::Wait.until { browser.a(:id => "ajaxed").visible? }
+      #
+      # @param [Fixnum] timeout How long to wait in seconds
+      # @param [String] message Message to raise if timeout is exceeded
+      # @raise [TimeoutError] if timeout is exceeded
       #
 
       def until(timeout = 30, message = nil, &block)
@@ -26,6 +32,13 @@ module Watir
 
       #
       # Wait while the block evaluates to true or times out.
+      #
+      # @example
+      #   Watir::Wait.while { browser.a(:id => "ajaxed").visible? }
+      #
+      # @param [Fixnum] timeout How long to wait in seconds
+      # @param [String] message Message to raise if timeout is exceeded
+      # @raise [TimeoutError] if timeout is exceeded
       #
 
       def while(timeout = 30, message = nil, &block)
@@ -47,7 +60,8 @@ module Watir
 
         err
       end
-    end # class << self
+
+    end # self
   end # Wait
 
   module Waitable
@@ -97,14 +111,15 @@ module Watir
     #
     # Waits until the element is present.
     #
+    # @example
+    #   browser.button(:id => 'foo').when_present.click
+    #   browser.div(:id => 'bar').when_present { |div| ... }
+    #   browser.p(:id => 'baz').when_present(60).text
+    #
+    # @param [Fixnum] timeout seconds to wait before timing out
+    #
     # @see Watir::Wait
-    #
-    # Example:
-    #   browser.button(:id, 'foo').when_present.click
-    #   browser.div(:id, 'bar').when_present { |div| ... }
-    #   browser.p(:id, 'baz').when_present(60).text
-    #
-    # @param [Integer] timeout seconds to wait before timing out
+    # @see Watir::Element#present?
     #
 
     def when_present(timeout = 30)
@@ -121,7 +136,10 @@ module Watir
     #
     # Waits until the element is present.
     #
-    # @param [Integer] timeout seconds to wait before timing out
+    # @example
+    #   browser.button(:id => 'foo').wait_until_present
+    #
+    # @param [Fixnum] timeout seconds to wait before timing out
     #
     # @see Watir::Wait
     # @see Watir::Element#present?
@@ -134,6 +152,9 @@ module Watir
 
     #
     # Waits while the element is present.
+    #
+    # @example
+    #   browser.button(:id => 'foo').wait_while_present
     #
     # @param [Integer] timeout seconds to wait before timing out
     #

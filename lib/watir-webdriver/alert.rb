@@ -79,6 +79,10 @@ module Watir
     end
     alias_method :present?, :exists?
 
+    #
+    # @api private
+    #
+
     def selector_string
       'alert'
     end

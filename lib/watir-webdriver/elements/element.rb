@@ -33,6 +33,12 @@ module Watir
       end
     end
 
+    #
+    # Returns true if element exists.
+    #
+    # @return [Boolean]
+    #
+
     def exists?
       assert_exists
       true
@@ -49,6 +55,14 @@ module Watir
       end
     end
 
+    #
+    # Returns true if two elements are equal.
+    #
+    # @example
+    #   browser.a(:id => "foo") == browser.a(:id => "foo")
+    #   #=> true
+    #
+
     def ==(other)
       return false unless other.kind_of? self.class
 
@@ -61,10 +75,22 @@ module Watir
       @element ? @element.hash : super
     end
 
+    #
+    # Returns the text of the element.
+    #
+    # @return [String]
+    #
+
     def text
       assert_exists
       @element.text
     end
+
+    #
+    # Returns tag name of the element.
+    #
+    # @return [String]
+    #
 
     def tag_name
       assert_exists
@@ -72,20 +98,17 @@ module Watir
     end
 
     #
-    # Clicks the element, optionally while pressing the given mofifier keys.
+    # Clicks the element, optionally while pressing the given modifier keys.
     # Note that support for holding a modifier key is currently experimental,
     # and may not work at all.
     #
     # @example Click an element
-    #
     #   element.click
     #
     # @example Click an element with shift key pressed
-    #
     #   element.click(:shift)
     #
     # @example Click an element with several modifier keys pressed
-    #
     #   element.click(:shift, :control)
     #
     # @param [:shift, :alt, :control, :command, :meta] Modifier key(s) to press while clicking.
@@ -113,10 +136,11 @@ module Watir
 
     #
     # Double clicks the element.
-    #
     # Note that browser support may vary.
     #
-
+    # @example
+    #   browser.a(:id => "foo").double_click
+    #
 
     def double_click
       assert_exists
@@ -128,8 +152,10 @@ module Watir
 
     #
     # Right clicks the element.
-    #
     # Note that browser support may vary.
+    #
+    # @example
+    #   browser.a(:id => "foo").right_click
     #
 
     def right_click
@@ -142,8 +168,10 @@ module Watir
 
     #
     # Moves the mouse to the middle of this element.
+    # Note that browser support may vary.
     #
-    # Note that browser/platform support may vary.
+    # @example
+    #   browser.a(:id => "foo").hover
     #
 
     def hover
@@ -155,12 +183,11 @@ module Watir
 
     #
     # Drag and drop this element on to another element instance.
+    # Note that browser support may vary.
     #
-    # Example:
-    #
+    # @example
     #    a = browser.div(:id => "draggable")
     #    b = browser.div(:id => "droppable")
-    #
     #    a.drag_and_drop_on b
     #
 
@@ -176,12 +203,10 @@ module Watir
 
     #
     # Drag and drop this element by the given offsets.
+    # Note that browser support may vary.
     #
-    # Example:
-    #
-    #    a = browser.div(:id => "draggable")
-    #
-    #    a.drag_and_drop_by 100, -200
+    # @example
+    #    browser.div(:id => "draggable").drag_and_drop_by 100, -200
     #
 
     def drag_and_drop_by(right_by, down_by)
@@ -193,6 +218,13 @@ module Watir
              perform
     end
 
+    #
+    # Flashes (change background color far a moment) element.
+    #
+    # @example
+    #    browser.div(:id => "draggable").flash
+    #
+
     def flash
       original_color = style("backgroundColor")
 
@@ -201,6 +233,12 @@ module Watir
         driver.execute_script("arguments[0].style.backgroundColor = '#{color}'", @element)
       end
     end
+
+    #
+    # Returns value of the element.
+    #
+    # @return [String]
+    #
 
     def value
       assert_exists
@@ -212,15 +250,45 @@ module Watir
       end
     end
 
+    #
+    # Returns given attribute value of element.
+    #
+    # @example
+    #   browser.a(:id => "foo").attribute_value "href"
+    #   #=> "http://watir.com"
+    #
+    # @param [String] attribute_name
+    # @return [String]
+    #
+
     def attribute_value(attribute_name)
       assert_exists
       @element.attribute attribute_name
     end
 
+    #
+    # Returns inner HTML code of element.
+    #
+    # @example
+    #   browser.div(:id => "foo").html
+    #   #=> "<a>Click</a>"
+    #
+    # @return [String]
+    #
+
     def html
       assert_exists
       execute_atom(:getOuterHtml, @element).strip
     end
+
+    #
+    # Sends sequence of keystrokes to element.
+    #
+    # @example
+    #   browser.div(:id => "foo").send_keys "Watir", :return
+    #
+    # @param [String, Symbol] *args
+    #
 
     def send_keys(*args)
       assert_exists
@@ -228,9 +296,10 @@ module Watir
     end
 
     #
-    # Note: Firefox queues focus events until the window actually has focus.
+    # Focuses element.
+    # Note that Firefox queues focus events until the window actually has focus.
     #
-    # See http://code.google.com/p/selenium/issues/detail?id=157
+    # @see http://code.google.com/p/selenium/issues/detail?id=157
     #
 
     def focus
@@ -238,10 +307,28 @@ module Watir
       driver.execute_script "return arguments[0].focus()", @element
     end
 
+    #
+    # Returns true if this element is focused.
+    #
+    # @return [Boolean]
+    #
+
     def focused?
       assert_exists
       @element == driver.switch_to.active_element
     end
+
+    #
+    # Simulates JavaScript events on element.
+    # Note that you may omit "on" from event name.
+    #
+    # @example
+    #   browser.a(:id => "foo").fire_event :click
+    #   browser.a(:id => "foo").fire_event "mousemove"
+    #   browser.a(:id => "foo").fire_event "onmouseover"
+    #
+    # @param [String, Symbol] event_name
+    #
 
     def fire_event(event_name)
       assert_exists
@@ -249,6 +336,10 @@ module Watir
 
       execute_atom :fireEvent, @element, event_name
     end
+
+    #
+    # Returns parent element of current element.
+    #
 
     def parent
       assert_exists
@@ -278,7 +369,9 @@ module Watir
     end
 
     #
-    # Returns true if this element is visible on the page
+    # Returns true if this element is visible on the page.
+    #
+    # @return [Boolean]
     #
 
     def visible?
@@ -287,8 +380,9 @@ module Watir
     end
 
     #
-    # Returns true if the element exists and is visible on the page
+    # Returns true if the element exists and is visible on the page.
     #
+    # @return [Boolean]
     # @see Watir::Wait
     #
 
@@ -300,6 +394,19 @@ module Watir
       false
     end
 
+    #
+    # Returns given style property of this element.
+    #
+    # @example
+    #   browser.a(:id => "foo").style
+    #   #=> "display: block"
+    #   browser.a(:id => "foo").style "display"
+    #   #=> "block"
+    #
+    # @param [String] property
+    # @return [String]
+    #
+
     def style(property = nil)
       if property
         assert_exists
@@ -309,6 +416,10 @@ module Watir
       end
     end
 
+    #
+    # Runs checkers.
+    #
+
     def run_checkers
       @parent.run_checkers
     end
@@ -316,9 +427,9 @@ module Watir
     #
     # Cast this Element instance to a more specific subtype.
     #
-    # Example:
-    #
-    #   browser.element(:xpath => "//input[@type='submit']").to_subtype #=> #<Watir::Button>
+    # @example
+    #   browser.element(:xpath => "//input[@type='submit']").to_subtype
+    #   #=> #<Watir::Button>
     #
 
     def to_subtype
@@ -346,6 +457,12 @@ module Watir
 
       klass.new(@parent, :element => elem)
     end
+
+    #
+    # Returns browser.
+    #
+    # @return [Watir::Browser]
+    #
 
     def browser
       @parent.browser

@@ -14,7 +14,7 @@ module Watir
     end
 
     #
-    # Clear all selected options
+    # Clears all selected options.
     #
 
     def clear
@@ -28,7 +28,7 @@ module Watir
     end
 
     #
-    # Get all the options in the select list
+    # Gets all the options in the select list
     #
     # @return [Watir::OptionCollection]
     #
@@ -41,7 +41,7 @@ module Watir
     #
     # Returns true if the select list has one or more options where text or label matches the given value.
     #
-    # @param [String, Regexp] value A value.
+    # @param [String, Regexp] str_or_rx
     # @return [Boolean]
     #
 
@@ -55,7 +55,7 @@ module Watir
     # Select the option(s) whose text or label matches the given string.
     # If this is a multi-select and several options match the value given, all will be selected.
     #
-    # @param [String, Regexp] value A value.
+    # @param [String, Regexp] str_or_rx
     # @raise [Watir::Exception::NoValueFoundException] if the value does not exist.
     # @return [String] The text of the option selected. If multiple options match, returns the first match.
     #
@@ -69,7 +69,7 @@ module Watir
     #
     # @see +select+
     #
-    # @param [String, Regexp] value A value.
+    # @param [String, Regexp] str_or_rx
     # @raise [Watir::Exception::NoValueFoundException] if the value does not exist.
     # @return [String] The option selected. If multiple options match, returns the first match
     #
@@ -79,10 +79,10 @@ module Watir
     end
 
     #
-    # Returns true if any of the selected options' text or label match the given value.
+    # Returns true if any of the selected options' text or label matches the given value.
     #
-    # @param [String, Regexp] value A value.
-    # @raise [Watir::Exception::UnknownObjectException] if the value does not exist.
+    # @param [String, Regexp] str_or_rx
+    # @raise [Watir::Exception::UnknownObjectException] if the options do not exist
     # @return [Boolean]
     #
 
@@ -111,7 +111,9 @@ module Watir
 
 
     #
-    # @return [Array<Watir::Option>] An array of Watir::Option elements that are currently selected.
+    # Returns an array of currently selected options.
+    #
+    # @return [Array<Watir::Option>]
     #
 
     def selected_options

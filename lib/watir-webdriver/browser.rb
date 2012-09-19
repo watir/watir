@@ -99,6 +99,11 @@ module Watir
     #
     # Returns URL of current page.
     #
+    # @example
+    #   browser.goto "http://www.google.com"
+    #   browser.url
+    #   #=> "http://www.google.com"
+    #
     # @return [String]
     #
 
@@ -108,6 +113,11 @@ module Watir
 
     #
     # Returns title of current page.
+    #
+    # @example
+    #   browser.goto "http://www.google.com"
+    #   browser.title
+    #   #=> "Google"
     #
     # @return [String]
     #
@@ -196,6 +206,7 @@ module Watir
     # Waits until readyState of document is complete.
     #
     # @param [Fixnum] timeout
+    # @raise [Watir::Wait::TimeoutError] if timeout is exceeded
     #
 
     def wait(timeout = 5)
@@ -227,16 +238,20 @@ module Watir
     #
     # Executes JavaScript snippet.
     #
-    # If you are going to use the value snippet returns, make sure to add
-    # explicit `return` to it.
+    # If you are going to use the value snippet returns, make sure to use
+    # `return` explicitly.
     #
     # @example Check that Ajax requests are completed with jQuery
-    #   browser.execute_script("returns jQuery.active" ) == '1'
-    #   # => true
+    #   browser.execute_script("return jQuery.active") == '0'
+    #   #=> true
     #
-    # TODO add example for element and args description
+    # @example Get inner HTML of element
+    #   span = browser.span(class: "someclass")
+    #   browser.execute_script "return arguments[0].innerHTML", span
+    #   #=> "Span innerHTML"
     #
-    # @param [String] script
+    # @param [String] script JavaScript snippet to execute
+    # @param *args Arguments will be available in the given script in the 'arguments' pseudo-array
     #
 
     def execute_script(script, *args)
@@ -253,8 +268,7 @@ module Watir
     #   browser.goto "http://www.google.com"
     #   browser.send_keys "Watir", :return
     #
-    # TODO What param type should we use?
-    # @param args
+    # @param [String, Symbol] *args
     #
 
     def send_keys(*args)
@@ -262,7 +276,7 @@ module Watir
     end
 
     #
-    # Handles screenshot of current pages.
+    # Handles screenshots of current pages.
     #
     # @return [Watir::Screenshot]
     #
@@ -270,6 +284,27 @@ module Watir
     def screenshot
       Screenshot.new driver
     end
+
+    #
+    # Adds new checker.
+    #
+    # Checkers are generally used to ensure application under test does not encounter
+    # any error. They are automatically executed after following events:
+    #   1. Open URL
+    #   2. Refresh page
+    #   3. Click, double-click or right-click on element
+    #
+    # @example
+    #   browser.add_checker do |page|
+    #     page.text.include?("Server Error") and puts "Application exception or 500 error!"
+    #   end
+    #   browser.goto "www.mywebsite.com/page-with-error"
+    #   "Server error! (RuntimeError)"
+    #
+    # @param [#call] checker Object responding to call
+    # @yield Checker block
+    # @yieldparam [Watir::Browser]
+    #
 
     def add_checker(checker = nil, &block)
       if block_given?
@@ -281,9 +316,27 @@ module Watir
       end
     end
 
+    #
+    # Deletes checker.
+    #
+    # @example
+    #   checker = lambda do |page|
+    #     page.text.include?("Server Error") and puts "Application exception or 500 error!"
+    #   end
+    #   browser.add_checker checker
+    #   browser.goto "www.mywebsite.com/page-with-error"
+    #   "Server error! (RuntimeError)"
+    #   browser.disable_checker checker
+    #   browser.refresh
+    #
+
     def disable_checker(checker)
       @error_checkers.delete(checker)
     end
+
+    #
+    # Runs checkers.
+    #
 
     def run_checkers
       @error_checkers.each { |e| e.call(self) }
@@ -291,6 +344,8 @@ module Watir
 
     #
     # Returns true if browser is not closed and false otherwise.
+    #
+    # @return [Boolean]
     #
 
     def exist?

@@ -69,8 +69,6 @@ module Watir
 end
 
 require 'watir-webdriver/attribute_helper'
-require 'watir-webdriver/row_container'
-require 'watir-webdriver/cell_container'
 require 'watir-webdriver/user_editable'
 require 'watir-webdriver/element_collection'
 require 'watir-webdriver/elements/element'

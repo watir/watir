@@ -21,12 +21,30 @@ module Watir
       '#<%s:0x%x located=%s>' % [self.class, hash*2, !!@handle]
     end
 
+    #
+    # Returns window size.
+    #
+    # @example
+    #   size = browser.window.size
+    #   "%sx%s" % [size.width, size.height]
+    #   #=> "1600x1200"
+    #
+
     def size
       size = nil
       use { size = @driver.manage.window.size }
 
       size
     end
+
+    #
+    # Returns window position.
+    #
+    # @example
+    #   position = browser.window.position
+    #   "%sx%s" % [position.x, position.y]
+    #   #=> "92x76"
+    #
 
     def position
       pos = nil
@@ -35,12 +53,32 @@ module Watir
       pos
     end
 
+    #
+    # Resizes window to given width and height.
+    #
+    # @example
+    #   browser.window.resize_to 1600, 1200
+    #
+    # @param [Fixnum] width
+    # @param [Fixnum] height
+    #
+
     def resize_to(width, height)
       dimension = Selenium::WebDriver::Dimension.new(width, height)
       use { @driver.manage.window.size = dimension }
 
       dimension
     end
+
+    #
+    # Moves window to given x and y coordinates.
+    #
+    # @example
+    #   browser.window.move_to 300, 200
+    #
+    # @param [Fixnum] x
+    # @param [Fixnum] y
+    #
 
     def move_to(x, y)
       point = Selenium::WebDriver::Point.new(x, y)
@@ -49,9 +87,22 @@ module Watir
       point
     end
 
+    #
+    # Maximizes window.
+    #
+    # @example
+    #   browser.window.maximize
+    #
+
     def maximize
       use { @driver.manage.window.maximize }
     end
+
+    #
+    # Returns true if window exists.
+    #
+    # @return [Boolean]
+    #
 
     def exists?
       handle
@@ -60,11 +111,26 @@ module Watir
       false
     end
 
+    #
+    # Returns true if window is present.
+    #
+    # @return [Boolean]
+    #
+
     def present?
       @handle = nil # relocate
 
       exists?
     end
+
+    #
+    # Returns true if two windows are equal.
+    #
+    # @example
+    #   browser.window(:index => 1) == browser.window(:index => 2)
+    #
+    # @param [Window] other
+    #
 
     def ==(other)
       return false unless other.kind_of?(self.class)
@@ -77,13 +143,31 @@ module Watir
       handle.hash ^ self.class.hash
     end
 
+    #
+    # Returns true if window is current.
+    #
+    # @example
+    #   browser.window.current?
+    #   #=> true
+    #
+
     def current?
       @driver.window_handle == handle
     end
 
+    #
+    # CLoses window.
+    #
+
     def close
       use { @driver.close }
     end
+
+    #
+    # Returns window title.
+    #
+    # @return [String]
+    #
 
     def title
       title = nil
@@ -92,12 +176,27 @@ module Watir
       title
     end
 
+    #
+    # Returns window URL.
+    #
+    # @return [String]
+    #
+
     def url
       url = nil
       use { url = @driver.current_url }
 
       url
     end
+
+    #
+    # Switches to given window and executes block, then switches back.
+    #
+    # @example
+    #   browser.window(:title => "2nd window").use do
+    #     browser.button(:id => "close").click
+    #   end
+    #
 
     def use(&blk)
       @driver.switch_to.window(handle, &blk)

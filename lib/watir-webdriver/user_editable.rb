@@ -1,7 +1,10 @@
 module Watir
   module UserEditable
+
     #
     # Clear the element, the type in the given value.
+    #
+    # @param [String, Symbol] *args
     #
 
     def set(*args)
@@ -14,7 +17,9 @@ module Watir
     alias_method :value=, :set
 
     #
-    # Append the given value to the text in the text field.
+    # Appends the given value to the text in the text field.
+    #
+    # @param [String, Symbol] *args
     #
 
     def append(*args)
@@ -26,12 +31,13 @@ module Watir
     alias_method :<<, :append
 
     #
-    # Clear the text field.
+    # Clears the text field.
     #
 
     def clear
       assert_exists
       @element.clear
     end
-  end
-end
+
+  end # UserEditable
+end # Watir

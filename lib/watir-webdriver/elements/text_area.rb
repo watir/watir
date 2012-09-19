@@ -1,5 +1,5 @@
 module Watir
   class TextArea < HTMLElement
     include UserEditable
-  end
-end
+  end # TextArea
+end # Watir

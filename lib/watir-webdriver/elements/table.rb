@@ -2,7 +2,12 @@
 
 module Watir
   class Table < HTMLElement
-    include RowContainer
+
+    #
+    # Represents table rows as hashes
+    #
+    # @return [Array<Hash>]
+    #
 
     def hashes
       all_rows   = rows.to_a
@@ -24,8 +29,9 @@ module Watir
     end
 
     #
-    # Get the n'th row of this table.
+    # Returns row of this table with given index.
     #
+    # @param [Fixnum] idx
     # @return Watir::TableRow
     #
 
