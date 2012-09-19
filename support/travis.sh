@@ -1,6 +1,6 @@
 #/bin/sh
 
-CHROME_REVISION=127410
+CHROME_REVISION=142910
 sh -e /etc/init.d/xvfb start && git submodule update --init || exit 1
 
 if [[ "$WATIR_WEBDRIVER_BROWSER" = "chrome" ]]; then

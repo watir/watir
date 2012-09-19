@@ -146,9 +146,9 @@ module Watir
           :string
         when 'UnsignedLong', 'Long', 'Integer', 'Short', 'UnsignedShort'
           :int
-        when 'Float', 'Double'
+        when 'Float', /.*Double$/
           :float
-        when 'Function'
+        when 'Function', /.*EventHandler$/
           :function
         when 'Boolean'
           :bool

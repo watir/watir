@@ -22,11 +22,12 @@ Gem::Specification.new do |s|
   s.add_dependency "selenium-webdriver", '>= 2.18.0'
 
   s.add_development_dependency "rspec", "~> 2.6"
-  s.add_development_dependency "yard", "~> 0.7.4"
-  s.add_development_dependency "webidl", ">= 0.1.4"
+  s.add_development_dependency "yard", "~> 0.8.2.1"
+  s.add_development_dependency "webidl", ">= 0.1.5"
   s.add_development_dependency "sinatra", "~> 1.0"
   s.add_development_dependency "rake", "~> 0.9.2"
   s.add_development_dependency "fuubar", "~> 0.0.6"
   s.add_development_dependency "nokogiri"
-  s.add_development_dependency "activesupport", "~> 2.3.5" # for pluralization during code generation
+  s.add_development_dependency "activesupport", "~> 3.0.0" # for pluralization during code generation
+  s.add_development_dependency "pry"
 end

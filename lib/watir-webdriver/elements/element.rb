@@ -14,14 +14,14 @@ module Watir
     include EventuallyPresent
 
     #
-    # need to add :id manually since it's not specified in the HTML spec.
+    # temporarily add :id and :class_name manually since they're no longer specified in the HTML spec.
     #
     # @see http://html5.org/r/6605
-    # @see http://www.w3.org/Bugs/Public/show_bug.cgi?id=13610
+    # @see http://html5.org/r/7174
     #
-    # TODO: use IDL from DOM core?
+    # TODO: use IDL from DOM core - http://dvcs.w3.org/hg/domcore/raw-file/tip/Overview.html
     #
-    attributes :string => [:id]
+    attributes :string => [:id, :class_name]
 
     def initialize(parent, selector)
       @parent   = parent
