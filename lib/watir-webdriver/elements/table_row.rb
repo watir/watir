@@ -1,5 +1,6 @@
 module Watir
   class TableRow < HTMLElement
+    include CellContainer
 
     # @private
     attr_writer :locator_class

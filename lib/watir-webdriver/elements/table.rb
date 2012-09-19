@@ -2,6 +2,7 @@
 
 module Watir
   class Table < HTMLElement
+    include RowContainer
 
     #
     # Represents table rows as hashes
