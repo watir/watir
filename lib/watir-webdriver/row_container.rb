@@ -16,7 +16,6 @@ module Watir
     # Returns table rows collection.
     #
 
-
     def rows(*args)
       rows = trs(*args)
       rows.locator_class = ChildRowLocator
