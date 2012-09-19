@@ -1,8 +1,9 @@
 # encoding: utf-8
 module Watir
   class Radio < Input
+
     #
-    # Select this radio button.
+    # Selects this radio button.
     #
 
     def set
@@ -15,11 +16,14 @@ module Watir
     #
     # Is this radio set?
     #
+    # @return [Boolean]
+    #
 
     def set?
       assert_exists
       @element.selected?
     end
+
   end # Radio
 
   module Container

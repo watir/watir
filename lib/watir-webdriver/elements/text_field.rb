@@ -18,7 +18,7 @@ module Watir
       selector[:tag_name] = "input or textarea"
       selector.inspect
     end
-  end
+  end # TextField
 
   module Container
     def text_field(*args)
@@ -41,4 +41,4 @@ module Watir
       TextField
     end
   end # TextFieldCollection
-end
+end # Watir

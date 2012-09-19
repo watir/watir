@@ -1,11 +1,11 @@
 # encoding: utf-8
 module Watir
   class FileField < Input
+
     #
     # Set the file field to the given path
     #
     # @param [String] a path
-    #
     # @raise [Errno::ENOENT] if the file doesn't exist
     #
 
@@ -15,16 +15,18 @@ module Watir
     end
 
     #
-    # Set the file field to the given path
+    # Sets the file field to the given path
     #
-    # @param [String] a path
+    # @param [String] path
     #
+
     def value=(path)
       assert_exists
       path = path.gsub(File::SEPARATOR, File::ALT_SEPARATOR) if File::ALT_SEPARATOR
       @element.send_keys path
     end
-  end
+
+  end # FileField
 
   module Container
     def file_field(*args)

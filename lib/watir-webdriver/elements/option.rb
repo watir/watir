@@ -8,7 +8,10 @@ module Watir
   class Option < HTMLElement
 
     #
-    # Select this option
+    # Selects this option.
+    #
+    # @example
+    #   browser.select(:id => "foo").options.first.select
     #
 
     def select
@@ -17,13 +20,23 @@ module Watir
     end
 
     #
-    # Toggle the selected state of this option
+    # Toggles the selected state of this option.
+    #
+    # @example
+    #   browser.select(:id => "foo").options.first.toggle
     #
 
     def toggle
       assert_exists
       @element.click
     end
+
+    #
+    # Clears (i.e. toggles selected state) option.
+    #
+    # @example
+    #   browser.select(:id => "foo").options.first.clear
+    #
 
     def clear
       @element.click if selected?
@@ -32,11 +45,24 @@ module Watir
     #
     # Is this option selected?
     #
+    # @return [Boolean]
+    #
 
     def selected?
       assert_exists
       @element.selected?
     end
+
+    #
+    # Returns the text of option.
+    #
+    # Note that the text is either one of the following respectively:
+    #   * label attribute
+    #   * text attribute
+    #   * inner element text
+    #
+    # @return [String]
+    #
 
     def text
       assert_exists

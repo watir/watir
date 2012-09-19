@@ -1,6 +1,10 @@
 module Watir
   module RowContainer
 
+    #
+    # Returns table row.
+    #
+
     def row(*args)
       row = tr(*args)
       row.locator_class = ChildRowLocator
@@ -8,13 +12,17 @@ module Watir
       row
     end
 
+    #
+    # Returns table rows collection.
+    #
+
     def rows(*args)
       rows = trs(*args)
       rows.locator_class = ChildRowLocator
 
       rows
     end
-    
+
     #
     # The table as a 2D Array of strings with the text of each cell.
     #
@@ -30,5 +38,5 @@ module Watir
     end
     alias_method :to_a, :strings
 
-  end
-end
+  end # RowContainer
+end # Watir

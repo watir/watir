@@ -14,6 +14,14 @@ module Watir
     end
 
     #
+    # Yields each element in collection.
+    #
+    # @example
+    #   divs = browser.divs(:class => 'kls')
+    #   divs.each do |div|
+    #     puts div.text
+    #   end
+    #
     # @yieldparam [Watir::Element] element Iterate through the elements in this collection.
     #
 
@@ -22,7 +30,9 @@ module Watir
     end
 
     #
-    # @return [Fixnum] The number of elements in this collection.
+    # Returns number of elements in collection.
+    #
+    # @return [Fixnum]
     #
 
     def length
@@ -37,7 +47,7 @@ module Watir
     # Also note that because of Watir's lazy loading, this will return an Element
     # instance even if the index is out of bounds.
     #
-    # @param [Fixnum] n Index of wanted element, 0-indexed
+    # @param [Fixnum] idx Index of wanted element, 0-indexed
     # @return [Watir::Element] Returns an instance of a Watir::Element subclass
     #
 
@@ -66,7 +76,7 @@ module Watir
     end
 
     #
-    # This collection as an Array
+    # This collection as an Array.
     #
     # @return [Array<Watir::Element>]
     #

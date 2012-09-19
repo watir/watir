@@ -52,4 +52,4 @@ module YARD
       end # AttributesHandler
     end # Watir
   end # Handlers
-end
+end # YARD

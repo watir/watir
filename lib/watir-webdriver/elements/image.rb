@@ -2,6 +2,12 @@
 module Watir
   class Image < HTMLElement
 
+    #
+    # Returns true if image is loaded.
+    #
+    # @return [Boolean]
+    #
+
     def loaded?
       return false unless complete?
 
@@ -12,9 +18,9 @@ module Watir
     end
 
     #
-    # returns the image's width in pixels
+    # Returns the image's width in pixels.
     #
-    # @return [Integer] width
+    # @return [Fixnum] width
     #
 
     def width
@@ -23,9 +29,9 @@ module Watir
     end
 
     #
-    # returns the image's height in pixels
+    # Returns the image's height in pixels.
     #
-    # @return [Integer] height
+    # @return [Fixnum] width
     #
 
     def height
@@ -54,5 +60,4 @@ module Watir
      alias_method :image, :img
      alias_method :images, :imgs
   end # Container
-
 end # Watir

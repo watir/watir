@@ -11,7 +11,7 @@ module Watir
       value = attribute_value :colspan
       value ? Integer(value) : 1
     end
-  end
+  end # TableCell
 
   class TableCellCollection < ElementCollection
     attr_writer :locator_class
@@ -32,5 +32,5 @@ module Watir
       elements
     end
 
-  end
-end
+  end # TableCellCollection
+end # Watir

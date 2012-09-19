@@ -4,15 +4,16 @@ module Watir
   class CheckBox < Input
 
     #
-    # Set this checkbox to the given value
+    # Sets checkbox to the given value.
     #
-    # Example:
-    #
+    # @example
     #   checkbox.set?        #=> false
     #   checkbox.set
     #   checkbox.set?        #=> true
     #   checkbox.set(false)
     #   checkbox.set?        #=> false
+    #
+    # @param [Boolean] bool
     #
 
     def set(bool = true)
@@ -27,7 +28,7 @@ module Watir
     end
 
     #
-    # returns true if the element is checked
+    # Returns true if the element is checked
     # @return [Boolean]
     #
 
@@ -37,7 +38,7 @@ module Watir
     end
 
     #
-    # Unset this checkbox.
+    # Unsets checkbox.
     #
     # Same as +set(false)+
     #
@@ -45,6 +46,7 @@ module Watir
     def clear
       set false
     end
+
   end # CheckBox
 
   module Container
@@ -62,4 +64,4 @@ module Watir
       CheckBox
     end
   end # CheckBoxCollection
-end
+end # Watir
