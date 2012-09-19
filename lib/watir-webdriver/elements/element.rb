@@ -208,6 +208,9 @@ module Watir
     # @example
     #    browser.div(:id => "draggable").drag_and_drop_by 100, -200
     #
+    # @param [Fixnum] right_by
+    # @param [Fixnum] down_by
+    #
 
     def drag_and_drop_by(right_by, down_by)
       assert_exists
