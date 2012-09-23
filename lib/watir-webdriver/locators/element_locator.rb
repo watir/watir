@@ -369,6 +369,10 @@ module Watir
       when :href
         # TODO: change this behaviour?
         'normalize-space(@href)'
+      when :type
+        # type attributes can be upper case - downcase them
+        # https://github.com/watir/watir-webdriver/issues/72
+        "translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')"
       else
         "@#{key.to_s.gsub("_", "-")}"
       end

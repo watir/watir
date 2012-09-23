@@ -121,8 +121,21 @@ describe Watir::ElementLocator do
         locate_one selector, Watir::Anchor.attributes
       end
 
+      it "wraps :type attribute with translate() for upper case values" do
+        translated_type = "translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')"
+        expect_one :xpath, ".//input[#{translated_type}='file']"
+
+        selector = [
+          :tag_name, "input",
+          :type    , "file",
+        ]
+
+        locate_one selector, Watir::Input.attributes
+      end
+
       it "uses the corresponding <label>'s @for attribute when locating by label" do
-        expect_one :xpath, ".//input[@type='text' and @id=//label[normalize-space()='foo']/@for]"
+        translated_type = "translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')"
+        expect_one :xpath, ".//input[#{translated_type}='text' and @id=//label[normalize-space()='foo']/@for]"
 
         selector = [
           :tag_name, "input",
