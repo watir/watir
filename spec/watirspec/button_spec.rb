@@ -35,9 +35,12 @@ describe "Button" do
       browser.button(:caption, /Button 2/).should exist
     end
 
-
     it "returns the first button if given no args" do
       browser.button.should exist
+    end
+
+    it "returns true for element with upper case type" do
+      browser.button(:id, "new_user_button_preview").should exist
     end
 
     it "returns false if the button doesn't exist" do
@@ -61,6 +64,7 @@ describe "Button" do
       browser.button(:xpath, "//input[@type='text']").should_not exist
       browser.button(:xpath, "//input[@type='button']").should exist
     end
+
 
     it "raises TypeError when 'what' argument is invalid" do
       lambda { browser.button(:id, 3.14).exists? }.should raise_error(TypeError)
@@ -194,7 +198,7 @@ describe "Button" do
       browser.button(:index, 0).text.should == 'Submit'
       browser.button(:index, 1).text.should == 'Reset'
       browser.button(:index, 2).text.should == 'Button'
-      browser.button(:index, 3).text.should == "Button 2"
+      browser.button(:index, 3).text.should == 'Preview'
     end
 
     it "raises UnknownObjectException if the element does not exist" do

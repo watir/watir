@@ -14,10 +14,10 @@ describe "Labels" do
       end
     end
   end
-  
+
   describe "#length" do
     it "returns the number of labels" do
-      browser.labels.length.should == 26 # changed this from 25 - Jari
+      browser.labels.length.should == 30
     end
   end
 

@@ -39,6 +39,10 @@ describe "TextField" do
       browser.text_field(:id, 'new_user_last_name').should exist
     end
 
+    it "returns true for element with upper case type" do
+      browser.text_field(:id, "new_user_email_confirm").should exist
+    end
+
     it "returns false if the element does not exist" do
       browser.text_field(:id, 'no_such_id').should_not exist
       browser.text_field(:id, /no_such_id/).should_not exist
@@ -71,7 +75,7 @@ describe "TextField" do
   # Attribute methods
   describe "#id" do
     it "returns the id attribute if the text field exists" do
-      browser.text_field(:index, 3).id.should == "new_user_occupation"
+      browser.text_field(:index, 4).id.should == "new_user_occupation"
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -81,7 +85,7 @@ describe "TextField" do
 
   describe "#name" do
     it "returns the name attribute if the text field exists" do
-      browser.text_field(:index, 3).name.should == "new_user_occupation"
+      browser.text_field(:index, 3).name.should == "new_user_email_confirm"
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -120,7 +124,7 @@ describe "TextField" do
   describe "#value" do
     it "returns the value attribute if the text field exists" do
       browser.text_field(:name, "new_user_occupation").value.should == "Developer"
-      browser.text_field(:index, 3).value.should == "Developer"
+      browser.text_field(:index, 4).value.should == "Developer"
       browser.text_field(:name, /new_user_occupation/i).value.should == "Developer"
     end
 
@@ -196,7 +200,7 @@ describe "TextField" do
       browser.text_field(:name, "new_user_occupation").append(" ĳĳ")
       browser.text_field(:name, "new_user_occupation").value.should == "Developer ĳĳ"
     end
-    
+
     it "raises ObjectReadOnlyException if the object is read only" do
       lambda { browser.text_field(:id, "new_user_code").append("Append This") }.should raise_error(ObjectReadOnlyException)
     end

@@ -14,10 +14,10 @@ describe "CheckBoxes" do
       end
     end
   end
-  
+
   describe "#length" do
     it "returns the number of checkboxes" do
-      browser.checkboxes.length.should == 7
+      browser.checkboxes.length.should == 8
     end
   end
 

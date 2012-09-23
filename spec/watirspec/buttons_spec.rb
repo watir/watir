@@ -14,10 +14,10 @@ describe "Buttons" do
       end
     end
   end
-  
+
   describe "#length" do
     it "returns the number of buttons" do
-      browser.buttons.length.should == 8
+      browser.buttons.length.should == 9
     end
   end
 

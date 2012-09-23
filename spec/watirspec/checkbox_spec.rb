@@ -62,6 +62,10 @@ describe "CheckBox" do
       browser.checkbox(:name => 'new_user_interests', :value => 'cars').should exist
     end
 
+    it "returns true for checkbox with upper case type" do
+      browser.checkbox(:id, "new_user_interests_draw").should exist
+    end
+
     it "raises TypeError when 'what' argument is invalid" do
       lambda { browser.checkbox(:id, 3.14).exists? }.should raise_error(TypeError)
     end

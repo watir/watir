@@ -34,6 +34,10 @@ describe "Radio" do
       browser.radio(:xpath, "//input[@name='new_user_newsletter' and @value='yes']").set
     end
 
+    it "returns true for element with upper case type" do
+      browser.radio(:id, "new_user_newsletter_probably").should exist
+    end
+
     it "returns false if the radio button does not exist" do
       browser.radio(:id, "no_such_id").should_not exist
       browser.radio(:id, /no_such_id/).should_not exist
