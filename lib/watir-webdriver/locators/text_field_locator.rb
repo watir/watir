@@ -3,7 +3,7 @@ module Watir
 
     NON_TEXT_TYPES     = %w[file radio checkbox submit reset image button hidden datetime date month week time datetime-local range color]
     # TODO: better way of finding input text fields?
-    NEGATIVE_TYPE_EXPR = NON_TEXT_TYPES.map { |t| "@type!=#{t.inspect}" }.join(" and ")
+    NEGATIVE_TYPE_EXPR = "contains('%s', %s)=false" % [NON_TEXT_TYPES.map { |t| t }.join(","), XpathSupport.downcase('@type')]
 
     def locate_all
       find_all_by_multiple

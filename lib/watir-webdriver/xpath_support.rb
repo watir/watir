@@ -13,5 +13,9 @@ module Watir
       end
     end
 
+    def self.downcase(value)
+      "translate(#{value},'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')"
+    end
+
   end # XpathSupport
 end # Watir
