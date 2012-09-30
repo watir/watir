@@ -11,7 +11,7 @@ class ImplementationConfig
     set_guard_proc
     add_html_routes
 
-    WatirSpec.always_use_server = mobile? || ie? || safari?
+    WatirSpec.always_use_server = mobile? || ie? || safari? || remote?
   end
 
   private
@@ -27,6 +27,8 @@ class ImplementationConfig
              firefox_args
            when :chrome
              chrome_args
+           when :remote
+             [:remote, {:url => ENV["WATIR_WEBDRIVER_REMOTE_URL"] || "http://127.0.0.1:8080"}]
            else
              [browser, {}]
            end
@@ -50,6 +52,10 @@ class ImplementationConfig
 
   def safari?
     browser == :safari
+  end
+
+  def remote?
+    browser == :remote
   end
 
   def set_guard_proc
