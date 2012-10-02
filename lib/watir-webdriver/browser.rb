@@ -25,8 +25,8 @@ module Watir
       # @param [Symbol, Selenium::WebDriver] browser :firefox, :ie, :chrome, :remote or Selenium::WebDriver instance
       # @return [Watir::Browser]
       #
-      def start(url, browser = :firefox)
-        b = new(browser)
+      def start(url, browser = :firefox, *args)
+        b = new(browser, *args)
         b.goto url
 
         b
