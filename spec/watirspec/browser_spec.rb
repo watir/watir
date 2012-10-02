@@ -117,8 +117,8 @@ describe "Browser" do
     # we need to specify what browser to use
     deviates_on(:webdriver) {
       it "goes to the given URL and return an instance of itself" do
-        driver = (ENV['WATIR_WEBDRIVER_BROWSER'] || :firefox).to_sym
-        browser = Watir::Browser.start(WatirSpec.url_for("non_control_elements.html"), driver)
+        driver, args = WatirSpec.implementation.browser_args
+        browser = Watir::Browser.start(WatirSpec.url_for("non_control_elements.html"), driver, args)
 
         browser.should be_instance_of(Watir::Browser)
         browser.title.should == "Non-control elements"
