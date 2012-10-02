@@ -28,7 +28,7 @@ class ImplementationConfig
            when :chrome
              chrome_args
            when :remote
-             [:remote, {:url => ENV["WATIR_WEBDRIVER_REMOTE_URL"] || "http://127.0.0.1:8080"}]
+             remote_args
            else
              [browser, {}]
            end
@@ -109,6 +109,10 @@ class ImplementationConfig
     end
 
     [:chrome, opts]
+  end
+
+  def remote_args
+    [:remote, {:url => ENV["WATIR_WEBDRIVER_REMOTE_URL"] || "http://127.0.0.1:8080"}]    
   end
 
   def add_html_routes
