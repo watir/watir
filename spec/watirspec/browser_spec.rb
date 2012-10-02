@@ -68,8 +68,12 @@ describe "Browser" do
 
   describe "#name" do
     it "returns browser name" do
-      not_compliant_on :watir_classic do
+      not_compliant_on :watir_classic, [:webdriver, :remote] do
         browser.name.should == WatirSpec.implementation.browser_args[0]
+      end
+
+      deviates_on [:webdriver, :remote] do
+        browser.name.should be_an_instance_of(Symbol)
       end
 
       deviates_on :watir_classic do
