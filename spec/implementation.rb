@@ -59,23 +59,24 @@ class ImplementationConfig
   end
 
   def set_guard_proc
+    matching_browser = remote? ? remote_browser : browser
     matching_guards = [
-      :webdriver,            # guard only applies to webdriver
-      browser,               # guard only applies to this browser
-      [:webdriver, browser]  # guard only applies to this browser on webdriver
+      :webdriver,                     # guard only applies to webdriver
+      matching_browser,               # guard only applies to this browser
+      [:webdriver, matching_browser]  # guard only applies to this browser on webdriver
     ]
 
     if native_events?
       # guard only applies to this browser on webdriver with native events enabled
-      matching_guards << [:webdriver, browser, :native_events]
+      matching_guards << [:webdriver, matching_browser, :native_events]
     else
       # guard only applies to this browser on webdriver with native events disabled
-      matching_guards << [:webdriver, browser, :synthesized_events]
+      matching_guards << [:webdriver, matching_browser, :synthesized_events]
     end
 
     if !Selenium::WebDriver::Platform.linux? || ENV['DESKTOP_SESSION']
       # some specs (i.e. Window#maximize) needs a window manager on linux
-      matching_guards << [:webdriver, browser, :window_manager]
+      matching_guards << [:webdriver, matching_browser, :window_manager]
     end
 
     @imp.guard_proc = lambda { |args|
@@ -124,6 +125,13 @@ class ImplementationConfig
 
   def browser
     @browser ||= (ENV['WATIR_WEBDRIVER_BROWSER'] || :firefox).to_sym
+  end
+
+  def remote_browser
+    remote_browser = @imp.browser_class.new(*@imp.browser_args)
+    remote_browser.browser.name
+  ensure
+    remote_browser.close
   end
 
   def native_events?
