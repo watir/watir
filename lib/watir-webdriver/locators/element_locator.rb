@@ -329,6 +329,10 @@ module Watir
         return false
       end
 
+      if selectors[:tag_name] == 'input' && selectors.has_key?(:type)
+        return false
+      end
+
       if selectors.has_key?(:class) && selectors[:class] !~ /^[\w-]+$/ui
         return false
       end
