@@ -57,7 +57,7 @@ describe "CheckBox" do
       browser.checkbox(:xpath, "//input[@name='no_such_name' and @value='cars']").should_not exist
     end
 
-    it "returns true for checkboxs with a string value" do
+    it "returns true for checkboxes with a string value" do
       browser.checkbox(:name => 'new_user_interests', :value => 'books').should exist
       browser.checkbox(:name => 'new_user_interests', :value => 'cars').should exist
     end
@@ -78,7 +78,7 @@ describe "CheckBox" do
       browser.checkbox(:id, "new_user_interests_dancing").class_name.should == "fun"
     end
 
-    it "returns an emptry string if the checkbox exists and the attribute doesn't" do
+    it "returns an empty string if the checkbox exists and the attribute doesn't" do
       browser.checkbox(:id, "new_user_interests_books").class_name.should == ""
     end
 
@@ -92,7 +92,7 @@ describe "CheckBox" do
       browser.checkbox(:index, 0).id.should == "new_user_interests_books"
     end
 
-    it "returns an emptry string if the checkbox exists and the attribute doesn't" do
+    it "returns an empty string if the checkbox exists and the attribute doesn't" do
       browser.checkbox(:index, 1).id.should == ""
     end
 
@@ -120,7 +120,7 @@ describe "CheckBox" do
       browser.checkbox(:id, "new_user_interests_dancing").title.should == "Dancing is fun!"
     end
 
-    it "returns an emptry string if the checkbox exists and the attribute doesn't" do
+    it "returns an empty string if the checkbox exists and the attribute doesn't" do
       browser.checkbox(:id, "new_user_interests_books").title.should == ""
     end
 
@@ -259,7 +259,7 @@ describe "CheckBox" do
       browser.checkbox(:id, "new_user_interests_cars").should_not be_set
     end
 
-    it "returns the state for checkboxs with string values" do
+    it "returns the state for checkboxes with string values" do
       browser.checkbox(:name => "new_user_interests", :value => 'cars').should_not be_set
       browser.checkbox(:name => "new_user_interests", :value => 'cars').set
       browser.checkbox(:name => "new_user_interests", :value => 'cars').should be_set

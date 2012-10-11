@@ -86,7 +86,7 @@ describe "SelectList" do
   end
 
   describe "#multiple?" do
-    it "knows whether the select list allows multiple slections" do
+    it "knows whether the select list allows multiple selections" do
       browser.select_list(:index, 0).should_not be_multiple
       browser.select_list(:index, 1).should be_multiple
     end

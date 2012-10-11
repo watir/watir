@@ -102,7 +102,7 @@ describe "Option" do
       end
     end
 
-    # there's no onclick event for Option in IE / Webkit
+    # there's no onclick event for Option in IE / WebKit
     # http://msdn.microsoft.com/en-us/library/ms535877(VS.85).aspx
     compliant_on :firefox do
       it "fires onclick event (select_list context)" do

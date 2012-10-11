@@ -18,7 +18,7 @@ describe "Browser" do
     end
   end
 
-  # this should be rewritten - the actual string returned varies alot between implementations
+  # this should be rewritten - the actual string returned varies a lot between implementations
   describe "#html" do
     not_compliant_on :ie do
       it "returns the DOM of the page as an HTML string" do
@@ -51,7 +51,7 @@ describe "Browser" do
   end
 
   describe "#status" do
-    # for firefox, this needs to be enabled in
+    # for Firefox, this needs to be enabled in
     # Preferences -> Content -> Advanced -> Change status bar text
     #
     # for IE9, this needs to be enabled in
