@@ -81,10 +81,8 @@ describe 'Alert API' do
       end
 
       it 'raises error if alert is not present after timeout' do
-        browser.button(:id => 'timeout-alert').click
-
         lambda {
-          browser.alert.when_present(1).close
+          browser.alert.when_present(0.1).close
         }.should raise_error(Watir::Wait::TimeoutError)
       end
     end
