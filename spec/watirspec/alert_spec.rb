@@ -15,9 +15,11 @@ describe 'Alert API' do
         not_compliant_on :watir_classic do
           browser.button(:id => 'alert').click
         end
+
         deviates_on :watir_classic do
           browser.button(:id => 'alert').click_no_wait
         end
+
         browser.alert.text.should include('ok')
       end
     end
@@ -31,10 +33,12 @@ describe 'Alert API' do
         not_compliant_on :watir_classic do
           browser.button(:id => 'alert').click
         end
+
         deviates_on :watir_classic do
           browser.button(:id => 'alert').click_no_wait
         end
-        browser.wait_until(10) {browser.alert.exists?}
+
+        browser.wait_until(10) { browser.alert.exists? }
       end
     end
 
@@ -43,9 +47,11 @@ describe 'Alert API' do
         not_compliant_on :watir_classic do
           browser.button(:id => 'alert').click
         end
+
         deviates_on :watir_classic do
           browser.button(:id => 'alert').click_no_wait
         end
+
         browser.alert.ok
         browser.alert.should_not exist
       end
@@ -56,9 +62,11 @@ describe 'Alert API' do
         not_compliant_on :watir_classic do
           browser.button(:id => 'alert').click
         end
+
         deviates_on :watir_classic do
           browser.button(:id => 'alert').click_no_wait
         end
+
         browser.alert.when_present.close
         browser.alert.should_not exist
       end
@@ -68,11 +76,13 @@ describe 'Alert API' do
       it 'waits until alert is present and goes on' do
         browser.button(:id => 'timeout-alert').click
         browser.alert.when_present.close
+
         browser.alert.should_not exist
       end
 
       it 'raises error if alert is not present after timeout' do
         browser.button(:id => 'timeout-alert').click
+
         lambda {
           browser.alert.when_present(1).close
         }.should raise_error(Watir::Wait::TimeoutError)
@@ -86,9 +96,11 @@ describe 'Alert API' do
         not_compliant_on :watir_classic do
           browser.button(:id => 'confirm').click
         end
+
         deviates_on :watir_classic do
           browser.button(:id => 'confirm').click_no_wait
         end
+
         browser.alert.ok
         browser.button(:id => 'confirm').value.should == "true"
       end
@@ -99,9 +111,11 @@ describe 'Alert API' do
         not_compliant_on :watir_classic do
           browser.button(:id => 'confirm').click
         end
+
         deviates_on :watir_classic do
           browser.button(:id => 'confirm').click_no_wait
         end
+
         browser.alert.when_present.close
         browser.button(:id => 'confirm').value.should == "false"
       end
@@ -114,9 +128,11 @@ describe 'Alert API' do
         not_compliant_on :watir_classic do
           browser.button(:id => 'prompt').click
         end
+
         deviates_on :watir_classic do
           browser.button(:id => 'prompt').click_no_wait
         end
+
         browser.alert.set 'My Name'
         browser.alert.ok
         browser.button(:id => 'prompt').value.should == 'My Name'
