@@ -76,7 +76,7 @@ describe "Radio" do
       browser.radio(:id, "new_user_newsletter_yes").class_name.should == "huge"
     end
 
-    it "returns an emptry string if the radio exists and the attribute doesn't" do
+    it "returns an empty string if the radio exists and the attribute doesn't" do
       browser.radio(:id, "new_user_newsletter_no").class_name.should == ""
     end
 
@@ -90,7 +90,7 @@ describe "Radio" do
       browser.radio(:index, 0).id.should == "new_user_newsletter_yes"
     end
 
-    it "returns an emptry string if the radio exists and the attribute doesn't" do
+    it "returns an empty string if the radio exists and the attribute doesn't" do
       browser.radio(:index, 2).id.should == ""
     end
 
@@ -118,7 +118,7 @@ describe "Radio" do
       browser.radio(:id, "new_user_newsletter_no").title.should == "Traitor!"
     end
 
-    it "returns an emptry string if the radio exists and the attribute doesn't" do
+    it "returns an empty string if the radio exists and the attribute doesn't" do
       browser.radio(:id, "new_user_newsletter_yes").title.should == ""
     end
 

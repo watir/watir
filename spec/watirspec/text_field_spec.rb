@@ -176,7 +176,7 @@ describe "TextField" do
       browser.text_field(:id, "new_user_code").should be_readonly
     end
 
-    it "returns false for writeable text fields" do
+    it "returns false for writable text fields" do
       browser.text_field(:name, "new_user_email").should_not be_readonly
     end
 
