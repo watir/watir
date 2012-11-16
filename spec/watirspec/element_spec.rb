@@ -262,4 +262,13 @@ describe "Element" do
       end
     end
   end
+
+  describe "#flash" do
+
+    let(:h2) { browser.h2(:text => 'Add user') }
+
+    it 'returns the element on which it was called' do
+      h2.flash.should == h2
+    end
+  end
 end
