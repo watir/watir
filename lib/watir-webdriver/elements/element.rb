@@ -235,6 +235,8 @@ module Watir
         color = (n % 2 == 0) ? "red" : original_color
         driver.execute_script("arguments[0].style.backgroundColor = '#{color}'", @element)
       end
+
+      self
     end
 
     #
