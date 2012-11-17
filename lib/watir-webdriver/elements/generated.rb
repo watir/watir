@@ -67,6 +67,10 @@ module Watir
 
 
 
+
+
+
+
  class HTMLElement < Element
    attributes(:string => [:access_key, :access_key_label, :command_icon, :command_label, :command_type, :content_editable, :dir, :item_id, :item_value, :lang, :title], :bool => [:command_checked, :command_disabled, :command_hidden, :draggable, :hidden, :content_editable, :item_scope, :spellcheck, :translate], :html_element => [:context_menu], :string_map => [:dataset], :token_list => [:dropzone, :item_prop, :item_ref, :item_type], :function => [:onabort, :onblur, :oncancel, :oncanplay, :oncanplaythrough, :onchange, :onclick, :onclose, :oncontextmenu, :oncuechange, :ondblclick, :ondrag, :ondragend, :ondragenter, :ondragleave, :ondragover, :ondragstart, :ondrop, :ondurationchange, :onemptied, :onended, :onerror, :onfocus, :oninput, :oninvalid, :onkeydown, :onkeypress, :onkeyup, :onload, :onloadeddata, :onloadedmetadata, :onloadstart, :onmousedown, :onmousemove, :onmouseout, :onmouseover, :onmouseup, :onmousewheel, :onpause, :onplay, :onplaying, :onprogress, :onratechange, :onreset, :onscroll, :onseeked, :onseeking, :onselect, :onshow, :onstalled, :onsubmit, :onsuspend, :ontimeupdate, :onvolumechange, :onwaiting], :properties_collection => [:properties], :style => [:style], :int => [:tab_index])
  end
@@ -308,7 +312,7 @@ module Watir
  end
  # do nothing
  class TableHeaderCell < TableCell
-   attributes(:string => [:scope])
+   attributes(:string => [:abbr, :scope])
  end
  class TableHeaderCellCollection < ElementCollection
    def element_class
