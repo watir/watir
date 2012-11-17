@@ -28,6 +28,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rake", "~> 0.9.2"
   s.add_development_dependency "fuubar", "~> 0.0.6"
   s.add_development_dependency "nokogiri"
-  s.add_development_dependency "activesupport", "~> 3.0.0" # for pluralization during code generation
+  s.add_development_dependency "activesupport", "~> 3.0" # for pluralization during code generation
   s.add_development_dependency "pry"
 end
