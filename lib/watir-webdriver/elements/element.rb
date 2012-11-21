@@ -229,12 +229,15 @@ module Watir
     #
 
     def flash
-      original_color = style("backgroundColor")
+      background_color = style("backgroundColor")
+      element_color = driver.execute_script("arguments[0].style.backgroundColor", @element)
 
       10.times do |n|
-        color = (n % 2 == 0) ? "red" : original_color
+        color = (n % 2 == 0) ? "red" : background_color
         driver.execute_script("arguments[0].style.backgroundColor = '#{color}'", @element)
       end
+
+      driver.execute_script("arguments[0].style.backgroundColor = arguments[1]", @element, element_color)
 
       self
     end
