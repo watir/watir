@@ -43,6 +43,10 @@ describe "TextField" do
       browser.text_field(:id, "new_user_email_confirm").should exist
     end
 
+    it "returns true for element with unknown type attribute" do
+      browser.text_field(:id, "unknown_text_field").should exist
+    end
+
     it "returns false if the element does not exist" do
       browser.text_field(:id, 'no_such_id').should_not exist
       browser.text_field(:id, /no_such_id/).should_not exist
