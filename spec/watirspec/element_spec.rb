@@ -90,7 +90,7 @@ describe "Element" do
     end
 
     it "finds finds several elements by arbitrary attribute" do
-      browser.elements(:id => /^new_user/).length.should == 27
+      browser.elements(:id => /^new_user/).length.should == 32
     end
 
     it "finds an element from an element's subtree" do
@@ -99,7 +99,7 @@ describe "Element" do
     end
 
     it "finds several elements from an element's subtree" do
-      browser.fieldset.elements(:xpath => ".//label").length.should == 10
+      browser.fieldset.elements(:xpath => ".//label").length.should == 12
     end
   end
 

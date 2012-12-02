@@ -14,10 +14,10 @@ describe "TextFields" do
       end
     end
   end
-  
+
   describe "#length" do
     it "returns the number of text fields" do
-      browser.text_fields.length.should == 9
+      browser.text_fields.length.should == 10
     end
   end
 

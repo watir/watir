@@ -14,10 +14,10 @@ describe "Radios" do
       end
     end
   end
-  
+
   describe "#length" do
     it "returns the number of radios" do
-      browser.radios.length.should == 5
+      browser.radios.length.should == 6
     end
   end
 

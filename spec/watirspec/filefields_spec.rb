@@ -14,10 +14,10 @@ describe "FileFields" do
       end
     end
   end
-  
+
   describe "#length" do
     it "returns the correct number of file fields" do
-      browser.file_fields.length.should == 2
+      browser.file_fields.length.should == 3
     end
   end
 

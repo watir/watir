@@ -20,6 +20,8 @@
             <input type="no_such_type" name="new_user_last_name" id="new_user_last_name" class="name" /> <br />
             <label for="new_user_email">Email address</label>
             <input type="text" name="new_user_email" id="new_user_email" /> <br />
+            <label for="new_user_email_confirm">Email address (confirmation)</label>
+            <input type="Text" name="new_user_email_confirm" id="new_user_email_confirm" /> <br />
             <label for="new_user_country">Country</label>
             <select name="new_user_country" id="new_user_country" class="country">
                 <optgroup label="nordic">
@@ -49,8 +51,10 @@
             <label for="new_user_portrait">Portrait</label>
             <input type="file" name="new_user_portrait" id="new_user_portrait" class="portrait" title="Smile!" onchange="WatirSpec.addMessage(this.value)" /> <br />
             <!-- <input type="file" name="new_user_portrait" id="new_user_portrait" class="portrait" title="Smile!" onchange="document.getElementById('changed_language').innerHTML = 'File onchange triggered'" /> <br /> -->
-            <label for="new_user_portrait">Dental records</label>
+            <label for="new_user_teeth">Dental records</label>
             <input type="file" name="new_user_teeth" id="new_user_teeth" title="Smile here too!" />
+            <label for="new_user_resume">Resume</label>
+            <input type="File" name="new_user_resume" id="new_user_resume" title="Shows us your resume!" />
         </fieldset>
         <fieldset>
             <legend>Login information</legend>
@@ -74,6 +78,7 @@
             <input type="checkbox" name="new_user_interests" id="new_user_interests_dentistry" value="dentistry" disabled="disabled" /> <label for="new_user_interests_dentistry">Dentistry</label>
             <input type="hidden" name="new_user_interests" id="new_user_interests_dolls" value="dolls" class="fun" />
             <input type="checkbox" id="new_user_interests_food" value="food" /> <label for="new_user_interests_food">Food</label>
+            <input type="CHECKBOX" id="new_user_interests_draw" value="Draw" /> <label for="new_user_interests_draw">Draw</label>
         </fieldset>
         <fieldset>
             <legend>Preferences</legend>
@@ -86,6 +91,8 @@
             <label>Certainly</label>
             <input type="radio" id="new_user_newsletter_absolutely" value="absolutely" />
             <label for="new_user_newsletter_absolutely">Absolutely</label>
+            <input type="RADIO" name="new_user_newsletter" id="new_user_newsletter_probably" value="nah"/>
+            <label for="new_user_newsletter_probably">Probably</label>
             <input type="radio" name="new_user_newsletter" id="new_user_newsletter_nah" value="nah" disabled="disabled" />
             <label for="new_user_newsletter_nah">Nah</label>
         </fieldset>
@@ -94,6 +101,7 @@
             <input type="submit" title="Submit the form" name="new_user_submit" id="new_user_submit" value="Submit" />
             <input type="reset" name="new_user_reset" id="new_user_reset" value="Reset" />
             <input type="button" name="new_user_button" id="new_user_button" alt="Create a new user" value="Button" onclick="this.value = 'new_value_set_by_onclick_event'" />
+            <input type="BuTTon" name="new_user_button_preview" id="new_user_button_preview" alt="Create a new user" value="Preview" />
             <button name="new_user_button_2">Button 2</button>
             <input type="image" class="image" name="new_user_image" src="images/button.png" alt="Submittable button" />
             <input type="submit" name="new_user_submit_disabled" id="disabled_button" value="Disabled" disabled="disabled" />
