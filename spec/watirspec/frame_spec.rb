@@ -68,7 +68,8 @@ describe "Frame" do
       browser.goto(WatirSpec.url_for("nested_frames.html", :needs_server => true))
 
       browser.frame(:id, "two").frame(:id, "three").link(:id => "four").click
-      browser.title.should == "definition_lists"
+
+      Wait.until { browser.title == "definition_lists" }
     end
 
     it "raises TypeError when 'what' argument is invalid" do
