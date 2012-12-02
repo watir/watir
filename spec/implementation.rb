@@ -11,7 +11,7 @@ class ImplementationConfig
     set_guard_proc
     add_html_routes
 
-    WatirSpec.always_use_server = mobile? || ie? || safari?
+    WatirSpec.always_use_server = mobile? || ie? || safari? || remote?
   end
 
   private
@@ -27,6 +27,8 @@ class ImplementationConfig
              firefox_args
            when :chrome
              chrome_args
+           when :remote
+             remote_args
            else
              [browser, {}]
            end
@@ -52,24 +54,29 @@ class ImplementationConfig
     browser == :safari
   end
 
+  def remote?
+    browser == :remote
+  end
+
   def set_guard_proc
+    matching_browser = remote? ? remote_browser : browser
     matching_guards = [
-      :webdriver,            # guard only applies to webdriver
-      browser,               # guard only applies to this browser
-      [:webdriver, browser]  # guard only applies to this browser on webdriver
+      :webdriver,                     # guard only applies to webdriver
+      matching_browser,               # guard only applies to this browser
+      [:webdriver, matching_browser]  # guard only applies to this browser on webdriver
     ]
 
     if native_events?
       # guard only applies to this browser on webdriver with native events enabled
-      matching_guards << [:webdriver, browser, :native_events]
+      matching_guards << [:webdriver, matching_browser, :native_events]
     else
       # guard only applies to this browser on webdriver with native events disabled
-      matching_guards << [:webdriver, browser, :synthesized_events]
+      matching_guards << [:webdriver, matching_browser, :synthesized_events]
     end
 
     if !Selenium::WebDriver::Platform.linux? || ENV['DESKTOP_SESSION']
       # some specs (i.e. Window#maximize) needs a window manager on linux
-      matching_guards << [:webdriver, browser, :window_manager]
+      matching_guards << [:webdriver, matching_browser, :window_manager]
     end
 
     @imp.guard_proc = lambda { |args|
@@ -105,6 +112,10 @@ class ImplementationConfig
     [:chrome, opts]
   end
 
+  def remote_args
+    [:remote, {:url => ENV["WATIR_WEBDRIVER_REMOTE_URL"] || "http://127.0.0.1:8080"}]    
+  end
+
   def add_html_routes
     glob = File.expand_path("../html/*.html", __FILE__)
     Dir[glob].each do |path|
@@ -114,6 +125,13 @@ class ImplementationConfig
 
   def browser
     @browser ||= (ENV['WATIR_WEBDRIVER_BROWSER'] || :firefox).to_sym
+  end
+
+  def remote_browser
+    remote_browser = @imp.browser_class.new(*@imp.browser_args)
+    remote_browser.browser.name
+  ensure
+    remote_browser.close
   end
 
   def native_events?
