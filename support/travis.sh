@@ -11,3 +11,8 @@ if [[ "$WATIR_WEBDRIVER_BROWSER" = "chrome" ]]; then
   chmod +x chrome-linux/chromedriver
 fi
 
+# for Firefox 17 support
+gem install selenium-webdriver --pre 
+
+
+
