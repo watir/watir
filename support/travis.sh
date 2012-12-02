@@ -1,7 +1,10 @@
 #/bin/sh
 
+set -e
+set -x
+
 CHROME_REVISION=142910
-sh -e /etc/init.d/xvfb start && git submodule update --init || exit 1
+sh -e /etc/init.d/xvfb start && git submodule update --init
 
 if [[ "$WATIR_WEBDRIVER_BROWSER" = "chrome" ]]; then
   sudo apt-get install -y unzip libxss1
@@ -10,9 +13,3 @@ if [[ "$WATIR_WEBDRIVER_BROWSER" = "chrome" ]]; then
   curl -L "http://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux/$CHROME_REVISION/chrome-linux.test/chromedriver" > chrome-linux/chromedriver
   chmod +x chrome-linux/chromedriver
 fi
-
-# for Firefox 17 support
-gem install selenium-webdriver --pre 
-
-
-
