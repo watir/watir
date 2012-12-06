@@ -6,8 +6,6 @@ notifications:
     - jari.bakken@gmail.com
     - p0deje@gmail.com
   irc: "irc.freenode.net#watir"
-before_install:
-  - gem install selenium-webdriver --version 2.27.0.rc1
 before_script:
   - support/travis.sh
 env:
