@@ -1,6 +1,8 @@
 source "http://rubygems.org"
 
-unless ENV['TRAVIS']
+if ENV['TRAVIS']
+  gem 'selenium-webdriver', '2.27.0.rc1'
+else
   gem "simplecov", ">= 0.3.5", :platform => :ruby_19
 end
 
