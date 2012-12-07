@@ -64,7 +64,7 @@ module Watir
     #
 
     def resize_to(width, height)
-      dimension = Selenium::WebDriver::Dimension.new(width, height)
+      dimension = Selenium::WebDriver::Dimension.new(Integer(width), Integer(height))
       use { @driver.manage.window.size = dimension }
 
       dimension
@@ -81,7 +81,7 @@ module Watir
     #
 
     def move_to(x, y)
-      point = Selenium::WebDriver::Point.new(x, y)
+      point = Selenium::WebDriver::Point.new(Integer(x), Integer(y))
       use { @driver.manage.window.position = point }
 
       point
