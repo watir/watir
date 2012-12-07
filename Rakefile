@@ -97,14 +97,17 @@ namespace :changes do
     require './support/version_differ'
   end
 
+  desc 'Update CHANGES.md'
   task :update => :differ do
     VersionDiffer.new.update('CHANGES.md')
   end
 
+  desc 'Generate CHANGES.md from scratch'
   task :generate => :differ do
     VersionDiffer.new.generate('CHANGES.md')
   end
 
+  desc 'Print latest diff'
   task :print => :differ do
     VersionDiffer.new.print_latest(STDOUT)
   end

@@ -1,3 +1,14 @@
+0.6.2
+=====
+
+* Update from HTML spec (adds :abbr attribute to TableHeaderCell).
+* Add Window#maximize. Closes #153.
+* Add Browser#name.
+* Documentation improvements.
+* Don't overwrite original element color in Element#flash. Closes #171.
+* Return the element itself when Element#flash is called.
+* Fix case sensitivity issues when locating elements. Closes #72.
+
 0.6.1
 =====
 
