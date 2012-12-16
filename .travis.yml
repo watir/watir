@@ -1,6 +1,7 @@
 rvm:
   - 1.9.2
   - 1.9.3
+  - ruby-head
 notifications:
   recipients:
     - jari.bakken@gmail.com
@@ -15,3 +16,6 @@ env:
   - WATIR_WEBDRIVER_BROWSER=chrome
   - WATIR_WEBDRIVER_BROWSER=chrome ALWAYS_LOCATE=false
   - WATIR_WEBDRIVER_BROWSER=chrome PREFER_CSS=1 SELECTOR_STATS=1
+matrix:
+  allow_failures:
+    - rvm: ruby-head
