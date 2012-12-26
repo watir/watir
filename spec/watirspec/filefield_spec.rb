@@ -147,21 +147,23 @@ describe "FileField" do
     end
 
     not_compliant_on :ie, [:webdriver, :chrome], [:webdriver, :iphone] do
-      # for chrome, the check also happens in the driver
-      it "does not raise an error if the file does not exist" do
-        path = File.join(Dir.tmpdir, 'unlikely-to-exist')
-        browser.file_field.value = path
+      bug "https://code.google.com/p/phantomjs/issues/detail?id=941", [:webdriver, :phantomjs] do
+        # for chrome, the check also happens in the driver
+        it "does not raise an error if the file does not exist" do
+          path = File.join(Dir.tmpdir, 'unlikely-to-exist')
+          browser.file_field.value = path
 
-        expected = path
-        expected.gsub!("/", "\\") if WatirSpec.platform == :windows
+          expected = path
+          expected.gsub!("/", "\\") if WatirSpec.platform == :windows
 
-        browser.file_field.value.should == expected
-      end
+          browser.file_field.value.should == expected
+        end
 
-      it "does not alter its argument" do
-        value = '/foo/bar'
-        browser.file_field.value = value
-        value.should == '/foo/bar'
+        it "does not alter its argument" do
+          value = '/foo/bar'
+          browser.file_field.value = value
+          value.should == '/foo/bar'
+        end
       end
     end
   end
