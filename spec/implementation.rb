@@ -11,7 +11,7 @@ class ImplementationConfig
     set_guard_proc
     add_html_routes
 
-    WatirSpec.always_use_server = mobile? || ie? || safari? || remote?
+    WatirSpec.always_use_server = mobile? || ie? || safari? || phantomjs? || remote?
   end
 
   private
@@ -52,6 +52,10 @@ class ImplementationConfig
 
   def safari?
     browser == :safari
+  end
+
+  def phantomjs?
+    browser == :phantomjs
   end
 
   def remote?
