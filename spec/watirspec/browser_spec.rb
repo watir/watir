@@ -20,25 +20,26 @@ describe "Browser" do
 
   # this should be rewritten - the actual string returned varies a lot between implementations
   describe "#html" do
-    not_compliant_on :ie do
-      it "returns the DOM of the page as an HTML string" do
-        browser.goto(WatirSpec.url_for("right_click.html"))
-        html = browser.html.downcase # varies between browsers
+    it "returns the DOM of the page as an HTML string" do
+      browser.goto(WatirSpec.url_for("right_click.html"))
+      html = browser.html.downcase # varies between browsers
 
-        html.should =~ /^<html/
-        html.should include('<meta ')
-        html.should include(' content="text/html; charset=utf-8"')
+      html.should =~ /^<html/
+      html.should include('<meta ')
+      html.should include(' content="text/html; charset=utf-8"')
+
+      not_compliant_on :ie do
         html.should include(' http-equiv="content-type"')
       end
-    end
 
-    deviates_on :ie do
-      it "returns the DOM of the page as an HTML string" do
-        browser.goto(WatirSpec.url_for("right_click.html"))
-        html = browser.html.downcase # varies between browsers
-
-        html.should =~ /^<html/
-        html.should include('<meta content="text/html; charset=utf-8" http-equiv=content-type>')
+      deviates_on :ie9, :ie10 do
+        html.should include(' http-equiv="content-type"')
+      end
+      
+      not_compliant_on :ie9, :ie10 do
+        deviates_on :ie do
+          html.should include(' http-equiv=content-type')
+        end
       end
     end
   end
