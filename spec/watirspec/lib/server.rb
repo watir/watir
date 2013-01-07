@@ -37,7 +37,7 @@ module WatirSpec
 
       def run!
         handler = detect_rack_handler
-        handler.run(self, :Host => bind, :Port => port, :AccessLog => []) { @running = true }
+        handler.run(self, :Host => bind, :Port => port, :AccessLog => [], :Logger => SilentLogger.new) { @running = true }
       end
 
       def listening?
