@@ -6,6 +6,7 @@ notifications:
   recipients:
     - jari.bakken@gmail.com
     - p0deje@gmail.com
+    - jarmo.p@gmail.com
   irc: "irc.freenode.net#watir"
 before_script:
   - support/travis.sh
@@ -16,6 +17,7 @@ env:
   - WATIR_WEBDRIVER_BROWSER=chrome
   - WATIR_WEBDRIVER_BROWSER=chrome ALWAYS_LOCATE=false
   - WATIR_WEBDRIVER_BROWSER=chrome PREFER_CSS=1 SELECTOR_STATS=1
+  - WATIR_WEBDRIVER_BROWSER=phantomjs
 matrix:
   allow_failures:
     - rvm: ruby-head
