@@ -64,12 +64,14 @@ describe "Frame" do
       browser.frame(:xpath, "//frame[@id='no_such_id']").should_not exist
     end
 
-    it "handles nested frames" do
-      browser.goto(WatirSpec.url_for("nested_frames.html", :needs_server => true))
+    bug "https://github.com/detro/ghostdriver/issues/159", :phantomjs do
+      it "handles nested frames" do
+        browser.goto(WatirSpec.url_for("nested_frames.html", :needs_server => true))
 
-      browser.frame(:id, "two").frame(:id, "three").link(:id => "four").click
+        browser.frame(:id, "two").frame(:id, "three").link(:id => "four").click
 
-      Wait.until { browser.title == "definition_lists" }
+        Wait.until { browser.title == "definition_lists" }
+      end
     end
 
     it "raises TypeError when 'what' argument is invalid" do

@@ -28,7 +28,7 @@ describe "Browser#cookies" do
     end
   end
 
-  not_compliant_on [:webdriver, :chrome], [:webdriver, :ie] do
+  not_compliant_on [:webdriver, :chrome], [:webdriver, :ie], :phantomjs do
     it 'adds a cookie with options' do
       browser.goto set_cookie_url
 

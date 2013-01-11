@@ -175,7 +175,9 @@ describe "Div" do
       it "fires the oncontextmenu event" do
         browser.goto(WatirSpec.url_for("right_click.html"))
         browser.div(:id, "click").right_click
-        messages.first.should == 'right-clicked'
+        bug "https://github.com/detro/ghostdriver/issues/125", :phantomjs do
+          messages.first.should == 'right-clicked'
+        end
       end
     end
   end

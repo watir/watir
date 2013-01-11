@@ -110,18 +110,20 @@ describe "FileField" do
 
   describe "#set" do
     not_compliant_on [:webdriver, :iphone] do
-      it "is able to set a file path in the field and click the upload button and fire the onchange event" do
-        browser.goto WatirSpec.url_for("forms_with_input_elements.html", :needs_server => true)
+      bug "https://github.com/detro/ghostdriver/issues/158", :phantomjs do 
+        it "is able to set a file path in the field and click the upload button and fire the onchange event" do
+          browser.goto WatirSpec.url_for("forms_with_input_elements.html", :needs_server => true)
 
-        path    = File.expand_path(__FILE__)
-        element = browser.file_field(:name, "new_user_portrait")
+          path    = File.expand_path(__FILE__)
+          element = browser.file_field(:name, "new_user_portrait")
 
-        element.set path
+          element.set path
 
-        element.value.should include(File.basename(path)) # only some browser will return the full path
-        messages.first.should include(File.basename(path))
+          element.value.should include(File.basename(path)) # only some browser will return the full path
+          messages.first.should include(File.basename(path))
 
-        browser.button(:name, "new_user_submit").click
+          browser.button(:name, "new_user_submit").click
+        end
       end
 
       it "raises an error if the file does not exist" do
@@ -135,19 +137,21 @@ describe "FileField" do
 
   describe "#value=" do
     not_compliant_on [:webdriver, :iphone] do
-      it "is able to set a file path in the field and click the upload button and fire the onchange event" do
-        browser.goto WatirSpec.url_for("forms_with_input_elements.html", :needs_server => true)
+      bug "https://github.com/detro/ghostdriver/issues/158", :phantomjs do
+        it "is able to set a file path in the field and click the upload button and fire the onchange event" do
+          browser.goto WatirSpec.url_for("forms_with_input_elements.html", :needs_server => true)
 
-        path    = File.expand_path(__FILE__)
-        element = browser.file_field(:name, "new_user_portrait")
+          path    = File.expand_path(__FILE__)
+          element = browser.file_field(:name, "new_user_portrait")
 
-        element.value = path
-        element.value.should include(File.basename(path)) # only some browser will return the full path
+          element.value = path
+          element.value.should include(File.basename(path)) # only some browser will return the full path
+        end
       end
     end
 
     not_compliant_on :ie, [:webdriver, :chrome], [:webdriver, :iphone] do
-      bug "https://code.google.com/p/phantomjs/issues/detail?id=941", [:webdriver, :phantomjs] do
+      bug "https://github.com/detro/ghostdriver/issues/158", [:webdriver, :phantomjs] do
         # for chrome, the check also happens in the driver
         it "does not raise an error if the file does not exist" do
           path = File.join(Dir.tmpdir, 'unlikely-to-exist')
