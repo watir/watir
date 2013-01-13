@@ -16,7 +16,7 @@ describe "Link" do
       browser.link(:title, /link_title_2/).should exist
       browser.link(:text, "Link 2").should exist
       browser.link(:text, /Link 2/i).should exist
-      not_compliant_on :ie do
+      not_compliant_on :internet_explorer do
         browser.link(:href, 'non_control_elements.html').should exist
       end
       browser.link(:href, /non_control_elements.html/).should exist

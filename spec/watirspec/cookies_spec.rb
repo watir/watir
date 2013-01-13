@@ -18,7 +18,7 @@ describe "Browser#cookies" do
     cookie[:value].should == '1'
   end
 
-  not_compliant_on [:webdriver, :ie] do
+  not_compliant_on [:webdriver, :internet_explorer] do
     it 'adds a cookie' do
       browser.goto set_cookie_url
       verify_cookies_count 1
@@ -28,7 +28,7 @@ describe "Browser#cookies" do
     end
   end
 
-  not_compliant_on [:webdriver, :chrome], [:webdriver, :ie], :phantomjs do
+  not_compliant_on [:webdriver, :chrome], [:webdriver, :internet_explorer], :phantomjs do
     it 'adds a cookie with options' do
       browser.goto set_cookie_url
 
@@ -61,7 +61,7 @@ describe "Browser#cookies" do
     end
   end
 
-  not_compliant_on [:webdriver, :ie] do
+  not_compliant_on [:webdriver, :internet_explorer] do
     it 'removes a cookie' do
       browser.goto set_cookie_url
       verify_cookies_count 1

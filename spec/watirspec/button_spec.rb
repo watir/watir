@@ -16,7 +16,7 @@ describe "Button" do
       browser.button(:name, /new_user_reset/).should exist
       browser.button(:value, "Button 2").should exist
       browser.button(:value, /Button 2/).should exist
-      not_compliant_on :ie do
+      not_compliant_on :internet_explorer do
         browser.button(:src, "images/button.png").should exist
       end
       browser.button(:src, /button\.png/).should exist
@@ -122,7 +122,7 @@ describe "Button" do
   end
 
   describe "#style" do
-    not_compliant_on :ie,
+    not_compliant_on :internet_explorer,
                     [:webdriver, :iphone],
                     [:webdriver, :safari],
                     [:webdriver, :phantomjs] do
@@ -131,12 +131,12 @@ describe "Button" do
       end
     end
 
-    deviates_on :ie8 do
+    deviates_on :internet_explorer8 do
       it "returns the style attribute if the button exists" do
         browser.button(:id, 'delete_user_submit').style.should == "BORDER-BOTTOM: red 4px solid; BORDER-LEFT: red 4px solid; BORDER-TOP: red 4px solid; BORDER-RIGHT: red 4px solid"
       end
     end
-    deviates_on :ie9 do
+    deviates_on :internet_explorer9 do
       it "returns the style attribute if the button exists" do
         browser.button(:id, 'delete_user_submit').style.should == "border: 4px solid red;"
       end

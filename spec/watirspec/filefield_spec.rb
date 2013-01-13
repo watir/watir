@@ -150,7 +150,7 @@ describe "FileField" do
       end
     end
 
-    not_compliant_on :ie, [:webdriver, :chrome], [:webdriver, :iphone] do
+    not_compliant_on :internet_explorer, [:webdriver, :chrome], [:webdriver, :iphone] do
       bug "https://github.com/detro/ghostdriver/issues/158", [:webdriver, :phantomjs] do
         # for chrome, the check also happens in the driver
         it "does not raise an error if the file does not exist" do

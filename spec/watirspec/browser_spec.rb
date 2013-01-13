@@ -28,16 +28,16 @@ describe "Browser" do
       html.should include('<meta ')
       html.should include(' content="text/html; charset=utf-8"')
 
-      not_compliant_on :ie do
+      not_compliant_on :internet_explorer do
         html.should include(' http-equiv="content-type"')
       end
 
-      deviates_on :ie9, :ie10 do
+      deviates_on :internet_explorer9, :internet_explorer10 do
         html.should include(' http-equiv="content-type"')
       end
       
-      not_compliant_on :ie9, :ie10 do
-        deviates_on :ie do
+      not_compliant_on :internet_explorer9, :internet_explorer10 do
+        deviates_on :internet_explorer do
           html.should include(' http-equiv=content-type')
         end
       end
@@ -57,7 +57,7 @@ describe "Browser" do
     #
     # for IE9, this needs to be enabled in
     # View => Toolbars -> Status bar
-    not_compliant_on [:webdriver, :firefox], [:watir_classic, :ie9] do
+    not_compliant_on [:webdriver, :firefox], [:watir_classic, :internet_explorer9] do
       it "returns the current value of window.status" do
         browser.goto(WatirSpec.url_for("non_control_elements.html"))
 
@@ -78,7 +78,7 @@ describe "Browser" do
       end
 
       deviates_on :watir_classic do
-        browser.name.should == :ie
+        browser.name.should == :internet_explorer
       end
     end    
   end
@@ -129,7 +129,7 @@ describe "Browser" do
   end
 
   describe "#goto" do
-    not_compliant_on [:webdriver, :ie] do
+    not_compliant_on [:webdriver, :internet_explorer] do
       it "adds http:// to URLs with no URL scheme specified" do
         url = WatirSpec.host[%r{http://(.*)}, 1]
         url.should_not be_nil
@@ -146,7 +146,7 @@ describe "Browser" do
       lambda { browser.goto("about:blank") }.should_not raise_error
     end
 
-    not_compliant_on :ie, [:webdriver, :safari] do
+    not_compliant_on :internet_explorer, [:webdriver, :safari] do
       it "goes to a data URL scheme address without raising errors" do
         lambda { browser.goto("data:text/html;content-type=utf-8,foobar") }.should_not raise_error
       end

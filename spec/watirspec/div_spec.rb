@@ -89,18 +89,18 @@ describe "Div" do
   end
 
   describe "#style" do
-    not_compliant_on :ie do
+    not_compliant_on :internet_explorer do
       it "returns the style attribute if the element exists" do
         browser.div(:id, 'best_language').style.should == "color: red; text-decoration: underline; cursor: pointer;"
       end
     end
 
-    deviates_on :ie8 do
+    deviates_on :internet_explorer8 do
       it "returns the style attribute if the element exists" do
         browser.div(:id, 'best_language').style.should == "COLOR: red; CURSOR: pointer; TEXT-DECORATION: underline"
       end
     end
-    deviates_on :ie9 do
+    deviates_on :internet_explorer9 do
       it "returns the style attribute if the element exists" do
         browser.div(:id, 'best_language').style.should == "color: red; text-decoration: underline; cursor: pointer;"
       end
@@ -183,7 +183,7 @@ describe "Div" do
   end
 
   describe "#html" do
-    not_compliant_on :ie do
+    not_compliant_on :internet_explorer do
       it "returns the HTML of the element" do
         html = browser.div(:id, 'footer').html.downcase
         html.should include('id="footer"')
@@ -195,17 +195,17 @@ describe "Div" do
       end
     end
 
-    deviates_on :ie do
+    deviates_on :internet_explorer do
       it "returns the HTML of the element" do
         html = browser.div(:id, 'footer').html.downcase
         html.should include('title="closing remarks"')
         html.should_not include('</body>')
-        deviates_on :ie8 do
+        deviates_on :internet_explorer8 do
           html.should include('id=footer')
           html.should include('class=profile')
           html.should_not include('<div id=content>')
         end
-        deviates_on :ie9 do
+        deviates_on :internet_explorer9 do
           html.should include('id="footer"')
           html.should include('class="profile"')
           html.should_not include('<div id="content">')

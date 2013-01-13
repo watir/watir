@@ -17,10 +17,10 @@ describe "Form" do
 
       browser.form(:method, 'post').should exist
       browser.form(:method, /post/).should exist
-      deviates_on :ie8 do
+      deviates_on :internet_explorer8 do
         browser.form(:action, 'post_to_me').should exist
       end
-      deviates_on :ie9 do
+      deviates_on :internet_explorer9 do
         browser.form(:action, /post_to_me/).should exist
       end
       browser.form(:action, /to_me/).should exist

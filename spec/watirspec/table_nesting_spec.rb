@@ -8,7 +8,7 @@ describe "Table" do
   end
 
   # not a webdriver bug - IE seems unable to deal with the invalid nesting
-  not_compliant_on :ie do
+  not_compliant_on :internet_explorer do
     it "returns the correct number of rows under a table" do
       tables = browser.div(:id => "table-rows-test").tables(:id => /^tbl/)
       tables.length.should > 0

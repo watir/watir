@@ -119,16 +119,16 @@ describe "Dl" do
   describe "#html" do
     it "returns the HTML of the element" do
       html = browser.dl(:id, 'experience-list').html.downcase
-      not_compliant_on :ie do
+      not_compliant_on :internet_explorer do
         html.should include('<dt class="current-industry">')
       end
 
-      deviates_on :ie9, :ie10 do
+      deviates_on :internet_explorer9, :internet_explorer10 do
         html.should include('<dt class="current-industry">')
       end
 
-      not_compliant_on :ie9, :ie10 do
-        deviates_on :ie do
+      not_compliant_on :internet_explorer9, :internet_explorer10 do
+        deviates_on :internet_explorer do
           html.should include('<dt class=current-industry>')
         end
       end
