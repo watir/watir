@@ -18,4 +18,11 @@ describe "TextArea" do
     textarea.value.should == ''
   end
 
+  bug "https://github.com/watir/watir-webdriver/issues/163", :webdriver do
+    it 'locates textarea by value' do
+      browser.textarea.set 'foo'
+      browser.textarea(value: /foo/).should exist
+      browser.textarea(value: 'foo').should exist
+    end
+  end
 end

@@ -47,6 +47,13 @@ describe "TextField" do
       browser.text_field(:id, "unknown_text_field").should exist
     end
 
+    bug "https://github.com/watir/watir-webdriver/issues/163", :webdriver do
+      it "returns true for textarea with set value" do
+        browser.text_field(:id, "delete_user_comment").set "foo" # textarea
+        browser.text_field(:value, "foo").should exist
+      end
+    end
+
     it "returns false if the element does not exist" do
       browser.text_field(:id, 'no_such_id').should_not exist
       browser.text_field(:id, /no_such_id/).should_not exist
