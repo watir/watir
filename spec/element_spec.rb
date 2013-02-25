@@ -45,7 +45,7 @@ describe Watir::Element do
 
   describe "#hover" do
     not_compliant_on [:webdriver, :firefox, :synthesized_events],
-                     [:webdriver, :ie],
+                     [:webdriver, :internet_explorer],
                      [:webdriver, :iphone],
                      [:webdriver, :safari] do
       it "should hover over the element" do
