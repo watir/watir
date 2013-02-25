@@ -15,9 +15,11 @@ if [[ "$WATIR_WEBDRIVER_BROWSER" = "chrome" ]]; then
 fi
 
 if [[ "$WATIR_WEBDRIVER_BROWSER" = "phantomjs" ]]; then
-  curl -L -O "http://phantomjs.googlecode.com/files/phantomjs-1.8.1-linux-i686.tar.bz2"
-  bzip2 -cd phantomjs-1.8.1-linux-i686.tar.bz2 | tar xvf -
-  chmod +x phantomjs-1.8.1-linux-i686/bin/phantomjs
-  sudo cp phantomjs-1.8.1-linux-i686/bin/phantomjs /usr/local/phantomjs/bin/phantomjs
+  curl -L -O "https://dl.dropbox.com/u/2731643/phantomjs/phantomjs-latest.tar.bz2"
+  mkdir phantomjs
+  tar -xvjf phantomjs-latest.tar.bz2 -C phantomjs
+  cat phantomjs/phantomjs.version
+  chmod +x phantomjs/phantomjs
+  sudo cp phantomjs/phantomjs /usr/local/phantomjs/bin/phantomjs
   phantomjs --version
 fi
