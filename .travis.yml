@@ -1,8 +1,6 @@
 rvm:
-  - 1.9.2
   - 1.9.3
   - 2.0.0
-  - ruby-head
 notifications:
   recipients:
     - jari.bakken@gmail.com
@@ -21,6 +19,3 @@ env:
   - WATIR_WEBDRIVER_BROWSER=phantomjs
   - WATIR_WEBDRIVER_BROWSER=phantomjs ALWAYS_LOCATE=false
   - WATIR_WEBDRIVER_BROWSER=phantomjs PREFER_CSS=1 SELECTOR_STATS=1
-matrix:
-  allow_failures:
-    - rvm: ruby-head
