@@ -157,6 +157,10 @@ describe "Element" do
     it "returns true if the element is visible" do
       browser.text_field(:id, "new_user_email").should be_visible
     end
+    
+    it "returns true if the element has style='visibility: visible' even if parent has style='visibility: hidden'" do
+      browser.div(:id => "visible_child").should be_visible
+    end
 
     it "returns false if the element is input element where type == 'hidden'" do
       browser.hidden(:id, "new_user_interests_dolls").should_not be_visible
