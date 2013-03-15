@@ -4,7 +4,7 @@ require File.expand_path("../spec_helper", __FILE__)
 describe "Frame" do
 
   before :each do
-   browser.goto(WatirSpec.url_for("frames.html"))
+    browser.goto(WatirSpec.url_for("frames.html"))
   end
 
   it "handles crossframe javascript" do
@@ -20,7 +20,9 @@ describe "Frame" do
       browser.frame(:name, "frame1").should exist
       browser.frame(:index, 0).should exist
       browser.frame(:class, "half").should exist
-      browser.frame(:xpath, "//frame[@id='frame_1']").should exist
+      not_compliant_on [:watir_classic, :internet_explorer10] do
+        browser.frame(:xpath, "//frame[@id='frame_1']").should exist
+      end
       not_compliant_on :watir_classic do
         browser.frame(:src, "frame_1.html").should exist
       end
@@ -43,7 +45,9 @@ describe "Frame" do
       browser.frame(:class, "iframe").should exist
       browser.frame(:class, /iframe/).should exist
       browser.frame(:index, 0).should exist
-      browser.frame(:xpath, "//iframe[@id='frame_1']").should exist
+      not_compliant_on [:watir_classic, :internet_explorer10] do
+        browser.frame(:xpath, "//iframe[@id='frame_1']").should exist
+      end
     end
 
     it "returns the first frame if given no args" do
