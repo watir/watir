@@ -12,3 +12,4 @@ Gemfile.lock
 .rbx/*
 chromedriver.log
 support/html5.html
+/doc
