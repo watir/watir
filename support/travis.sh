@@ -10,9 +10,7 @@ if [[ "$WATIR_WEBDRIVER_BROWSER" = "chrome" ]]; then
   sudo apt-get install -y unzip libxss1
   curl -L -O "http://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux_x64/$CHROME_REVISION/chrome-linux.zip"
   unzip chrome-linux.zip
-  curl -L -O https://chromedriver.googlecode.com/files/chromedriver_linux64_26.0.1383.0.zip
-  unzip chromedriver_linux64_26.0.1383.0.zip
-  mv chromedriver chrome-linux/chromedriver
+  curl -L "http://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux_x64/$CHROME_REVISION/chrome-linux.test/chromedriver" > chrome-linux/chromedriver
   chmod +x chrome-linux/chromedriver
   sudo chmod 1777 /dev/shm
 fi
