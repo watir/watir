@@ -87,7 +87,6 @@ end # html5
 
 
 require 'yard'
-require "yard/handlers/watir"
 YARD::Rake::YardocTask.new do |task|
   task.options = %w[--debug] # this is pretty slow, so nice with some output
 end
