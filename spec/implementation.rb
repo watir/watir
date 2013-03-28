@@ -95,7 +95,7 @@ class ImplementationConfig
       args.any? { |arg| matching_guards.include?(arg) }
     }
   ensure
-    browser_instance.close
+    browser_instance.close if browser_instance
   end
 
   def firefox_args
