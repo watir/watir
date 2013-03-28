@@ -84,106 +84,111 @@ not_compliant_on [:webdriver, :iphone], [:webdriver, :safari] do
   end
 
   describe "Window" do
-    before do
-      url = WatirSpec.url_for("window_switching.html")
-      browser.goto url
-      browser.a(:id => "open").click
-    end
-
-    after do
-      browser.window(:title => "closeable window").close
-    end
-
-    describe "#close" do
-      it "closes the window" do
-        browser.windows.size.should == 2
-
+    context 'multiple windows' do
+      before do
+        browser.goto WatirSpec.url_for("window_switching.html")
         browser.a(:id => "open").click
-        browser.windows.size.should == 3
+      end
 
+      after do
         browser.window(:title => "closeable window").close
-        browser.windows.size.should == 2
-      end
-    end
-
-    describe "#use" do
-      it "switches to the window" do
-        browser.window(:title => "closeable window").use
-        browser.title.should == "closeable window"
-      end
-    end
-
-    describe "#current?" do
-      it "returns true if it is the current window" do
-        browser.window(:title => browser.title).should be_current
       end
 
-      it "returns false if it is not the current window" do
-        browser.window(:title => "closeable window").should_not be_current
-      end
-    end
+      describe "#close" do
+        it "closes the window" do
+          browser.windows.size.should == 2
 
-    describe "#title" do
-      it "returns the title of the window" do
-        titles = browser.windows.map { |e| e.title }
-        titles.size.should == 2
+          browser.a(:id => "open").click
+          browser.windows.size.should == 3
 
-        titles.sort.should == ["window switching", "closeable window"].sort
-      end
-
-      it "does not change the current window" do
-        browser.title.should == "window switching"
-        browser.windows.find { |w| w.title ==  "closeable window" }.should_not be_nil
-        browser.title.should == "window switching"
-      end
-    end
-
-    describe "#url" do
-      it "returns the url of the window" do
-        browser.windows.size.should == 2
-        browser.windows.select { |w| w.url =~ /window_switching\.html/ }.size.should == 1
-        browser.windows.select { |w| w.url =~ /closeable\.html$/ }.size.should == 1
+          browser.window(:title => "closeable window").close
+          browser.windows.size.should == 2
+        end
       end
 
-      it "does not change the current window" do
-        browser.url.should =~ /window_switching\.html/
-        browser.windows.find { |w| w.url =~ /closeable\.html/ }.should_not be_nil
-        browser.url.should =~ /window_switching/
-      end
-    end
-
-    describe "#==" do
-      it "knows when two windows are equal" do
-        browser.window.should == browser.window
+      describe "#use" do
+        it "switches to the window" do
+          browser.window(:title => "closeable window").use
+          browser.title.should == "closeable window"
+        end
       end
 
-      it "knows when two windows are not equal" do
-        win1 = browser.window
-        win2 = browser.window(:title => "closeable window")
-
-        win1.should_not == win2
-      end
-    end
-
-    describe "#when_present" do
-      it "waits until the window is present" do
-        # TODO: improve this spec.
-        did_yield = false
-        browser.window(:title => "closeable window").when_present do
-          did_yield = true
+      describe "#current?" do
+        it "returns true if it is the current window" do
+          browser.window(:title => browser.title).should be_current
         end
 
-        did_yield.should be_true
+        it "returns false if it is not the current window" do
+          browser.window(:title => "closeable window").should_not be_current
+        end
       end
 
-      it "times out waiting for a non-present window" do
-        lambda {
-          browser.window(:title => "noop").wait_until_present(0.5)
-        }.should raise_error(Wait::TimeoutError)
+      describe "#title" do
+        it "returns the title of the window" do
+          titles = browser.windows.map { |e| e.title }
+          titles.size.should == 2
+
+          titles.sort.should == ["window switching", "closeable window"].sort
+        end
+
+        it "does not change the current window" do
+          browser.title.should == "window switching"
+          browser.windows.find { |w| w.title ==  "closeable window" }.should_not be_nil
+          browser.title.should == "window switching"
+        end
+      end
+
+      describe "#url" do
+        it "returns the url of the window" do
+          browser.windows.size.should == 2
+          browser.windows.select { |w| w.url =~ /window_switching\.html/ }.size.should == 1
+          browser.windows.select { |w| w.url =~ /closeable\.html$/ }.size.should == 1
+        end
+
+        it "does not change the current window" do
+          browser.url.should =~ /window_switching\.html/
+          browser.windows.find { |w| w.url =~ /closeable\.html/ }.should_not be_nil
+          browser.url.should =~ /window_switching/
+        end
+      end
+
+      describe "#==" do
+        it "knows when two windows are equal" do
+          browser.window.should == browser.window
+        end
+
+        it "knows when two windows are not equal" do
+          win1 = browser.window
+          win2 = browser.window(:title => "closeable window")
+
+          win1.should_not == win2
+        end
+      end
+
+      describe "#when_present" do
+        it "waits until the window is present" do
+          # TODO: improve this spec.
+          did_yield = false
+          browser.window(:title => "closeable window").when_present do
+            did_yield = true
+          end
+
+          did_yield.should be_true
+        end
+
+        it "times out waiting for a non-present window" do
+          lambda {
+            browser.window(:title => "noop").wait_until_present(0.5)
+          }.should raise_error(Wait::TimeoutError)
+        end
       end
     end
 
-    describe "size and position" do
+    context "manipulating size and position" do
+      before do
+        browser.goto WatirSpec.url_for("window_switching.html")
+      end
+
       compliant_on [:webdriver, :firefox], [:webdriver, :chrome] do
         it "should get the size of the current window" do
           size = browser.window.size
@@ -200,45 +205,41 @@ not_compliant_on [:webdriver, :iphone], [:webdriver, :safari] do
         end
       end
 
-      compliant_on [:webdriver, :firefox] do
-        it "should resize the window" do
-          initial_size = browser.window.size
-          browser.window.resize_to(
-            initial_size.width - 10,
-            initial_size.height - 10
-          )
+      it "should resize the window" do
+        initial_size = browser.window.size
+        browser.window.resize_to(
+          initial_size.width - 10,
+          initial_size.height - 10
+        )
 
-          new_size = browser.window.size
+        new_size = browser.window.size
 
-          new_size.width.should == initial_size.width - 10
-          new_size.height.should == initial_size.height - 10
-        end
-
-        it "should move the window" do
-          initial_pos = browser.window.position
-
-          browser.window.move_to(
-            initial_pos.x + 10,
-            initial_pos.y + 10
-          )
-
-          new_pos = browser.window.position
-          new_pos.x.should == initial_pos.x + 10
-          new_pos.y.should == initial_pos.y + 10
-        end
+        new_size.width.should == initial_size.width - 10
+        new_size.height.should == initial_size.height - 10
       end
 
-      compliant_on [:webdriver, :firefox, :window_manager] do
-        it "should maximize the window" do
-          initial_size = browser.window.size
+      it "should move the window" do
+        initial_pos = browser.window.position
 
-          browser.window.maximize
-          browser.wait_until { browser.window.size != initial_size }
+        browser.window.move_to(
+          initial_pos.x + 10,
+          initial_pos.y + 10
+        )
 
-          new_size = browser.window.size
-          new_size.width.should > initial_size.width
-          new_size.height.should > initial_size.height
-        end
+        new_pos = browser.window.position
+        new_pos.x.should == initial_pos.x + 10
+        new_pos.y.should == initial_pos.y + 10
+      end
+
+      it "should maximize the window" do
+        initial_size = browser.window.size
+
+        browser.window.maximize
+        browser.wait_until { browser.window.size != initial_size }
+
+        new_size = browser.window.size
+        new_size.width.should > initial_size.width
+        new_size.height.should > initial_size.height
       end
     end
   end
