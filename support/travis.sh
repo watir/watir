@@ -3,7 +3,7 @@
 set -e
 set -x
 
-CHROME_REVISION=142910
+CHROME_REVISION=191150
 sh -e /etc/init.d/xvfb start && git submodule update --init
 
 if [[ "$WATIR_WEBDRIVER_BROWSER" = "chrome" ]]; then
