@@ -231,15 +231,17 @@ not_compliant_on [:webdriver, :iphone], [:webdriver, :safari] do
         new_pos.y.should == initial_pos.y + 10
       end
 
-      it "should maximize the window" do
-        initial_size = browser.window.size
+      compliant_on [:webdriver, :firefox, :window_manager] do
+        it "should maximize the window" do
+          initial_size = browser.window.size
 
-        browser.window.maximize
-        browser.wait_until { browser.window.size != initial_size }
+          browser.window.maximize
+          browser.wait_until { browser.window.size != initial_size }
 
-        new_size = browser.window.size
-        new_size.width.should > initial_size.width
-        new_size.height.should > initial_size.height
+          new_size = browser.window.size
+          new_size.width.should > initial_size.width
+          new_size.height.should > initial_size.height
+        end
       end
     end
   end
