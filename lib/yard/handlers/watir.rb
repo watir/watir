@@ -18,7 +18,7 @@ module YARD
           attributes = try_eval
 
           if attributes.nil?
-            p :ignoring => statement.source, :in => namespace.to_s
+            p :ignoring => statement.source, :in => namespace.to_s if $DEBUG
             return
           end
 
@@ -33,7 +33,7 @@ module YARD
 
         def create_attributes(names, return_type)
           names.each do |attribute_name|
-            p :adding => "#{namespace}##{attribute_name}"
+            p :adding => "#{namespace}##{attribute_name}" if $DEBUG
             attribute_name = "#{attribute_name}?".to_sym if return_type == "Boolean"
             register MethodObject.new(namespace, attribute_name, scope) do |o|
               o.visibility = :public
