@@ -5,6 +5,8 @@ Watir implementation built on WebDriver's Ruby bindings.
 See http://rubyforge.org/pipermail/wtr-development/2009-October/001313.html.
 
 [![Build Status](https://secure.travis-ci.org/watir/watir-webdriver.png)](http://travis-ci.org/watir/watir-webdriver)
+[![Code Climate](https://codeclimate.com/github/watir/watir-webdriver.png)](https://codeclimate.com/github/watir/watir-webdriver)
+[![Dependency Status](https://gemnasium.com/watir/watir-webdriver.png)](https://gemnasium.com/watir/watir-webdriver)
 
 Example
 -------
