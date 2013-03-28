@@ -26,8 +26,7 @@ module Watir
     #
     # @example
     #   size = browser.window.size
-    #   "%sx%s" % [size.width, size.height]
-    #   #=> "1600x1200"
+    #   [size.width, size.height] #=> [1600, 1200]
     #
 
     def size
@@ -42,8 +41,7 @@ module Watir
     #
     # @example
     #   position = browser.window.position
-    #   "%sx%s" % [position.x, position.y]
-    #   #=> "92x76"
+    #   [position.x, position.y] #=> [92, 76]
     #
 
     def position
