@@ -18,7 +18,7 @@ fi
 if [[ "$WATIR_WEBDRIVER_BROWSER" = "phantomjs" ]]; then
   curl -L -O "https://phantomjs.googlecode.com/files/phantomjs-1.9.0-linux-x86_64.tar.bz2"
   mkdir phantomjs
-  tar -xvjf phantomjs-latest.tar.bz2 -C phantomjs
+  tar -xvjf phantomjs-1.9.0-linux-x86_64.tar.bz2 -C phantomjs
   chmod +x phantomjs/bin/phantomjs
   sudo cp phantomjs/bin/phantomjs /usr/local/phantomjs/bin/phantomjs
   phantomjs --version
