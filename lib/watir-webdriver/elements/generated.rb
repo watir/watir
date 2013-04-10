@@ -71,8 +71,12 @@ module Watir
 
 
 
+
+
+
+
  class HTMLElement < Element
-   attributes(:string => [:access_key, :access_key_label, :command_icon, :command_label, :command_type, :content_editable, :dir, :item_id, :item_value, :lang, :title], :bool => [:command_checked, :command_disabled, :command_hidden, :draggable, :hidden, :content_editable, :item_scope, :spellcheck, :translate], :html_element => [:context_menu], :string_map => [:dataset], :token_list => [:dropzone, :item_prop, :item_ref, :item_type], :function => [:onabort, :onblur, :oncancel, :oncanplay, :oncanplaythrough, :onchange, :onclick, :onclose, :oncontextmenu, :oncuechange, :ondblclick, :ondrag, :ondragend, :ondragenter, :ondragleave, :ondragover, :ondragstart, :ondrop, :ondurationchange, :onemptied, :onended, :onerror, :onfocus, :oninput, :oninvalid, :onkeydown, :onkeypress, :onkeyup, :onload, :onloadeddata, :onloadedmetadata, :onloadstart, :onmousedown, :onmousemove, :onmouseout, :onmouseover, :onmouseup, :onmousewheel, :onpause, :onplay, :onplaying, :onprogress, :onratechange, :onreset, :onscroll, :onseeked, :onseeking, :onselect, :onshow, :onstalled, :onsubmit, :onsuspend, :ontimeupdate, :onvolumechange, :onwaiting], :properties_collection => [:properties], :style => [:style], :int => [:tab_index])
+   attributes(:string => [:access_key, :access_key_label, :command_icon, :command_label, :command_type, :content_editable, :dir, :item_id, :item_value, :lang, :title], :bool => [:command_checked, :command_disabled, :command_hidden, :draggable, :hidden, :content_editable, :item_scope, :spellcheck, :translate], :html_element => [:context_menu], :string_map => [:dataset], :token_list => [:dropzone, :item_prop, :item_ref, :item_type], :properties_collection => [:properties], :style => [:style], :int => [:tab_index])
  end
  class HTMLElementCollection < ElementCollection
    def element_class
@@ -112,7 +116,7 @@ module Watir
    end
  end
  class FrameSet < HTMLElement
-   attributes(:string => [:cols, :rows], :function => [:onafterprint, :onbeforeprint, :onbeforeunload, :onblur, :onerror, :onfocus, :onhashchange, :onload, :onmessage, :onoffline, :ononline, :onpagehide, :onpageshow, :onpopstate, :onresize, :onscroll, :onstorage, :onunload])
+   attributes(:string => [:cols, :rows])
  end
  class FrameSetCollection < ElementCollection
    def element_class
@@ -143,6 +147,14 @@ module Watir
      Dialog
    end
  end
+ class MenuItem < HTMLElement
+   attributes(:bool => [:checked, :default, :disabled], :html_element => [:command], :string => [:icon, :label, :radiogroup, :type])
+ end
+ class MenuItemCollection < ElementCollection
+   def element_class
+     MenuItem
+   end
+ end
  class Menu < HTMLElement
    attributes(:string => [:label, :type])
  end
@@ -155,14 +167,6 @@ module Watir
    attributes(:bool => [:compact])
  end
  # do nothing
- class Command < HTMLElement
-   attributes(:bool => [:checked, :disabled], :html_element => [:command], :string => [:icon, :label, :radiogroup, :type])
- end
- class CommandCollection < ElementCollection
-   def element_class
-     Command
-   end
- end
  class Details < HTMLElement
    attributes(:bool => [:open])
  end
@@ -244,7 +248,7 @@ module Watir
    end
  end
  class Button < HTMLElement
-   attributes(:bool => [:autofocus, :disabled, :form_no_validate, :will_validate], :html_element => [:form], :string => [:form_action, :form_enctype, :form_method, :form_target, :name, :type, :validation_message, :validity, :value], :list => [:labels])
+   attributes(:bool => [:autofocus, :disabled, :form_no_validate, :will_validate], :html_element => [:form, :menu], :string => [:form_action, :form_enctype, :form_method, :form_target, :name, :type, :validation_message, :validity, :value], :list => [:labels])
  end
  class ButtonCollection < ElementCollection
    def element_class
@@ -308,11 +312,11 @@ module Watir
    end
  end
  class TableCell < HTMLElement
-   attributes(:string => [:abbr, :align, :axis, :bg_color, :ch, :ch_off, :height, :v_align, :width], :bool => [:no_wrap])
+   attributes(:string => [:align, :axis, :bg_color, :ch, :ch_off, :height, :v_align, :width], :bool => [:no_wrap])
  end
  # do nothing
  class TableHeaderCell < TableCell
-   attributes(:string => [:abbr, :scope])
+   attributes(:string => [:abbr, :scope, :sorted])
  end
  class TableHeaderCellCollection < ElementCollection
    def element_class
@@ -327,6 +331,10 @@ module Watir
      TableDataCell
    end
  end
+ class TableDataCell < TableCell
+   attributes(:string => [:abbr])
+ end
+ # do nothing
  class TableRow < HTMLElement
    attributes(:html_collection => [:cells], :int => [:row_index, :section_row_index])
  end
@@ -376,7 +384,7 @@ module Watir
  end
  # do nothing
  class Table < HTMLElement
-   attributes(:html_element => [:caption, :t_foot, :t_head], :html_collection => [:rows, :t_bodies])
+   attributes(:html_element => [:caption, :t_foot, :t_head], :html_collection => [:rows, :t_bodies], :bool => [:sortable])
  end
  class TableCollection < ElementCollection
    def element_class
@@ -388,7 +396,7 @@ module Watir
  end
  # do nothing
  class Area < HTMLElement
-   attributes(:string => [:alt, :coords, :download, :hash, :host, :hostname, :href, :hreflang, :media, :pathname, :ping, :port, :protocol, :rel, :search, :shape, :target, :type], :token_list => [:rel_list])
+   attributes(:string => [:alt, :coords, :download, :hreflang, :ping, :rel, :shape, :target, :type], :token_list => [:rel_list])
  end
  class AreaCollection < ElementCollection
    def element_class
@@ -492,7 +500,7 @@ module Watir
  end
  # do nothing
  class IFrame < HTMLElement
-   attributes(:document => [:content_document], :string => [:content_window, :height, :name, :src, :srcdoc, :width], :token_list => [:sandbox], :bool => [:seamless])
+   attributes(:bool => [:allow_fullscreen, :seamless], :document => [:content_document], :string => [:content_window, :height, :name, :src, :srcdoc, :width], :token_list => [:sandbox])
  end
  class IFrameCollection < ElementCollection
    def element_class
@@ -544,7 +552,7 @@ module Watir
    end
  end
  class Time < HTMLElement
-   attributes(:string => [:datetime])
+   attributes(:string => [:date_time])
  end
  class TimeCollection < ElementCollection
    def element_class
@@ -560,7 +568,7 @@ module Watir
    end
  end
  class Anchor < HTMLElement
-   attributes(:string => [:download, :hash, :host, :hostname, :href, :hreflang, :media, :pathname, :ping, :port, :protocol, :rel, :search, :target, :text, :type], :token_list => [:rel_list])
+   attributes(:string => [:download, :hreflang, :ping, :rel, :target, :text, :type], :token_list => [:rel_list])
  end
  class AnchorCollection < ElementCollection
    def element_class
@@ -688,7 +696,7 @@ module Watir
  end
  # do nothing
  class Body < HTMLElement
-   attributes(:function => [:onafterprint, :onbeforeprint, :onbeforeunload, :onblur, :onerror, :onfocus, :onhashchange, :onload, :onmessage, :onoffline, :ononline, :onpagehide, :onpageshow, :onpopstate, :onresize, :onscroll, :onstorage, :onunload])
+   # do nothing
  end
  class BodyCollection < ElementCollection
    def element_class
@@ -700,7 +708,7 @@ module Watir
  end
  # do nothing
  class Script < HTMLElement
-   attributes(:bool => [:async, :defer], :string => [:charset, :src, :text, :type])
+   attributes(:bool => [:async, :defer], :string => [:charset, :cross_origin, :src, :text, :type])
  end
  class ScriptCollection < ElementCollection
    def element_class
@@ -1145,23 +1153,6 @@ module Watir
    end
 
    Watir.tag_to_class[:colgroup] = TableCol
-   #
-   # @return [Command]
-   #
-
-   def command(*args)
-     Command.new(self, extract_selector(args).merge(:tag_name => "command"))
-   end
-
-   #
-   # @return [CommandCollection]
-   #
-
-   def commands(*args)
-     CommandCollection.new(self, extract_selector(args).merge(:tag_name => "command"))
-   end
-
-   Watir.tag_to_class[:command] = Command
    #
    # @return [Data]
    #
@@ -1826,6 +1817,23 @@ module Watir
 
    Watir.tag_to_class[:li] = LI
    #
+   # @return [HTMLElement]
+   #
+
+   def main(*args)
+     HTMLElement.new(self, extract_selector(args).merge(:tag_name => "main"))
+   end
+
+   #
+   # @return [HTMLElementCollection]
+   #
+
+   def mains(*args)
+     HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "main"))
+   end
+
+   Watir.tag_to_class[:main] = HTMLElement
+   #
    # @return [Map]
    #
 
@@ -1876,6 +1884,23 @@ module Watir
    end
 
    Watir.tag_to_class[:menu] = Menu
+   #
+   # @return [MenuItem]
+   #
+
+   def menuitem(*args)
+     MenuItem.new(self, extract_selector(args).merge(:tag_name => "menuitem"))
+   end
+
+   #
+   # @return [MenuItemCollection]
+   #
+
+   def menuitems(*args)
+     MenuItemCollection.new(self, extract_selector(args).merge(:tag_name => "menuitem"))
+   end
+
+   Watir.tag_to_class[:menuitem] = MenuItem
    #
    # @return [Meta]
    #
