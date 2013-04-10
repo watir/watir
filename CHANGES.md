@@ -1,3 +1,10 @@
+0.6.3
+=====
+
+* Always use custom YARD handler (should give full docs on rubydoc.info)
+* Window resizing coerces string arguments
+* Updates from the HTML spec (removes <command>, adds <main>, <menuitem> + other)
+
 0.6.2
 =====
 
