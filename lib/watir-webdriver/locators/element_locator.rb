@@ -126,13 +126,16 @@ module Watir
     end
 
     def wd_find_by_regexp_selector(selector, method = :find)
-      wd = @wd
+      parent = @wd
       rx_selector = delete_regexps_from(selector)
 
       if rx_selector.has_key?(:label) && should_use_label_element?
         label = label_from_text(rx_selector.delete(:label)) || return
-        id = label.attribute(:for)
-        id ? selector[:id] = id : wd = label
+        if (id = label.attribute(:for))
+          selector[:id] = id
+        else
+          parent = label
+        end
       end
 
       how, what = build_wd_selector(selector)
@@ -141,7 +144,7 @@ module Watir
         raise Error, "internal error: unable to build WebDriver selector from #{selector.inspect}"
       end
 
-      elements = wd.find_elements(how, what)
+      elements = parent.find_elements(how, what)
       elements.__send__(method) { |el| matches_selector?(el, rx_selector) }
     end
 
