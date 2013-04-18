@@ -99,7 +99,7 @@ describe "Element" do
     end
 
     it "finds several elements from an element's subtree" do
-      browser.fieldset.elements(:xpath => ".//label").length.should == 12
+      browser.fieldset.elements(:xpath => ".//label").length.should == 13
     end
   end
 

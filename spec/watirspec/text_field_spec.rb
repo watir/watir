@@ -25,6 +25,8 @@ describe "TextField" do
       browser.text_field(:xpath, "//input[@id='new_user_email']").should exist
       browser.text_field(:label, "First name").should exist
       browser.text_field(:label, /(Last|First) name/).should exist
+      browser.text_field(:label, 'Without for').should exist
+      browser.text_field(:label, /Without for/).should exist
     end
 
     it "returns the first text field if given no args" do
