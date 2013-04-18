@@ -133,9 +133,9 @@ describe Watir::ElementLocator do
         locate_one selector, Watir::Input.attributes
       end
 
-      it "uses the corresponding <label>'s @for attribute when locating by label" do
+      it "uses the corresponding <label>'s @for attribute or parent::label when locating by label" do
         translated_type = "translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')"
-        expect_one :xpath, ".//input[#{translated_type}='text' and @id=//label[normalize-space()='foo']/@for]"
+        expect_one :xpath, ".//input[#{translated_type}='text' and (@id=//label[normalize-space()='foo']/@for or parent::label[normalize-space()='foo'])]"
 
         selector = [
           :tag_name, "input",
