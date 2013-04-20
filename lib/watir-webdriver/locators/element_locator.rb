@@ -126,10 +126,16 @@ module Watir
     end
 
     def wd_find_by_regexp_selector(selector, method = :find)
+      parent = @wd
       rx_selector = delete_regexps_from(selector)
 
       if rx_selector.has_key?(:label) && should_use_label_element?
-        selector[:id] = id_from_label(rx_selector.delete(:label)) || return
+        label = label_from_text(rx_selector.delete(:label)) || return
+        if (id = label.attribute(:for))
+          selector[:id] = id
+        else
+          parent = label
+        end
       end
 
       how, what = build_wd_selector(selector)
@@ -138,7 +144,7 @@ module Watir
         raise Error, "internal error: unable to build WebDriver selector from #{selector.inspect}"
       end
 
-      elements = @wd.find_elements(how, what)
+      elements = parent.find_elements(how, what)
       elements.__send__(method) { |el| matches_selector?(el, rx_selector) }
     end
 
@@ -157,13 +163,11 @@ module Watir
       end
     end
 
-    def id_from_label(label_exp)
+    def label_from_text(label_exp)
       # TODO: this won't work correctly if @wd is a sub-element
-      label = @wd.find_elements(:tag_name, 'label').find do |el|
+      @wd.find_elements(:tag_name, 'label').find do |el|
         matches_selector?(el, :text => label_exp)
       end
-
-      label.attribute(:for) if label
     end
 
     def fetch_value(element, how)
@@ -360,7 +364,8 @@ module Watir
         "contains(concat(' ', @class, ' '), #{klass})"
       elsif key == :label && should_use_label_element?
         # we assume :label means a corresponding label element, not the attribute
-        "@id=//label[normalize-space()=#{XpathSupport.escape value}]/@for"
+        text = "normalize-space()=#{XpathSupport.escape value}"
+        "(@id=//label[#{text}]/@for or parent::label[#{text}])"
       else
         "#{lhs_for(key)}=#{XpathSupport.escape value}"
       end
