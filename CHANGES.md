@@ -1,3 +1,8 @@
+0.6.4
+=====
+
+* Add ability to find element by parent <label>
+
 0.6.3
 =====
 
