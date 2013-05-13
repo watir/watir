@@ -114,7 +114,7 @@ module Watir
           type = ruby_type_for(a.type)
           attrs[type] << ruby_attribute_for(type, a.name)
         end
-        
+
         call :attributes, [literal_hash(attrs)]
       end
 
@@ -173,7 +173,8 @@ module Watir
         when 'Element'
           :element
         when 'WindowProxy', 'ValidityState', 'MediaError', 'TimeRanges', 'Location',
-             'Any', 'TimedTrackArray', 'TimedTrack', 'TextTrackArray', 'TextTrack', 'MediaController'
+             'Any', 'TimedTrackArray', 'TimedTrack', 'TextTrackArray', 'TextTrack',
+             'MediaController', 'TextTrackKind'
           # probably completely wrong.
           :string
         else
