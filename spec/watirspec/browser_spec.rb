@@ -101,6 +101,12 @@ describe "Browser" do
       browser.goto(WatirSpec.url_for("non_control_elements.html", :needs_server => true))
       browser.url.should == WatirSpec.url_for("non_control_elements.html", :needs_server => true)
     end
+
+    it "always returns top url" do
+      browser.goto(WatirSpec.url_for("frames.html", :needs_server => true))
+      browser.frame.body.exists? # switches to frame
+      browser.url.should == WatirSpec.url_for("frames.html", :needs_server => true)
+    end
   end
 
   describe ".start" do
