@@ -35,7 +35,7 @@ describe "Browser" do
       deviates_on :internet_explorer9, :internet_explorer10 do
         html.should include(' http-equiv="content-type"')
       end
-      
+
       not_compliant_on :internet_explorer9, :internet_explorer10 do
         deviates_on :internet_explorer do
           html.should include(' http-equiv=content-type')
@@ -80,7 +80,7 @@ describe "Browser" do
       deviates_on :watir_classic do
         browser.name.should == :internet_explorer
       end
-    end    
+    end
   end
 
   describe "#text" do
@@ -106,6 +106,20 @@ describe "Browser" do
       browser.goto(WatirSpec.url_for("frames.html", :needs_server => true))
       browser.frame.body.exists? # switches to frame
       browser.url.should == WatirSpec.url_for("frames.html", :needs_server => true)
+    end
+  end
+
+  describe "#title" do
+    it "returns the current title" do
+      browser.goto(WatirSpec.url_for("non_control_elements.html", :needs_server => true))
+      browser.title.should == browser.element(:tag_name => 'title').text
+    end
+
+    it "always returns top title" do
+      browser.goto(WatirSpec.url_for("frames.html", :needs_server => true))
+      title = browser.element(:tag_name => 'title').text
+      browser.frame.body.exists? # switches to frame
+      browser.title.should == title
     end
   end
 
