@@ -108,6 +108,7 @@ module Watir
     #
 
     def url
+      assert_exists
       @driver.current_url
     end
 
