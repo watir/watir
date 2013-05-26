@@ -32,8 +32,10 @@ module Watir
         element = find_first_by_multiple
       end
 
-      # this actually only applies when finding by xpath - browser.text_field(:xpath, "//input[@type='radio']")
-      # we don't need to validate the element if we built the xpath ourselves.
+      # This actually only applies when finding by xpath - browser.text_field(:xpath, "//input[@type='radio']")
+      # We don't need to validate the element if we built the xpath ourselves.
+      # It is also used to alter behavior of methods locating more than one type of element
+      # (e.g. text_field locates both input and textarea)
       validate_element(element) if element
     rescue Selenium::WebDriver::Error::NoSuchElementError
       nil

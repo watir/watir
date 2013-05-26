@@ -68,5 +68,13 @@ module Watir
       el = super
       el if el and not NON_TEXT_TYPES.include? el.attribute(:type)
     end
+
+    def validate_element(element)
+      if element.tag_name.downcase == 'textarea'
+        warn "Locating textareas with '#text_field' is deprecated. Please, use '#textarea' method instead."
+      end
+      super
+    end
+
   end # TextFieldLocator
 end # Watir
