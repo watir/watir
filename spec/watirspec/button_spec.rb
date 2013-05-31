@@ -9,7 +9,7 @@ describe "Button" do
 
   # Exists method
   describe "#exists?" do
-    it "returns true if the button exists" do
+    it "returns true if the button exists (tag = :input)" do
       browser.button(:id, "new_user_submit").should exist
       browser.button(:id, /new_user_submit/).should exist
       browser.button(:name, "new_user_reset").should exist
@@ -28,6 +28,17 @@ describe "Button" do
       browser.button(:xpath, "//input[@id='new_user_submit']").should exist
       browser.button(:alt, "Create a new user").should exist
       browser.button(:alt, /Create a/).should exist
+    end
+
+    bug "https://github.com/watir/watir-webdriver/issues/208" do
+      it "returns true if the button exists (tag = :button)" do
+        browser.button(:name, "new_user_button_2").should exist
+        browser.button(:name, /new_user_button_2/).should exist
+        browser.button(:value, "button_2").should exist
+        browser.button(:value, /button_2/).should exist
+        browser.button(:text, 'Button 2').should exist
+        browser.button(:text, /Button 2/).should exist
+      end
     end
 
     it "returns true if the button exists (how = :caption)" do
