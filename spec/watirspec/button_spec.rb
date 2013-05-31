@@ -14,8 +14,8 @@ describe "Button" do
       browser.button(:id, /new_user_submit/).should exist
       browser.button(:name, "new_user_reset").should exist
       browser.button(:name, /new_user_reset/).should exist
-      browser.button(:value, "Button 2").should exist
-      browser.button(:value, /Button 2/).should exist
+      browser.button(:value, "Button").should exist
+      browser.button(:value, /Button/).should exist
       not_compliant_on :internet_explorer do
         browser.button(:src, "images/button.png").should exist
       end
@@ -30,15 +30,13 @@ describe "Button" do
       browser.button(:alt, /Create a/).should exist
     end
 
-    bug "https://github.com/watir/watir-webdriver/issues/208" do
-      it "returns true if the button exists (tag = :button)" do
-        browser.button(:name, "new_user_button_2").should exist
-        browser.button(:name, /new_user_button_2/).should exist
-        browser.button(:value, "button_2").should exist
-        browser.button(:value, /button_2/).should exist
-        browser.button(:text, 'Button 2').should exist
-        browser.button(:text, /Button 2/).should exist
-      end
+    it "returns true if the button exists (tag = :button)" do
+      browser.button(:name, "new_user_button_2").should exist
+      browser.button(:name, /new_user_button_2/).should exist
+      browser.button(:value, "button_2").should exist
+      browser.button(:value, /button_2/).should exist
+      browser.button(:text, 'Button 2').should exist
+      browser.button(:text, /Button 2/).should exist
     end
 
     it "returns true if the button exists (how = :caption)" do
