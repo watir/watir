@@ -112,14 +112,14 @@ describe "Browser" do
   describe "#title" do
     it "returns the current title" do
       browser.goto(WatirSpec.url_for("non_control_elements.html", :needs_server => true))
-      browser.title.should == browser.element(:tag_name => 'title').text
+      browser.title.should == "Non-control elements"
     end
 
     it "always returns top title" do
       browser.goto(WatirSpec.url_for("frames.html", :needs_server => true))
       title = browser.element(:tag_name => 'title').text
       browser.frame.body.exists? # switches to frame
-      browser.title.should == title
+      browser.title.should == "Frames"
     end
   end
 
