@@ -275,11 +275,11 @@ module Watir
     end
 
     #
-    # Returns inner HTML code of element.
+    # Returns outer (inner + element itself) HTML code of element.
     #
     # @example
     #   browser.div(:id => "foo").html
-    #   #=> "<a>Click</a>"
+    #   #=> "<div id=\"foo\"><a>Click</a></div>"
     #
     # @return [String]
     #
