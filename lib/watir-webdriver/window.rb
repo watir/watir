@@ -201,6 +201,16 @@ module Watir
       self
     end
 
+    #
+    # Renames tab title to given new title.
+    # Make sure to have JavaScript enabled.
+    #
+    # @param [String] new_title
+    #
+    def rename_window_title(new_title)
+      @driver("document.title = \"#{new_title}\"")
+    end
+
     protected
 
     def handle
