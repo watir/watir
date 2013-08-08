@@ -95,7 +95,7 @@ module Watir
         raise NoMethodError, "undefined method `#{m}' for #{@element.inspect}:#{@element.class}"
       end
 
-      Watir::Wait.until(@timeout, @message) { @element.present? }
+      ::Watir::Wait.until(@timeout, @message) { @element.present? }
 
       @element.__send__(m, *args, &block)
     end
