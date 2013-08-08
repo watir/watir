@@ -79,7 +79,7 @@ module Watir
   # put on hold until the element is present (exists and is visible) on the page.
   #
 
-  class WhenPresentDecorator
+  class WhenPresentDecorator < BasicObject
     def initialize(element, timeout, message = nil)
       @element = element
       @timeout = timeout
