@@ -17,9 +17,6 @@ module Watir
     #
     # Return the type attribute of the element
     # 
-    # Does not check if @type is a valid value
-    # https://github.com/watir/watir-webdriver/issues/217
-    #
     # @return [String]
     #
 
