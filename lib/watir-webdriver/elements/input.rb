@@ -14,17 +14,5 @@ module Watir
       !disabled?
     end
 
-    #
-    # Return the type attribute of the element
-    # 
-    # @return [String]
-    #
-
-    def type
-      assert_exists
-      return @element.attribute("type").to_s
-
-    end
-
   end # Input
 end # Watir
