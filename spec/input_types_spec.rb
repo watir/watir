@@ -8,7 +8,7 @@ describe Watir::Input do
 
   describe "#type" do
     it "returns an email type" do
-      browser.input(:name => "email").type == 'email'
+      browser.input(:name => "email").type.should == 'email'
     end
   end
 end
