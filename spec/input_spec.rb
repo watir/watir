@@ -36,4 +36,10 @@ describe Watir::Input do
       e.should be_kind_of(Watir::FileField)
     end
   end
+
+  describe "#type" do
+    it "returns an email type" do
+      browser.input(:name => "html5_email").type.should == 'email'
+    end
+  end
 end
