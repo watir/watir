@@ -17,7 +17,7 @@ describe "TextFields" do
 
   describe "#length" do
     it "returns the number of text fields" do
-      browser.text_fields.length.should == 13
+      browser.text_fields.length.should == 14
     end
   end
 
@@ -44,6 +44,4 @@ describe "TextFields" do
       count.should > 0
     end
   end
-
-
 end

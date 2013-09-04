@@ -17,7 +17,7 @@ describe "Labels" do
 
   describe "#length" do
     it "returns the number of labels" do
-      browser.labels.length.should == 31
+      browser.labels.length.should == 32
     end
   end
 

@@ -99,7 +99,7 @@ describe "Element" do
     end
 
     it "finds several elements from an element's subtree" do
-      browser.fieldset.elements(:xpath => ".//label").length.should == 13
+      browser.fieldset.elements(:xpath => ".//label").length.should == 14
     end
   end
 
@@ -157,7 +157,7 @@ describe "Element" do
     it "returns true if the element is visible" do
       browser.text_field(:id, "new_user_email").should be_visible
     end
-    
+
     it "returns true if the element has style='visibility: visible' even if parent has style='visibility: hidden'" do
       browser.div(:id => "visible_child").should be_visible
     end
