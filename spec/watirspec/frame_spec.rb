@@ -32,24 +32,6 @@ describe "Frame" do
       browser.frame(:class, /half/).should exist
     end
 
-    it "returns true if the iframe exists" do
-      browser.goto(WatirSpec.url_for("iframes.html"))
-      browser.frame(:id, "frame_1").should exist
-      browser.frame(:id, /frame/).should exist
-      browser.frame(:name, "frame1").should exist
-      browser.frame(:name, /frame/).should exist
-      not_compliant_on :watir_classic do
-        browser.frame(:src, "frame_1.html").should exist
-      end
-      browser.frame(:src, /frame_1/).should exist
-      browser.frame(:class, "iframe").should exist
-      browser.frame(:class, /iframe/).should exist
-      browser.frame(:index, 0).should exist
-      not_compliant_on [:watir_classic, :internet_explorer10] do
-        browser.frame(:xpath, "//iframe[@id='frame_1']").should exist
-      end
-    end
-
     it "returns the first frame if given no args" do
       browser.frame.should exist
     end
@@ -139,11 +121,6 @@ describe "Frame" do
     not_compliant_on [:webdriver, :iphone] do
       it "returns the full HTML source of the frame" do
         browser.goto WatirSpec.url_for("frames.html")
-        browser.frame.html.downcase.should include("<title>frame 1</title>")
-      end
-
-      it "returns the full HTML source of the iframe" do
-        browser.goto WatirSpec.url_for("iframes.html")
         browser.frame.html.downcase.should include("<title>frame 1</title>")
       end
     end
