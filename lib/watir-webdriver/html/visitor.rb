@@ -36,7 +36,7 @@ module Watir
 
         [ :scope,
           [:block,
-            element_class(interface.name, interface.members.select { |e| e.kind_of?(WebIDL::Ast::Attribute) }, parent),
+            element_class(interface.name, extract_attributes(interface), parent),
             collection_class(interface.name)
           ]
         ]
@@ -87,6 +87,13 @@ module Watir
             [:block, attributes_call(attributes)]
           ]
         ]
+      end
+
+      def extract_attributes(interface)
+        members = interface.members
+        members += interface.implements.flat_map(&:members)
+
+        members.select { |e| e.kind_of?(WebIDL::Ast::Attribute) }
       end
 
       def collection_class(name)
@@ -152,7 +159,7 @@ module Watir
           :function
         when 'Boolean'
           :bool
-        when 'Document'
+        when 'Document', 'DocumentFragment'
           :document
         when 'DOMTokenList', 'DOMSettableTokenList'
           :token_list
