@@ -1,12 +1,13 @@
 # encoding: utf-8
 module Watir
-  class Frame < HTMLElement
+  class IFrame < HTMLElement
 
     def locate
       @parent.assert_exists
 
-      element = locate_iframe || locate_frame
-      element or raise UnknownFrameException, "unable to locate frame/iframe using #{selector_string}"
+      locator = locator_class.new(@parent.wd, @selector.merge(:tag_name => tag_name), self.class.attribute_list)
+      element = locator.locate
+      element or raise UnknownFrameException, "unable to locate #{@selector[:tag_name]} using #{selector_string}"
 
       @parent.reset!
 
@@ -44,46 +45,58 @@ module Watir
 
     private
 
-    def locate_iframe
-      locator = locator_class.new(@parent.wd, @selector.merge(:tag_name => "iframe"), attribute_list)
-      locator.locate
+    def tag_name
+      'iframe'
     end
 
-    def locate_frame
-      locator = locator_class.new(@parent.wd, @selector.merge(:tag_name => "frame"), attribute_list)
-      locator.locate
-    end
+  end # IFrame
 
-    def attribute_list
-      self.class.attribute_list | IFrame.attribute_list
-    end
-  end # Frame
 
-  module Container
-    def frame(*args)
-      Frame.new(self, extract_selector(args))
-    end
+  class IFrameCollection < ElementCollection
 
-    def frames(*args)
-      FrameCollection.new(self, extract_selector(args).merge(:tag_name => /^(iframe|frame)$/)) # hack
-    end
-
-    def iframe(*args)
-      warn "Watir::Container#iframe is replaced by Watir::Container#frame"
-      frame(*args)
-    end
-
-    def iframes(*args)
-      warn "Watir::Container#iframes is replaced by Watir::Container#frames"
-      frame(*args)
-    end
-  end
-
-  class FrameCollection < ElementCollection
     def to_a
       (0...elements.size).map { |idx| element_class.new @parent, :index => idx }
     end
-  end
+
+    def element_class
+      IFrame
+    end
+
+  end # IFrameCollection
+
+
+  class Frame < IFrame
+
+    private
+
+    def tag_name
+      'frame'
+    end
+
+  end # Frame
+
+
+  class FrameCollection < IFrameCollection
+
+    def element_class
+      Frame
+    end
+
+  end # FrameCollection
+
+
+  module Container
+
+    def frame(*args)
+      Frame.new(self, extract_selector(args).merge(:tag_name => "frame"))
+    end
+
+    def frames(*args)
+      FrameCollection.new(self, extract_selector(args).merge(:tag_name => "frame"))
+    end
+
+  end # Container
+
 
   # @api private
   #

@@ -45,6 +45,8 @@ module Watir
         # ignore the link element for now
         @tag2interfaces.delete("link")
         @sorted_interfaces.reject! { |intf| intf.name == "HTMLLinkElement" }
+        # frame is implemented manually, see https://github.com/watir/watir-webdriver/issues/204
+        @sorted_interfaces.reject! { |intf| intf.name == "HTMLFrameElement"  }
       end
 
       def write_header
@@ -57,7 +59,6 @@ module Watir
           @io.puts indent(generator.generate(interface))
         end
       end
-
 
       def write_container_methods
         @io.puts indent("module Container")
@@ -100,7 +101,6 @@ CODE
       def write_footer
         @io.puts "end # Watir"
       end
-
 
       def indent(code, indent = 1)
         indent_string = " "*indent
