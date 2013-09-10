@@ -1,12 +1,6 @@
 # encoding: utf-8
 module Watir
-  module Container
-    alias_method :link,  :a
-    alias_method :links, :as
-  end # Container
-
-
-  class Anchor < HTMLElement
+  class Area < HTMLElement
 
     #
     # @todo temporarily add href attribute
@@ -15,5 +9,5 @@ module Watir
     #
     attributes :string => [:href]
 
-  end # Anchor
+  end # Area
 end # Watir

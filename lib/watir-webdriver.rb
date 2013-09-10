@@ -77,6 +77,7 @@ require 'watir-webdriver/element_collection'
 require 'watir-webdriver/elements/element'
 require 'watir-webdriver/elements/generated'
 
+require 'watir-webdriver/elements/area'
 require 'watir-webdriver/elements/button'
 require 'watir-webdriver/elements/checkbox'
 require 'watir-webdriver/elements/dlist'
