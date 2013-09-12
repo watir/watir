@@ -83,6 +83,16 @@ not_compliant_on [:webdriver, :safari] do
         decorator.should respond_to(:present?)
         decorator.should respond_to(:click)
       end
+
+      it "delegates present? to element" do
+        Object.class_eval do
+          def present?
+            false
+          end
+        end
+        element = browser.a(:id, "show_bar").when_present(1)
+        element.should be_present
+      end
     end
 
     describe "#wait_until_present" do

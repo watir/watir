@@ -1,4 +1,6 @@
 # encoding: utf-8
+require 'forwardable'
+
 module Watir
   module Wait
 
@@ -80,6 +82,10 @@ module Watir
   #
 
   class WhenPresentDecorator
+    extend Forwardable
+
+    def_delegator :@element, :present?
+
     def initialize(element, timeout, message = nil)
       @element = element
       @timeout = timeout
