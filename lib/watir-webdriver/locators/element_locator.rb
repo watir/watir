@@ -271,7 +271,7 @@ module Watir
     end
 
     def should_use_label_element?
-      @selector[:tag_name] != "option"
+      !valid_attribute?(:label)
     end
 
     def build_wd_selector(selectors)

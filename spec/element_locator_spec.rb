@@ -146,11 +146,11 @@ describe Watir::ElementLocator do
         locate_one selector, Watir::Input.attributes
       end
 
-      it "does not use the label element for <option> elements" do
+      it "uses label attribute if it is valid for element" do
         expect_one :xpath, ".//option[@label='foo']"
 
-        locate_one :tag_name => "option",
-                   :label    => "foo"
+        selector = { :tag_name => "option", :label => "foo" }
+        locate_one selector, Watir::Option.attributes
       end
 
       it "translates ruby attribute names to content attribute names" do
