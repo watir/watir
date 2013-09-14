@@ -68,6 +68,12 @@ describe "IFrame" do
     end
   end
 
+  bug 'https://github.com/watir/watir-webdriver/issues/211', :webdriver do
+    it 'properly handles all locators for element which do not exist' do
+      browser.iframe(:index, 0).div(:id, 'invalid').should_not exist
+    end
+  end
+
   it "raises UnknownFrameException when accessing elements inside non-existing iframe" do
     lambda { browser.iframe(:name, "no_such_name").p(:index, 0).id }.should raise_error(UnknownFrameException)
   end
