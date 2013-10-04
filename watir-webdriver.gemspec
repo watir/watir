@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.homepage    = "http://github.com/watir/watir-webdriver"
   s.summary     = %q{Watir on WebDriver}
   s.description = %q{WebDriver-backed Watir}
+  s.license     = 'MIT'
 
   s.rubyforge_project = "watir-webdriver"
 
