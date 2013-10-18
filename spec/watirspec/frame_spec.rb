@@ -8,6 +8,8 @@ describe "Frame" do
   end
 
   it "handles crossframe javascript" do
+    browser.goto WatirSpec.url_for("frames.html", :needs_server => true)
+
     browser.frame(:id, "frame_1").text_field(:name, 'senderElement').value.should == 'send_this_value'
     browser.frame(:id, "frame_2").text_field(:name, 'recieverElement').value.should == 'old_value'
     browser.frame(:id, "frame_1").button(:id, 'send').click
@@ -87,14 +89,6 @@ describe "Frame" do
 
   it "raises NoMethodError when trying to access attributes it doesn't have" do
     lambda { browser.frame(:index, 0).foo }.should raise_error(NoMethodError)
-  end
-
-  it "is able to send a value to another frame by using Javascript" do
-    frame1, frame2 = browser.frame(:index, 0), browser.frame(:index, 1)
-    frame1.text_field(:index, 0).value.should == "send_this_value"
-    frame2.text_field(:index, 0).value.should == "old_value"
-    frame1.button(:index, 0).click
-    frame2.text_field(:index, 0).value.should == "send_this_value"
   end
 
   it "is able to set a field" do
