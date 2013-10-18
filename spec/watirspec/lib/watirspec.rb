@@ -76,10 +76,10 @@ module WatirSpec
 
     def new_browser
       klass = WatirSpec.implementation.browser_class
-      args = WatirSpec.implementation.browser_args
-      instance = args ? klass.new(*args) : klass.new
+      args = Array(WatirSpec.implementation.browser_args).map { |e| Hash === e ? e.dup : e }
 
-      print_browser_info_once(instance, args)
+      instance = klass.new(*args)
+      print_browser_info_once(instance)
 
       instance
     end
@@ -100,12 +100,11 @@ module WatirSpec
 
     private
 
-    def print_browser_info_once(instance, args)
+    def print_browser_info_once(instance)
       return if defined?(@did_print_browser_info) && @did_print_browser_info
       @did_print_browser_info = true
 
       info = []
-
       info << instance.class.name
 
       if instance.respond_to?(:driver) && instance.driver.class.name == "Selenium::WebDriver::Driver"
@@ -116,7 +115,7 @@ module WatirSpec
         info << "#{caps.version}"
       end
 
-      $stderr.puts "running watirspec against #{info.join ' '} using args #{args.inspect}"
+      $stderr.puts "running watirspec against #{info.join ' '} using args #{WatirSpec.implementation.browser_args.inspect}"
     rescue
       # ignored
     end
