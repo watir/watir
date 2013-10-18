@@ -9,7 +9,7 @@ describe Watir::Browser do
     end
 
     it "takes a Driver instance as argument" do
-      mock_driver = mock(Selenium::WebDriver::Driver)
+      mock_driver = double(Selenium::WebDriver::Driver)
       Selenium::WebDriver::Driver.should_receive(:===).with(mock_driver).and_return(true)
 
       lambda { Watir::Browser.new(mock_driver) }.should_not raise_error
