@@ -79,7 +79,7 @@ module WatirSpec
       args = WatirSpec.implementation.browser_args
       instance = args ? klass.new(*args) : klass.new
 
-      print_browser_info_once(instance)
+      print_browser_info_once(instance, args)
 
       instance
     end
@@ -100,7 +100,7 @@ module WatirSpec
 
     private
 
-    def print_browser_info_once(instance)
+    def print_browser_info_once(instance, args)
       return if defined?(@did_print_browser_info) && @did_print_browser_info
       @did_print_browser_info = true
 
@@ -116,7 +116,7 @@ module WatirSpec
         info << "#{caps.version}"
       end
 
-      $stderr.puts "running watirspec against #{info.join ' '}"
+      $stderr.puts "running watirspec against #{info.join ' '} using args #{args.inspect}"
     rescue
       # ignored
     end
