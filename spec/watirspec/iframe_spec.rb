@@ -1,6 +1,10 @@
 # encoding: utf-8
 require File.expand_path("../spec_helper", __FILE__)
 
+#
+# TODO: fix duplication with frame_spec
+#
+
 describe "IFrame" do
 
   before :each do
@@ -8,6 +12,8 @@ describe "IFrame" do
   end
 
   it "handles crossframe javascript" do
+    browser.goto WatirSpec.url_for("iframes.html", :needs_server => true)
+
     browser.iframe(:id, "iframe_1").text_field(:name, 'senderElement').value.should == 'send_this_value'
     browser.iframe(:id, "iframe_2").text_field(:name, 'recieverElement').value.should == 'old_value'
     browser.iframe(:id, "iframe_1").button(:id, 'send').click
@@ -92,14 +98,6 @@ describe "IFrame" do
 
   it "raises NoMethodError when trying to access attributes it doesn't have" do
     lambda { browser.iframe(:index, 0).foo }.should raise_error(NoMethodError)
-  end
-
-  it "is able to send a value to another iframe by using Javascript" do
-    iframe1, iframe2 = browser.iframe(:index, 0), browser.iframe(:index, 1)
-    iframe1.text_field(:index, 0).value.should == "send_this_value"
-    iframe2.text_field(:index, 0).value.should == "old_value"
-    iframe1.button(:index, 0).click
-    iframe2.text_field(:index, 0).value.should == "send_this_value"
   end
 
   it "is able to set a field" do

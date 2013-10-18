@@ -1,6 +1,10 @@
 # encoding: utf-8
 require File.expand_path("../spec_helper", __FILE__)
 
+#
+# TODO: fix duplication with iframe_spec
+#
+
 describe "Frame" do
 
   before :each do
