@@ -107,7 +107,7 @@ class ImplementationConfig
 
   def chrome_args
     opts = {
-      :switches      => ["--disable-translate"],
+      :args          => ["--disable-translate"],
       :native_events => native_events?
     }
 
@@ -123,11 +123,15 @@ class ImplementationConfig
       Selenium::WebDriver::Chrome.path = path
     end
 
+    if ENV['TRAVIS']
+      opts[:args] << "--no-sandbox" # https://github.com/travis-ci/travis-ci/issues/938
+    end
+
     [:chrome, opts]
   end
 
   def remote_args
-    [:remote, {:url => ENV["WATIR_WEBDRIVER_REMOTE_URL"] || "http://127.0.0.1:8080"}]    
+    [:remote, {:url => ENV["WATIR_WEBDRIVER_REMOTE_URL"] || "http://127.0.0.1:8080"}]
   end
 
   def add_html_routes
