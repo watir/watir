@@ -7,7 +7,7 @@ describe Watir::Browser do
   end
 
   it "finds elements with single quotes" do
-    browser.div(:text => "single 'quotes'").should exist
+    expect(browser.div(:text => "single 'quotes'")).to exist
   end
 
 end

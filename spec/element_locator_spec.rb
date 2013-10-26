@@ -184,7 +184,7 @@ describe Watir::ElementLocator do
           expect_all(:xpath, ".//div").and_return(elements)
         end
 
-        locate_one(:tag_name => "div", :class => /oob/).should == elements[1]
+        expect(locate_one(:tag_name => "div", :class => /oob/)).to eq elements[1]
       end
 
       it "handles :tag_name, :index and a single regexp attribute" do
@@ -205,7 +205,7 @@ describe Watir::ElementLocator do
           :index    => 1
         }
 
-        locate_one(selector).should == elements[1]
+        expect(locate_one(selector)).to eq elements[1]
       end
 
       it "handles mix of string and regexp attributes" do
@@ -227,7 +227,7 @@ describe Watir::ElementLocator do
           :title    => /baz/
         }
 
-        locate_one(selector).should == elements[1]
+        expect(locate_one(selector)).to eq elements[1]
       end
 
       it "handles data-* attributes with regexp" do
@@ -248,7 +248,7 @@ describe Watir::ElementLocator do
           :data_automation_id => /bar/
         }
 
-        locate_one(selector).should == elements[1]
+        expect(locate_one(selector)).to eq elements[1]
       end
 
       it "handles :label => /regexp/ selector" do
@@ -266,12 +266,12 @@ describe Watir::ElementLocator do
           expect_all(:xpath, ".//div[@id='baz']").ordered.and_return(div_elements)
         end
 
-        locate_one(:tag_name => "div", :label => /oob/).should == div_elements.first
+        expect(locate_one(:tag_name => "div", :label => /oob/)).to eq div_elements.first
       end
 
       it "returns nil when no label matching the regexp is found" do
         expect_all(:tag_name, "label").and_return([])
-        locate_one(:tag_name => "div", :label => /foo/).should be_nil
+        expect(locate_one(:tag_name => "div", :label => /foo/)).to be_nil
       end
 
     end
@@ -295,7 +295,7 @@ describe Watir::ElementLocator do
         :index    => 1
       }
 
-      locate_one(selector).should == elements[1]
+      expect(locate_one(selector)).to eq elements[1]
     end
 
     it "returns nil if found element didn't match the selector tag_name" do
@@ -306,29 +306,26 @@ describe Watir::ElementLocator do
         :xpath    => "//div"
       }
 
-      locate_one(selector, Watir::Input.attributes).should be_nil
+      expect(locate_one(selector, Watir::Input.attributes)).to be_nil
     end
 
     describe "errors" do
       it "raises a TypeError if :index is not a Fixnum" do
-        lambda {
-          locate_one(:tag_name => "div", :index => "bar")
-        }.should raise_error(TypeError, %[expected Fixnum, got "bar":String])
+        expect{ locate_one(:tag_name => "div", :index => "bar") }.to \
+        raise_error(TypeError, %[expected Fixnum, got "bar":String])
       end
 
       it "raises a TypeError if selector value is not a String or Regexp" do
-        lambda {
-          locate_one(:tag_name => 123)
-        }.should raise_error(TypeError, %[expected one of [String, Regexp], got 123:Fixnum])
+        expect{ locate_one(:tag_name => 123) }.to \
+        raise_error(TypeError, %[expected one of [String, Regexp], got 123:Fixnum])
       end
 
       it "raises a MissingWayOfFindingObjectException if the attribute is not valid" do
         bad_selector = {:tag_name => "input", :href => "foo"}
         valid_attributes = Watir::Input.attributes
 
-        lambda {
-          locate_one(bad_selector, valid_attributes)
-        }.should raise_error(MissingWayOfFindingObjectException, "invalid attribute: :href")
+        expect{ locate_one(bad_selector, valid_attributes) }.to \
+        raise_error(MissingWayOfFindingObjectException, "invalid attribute: :href")
       end
     end
   end
@@ -383,8 +380,7 @@ describe Watir::ElementLocator do
           expect_all(:xpath, ".//div").and_return(elements)
         end
 
-
-        locate_all(:tag_name => "div", :class => /oob/).should == elements.last(3)
+        expect(locate_all(:tag_name => "div", :class => /oob/)).to eq elements.last(3)
       end
 
       it "handles mix of string and regexp attributes" do
@@ -406,15 +402,14 @@ describe Watir::ElementLocator do
           :title    => /baz/
         }
 
-        locate_all(selector).should == elements.last(2)
+        expect(locate_all(selector)).to eq elements.last(2)
       end
     end
 
     describe "errors" do
       it "raises ArgumentError if :index is given" do
-        lambda {
-          locate_all(:tag_name => "div", :index => 1)
-        }.should raise_error(ArgumentError, "can't locate all elements by :index")
+        expect{ locate_all(:tag_name => "div", :index => 1) }.to \
+        raise_error(ArgumentError, "can't locate all elements by :index")
       end
     end
   end
