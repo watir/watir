@@ -4,38 +4,31 @@ not_compliant_on [:webdriver, :safari] do
   describe Watir::Wait do
     describe "#until" do
       it "waits until the block returns true" do
-        Wait.until(0.5) { true }.should be_true
+        expect(Wait.until(0.5) { true }).to be_true
       end
 
       it "times out" do
-        lambda do
-          Wait.until(0.5) { false }
-        end.should raise_error(Watir::Wait::TimeoutError)
+        expect{Wait.until(0.5) { false }}.to raise_error(Watir::Wait::TimeoutError)
       end
 
       it "times out with a custom message" do
-        lambda do
-          Wait.until(0.5, "oops") { false }
-        end.should raise_error(Watir::Wait::TimeoutError, "timed out after 0.5 seconds, oops")
+        expect{Wait.until(0.5, "oops") { false }}.to \
+        raise_error(Watir::Wait::TimeoutError, "timed out after 0.5 seconds, oops")
       end
     end
 
     describe "#while" do
       it "waits while the block returns true" do
-        Wait.while(0.5) { false }.should == nil
+        expect(Wait.while(0.5) { false }).to be_nil
       end
 
       it "times out" do
-        lambda do
-          Wait.while(0.5) { true }
-        end.should raise_error(Watir::Wait::TimeoutError)
+        expect{Wait.while(0.5) { true }}.to raise_error(Watir::Wait::TimeoutError)
       end
 
       it "times out with a custom message" do
-        lambda do
-          Wait.while(0.5, "oops") { true }
-        end.should raise_error(Watir::Wait::TimeoutError, "timed out after 0.5 seconds, oops")
-      end
+        expect{Wait.while(0.5, "oops") { true }}.to \
+        raise_error(Watir::Wait::TimeoutError, "timed out after 0.5 seconds, oops") end
     end
   end
 
@@ -51,7 +44,7 @@ not_compliant_on [:webdriver, :safari] do
         browser.a(:id, 'show_bar').click
         browser.div(:id, 'bar').when_present(2) { called = true }
 
-        called.should be_true
+       expect(called).to be_true
       end
 
       it "invokes subsequent method calls when the element becomes present" do
@@ -59,19 +52,15 @@ not_compliant_on [:webdriver, :safari] do
 
         bar = browser.div(:id, 'bar')
         bar.when_present(2).click
-        bar.text.should == "changed"
+        expect(bar.text).to eq "changed"
       end
 
       it "times out when given a block" do
-        lambda {
-          browser.div(:id, 'bar').when_present(1) {}
-        }.should raise_error(Watir::Wait::TimeoutError)
+        expect{ browser.div(:id, 'bar').when_present(1) {}}.to raise_error(Watir::Wait::TimeoutError)
       end
 
       it "times out when not given a block" do
-        lambda {
-          browser.div(:id, 'bar').when_present(1).click
-        }.should raise_error(Watir::Wait::TimeoutError,
+        expect{ browser.div(:id, 'bar').when_present(1).click }.to raise_error(Watir::Wait::TimeoutError,
           /^timed out after 1 seconds, waiting for (\{:id=>"bar", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"bar"\}) to become present$/
         )
       end
@@ -91,7 +80,7 @@ not_compliant_on [:webdriver, :safari] do
           end
         end
         element = browser.a(:id, "show_bar").when_present(1)
-        element.should be_present
+        expect(element).to be_present
       end
     end
 
@@ -102,9 +91,7 @@ not_compliant_on [:webdriver, :safari] do
       end
 
       it "times out if the element doesn't appear" do
-        lambda do
-          browser.div(:id, 'bar').wait_until_present(1)
-        end.should raise_error(Watir::Wait::TimeoutError,
+        expect{ browser.div(:id, 'bar').wait_until_present(1) }.to raise_error(Watir::Wait::TimeoutError,
           /^timed out after 1 seconds, waiting for (\{:id=>"bar", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"bar"\}) to become present$/
         )
       end
@@ -117,9 +104,7 @@ not_compliant_on [:webdriver, :safari] do
       end
 
       it "times out" do
-        lambda do
-          browser.div(:id, 'foo').wait_while_present(1)
-        end.should raise_error(Watir::Wait::TimeoutError,
+        expect{ browser.div(:id, 'foo').wait_while_present(1) }.to raise_error(Watir::Wait::TimeoutError,
           /^timed out after 1 seconds, waiting for (\{:id=>"foo", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"foo"\}) to disappear$/
         )
       end

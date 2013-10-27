@@ -9,12 +9,12 @@ describe Watir::Input do
   describe "#to_subtype" do
     it "returns a CheckBox instance" do
       e = browser.input(:xpath => "//input[@type='checkbox']").to_subtype
-      e.should be_kind_of(Watir::CheckBox)
+      expect(e).to be_kind_of(Watir::CheckBox)
     end
 
     it "returns a Radio instance" do
       e = browser.input(:xpath => "//input[@type='radio']").to_subtype
-      e.should be_kind_of(Watir::Radio)
+      expect(e).to be_kind_of(Watir::Radio)
     end
 
     it "returns a Button instance" do
@@ -23,23 +23,23 @@ describe Watir::Input do
         browser.input(:xpath => "//input[@type='submit']").to_subtype
       ]
 
-      es.all? { |e| e.should be_kind_of(Watir::Button) }
+      es.all? { |e| expect(e).to be_kind_of(Watir::Button) }
     end
 
     it "returns a TextField instance" do
       e = browser.input(:xpath => "//input[@type='text']").to_subtype
-      e.should be_kind_of(Watir::TextField)
+      expect(e).to be_kind_of(Watir::TextField)
     end
 
     it "returns a TextField instance" do
       e = browser.input(:xpath => "//input[@type='file']").to_subtype
-      e.should be_kind_of(Watir::FileField)
+      expect(e).to be_kind_of(Watir::FileField)
     end
   end
 
   describe "#type" do
     it "returns an email type" do
-      browser.input(:name => "html5_email").type.should == 'email'
+      expect(browser.input(:name => "html5_email").type).to eq 'email'
     end
   end
 end
