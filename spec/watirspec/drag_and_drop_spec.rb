@@ -9,11 +9,11 @@ describe "Element" do
 
     not_compliant_on [:webdriver, :iphone] do
       it "can drag and drop an element onto another" do
-        droppable.text.should == 'Drop here'
+        expect(droppable.text).to eq 'Drop here'
         draggable.drag_and_drop_on droppable
-        droppable.text.should == 'Dropped!'
+        expect(droppable.text).to eq 'Dropped!'
       end
-      
+
       bug "http://code.google.com/p/selenium/issues/detail?id=3075", [:webdriver, :firefox] do
         it "can drag and drop an element onto another when draggable is out of viewport" do
           reposition "draggable"
@@ -27,9 +27,9 @@ describe "Element" do
       end
 
       it "can drag an element by the given offset" do
-        droppable.text.should == 'Drop here'
+        expect(droppable.text).to eq 'Drop here'
         draggable.drag_and_drop_by 200, 50
-        droppable.text.should == 'Dropped!'
+        expect(droppable.text).to eq 'Dropped!'
       end
 
       def reposition(what)
@@ -37,9 +37,9 @@ describe "Element" do
       end
 
       def perform_drag_and_drop_on_droppable
-        droppable.text.should == "Drop here"
+        expect(droppable.text).to eq "Drop here"
         draggable.drag_and_drop_on droppable
-        droppable.text.should == 'Dropped!'
+        expect(droppable.text).to eq 'Dropped!'
       end
     end
 

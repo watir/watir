@@ -10,20 +10,20 @@ describe "Ps" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        browser.ps(:class => "lead").to_a.should == [browser.p(:class => "lead")]
+        expect(browser.ps(:class => "lead").to_a).to eq [browser.p(:class => "lead")]
       end
     end
   end
-  
+
   describe "#length" do
     it "returns the number of ps" do
-      browser.ps.length.should == 5
+      expect(browser.ps.length).to eq 5
     end
   end
 
   describe "#[]" do
     it "returns the p at the given index" do
-      browser.ps[0].id.should == "lead"
+      expect(browser.ps[0].id).to eq "lead"
     end
   end
 
@@ -32,11 +32,11 @@ describe "Ps" do
       count = 0
 
       browser.ps.each_with_index do |p, index|
-        p.id.should == browser.p(:index, index).id
+        expect(p.id).to eq browser.p(:index, index).id
         count += 1
       end
 
-      count.should > 0
+      expect(count).to be > 0
     end
   end
 

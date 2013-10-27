@@ -10,70 +10,70 @@ describe "Ul" do
   # Exists method
   describe "#exist?" do
     it "returns true if the 'ul' exists" do
-      browser.ul(:id, "navbar").should exist
-      browser.ul(:id, /navbar/).should exist
-      browser.ul(:index, 0).should exist
-      browser.ul(:xpath, "//ul[@id='navbar']").should exist
+      expect(browser.ul(:id, "navbar")).to exist
+      expect(browser.ul(:id, /navbar/)).to exist
+      expect(browser.ul(:index, 0)).to exist
+      expect(browser.ul(:xpath, "//ul[@id='navbar']")).to exist
     end
 
     it "returns the first ul if given no args" do
-      browser.ul.should exist
+      expect(browser.ul).to exist
     end
 
     it "returns false if the 'ul' doesn't exist" do
-      browser.ul(:id, "no_such_id").should_not exist
-      browser.ul(:id, /no_such_id/).should_not exist
-      browser.ul(:text, "no_such_text").should_not exist
-      browser.ul(:text, /no_such_text/).should_not exist
-      browser.ul(:class, "no_such_class").should_not exist
-      browser.ul(:class, /no_such_class/).should_not exist
-      browser.ul(:index, 1337).should_not exist
-      browser.ul(:xpath, "//ul[@id='no_such_id']").should_not exist
+      expect(browser.ul(:id, "no_such_id")).to_not exist
+      expect(browser.ul(:id, /no_such_id/)).to_not exist
+      expect(browser.ul(:text, "no_such_text")).to_not exist
+      expect(browser.ul(:text, /no_such_text/)).to_not exist
+      expect(browser.ul(:class, "no_such_class")).to_not exist
+      expect(browser.ul(:class, /no_such_class/)).to_not exist
+      expect(browser.ul(:index, 1337)).to_not exist
+      expect(browser.ul(:xpath, "//ul[@id='no_such_id']")).to_not exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do
-      lambda { browser.ul(:id, 3.14).exists? }.should raise_error(TypeError)
+      expect{ browser.ul(:id, 3.14).exists? }.to raise_error(TypeError)
     end
 
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-      lambda { browser.ul(:no_such_how, 'some_value').exists? }.should raise_error(MissingWayOfFindingObjectException)
+      expect{ browser.ul(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
     end
   end
 
   # Attribute methods
   describe "#class_name" do
     it "returns the class attribute" do
-      browser.ul(:id, 'navbar').class_name.should == 'navigation'
+      expect(browser.ul(:id, 'navbar').class_name).to eq 'navigation'
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.ul(:index, 1).class_name.should == ''
+      expect(browser.ul(:index, 1).class_name).to eq ''
     end
 
     it "raises UnknownObjectException if the ul doesn't exist" do
-      lambda { browser.ul(:id, 'no_such_id').class_name }.should raise_error(UnknownObjectException)
+      expect{ browser.ul(:id, 'no_such_id').class_name }.to raise_error(UnknownObjectException)
     end
   end
 
   describe "#id" do
     it "returns the id attribute" do
-      browser.ul(:class, 'navigation').id.should == "navbar"
+      expect(browser.ul(:class, 'navigation').id).to eq "navbar"
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.ul(:index, 1).id.should == ''
+      expect(browser.ul(:index, 1).id).to eq ''
     end
 
     it "raises UnknownObjectException if the ul doesn't exist" do
-      lambda { browser.ul(:id, "no_such_id").id }.should raise_error(UnknownObjectException)
-      lambda { browser.ul(:index, 1337).id }.should raise_error(UnknownObjectException)
+      expect{ browser.ul(:id, "no_such_id").id }.to raise_error(UnknownObjectException)
+      expect{ browser.ul(:index, 1337).id }.to raise_error(UnknownObjectException)
     end
   end
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.ul(:index, 0).should respond_to(:class_name)
-      browser.ul(:index, 0).should respond_to(:id)
+      expect(browser.ul(:index, 0)).to respond_to(:class_name)
+      expect(browser.ul(:index, 0)).to respond_to(:id)
     end
   end
 

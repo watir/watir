@@ -10,62 +10,62 @@ describe "TableCell" do
   # Exists
   describe "#exists?" do
     it "returns true when the table cell exists" do
-      browser.td(:id, 't1_r2_c1').should exist
-      browser.td(:id, /t1_r2_c1/).should exist
-      browser.td(:text, 'Table 1, Row 3, Cell 1').should exist
-      browser.td(:text, /Table 1/).should exist
-      browser.td(:index, 0).should exist
-      browser.td(:xpath, "//td[@id='t1_r2_c1']").should exist
+      expect(browser.td(:id, 't1_r2_c1')).to exist
+      expect(browser.td(:id, /t1_r2_c1/)).to exist
+      expect(browser.td(:text, 'Table 1, Row 3, Cell 1')).to exist
+      expect(browser.td(:text, /Table 1/)).to exist
+      expect(browser.td(:index, 0)).to exist
+      expect(browser.td(:xpath, "//td[@id='t1_r2_c1']")).to exist
     end
 
     it "returns the first cell if given no args" do
-      browser.td.should exist
+      expect(browser.td).to exist
     end
 
     it "returns false when the table cell does not exist" do
-      browser.td(:id, 'no_such_id').should_not exist
-      browser.td(:id, /no_such_id/).should_not exist
-      browser.td(:text, 'no_such_text').should_not exist
-      browser.td(:text, /no_such_text/).should_not exist
-      browser.td(:index, 1337).should_not exist
-      browser.td(:xpath, "//td[@id='no_such_id']").should_not exist
+      expect(browser.td(:id, 'no_such_id')).to_not exist
+      expect(browser.td(:id, /no_such_id/)).to_not exist
+      expect(browser.td(:text, 'no_such_text')).to_not exist
+      expect(browser.td(:text, /no_such_text/)).to_not exist
+      expect(browser.td(:index, 1337)).to_not exist
+      expect(browser.td(:xpath, "//td[@id='no_such_id']")).to_not exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do
-      lambda { browser.td(:id, 3.14).exists? }.should raise_error(TypeError)
+      expect{ browser.td(:id, 3.14).exists? }.to raise_error(TypeError)
     end
 
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-      lambda { browser.td(:no_such_how, 'some_value').exists? }.should raise_error(MissingWayOfFindingObjectException)
+      expect{ browser.td(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
     end
   end
 
   describe "#click" do
     it "fires the table's onclick event" do
       browser.td(:id, 't2_r1_c1').click
-      messages.should include('td')
+      expect(messages).to include('td')
     end
   end
 
   # Attribute methods
   describe "#text" do
     it "returns the text inside the table cell" do
-      browser.td(:id, 't1_r2_c1').text.should == 'Table 1, Row 2, Cell 1'
-      browser.td(:id, 't2_r1_c1').text.should == 'Table 2, Row 1, Cell 1'
+      expect(browser.td(:id, 't1_r2_c1').text).to eq 'Table 1, Row 2, Cell 1'
+      expect(browser.td(:id, 't2_r1_c1').text).to eq 'Table 2, Row 1, Cell 1'
     end
   end
 
   describe "#colspan" do
     it "gets the colspan attribute" do
-      browser.td(:id, 'colspan_2').colspan.should == 2
-      browser.td(:id, 'no_colspan').colspan.should == 1
+      expect(browser.td(:id, 'colspan_2').colspan).to eq 2
+      expect(browser.td(:id, 'no_colspan').colspan).to eq 1
     end
   end
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.td(:index, 0).should respond_to(:text)
-      browser.td(:index, 0).should respond_to(:colspan)
+      expect(browser.td(:index, 0)).to respond_to(:text)
+      expect(browser.td(:index, 0)).to respond_to(:colspan)
     end
   end
 

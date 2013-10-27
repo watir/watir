@@ -10,20 +10,20 @@ describe "FileFields" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        browser.file_fields(:class => "portrait").to_a.should == [browser.file_field(:class => "portrait")]
+        expect(browser.file_fields(:class => "portrait").to_a).to eq [browser.file_field(:class => "portrait")]
       end
     end
   end
 
   describe "#length" do
     it "returns the correct number of file fields" do
-      browser.file_fields.length.should == 3
+      expect(browser.file_fields.length).to eq 3
     end
   end
 
   describe "#[]" do
     it "returns the file field at the given index" do
-      browser.file_fields[0].id.should == "new_user_portrait"
+      expect(browser.file_fields[0].id).to eq "new_user_portrait"
     end
   end
 
@@ -32,14 +32,14 @@ describe "FileFields" do
       count = 0
 
       browser.file_fields.each_with_index do |f, index|
-        f.name.should == browser.file_field(:index, index).name
-        f.id.should ==  browser.file_field(:index, index).id
-        f.value.should == browser.file_field(:index, index).value
+        expect(f.name).to eq browser.file_field(:index, index).name
+        expect(f.id).to eq  browser.file_field(:index, index).id
+        expect(f.value).to eq browser.file_field(:index, index).value
 
         count += 1
       end
 
-      count.should > 0
+      expect(count).to be > 0
     end
   end
 

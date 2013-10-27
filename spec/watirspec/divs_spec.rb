@@ -10,20 +10,20 @@ describe "Divs" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        browser.divs(:id => "header").to_a.should == [browser.div(:id => "header")]
+        expect(browser.divs(:id => "header").to_a).to eq [browser.div(:id => "header")]
       end
     end
   end
-  
+
   describe "#length" do
     it "returns the number of divs" do
-      browser.divs.length.should == 12
+      expect(browser.divs.length).to eq 12
     end
   end
 
   describe "#[]" do
     it "returns the div at the given index" do
-      browser.divs[1].id.should == "outer_container"
+      expect(browser.divs[1].id).to eq "outer_container"
     end
   end
 
@@ -32,13 +32,13 @@ describe "Divs" do
       count = 0
 
       browser.divs.each_with_index do |d, index|
-        d.id.should == browser.div(:index, index).id
-        d.class_name.should == browser.div(:index, index).class_name
+        expect(d.id).to eq browser.div(:index, index).id
+        expect(d.class_name).to eq browser.div(:index, index).class_name
 
         count += 1
       end
 
-      count.should > 0
+      expect(count).to be > 0
     end
   end
 

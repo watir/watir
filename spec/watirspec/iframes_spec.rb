@@ -9,13 +9,13 @@ describe "IFrames" do
 
   describe "#length" do
     it "returns the correct number of iframes" do
-      browser.iframes.length.should == 2
+      expect(browser.iframes.length).to eq 2
     end
   end
 
   describe "#[]" do
     it "returns the iframe at the given index" do
-      browser.iframes[0].id.should == "iframe_1"
+      expect(browser.iframes[0].id).to eq "iframe_1"
     end
   end
 
@@ -24,12 +24,12 @@ describe "IFrames" do
       count = 0
 
       browser.iframes.each_with_index do |f, index|
-        f.name.should == browser.iframe(:index, index).name
-        f.id.should == browser.iframe(:index, index).id
+        expect(f.name).to eq browser.iframe(:index, index).name
+        expect(f.id).to eq browser.iframe(:index, index).id
         count += 1
       end
 
-      count.should > 0
+      expect(count).to be > 0
     end
   end
 end

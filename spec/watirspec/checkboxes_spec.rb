@@ -10,20 +10,20 @@ describe "CheckBoxes" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        browser.checkboxes(:value => "books").to_a.should == [browser.checkbox(:value => "books")]
+        expect(browser.checkboxes(:value => "books").to_a).to eq [browser.checkbox(:value => "books")]
       end
     end
   end
 
   describe "#length" do
     it "returns the number of checkboxes" do
-      browser.checkboxes.length.should == 8
+      expect(browser.checkboxes.length).to eq 8
     end
   end
 
   describe "#[]" do
     it "returns the checkbox at the given index" do
-      browser.checkboxes[0].id.should == "new_user_interests_books"
+      expect(browser.checkboxes[0].id).to eq "new_user_interests_books"
     end
   end
 
@@ -32,15 +32,15 @@ describe "CheckBoxes" do
       count = 0
 
       browser.checkboxes.each_with_index do |c, index|
-        c.should be_instance_of(CheckBox)
-        c.name.should == browser.checkbox(:index, index).name
-        c.id.should == browser.checkbox(:index, index).id
-        c.value.should == browser.checkbox(:index, index).value
+        expect(c).to be_instance_of(CheckBox)
+        expect(c.name).to eq browser.checkbox(:index, index).name
+        expect(c.id).to eq browser.checkbox(:index, index).id
+        expect(c.value).to eq browser.checkbox(:index, index).value
 
         count += 1
       end
 
-      count.should > 0
+      expect(count).to be > 0
     end
   end
 

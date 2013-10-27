@@ -8,17 +8,17 @@ describe "Meta" do
 
   describe "#exist?" do
     it "returns true if the meta tag exists" do
-      browser.meta(:http_equiv, "Content-Type").should exist
+      expect(browser.meta(:http_equiv, "Content-Type")).to exist
     end
 
     it "returns the first meta if given no args" do
-      browser.meta.should exist
+      expect(browser.meta).to exist
     end
   end
 
   describe "content" do
     it "returns the content attribute of the tag" do
-      browser.meta(:http_equiv, "Content-Type").content.should == "text/html; charset=utf-8"
+      expect(browser.meta(:http_equiv, "Content-Type").content).to eq "text/html; charset=utf-8"
     end
   end
 end

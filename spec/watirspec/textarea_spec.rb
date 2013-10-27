@@ -9,18 +9,18 @@ describe "TextArea" do
 
   it 'can set a value' do
     textarea.set 'foo'
-    textarea.value.should == 'foo'
+    expect(textarea.value).to eq 'foo'
   end
 
   it 'can clear a value' do
     textarea.set 'foo'
     textarea.clear
-    textarea.value.should == ''
+    expect(textarea.value).to eq ''
   end
 
   it 'locates textarea by value' do
     browser.textarea.set 'foo'
-    browser.textarea(:value, /foo/).should exist
-    browser.textarea(:value, 'foo').should exist
+    expect(browser.textarea(:value, /foo/)).to exist
+    expect(browser.textarea(:value, 'foo')).to exist
   end
 end

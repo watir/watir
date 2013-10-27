@@ -14,45 +14,45 @@ describe "IFrame" do
   it "handles crossframe javascript" do
     browser.goto WatirSpec.url_for("iframes.html", :needs_server => true)
 
-    browser.iframe(:id, "iframe_1").text_field(:name, 'senderElement').value.should == 'send_this_value'
-    browser.iframe(:id, "iframe_2").text_field(:name, 'recieverElement').value.should == 'old_value'
+    expect(browser.iframe(:id, "iframe_1").text_field(:name, 'senderElement').value).to eq 'send_this_value'
+    expect(browser.iframe(:id, "iframe_2").text_field(:name, 'recieverElement').value).to eq 'old_value'
     browser.iframe(:id, "iframe_1").button(:id, 'send').click
-    browser.iframe(:id, "iframe_2").text_field(:name, 'recieverElement').value.should == 'send_this_value'
+    expect(browser.iframe(:id, "iframe_2").text_field(:name, 'recieverElement').value).to eq 'send_this_value'
   end
 
   describe "#exist?" do
     it "returns true if the iframe exists" do
-      browser.iframe(:id, "iframe_1").should exist
-      browser.iframe(:name, "iframe1").should exist
-      browser.iframe(:index, 0).should exist
-      browser.iframe(:class, "half").should exist
+      expect(browser.iframe(:id, "iframe_1")).to exist
+      expect(browser.iframe(:name, "iframe1")).to exist
+      expect(browser.iframe(:index, 0)).to exist
+      expect(browser.iframe(:class, "half")).to exist
       not_compliant_on [:watir_classic, :internet_explorer10] do
-        browser.iframe(:xpath, "//iframe[@id='iframe_1']").should exist
+        expect(browser.iframe(:xpath, "//iframe[@id='iframe_1']")).to exist
       end
       not_compliant_on :watir_classic do
-        browser.iframe(:src, "iframe_1.html").should exist
+        expect(browser.iframe(:src, "iframe_1.html")).to exist
       end
-      browser.iframe(:id, /iframe/).should exist
-      browser.iframe(:name, /iframe/).should exist
-      browser.iframe(:src, /iframe_1/).should exist
-      browser.iframe(:class, /half/).should exist
+      expect(browser.iframe(:id, /iframe/)).to exist
+      expect(browser.iframe(:name, /iframe/)).to exist
+      expect(browser.iframe(:src, /iframe_1/)).to exist
+      expect(browser.iframe(:class, /half/)).to exist
     end
 
     it "returns the first iframe if given no args" do
-      browser.iframe.should exist
+      expect(browser.iframe).to exist
     end
 
     it "returns false if the iframe doesn't exist" do
-      browser.iframe(:id, "no_such_id").should_not exist
-      browser.iframe(:name, "no_such_text").should_not exist
-      browser.iframe(:index, 1337).should_not exist
-      browser.iframe(:src, "no_such_src").should_not exist
-      browser.iframe(:class, "no_such_class").should_not exist
-      browser.iframe(:id, /no_such_id/).should_not exist
-      browser.iframe(:name, /no_such_text/).should_not exist
-      browser.iframe(:src, /no_such_src/).should_not exist
-      browser.iframe(:class, /no_such_class/).should_not exist
-      browser.iframe(:xpath, "//iframe[@id='no_such_id']").should_not exist
+      expect(browser.iframe(:id, "no_such_id")).to_not exist
+      expect(browser.iframe(:name, "no_such_text")).to_not exist
+      expect(browser.iframe(:index, 1337)).to_not exist
+      expect(browser.iframe(:src, "no_such_src")).to_not exist
+      expect(browser.iframe(:class, "no_such_class")).to_not exist
+      expect(browser.iframe(:id, /no_such_id/)).to_not exist
+      expect(browser.iframe(:name, /no_such_text/)).to_not exist
+      expect(browser.iframe(:src, /no_such_src/)).to_not exist
+      expect(browser.iframe(:class, /no_such_class/)).to_not exist
+      expect(browser.iframe(:xpath, "//iframe[@id='no_such_id']")).to_not exist
     end
 
     bug "https://github.com/detro/ghostdriver/issues/159", :phantomjs do
@@ -61,56 +61,56 @@ describe "IFrame" do
 
         browser.iframe(:id, "two").iframe(:id, "three").link(:id => "four").click
 
-        Wait.until { browser.title == "definition_lists" }
+        Wait.until{ browser.title == "definition_lists" }
       end
     end
 
     it "raises TypeError when 'what' argument is invalid" do
-      lambda { browser.iframe(:id, 3.14).exists? }.should raise_error(TypeError)
+      expect{ browser.iframe(:id, 3.14).exists? }.to raise_error(TypeError)
     end
 
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-      lambda { browser.iframe(:no_such_how, 'some_value').exists? }.should raise_error(MissingWayOfFindingObjectException)
+      expect{ browser.iframe(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
     end
   end
 
   bug 'https://github.com/watir/watir-webdriver/issues/211', :webdriver do
     it 'properly handles all locators for element which do not exist' do
-      browser.iframe(:index, 0).div(:id, 'invalid').should_not exist
+      expect(browser.iframe(:index, 0).div(:id, 'invalid')).to_not exist
     end
   end
 
   it "raises UnknownFrameException when accessing elements inside non-existing iframe" do
-    lambda { browser.iframe(:name, "no_such_name").p(:index, 0).id }.should raise_error(UnknownFrameException)
+    expect{ browser.iframe(:name, "no_such_name").p(:index, 0).id }.to raise_error(UnknownFrameException)
   end
 
   it "raises UnknownFrameException when accessing a non-existing iframe" do
-    lambda { browser.iframe(:name, "no_such_name").id }.should raise_error(UnknownFrameException)
+    expect{ browser.iframe(:name, "no_such_name").id }.to raise_error(UnknownFrameException)
   end
 
   it "raises UnknownFrameException when accessing a non-existing subframe" do
-    lambda { browser.iframe(:name, "iframe1").iframe(:name, "no_such_name").id }.should raise_error(UnknownFrameException)
+    expect{ browser.iframe(:name, "iframe1").iframe(:name, "no_such_name").id }.to raise_error(UnknownFrameException)
   end
 
   it "raises UnknownObjectException when accessing a non-existing element inside an existing iframe" do
-    lambda { browser.iframe(:index, 0).p(:index, 1337).id }.should raise_error(UnknownObjectException)
+    expect{ browser.iframe(:index, 0).p(:index, 1337).id }.to raise_error(UnknownObjectException)
   end
 
   it "raises NoMethodError when trying to access attributes it doesn't have" do
-    lambda { browser.iframe(:index, 0).foo }.should raise_error(NoMethodError)
+    expect{ browser.iframe(:index, 0).foo }.to raise_error(NoMethodError)
   end
 
   it "is able to set a field" do
     browser.iframe(:index, 0).text_field(:name, 'senderElement').set("new value")
-    browser.iframe(:index, 0).text_field(:name, 'senderElement').value.should == "new value"
+    expect(browser.iframe(:index, 0).text_field(:name, 'senderElement').value).to eq "new value"
   end
 
   describe "#execute_script" do
     it "executes the given javascript in the specified frame" do
       frame = browser.iframe(:index, 0)
-      frame.div(:id, 'set_by_js').text.should == ""
+      expect(frame.div(:id, 'set_by_js').text).to eq ""
       frame.execute_script(%Q{document.getElementById('set_by_js').innerHTML = 'Art consists of limitation. The most beautiful part of every picture is the frame.'})
-      frame.div(:id, 'set_by_js').text.should == "Art consists of limitation. The most beautiful part of every picture is the frame."
+      expect(frame.div(:id, 'set_by_js').text).to eq "Art consists of limitation. The most beautiful part of every picture is the frame."
     end
   end
 
@@ -118,7 +118,7 @@ describe "IFrame" do
     not_compliant_on [:webdriver, :iphone] do
       it "returns the full HTML source of the iframe" do
         browser.goto WatirSpec.url_for("iframes.html")
-        browser.iframe.html.downcase.should include("<title>iframe 1</title>")
+        expect(browser.iframe.html.downcase).to include("<title>iframe 1</title>")
       end
     end
   end

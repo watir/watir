@@ -9,23 +9,23 @@ describe "Font" do
   
   bug "http://github.com/jarib/celerity/issues#issue/29", :celerity do
     it "finds the font element" do
-      browser.font(:index, 0).should exist
+      expect(browser.font(:index, 0)).to exist
     end
 
     it "knows about the color attribute" do
-      browser.font(:index, 0).color.should == "#ff00ff"
+      expect(browser.font(:index, 0).color).to eq "#ff00ff"
     end
 
     it "knows about the face attribute" do
-      browser.font(:index, 0).face.should == "Helvetica"
+      expect(browser.font(:index, 0).face).to eq "Helvetica"
     end
 
     it "knows about the size attribute" do
-      browser.font(:index, 0).size.should == "12"
+      expect(browser.font(:index, 0).size).to eq "12"
     end
 
     it "finds all font elements" do
-      browser.fonts.size.should == 1
+      expect(browser.fonts.size).to eq 1
     end
   end
 

@@ -10,20 +10,20 @@ describe "Strongs" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        browser.strongs(:class => "descartes").to_a.should == [browser.strong(:class => "descartes")]
+        expect(browser.strongs(:class => "descartes").to_a).to eq [browser.strong(:class => "descartes")]
       end
     end
   end
-  
+
   describe "#length" do
     it "returns the number of divs" do
-      browser.strongs.length.should == 2
+      expect(browser.strongs.length).to eq 2
     end
   end
 
   describe "#[]" do
     it "returns the div at the given index" do
-      browser.strongs[0].id.should == "descartes"
+      expect(browser.strongs[0].id).to eq "descartes"
     end
   end
 
@@ -33,13 +33,13 @@ describe "Strongs" do
 
       browser.strongs.each_with_index do |s, index|
         strong = browser.strong(:index, index)
-        s.id.should         == strong.id
-        s.class_name.should == strong.class_name
+        expect(s.id).to         eq strong.id
+        expect(s.class_name).to eq strong.class_name
 
         count += 1
       end
 
-      count.should > 0
+      expect(count).to be > 0
     end
   end
 
