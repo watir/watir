@@ -9,35 +9,35 @@ describe "TableHeaders" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        browser.theads(:id => "tax_headers").to_a.should == [browser.thead(:id => "tax_headers")]
+        expect(browser.theads(:id => "tax_headers").to_a).to eq [browser.thead(:id => "tax_headers")]
       end
     end
   end
-  
+
   describe "#length" do
     it "returns the correct number of table theads (page context)" do
-      browser.theads.length.should == 1
+      expect(browser.theads.length).to eq 1
     end
 
     it "returns the correct number of table theads (table context)" do
-      browser.table(:index, 0).theads.length.should == 1
+      expect(browser.table(:index, 0).theads.length).to eq 1
     end
   end
 
   describe "#[]" do
     it "returns the row at the given index (page context)" do
-      browser.theads[0].id.should == "tax_headers"
+      expect(browser.theads[0].id).to eq "tax_headers"
     end
 
     it "returns the row at the given index (table context)" do
-      browser.table(:index, 0).theads[0].id.should == "tax_headers"
+      expect(browser.table(:index, 0).theads[0].id).to eq "tax_headers"
     end
   end
 
   describe "#each" do
     it "iterates through table theads correctly (page context)" do
       browser.theads.each_with_index do |thead, index|
-        thead.id.should == browser.thead(:index, index).id
+        expect(thead.id).to eq browser.thead(:index, index).id
       end
     end
 
@@ -46,12 +46,12 @@ describe "TableHeaders" do
         count = 0
 
         browser.theads.each_with_index do |thead, index|
-          thead.id.should == browser.thead(:index, index).id
+          expect(thead.id).to eq browser.thead(:index, index).id
 
           count += 1
         end
 
-        count.should > 0
+        expect(count).to be > 0
       end
 
       it "iterates through table theads correctly (table context)" do
@@ -59,12 +59,12 @@ describe "TableHeaders" do
         count = 0
 
         table.theads.each_with_index do |thead, index|
-          thead.id.should == table.thead(:index, index).id
+          expect(thead.id).to eq table.thead(:index, index).id
 
           count += 1
         end
 
-        count.should > 0
+        expect(count).to be > 0
       end
     end
   end

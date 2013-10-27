@@ -10,71 +10,71 @@ describe "Map" do
   # Exists method
   describe "#exist?" do
     it "returns true if the 'map' exists" do
-      browser.map(:id, "triangle_map").should exist
-      browser.map(:id, /triangle_map/).should exist
-      browser.map(:name, "triangle_map").should exist
-      browser.map(:name, /triangle_map/).should exist
-      browser.map(:index, 0).should exist
-      browser.map(:xpath, "//map[@id='triangle_map']").should exist
+      expect(browser.map(:id, "triangle_map")).to exist
+      expect(browser.map(:id, /triangle_map/)).to exist
+      expect(browser.map(:name, "triangle_map")).to exist
+      expect(browser.map(:name, /triangle_map/)).to exist
+      expect(browser.map(:index, 0)).to exist
+      expect(browser.map(:xpath, "//map[@id='triangle_map']")).to exist
     end
 
     it "returns the first map if given no args" do
-      browser.map.should exist
+      expect(browser.map).to exist
     end
 
     it "returns false if the 'map' doesn't exist" do
-      browser.map(:id, "no_such_id").should_not exist
-      browser.map(:id, /no_such_id/).should_not exist
-      browser.map(:name, "no_such_id").should_not exist
-      browser.map(:name, /no_such_id/).should_not exist
-      browser.map(:index, 1337).should_not exist
-      browser.map(:xpath, "//map[@id='no_such_id']").should_not exist
+      expect(browser.map(:id, "no_such_id")).to_not exist
+      expect(browser.map(:id, /no_such_id/)).to_not exist
+      expect(browser.map(:name, "no_such_id")).to_not exist
+      expect(browser.map(:name, /no_such_id/)).to_not exist
+      expect(browser.map(:index, 1337)).to_not exist
+      expect(browser.map(:xpath, "//map[@id='no_such_id']")).to_not exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do
-      lambda { browser.map(:id, 3.14).exists? }.should raise_error(TypeError)
+      expect{ browser.map(:id, 3.14).exists? }.to raise_error(TypeError)
     end
 
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-      lambda { browser.map(:no_such_how, 'some_value').exists? }.should raise_error(MissingWayOfFindingObjectException)
+      expect{ browser.map(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
     end
   end
 
   # Attribute methods
   describe "#id" do
     it "returns the id attribute" do
-      browser.map(:index, 0).id.should == "triangle_map"
+      expect(browser.map(:index, 0).id).to eq "triangle_map"
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.map(:index, 1).id.should == ''
+      expect(browser.map(:index, 1).id).to eq ''
     end
 
     it "raises UnknownObjectException if the p doesn't exist" do
-      lambda { browser.map(:id, "no_such_id").id }.should raise_error(UnknownObjectException)
-      lambda { browser.map(:index, 1337).id }.should raise_error(UnknownObjectException)
+      expect{ browser.map(:id, "no_such_id").id }.to raise_error(UnknownObjectException)
+      expect{ browser.map(:index, 1337).id }.to raise_error(UnknownObjectException)
     end
   end
 
   describe "#name" do
     it "returns the name attribute" do
-      browser.map(:index, 0).name.should == "triangle_map"
+      expect(browser.map(:index, 0).name).to eq "triangle_map"
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.map(:index, 1).name.should == ''
+      expect(browser.map(:index, 1).name).to eq ''
     end
 
     it "raises UnknownObjectException if the map doesn't exist" do
-      lambda { browser.map(:id, "no_such_id").name }.should raise_error(UnknownObjectException)
-      lambda { browser.map(:index, 1337).name }.should raise_error(UnknownObjectException)
+      expect{ browser.map(:id, "no_such_id").name }.to raise_error(UnknownObjectException)
+      expect{ browser.map(:index, 1337).name }.to raise_error(UnknownObjectException)
     end
   end
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.map(:index, 0).should respond_to(:id)
-      browser.map(:index, 0).should respond_to(:name)
+      expect(browser.map(:index, 0)).to respond_to(:id)
+      expect(browser.map(:index, 0)).to respond_to(:name)
     end
   end
 end

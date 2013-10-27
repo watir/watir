@@ -8,10 +8,10 @@ describe "Collections" do
   end
 
   it "returns inner elements of parent element having different html tag" do
-    browser.span(:id => "a_span").divs.size.should == 2
+    expect(browser.span(:id => "a_span").divs.size).to eq 2
   end
 
   it "returns inner elements of parent element having same html tag" do
-    browser.span(:id => "a_span").spans.size.should == 2
+    expect(browser.span(:id => "a_span").spans.size).to eq 2
   end
 end

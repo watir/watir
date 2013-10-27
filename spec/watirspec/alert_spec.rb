@@ -21,13 +21,13 @@ describe 'Alert API' do
             browser.button(:id => 'alert').click_no_wait
           end
 
-          browser.alert.text.should include('ok')
+          expect(browser.alert.text).to include('ok')
         end
       end
 
       describe '#exists?' do
         it 'returns false if alert is not present' do
-          browser.alert.should_not exist
+          expect(browser.alert).to_not exist
         end
 
         it 'returns true if alert is present' do
@@ -54,7 +54,7 @@ describe 'Alert API' do
           end
 
           browser.alert.ok
-          browser.alert.should_not exist
+          expect(browser.alert).to_not exist
         end
       end
 
@@ -69,7 +69,7 @@ describe 'Alert API' do
           end
 
           browser.alert.when_present.close
-          browser.alert.should_not exist
+          expect(browser.alert).to_not exist
         end
       end
 
@@ -78,13 +78,13 @@ describe 'Alert API' do
           browser.button(:id => 'timeout-alert').click
           browser.alert.when_present.close
 
-          browser.alert.should_not exist
+          expect(browser.alert).to_not exist
         end
 
         it 'raises error if alert is not present after timeout' do
-          lambda {
+          expect{
             browser.alert.when_present(0.1).close
-          }.should raise_error(Watir::Wait::TimeoutError)
+          }.to raise_error(Watir::Wait::TimeoutError)
         end
       end
     end
@@ -101,7 +101,7 @@ describe 'Alert API' do
           end
 
           browser.alert.ok
-          browser.button(:id => 'confirm').value.should == "true"
+          expect(browser.button(:id => 'confirm').value).to eq "true"
         end
       end
 
@@ -116,7 +116,7 @@ describe 'Alert API' do
           end
 
           browser.alert.when_present.close
-          browser.button(:id => 'confirm').value.should == "false"
+          expect(browser.button(:id => 'confirm').value).to eq "false"
         end
       end
     end
@@ -134,7 +134,7 @@ describe 'Alert API' do
 
           browser.alert.set 'My Name'
           browser.alert.ok
-          browser.button(:id => 'prompt').value.should == 'My Name'
+          expect(browser.button(:id => 'prompt').value).to eq 'My Name'
         end
       end
     end

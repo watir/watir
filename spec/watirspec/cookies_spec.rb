@@ -5,7 +5,7 @@ describe "Browser#cookies" do
 
   it 'gets an empty list of cookies' do
     browser.goto WatirSpec.url_for 'collections.html' # no cookie set.
-    browser.cookies.to_a.should == []
+    expect(browser.cookies.to_a).to eq []
   end
 
   it "gets any cookies set" do
@@ -14,8 +14,8 @@ describe "Browser#cookies" do
     verify_cookies_count 1
 
     cookie = browser.cookies.to_a.first
-    cookie[:name].should == 'monster'
-    cookie[:value].should == '1'
+    expect(cookie[:name]).to eq 'monster'
+    expect(cookie[:value]).to eq '1'
   end
 
   not_compliant_on [:webdriver, :internet_explorer] do
@@ -44,19 +44,19 @@ describe "Browser#cookies" do
 
       browser.cookies.add 'a', 'b', options
       cookie = browser.cookies.to_a.find { |e| e[:name] == 'a' }
-      cookie.should_not be_nil
+      expect(cookie).to_not be_nil
 
-      cookie[:name].should == 'a'
-      cookie[:value].should == 'b'
+      expect(cookie[:name]).to eq 'a'
+      expect(cookie[:value]).to eq 'b'
 
       not_compliant_on :watir_classic do
-        cookie[:path].should == "/set_cookie"
-        cookie[:secure].should be_true
+        expect(cookie[:path]).to eq "/set_cookie"
+        expect(cookie[:secure]).to be_true
 
-        cookie[:expires].should be_kind_of(Time)
+        expect(cookie[:expires]).to be_kind_of(Time)
 
         # a few ms slack
-        cookie[:expires].to_i.should be_within(2).of(expires.to_i)
+        expect((cookie[:expires]).to_i).to be_within(2).of(expires.to_i)
       end
     end
   end
@@ -87,6 +87,6 @@ describe "Browser#cookies" do
 
   def verify_cookies_count expected_size
     cookies = browser.cookies.to_a
-    cookies.size.should eq(expected_size), "expected #{expected_size} cookies, got #{cookies.size}: #{cookies.inspect}"
+    expect(cookies.size).to eq(expected_size), "expected #{expected_size} cookies, got #{cookies.size}: #{cookies.inspect}"
   end
 end

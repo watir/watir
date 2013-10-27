@@ -10,22 +10,22 @@ describe "TextFields" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        browser.text_fields(:name => "new_user_email").to_a.should == [browser.text_field(:name => "new_user_email")]
+        expect(browser.text_fields(:name => "new_user_email").to_a).to eq [browser.text_field(:name => "new_user_email")]
       end
     end
   end
 
   describe "#length" do
     it "returns the number of text fields" do
-      browser.text_fields.length.should == 14
+      expect(browser.text_fields.length).to eq 14
     end
   end
 
   describe "#[]" do
     it "returns the text field at the given index" do
-      browser.text_fields[0].id.should == "new_user_first_name"
-      browser.text_fields[1].id.should == "new_user_last_name"
-      browser.text_fields[2].id.should == "new_user_email"
+      expect(browser.text_fields[0].id).to eq "new_user_first_name"
+      expect(browser.text_fields[1].id).to eq "new_user_last_name"
+      expect(browser.text_fields[2].id).to eq "new_user_email"
     end
   end
 
@@ -34,14 +34,14 @@ describe "TextFields" do
       count = 0
 
       browser.text_fields.each_with_index do |r, index|
-        r.name.should == browser.text_field(:index, index).name
-        r.id.should ==  browser.text_field(:index, index).id
-        r.value.should == browser.text_field(:index, index).value
+        expect(r.name).to eq browser.text_field(:index, index).name
+        expect(r.id).to eq browser.text_field(:index, index).id
+        expect(r.value).to eq browser.text_field(:index, index).value
 
         count += 1
       end
 
-      count.should > 0
+      expect(count).to be > 0
     end
   end
 end

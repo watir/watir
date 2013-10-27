@@ -11,24 +11,24 @@ describe "Watir::Screenshot" do
 
   describe '#png' do
     it 'gets png representation of screenshot' do
-      browser.screenshot.png[0..3].should == png_header
+      expect(browser.screenshot.png[0..3]).to eq png_header
     end
   end
 
   describe '#base64' do
     it 'gets base64 representation of screenshot' do
       image = browser.screenshot.base64
-      Base64.decode64(image)[0..3].should == png_header
+      expect(Base64.decode64(image)[0..3]).to eq png_header
     end
   end
 
   describe '#save' do
     it 'saves screenshot to given file' do
       path = "#{Dir.tmpdir}/test#{Time.now.to_i}.png"
-      File.should_not exist(path)
+      expect(File).to_not exist(path)
       browser.screenshot.save(path)
-      File.should exist(path)
-      File.open(path, "rb") {|io| io.read}[0..3].should == png_header
+      expect(File).to exist(path)
+      expect(File.open(path, "rb") {|io| io.read}[0..3]).to eq png_header
     end
   end
 end

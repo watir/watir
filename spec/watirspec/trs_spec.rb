@@ -10,29 +10,29 @@ describe "TableRows" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        browser.trs(:id => "outer_second").to_a.should == [browser.tr(:id => "outer_second")]
+        expect(browser.trs(:id => "outer_second").to_a).to eq [browser.tr(:id => "outer_second")]
       end
     end
   end
 
   describe "#length" do
     it "returns the correct number of cells (table context)" do
-      browser.table(:id, 'inner').trs.length.should == 1
-      browser.table(:id, 'outer').trs.length.should == 4
+      expect(browser.table(:id, 'inner').trs.length).to eq 1
+      expect(browser.table(:id, 'outer').trs.length).to eq 4
     end
 
     it "returns the correct number of cells (page context)" do
-      browser.trs.length.should == 14
+      expect(browser.trs.length).to eq 14
     end
   end
 
   describe "#[]" do
     it "returns the row at the given index (table context)" do
-      browser.table(:id, 'outer').trs[0].id.should == "outer_first"
+      expect(browser.table(:id, 'outer').trs[0].id).to eq "outer_first"
     end
 
     it "returns the row at the given index (page context)" do
-      browser.trs[0].id.should == "thead_row_1"
+      expect(browser.trs[0].id).to eq "thead_row_1"
     end
   end
 
@@ -42,10 +42,10 @@ describe "TableRows" do
       count = 0
 
       inner_table.trs.each_with_index do |r, index|
-        r.id.should == inner_table.tr(:index, index).id
+        expect(r.id).to eq inner_table.tr(:index, index).id
         count += 1
       end
-      count.should > 0
+      expect(count).to be > 0
     end
 
     it "iterates through the outer table correctly" do
@@ -53,11 +53,11 @@ describe "TableRows" do
       count = 0
 
       outer_table.trs.each_with_index do |r, index|
-        r.id.should == outer_table.tr(:index, index).id
+        expect(r.id).to eq outer_table.tr(:index, index).id
         count += 1
       end
 
-      count.should > 0
+      expect(count).to be > 0
     end
   end
 

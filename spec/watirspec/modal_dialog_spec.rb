@@ -18,24 +18,24 @@ describe "Modal Dialog" do
 
     describe "#exists?" do
       it "returns true if modal dialog exists" do
-        @modal.should exist
+        expect(@modal).to exist
       end
 
       it "returns false if modal dialog doesn't exist" do
         @modal.close
-        @modal.should_not exist
+        expect(@modal).to_not exist
       end
     end
 
     it "#title" do
-      @modal.title.should == 'Forms with input elements'
+      expect(@modal.title).to eq 'Forms with input elements'
     end
 
     it "allows to access elements within" do
-      @modal.select_list(:id, 'new_user_country').should exist
-      @modal.text_field(:id, 'new_user_email').should exist
-      @modal.radio(:id, 'new_user_newsletter_no').should exist
-      @modal.checkbox(:id, 'new_user_interests_cars').should exist
+      expect(@modal.select_list(:id, 'new_user_country')).to exist
+      expect(@modal.text_field(:id, 'new_user_email')).to exist
+      expect(@modal.radio(:id, 'new_user_newsletter_no')).to exist
+      expect(@modal.checkbox(:id, 'new_user_interests_cars')).to exist
     end
   end
 

@@ -10,120 +10,120 @@ describe "Del" do
   # Exists method
   describe "#exist?" do
     it "returns true if the 'del' exists" do
-      browser.del(:id, "lead").should exist
-      browser.del(:id, /lead/).should exist
-      browser.del(:text, "This is a deleted text tag 1").should exist
-      browser.del(:text, /This is a deleted text tag 1/).should exist
-      browser.del(:class, "lead").should exist
-      browser.del(:class, /lead/).should exist
-      browser.del(:index, 0).should exist
-      browser.del(:xpath, "//del[@id='lead']").should exist
+      expect(browser.del(:id, "lead")).to exist
+      expect(browser.del(:id, /lead/)).to exist
+      expect(browser.del(:text, "This is a deleted text tag 1")).to exist
+      expect(browser.del(:text, /This is a deleted text tag 1/)).to exist
+      expect(browser.del(:class, "lead")).to exist
+      expect(browser.del(:class, /lead/)).to exist
+      expect(browser.del(:index, 0)).to exist
+      expect(browser.del(:xpath, "//del[@id='lead']")).to exist
     end
 
     it "returns the first del if given no args" do
-      browser.del.should exist
+      expect(browser.del).to exist
     end
 
     it "returns false if the element doesn't exist" do
-      browser.del(:id, "no_such_id").should_not exist
-      browser.del(:id, /no_such_id/).should_not exist
-      browser.del(:text, "no_such_text").should_not exist
-      browser.del(:text, /no_such_text/).should_not exist
-      browser.del(:class, "no_such_class").should_not exist
-      browser.del(:class, /no_such_class/).should_not exist
-      browser.del(:index, 1337).should_not exist
-      browser.del(:xpath, "//del[@id='no_such_id']").should_not exist
+      expect(browser.del(:id, "no_such_id")).to_not exist
+      expect(browser.del(:id, /no_such_id/)).to_not exist
+      expect(browser.del(:text, "no_such_text")).to_not exist
+      expect(browser.del(:text, /no_such_text/)).to_not exist
+      expect(browser.del(:class, "no_such_class")).to_not exist
+      expect(browser.del(:class, /no_such_class/)).to_not exist
+      expect(browser.del(:index, 1337)).to_not exist
+      expect(browser.del(:xpath, "//del[@id='no_such_id']")).to_not exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do
-      lambda { browser.del(:id, 3.14).exists? }.should raise_error(TypeError)
+      expect{ browser.del(:id, 3.14).exists? }.to raise_error(TypeError)
     end
 
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-      lambda { browser.del(:no_such_how, 'some_value').exists? }.should raise_error(MissingWayOfFindingObjectException)
+      expect{ browser.del(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
     end
   end
 
   # Attribute methods
   describe "#class_name" do
     it "returns the class attribute" do
-      browser.del(:index, 0).class_name.should == 'lead'
+      expect(browser.del(:index, 0).class_name).to eq 'lead'
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.del(:index, 2).class_name.should == ''
+      expect(browser.del(:index, 2).class_name).to eq ''
     end
 
     it "raises UnknownObjectException if the del doesn't exist" do
-      lambda { browser.del(:id, 'no_such_id').class_name }.should raise_error(UnknownObjectException)
+      expect{ browser.del(:id, 'no_such_id').class_name }.to raise_error(UnknownObjectException)
     end
   end
 
   describe "#id" do
     it "returns the id attribute" do
-      browser.del(:index, 0).id.should == "lead"
+      expect(browser.del(:index, 0).id).to eq "lead"
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.del(:index, 2).id.should == ''
+      expect(browser.del(:index, 2).id).to eq ''
     end
 
     it "raises UnknownObjectException if the del doesn't exist" do
-      lambda { browser.del(:id, "no_such_id").id }.should raise_error(UnknownObjectException)
-      lambda { browser.del(:index, 1337).id }.should raise_error(UnknownObjectException)
+      expect{ browser.del(:id, "no_such_id").id }.to raise_error(UnknownObjectException)
+      expect{ browser.del(:index, 1337).id }.to raise_error(UnknownObjectException)
     end
   end
 
   describe "#title" do
     it "returns the title attribute" do
-      browser.del(:index, 0).title.should == 'Lorem ipsum'
+      expect(browser.del(:index, 0).title).to eq 'Lorem ipsum'
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
-      browser.del(:index, 2).title.should == ''
+      expect(browser.del(:index, 2).title).to eq ''
     end
 
     it "raises UnknownObjectException if the del doesn't exist" do
-      lambda { browser.del(:id, 'no_such_id').title }.should raise_error( UnknownObjectException)
-      lambda { browser.del(:xpath, "//del[@id='no_such_id']").title }.should raise_error( UnknownObjectException)
+      expect{ browser.del(:id, 'no_such_id').title }.to raise_error( UnknownObjectException)
+      expect{ browser.del(:xpath, "//del[@id='no_such_id']").title }.to raise_error( UnknownObjectException)
     end
   end
 
   describe "#text" do
     it "returns the text of the del" do
-      browser.del(:index, 1).text.should == 'This is a deleted text tag 2'
+      expect(browser.del(:index, 1).text).to eq 'This is a deleted text tag 2'
     end
 
     it "returns an empty string if the element doesn't contain any text" do
-      browser.del(:index, 3).text.should == ''
+      expect(browser.del(:index, 3).text).to eq ''
     end
 
     it "raises UnknownObjectException if the del doesn't exist" do
-      lambda { browser.del(:id, 'no_such_id').text }.should raise_error( UnknownObjectException)
-      lambda { browser.del(:xpath , "//del[@id='no_such_id']").text }.should raise_error( UnknownObjectException)
+      expect{ browser.del(:id, 'no_such_id').text }.to raise_error( UnknownObjectException)
+      expect{ browser.del(:xpath , "//del[@id='no_such_id']").text }.to raise_error( UnknownObjectException)
     end
   end
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      browser.del(:index, 0).should respond_to(:class_name)
-      browser.del(:index, 0).should respond_to(:id)
-      browser.del(:index, 0).should respond_to(:title)
-      browser.del(:index, 0).should respond_to(:text)
+      expect(browser.del(:index, 0)).to respond_to(:class_name)
+      expect(browser.del(:index, 0)).to respond_to(:id)
+      expect(browser.del(:index, 0)).to respond_to(:title)
+      expect(browser.del(:index, 0)).to respond_to(:text)
     end
   end
 
   # Other
   describe "#click" do
     it "fires events" do
-      browser.del(:class, 'footer').text.should_not include('Javascript')
+      expect(browser.del(:class, 'footer').text).to_not include('Javascript')
       browser.del(:class, 'footer').click
-      browser.del(:class, 'footer').text.should include('Javascript')
+      expect(browser.del(:class, 'footer').text).to include('Javascript')
     end
 
     it "raises UnknownObjectException if the del doesn't exist" do
-      lambda { browser.del(:id, "no_such_id").click }.should raise_error(UnknownObjectException)
-      lambda { browser.del(:title, "no_such_title").click }.should raise_error(UnknownObjectException)
+      expect{ browser.del(:id, "no_such_id").click }.to raise_error(UnknownObjectException)
+      expect{ browser.del(:title, "no_such_title").click }.to raise_error(UnknownObjectException)
     end
   end
 end

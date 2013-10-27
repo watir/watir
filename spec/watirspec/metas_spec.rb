@@ -10,20 +10,20 @@ describe "Metas" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        browser.metas(:name => "description").to_a.should == [browser.meta(:name => "description")]
+        expect(browser.metas(:name => "description").to_a).to eq [browser.meta(:name => "description")]
       end
     end
   end
-  
+
   describe "#length" do
     it "returns the number of meta elements" do
-      browser.metas.length.should == 2
+      expect(browser.metas.length).to eq 2
     end
   end
 
   describe "#[]" do
     it "returns the meta element at the given index" do
-      browser.metas[1].name.should == "description"
+      expect(browser.metas[1].name).to eq "description"
     end
   end
 
@@ -32,11 +32,11 @@ describe "Metas" do
       count = 0
 
       browser.metas.each_with_index do |m, index|
-        m.content.should == browser.meta(:index, index).content
+        expect(m.content).to eq browser.meta(:index, index).content
         count += 1
       end
 
-      count.should > 0
+      expect(count).to be > 0
     end
   end
 

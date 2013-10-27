@@ -10,21 +10,21 @@ describe "Forms" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        browser.forms(:method => "post").to_a.should == [browser.form(:method => "post")]
+        expect(browser.forms(:method => "post").to_a).to eq [browser.form(:method => "post")]
       end
     end
   end
 
   describe "#length" do
     it "returns the number of forms in the container" do
-      browser.forms.length.should == 2
+      expect(browser.forms.length).to eq 2
     end
   end
 
   describe "#[]n" do
     it "provides access to the nth form" do
-      browser.forms[0].action.should =~ /post_to_me$/ # varies between browsers
-      browser.forms[0].attribute_value('method').should == 'post'
+      expect(browser.forms[0].action).to match(/post_to_me$/) # varies between browsers
+      expect(browser.forms[0].attribute_value('method')).to eq 'post'
     end
   end
 
@@ -33,14 +33,14 @@ describe "Forms" do
       count = 0
 
       browser.forms.each_with_index do |f, index|
-        f.name.should == browser.form(:index, index).name
-        f.id.should == browser.form(:index, index).id
-        f.class_name.should == browser.form(:index, index).class_name
+        expect(f.name).to eq browser.form(:index, index).name
+        expect(f.id).to eq browser.form(:index, index).id
+        expect(f.class_name).to eq browser.form(:index, index).class_name
 
         count += 1
       end
 
-      count.should > 0
+      expect(count).to be > 0
     end
   end
 

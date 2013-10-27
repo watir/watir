@@ -10,20 +10,20 @@ describe "Lis" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        browser.lis(:class => "nonlink").to_a.should == [browser.li(:class => "nonlink")]
+        expect(browser.lis(:class => "nonlink").to_a).to eq [browser.li(:class => "nonlink")]
       end
     end
   end
-  
+
   describe "#length" do
     it "returns the number of lis" do
-      browser.lis.length.should == 18
+      expect(browser.lis.length).to eq 18
     end
   end
 
   describe "#[]" do
     it "returns the li at the given index" do
-      browser.lis[4].id.should == "non_link_1"
+      expect(browser.lis[4].id).to eq "non_link_1"
     end
   end
 
@@ -32,13 +32,13 @@ describe "Lis" do
       count = 0
 
       browser.lis.each_with_index do |l, index|
-        l.id.should == browser.li(:index, index).id
-        l.value.should == browser.li(:index, index).value
+        expect(l.id).to eq browser.li(:index, index).id
+        expect(l.value).to eq browser.li(:index, index).value
 
         count += 1
       end
 
-      count.should > 0
+      expect(count).to be > 0
     end
   end
 

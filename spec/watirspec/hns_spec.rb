@@ -9,20 +9,20 @@ describe "H1s", "H2s", "H3s", "H4s", "H5s", "H6s" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        browser.h1s(:class => "primary").to_a.should == [browser.h1(:class => "primary")]
+        expect(browser.h1s(:class => "primary").to_a).to eq [browser.h1(:class => "primary")]
       end
     end
   end
-  
+
   describe "#length" do
     it "returns the number of h1s" do
-      browser.h2s.length.should == 9
+      expect(browser.h2s.length).to eq 9
     end
   end
 
   describe "#[]" do
     it "returns the h1 at the given index" do
-      browser.h1s[0].id.should == "first_header"
+      expect(browser.h1s[0].id).to eq "first_header"
     end
   end
 
@@ -31,11 +31,11 @@ describe "H1s", "H2s", "H3s", "H4s", "H5s", "H6s" do
       lengths = (1..6).collect do |i|
         collection = browser.send(:"h#{i}s")
         collection.each_with_index do |h, index|
-          h.id.should == browser.send(:"h#{i}", :index, index).id
+          expect(h.id).to eq browser.send(:"h#{i}", :index, index).id
         end
         collection.length
       end
-      lengths.should == [2, 9, 2, 1, 1, 2]
+      expect(lengths).to eq [2, 9, 2, 1, 1, 2]
     end
   end
 end
