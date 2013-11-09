@@ -1,3 +1,5 @@
+require 'yaml'
+
 module Watir
   class Cookies
     def initialize(control)
@@ -73,6 +75,34 @@ module Watir
 
     def clear
       @control.delete_all_cookies
+    end
+
+    #
+    # Save cookies to file
+    #
+    # @example
+    #   browser.cookies.save_cookies '.cookies'
+    #
+    # @param [String] file
+    #
+
+    def save_cookies(file = '.cookies')
+      IO.write(file, to_a.to_yaml)
+    end
+
+    #
+    # Load cookies from file
+    #
+    # @example
+    #   browser.cookies.load_cookies '.cookies'
+    #
+    # @param [String] file
+    #
+
+    def load_cookies(file = '.cookies')
+      YAML.load(IO.read(file)).each do |c|
+        add c[:name], c[:value], path: c[:path], domain: c[:domain], expires: c[:expires], secure: c[:secure]
+      end
     end
 
     private
