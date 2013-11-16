@@ -81,12 +81,12 @@ module Watir
     # Save cookies to file
     #
     # @example
-    #   browser.cookies.save_cookies '.cookies'
+    #   browser.cookies.save '.cookies'
     #
     # @param [String] file
     #
 
-    def save_cookies(file = '.cookies')
+    def save(file = '.cookies')
       IO.write(file, to_a.to_yaml)
     end
 
@@ -94,12 +94,12 @@ module Watir
     # Load cookies from file
     #
     # @example
-    #   browser.cookies.load_cookies '.cookies'
+    #   browser.cookies.load '.cookies'
     #
     # @param [String] file
     #
 
-    def load_cookies(file = '.cookies')
+    def load(file = '.cookies')
       YAML.load(IO.read(file)).each do |c|
         add c[:name], c[:value], path: c[:path], domain: c[:domain], expires: c[:expires], secure: c[:secure]
       end
