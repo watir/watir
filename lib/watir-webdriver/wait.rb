@@ -2,6 +2,16 @@
 require 'forwardable'
 
 module Watir
+  
+  #
+  # Configurable default wait time for wait methods.
+  #
+  
+  @default_timeout = 30  
+  class << self
+    attr_accessor :default_timeout    
+  end
+
   module Wait
 
     class TimeoutError < StandardError ; end
@@ -21,7 +31,7 @@ module Watir
       # @raise [TimeoutError] if timeout is exceeded
       #
 
-      def until(timeout = 30, message = nil, &block)
+      def until(timeout = Watir.default_timeout, message = nil, &block)
         wait(timeout) do
           result = yield(self)
           return result if result
@@ -42,7 +52,7 @@ module Watir
       # @raise [TimeoutError] if timeout is exceeded
       #
 
-      def while(timeout = 30, message = nil, &block)
+      def while(timeout = Watir.default_timeout, message = nil, &block)
         wait(timeout) do
           return unless yield(self)
           sleep INTERVAL
@@ -129,7 +139,7 @@ module Watir
     # @see Watir::Element#present?
     #
 
-    def when_present(timeout = 30)
+    def when_present(timeout = Watir.default_timeout)
       message = "waiting for #{selector_string} to become present"
 
       if block_given?
@@ -152,7 +162,7 @@ module Watir
     # @see Watir::Element#present?
     #
 
-    def wait_until_present(timeout = 30)
+    def wait_until_present(timeout = Watir.default_timeout)
       message = "waiting for #{selector_string} to become present"
       Watir::Wait.until(timeout, message) { present? }
     end
@@ -169,7 +179,7 @@ module Watir
     # @see Watir::Element#present?
     #
 
-    def wait_while_present(timeout = 30)
+    def wait_while_present(timeout = Watir.default_timeout)
       message = "waiting for #{selector_string} to disappear"
       Watir::Wait.while(timeout, message) { present? }
     rescue Selenium::WebDriver::Error::ObsoleteElementError
