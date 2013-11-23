@@ -118,35 +118,37 @@ not_compliant_on [:webdriver, :safari] do
       
       browser.goto WatirSpec.url_for("wait.html", :needs_server => true)
     end  
-
-    it "is used by Wait#until when no timeout is specified" do
-      expect{Wait.until() { false }}.to \
-      raise_error(Watir::Wait::TimeoutError, "timed out after 1 seconds")
-    end
-
-    it "is used by Wait#while when no timeout is specified" do
-      expect{Wait.while() { true }}.to \
-      raise_error(Watir::Wait::TimeoutError, "timed out after 1 seconds")
-    end
     
-    it "is used by Element#when_present when no timeout is specified" do
-      expect{ browser.div(:id, 'bar').when_present().click }.to raise_error(Watir::Wait::TimeoutError,
-        /^timed out after 1 seconds, waiting for (\{:id=>"bar", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"bar"\}) to become present$/
-      )
-    end
+    context "when no timeout is specified" do
+      it "is used by Wait#until" do
+        expect{Wait.until() { false }}.to \
+        raise_error(Watir::Wait::TimeoutError, "timed out after 1 seconds")
+      end
 
-    it "is used by Element#wait_until_present when no timeout is specified" do
-      expect{ browser.div(:id, 'bar').wait_until_present() }.to raise_error(Watir::Wait::TimeoutError,
-        /^timed out after 1 seconds, waiting for (\{:id=>"bar", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"bar"\}) to become present$/
-      )
-    end
+      it "is used by Wait#while" do
+        expect{Wait.while() { true }}.to \
+        raise_error(Watir::Wait::TimeoutError, "timed out after 1 seconds")
+      end
+    
+      it "is used by Element#when_present" do
+        expect{ browser.div(:id, 'bar').when_present().click }.to raise_error(Watir::Wait::TimeoutError,
+          /^timed out after 1 seconds, waiting for (\{:id=>"bar", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"bar"\}) to become present$/
+        )
+      end
 
-    it "is used by Element#wait_while_present when no timeout is specified" do
-      expect{ browser.div(:id, 'foo').wait_while_present() }.to raise_error(Watir::Wait::TimeoutError,
-        /^timed out after 1 seconds, waiting for (\{:id=>"foo", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"foo"\}) to disappear$/
-      )
-    end
+      it "is used by Element#wait_until_present" do
+        expect{ browser.div(:id, 'bar').wait_until_present() }.to raise_error(Watir::Wait::TimeoutError,
+          /^timed out after 1 seconds, waiting for (\{:id=>"bar", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"bar"\}) to become present$/
+        )
+      end
 
+      it "is used by Element#wait_while_present" do
+        expect{ browser.div(:id, 'foo').wait_while_present() }.to raise_error(Watir::Wait::TimeoutError,
+          /^timed out after 1 seconds, waiting for (\{:id=>"foo", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"foo"\}) to disappear$/
+        )
+      end    
+    end
+  
     after do
       # Reset the default timeout
       Watir.default_timeout = 30
