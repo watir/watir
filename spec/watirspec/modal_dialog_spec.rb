@@ -37,6 +37,11 @@ describe "Modal Dialog" do
       expect(@modal.radio(:id, 'new_user_newsletter_no')).to exist
       expect(@modal.checkbox(:id, 'new_user_interests_cars')).to exist
     end
+
+    it "allows to interact with elements within" do
+      @modal.select_list(:id, 'new_user_country').select "Sweden"
+      expect(@modal.select_list(:id, 'new_user_country')).to be_selected("Sweden")
+    end
   end
 
 end
