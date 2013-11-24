@@ -12,8 +12,9 @@ not_compliant_on [:webdriver, :safari] do
       end
 
       it "times out with a custom message" do
-        expect{Wait.until(0.5, "oops") { false }}.to \
-        raise_error(Watir::Wait::TimeoutError, "timed out after 0.5 seconds, oops")
+        expect{
+          Wait.until(0.5, "oops") { false }
+        }.to raise_error(Watir::Wait::TimeoutError, "timed out after 0.5 seconds, oops")
       end
     end
 
@@ -27,8 +28,9 @@ not_compliant_on [:webdriver, :safari] do
       end
 
       it "times out with a custom message" do
-        expect{Wait.while(0.5, "oops") { true }}.to \
-        raise_error(Watir::Wait::TimeoutError, "timed out after 0.5 seconds, oops")
+        expect{
+          Wait.while(0.5, "oops") { true }
+        }.to raise_error(Watir::Wait::TimeoutError, "timed out after 0.5 seconds, oops")
       end
     end
   end
@@ -117,17 +119,24 @@ not_compliant_on [:webdriver, :safari] do
       Watir.default_timeout = 1
       
       browser.goto WatirSpec.url_for("wait.html", :needs_server => true)
-    end  
+    end
+
+    after do
+      # Reset the default timeout
+      Watir.default_timeout = 30
+    end   
     
     context "when no timeout is specified" do
       it "is used by Wait#until" do
-        expect{Wait.until() { false }}.to \
-        raise_error(Watir::Wait::TimeoutError, "timed out after 1 seconds")
+        expect{
+          Wait.until() { false }
+        }.to raise_error(Watir::Wait::TimeoutError, "timed out after 1 seconds")
       end
 
       it "is used by Wait#while" do
-        expect{Wait.while() { true }}.to \
-        raise_error(Watir::Wait::TimeoutError, "timed out after 1 seconds")
+        expect{
+          Wait.while() { true }
+        }.to raise_error(Watir::Wait::TimeoutError, "timed out after 1 seconds")
       end
     
       it "is used by Element#when_present" do
@@ -148,10 +157,5 @@ not_compliant_on [:webdriver, :safari] do
         )
       end    
     end
-  
-    after do
-      # Reset the default timeout
-      Watir.default_timeout = 30
-    end      
   end
 end
