@@ -2,6 +2,7 @@
 =====
 
 * Make default timeout configurable (Watir.default_timeout, thanks to Justin Ko)
+* Fix collission with Timecop. Fixes #228.
 
 0.6.4
 =====
