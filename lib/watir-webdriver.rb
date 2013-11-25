@@ -36,6 +36,18 @@ module Watir
     def always_locate=(bool)
       @always_locate = bool
     end
+    
+    def default_timeout
+      @default_timeout ||= 30
+    end
+    
+    #
+    # Default wait time for wait methods.
+    #
+
+    def default_timeout=(value)
+      @default_timeout = value
+    end
 
     def prefer_css?
       @prefer_css
