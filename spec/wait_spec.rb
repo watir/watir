@@ -117,15 +117,15 @@ not_compliant_on [:webdriver, :safari] do
   describe "Watir.default_timeout" do
     before do
       Watir.default_timeout = 1
-      
+
       browser.goto WatirSpec.url_for("wait.html", :needs_server => true)
     end
 
     after do
       # Reset the default timeout
       Watir.default_timeout = 30
-    end   
-    
+    end
+
     context "when no timeout is specified" do
       it "is used by Wait#until" do
         expect {
@@ -138,7 +138,7 @@ not_compliant_on [:webdriver, :safari] do
           Wait.while { true }
         }.to raise_error(Watir::Wait::TimeoutError, "timed out after 1 seconds")
       end
-    
+
       it "is used by Element#when_present" do
         expect { browser.div(:id, 'bar').when_present.click }.to raise_error(Watir::Wait::TimeoutError,
           /^timed out after 1 seconds, waiting for (\{:id=>"bar", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"bar"\}) to become present$/
@@ -155,7 +155,7 @@ not_compliant_on [:webdriver, :safari] do
         expect { browser.div(:id, 'foo').wait_while_present }.to raise_error(Watir::Wait::TimeoutError,
           /^timed out after 1 seconds, waiting for (\{:id=>"foo", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"foo"\}) to disappear$/
         )
-      end    
+      end
     end
   end
 end

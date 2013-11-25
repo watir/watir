@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'forwardable'
 
-module Watir  
+module Watir
   module Wait
 
     class TimeoutError < StandardError ; end
@@ -22,7 +22,7 @@ module Watir
       #
 
       def until(timeout = nil, message = nil, &block)
-        timeout ||= Watir.default_timeout        
+        timeout ||= Watir.default_timeout
         wait(timeout) do
           result = yield(self)
           return result if result
@@ -44,7 +44,7 @@ module Watir
       #
 
       def while(timeout = nil, message = nil, &block)
-        timeout ||= Watir.default_timeout        
+        timeout ||= Watir.default_timeout
         wait(timeout) do
           return unless yield(self)
           sleep INTERVAL
@@ -132,7 +132,7 @@ module Watir
     #
 
     def when_present(timeout = nil)
-      timeout ||= Watir.default_timeout      
+      timeout ||= Watir.default_timeout
       message = "waiting for #{selector_string} to become present"
 
       if block_given?
