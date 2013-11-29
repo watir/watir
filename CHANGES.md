@@ -1,4 +1,4 @@
-0.6.5
+0.6.5 (unreleased)
 =====
 
 * Make default timeout configurable (Watir.default_timeout, thanks to Justin Ko)
