@@ -156,7 +156,7 @@ module Watir
     #   browser.name
     #   #=> :chrome
     #
-    # @return [String]
+    # @return [Symbol]
     #
 
     def name
