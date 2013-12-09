@@ -16,6 +16,8 @@ module Watir
       :xpath
     ]
 
+    WILDCARD_ATTRIBUTE = /^(aria|data)_(.+)$/
+
     def initialize(wd, selector, valid_attributes)
       @wd               = wd
       @selector         = selector.dup
@@ -236,7 +238,7 @@ module Watir
     end
 
     def assert_valid_as_attribute(attribute)
-      unless valid_attribute? attribute or attribute.to_s =~ /^(aria|data_).+$/
+      unless valid_attribute? attribute or attribute.to_s =~ WILDCARD_ATTRIBUTE
         raise MissingWayOfFindingObjectException, "invalid attribute: #{attribute.inspect}"
       end
     end

@@ -106,17 +106,15 @@ describe Watir::ElementLocator do
                    :data_name => "foo"
       end
 
-      bug "https://github.com/watir/watir-webdriver/issues/233" do
-        it "handles aria-* attributes" do
-          if Watir.prefer_css?
-            expect_one :css, 'div[aria-label="foo"]'
-          else
-            expect_one :xpath, ".//div[@aria-label='foo']"
-          end
-
-          locate_one :tag_name  => "div",
-                     :aria_label => "foo"
+      it "handles aria-* attributes" do
+        if Watir.prefer_css?
+          expect_one :css, 'div[aria-label="foo"]'
+        else
+          expect_one :xpath, ".//div[@aria-label='foo']"
         end
+
+        locate_one :tag_name  => "div",
+                   :aria_label => "foo"
       end
 
       it "normalizes space for the :href attribute" do

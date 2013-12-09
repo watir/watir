@@ -547,7 +547,7 @@ module Watir
 
     def method_missing(meth, *args, &blk)
       method = meth.to_s
-      if method =~ /^(aria|data)_(.+)$/
+      if method =~ ElementLocator::WILDCARD_ATTRIBUTE
         attribute_value(method.gsub(/_/, '-'), *args)
       else
         super

@@ -3,6 +3,7 @@
 
 * Make default timeout configurable (Watir.default_timeout, thanks to Justin Ko)
 * Fix collission with Timecop. Fixes #228.
+* Support locating elements by and retrieving value of `aria-*` attributes. Fixes #233.
 
 0.6.4
 =====
