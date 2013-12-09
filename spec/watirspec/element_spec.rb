@@ -62,18 +62,16 @@ describe "Element" do
     end
   end
 
-  bug "https://github.com/watir/watir-webdriver/issues/233" do
-    describe "aria-* attributes" do
-      before { browser.goto WatirSpec.url_for("aria_attributes.html") }
+  describe "aria-* attributes" do
+    before { browser.goto WatirSpec.url_for("aria_attributes.html") }
 
-      bug "http://github.com/jarib/celerity/issues#issue/27", :celerity do
-        it "finds elements by a aria-* attribute" do
-          expect(browser.p(:aria_label => "ruby-library")).to exist
-        end
+    bug "http://github.com/jarib/celerity/issues#issue/27", :celerity do
+      it "finds elements by a aria-* attribute" do
+        expect(browser.p(:aria_label => "ruby-library")).to exist
+      end
 
-        it "returns the value of a aria-* attribute" do
-          expect(browser.p.aria_label).to eq "ruby-library"
-        end
+      it "returns the value of a aria-* attribute" do
+        expect(browser.p.aria_label).to eq "ruby-library"
       end
     end
   end
