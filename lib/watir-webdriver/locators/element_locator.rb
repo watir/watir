@@ -236,7 +236,7 @@ module Watir
     end
 
     def assert_valid_as_attribute(attribute)
-      unless valid_attribute? attribute or attribute.to_s =~ /^data_.+$/
+      unless valid_attribute? attribute or attribute.to_s =~ /^(aria|data_).+$/
         raise MissingWayOfFindingObjectException, "invalid attribute: #{attribute.inspect}"
       end
     end
