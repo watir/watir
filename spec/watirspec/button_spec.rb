@@ -154,9 +154,9 @@ describe "Button" do
     deviates_on [:webdriver, :iphone], [:webdriver, :safari], [:webdriver, :phantomjs] do
       it "returns the style attribute if the button exists" do
         style = browser.button(:id, 'delete_user_submit').style
-        style.to include("border-top-width: 4px;")
-        style.to include("border-left-style: solid;")
-        style.to include("border-right-color: red;")
+        expect(style).to include("border-top-width: 4px;")
+        expect(style).to include("border-left-style: solid;")
+        expect(style).to include("border-right-color: red;")
       end
     end
 
