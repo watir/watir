@@ -160,7 +160,7 @@ describe "FileField" do
           expected = path
           expected.gsub!("/", "\\") if WatirSpec.platform == :windows
 
-          expect(browser.file_field.value).to eq expected
+          expect(browser.file_field.value).to include(File.basename(expected)) # only some browser will return the full path
         end
 
         it "does not alter its argument" do
