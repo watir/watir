@@ -23,11 +23,11 @@ describe Watir::Container do
     end
 
     it "raises ArgumentError if given 1 arg which is not a Hash" do
-      expect{@container.public_extract_selector([:how])}.to raise_error(ArgumentError)
+      expect {@container.public_extract_selector([:how])}.to raise_error(ArgumentError)
     end
 
     it "raises ArgumentError if given > 2 args" do
-      expect{@container.public_extract_selector([:how, 'what', 'value'])}.to raise_error(ArgumentError)
+      expect {@container.public_extract_selector([:how, 'what', 'value'])}.to raise_error(ArgumentError)
     end
 
   end

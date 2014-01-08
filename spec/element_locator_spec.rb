@@ -322,12 +322,12 @@ describe Watir::ElementLocator do
 
     describe "errors" do
       it "raises a TypeError if :index is not a Fixnum" do
-        expect{ locate_one(:tag_name => "div", :index => "bar") }.to \
+        expect { locate_one(:tag_name => "div", :index => "bar") }.to \
         raise_error(TypeError, %[expected Fixnum, got "bar":String])
       end
 
       it "raises a TypeError if selector value is not a String or Regexp" do
-        expect{ locate_one(:tag_name => 123) }.to \
+        expect { locate_one(:tag_name => 123) }.to \
         raise_error(TypeError, %[expected one of [String, Regexp], got 123:Fixnum])
       end
 
@@ -335,7 +335,7 @@ describe Watir::ElementLocator do
         bad_selector = {:tag_name => "input", :href => "foo"}
         valid_attributes = Watir::Input.attributes
 
-        expect{ locate_one(bad_selector, valid_attributes) }.to \
+        expect { locate_one(bad_selector, valid_attributes) }.to \
         raise_error(MissingWayOfFindingObjectException, "invalid attribute: :href")
       end
     end
@@ -419,7 +419,7 @@ describe Watir::ElementLocator do
 
     describe "errors" do
       it "raises ArgumentError if :index is given" do
-        expect{ locate_all(:tag_name => "div", :index => 1) }.to \
+        expect { locate_all(:tag_name => "div", :index => 1) }.to \
         raise_error(ArgumentError, "can't locate all elements by :index")
       end
     end
