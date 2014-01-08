@@ -9,7 +9,7 @@ not_compliant_on [:webdriver, :safari] do
       end
 
       it "times out" do
-        expect{Wait.until(0.5) { false }}.to raise_error(Watir::Wait::TimeoutError)
+        expect {Wait.until(0.5) { false }}.to raise_error(Watir::Wait::TimeoutError)
       end
 
       it "times out with a custom message" do
@@ -25,7 +25,7 @@ not_compliant_on [:webdriver, :safari] do
       end
 
       it "times out" do
-        expect{Wait.while(0.5) { true }}.to raise_error(Watir::Wait::TimeoutError)
+        expect {Wait.while(0.5) { true }}.to raise_error(Watir::Wait::TimeoutError)
       end
 
       it "times out with a custom message" do
@@ -60,12 +60,12 @@ not_compliant_on [:webdriver, :safari] do
       end
 
       it "times out when given a block" do
-        expect{ browser.div(:id, 'bar').when_present(1) {}}.to raise_error(Watir::Wait::TimeoutError)
+        expect { browser.div(:id, 'bar').when_present(1) {}}.to raise_error(Watir::Wait::TimeoutError)
       end
       
       not_compliant_on :watir_classic do
         it "times out when not given a block" do
-          expect{ browser.div(:id, 'bar').when_present(1).click }.to raise_error(Watir::Wait::TimeoutError,
+          expect { browser.div(:id, 'bar').when_present(1).click }.to raise_error(Watir::Wait::TimeoutError,
             /^timed out after 1 seconds, waiting for (\{:id=>"bar", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"bar"\}) to become present$/
           )
         end
@@ -73,7 +73,7 @@ not_compliant_on [:webdriver, :safari] do
       
       deviates_on :watir_classic do
         it "times out when not given a block" do
-          expect{ browser.div(:id, 'bar').when_present(1).click }.to raise_error(Watir::Wait::TimeoutError,
+          expect { browser.div(:id, 'bar').when_present(1).click }.to raise_error(Watir::Wait::TimeoutError,
             /^timed out after 1 seconds, waiting for (\{:id=>"bar", :tag_name=>\["div"\]\}|\{:tag_name=>\["div"\], :id=>"bar"\}) to become present$/
           )
         end
@@ -106,7 +106,7 @@ not_compliant_on [:webdriver, :safari] do
 
       not_compliant_on :watir_classic do
         it "times out if the element doesn't appear" do
-          expect{ browser.div(:id, 'bar').wait_until_present(1) }.to raise_error(Watir::Wait::TimeoutError,
+          expect { browser.div(:id, 'bar').wait_until_present(1) }.to raise_error(Watir::Wait::TimeoutError,
             /^timed out after 1 seconds, waiting for (\{:id=>"bar", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"bar"\}) to become present$/
           )
         end
@@ -114,7 +114,7 @@ not_compliant_on [:webdriver, :safari] do
 
       deviates_on :watir_classic do
         it "times out if the element doesn't appear" do
-          expect{ browser.div(:id, 'bar').wait_until_present(1) }.to raise_error(Watir::Wait::TimeoutError,
+          expect { browser.div(:id, 'bar').wait_until_present(1) }.to raise_error(Watir::Wait::TimeoutError,
             /^timed out after 1 seconds, waiting for (\{:id=>"bar", :tag_name=>\["div"\]\}|\{:tag_name=>\["div"\], :id=>"bar"\}) to become present$/
           )
         end
@@ -129,7 +129,7 @@ not_compliant_on [:webdriver, :safari] do
 
       not_compliant_on :watir_classic do
         it "times out if the element doesn't disappear" do
-          expect{ browser.div(:id, 'foo').wait_while_present(1) }.to raise_error(Watir::Wait::TimeoutError,
+          expect { browser.div(:id, 'foo').wait_while_present(1) }.to raise_error(Watir::Wait::TimeoutError,
             /^timed out after 1 seconds, waiting for (\{:id=>"foo", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"foo"\}) to disappear$/
           )
         end
@@ -137,7 +137,7 @@ not_compliant_on [:webdriver, :safari] do
       
       deviates_on :watir_classic do
         it "times out if the element doesn't disappear" do
-          expect{ browser.div(:id, 'foo').wait_while_present(1) }.to raise_error(Watir::Wait::TimeoutError,
+          expect { browser.div(:id, 'foo').wait_while_present(1) }.to raise_error(Watir::Wait::TimeoutError,
             /^timed out after 1 seconds, waiting for (\{:id=>"foo", :tag_name=>\["div"\]\}|\{:tag_name=>\["div"\], :id=>"foo"\}) to disappear$/
           )
         end
