@@ -46,11 +46,11 @@ describe "SelectList" do
     end
 
     it "raises TypeError when 'what' argument is invalid" do
-      expect{ browser.select_list(:id, 3.14).exists? }.to raise_error(TypeError)
+      expect { browser.select_list(:id, 3.14).exists? }.to raise_error(TypeError)
     end
 
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-      expect{ browser.select_list(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
+      expect { browser.select_list(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
     end
   end
 
@@ -61,7 +61,7 @@ describe "SelectList" do
     end
 
     it "raises UnknownObjectException if the select list doesn't exist" do
-      expect{ browser.select_list(:name, 'no_such_name').class_name }.to raise_error(UnknownObjectException)
+      expect { browser.select_list(:name, 'no_such_name').class_name }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -71,7 +71,7 @@ describe "SelectList" do
     end
 
     it "raises UnknownObjectException if the select list doesn't exist" do
-      expect{ browser.select_list(:index, 1337).id }.to raise_error(UnknownObjectException)
+      expect { browser.select_list(:index, 1337).id }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -81,7 +81,7 @@ describe "SelectList" do
     end
 
     it "raises UnknownObjectException if the select list doesn't exist" do
-      expect{ browser.select_list(:index, 1337).name }.to raise_error(UnknownObjectException)
+      expect { browser.select_list(:index, 1337).name }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -92,7 +92,7 @@ describe "SelectList" do
     end
 
     it "raises UnknownObjectException if the select list doesn't exist" do
-      expect{ browser.select_list(:index, 1337).multiple? }.to raise_error(UnknownObjectException)
+      expect { browser.select_list(:index, 1337).multiple? }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -104,7 +104,7 @@ describe "SelectList" do
     end
 
     it "raises UnknownObjectException if the select list doesn't exist" do
-      expect{ browser.select_list(:index, 1337).value }.to raise_error(UnknownObjectException)
+      expect { browser.select_list(:index, 1337).value }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -128,7 +128,7 @@ describe "SelectList" do
     end
 
     it "raises UnknownObjectException if the select_list doesn't exist" do
-      expect{ browser.select_list(:name, 'no_such_name').enabled? }.to raise_error(UnknownObjectException)
+      expect { browser.select_list(:name, 'no_such_name').enabled? }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -142,7 +142,7 @@ describe "SelectList" do
     end
 
     it "should raise UnknownObjectException when the select list does not exist" do
-      expect{ browser.select_list(:index, 1337).disabled? }.to raise_error(UnknownObjectException)
+      expect { browser.select_list(:index, 1337).disabled? }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -165,7 +165,7 @@ describe "SelectList" do
   describe "#selected_options" do
     not_compliant_on :safariwatir do
       it "should raise UnknownObjectException if the select list doesn't exist" do
-        expect{ browser.select_list(:name, 'no_such_name').selected_options }.to raise_error(UnknownObjectException)
+        expect { browser.select_list(:name, 'no_such_name').selected_options }.to raise_error(UnknownObjectException)
       end
     end
 
@@ -182,7 +182,7 @@ describe "SelectList" do
     end
 
     it "does not clear selections if the select list does not allow multiple selections" do
-      expect{
+      expect {
         browser.select_list(:name, "new_user_country").clear
       }.to raise_error(/you can only clear multi-selects/)
 
@@ -190,7 +190,7 @@ describe "SelectList" do
     end
 
     it "raises UnknownObjectException if the select list doesn't exist" do
-      expect{ browser.select_list(:name, 'no_such_name').clear }.to raise_error(UnknownObjectException)
+      expect { browser.select_list(:name, 'no_such_name').clear }.to raise_error(UnknownObjectException)
     end
 
     it "fires onchange event" do
@@ -225,7 +225,7 @@ describe "SelectList" do
     end
 
     it "raises UnknownObjectException if the option doesn't exist" do
-      expect{ browser.select_list(:name, 'new_user_country').selected?('missing_option') }.to raise_error(UnknownObjectException)
+      expect { browser.select_list(:name, 'new_user_country').selected?('missing_option') }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -309,12 +309,12 @@ describe "SelectList" do
     end
 
     it "raises NoValueFoundException if the option doesn't exist" do
-      expect{ browser.select_list(:name, "new_user_country").select("missing_option") }.to raise_error(NoValueFoundException)
-      expect{ browser.select_list(:name, "new_user_country").select(/missing_option/) }.to raise_error(NoValueFoundException)
+      expect { browser.select_list(:name, "new_user_country").select("missing_option") }.to raise_error(NoValueFoundException)
+      expect { browser.select_list(:name, "new_user_country").select(/missing_option/) }.to raise_error(NoValueFoundException)
     end
 
     it "raises a TypeError if argument is not a String, Regexp or Numeric" do
-      expect{ browser.select_list(:id, "new_user_languages").select([]) }.to raise_error(TypeError)
+      expect { browser.select_list(:id, "new_user_languages").select([]) }.to raise_error(TypeError)
     end
   end
 
@@ -333,8 +333,8 @@ describe "SelectList" do
     end
 
     it "raises NoValueFoundException if the option doesn't exist" do
-      expect{ browser.select_list(:name, "new_user_languages").select_value("no_such_option") }.to raise_error(NoValueFoundException)
-      expect{ browser.select_list(:name, "new_user_languages").select_value(/no_such_option/) }.to raise_error(NoValueFoundException)
+      expect { browser.select_list(:name, "new_user_languages").select_value("no_such_option") }.to raise_error(NoValueFoundException)
+      expect { browser.select_list(:name, "new_user_languages").select_value(/no_such_option/) }.to raise_error(NoValueFoundException)
     end
   end
 

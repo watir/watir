@@ -34,11 +34,11 @@ describe "Label" do
     end
 
     it "raises TypeError when 'what' argument is invalid" do
-      expect{ browser.label(:id, 3.14).exists? }.to raise_error(TypeError)
+      expect { browser.label(:id, 3.14).exists? }.to raise_error(TypeError)
     end
 
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-      expect{ browser.label(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
+      expect { browser.label(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
     end
   end
 
@@ -56,7 +56,7 @@ describe "Label" do
     end
 
     it "raises UnknownObjectException if the label doesn't exist" do
-      expect{ browser.label(:index, 1337).id }.to raise_error(UnknownObjectException)
+      expect { browser.label(:index, 1337).id }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -66,7 +66,7 @@ describe "Label" do
     end
 
     it "raises UnknownObjectException if the label doesn't exist" do
-      expect{ browser.label(:index, 1337).for }.to raise_error(UnknownObjectException)
+      expect { browser.label(:index, 1337).for }.to raise_error(UnknownObjectException)
     end
   end
 

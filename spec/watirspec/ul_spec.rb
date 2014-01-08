@@ -32,11 +32,11 @@ describe "Ul" do
     end
 
     it "raises TypeError when 'what' argument is invalid" do
-      expect{ browser.ul(:id, 3.14).exists? }.to raise_error(TypeError)
+      expect { browser.ul(:id, 3.14).exists? }.to raise_error(TypeError)
     end
 
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-      expect{ browser.ul(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
+      expect { browser.ul(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
     end
   end
 
@@ -51,7 +51,7 @@ describe "Ul" do
     end
 
     it "raises UnknownObjectException if the ul doesn't exist" do
-      expect{ browser.ul(:id, 'no_such_id').class_name }.to raise_error(UnknownObjectException)
+      expect { browser.ul(:id, 'no_such_id').class_name }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -65,8 +65,8 @@ describe "Ul" do
     end
 
     it "raises UnknownObjectException if the ul doesn't exist" do
-      expect{ browser.ul(:id, "no_such_id").id }.to raise_error(UnknownObjectException)
-      expect{ browser.ul(:index, 1337).id }.to raise_error(UnknownObjectException)
+      expect { browser.ul(:id, "no_such_id").id }.to raise_error(UnknownObjectException)
+      expect { browser.ul(:index, 1337).id }.to raise_error(UnknownObjectException)
     end
   end
 

@@ -40,13 +40,13 @@ describe "TableFooter" do
     end
 
     it "raises TypeError when 'what' argument is invalid" do
-      expect{ browser.tfoot(:id, 3.14).exists? }.to raise_error(TypeError)
-      expect{ browser.table(:index, 0).tfoot(:id, 3.14).exists? }.to raise_error(TypeError)
+      expect { browser.tfoot(:id, 3.14).exists? }.to raise_error(TypeError)
+      expect { browser.table(:index, 0).tfoot(:id, 3.14).exists? }.to raise_error(TypeError)
     end
 
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-      expect{ browser.tfoot(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
-      expect{ browser.table(:index, 0).tfoot(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
+      expect { browser.tfoot(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
+      expect { browser.table(:index, 0).tfoot(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
     end
   end
 

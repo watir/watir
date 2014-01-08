@@ -160,34 +160,34 @@ describe "Browser" do
     end
 
     it "goes to the given url without raising errors" do
-      expect{ browser.goto(WatirSpec.url_for("non_control_elements.html")) }.to_not raise_error
+      expect { browser.goto(WatirSpec.url_for("non_control_elements.html")) }.to_not raise_error
     end
 
     it "goes to the url 'about:blank' without raising errors" do
-      expect{ browser.goto("about:blank") }.to_not raise_error
+      expect { browser.goto("about:blank") }.to_not raise_error
     end
 
     not_compliant_on :internet_explorer, [:webdriver, :safari] do
       it "goes to a data URL scheme address without raising errors" do
-        expect{ browser.goto("data:text/html;content-type=utf-8,foobar") }.to_not raise_error
+        expect { browser.goto("data:text/html;content-type=utf-8,foobar") }.to_not raise_error
       end
     end
 
     compliant_on :firefox do
       it "goes to internal Firefox URL 'about:mozilla' without raising errors" do
-        expect{ browser.goto("about:mozilla") }.to_not raise_error
+        expect { browser.goto("about:mozilla") }.to_not raise_error
       end
     end
 
     compliant_on :opera do
       it "goes to internal Opera URL 'opera:config' without raising errors" do
-        expect{ browser.goto("opera:config") }.to_not raise_error
+        expect { browser.goto("opera:config") }.to_not raise_error
       end
     end
 
     compliant_on :chrome do
       it "goes to internal Chrome URL 'chrome://settings/browser' without raising errors" do
-        expect{ browser.goto("chrome://settings/browser") }.to_not raise_error
+        expect { browser.goto("chrome://settings/browser") }.to_not raise_error
       end
     end
 
@@ -289,7 +289,7 @@ describe "Browser" do
 
   describe "#add_checker" do
     it "raises ArgumentError when not given any arguments" do
-      expect{ browser.add_checker }.to raise_error(ArgumentError)
+      expect { browser.add_checker }.to raise_error(ArgumentError)
     end
 
     it "runs the given proc on each page load" do
@@ -324,7 +324,7 @@ describe "Browser" do
 
   it "raises UnknownObjectException when trying to access DOM elements on plain/text-page" do
     browser.goto(WatirSpec.url_for("plain_text", :needs_server => true))
-    expect{ browser.div(:id, 'foo').id }.to raise_error(UnknownObjectException)
+    expect { browser.div(:id, 'foo').id }.to raise_error(UnknownObjectException)
   end
 
 end

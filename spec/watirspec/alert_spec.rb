@@ -82,7 +82,7 @@ describe 'Alert API' do
         end
 
         it 'raises error if alert is not present after timeout' do
-          expect{
+          expect {
             browser.alert.when_present(0.1).close
           }.to raise_error(Watir::Wait::TimeoutError)
         end

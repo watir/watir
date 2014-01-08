@@ -39,11 +39,11 @@ describe "FileField" do
     end
 
     it "raises TypeError when 'what' argument is invalid" do
-      expect{ browser.file_field(:id, 3.14).exists? }.to raise_error(TypeError)
+      expect { browser.file_field(:id, 3.14).exists? }.to raise_error(TypeError)
     end
 
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-      expect{ browser.file_field(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
+      expect { browser.file_field(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
     end
   end
 
@@ -55,7 +55,7 @@ describe "FileField" do
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
-      expect{ browser.file_field(:index, 1337).class_name }.to raise_error(UnknownObjectException)
+      expect { browser.file_field(:index, 1337).class_name }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -65,7 +65,7 @@ describe "FileField" do
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
-      expect{ browser.file_field(:index, 1337).id }.to raise_error(UnknownObjectException)
+      expect { browser.file_field(:index, 1337).id }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -75,7 +75,7 @@ describe "FileField" do
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
-      expect{ browser.file_field(:index, 1337).name }.to raise_error(UnknownObjectException)
+      expect { browser.file_field(:index, 1337).name }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -91,7 +91,7 @@ describe "FileField" do
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
-      expect{ browser.file_field(:index, 1337).type }.to raise_error(UnknownObjectException)
+      expect { browser.file_field(:index, 1337).type }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -126,7 +126,7 @@ describe "FileField" do
         end
 
         it "raises an error if the file does not exist" do
-          expect{
+          expect {
             browser.file_field.set(File.join(Dir.tmpdir, 'unlikely-to-exist'))
           }.to raise_error(Errno::ENOENT)
         end

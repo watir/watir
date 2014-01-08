@@ -28,7 +28,7 @@ not_compliant_on [:webdriver, :iphone], [:webdriver, :safari] do
       end
 
       it "raises ArgumentError if the selector is invalid" do
-        expect{ browser.windows(:name => "foo") }.to raise_error(ArgumentError)
+        expect { browser.windows(:name => "foo") }.to raise_error(ArgumentError)
       end
 
       it "raises returns an empty array if no window matches the selector" do
@@ -69,15 +69,15 @@ not_compliant_on [:webdriver, :iphone], [:webdriver, :safari] do
       end
 
       it "raises ArgumentError if the selector is invalid" do
-        expect{ browser.window(:name => "foo") }.to raise_error(ArgumentError)
+        expect { browser.window(:name => "foo") }.to raise_error(ArgumentError)
       end
 
       it "raises an error if no window matches the selector" do
-        expect{ browser.window(:title => "noop").use }.to raise_error
+        expect { browser.window(:title => "noop").use }.to raise_error
       end
 
       it "raises an error if there's no window at the given index" do
-        expect{ browser.window(:index => 100).use }.to raise_error
+        expect { browser.window(:index => 100).use }.to raise_error
       end
 
     end
@@ -177,7 +177,7 @@ not_compliant_on [:webdriver, :iphone], [:webdriver, :safari] do
         end
 
         it "times out waiting for a non-present window" do
-          expect{
+          expect {
             browser.window(:title => "noop").wait_until_present(0.5)
           }.to raise_error(Wait::TimeoutError)
         end

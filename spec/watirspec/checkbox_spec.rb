@@ -67,11 +67,11 @@ describe "CheckBox" do
     end
 
     it "raises TypeError when 'what' argument is invalid" do
-      expect{ browser.checkbox(:id, 3.14).exists? }.to raise_error(TypeError)
+      expect { browser.checkbox(:id, 3.14).exists? }.to raise_error(TypeError)
     end
 
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-      expect{ browser.checkbox(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
+      expect { browser.checkbox(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
     end
   end
 
@@ -87,7 +87,7 @@ describe "CheckBox" do
     end
 
     it "raises UnknownObjectException if the checkbox doesn't exist" do
-      expect{ browser.checkbox(:id, "no_such_id").class_name }.to raise_error(UnknownObjectException)
+      expect { browser.checkbox(:id, "no_such_id").class_name }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -101,7 +101,7 @@ describe "CheckBox" do
     end
 
     it "raises UnknownObjectException if the checkbox doesn't exist" do
-      expect{ browser.checkbox(:index, 1337).id }.to raise_error(UnknownObjectException)
+      expect { browser.checkbox(:index, 1337).id }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -115,7 +115,7 @@ describe "CheckBox" do
     end
 
     it "raises UnknownObjectException if the checkbox doesn't exist" do
-      expect{ browser.checkbox(:index, 1337).name }.to raise_error(UnknownObjectException)
+      expect { browser.checkbox(:index, 1337).name }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -129,7 +129,7 @@ describe "CheckBox" do
     end
 
     it "raises UnknownObjectException if the checkbox doesn't exist" do
-      expect{ browser.checkbox(:index, 1337).title }.to raise_error(UnknownObjectException)
+      expect { browser.checkbox(:index, 1337).title }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -139,7 +139,7 @@ describe "CheckBox" do
     end
 
     it "raises UnknownObjectException if the checkbox doesn't exist" do
-      expect{ browser.checkbox(:index, 1337).type }.to raise_error(UnknownObjectException)
+      expect { browser.checkbox(:index, 1337).type }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -149,7 +149,7 @@ describe "CheckBox" do
     end
 
     it "raises UnknownObjectException if the checkbox doesn't exist" do
-      expect{ browser.checkbox(:index, 1337).value}.to raise_error(UnknownObjectException)
+      expect { browser.checkbox(:index, 1337).value}.to raise_error(UnknownObjectException)
     end
   end
 
@@ -178,8 +178,8 @@ describe "CheckBox" do
     end
 
     it "raises UnknownObjectException if the checkbox button doesn't exist" do
-      expect{ browser.checkbox(:id, "no_such_id").enabled?  }.to raise_error(UnknownObjectException)
-      expect{ browser.checkbox(:xpath, "//input[@id='no_such_id']").enabled?  }.to raise_error(UnknownObjectException)
+      expect { browser.checkbox(:id, "no_such_id").enabled?  }.to raise_error(UnknownObjectException)
+      expect { browser.checkbox(:xpath, "//input[@id='no_such_id']").enabled?  }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -193,7 +193,7 @@ describe "CheckBox" do
     end
 
     it "raises UnknownObjectException if the checkbox doesn't exist" do
-      expect{ browser.checkbox(:index, 1337).disabled? }.to raise_error(UnknownObjectException)
+      expect { browser.checkbox(:index, 1337).disabled? }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -202,8 +202,8 @@ describe "CheckBox" do
   describe "#clear" do
     it "raises ObjectDisabledException if the checkbox is disabled" do
       expect(browser.checkbox(:id, "new_user_interests_dentistry")).to_not be_set
-      expect{ browser.checkbox(:id, "new_user_interests_dentistry").clear }.to raise_error(ObjectDisabledException)
-      expect{ browser.checkbox(:xpath, "//input[@id='new_user_interests_dentistry']").clear }.to raise_error(ObjectDisabledException)
+      expect { browser.checkbox(:id, "new_user_interests_dentistry").clear }.to raise_error(ObjectDisabledException)
+      expect { browser.checkbox(:xpath, "//input[@id='new_user_interests_dentistry']").clear }.to raise_error(ObjectDisabledException)
     end
 
     it "clears the checkbox button if it is set" do
@@ -217,8 +217,8 @@ describe "CheckBox" do
     end
 
     it "raises UnknownObjectException if the checkbox button doesn't exist" do
-      expect{ browser.checkbox(:name, "no_such_id").clear }.to raise_error(UnknownObjectException)
-      expect{ browser.checkbox(:xpath, "//input[@id='no_such_id']").clear  }.to raise_error(UnknownObjectException)
+      expect { browser.checkbox(:name, "no_such_id").clear }.to raise_error(UnknownObjectException)
+      expect { browser.checkbox(:xpath, "//input[@id='no_such_id']").clear  }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -242,13 +242,13 @@ describe "CheckBox" do
     end
 
     it "raises UnknownObjectException if the checkbox button doesn't exist" do
-      expect{ browser.checkbox(:name, "no_such_name").set  }.to raise_error(UnknownObjectException)
-      expect{ browser.checkbox(:xpath, "//input[@name='no_such_name']").set  }.to raise_error(UnknownObjectException)
+      expect { browser.checkbox(:name, "no_such_name").set  }.to raise_error(UnknownObjectException)
+      expect { browser.checkbox(:xpath, "//input[@name='no_such_name']").set  }.to raise_error(UnknownObjectException)
     end
 
     it "raises ObjectDisabledException if the checkbox is disabled" do
-      expect{ browser.checkbox(:id, "new_user_interests_dentistry").set  }.to raise_error(ObjectDisabledException)
-      expect{ browser.checkbox(:xpath, "//input[@id='new_user_interests_dentistry']").set  }.to raise_error(ObjectDisabledException )
+      expect { browser.checkbox(:id, "new_user_interests_dentistry").set  }.to raise_error(ObjectDisabledException)
+      expect { browser.checkbox(:xpath, "//input[@id='new_user_interests_dentistry']").set  }.to raise_error(ObjectDisabledException )
     end
   end
 
@@ -272,8 +272,8 @@ describe "CheckBox" do
     end
 
     it "raises UnknownObjectException if the checkbox button doesn't exist" do
-      expect{ browser.checkbox(:id, "no_such_id").set?  }.to raise_error(UnknownObjectException)
-      expect{ browser.checkbox(:xpath, "//input[@id='no_such_id']").set?  }.to raise_error(UnknownObjectException)
+      expect { browser.checkbox(:id, "no_such_id").set?  }.to raise_error(UnknownObjectException)
+      expect { browser.checkbox(:xpath, "//input[@id='no_such_id']").set?  }.to raise_error(UnknownObjectException)
     end
   end
 

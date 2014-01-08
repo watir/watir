@@ -27,11 +27,11 @@ describe "TableRow" do
     end
 
     it "raises TypeError when 'what' argument is invalid" do
-      expect{ browser.tr(:id, 3.14).exists? }.to raise_error(TypeError)
+      expect { browser.tr(:id, 3.14).exists? }.to raise_error(TypeError)
     end
 
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-      expect{ browser.tr(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
+      expect { browser.tr(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
     end
   end
 
@@ -56,8 +56,8 @@ describe "TableRow" do
 
     not_compliant_on :webdriver do #[] returns watir elements (lazy locate)
       it "raises UnknownCellException if the index is out of bounds" do
-        expect{ table.tr(:index, 0)[1337] }.to raise_error(UnknownCellException)
-        expect{ table[0][1337] }.to raise_error(UnknownCellException)
+        expect { table.tr(:index, 0)[1337] }.to raise_error(UnknownCellException)
+        expect { table[0][1337] }.to raise_error(UnknownCellException)
       end
     end
   end

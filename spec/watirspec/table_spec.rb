@@ -33,11 +33,11 @@ describe "Table" do
     end
 
     it "raises TypeError when 'what' argument is invalid" do
-      expect{ browser.table(:id, 3.14).exists? }.to raise_error(TypeError)
+      expect { browser.table(:id, 3.14).exists? }.to raise_error(TypeError)
     end
 
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-      expect{ browser.table(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
+      expect { browser.table(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
     end
   end
 
@@ -83,7 +83,7 @@ describe "Table" do
     it "raises an error if the table could not be parsed" do
       browser.goto(WatirSpec.url_for("uneven_table.html"))
 
-      expect{
+      expect {
         browser.table.hashes
       }.to raise_error("row at index 0 has 2 cells, expected 3")
     end
@@ -105,7 +105,7 @@ describe "Table" do
 
     not_compliant_on :webdriver, :watir_classic do
       it "raises UnknownRowException if the index is out of bounds" do
-        expect{ browser.table(:id, 'outer')[1337] }.to raise_error(UnknownRowException)
+        expect { browser.table(:id, 'outer')[1337] }.to raise_error(UnknownRowException)
       end
     end
   end

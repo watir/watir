@@ -36,11 +36,11 @@ describe "Del" do
     end
 
     it "raises TypeError when 'what' argument is invalid" do
-      expect{ browser.del(:id, 3.14).exists? }.to raise_error(TypeError)
+      expect { browser.del(:id, 3.14).exists? }.to raise_error(TypeError)
     end
 
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-      expect{ browser.del(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
+      expect { browser.del(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
     end
   end
 
@@ -55,7 +55,7 @@ describe "Del" do
     end
 
     it "raises UnknownObjectException if the del doesn't exist" do
-      expect{ browser.del(:id, 'no_such_id').class_name }.to raise_error(UnknownObjectException)
+      expect { browser.del(:id, 'no_such_id').class_name }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -69,8 +69,8 @@ describe "Del" do
     end
 
     it "raises UnknownObjectException if the del doesn't exist" do
-      expect{ browser.del(:id, "no_such_id").id }.to raise_error(UnknownObjectException)
-      expect{ browser.del(:index, 1337).id }.to raise_error(UnknownObjectException)
+      expect { browser.del(:id, "no_such_id").id }.to raise_error(UnknownObjectException)
+      expect { browser.del(:index, 1337).id }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -84,8 +84,8 @@ describe "Del" do
     end
 
     it "raises UnknownObjectException if the del doesn't exist" do
-      expect{ browser.del(:id, 'no_such_id').title }.to raise_error( UnknownObjectException)
-      expect{ browser.del(:xpath, "//del[@id='no_such_id']").title }.to raise_error( UnknownObjectException)
+      expect { browser.del(:id, 'no_such_id').title }.to raise_error( UnknownObjectException)
+      expect { browser.del(:xpath, "//del[@id='no_such_id']").title }.to raise_error( UnknownObjectException)
     end
   end
 
@@ -99,8 +99,8 @@ describe "Del" do
     end
 
     it "raises UnknownObjectException if the del doesn't exist" do
-      expect{ browser.del(:id, 'no_such_id').text }.to raise_error( UnknownObjectException)
-      expect{ browser.del(:xpath , "//del[@id='no_such_id']").text }.to raise_error( UnknownObjectException)
+      expect { browser.del(:id, 'no_such_id').text }.to raise_error( UnknownObjectException)
+      expect { browser.del(:xpath , "//del[@id='no_such_id']").text }.to raise_error( UnknownObjectException)
     end
   end
 
@@ -122,8 +122,8 @@ describe "Del" do
     end
 
     it "raises UnknownObjectException if the del doesn't exist" do
-      expect{ browser.del(:id, "no_such_id").click }.to raise_error(UnknownObjectException)
-      expect{ browser.del(:title, "no_such_title").click }.to raise_error(UnknownObjectException)
+      expect { browser.del(:id, "no_such_id").click }.to raise_error(UnknownObjectException)
+      expect { browser.del(:title, "no_such_title").click }.to raise_error(UnknownObjectException)
     end
   end
 end

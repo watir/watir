@@ -46,11 +46,11 @@ describe "Link" do
     end
 
     it "raises TypeError when 'what' argument is invalid" do
-      expect{ browser.link(:id, 3.14).exists? }.to raise_error(TypeError)
+      expect { browser.link(:id, 3.14).exists? }.to raise_error(TypeError)
     end
 
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-      expect{ browser.link(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
+      expect { browser.link(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
     end
   end
 
@@ -65,7 +65,7 @@ describe "Link" do
     end
 
     it "raises an UnknownObjectException if the link doesn't exist" do
-      expect{ browser.link(:index, 1337).class_name }.to raise_error(UnknownObjectException)
+      expect { browser.link(:index, 1337).class_name }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -79,7 +79,7 @@ describe "Link" do
     end
 
     it "raises an UnknownObjectException if the link doesn't exist" do
-      expect{ browser.link(:index, 1337).href }.to raise_error(UnknownObjectException)
+      expect { browser.link(:index, 1337).href }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -99,7 +99,7 @@ describe "Link" do
     end
 
     it "raises an UnknownObjectException if the link doesn't exist" do
-      expect{ browser.link(:index, 1337).id }.to raise_error(UnknownObjectException)
+      expect { browser.link(:index, 1337).id }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -113,7 +113,7 @@ describe "Link" do
     end
 
     it "raises an UnknownObjectException if the link doesn't exist" do
-      expect{ browser.link(:index, 1337).text }.to raise_error(UnknownObjectException)
+      expect { browser.link(:index, 1337).text }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -127,7 +127,7 @@ describe "Link" do
     end
 
     it "raises an UnknownObjectException if the link doesn't exist" do
-      expect{ browser.link(:index, 1337).title }.to raise_error(UnknownObjectException)
+      expect { browser.link(:index, 1337).title }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -160,7 +160,7 @@ describe "Link" do
     end
 
     it "raises an UnknownObjectException if the link doesn't exist" do
-      expect{ browser.link(:index, 1337).click }.to raise_error(UnknownObjectException)
+      expect { browser.link(:index, 1337).click }.to raise_error(UnknownObjectException)
     end
 
     it "clicks a link with no text content but an img child" do

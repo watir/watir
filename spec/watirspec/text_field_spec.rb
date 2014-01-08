@@ -69,11 +69,11 @@ describe "TextField" do
     end
 
     it "raises TypeError when 'what' argument is invalid" do
-      expect{ browser.text_field(:id, 3.14).exists? }.to raise_error(TypeError)
+      expect { browser.text_field(:id, 3.14).exists? }.to raise_error(TypeError)
     end
 
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-      expect{ browser.text_field(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
+      expect { browser.text_field(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
     end
   end
 
@@ -84,7 +84,7 @@ describe "TextField" do
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
-      expect{ browser.text_field(:index, 1337).id }.to raise_error(UnknownObjectException)
+      expect { browser.text_field(:index, 1337).id }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -94,7 +94,7 @@ describe "TextField" do
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
-      expect{ browser.text_field(:index, 1337).name }.to raise_error(UnknownObjectException)
+      expect { browser.text_field(:index, 1337).name }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -104,7 +104,7 @@ describe "TextField" do
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
-      expect{ browser.text_field(:index, 1337).title }.to raise_error(UnknownObjectException)
+      expect { browser.text_field(:index, 1337).title }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -122,7 +122,7 @@ describe "TextField" do
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
-      expect{ browser.text_field(:index, 1337).type }.to raise_error(UnknownObjectException)
+      expect { browser.text_field(:index, 1337).type }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -134,7 +134,7 @@ describe "TextField" do
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
-      expect{ browser.text_field(:index, 1337).value }.to raise_error(UnknownObjectException)
+      expect { browser.text_field(:index, 1337).value }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -161,7 +161,7 @@ describe "TextField" do
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
-      expect{ browser.text_field(:id, "no_such_id").enabled? }.to raise_error(UnknownObjectException)
+      expect { browser.text_field(:id, "no_such_id").enabled? }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -175,7 +175,7 @@ describe "TextField" do
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
-      expect{ browser.text_field(:index, 1337).disabled? }.to raise_error(UnknownObjectException)
+      expect { browser.text_field(:index, 1337).disabled? }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -190,7 +190,7 @@ describe "TextField" do
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
-      expect{ browser.text_field(:id, 'no_such_id').readonly? }.to raise_error(UnknownObjectException)
+      expect { browser.text_field(:id, 'no_such_id').readonly? }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -207,15 +207,15 @@ describe "TextField" do
     end
 
     it "raises ObjectReadOnlyException if the object is read only" do
-      expect{ browser.text_field(:id, "new_user_code").append("Append This") }.to raise_error(ObjectReadOnlyException)
+      expect { browser.text_field(:id, "new_user_code").append("Append This") }.to raise_error(ObjectReadOnlyException)
     end
 
     it "raises ObjectDisabledException if the object is disabled" do
-      expect{ browser.text_field(:name, "new_user_species").append("Append This") }.to raise_error(ObjectDisabledException)
+      expect { browser.text_field(:name, "new_user_species").append("Append This") }.to raise_error(ObjectDisabledException)
     end
 
     it "raises UnknownObjectException if the object doesn't exist" do
-      expect{ browser.text_field(:name, "no_such_name").append("Append This") }.to raise_error(UnknownObjectException)
+      expect { browser.text_field(:name, "no_such_name").append("Append This") }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -228,7 +228,7 @@ describe "TextField" do
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
-      expect{ browser.text_field(:id, "no_such_id").clear }.to raise_error(UnknownObjectException)
+      expect { browser.text_field(:id, "no_such_id").clear }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -249,7 +249,7 @@ describe "TextField" do
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
-      expect{ browser.text_field(:name, "no_such_name").value = 'yo' }.to raise_error(UnknownObjectException)
+      expect { browser.text_field(:name, "no_such_name").value = 'yo' }.to raise_error(UnknownObjectException)
     end
   end
 
@@ -285,7 +285,7 @@ describe "TextField" do
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
-      expect{ browser.text_field(:id, "no_such_id").set('secret') }.to raise_error(UnknownObjectException)
+      expect { browser.text_field(:id, "no_such_id").set('secret') }.to raise_error(UnknownObjectException)
     end
   end
 end

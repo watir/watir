@@ -14,13 +14,13 @@ describe "Element" do
     end
 
     it "raises UnknownObjectException with a sane error message when given a hash of :how => 'what' arguments (non-existing object)" do
-      expect{ browser.text_field(:index => 100, :name => "foo").id }.to raise_error(UnknownObjectException)
+      expect { browser.text_field(:index => 100, :name => "foo").id }.to raise_error(UnknownObjectException)
     end
 
     it "raises ArgumentError if given the wrong number of arguments" do
       container = double("container").as_null_object
-      expect{ Element.new(container, 1,2,3,4) }.to raise_error(ArgumentError)
-      expect{ Element.new(container, "foo") }.to raise_error(ArgumentError)
+      expect { Element.new(container, 1,2,3,4) }.to raise_error(ArgumentError)
+      expect { Element.new(container, "foo") }.to raise_error(ArgumentError)
     end
   end
 
@@ -86,15 +86,15 @@ describe "Element" do
     end
 
     it "raises MissingWayOfFindingObjectException if the attribute is invalid for the element type" do
-      expect{
+      expect {
         browser.element(:for => "no title").exists?
       }.to raise_error(MissingWayOfFindingObjectException)
 
-      expect{
+      expect {
         browser.element(:name => "new_user_first_name").exists?
       }.to raise_error(MissingWayOfFindingObjectException)
 
-      expect{
+      expect {
         browser.element(:value => //).exists?
       }.to raise_error(MissingWayOfFindingObjectException)
     end
@@ -225,12 +225,12 @@ describe "Element" do
     end
 
     it "raises ArgumentError error if selector hash with :xpath has multiple entries" do
-      expect{ browser.div(:xpath => "//div", :class => "foo").exists? }.to raise_error(ArgumentError)
+      expect { browser.div(:xpath => "//div", :class => "foo").exists? }.to raise_error(ArgumentError)
     end
 
     bug "https://github.com/watir/watir-webdriver/issues/124", :webdriver do
       it "raises ArgumentError error if selector hash with :css has multiple entries" do
-        expect{ browser.div(:css => "//div", :class => "foo").exists? }.to raise_error(ArgumentError)
+        expect { browser.div(:css => "//div", :class => "foo").exists? }.to raise_error(ArgumentError)
       end
     end
   end
