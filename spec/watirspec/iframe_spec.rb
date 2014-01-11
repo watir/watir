@@ -75,8 +75,17 @@ describe "IFrame" do
   end
 
   bug 'https://github.com/watir/watir-webdriver/issues/211', :webdriver do
-    it 'properly handles all locators for element which do not exist' do
+    it 'handles all locators for element which do not exist' do
       expect(browser.iframe(:index, 0).div(:id, 'invalid')).to_not exist
+    end
+  end
+
+  bug 'https://github.com/watir/watir-webdriver/issues/237', :webdriver do
+    it 'switches between iframe and parent when needed' do
+      browser.iframe(:id, "iframe_1").elements.each do |element|
+        element.text
+        browser.h1.text
+      end
     end
   end
 
