@@ -80,6 +80,36 @@ describe "Browser#cookies" do
     end
   end
 
+  not_compliant_on [:webdriver, :internet_explorer], :phantomjs do
+    let(:file) { "#{Dir.tmpdir}/cookies" }
+
+    before do
+      browser.goto set_cookie_url
+      browser.cookies.save file
+    end
+
+    describe '#save' do
+      it 'saves cookies to file' do
+        expect(IO.read(file)).to eq(browser.cookies.to_a.to_yaml)
+      end
+    end
+
+    describe '#load' do
+      it 'loads cookies from file' do
+        browser.cookies.clear
+        browser.cookies.load file
+        expected = browser.cookies.to_a
+        actual = YAML.load(IO.read(file))
+
+        # https://code.google.com/p/selenium/issues/detail?id=6834
+        expected.each { |cookie| cookie.delete(:expires) }
+        actual.each { |cookie| cookie.delete(:expires) }
+
+        expect(actual).to eq(expected)
+      end
+    end
+  end
+
   def set_cookie_url
     # add timestamp to url to avoid caching in IE8
     WatirSpec.url_for('set_cookie/index.html', :needs_server => true) + "?t=#{Time.now.to_i + Time.now.usec}"
