@@ -2,6 +2,7 @@ require 'yaml'
 
 module Watir
   class Cookies
+
     def initialize(control)
       @control = control
     end
@@ -33,7 +34,7 @@ module Watir
     # @param [Hash] opts
     # @option opts [Boolean] :secure
     # @option opts [String] :path
-    # @option opts [] :expires  TODO what type
+    # @option opts [Time, DateTime, NilClass] :expires
     # @option opts [String] :domain
     #
 
@@ -44,11 +45,8 @@ module Watir
         :secure  => opts[:secure],
         :path    => opts[:path],
         :expires => opts[:expires],
+        :domain  => opts[:domain],
       }
-
-      if opts[:domain]
-        cookie[:domain] = opts[:domain]
-      end
 
       @control.add_cookie cookie
     end
@@ -101,7 +99,7 @@ module Watir
 
     def load(file = '.cookies')
       YAML.load(IO.read(file)).each do |c|
-        add c[:name], c[:value], path: c[:path], domain: c[:domain], expires: c[:expires], secure: c[:secure]
+        add(c.delete(:name), c.delete(:value), c)
       end
     end
 
@@ -114,6 +112,6 @@ module Watir
         ::Time.local t.year, t.month, t.day, t.hour, t.min, t.sec
       end
     end
-  end
-end
 
+  end # Cookies
+end # Watir
