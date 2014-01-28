@@ -1,10 +1,18 @@
-0.6.5 (unreleased)
-=====
+0.6.5 (2014-01-28)
+==================
 
+* Allow :name as locator for any element (#238)
 * Make default timeout configurable (Watir.default_timeout, thanks to Justin Ko)
-* Fix collission with Timecop. Fixes #228.
-* Support locating elements by and retrieving value of `aria-*` attributes. Fixes #233.
+* Fix collission with Timecop. (#228)
+* Support locating elements by and retrieving value of `aria-*` attributes. (#233)
 * Allow to save/load cookies from file (thanks @ar4an)
+* Locate by label attribute if it's valid for element (#219)
+* Delegate #present? to Element (#216)
+* Handle iframes like frames (#204)
+* Fix HTML5 / input type handling (#217)
+* Fix locating buttons and textarea by value (#163, #208)
+* Make sure Browser#url always returns url of top frame (#205).
+* Deprecate locating texteareas with #text_field.
 
 0.6.4
 =====
