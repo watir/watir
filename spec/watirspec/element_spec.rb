@@ -91,10 +91,6 @@ describe "Element" do
       }.to raise_error(MissingWayOfFindingObjectException)
 
       expect {
-        browser.element(:name => "new_user_first_name").exists?
-      }.to raise_error(MissingWayOfFindingObjectException)
-
-      expect {
         browser.element(:value => //).exists?
       }.to raise_error(MissingWayOfFindingObjectException)
     end
