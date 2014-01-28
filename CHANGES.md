@@ -1,5 +1,4 @@
-0.6.5 (2014-01-28)
-==================
+### 0.6.5 (2014-01-28)
 
 * Allow :name as locator for any element (#238)
 * Make default timeout configurable (Watir.default_timeout, thanks to Justin Ko)
@@ -14,19 +13,16 @@
 * Make sure Browser#url always returns url of top frame (#205).
 * Deprecate locating texteareas with #text_field.
 
-0.6.4
-=====
+### 0.6.4
 
 * Add ability to find element by parent <label>
 
-0.6.3
-=====
+### 0.6.3
 
 * Always use custom YARD handler (should give full docs on rubydoc.info)
 * Window resizing coerces string arguments
 
-0.6.2
-=====
+### 0.6.2
 
 * Update from HTML spec (adds :abbr attribute to TableHeaderCell).
 * Add Window#maximize. Closes #153.
@@ -36,8 +32,7 @@
 * Return the element itself when Element#flash is called.
 * Fix case sensitivity issues when locating elements. Closes #72.
 
-0.6.1
-=====
+### 0.6.1
 
    Added objects:
 
@@ -50,8 +45,7 @@
      Watir::VERSION (lib/watir-webdriver/version.rb:2)
 
 
-0.6.0
-=====
+### 0.6.0
 
    Added objects:
 
@@ -80,8 +74,7 @@
      Watir::VERSION (lib/watir-webdriver/version.rb:2)
 
 
-0.5.8
-=====
+### 0.5.8
 
    Modified objects:
 
@@ -89,8 +82,7 @@
      Watir::VERSION (lib/watir-webdriver/version.rb:2)
 
 
-0.5.7
-=====
+### 0.5.7
 
    Added objects:
 
@@ -102,8 +94,7 @@
      Watir::VERSION (lib/watir-webdriver/version.rb:2)
 
 
-0.5.6
-=====
+### 0.5.6
 
    Added objects:
 
@@ -119,8 +110,7 @@
      Watir::VERSION (lib/watir-webdriver/version.rb:2)
 
 
-0.5.5
-=====
+### 0.5.5
 
    Modified objects:
 
@@ -132,8 +122,7 @@
      Watir::Browser#clear_cookies (lib/watir-webdriver/browser.rb:90)
 
 
-0.5.4
-=====
+### 0.5.4
 
    Added objects:
 
@@ -151,8 +140,7 @@
      Watir::Frame#elements_by_xpath (lib/watir-webdriver/elements/frame.rb:50)
 
 
-0.5.3
-=====
+### 0.5.3
 
    Added objects:
 
@@ -164,8 +152,7 @@
      Watir::VERSION (lib/watir-webdriver/version.rb:2)
 
 
-0.5.2
-=====
+### 0.5.2
 
    Modified objects:
 
@@ -175,8 +162,7 @@
      Watir::VERSION (lib/watir-webdriver/version.rb:2)
 
 
-0.5.1
-=====
+### 0.5.1
 
    Added objects:
 
@@ -199,8 +185,7 @@
      Watir::XpathSupport#elements_by_xpath (lib/watir-webdriver/xpath_support.rb:23)
 
 
-0.5.0
-=====
+### 0.5.0
 
    Added objects:
 
@@ -243,16 +228,14 @@
      Watir::TextField#value= (lib/watir-webdriver/elements/text_field.rb:19)
 
 
-0.4.1
-=====
+### 0.4.1
 
    Modified objects:
 
      Watir::VERSION (lib/watir-webdriver/version.rb:2)
 
 
-0.4.0
-=====
+### 0.4.0
 
    Modified objects:
 
@@ -266,8 +249,7 @@
      Object (lib/watir-webdriver.rb:86)
 
 
-0.3.9
-=====
+### 0.3.9
 
    Added objects:
 
@@ -302,8 +284,7 @@
      Watir::WindowSwitching#windows (lib/watir-webdriver/window_switching.rb:4)
 
 
-0.3.8
-=====
+### 0.3.8
 
    Modified objects:
 
@@ -311,8 +292,7 @@
      Watir::VERSION (lib/watir-webdriver/version.rb:2)
 
 
-0.3.7
-=====
+### 0.3.7
 
    Modified objects:
 
@@ -320,8 +300,7 @@
      Watir::VERSION (lib/watir-webdriver/version.rb:2)
 
 
-0.3.6
-=====
+### 0.3.6
 
    Modified objects:
 
@@ -329,24 +308,21 @@
      Watir::Window#present? (lib/watir-webdriver/window_switching.rb:63)
 
 
-0.3.5
-=====
+### 0.3.5
 
    Modified objects:
 
      Watir::VERSION (lib/watir-webdriver/version.rb:2)
 
 
-0.3.4
-=====
+### 0.3.4
 
    Modified objects:
 
      Watir::VERSION (lib/watir-webdriver/version.rb:2)
 
 
-0.3.3
-=====
+### 0.3.3
 
    Modified objects:
 
@@ -357,8 +333,7 @@
      Watir::VERSION (lib/watir-webdriver/version.rb:2)
 
 
-0.3.2
-=====
+### 0.3.2
 
    Modified objects:
 
@@ -366,8 +341,7 @@
      Watir::VERSION (lib/watir-webdriver/version.rb:2)
 
 
-0.3.1
-=====
+### 0.3.1
 
    Added objects:
 
@@ -385,8 +359,7 @@
      Watir.tag_to_class (lib/watir-webdriver.rb:23)
 
 
-0.3.0
-=====
+### 0.3.0
 
    Modified objects:
 
@@ -395,8 +368,7 @@
      Watir::VERSION (lib/watir-webdriver/version.rb:2)
 
 
-0.2.9
-=====
+### 0.2.9
 
    Added objects:
 
@@ -411,8 +383,7 @@
      Watir::VERSION (lib/watir-webdriver/version.rb:2)
 
 
-0.2.8
-=====
+### 0.2.8
 
    Modified objects:
 
@@ -420,8 +391,7 @@
      Watir::VERSION (lib/watir-webdriver/version.rb:2)
 
 
-0.2.7
-=====
+### 0.2.7
 
    Added objects:
 
@@ -435,8 +405,7 @@
      Watir::VERSION (lib/watir-webdriver/version.rb:2)
 
 
-0.2.6
-=====
+### 0.2.6
 
    Modified objects:
 
@@ -445,8 +414,7 @@
      Watir::VERSION (lib/watir-webdriver/version.rb:2)
 
 
-0.2.5
-=====
+### 0.2.5
 
    Modified objects:
 
@@ -456,8 +424,7 @@
      Watir::VERSION (lib/watir-webdriver/version.rb:2)
 
 
-0.2.4
-=====
+### 0.2.4
 
    Added objects:
 
@@ -474,8 +441,7 @@
      Watir::VERSION (lib/watir-webdriver/version.rb:2)
 
 
-0.2.3
-=====
+### 0.2.3
 
    Added objects:
 
@@ -500,8 +466,7 @@
      Watir::PerformanceHelper::Performance#timing (lib/watir-webdriver/extensions/performance.rb:22)
 
 
-0.2.2
-=====
+### 0.2.2
 
    Modified objects:
 
@@ -519,8 +484,7 @@
      Watir::TextField#value (lib/watir-webdriver/elements/text_field.rb:45)
 
 
-0.2.1
-=====
+### 0.2.1
 
    Modified objects:
 
@@ -545,8 +509,7 @@
      Watir::Element#wd (lib/watir-webdriver/elements/element.rb:160)
 
 
-0.2.0
-=====
+### 0.2.0
 
    Added objects:
 
@@ -559,8 +522,7 @@
      Watir::VERSION (lib/watir-webdriver/version.rb:2)
 
 
-0.2.0.dev2
-==========
+### 0.2.0.dev2
 
    Added objects:
 
@@ -585,8 +547,7 @@
      Watir::WindowSwitching::NoMatchingWindowFoundException (lib/watir-webdriver/window_switching.rb:4)
 
 
-0.2.0.dev
-=========
+### 0.2.0.dev
 
    Modified objects:
 
@@ -594,8 +555,7 @@
      Watir::Window#use (lib/watir-webdriver/window_switching.rb:103)
 
 
-0.1.9
-=====
+### 0.1.9
 
    Added objects:
 
@@ -631,8 +591,7 @@
      Watir::Element#when_present (lib/watir-webdriver/extensions/wait.rb:98)
 
 
-0.1.8
-=====
+### 0.1.8
 
    Added objects:
 
@@ -660,45 +619,39 @@
      Watir::TextField.from (lib/watir-webdriver/elements/text_field.rb:8)
 
 
-0.1.7
-=====
+### 0.1.7
 
    Modified objects:
 
      Watir::VERSION (lib/watir-webdriver/version.rb:2)
 
 
-0.1.6
-=====
+### 0.1.6
 
    Modified objects:
 
      Watir::VERSION (lib/watir-webdriver/version.rb:2)
 
 
-0.1.5
-=====
+### 0.1.5
 
    Added objects:
 
      Watir::VERSION (lib/watir-webdriver/version.rb:2)
 
 
-0.1.4
-=====
+### 0.1.4
 
    Modified objects:
 
      Watir::AlertHelper#prompt (lib/watir-webdriver/extensions/alerts.rb:55)
 
 
-0.1.3
-=====
+### 0.1.3
 
 
 
-0.1.2
-=====
+### 0.1.2
 
    Added objects:
 
@@ -710,8 +663,7 @@
      Watir::HTML::SpecExtractor#process (lib/watir-webdriver/html/spec_extractor.rb:10)
 
 
-0.1.1
-=====
+### 0.1.1
 
    Added objects:
 
@@ -726,8 +678,7 @@
      Watir::Table#to_a (lib/watir-webdriver/elements/table.rb:20)
 
 
-0.1.0
-=====
+### 0.1.0
 
    Added objects:
 
@@ -804,8 +755,7 @@
      Watir::TableRowLocator#locate_all (lib/watir-webdriver/locators/table_row_locator.rb:4)
 
 
-0.0.9
-=====
+### 0.0.9
 
    Added objects:
 
@@ -820,8 +770,7 @@
      Watir::CheckBoxCollection#element_name (lib/watir-webdriver/elements/checkbox.rb:69)
 
 
-0.0.8
-=====
+### 0.0.8
 
    Added objects:
 
@@ -914,8 +863,7 @@
      Watir::TextFieldLocator#tag_name_matches? (lib/watir-webdriver/locators/text_field_locator.rb:57)
 
 
-0.0.7
-=====
+### 0.0.7
 
    Added objects:
 
@@ -1491,21 +1439,18 @@
      Watir::Var (lib/watir-webdriver/elements/generated.rb:1267)
 
 
-0.0.6
-=====
+### 0.0.6
 
 
 
-0.0.5
-=====
+### 0.0.5
 
    Modified objects:
 
      Watir::Frame#locate (lib/watir-webdriver/elements/frame.rb:12)
 
 
-0.0.4
-=====
+### 0.0.4
 
    Added objects:
 
@@ -1525,8 +1470,7 @@
      Watir::TextFieldLocator#lhs_for (lib/watir-webdriver/locators/text_field_locator.rb:34)
 
 
-0.0.3
-=====
+### 0.0.3
 
    Added objects:
 
@@ -1539,21 +1483,18 @@
      Watir::TextFieldLocator#build_xpath (lib/watir-webdriver/locators/text_field_locator.rb:12)
 
 
-0.0.2
-=====
+### 0.0.2
 
 
 
-0.0.1
-=====
+### 0.0.1
 
    Modified objects:
 
      Watir::Option#select (lib/watir-webdriver/elements/option.rb:14)
 
 
-0.0.1.dev7
-==========
+### 0.0.1.dev7
 
    Added objects:
 
@@ -1581,8 +1522,7 @@
      Watir::Container#frames (lib/watir-webdriver.rb:60)
 
 
-0.0.1.dev6
-==========
+### 0.0.1.dev6
 
    Added objects:
 
@@ -1628,8 +1568,7 @@
      Watir::Unknown (lib/watir-webdriver/elements/generated.rb:489)
 
 
-0.0.1.dev5
-==========
+### 0.0.1.dev5
 
    Added objects:
 
@@ -1653,8 +1592,7 @@
      Watir::TextField#selector_string (lib/watir-webdriver/elements/text_field.rb:19)
 
 
-0.0.1.dev4
-==========
+### 0.0.1.dev4
 
    Added objects:
 
@@ -1680,8 +1618,7 @@
      Watir::TrsCollection#elements (lib/watir-webdriver/collections/table_rows_collection.rb:4)
 
 
-0.0.1.dev3
-==========
+### 0.0.1.dev3
 
    Modified objects:
 
@@ -1689,8 +1626,7 @@
      Watir::Browser#text (lib/watir-webdriver/browser.rb:73)
 
 
-0.0.1.dev2
-==========
+### 0.0.1.dev2
 
    Added objects:
 
