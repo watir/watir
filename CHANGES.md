@@ -1,3 +1,7 @@
+### 0.6.6 (2014-01-29)
+
+* Fix regression where locating `<button>foo</button>` using (value: /foo/) would fail.
+
 ### 0.6.5 (2014-01-28)
 
 * Allow :name as locator for any element (#238)
