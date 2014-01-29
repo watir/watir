@@ -56,6 +56,17 @@ module Watir
       end
     end
 
+    def matches_selector?(element, selector)
+      if selector.key?(:value)
+        copy  = selector.dup
+        value = copy.delete(:value)
+
+        super(element, copy) && (value === fetch_value(element, :value) || value === fetch_value(element, :text))
+      else
+        super
+      end
+    end
+
     def tag_name_matches?(tag_name, _)
       !!(/^(input|button)$/ === tag_name)
     end
