@@ -54,7 +54,7 @@ module Watir
       raise NotImplementedError, "not currently supported by WebDriver"
     end
 
-    def content_base64
+    def to_png_base64
       assert_exists
       js = %q{var canvas = document.createElement("canvas");
               canvas.width = arguments[0].width;
@@ -62,7 +62,7 @@ module Watir
               var ctx = canvas.getContext("2d");
               ctx.drawImage(arguments[0], 0, 0);
               var dataURL = canvas.toDataURL("image/png");
-              return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");}
+              return dataURL.replace(/^data:image\/(png|jpg|gif);base64,/, "");}
       driver.execute_script js, @element
     end
 
