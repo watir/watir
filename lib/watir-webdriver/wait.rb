@@ -23,13 +23,11 @@ module Watir
 
       def until(timeout = nil, message = nil, &block)
         timeout ||= Watir.default_timeout
-        wait(timeout) do
+        wait(timeout, message) do
           result = yield(self)
           return result if result
           sleep INTERVAL
         end
-
-        raise TimeoutError, message_for(timeout, message)
       end
 
       #
@@ -45,12 +43,10 @@ module Watir
 
       def while(timeout = nil, message = nil, &block)
         timeout ||= Watir.default_timeout
-        wait(timeout) do
+        wait(timeout, message) do
           return unless yield(self)
           sleep INTERVAL
         end
-
-        raise TimeoutError, message_for(timeout, message)
       end
 
       private
@@ -62,8 +58,12 @@ module Watir
         err
       end
 
-      def wait(timeout, &block)
-        (timeout / INTERVAL).to_i.times &block
+      def wait(timeout, message, &block)
+        Timeout.timeout(timeout) do
+          (timeout / INTERVAL).to_i.times &block
+        end
+      rescue Timeout::Error
+        raise TimeoutError, message_for(timeout, message)
       end
 
     end # self
