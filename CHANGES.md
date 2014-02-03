@@ -1,3 +1,8 @@
+### 0.6.7 (unreleased)
+
+* Return to `Time` in `Watir::Wait` default implementation
+* Allow using `Timeout` for waiting. Added `Watir::Wait.use_timeout` and `Watir::Wait.use_timeout?`
+
 ### 0.6.6 (2014-01-29)
 
 * Fix regression where locating `<button>foo</button>` using (value: /foo/) would fail.
