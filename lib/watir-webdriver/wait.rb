@@ -11,6 +11,22 @@ module Watir
     class << self
 
       #
+      # By default, Watir::Wait uses Time.now for
+      # waiting. However, some libraries may stub
+      # Time class methods (e.g. timecop gem). In
+      # this case, you can tell Watir to use Timeout
+      # instead.
+      #
+      # @attr_writer [Boolean] use_timeout
+      #
+
+      attr_writer :use_timeout
+
+      def use_timeout?
+        !!@use_timeout
+      end
+
+      #
       # Waits until the block evaluates to true or times out.
       #
       # @example
@@ -23,13 +39,11 @@ module Watir
 
       def until(timeout = nil, message = nil, &block)
         timeout ||= Watir.default_timeout
-        wait(timeout) do
+        wait(timeout, message) do
           result = yield(self)
           return result if result
           sleep INTERVAL
         end
-
-        raise TimeoutError, message_for(timeout, message)
       end
 
       #
@@ -45,12 +59,10 @@ module Watir
 
       def while(timeout = nil, message = nil, &block)
         timeout ||= Watir.default_timeout
-        wait(timeout) do
+        wait(timeout, message) do
           return unless yield(self)
           sleep INTERVAL
         end
-
-        raise TimeoutError, message_for(timeout, message)
       end
 
       private
@@ -62,8 +74,23 @@ module Watir
         err
       end
 
-      def wait(timeout, &block)
-        (timeout / INTERVAL).to_i.times &block
+      def wait(timeout, message, &block)
+        if use_timeout?
+          begin
+            Timeout.timeout(timeout) do
+              (timeout / INTERVAL).to_i.times &block
+            end
+          rescue Timeout::Error
+            raise TimeoutError, message_for(timeout, message)
+          end
+        else
+          end_time = ::Time.now + timeout
+          until ::Time.now > end_time
+            block.call
+          end
+
+          raise TimeoutError, message_for(timeout, message)
+        end
       end
 
     end # self
