@@ -9,7 +9,6 @@ module Watir
     INTERVAL = 0.1
 
     class << self
-
       #
       # Waits until the block evaluates to true or times out.
       #
@@ -23,7 +22,9 @@ module Watir
 
       def until(timeout = nil, message = nil, &block)
         timeout ||= Watir.default_timeout
-        wait(timeout) do
+        end_time = ::Time.now + timeout
+
+        until ::Time.now > end_time
           result = yield(self)
           return result if result
           sleep INTERVAL
@@ -45,7 +46,9 @@ module Watir
 
       def while(timeout = nil, message = nil, &block)
         timeout ||= Watir.default_timeout
-        wait(timeout) do
+        end_time = ::Time.now + timeout
+
+        until ::Time.now > end_time
           return unless yield(self)
           sleep INTERVAL
         end
@@ -60,10 +63,6 @@ module Watir
         err << ", #{message}" if message
 
         err
-      end
-
-      def wait(timeout, &block)
-        (timeout / INTERVAL).to_i.times &block
       end
 
     end # self
