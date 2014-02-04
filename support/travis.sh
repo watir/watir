@@ -4,7 +4,7 @@ set -e
 set -x
 
 export CHROME_REVISION=228611
-export CHROMEDRIVER_VERSION=2.4
+export CHROMEDRIVER_VERSION=2.9
 
 sh -e /etc/init.d/xvfb start
 git submodule update --init
