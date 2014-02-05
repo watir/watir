@@ -293,10 +293,6 @@ module Watir
         xpath << "[" << attribute_expression(selectors) << "]"
       end
 
-      if idx
-        xpath << "[#{idx + 1}]"
-      end
-
       p :xpath => xpath, :selectors => selectors if $DEBUG
 
       [:xpath, xpath]
