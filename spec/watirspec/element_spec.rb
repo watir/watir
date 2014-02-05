@@ -220,14 +220,24 @@ describe "Element" do
       expect(browser.div(:id, 'no_such_div').link(:id, 'no_such_id')).to_not exist
     end
 
+    it "raises if both :xpath and :css are given" do
+      expect { browser.div(:xpath => "//div", :css => "div").exists? }.to raise_error(ArgumentError)
+    end
+
+    it "doesn't raise when selector has with :xpath has :index" do
+      expect(browser.div(:xpath => "//div", :index => 1)).to exist
+    end
+
     it "raises ArgumentError error if selector hash with :xpath has multiple entries" do
       expect { browser.div(:xpath => "//div", :class => "foo").exists? }.to raise_error(ArgumentError)
     end
 
-    bug "https://github.com/watir/watir-webdriver/issues/124", :webdriver do
-      it "raises ArgumentError error if selector hash with :css has multiple entries" do
-        expect { browser.div(:css => "//div", :class => "foo").exists? }.to raise_error(ArgumentError)
-      end
+    it "doesn't raise when selector has with :css has :index" do
+      expect(browser.div(:css => "div", :index => 1)).to exist
+    end
+
+    it "raises ArgumentError error if selector hash with :css has multiple entries" do
+      expect { browser.div(:css => "div", :class => "foo").exists? }.to raise_error(ArgumentError)
     end
   end
 
