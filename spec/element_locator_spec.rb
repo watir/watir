@@ -219,6 +219,38 @@ describe Watir::ElementLocator do
         expect(locate_one(selector)).to eq elements[1]
       end
 
+      it "handles :xpath and :index selectors" do
+        elements = [
+          element(:tag_name => "div", :attributes => { :class => "foo" }),
+          element(:tag_name => "div", :attributes => { :class => "foo" })
+        ]
+
+        expect_all(:xpath, './/div[@class="foo"]').and_return(elements)
+
+        selector = {
+          :xpath => './/div[@class="foo"]',
+          :index => 1
+        }
+
+        expect(locate_one(selector)).to eq elements[1]
+      end
+
+      it "handles :css and :index selectors" do
+        elements = [
+          element(:tag_name => "div", :attributes => { :class => "foo" }),
+          element(:tag_name => "div", :attributes => { :class => "foo" })
+        ]
+
+        expect_all(:css, 'div[class="foo"]').and_return(elements)
+
+        selector = {
+          :css   => 'div[class="foo"]',
+          :index => 1
+        }
+
+        expect(locate_one(selector)).to eq elements[1]
+      end
+
       it "handles mix of string and regexp attributes" do
         elements = [
           element(:tag_name => "div", :attributes => { :dir => "foo", :title => "bar" }),

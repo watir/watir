@@ -3,7 +3,7 @@ module Watir
   class ElementLocator
     include Watir::Exception
 
-    WD_FINDERS =  [
+    WD_FINDERS = [
       :class,
       :class_name,
       :css,
@@ -34,7 +34,7 @@ module Watir
         element = find_first_by_multiple
       end
 
-      # This actually only applies when finding by xpath - browser.text_field(:xpath, "//input[@type='radio']")
+      # This actually only applies when finding by xpath/css - browser.text_field(:xpath, "//input[@type='radio']")
       # We don't need to validate the element if we built the xpath ourselves.
       # It is also used to alter behavior of methods locating more than one type of element
       # (e.g. text_field locates both input and textarea)
@@ -78,11 +78,11 @@ module Watir
     def find_first_by_multiple
       selector = normalized_selector
 
-      idx   = selector.delete(:index)
-      how, what = given_xpath(selector) || build_wd_selector(selector)
+      idx = selector.delete(:index)
+      how, what = given_xpath_or_css(selector) || build_wd_selector(selector)
 
       if how
-        # could build xpath for selector
+        # could build xpath/css for selector
         if idx
           @wd.find_elements(how, what)[idx]
         else
@@ -105,7 +105,7 @@ module Watir
         raise ArgumentError, "can't locate all elements by :index"
       end
 
-      how, what = given_xpath(selector) || build_wd_selector(selector)
+      how, what = given_xpath_or_css(selector) || build_wd_selector(selector)
       if how
         @wd.find_elements(how, what)
       else
@@ -208,7 +208,7 @@ module Watir
 
     def normalize_selector(how, what)
       case how
-      when :tag_name, :text, :xpath, :index, :class, :label
+      when :tag_name, :text, :xpath, :index, :class, :label, :css
         # include :class since the valid attribute is 'class_name'
         # include :for since the valid attribute is 'html_for'
         [how, what]
@@ -400,18 +400,29 @@ module Watir
       element
     end
 
-    def given_xpath(selector)
-      return unless xpath = selector.delete(:xpath)
+    def given_xpath_or_css(selector)
+      xpath = selector.delete(:xpath)
+      css   = selector.delete(:css)
+      return unless xpath || css
 
-      unless selector.empty? || can_be_combined_with_xpath?(selector)
-        raise ArgumentError, ":xpath cannot be combined with other selectors (#{selector.inspect})"
+      if xpath && css
+        raise ArgumentError, ":xpath and :css cannot be combined (#{selector.inspect})"
       end
 
-      [:xpath, xpath]
+      how, what = if xpath
+                    [:xpath, xpath]
+                  elsif css
+                    [:css, css]
+                  end
+
+      if selector.any? && !can_be_combined_with_xpath_or_css?(selector)
+        raise ArgumentError, "#{how} cannot be combined with other selectors (#{selector.inspect})"
+      end
+
+      [how, what]
     end
 
-    def can_be_combined_with_xpath?(selector)
-      # ouch - is this worth it?
+    def can_be_combined_with_xpath_or_css?(selector)
       keys = selector.keys
       return true if keys == [:tag_name]
 
