@@ -1,3 +1,7 @@
+### 0.6.7 (2014-02-04)
+
+* Revert wait/timeout bug introduced in 0.6.5 to fix #228.
+
 ### 0.6.6 (2014-01-29)
 
 * Fix regression where locating `<button>foo</button>` using (value: /foo/) would fail.
