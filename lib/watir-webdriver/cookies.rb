@@ -45,7 +45,7 @@ module Watir
         :secure  => opts[:secure],
         :path    => opts[:path],
         :expires => opts[:expires],
-        :domain  => opts[:domain],
+        :domain  => opts[:domain]
       }
 
       @control.add_cookie cookie
