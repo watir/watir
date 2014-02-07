@@ -2,7 +2,10 @@
 module Watir
   class Input < HTMLElement
 
-    alias_method :readonly?, :read_only?
+    def readonly?
+      warn '#readonly? is deprecated, use #read_only? instead'
+      read_only?
+    end
 
     #
     # Returns true if input is enabled.
