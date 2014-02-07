@@ -23,18 +23,13 @@ module Watir
       ).uniq
     end
 
-    def attributes(attribute_map = nil)
-      attribute_map or return attribute_list
+    alias_method :attributes, :attribute_list
 
-      add_attributes attribute_map
+    def attribute(type, name)
+      typed_attributes[type] << name
 
-      attribute_map.each do |type, attribs|
-        attribs.each do |name|
-          # we don't want to override methods like :text or :hash
-          next if IGNORED_ATTRIBUTES.include?(name)
-          define_attribute(type, name)
-        end
-      end
+      # we don't want to override methods like :text or :hash
+      define_attribute(type, name) unless IGNORED_ATTRIBUTES.include?(name)
     end
 
     private
@@ -93,12 +88,6 @@ module Watir
         assert_exists
         value = @element.attribute(aname)
         value && Float(value)
-      end
-    end
-
-    def add_attributes(attributes)
-      attributes.each do |type, attr_list|
-        typed_attributes[type] += attr_list
       end
     end
 

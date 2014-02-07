@@ -3,7 +3,9 @@ module Watir
   class TextField < Input
     include UserEditable
 
-    attributes Watir::TextArea.typed_attributes
+    Watir::TextArea.typed_attributes.each do |type, attrs|
+      attrs.each { |name| attribute type, name }
+    end
     remove_method :type # we want Input#type here, which was overriden by TextArea's attributes
 
     private

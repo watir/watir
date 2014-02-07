@@ -81,7 +81,185 @@ module Watir
 
 
  class HTMLElement < Element
-   attributes(:string => [:access_key, :access_key_label, :command_icon, :command_label, :command_type, :content_editable, :dir, :item_id, :item_value, :lang, :title], :bool => [:command_checked, :command_disabled, :command_hidden, :draggable, :hidden, :inert, :content_editable, :item_scope, :spellcheck, :translate], :html_element => [:context_menu], :string_map => [:dataset], :token_list => [:dropzone, :item_prop, :item_ref, :item_type], :function => [:onabort, :onblur, :oncancel, :oncanplay, :oncanplaythrough, :onchange, :onclick, :onclose, :oncontextmenu, :oncuechange, :ondblclick, :ondrag, :ondragend, :ondragenter, :ondragexit, :ondragleave, :ondragover, :ondragstart, :ondrop, :ondurationchange, :onemptied, :onended, :onerror, :onfocus, :oninput, :oninvalid, :onkeydown, :onkeypress, :onkeyup, :onload, :onloadeddata, :onloadedmetadata, :onloadstart, :onmousedown, :onmouseenter, :onmouseleave, :onmousemove, :onmouseout, :onmouseover, :onmouseup, :onmousewheel, :onpause, :onplay, :onplaying, :onprogress, :onratechange, :onreset, :onscroll, :onseeked, :onseeking, :onselect, :onshow, :onsort, :onstalled, :onsubmit, :onsuspend, :ontimeupdate, :onvolumechange, :onwaiting], :properties_collection => [:properties], :int => [:tab_index])
+   attribute(:string, :title)
+
+   attribute(:string, :lang)
+
+   attribute(:bool, :translate)
+
+   attribute(:string, :dir)
+
+   attribute(:string_map, :dataset)
+
+   attribute(:bool, :item_scope)
+
+   attribute(:token_list, :item_type)
+
+   attribute(:string, :item_id)
+
+   attribute(:token_list, :item_ref)
+
+   attribute(:token_list, :item_prop)
+
+   attribute(:properties_collection, :properties)
+
+   attribute(:string, :item_value)
+
+   attribute(:bool, :hidden)
+
+   attribute(:bool, :inert)
+
+   attribute(:int, :tab_index)
+
+   attribute(:string, :access_key)
+
+   attribute(:string, :access_key_label)
+
+   attribute(:bool, :draggable)
+
+   attribute(:token_list, :dropzone)
+
+   attribute(:string, :content_editable)
+
+   attribute(:bool, :is_content_editable)
+
+   attribute(:html_element, :context_menu)
+
+   attribute(:bool, :spellcheck)
+
+   attribute(:string, :command_type)
+
+   attribute(:string, :command_label)
+
+   attribute(:string, :command_icon)
+
+   attribute(:bool, :command_hidden)
+
+   attribute(:bool, :command_disabled)
+
+   attribute(:bool, :command_checked)
+
+   attribute(:function, :onabort)
+
+   attribute(:function, :onblur)
+
+   attribute(:function, :oncancel)
+
+   attribute(:function, :oncanplay)
+
+   attribute(:function, :oncanplaythrough)
+
+   attribute(:function, :onchange)
+
+   attribute(:function, :onclick)
+
+   attribute(:function, :onclose)
+
+   attribute(:function, :oncontextmenu)
+
+   attribute(:function, :oncuechange)
+
+   attribute(:function, :ondblclick)
+
+   attribute(:function, :ondrag)
+
+   attribute(:function, :ondragend)
+
+   attribute(:function, :ondragenter)
+
+   attribute(:function, :ondragexit)
+
+   attribute(:function, :ondragleave)
+
+   attribute(:function, :ondragover)
+
+   attribute(:function, :ondragstart)
+
+   attribute(:function, :ondrop)
+
+   attribute(:function, :ondurationchange)
+
+   attribute(:function, :onemptied)
+
+   attribute(:function, :onended)
+
+   attribute(:function, :onerror)
+
+   attribute(:function, :onfocus)
+
+   attribute(:function, :oninput)
+
+   attribute(:function, :oninvalid)
+
+   attribute(:function, :onkeydown)
+
+   attribute(:function, :onkeypress)
+
+   attribute(:function, :onkeyup)
+
+   attribute(:function, :onload)
+
+   attribute(:function, :onloadeddata)
+
+   attribute(:function, :onloadedmetadata)
+
+   attribute(:function, :onloadstart)
+
+   attribute(:function, :onmousedown)
+
+   attribute(:function, :onmouseenter)
+
+   attribute(:function, :onmouseleave)
+
+   attribute(:function, :onmousemove)
+
+   attribute(:function, :onmouseout)
+
+   attribute(:function, :onmouseover)
+
+   attribute(:function, :onmouseup)
+
+   attribute(:function, :onmousewheel)
+
+   attribute(:function, :onpause)
+
+   attribute(:function, :onplay)
+
+   attribute(:function, :onplaying)
+
+   attribute(:function, :onprogress)
+
+   attribute(:function, :onratechange)
+
+   attribute(:function, :onreset)
+
+   attribute(:function, :onresize)
+
+   attribute(:function, :onscroll)
+
+   attribute(:function, :onseeked)
+
+   attribute(:function, :onseeking)
+
+   attribute(:function, :onselect)
+
+   attribute(:function, :onshow)
+
+   attribute(:function, :onsort)
+
+   attribute(:function, :onstalled)
+
+   attribute(:function, :onsubmit)
+
+   attribute(:function, :onsuspend)
+
+   attribute(:function, :ontimeupdate)
+
+   attribute(:function, :ontoggle)
+
+   attribute(:function, :onvolumechange)
+
+   attribute(:function, :onwaiting)
  end
  class HTMLElementCollection < ElementCollection
    def element_class
@@ -89,7 +267,11 @@ module Watir
    end
  end
  class Font < HTMLElement
-   attributes(:string => [:color, :face, :size])
+   attribute(:string, :color)
+
+   attribute(:string, :face)
+
+   attribute(:string, :size)
  end
  class FontCollection < ElementCollection
    def element_class
@@ -97,7 +279,7 @@ module Watir
    end
  end
  class Directory < HTMLElement
-   attributes(:bool => [:compact])
+   attribute(:bool, :compact)
  end
  class DirectoryCollection < ElementCollection
    def element_class
@@ -105,7 +287,35 @@ module Watir
    end
  end
  class FrameSet < HTMLElement
-   attributes(:string => [:cols, :rows], :function => [:onafterprint, :onbeforeprint, :onbeforeunload, :onhashchange, :onmessage, :onoffline, :ononline, :onpagehide, :onpageshow, :onpopstate, :onresize, :onstorage, :onunload])
+   attribute(:string, :cols)
+
+   attribute(:string, :rows)
+
+   attribute(:function, :onafterprint)
+
+   attribute(:function, :onbeforeprint)
+
+   attribute(:function, :onbeforeunload)
+
+   attribute(:function, :onhashchange)
+
+   attribute(:function, :onlanguagechange)
+
+   attribute(:function, :onmessage)
+
+   attribute(:function, :onoffline)
+
+   attribute(:function, :ononline)
+
+   attribute(:function, :onpagehide)
+
+   attribute(:function, :onpageshow)
+
+   attribute(:function, :onpopstate)
+
+   attribute(:function, :onstorage)
+
+   attribute(:function, :onunload)
  end
  class FrameSetCollection < ElementCollection
    def element_class
@@ -113,7 +323,33 @@ module Watir
    end
  end
  class Marquee < HTMLElement
-   attributes(:string => [:behavior, :bg_color, :direction, :height, :width], :int => [:hspace, :loop, :scroll_amount, :scroll_delay, :vspace], :function => [:onbounce, :onfinish, :onstart], :bool => [:true_speed])
+   attribute(:string, :behavior)
+
+   attribute(:string, :bg_color)
+
+   attribute(:string, :direction)
+
+   attribute(:string, :height)
+
+   attribute(:int, :hspace)
+
+   attribute(:int, :loop)
+
+   attribute(:int, :scroll_amount)
+
+   attribute(:int, :scroll_delay)
+
+   attribute(:bool, :true_speed)
+
+   attribute(:int, :vspace)
+
+   attribute(:string, :width)
+
+   attribute(:function, :onbounce)
+
+   attribute(:function, :onfinish)
+
+   attribute(:function, :onstart)
  end
  class MarqueeCollection < ElementCollection
    def element_class
@@ -121,583 +357,45 @@ module Watir
    end
  end
  class Applet < HTMLElement
-   attributes(:string => [:align, :alt, :archive, :code, :code_base, :height, :name, :object, :width], :int => [:hspace, :vspace])
+   attribute(:string, :align)
+
+   attribute(:string, :alt)
+
+   attribute(:string, :archive)
+
+   attribute(:string, :code)
+
+   attribute(:string, :code_base)
+
+   attribute(:string, :height)
+
+   attribute(:int, :hspace)
+
+   attribute(:string, :name)
+
+   attribute(:string, :object)
+
+   attribute(:int, :vspace)
+
+   attribute(:string, :width)
  end
  class AppletCollection < ElementCollection
    def element_class
      Applet
    end
  end
- class Dialog < HTMLElement
-   attributes(:bool => [:open], :string => [:return_value])
- end
- class DialogCollection < ElementCollection
-   def element_class
-     Dialog
-   end
- end
- class MenuItem < HTMLElement
-   attributes(:bool => [:checked, :default, :disabled], :html_element => [:command], :string => [:icon, :label, :radiogroup, :type])
- end
- class MenuItemCollection < ElementCollection
-   def element_class
-     MenuItem
-   end
- end
- class Menu < HTMLElement
-   attributes(:string => [:label, :type])
- end
- class MenuCollection < ElementCollection
-   def element_class
-     Menu
-   end
- end
- class Menu < HTMLElement
-   attributes(:bool => [:compact])
- end
- # do nothing
- class Details < HTMLElement
-   attributes(:bool => [:open])
- end
- class DetailsCollection < ElementCollection
-   def element_class
-     Details
-   end
- end
- class Meter < HTMLElement
-   attributes(:float => [:high, :low, :max, :min, :optimum, :value], :list => [:labels])
- end
- class MeterCollection < ElementCollection
-   def element_class
-     Meter
-   end
- end
- class Progress < HTMLElement
-   attributes(:list => [:labels], :float => [:max, :position, :value])
- end
- class ProgressCollection < ElementCollection
-   def element_class
-     Progress
-   end
- end
- class Output < HTMLElement
-   attributes(:string => [:default_value, :name, :type, :validation_message, :validity, :value], :html_element => [:form], :token_list => [:html_for], :list => [:labels], :bool => [:will_validate])
- end
- class OutputCollection < ElementCollection
-   def element_class
-     Output
-   end
- end
- class Keygen < HTMLElement
-   attributes(:bool => [:autofocus, :disabled, :will_validate], :string => [:challenge, :keytype, :name, :type, :validation_message, :validity], :html_element => [:form], :list => [:labels])
- end
- class KeygenCollection < ElementCollection
-   def element_class
-     Keygen
-   end
- end
- class TextArea < HTMLElement
-   attributes(:string => [:autocomplete, :default_value, :dir_name, :input_mode, :name, :placeholder, :selection_direction, :type, :validation_message, :validity, :value, :wrap], :bool => [:autofocus, :disabled, :read_only, :required, :will_validate], :int => [:cols, :max_length, :rows, :selection_end, :selection_start, :text_length], :html_element => [:form], :list => [:labels])
- end
- class TextAreaCollection < ElementCollection
-   def element_class
-     TextArea
-   end
- end
- class Option < HTMLElement
-   attributes(:bool => [:default_selected, :disabled, :selected], :html_element => [:form], :int => [:index], :string => [:label, :text, :value])
- end
- class OptionCollection < ElementCollection
-   def element_class
-     Option
-   end
- end
- class OptGroup < HTMLElement
-   attributes(:bool => [:disabled], :string => [:label])
- end
- class OptGroupCollection < ElementCollection
-   def element_class
-     OptGroup
-   end
- end
- class DataList < HTMLElement
-   attributes(:html_collection => [:options])
- end
- class DataListCollection < ElementCollection
-   def element_class
-     DataList
-   end
- end
- class Select < HTMLElement
-   attributes(:bool => [:autofocus, :disabled, :multiple, :required, :will_validate], :html_element => [:form], :list => [:labels], :int => [:length, :selected_index, :size], :string => [:name, :type, :validation_message, :validity, :value], :html_collection => [:options, :selected_options])
- end
- class SelectCollection < ElementCollection
-   def element_class
-     Select
-   end
- end
- class Button < HTMLElement
-   attributes(:bool => [:autofocus, :disabled, :form_no_validate, :will_validate], :html_element => [:form, :menu], :string => [:form_action, :form_enctype, :form_method, :form_target, :name, :type, :validation_message, :validity, :value], :list => [:labels])
- end
- class ButtonCollection < ElementCollection
-   def element_class
-     Button
-   end
- end
- class Input < HTMLElement
-   attributes(:string => [:accept, :alt, :autocomplete, :default_value, :dir_name, :form_action, :form_enctype, :form_method, :form_target, :input_mode, :max, :min, :name, :pattern, :placeholder, :selection_direction, :src, :step, :type, :validation_message, :validity, :value], :bool => [:autofocus, :checked, :default_checked, :disabled, :form_no_validate, :indeterminate, :multiple, :read_only, :required, :will_validate], :list => [:files, :labels], :html_element => [:form, :list], :int => [:height, :max_length, :selection_end, :selection_start, :size, :width], :date => [:value_as_date], :float => [:value_as_number])
- end
- class InputCollection < ElementCollection
-   def element_class
-     Input
-   end
- end
- class Input < HTMLElement
-   attributes(:string => [:align, :use_map])
- end
- # do nothing
- class Label < HTMLElement
-   attributes(:html_element => [:control, :form], :string => [:html_for])
- end
- class LabelCollection < ElementCollection
-   def element_class
-     Label
-   end
- end
- class Legend < HTMLElement
-   attributes(:html_element => [:form])
- end
- class LegendCollection < ElementCollection
-   def element_class
-     Legend
-   end
- end
- class Legend < HTMLElement
-   attributes(:string => [:align])
- end
- # do nothing
- class FieldSet < HTMLElement
-   attributes(:bool => [:disabled, :will_validate], :html_collection => [:elements], :html_element => [:form], :string => [:name, :type, :validation_message, :validity])
- end
- class FieldSetCollection < ElementCollection
-   def element_class
-     FieldSet
-   end
- end
- class Form < HTMLElement
-   attributes(:string => [:accept_charset, :action, :autocomplete, :encoding, :enctype, :method, :name, :target], :html_collection => [:elements], :int => [:length], :bool => [:no_validate])
- end
- class FormCollection < ElementCollection
-   def element_class
-     Form
-   end
- end
- class TableCell < HTMLElement
-   attributes(:int => [:cell_index, :col_span, :row_span], :token_list => [:headers])
- end
- class TableCellCollection < ElementCollection
-   def element_class
-     TableCell
-   end
- end
- class TableCell < HTMLElement
-   attributes(:string => [:align, :axis, :bg_color, :ch, :ch_off, :height, :v_align, :width], :bool => [:no_wrap])
- end
- # do nothing
- class TableHeaderCell < TableCell
-   attributes(:string => [:abbr, :scope, :sorted])
- end
- class TableHeaderCellCollection < ElementCollection
-   def element_class
-     TableHeaderCell
-   end
- end
- class TableDataCell < TableCell
-   # do nothing
- end
- class TableDataCellCollection < ElementCollection
-   def element_class
-     TableDataCell
-   end
- end
- class TableDataCell < TableCell
-   attributes(:string => [:abbr])
- end
- # do nothing
- class TableRow < HTMLElement
-   attributes(:html_collection => [:cells], :int => [:row_index, :section_row_index])
- end
- class TableRowCollection < ElementCollection
-   def element_class
-     TableRow
-   end
- end
- class TableRow < HTMLElement
-   attributes(:string => [:align, :bg_color, :ch, :ch_off, :v_align])
- end
- # do nothing
- class TableSection < HTMLElement
-   attributes(:html_collection => [:rows])
- end
- class TableSectionCollection < ElementCollection
-   def element_class
-     TableSection
-   end
- end
- class TableSection < HTMLElement
-   attributes(:string => [:align, :ch, :ch_off, :v_align])
- end
- # do nothing
- class TableCol < HTMLElement
-   attributes(:int => [:span])
- end
- class TableColCollection < ElementCollection
-   def element_class
-     TableCol
-   end
- end
- class TableCol < HTMLElement
-   attributes(:string => [:align, :ch, :ch_off, :v_align, :width])
- end
- # do nothing
- class TableCaption < HTMLElement
-   # do nothing
- end
- class TableCaptionCollection < ElementCollection
-   def element_class
-     TableCaption
-   end
- end
- class TableCaption < HTMLElement
-   attributes(:string => [:align])
- end
- # do nothing
- class Table < HTMLElement
-   attributes(:html_element => [:caption, :t_foot, :t_head], :html_collection => [:rows, :t_bodies], :bool => [:sortable])
- end
- class TableCollection < ElementCollection
-   def element_class
-     Table
-   end
- end
- class Table < HTMLElement
-   attributes(:string => [:align, :bg_color, :border, :cell_padding, :cell_spacing, :frame, :rules, :summary, :width])
- end
- # do nothing
- class Area < HTMLElement
-   attributes(:string => [:alt, :coords, :download, :hreflang, :ping, :rel, :shape, :target, :type], :token_list => [:rel_list])
- end
- class AreaCollection < ElementCollection
-   def element_class
-     Area
-   end
- end
- class Area < HTMLElement
-   attributes(:bool => [:no_href])
- end
- # do nothing
- class Map < HTMLElement
-   attributes(:html_collection => [:areas, :images], :string => [:name])
- end
- class MapCollection < ElementCollection
-   def element_class
-     Map
-   end
- end
  class Canvas < HTMLElement
-   attributes(:int => [:height, :width])
+   attribute(:int, :width)
+
+   attribute(:int, :height)
  end
  class CanvasCollection < ElementCollection
    def element_class
      Canvas
    end
  end
- class Media < HTMLElement
-   attributes(:list => [:audio_tracks, :text_tracks, :video_tracks], :bool => [:autoplay, :controls, :default_muted, :ended, :loop, :muted, :paused, :seeking], :string => [:buffered, :controller, :cross_origin, :current_src, :error, :media_group, :played, :preload, :seekable, :src], :float => [:current_time, :default_playback_rate, :duration, :playback_rate, :volume], :int => [:network_state, :ready_state])
- end
- class MediaCollection < ElementCollection
-   def element_class
-     Media
-   end
- end
- class Audio < Media
-   # do nothing
- end
- class AudioCollection < ElementCollection
-   def element_class
-     Audio
-   end
- end
- class Video < Media
-   attributes(:int => [:height, :video_height, :video_width, :width], :string => [:poster])
- end
- class VideoCollection < ElementCollection
-   def element_class
-     Video
-   end
- end
- class Track < HTMLElement
-   attributes(:bool => [:default], :string => [:kind, :label, :src, :srclang, :track], :int => [:ready_state])
- end
- class TrackCollection < ElementCollection
-   def element_class
-     Track
-   end
- end
- class Source < HTMLElement
-   attributes(:string => [:media, :src, :type])
- end
- class SourceCollection < ElementCollection
-   def element_class
-     Source
-   end
- end
- class Param < HTMLElement
-   attributes(:string => [:name, :value])
- end
- class ParamCollection < ElementCollection
-   def element_class
-     Param
-   end
- end
- class Param < HTMLElement
-   attributes(:string => [:type, :value_type])
- end
- # do nothing
- class Object < HTMLElement
-   attributes(:document => [:content_document], :string => [:content_window, :data, :height, :name, :type, :use_map, :validation_message, :validity, :width], :html_element => [:form], :bool => [:type_must_match, :will_validate])
- end
- class ObjectCollection < ElementCollection
-   def element_class
-     Object
-   end
- end
- class Object < HTMLElement
-   attributes(:string => [:align, :archive, :border, :code, :code_base, :code_type, :standby], :bool => [:declare], :int => [:hspace, :vspace])
- end
- # do nothing
- class Embed < HTMLElement
-   attributes(:string => [:height, :src, :type, :width])
- end
- class EmbedCollection < ElementCollection
-   def element_class
-     Embed
-   end
- end
- class Embed < HTMLElement
-   attributes(:string => [:align, :name])
- end
- # do nothing
- class IFrame < HTMLElement
-   attributes(:bool => [:allow_fullscreen, :seamless], :document => [:content_document], :string => [:content_window, :height, :name, :src, :srcdoc, :width], :token_list => [:sandbox])
- end
- class IFrameCollection < ElementCollection
-   def element_class
-     IFrame
-   end
- end
- class IFrame < HTMLElement
-   attributes(:string => [:align, :frame_border, :long_desc, :margin_height, :margin_width, :scrolling])
- end
- # do nothing
- class Image < HTMLElement
-   attributes(:string => [:alt, :cross_origin, :src, :srcset, :use_map], :bool => [:complete, :map], :int => [:height, :natural_height, :natural_width, :width])
- end
- class ImageCollection < ElementCollection
-   def element_class
-     Image
-   end
- end
- class Image < HTMLElement
-   attributes(:string => [:align, :border, :long_desc, :lowsrc, :name], :int => [:hspace, :vspace])
- end
- # do nothing
- class Mod < HTMLElement
-   attributes(:string => [:cite, :date_time])
- end
- class ModCollection < ElementCollection
-   def element_class
-     Mod
-   end
- end
- class BR < HTMLElement
-   # do nothing
- end
- class BRCollection < ElementCollection
-   def element_class
-     BR
-   end
- end
- class BR < HTMLElement
-   attributes(:string => [:clear])
- end
- # do nothing
- class Span < HTMLElement
-   # do nothing
- end
- class SpanCollection < ElementCollection
-   def element_class
-     Span
-   end
- end
- class Time < HTMLElement
-   attributes(:string => [:date_time])
- end
- class TimeCollection < ElementCollection
-   def element_class
-     Time
-   end
- end
- class Data < HTMLElement
-   attributes(:string => [:value])
- end
- class DataCollection < ElementCollection
-   def element_class
-     Data
-   end
- end
- class Anchor < HTMLElement
-   attributes(:string => [:download, :hreflang, :ping, :rel, :target, :text, :type], :token_list => [:rel_list])
- end
- class AnchorCollection < ElementCollection
-   def element_class
-     Anchor
-   end
- end
- class Anchor < HTMLElement
-   attributes(:string => [:charset, :coords, :name, :rev, :shape])
- end
- # do nothing
- class Div < HTMLElement
-   # do nothing
- end
- class DivCollection < ElementCollection
-   def element_class
-     Div
-   end
- end
- class Div < HTMLElement
-   attributes(:string => [:align])
- end
- # do nothing
- class DList < HTMLElement
-   # do nothing
- end
- class DListCollection < ElementCollection
-   def element_class
-     DList
-   end
- end
- class DList < HTMLElement
-   attributes(:bool => [:compact])
- end
- # do nothing
- class LI < HTMLElement
-   attributes(:int => [:value])
- end
- class LICollection < ElementCollection
-   def element_class
-     LI
-   end
- end
- class LI < HTMLElement
-   attributes(:string => [:type])
- end
- # do nothing
- class UList < HTMLElement
-   # do nothing
- end
- class UListCollection < ElementCollection
-   def element_class
-     UList
-   end
- end
- class UList < HTMLElement
-   attributes(:bool => [:compact], :string => [:type])
- end
- # do nothing
- class OList < HTMLElement
-   attributes(:bool => [:reversed], :int => [:start], :string => [:type])
- end
- class OListCollection < ElementCollection
-   def element_class
-     OList
-   end
- end
- class OList < HTMLElement
-   attributes(:bool => [:compact])
- end
- # do nothing
- class Quote < HTMLElement
-   attributes(:string => [:cite])
- end
- class QuoteCollection < ElementCollection
-   def element_class
-     Quote
-   end
- end
- class Pre < HTMLElement
-   # do nothing
- end
- class PreCollection < ElementCollection
-   def element_class
-     Pre
-   end
- end
- class Pre < HTMLElement
-   attributes(:int => [:width])
- end
- # do nothing
- class HR < HTMLElement
-   # do nothing
- end
- class HRCollection < ElementCollection
-   def element_class
-     HR
-   end
- end
- class HR < HTMLElement
-   attributes(:string => [:align, :color, :size, :width], :bool => [:no_shade])
- end
- # do nothing
- class Paragraph < HTMLElement
-   # do nothing
- end
- class ParagraphCollection < ElementCollection
-   def element_class
-     Paragraph
-   end
- end
- class Paragraph < HTMLElement
-   attributes(:string => [:align])
- end
- # do nothing
- class Heading < HTMLElement
-   # do nothing
- end
- class HeadingCollection < ElementCollection
-   def element_class
-     Heading
-   end
- end
- class Heading < HTMLElement
-   attributes(:string => [:align])
- end
- # do nothing
- class Body < HTMLElement
-   attributes(:function => [:onafterprint, :onbeforeprint, :onbeforeunload, :onhashchange, :onmessage, :onoffline, :ononline, :onpagehide, :onpageshow, :onpopstate, :onresize, :onstorage, :onunload])
- end
- class BodyCollection < ElementCollection
-   def element_class
-     Body
-   end
- end
- class Body < HTMLElement
-   attributes(:string => [:a_link, :background, :bg_color, :link, :text, :v_link])
- end
- # do nothing
  class Template < HTMLElement
-   attributes(:document => [:content])
+   attribute(:document, :content)
  end
  class TemplateCollection < ElementCollection
    def element_class
@@ -705,7 +403,19 @@ module Watir
    end
  end
  class Script < HTMLElement
-   attributes(:bool => [:async, :defer], :string => [:charset, :cross_origin, :src, :text, :type])
+   attribute(:string, :src)
+
+   attribute(:string, :type)
+
+   attribute(:string, :charset)
+
+   attribute(:bool, :async)
+
+   attribute(:bool, :defer)
+
+   attribute(:string, :cross_origin)
+
+   attribute(:string, :text)
  end
  class ScriptCollection < ElementCollection
    def element_class
@@ -713,11 +423,1261 @@ module Watir
    end
  end
  class Script < HTMLElement
-   attributes(:string => [:event, :html_for])
+   attribute(:string, :event)
+
+   attribute(:string, :html_for)
+ end
+ # do nothing
+ class Dialog < HTMLElement
+   attribute(:bool, :open)
+
+   attribute(:string, :return_value)
+ end
+ class DialogCollection < ElementCollection
+   def element_class
+     Dialog
+   end
+ end
+ class MenuItem < HTMLElement
+   attribute(:string, :type)
+
+   attribute(:string, :label)
+
+   attribute(:string, :icon)
+
+   attribute(:bool, :disabled)
+
+   attribute(:bool, :checked)
+
+   attribute(:string, :radiogroup)
+
+   attribute(:bool, :default)
+
+   attribute(:html_element, :command)
+ end
+ class MenuItemCollection < ElementCollection
+   def element_class
+     MenuItem
+   end
+ end
+ class Menu < HTMLElement
+   attribute(:string, :type)
+
+   attribute(:string, :label)
+ end
+ class MenuCollection < ElementCollection
+   def element_class
+     Menu
+   end
+ end
+ class Menu < HTMLElement
+   attribute(:bool, :compact)
+ end
+ # do nothing
+ class Details < HTMLElement
+   attribute(:bool, :open)
+ end
+ class DetailsCollection < ElementCollection
+   def element_class
+     Details
+   end
+ end
+ class Legend < HTMLElement
+   attribute(:html_element, :form)
+ end
+ class LegendCollection < ElementCollection
+   def element_class
+     Legend
+   end
+ end
+ class Legend < HTMLElement
+   attribute(:string, :align)
+ end
+ # do nothing
+ class FieldSet < HTMLElement
+   attribute(:bool, :disabled)
+
+   attribute(:html_element, :form)
+
+   attribute(:string, :name)
+
+   attribute(:string, :type)
+
+   attribute(:html_collection, :elements)
+
+   attribute(:bool, :will_validate)
+
+   attribute(:string, :validity)
+
+   attribute(:string, :validation_message)
+ end
+ class FieldSetCollection < ElementCollection
+   def element_class
+     FieldSet
+   end
+ end
+ class Meter < HTMLElement
+   attribute(:float, :value)
+
+   attribute(:float, :min)
+
+   attribute(:float, :max)
+
+   attribute(:float, :low)
+
+   attribute(:float, :high)
+
+   attribute(:float, :optimum)
+
+   attribute(:list, :labels)
+ end
+ class MeterCollection < ElementCollection
+   def element_class
+     Meter
+   end
+ end
+ class Progress < HTMLElement
+   attribute(:float, :value)
+
+   attribute(:float, :max)
+
+   attribute(:float, :position)
+
+   attribute(:list, :labels)
+ end
+ class ProgressCollection < ElementCollection
+   def element_class
+     Progress
+   end
+ end
+ class Output < HTMLElement
+   attribute(:token_list, :html_for)
+
+   attribute(:html_element, :form)
+
+   attribute(:string, :name)
+
+   attribute(:string, :type)
+
+   attribute(:string, :default_value)
+
+   attribute(:string, :value)
+
+   attribute(:bool, :will_validate)
+
+   attribute(:string, :validity)
+
+   attribute(:string, :validation_message)
+
+   attribute(:list, :labels)
+ end
+ class OutputCollection < ElementCollection
+   def element_class
+     Output
+   end
+ end
+ class Keygen < HTMLElement
+   attribute(:bool, :autofocus)
+
+   attribute(:string, :challenge)
+
+   attribute(:bool, :disabled)
+
+   attribute(:html_element, :form)
+
+   attribute(:string, :keytype)
+
+   attribute(:string, :name)
+
+   attribute(:string, :type)
+
+   attribute(:bool, :will_validate)
+
+   attribute(:string, :validity)
+
+   attribute(:string, :validation_message)
+
+   attribute(:list, :labels)
+ end
+ class KeygenCollection < ElementCollection
+   def element_class
+     Keygen
+   end
+ end
+ class TextArea < HTMLElement
+   attribute(:string, :autocomplete)
+
+   attribute(:bool, :autofocus)
+
+   attribute(:int, :cols)
+
+   attribute(:string, :dir_name)
+
+   attribute(:bool, :disabled)
+
+   attribute(:html_element, :form)
+
+   attribute(:string, :input_mode)
+
+   attribute(:int, :max_length)
+
+   attribute(:int, :min_length)
+
+   attribute(:string, :name)
+
+   attribute(:string, :placeholder)
+
+   attribute(:bool, :read_only)
+
+   attribute(:bool, :required)
+
+   attribute(:int, :rows)
+
+   attribute(:string, :wrap)
+
+   attribute(:string, :type)
+
+   attribute(:string, :default_value)
+
+   attribute(:string, :value)
+
+   attribute(:int, :text_length)
+
+   attribute(:bool, :will_validate)
+
+   attribute(:string, :validity)
+
+   attribute(:string, :validation_message)
+
+   attribute(:list, :labels)
+
+   attribute(:int, :selection_start)
+
+   attribute(:int, :selection_end)
+
+   attribute(:string, :selection_direction)
+ end
+ class TextAreaCollection < ElementCollection
+   def element_class
+     TextArea
+   end
+ end
+ class Option < HTMLElement
+   attribute(:bool, :disabled)
+
+   attribute(:html_element, :form)
+
+   attribute(:string, :label)
+
+   attribute(:bool, :default_selected)
+
+   attribute(:bool, :selected)
+
+   attribute(:string, :value)
+
+   attribute(:string, :text)
+
+   attribute(:int, :index)
+ end
+ class OptionCollection < ElementCollection
+   def element_class
+     Option
+   end
+ end
+ class OptGroup < HTMLElement
+   attribute(:bool, :disabled)
+
+   attribute(:string, :label)
+ end
+ class OptGroupCollection < ElementCollection
+   def element_class
+     OptGroup
+   end
+ end
+ class DataList < HTMLElement
+   attribute(:html_collection, :options)
+ end
+ class DataListCollection < ElementCollection
+   def element_class
+     DataList
+   end
+ end
+ class Select < HTMLElement
+   attribute(:bool, :autofocus)
+
+   attribute(:bool, :disabled)
+
+   attribute(:html_element, :form)
+
+   attribute(:bool, :multiple)
+
+   attribute(:string, :name)
+
+   attribute(:bool, :required)
+
+   attribute(:int, :size)
+
+   attribute(:string, :type)
+
+   attribute(:html_collection, :options)
+
+   attribute(:int, :length)
+
+   attribute(:html_collection, :selected_options)
+
+   attribute(:int, :selected_index)
+
+   attribute(:string, :value)
+
+   attribute(:bool, :will_validate)
+
+   attribute(:string, :validity)
+
+   attribute(:string, :validation_message)
+
+   attribute(:list, :labels)
+ end
+ class SelectCollection < ElementCollection
+   def element_class
+     Select
+   end
+ end
+ class Button < HTMLElement
+   attribute(:bool, :autofocus)
+
+   attribute(:bool, :disabled)
+
+   attribute(:html_element, :form)
+
+   attribute(:string, :form_action)
+
+   attribute(:string, :form_enctype)
+
+   attribute(:string, :form_method)
+
+   attribute(:bool, :form_no_validate)
+
+   attribute(:string, :form_target)
+
+   attribute(:string, :name)
+
+   attribute(:string, :type)
+
+   attribute(:string, :value)
+
+   attribute(:html_element, :menu)
+
+   attribute(:bool, :will_validate)
+
+   attribute(:string, :validity)
+
+   attribute(:string, :validation_message)
+
+   attribute(:list, :labels)
+ end
+ class ButtonCollection < ElementCollection
+   def element_class
+     Button
+   end
+ end
+ class Input < HTMLElement
+   attribute(:string, :accept)
+
+   attribute(:string, :alt)
+
+   attribute(:string, :autocomplete)
+
+   attribute(:bool, :autofocus)
+
+   attribute(:bool, :default_checked)
+
+   attribute(:bool, :checked)
+
+   attribute(:string, :dir_name)
+
+   attribute(:bool, :disabled)
+
+   attribute(:html_element, :form)
+
+   attribute(:list, :files)
+
+   attribute(:string, :form_action)
+
+   attribute(:string, :form_enctype)
+
+   attribute(:string, :form_method)
+
+   attribute(:bool, :form_no_validate)
+
+   attribute(:string, :form_target)
+
+   attribute(:int, :height)
+
+   attribute(:bool, :indeterminate)
+
+   attribute(:string, :input_mode)
+
+   attribute(:html_element, :list)
+
+   attribute(:string, :max)
+
+   attribute(:int, :max_length)
+
+   attribute(:string, :min)
+
+   attribute(:int, :min_length)
+
+   attribute(:bool, :multiple)
+
+   attribute(:string, :name)
+
+   attribute(:string, :pattern)
+
+   attribute(:string, :placeholder)
+
+   attribute(:bool, :read_only)
+
+   attribute(:bool, :required)
+
+   attribute(:int, :size)
+
+   attribute(:string, :src)
+
+   attribute(:string, :step)
+
+   attribute(:string, :type)
+
+   attribute(:string, :default_value)
+
+   attribute(:string, :value)
+
+   attribute(:date, :value_as_date)
+
+   attribute(:float, :value_as_number)
+
+   attribute(:float, :value_low)
+
+   attribute(:float, :value_high)
+
+   attribute(:int, :width)
+
+   attribute(:bool, :will_validate)
+
+   attribute(:string, :validity)
+
+   attribute(:string, :validation_message)
+
+   attribute(:list, :labels)
+
+   attribute(:int, :selection_start)
+
+   attribute(:int, :selection_end)
+
+   attribute(:string, :selection_direction)
+ end
+ class InputCollection < ElementCollection
+   def element_class
+     Input
+   end
+ end
+ class Input < HTMLElement
+   attribute(:string, :align)
+
+   attribute(:string, :use_map)
+ end
+ # do nothing
+ class Label < HTMLElement
+   attribute(:html_element, :form)
+
+   attribute(:string, :html_for)
+
+   attribute(:html_element, :control)
+ end
+ class LabelCollection < ElementCollection
+   def element_class
+     Label
+   end
+ end
+ class Form < HTMLElement
+   attribute(:string, :accept_charset)
+
+   attribute(:string, :action)
+
+   attribute(:string, :autocomplete)
+
+   attribute(:string, :enctype)
+
+   attribute(:string, :encoding)
+
+   attribute(:string, :method)
+
+   attribute(:string, :name)
+
+   attribute(:bool, :no_validate)
+
+   attribute(:string, :target)
+
+   attribute(:html_collection, :elements)
+
+   attribute(:int, :length)
+ end
+ class FormCollection < ElementCollection
+   def element_class
+     Form
+   end
+ end
+ class TableCell < HTMLElement
+   attribute(:int, :col_span)
+
+   attribute(:int, :row_span)
+
+   attribute(:token_list, :headers)
+
+   attribute(:int, :cell_index)
+ end
+ class TableCellCollection < ElementCollection
+   def element_class
+     TableCell
+   end
+ end
+ class TableCell < HTMLElement
+   attribute(:string, :align)
+
+   attribute(:string, :axis)
+
+   attribute(:string, :height)
+
+   attribute(:string, :width)
+
+   attribute(:string, :ch)
+
+   attribute(:string, :ch_off)
+
+   attribute(:bool, :no_wrap)
+
+   attribute(:string, :v_align)
+
+   attribute(:string, :bg_color)
+ end
+ # do nothing
+ class TableHeaderCell < TableCell
+   attribute(:string, :scope)
+
+   attribute(:string, :abbr)
+
+   attribute(:string, :sorted)
+ end
+ class TableHeaderCellCollection < ElementCollection
+   def element_class
+     TableHeaderCell
+   end
+ end
+ class TableDataCell < TableCell
+ end
+ class TableDataCellCollection < ElementCollection
+   def element_class
+     TableDataCell
+   end
+ end
+ class TableDataCell < TableCell
+   attribute(:string, :abbr)
+ end
+ # do nothing
+ class TableRow < HTMLElement
+   attribute(:int, :row_index)
+
+   attribute(:int, :section_row_index)
+
+   attribute(:html_collection, :cells)
+ end
+ class TableRowCollection < ElementCollection
+   def element_class
+     TableRow
+   end
+ end
+ class TableRow < HTMLElement
+   attribute(:string, :align)
+
+   attribute(:string, :ch)
+
+   attribute(:string, :ch_off)
+
+   attribute(:string, :v_align)
+
+   attribute(:string, :bg_color)
+ end
+ # do nothing
+ class TableSection < HTMLElement
+   attribute(:html_collection, :rows)
+ end
+ class TableSectionCollection < ElementCollection
+   def element_class
+     TableSection
+   end
+ end
+ class TableSection < HTMLElement
+   attribute(:string, :align)
+
+   attribute(:string, :ch)
+
+   attribute(:string, :ch_off)
+
+   attribute(:string, :v_align)
+ end
+ # do nothing
+ class TableCol < HTMLElement
+   attribute(:int, :span)
+ end
+ class TableColCollection < ElementCollection
+   def element_class
+     TableCol
+   end
+ end
+ class TableCol < HTMLElement
+   attribute(:string, :align)
+
+   attribute(:string, :ch)
+
+   attribute(:string, :ch_off)
+
+   attribute(:string, :v_align)
+
+   attribute(:string, :width)
+ end
+ # do nothing
+ class TableCaption < HTMLElement
+ end
+ class TableCaptionCollection < ElementCollection
+   def element_class
+     TableCaption
+   end
+ end
+ class TableCaption < HTMLElement
+   attribute(:string, :align)
+ end
+ # do nothing
+ class Table < HTMLElement
+   attribute(:html_element, :caption)
+
+   attribute(:html_element, :t_head)
+
+   attribute(:html_element, :t_foot)
+
+   attribute(:html_collection, :t_bodies)
+
+   attribute(:html_collection, :rows)
+
+   attribute(:bool, :sortable)
+ end
+ class TableCollection < ElementCollection
+   def element_class
+     Table
+   end
+ end
+ class Table < HTMLElement
+   attribute(:string, :align)
+
+   attribute(:string, :border)
+
+   attribute(:string, :frame)
+
+   attribute(:string, :rules)
+
+   attribute(:string, :summary)
+
+   attribute(:string, :width)
+
+   attribute(:string, :bg_color)
+
+   attribute(:string, :cell_padding)
+
+   attribute(:string, :cell_spacing)
+ end
+ # do nothing
+ class Area < HTMLElement
+   attribute(:string, :alt)
+
+   attribute(:string, :coords)
+
+   attribute(:string, :shape)
+
+   attribute(:string, :target)
+
+   attribute(:string, :download)
+
+   attribute(:token_list, :ping)
+
+   attribute(:string, :rel)
+
+   attribute(:token_list, :rel_list)
+
+   attribute(:string, :hreflang)
+
+   attribute(:string, :type)
+ end
+ class AreaCollection < ElementCollection
+   def element_class
+     Area
+   end
+ end
+ class Area < HTMLElement
+   attribute(:bool, :no_href)
+ end
+ # do nothing
+ class Map < HTMLElement
+   attribute(:string, :name)
+
+   attribute(:html_collection, :areas)
+
+   attribute(:html_collection, :images)
+ end
+ class MapCollection < ElementCollection
+   def element_class
+     Map
+   end
+ end
+ class Media < HTMLElement
+   attribute(:string, :error)
+
+   attribute(:string, :src)
+
+   attribute(:string, :current_src)
+
+   attribute(:string, :cross_origin)
+
+   attribute(:int, :network_state)
+
+   attribute(:string, :preload)
+
+   attribute(:string, :buffered)
+
+   attribute(:int, :ready_state)
+
+   attribute(:bool, :seeking)
+
+   attribute(:float, :current_time)
+
+   attribute(:float, :duration)
+
+   attribute(:bool, :paused)
+
+   attribute(:float, :default_playback_rate)
+
+   attribute(:float, :playback_rate)
+
+   attribute(:string, :played)
+
+   attribute(:string, :seekable)
+
+   attribute(:bool, :ended)
+
+   attribute(:bool, :autoplay)
+
+   attribute(:bool, :loop)
+
+   attribute(:string, :media_group)
+
+   attribute(:string, :controller)
+
+   attribute(:bool, :controls)
+
+   attribute(:float, :volume)
+
+   attribute(:bool, :muted)
+
+   attribute(:bool, :default_muted)
+
+   attribute(:list, :audio_tracks)
+
+   attribute(:list, :video_tracks)
+
+   attribute(:list, :text_tracks)
+ end
+ class MediaCollection < ElementCollection
+   def element_class
+     Media
+   end
+ end
+ class Audio < Media
+ end
+ class AudioCollection < ElementCollection
+   def element_class
+     Audio
+   end
+ end
+ class Video < Media
+   attribute(:int, :width)
+
+   attribute(:int, :height)
+
+   attribute(:int, :video_width)
+
+   attribute(:int, :video_height)
+
+   attribute(:string, :poster)
+ end
+ class VideoCollection < ElementCollection
+   def element_class
+     Video
+   end
+ end
+ class Track < HTMLElement
+   attribute(:string, :kind)
+
+   attribute(:string, :src)
+
+   attribute(:string, :srclang)
+
+   attribute(:string, :label)
+
+   attribute(:bool, :default)
+
+   attribute(:int, :ready_state)
+
+   attribute(:string, :track)
+ end
+ class TrackCollection < ElementCollection
+   def element_class
+     Track
+   end
+ end
+ class Source < HTMLElement
+   attribute(:string, :src)
+
+   attribute(:string, :type)
+ end
+ class SourceCollection < ElementCollection
+   def element_class
+     Source
+   end
+ end
+ class Param < HTMLElement
+   attribute(:string, :name)
+
+   attribute(:string, :value)
+ end
+ class ParamCollection < ElementCollection
+   def element_class
+     Param
+   end
+ end
+ class Param < HTMLElement
+   attribute(:string, :type)
+
+   attribute(:string, :value_type)
+ end
+ # do nothing
+ class Object < HTMLElement
+   attribute(:string, :data)
+
+   attribute(:string, :type)
+
+   attribute(:bool, :type_must_match)
+
+   attribute(:string, :name)
+
+   attribute(:string, :use_map)
+
+   attribute(:html_element, :form)
+
+   attribute(:string, :width)
+
+   attribute(:string, :height)
+
+   attribute(:document, :content_document)
+
+   attribute(:string, :content_window)
+
+   attribute(:bool, :will_validate)
+
+   attribute(:string, :validity)
+
+   attribute(:string, :validation_message)
+ end
+ class ObjectCollection < ElementCollection
+   def element_class
+     Object
+   end
+ end
+ class Object < HTMLElement
+   attribute(:string, :align)
+
+   attribute(:string, :archive)
+
+   attribute(:string, :code)
+
+   attribute(:bool, :declare)
+
+   attribute(:int, :hspace)
+
+   attribute(:string, :standby)
+
+   attribute(:int, :vspace)
+
+   attribute(:string, :code_base)
+
+   attribute(:string, :code_type)
+
+   attribute(:string, :border)
+ end
+ # do nothing
+ class Embed < HTMLElement
+   attribute(:string, :src)
+
+   attribute(:string, :type)
+
+   attribute(:string, :width)
+
+   attribute(:string, :height)
+ end
+ class EmbedCollection < ElementCollection
+   def element_class
+     Embed
+   end
+ end
+ class Embed < HTMLElement
+   attribute(:string, :align)
+
+   attribute(:string, :name)
+ end
+ # do nothing
+ class IFrame < HTMLElement
+   attribute(:string, :src)
+
+   attribute(:string, :srcdoc)
+
+   attribute(:string, :name)
+
+   attribute(:token_list, :sandbox)
+
+   attribute(:bool, :seamless)
+
+   attribute(:bool, :allow_fullscreen)
+
+   attribute(:string, :width)
+
+   attribute(:string, :height)
+
+   attribute(:document, :content_document)
+
+   attribute(:string, :content_window)
+ end
+ class IFrameCollection < ElementCollection
+   def element_class
+     IFrame
+   end
+ end
+ class IFrame < HTMLElement
+   attribute(:string, :align)
+
+   attribute(:string, :scrolling)
+
+   attribute(:string, :frame_border)
+
+   attribute(:string, :long_desc)
+
+   attribute(:string, :margin_height)
+
+   attribute(:string, :margin_width)
+ end
+ # do nothing
+ class Image < HTMLElement
+   attribute(:string, :alt)
+
+   attribute(:string, :src)
+
+   attribute(:string, :srcset)
+
+   attribute(:string, :cross_origin)
+
+   attribute(:string, :use_map)
+
+   attribute(:bool, :is_map)
+
+   attribute(:int, :width)
+
+   attribute(:int, :height)
+
+   attribute(:int, :natural_width)
+
+   attribute(:int, :natural_height)
+
+   attribute(:bool, :complete)
+ end
+ class ImageCollection < ElementCollection
+   def element_class
+     Image
+   end
+ end
+ class Image < HTMLElement
+   attribute(:string, :name)
+
+   attribute(:string, :lowsrc)
+
+   attribute(:string, :align)
+
+   attribute(:int, :hspace)
+
+   attribute(:int, :vspace)
+
+   attribute(:string, :long_desc)
+
+   attribute(:string, :border)
+ end
+ # do nothing
+ class Mod < HTMLElement
+   attribute(:string, :cite)
+
+   attribute(:string, :date_time)
+ end
+ class ModCollection < ElementCollection
+   def element_class
+     Mod
+   end
+ end
+ class BR < HTMLElement
+ end
+ class BRCollection < ElementCollection
+   def element_class
+     BR
+   end
+ end
+ class BR < HTMLElement
+   attribute(:string, :clear)
+ end
+ # do nothing
+ class Span < HTMLElement
+ end
+ class SpanCollection < ElementCollection
+   def element_class
+     Span
+   end
+ end
+ class Time < HTMLElement
+   attribute(:string, :date_time)
+ end
+ class TimeCollection < ElementCollection
+   def element_class
+     Time
+   end
+ end
+ class Data < HTMLElement
+   attribute(:string, :value)
+ end
+ class DataCollection < ElementCollection
+   def element_class
+     Data
+   end
+ end
+ class Anchor < HTMLElement
+   attribute(:string, :target)
+
+   attribute(:string, :download)
+
+   attribute(:token_list, :ping)
+
+   attribute(:string, :rel)
+
+   attribute(:token_list, :rel_list)
+
+   attribute(:string, :hreflang)
+
+   attribute(:string, :type)
+
+   attribute(:string, :text)
+ end
+ class AnchorCollection < ElementCollection
+   def element_class
+     Anchor
+   end
+ end
+ class Anchor < HTMLElement
+   attribute(:string, :coords)
+
+   attribute(:string, :charset)
+
+   attribute(:string, :name)
+
+   attribute(:string, :rev)
+
+   attribute(:string, :shape)
+ end
+ # do nothing
+ class Div < HTMLElement
+ end
+ class DivCollection < ElementCollection
+   def element_class
+     Div
+   end
+ end
+ class Div < HTMLElement
+   attribute(:string, :align)
+ end
+ # do nothing
+ class DList < HTMLElement
+ end
+ class DListCollection < ElementCollection
+   def element_class
+     DList
+   end
+ end
+ class DList < HTMLElement
+   attribute(:bool, :compact)
+ end
+ # do nothing
+ class LI < HTMLElement
+   attribute(:int, :value)
+ end
+ class LICollection < ElementCollection
+   def element_class
+     LI
+   end
+ end
+ class LI < HTMLElement
+   attribute(:string, :type)
+ end
+ # do nothing
+ class UList < HTMLElement
+ end
+ class UListCollection < ElementCollection
+   def element_class
+     UList
+   end
+ end
+ class UList < HTMLElement
+   attribute(:bool, :compact)
+
+   attribute(:string, :type)
+ end
+ # do nothing
+ class OList < HTMLElement
+   attribute(:bool, :reversed)
+
+   attribute(:int, :start)
+
+   attribute(:string, :type)
+ end
+ class OListCollection < ElementCollection
+   def element_class
+     OList
+   end
+ end
+ class OList < HTMLElement
+   attribute(:bool, :compact)
+ end
+ # do nothing
+ class Quote < HTMLElement
+   attribute(:string, :cite)
+ end
+ class QuoteCollection < ElementCollection
+   def element_class
+     Quote
+   end
+ end
+ class Pre < HTMLElement
+ end
+ class PreCollection < ElementCollection
+   def element_class
+     Pre
+   end
+ end
+ class Pre < HTMLElement
+   attribute(:int, :width)
+ end
+ # do nothing
+ class HR < HTMLElement
+ end
+ class HRCollection < ElementCollection
+   def element_class
+     HR
+   end
+ end
+ class HR < HTMLElement
+   attribute(:string, :align)
+
+   attribute(:string, :color)
+
+   attribute(:bool, :no_shade)
+
+   attribute(:string, :size)
+
+   attribute(:string, :width)
+ end
+ # do nothing
+ class Paragraph < HTMLElement
+ end
+ class ParagraphCollection < ElementCollection
+   def element_class
+     Paragraph
+   end
+ end
+ class Paragraph < HTMLElement
+   attribute(:string, :align)
+ end
+ # do nothing
+ class Heading < HTMLElement
+ end
+ class HeadingCollection < ElementCollection
+   def element_class
+     Heading
+   end
+ end
+ class Heading < HTMLElement
+   attribute(:string, :align)
+ end
+ # do nothing
+ class Body < HTMLElement
+   attribute(:function, :onafterprint)
+
+   attribute(:function, :onbeforeprint)
+
+   attribute(:function, :onbeforeunload)
+
+   attribute(:function, :onhashchange)
+
+   attribute(:function, :onlanguagechange)
+
+   attribute(:function, :onmessage)
+
+   attribute(:function, :onoffline)
+
+   attribute(:function, :ononline)
+
+   attribute(:function, :onpagehide)
+
+   attribute(:function, :onpageshow)
+
+   attribute(:function, :onpopstate)
+
+   attribute(:function, :onstorage)
+
+   attribute(:function, :onunload)
+ end
+ class BodyCollection < ElementCollection
+   def element_class
+     Body
+   end
+ end
+ class Body < HTMLElement
+   attribute(:string, :text)
+
+   attribute(:string, :link)
+
+   attribute(:string, :v_link)
+
+   attribute(:string, :a_link)
+
+   attribute(:string, :bg_color)
+
+   attribute(:string, :background)
  end
  # do nothing
  class Style < HTMLElement
-   attributes(:bool => [:disabled, :scoped], :string => [:media, :type])
+   attribute(:string, :media)
+
+   attribute(:string, :type)
+
+   attribute(:bool, :scoped)
  end
  class StyleCollection < ElementCollection
    def element_class
@@ -725,7 +1685,11 @@ module Watir
    end
  end
  class Meta < HTMLElement
-   attributes(:string => [:content, :http_equiv, :name])
+   attribute(:string, :name)
+
+   attribute(:string, :http_equiv)
+
+   attribute(:string, :content)
  end
  class MetaCollection < ElementCollection
    def element_class
@@ -733,11 +1697,13 @@ module Watir
    end
  end
  class Meta < HTMLElement
-   attributes(:string => [:scheme])
+   attribute(:string, :scheme)
  end
  # do nothing
  class Base < HTMLElement
-   attributes(:string => [:href, :target])
+   attribute(:string, :href)
+
+   attribute(:string, :target)
  end
  class BaseCollection < ElementCollection
    def element_class
@@ -745,7 +1711,7 @@ module Watir
    end
  end
  class Title < HTMLElement
-   attributes(:string => [:text])
+   attribute(:string, :text)
  end
  class TitleCollection < ElementCollection
    def element_class
@@ -753,7 +1719,6 @@ module Watir
    end
  end
  class Head < HTMLElement
-   # do nothing
  end
  class HeadCollection < ElementCollection
    def element_class
@@ -761,7 +1726,6 @@ module Watir
    end
  end
  class Html < HTMLElement
-   # do nothing
  end
  class HtmlCollection < ElementCollection
    def element_class
@@ -769,18 +1733,16 @@ module Watir
    end
  end
  class Html < HTMLElement
-   attributes(:string => [:version])
+   attribute(:string, :version)
  end
  # do nothing
  class Unknown < HTMLElement
-   # do nothing
  end
  class UnknownCollection < ElementCollection
    def element_class
      Unknown
    end
  end
-
 
 
 

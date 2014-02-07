@@ -83,9 +83,7 @@ module Watir
 
       def element_class(name, attributes, parent)
         [:class, Util.classify(name), [:const, Util.classify(parent)],
-          [:scope,
-            [:block, attributes_call(attributes)]
-          ]
+          *attribute_calls(attributes)
         ]
       end
 
@@ -113,22 +111,16 @@ module Watir
         ]
       end
 
-      def attributes_call(attributes)
-        return if attributes.empty?
-
-        attrs = Hash.new { |hash, key| hash[key] = [] }
-        attributes.sort_by { |a| a.name }.each do |a|
-          type = ruby_type_for(a.type)
-          attrs[type] << ruby_attribute_for(type, a.name)
+      def attribute_calls(attributes)
+        attributes.map do |attribute|
+          call(:attribute, [[:lit, ruby_type_for(attribute.type)], [:lit, ruby_attribute_name_for(attribute)]])
         end
-
-        call :attributes, [literal_hash(attrs)]
       end
 
-      def ruby_attribute_for(type, str)
-        str = str.snake_case
+      def ruby_attribute_name_for(attribute)
+        str = attribute.name.snake_case
 
-        if str =~ /^is_(.+)/ && type == :bool
+        if str =~ /^is_(.+)/ && attribute.type.name == 'Boolean'
           str = $1
         end
 
