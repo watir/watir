@@ -8,7 +8,7 @@ module Watir
 
   module AttributeHelper
 
-    IGNORED_ATTRIBUTES = [:text, :hash]
+    IGNORED_ATTRIBUTES = %w[text hash]
 
     def typed_attributes
       @typed_attributes ||= Hash.new { |hash, type| hash[type] = []  }
