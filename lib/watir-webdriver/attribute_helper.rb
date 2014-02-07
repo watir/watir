@@ -11,8 +11,8 @@ module Watir
     IGNORED_ATTRIBUTES = [:text, :hash]
 
     def inherit_attributes_from(kls)
-      kls.typed_attributes.each do |type, (method, attr)|
-        attribute type, method, attr
+      kls.typed_attributes.each do |type, attrs|
+        attrs.each { |method, attr| attribute type, method, attr }
       end
     end
 
@@ -37,7 +37,7 @@ module Watir
     #
     # @macro [attach] attribute
     #  @method $2
-    #  @return [$1] value of $3 attribute
+    #  @return [$1] value of $3 property
     #
     def attribute(type, method, attr)
       typed_attributes[type] << [method, attr]
@@ -56,7 +56,7 @@ module Watir
     end
 
     def define_attribute(type, name, attr)
-      case type
+      case type.to_s
       when 'String'
         define_string_attribute(name, attr)
       when 'Boolean'

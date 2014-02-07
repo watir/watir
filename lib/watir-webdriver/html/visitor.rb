@@ -141,40 +141,21 @@ module Watir
       def ruby_type_for(type)
         case type.name.to_s
         when 'DOMString', 'any'
-          'String'
+          String
         when 'UnsignedLong', 'Long', 'Integer', 'Short', 'UnsignedShort'
-          'Fixnum'
+          Fixnum
         when 'Float', /.*Double$/
-          'Float'
-        when 'Function', /.*EventHandler$/
-          'Function'
+          Float
         when 'Boolean'
           'Boolean'
-        when 'Document', 'DocumentFragment'
-          'Document'
-        when 'DOMTokenList', 'DOMSettableTokenList'
-          'TokenList'
-        when 'DOMStringMap'
-          'StringMap'
-        when 'HTMLPropertiesCollection'
-          'PropertiesCollection'
-        when /HTML(.*)Element/
-          'HTMLElement'
-        when /HTML(.*)Collection/
-          'HTMLCollection'
-        when 'CSSStyleDeclaration'
-          'Style'
-        when /.+List$/
-          'List'
-        when 'Date'
-          'Date'
-        when 'Element'
-          'Element'
         when 'WindowProxy', 'ValidityState', 'MediaError', 'TimeRanges', 'Location',
              'Any', 'TimedTrackArray', 'TimedTrack', 'TextTrackArray', 'TextTrack',
-             'MediaController', 'TextTrackKind'
+             'MediaController', 'TextTrackKind', 'Function', /.*EventHandler$/,
+             'Document', 'DocumentFragment', 'DOMTokenList', 'DOMSettableTokenList',
+             'DOMStringMap', 'HTMLPropertiesCollection', /HTML(.*)Element/, /HTML(.*)Collection/,
+             'CSSStyleDeclaration',  /.+List$/, 'Date', 'Element'
           # probably completely wrong.
-          'String'
+          String
         else
           raise "unknown type: #{type.name}"
         end
