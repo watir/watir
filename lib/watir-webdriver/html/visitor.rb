@@ -116,7 +116,7 @@ module Watir
           call(:attribute, [
             [:lit, ruby_type_for(attribute.type)],
             [:lit, ruby_method_name_for(attribute)],
-            [:lit, attribute.name]
+            [:lit, attribute.name.to_sym]
           ])
         end
       end

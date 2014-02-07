@@ -8,7 +8,7 @@ module Watir
 
   module AttributeHelper
 
-    IGNORED_ATTRIBUTES = %w[text hash]
+    IGNORED_ATTRIBUTES = [:text, :hash]
 
     def inherit_attributes_from(kls)
       kls.typed_attributes.each do |type, (method, attr)|
@@ -80,7 +80,7 @@ module Watir
     def define_boolean_attribute(mname, aname)
       define_method mname do
         assert_exists
-        @element.attribute(aname.delete('?')) == "true"
+        @element.attribute(aname) == "true"
       end
     end
 
