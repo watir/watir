@@ -4,7 +4,7 @@ module Watir
     include UserEditable
 
     Watir::TextArea.typed_attributes.each do |type, attrs|
-      attrs.each { |name| attribute type, name }
+      attrs.each { |attr| attribute type, attr[0], attr[1] }
     end
     remove_method :type # we want Input#type here, which was overriden by TextArea's attributes
 

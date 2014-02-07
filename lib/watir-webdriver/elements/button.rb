@@ -11,7 +11,7 @@ module Watir
 
     # add the attributes from <input>
     Watir::Input.typed_attributes.each do |type, attrs|
-      attrs.each { |name| attribute type, name }
+      attrs.each { |attr| attribute type, attr[0], attr[1] }
     end
 
     VALID_TYPES = %w[button reset submit image]

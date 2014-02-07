@@ -113,69 +113,68 @@ module Watir
 
       def attribute_calls(attributes)
         attributes.map do |attribute|
-          call(:attribute, [[:lit, ruby_type_for(attribute.type)], [:lit, ruby_attribute_name_for(attribute)]])
+          call(:attribute, [
+            [:lit, ruby_type_for(attribute.type)],
+            [:lit, ruby_method_name_for(attribute)],
+            [:lit, attribute.name]
+          ])
         end
-      end
-
-      def ruby_attribute_name_for(attribute)
-        str = attribute.name.snake_case
-
-        if str =~ /^is_(.+)/ && attribute.type.name == 'Boolean'
-          str = $1
-        end
-
-        str.to_sym
-      end
-
-      def literal_hash(hash)
-        [:hash] + hash.map { |k, v| [[:lit, k.to_sym], [:lit, v]] }.flatten(1)
-      end
-
-      def literal_array(arr)
-        [:array] + arr.map { |e| [:lit, e.to_sym] }
       end
 
       def call(name, args)
         [:call, nil, name.to_sym, [:arglist] + args]
       end
 
+      def ruby_method_name_for(attribute)
+        str = attribute.name.snake_case
+
+        if attribute.type.name == :Boolean
+          str = $1 if str =~ /^is_(.+)/
+          str << '?'
+        end
+
+        str = 'for' if str == 'html_for'
+
+        str.to_sym
+      end
+
       def ruby_type_for(type)
         case type.name.to_s
         when 'DOMString', 'any'
-          :string
+          'String'
         when 'UnsignedLong', 'Long', 'Integer', 'Short', 'UnsignedShort'
-          :int
+          'Fixnum'
         when 'Float', /.*Double$/
-          :float
+          'Float'
         when 'Function', /.*EventHandler$/
-          :function
+          'Function'
         when 'Boolean'
-          :bool
+          'Boolean'
         when 'Document', 'DocumentFragment'
-          :document
+          'Document'
         when 'DOMTokenList', 'DOMSettableTokenList'
-          :token_list
+          'TokenList'
         when 'DOMStringMap'
-          :string_map
+          'StringMap'
         when 'HTMLPropertiesCollection'
-          :properties_collection
+          'PropertiesCollection'
         when /HTML(.*)Element/
-          :html_element
+          'HTMLElement'
         when /HTML(.*)Collection/
-          :html_collection
+          'HTMLCollection'
         when 'CSSStyleDeclaration'
-          :style
+          'Style'
         when /.+List$/
-          :list
+          'List'
         when 'Date'
-          :date
+          'Date'
         when 'Element'
-          :element
+          'Element'
         when 'WindowProxy', 'ValidityState', 'MediaError', 'TimeRanges', 'Location',
              'Any', 'TimedTrackArray', 'TimedTrack', 'TextTrackArray', 'TextTrack',
              'MediaController', 'TextTrackKind'
           # probably completely wrong.
-          :string
+          'String'
         else
           raise "unknown type: #{type.name}"
         end

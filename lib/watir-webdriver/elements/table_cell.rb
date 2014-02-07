@@ -3,13 +3,18 @@ module Watir
     # @private
     attr_writer :locator_class
 
-    def locator_class
-      @locator_class || super
+    def colspan
+      warn 'TableCell#colspan is deprecated. Use TableCell#col_span'
+      col_span
     end
 
-    def colspan
-      value = attribute_value :colspan
-      value ? Integer(value) : 1
+    def rowspan
+      warn 'TableCell#rowspan is deprecated. Use TableCell#row_span'
+      row_span
+    end
+
+    def locator_class
+      @locator_class || super
     end
   end # TableCell
 

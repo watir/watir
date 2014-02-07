@@ -7,7 +7,7 @@ module Watir
     #
     # @see https://www.w3.org/Bugs/Public/show_bug.cgi?id=23192
     #
-    attribute :string, :href
+    attribute 'String', :href, 'href'
 
   end # Area
 end # Watir
