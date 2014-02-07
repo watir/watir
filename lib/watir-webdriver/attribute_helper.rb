@@ -10,6 +10,12 @@ module Watir
 
     IGNORED_ATTRIBUTES = %w[text hash]
 
+    def inherit_attributes_from(kls)
+      kls.typed_attributes.each do |type, (method, attr)|
+        attribute type, method, attr
+      end
+    end
+
     def typed_attributes
       @typed_attributes ||= Hash.new { |hash, type| hash[type] = []  }
     end
