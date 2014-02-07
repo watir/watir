@@ -1,3 +1,8 @@
+### 0.6.8 (unreleased)
+
+* `:css` selector can now be used with `:index` (fixes #241)
+* `:css` selector can now be used on all container methods (fixes #124)
+
 ### 0.6.7 (2014-02-04)
 
 * Revert wait/timeout bug introduced in 0.6.5 to fix #228.
