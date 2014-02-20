@@ -1,4 +1,4 @@
-### 0.6.8 (unreleased)
+### 0.6.8 (2014-02-20)
 
 * `:css` selector can now be used with `:index` (fixes #241)
 * `:css` selector can now be used on all container methods (fixes #124)
