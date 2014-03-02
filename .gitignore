@@ -13,3 +13,4 @@ Gemfile.lock
 chromedriver.log
 support/html5.html
 /doc
+.idea
