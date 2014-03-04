@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'forwardable'
+require 'watir-webdriver/wait/timer'
 
 module Watir
   module Wait
@@ -8,16 +9,17 @@ module Watir
 
     INTERVAL = 0.1
 
-    class Timer
-      def wait(timeout, &block)
-        end_time = ::Time.now + timeout
-        until ::Time.now > end_time
-          yield(block)
-        end
-      end
-    end
 
     class << self
+
+      #
+      # @!attribute timer
+      #   Access Watir timer implementation in use.
+      #   @see Timer
+      #   @return [#wait]
+      #
+
+      attr_writer :timer
 
       def timer
         @timer ||= Timer.new
@@ -41,7 +43,6 @@ module Watir
           result = yield(self)
           return result if result
         end or raise TimeoutError, message_for(timeout, message)
-
       end
 
       #
@@ -61,7 +62,6 @@ module Watir
         timer.wait(timeout) do
           return unless yield(self)
         end or raise TimeoutError, message_for(timeout, message)
-
       end
 
       private
