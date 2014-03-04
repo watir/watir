@@ -1,3 +1,7 @@
+### 0.6.9 (unreleased)
+
+* `Watir::Wait` timer can be re-implemented now (see #242)
+
 ### 0.6.8 (2014-02-20)
 
 * `:css` selector can now be used with `:index` (fixes #241)
