@@ -42,6 +42,7 @@ module Watir
         timer.wait(timeout) do
           result = yield(self)
           return result if result
+          sleep INTERVAL
         end or raise TimeoutError, message_for(timeout, message)
       end
 
@@ -61,6 +62,7 @@ module Watir
 
         timer.wait(timeout) do
           return unless yield(self)
+          sleep INTERVAL
         end or raise TimeoutError, message_for(timeout, message)
       end
 
