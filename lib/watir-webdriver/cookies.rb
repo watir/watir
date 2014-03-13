@@ -34,9 +34,9 @@ module Watir
     # @return <Hash> or nil if not found
     #
 
-		def [](name)
-			@control.all_cookies.select { |c| c[:name] == name.to_s }.first
-		end
+    def [](name)
+      @control.all_cookies.select { |c| c[:name] == name.to_s }.first
+    end
 
     #
     # Adds new cookie.
