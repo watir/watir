@@ -24,6 +24,21 @@ module Watir
     end
 
     #
+    # Returns a cookie by name.
+    #
+    # @example
+    #   browser.cookies[:my_session]
+    #   #=> {:name=>"my_session", :value=>"BAh7B0kiD3Nlc3Npb25faWQGOgZFRkk", :domain=>"mysite.com"}
+    #
+    # @param [Symbol] name
+    # @return <Hash> or nil if not found
+    #
+
+		def [](name)
+			@control.all_cookies.select { |c| c[:name] == name.to_s }.first
+		end
+
+    #
     # Adds new cookie.
     #
     # @example
