@@ -18,6 +18,23 @@ describe "Browser#cookies" do
     expect(cookie[:value]).to eq '1'
   end
 
+  it "gets a cookie by name" do
+    browser.goto set_cookie_url
+
+    verify_cookies_count 1
+
+    cookie = browser.cookies[:monster]
+    expect(cookie[:name]).to eq 'monster'
+    expect(cookie[:value]).to eq '1'
+
+    cookie = browser.cookies['monster']
+    expect(cookie[:name]).to eq 'monster'
+    expect(cookie[:value]).to eq '1'
+
+    cookie = browser.cookies[:non_monster]
+    expect(cookie).to eq nil
+  end
+
   not_compliant_on [:webdriver, :internet_explorer] do
     it 'adds a cookie' do
       browser.goto set_cookie_url
