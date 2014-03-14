@@ -23,6 +23,7 @@ module Watir
       end
     end
 
+    #
     # Returns a cookie by name.
     #
     # @example
