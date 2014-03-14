@@ -18,21 +18,27 @@ describe "Browser#cookies" do
     expect(cookie[:value]).to eq '1'
   end
 
-  it "gets a cookie by name" do
-    browser.goto set_cookie_url
+  describe '#[]' do
+    before do
+      browser.goto set_cookie_url
+      verify_cookies_count 1
+    end
 
-    verify_cookies_count 1
+    it 'returns cookie by symbol name' do
+      cookie = browser.cookies[:monster]
+      expect(cookie[:name]).to eq('monster')
+      expect(cookie[:value]).to eq('1')
+    end
 
-    cookie = browser.cookies[:monster]
-    expect(cookie[:name]).to eq 'monster'
-    expect(cookie[:value]).to eq '1'
+    it 'returns cookie by string name' do
+      cookie = browser.cookies['monster']
+      expect(cookie[:name]).to eq('monster')
+      expect(cookie[:value]).to eq('1')
+    end
 
-    cookie = browser.cookies['monster']
-    expect(cookie[:name]).to eq 'monster'
-    expect(cookie[:value]).to eq '1'
-
-    cookie = browser.cookies[:non_monster]
-    expect(cookie).to eq nil
+    it 'returns nil if there is no cookie with such name' do
+      expect(browser.cookies[:non_monster]).to eq(nil)
+    end
   end
 
   not_compliant_on [:webdriver, :internet_explorer] do
