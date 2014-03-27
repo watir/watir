@@ -59,4 +59,19 @@ describe Watir::Element do
     end
   end
 
+  describe '#inner_html' do
+    it 'should return inner HTML code of element' do
+      browser.goto WatirSpec.url_for('inner_outer.html', :needs_server => true)
+      div = browser.div(:id => 'foo')
+      expect(div.inner_html).to eq('<a href="#">hello</a>')
+    end
+  end
+
+  describe '#outer_html' do
+    it 'Returns outer (inner + element itself) HTML code of element' do
+      browser.goto WatirSpec.url_for('inner_outer.html', :needs_server => true)
+      div = browser.div(:id => 'foo')
+      expect(div.outer_html).to eq('<div id="foo"><a href="#">hello</a></div>')
+    end
+  end
 end
