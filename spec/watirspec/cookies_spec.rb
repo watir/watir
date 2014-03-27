@@ -74,7 +74,7 @@ describe "Browser#cookies" do
 
       not_compliant_on :watir_classic do
         expect(cookie[:path]).to eq "/set_cookie"
-        expect(cookie[:secure]).to be_true
+        expect(cookie[:secure]).to be true
 
         expect(cookie[:expires]).to be_kind_of(Time)
 
