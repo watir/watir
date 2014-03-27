@@ -11,11 +11,11 @@ module LocatorSpecHelper
   end
 
   def expect_one(*args)
-    driver.should_receive(:find_element).with(*args)
+    expect(driver).to receive(:find_element).with(*args)
   end
 
   def expect_all(*args)
-    driver.should_receive(:find_elements).with(*args)
+    expect(driver).to receive(:find_elements).with(*args)
   end
 
   def locate_one(selector, attrs = nil)

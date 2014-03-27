@@ -4,13 +4,13 @@ describe Watir::Browser do
 
   describe ".new" do
     it "passes the args to webdriver" do
-      Selenium::WebDriver.should_receive(:for).with(:firefox, :foo).and_return(nil)
+      expect(Selenium::WebDriver).to receive(:for).with(:firefox, :foo).and_return(nil)
       Watir::Browser.new(:firefox, :foo)
     end
 
     it "takes a Driver instance as argument" do
       mock_driver = double(Selenium::WebDriver::Driver)
-      Selenium::WebDriver::Driver.should_receive(:===).with(mock_driver).and_return(true)
+      expect(Selenium::WebDriver::Driver).to receive(:===).with(mock_driver).and_return(true)
       expect { Watir::Browser.new(mock_driver) }.to_not raise_error
     end
 
@@ -29,7 +29,7 @@ describe Watir::Browser do
 
     it "wraps elements in an array" do
       list = browser.execute_script("return [document.body];")
-      list.size.should == 1
+      expect(list.size).to eq 1
       expect(list.first).to be_kind_of(Watir::Body)
     end
 
@@ -41,7 +41,7 @@ describe Watir::Browser do
     it "wraps elements in a deep object" do
       hash = browser.execute_script("return {elements: [document.body], body: {element: document.body }}")
 
-      hash['elements'].first.should be_kind_of(Watir::Body)
+      expect(hash['elements'].first).to be_kind_of(Watir::Body)
       expect(hash['body']['element']).to be_kind_of(Watir::Body)
     end
   end
@@ -75,23 +75,23 @@ describe Watir::Browser do
 
   describe "#wait_while" do
     it "delegates to the Wait module" do
-      Wait.should_receive(:while).with(3, "foo").and_yield
+      expect(Wait).to receive(:while).with(3, "foo").and_yield
 
       called = false
       browser.wait_while(3, "foo") { called = true }
 
-      expect(called).to be_true
+      expect(called).to be true
     end
   end
 
   describe "#wait_until" do
     it "delegates to the Wait module" do
-      Wait.should_receive(:until).with(3, "foo").and_yield
+      expect(Wait).to receive(:until).with(3, "foo").and_yield
 
       called = false
       browser.wait_until(3, "foo") { called = true }
 
-      expect(called).to be_true
+      expect(called).to be true
     end
   end
 
@@ -106,7 +106,6 @@ describe Watir::Browser do
 
   describe "#ready_state" do
     it "gets the document's readyState property" do
-      #browser.should_receive(:execute_script).with('return document.readyState')
       expect(browser).to receive(:execute_script).with('return document.readyState')
       browser.ready_state
     end
@@ -114,7 +113,7 @@ describe Watir::Browser do
 
   describe "#inspect" do
     it "works even if browser is closed" do
-      browser.should_receive(:url).and_raise(Errno::ECONNREFUSED)
+      expect(browser).to receive(:url).and_raise(Errno::ECONNREFUSED)
       expect { browser.inspect }.to_not raise_error
     end
   end
