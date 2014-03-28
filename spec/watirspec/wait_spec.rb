@@ -5,7 +5,7 @@ not_compliant_on [:webdriver, :safari] do
   describe Watir::Wait do
     describe "#until" do
       it "waits until the block returns true" do
-        expect(Wait.until(0.5) { true }).to be_true
+        expect(Wait.until(0.5) { true }).to be true
       end
 
       it "times out" do
@@ -48,7 +48,7 @@ not_compliant_on [:webdriver, :safari] do
         browser.a(:id, 'show_bar').click
         browser.div(:id, 'bar').when_present(2) { called = true }
 
-       expect(called).to be_true
+       expect(called).to be true
       end
 
       it "invokes subsequent method calls when the element becomes present" do
@@ -62,7 +62,7 @@ not_compliant_on [:webdriver, :safari] do
       it "times out when given a block" do
         expect { browser.div(:id, 'bar').when_present(1) {}}.to raise_error(Watir::Wait::TimeoutError)
       end
-      
+
       not_compliant_on :watir_classic do
         it "times out when not given a block" do
           expect { browser.div(:id, 'bar').when_present(1).click }.to raise_error(Watir::Wait::TimeoutError,
@@ -70,7 +70,7 @@ not_compliant_on [:webdriver, :safari] do
           )
         end
       end
-      
+
       deviates_on :watir_classic do
         it "times out when not given a block" do
           expect { browser.div(:id, 'bar').when_present(1).click }.to raise_error(Watir::Wait::TimeoutError,
@@ -134,7 +134,7 @@ not_compliant_on [:webdriver, :safari] do
           )
         end
       end
-      
+
       deviates_on :watir_classic do
         it "times out if the element doesn't disappear" do
           expect { browser.div(:id, 'foo').wait_while_present(1) }.to raise_error(Watir::Wait::TimeoutError,
@@ -148,15 +148,15 @@ not_compliant_on [:webdriver, :safari] do
   describe "Watir.default_timeout" do
     before do
       Watir.default_timeout = 1
-      
+
       browser.goto WatirSpec.url_for("wait.html", :needs_server => true)
     end
 
     after do
       # Reset the default timeout
       Watir.default_timeout = 30
-    end   
-    
+    end
+
     context "when no timeout is specified" do
       it "is used by Wait#until" do
         expect {
@@ -169,7 +169,7 @@ not_compliant_on [:webdriver, :safari] do
           Wait.while { true }
         }.to raise_error(Watir::Wait::TimeoutError)
       end
-    
+
       it "is used by Element#when_present" do
         expect {
           browser.div(:id, 'bar').when_present.click
@@ -186,7 +186,7 @@ not_compliant_on [:webdriver, :safari] do
         expect {
           browser.div(:id, 'foo').wait_while_present
         }.to raise_error(Watir::Wait::TimeoutError)
-      end    
+      end
     end
   end
 end

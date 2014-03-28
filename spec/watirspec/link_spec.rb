@@ -146,17 +146,17 @@ describe "Link" do
   describe "#click" do
     it "finds an existing link by (:text, String) and clicks it" do
       browser.link(:text, "Link 3").click
-      expect(browser.text.include?("User administration")).to be_true
+      expect(browser.text.include?("User administration")).to be true
     end
 
     it "finds an existing link by (:text, Regexp) and clicks it" do
       browser.link(:href, /forms_with_input_elements/).click
-      expect(browser.text.include?("User administration")).to be_true
+      expect(browser.text.include?("User administration")).to be true
     end
 
     it "finds an existing link by (:index, Integer) and clicks it" do
       browser.link(:index, 2).click
-      expect(browser.text.include?("User administration")).to be_true
+      expect(browser.text.include?("User administration")).to be true
     end
 
     it "raises an UnknownObjectException if the link doesn't exist" do

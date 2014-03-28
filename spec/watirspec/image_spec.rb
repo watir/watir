@@ -197,7 +197,7 @@ describe "Image" do
         file = "#{File.expand_path Dir.pwd}/sample.img.dat"
         begin
           browser.image(:index, 1).save(file)
-          expect(File.exist?(file)).to be_true
+          expect(File.exist?(file)).to be true
         ensure
           File.delete(file) if File.exist?(file)
         end

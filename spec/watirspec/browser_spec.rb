@@ -231,8 +231,8 @@ describe "Browser" do
       expect(browser.execute_script("return")).to be_nil
       expect(browser.execute_script("return null")).to be_nil
       expect(browser.execute_script("return undefined")).to be_nil
-      expect(browser.execute_script("return true")).to be_true
-      expect(browser.execute_script("return false")).to be_false
+      expect(browser.execute_script("return true")).to be true
+      expect(browser.execute_script("return false")).to be false
     end
 
     it "works correctly with multi-line strings and special characters" do

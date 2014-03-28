@@ -173,7 +173,7 @@ not_compliant_on [:webdriver, :iphone], [:webdriver, :safari] do
             did_yield = true
           end
 
-          expect(did_yield).to be_true
+          expect(did_yield).to be true
         end
 
         it "times out waiting for a non-present window" do
