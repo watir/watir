@@ -17,6 +17,12 @@ not_compliant_on [:webdriver, :safari] do
           Wait.until(0.5, "oops") { false }
         }.to raise_error(Watir::Wait::TimeoutError, "timed out after 0.5 seconds, oops")
       end
+
+      it "uses timer for waiting" do
+        timer = Wait.timer
+        expect(timer).to receive(:wait).with(0.5).and_call_original
+        Wait.until(0.5) { true }
+      end  
     end
 
     describe "#while" do
@@ -32,6 +38,28 @@ not_compliant_on [:webdriver, :safari] do
         expect {
           Wait.while(0.5, "oops") { true }
         }.to raise_error(Watir::Wait::TimeoutError, "timed out after 0.5 seconds, oops")
+      end
+
+      it "uses timer for waiting" do
+        timer = Wait.timer
+        expect(timer).to receive(:wait).with(0.5).and_call_original
+        Wait.while(0.5) { false }
+      end  
+    end
+
+    describe "#timer" do
+      it "returns default timer" do
+        expect(Wait.timer).to be_a(Wait::Timer)
+      end
+    end
+
+    describe "#timer=" do
+      after { Wait.timer = nil }
+        
+      it "changes default timer" do
+        timer = Class.new
+        Wait.timer = timer
+        expect(Wait.timer).to eq(timer) 
       end
     end
   end
