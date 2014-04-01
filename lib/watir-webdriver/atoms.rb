@@ -10,6 +10,7 @@ module Watir
     load :fireEvent
     load :getAttribute
     load :getOuterHtml
+    load :getInnerHtml
     load :getParentElement
 
     private

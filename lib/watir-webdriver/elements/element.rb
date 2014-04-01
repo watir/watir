@@ -284,9 +284,26 @@ module Watir
     # @return [String]
     #
 
-    def html
+    def outer_html
       assert_exists
       execute_atom(:getOuterHtml, @element).strip
+    end
+
+    alias_method :html, :outer_html
+
+    #
+    # Returns inner HTML code of element.
+    #
+    # @example
+    #   browser.div(:id => "foo").html
+    #   #=> "<a>Click</a>"
+    #
+    # @return [String]
+    #
+
+    def inner_html
+      assert_exists
+      execute_atom(:getInnerHtml, @element).strip
     end
 
     #
