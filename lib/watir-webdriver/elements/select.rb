@@ -223,6 +223,6 @@ module Watir
     alias_method :select_list,  :select
     alias_method :select_lists, :selects
 
-   Watir.tag_to_class[:select_list] = Select
+    Watir.tag_to_class[:select_list] = Select
   end # Container
 end # Watir
