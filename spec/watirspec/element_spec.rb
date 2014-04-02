@@ -295,4 +295,20 @@ describe "Element" do
       expect(h2.flash).to eq h2
     end
   end
+
+  describe '#inner_html' do
+    it 'returns inner HTML code of element' do
+      browser.goto WatirSpec.url_for('inner_outer.html', :needs_server => true)
+      div = browser.div(:id => 'foo')
+      expect(div.inner_html).to eq('<a href="#">hello</a>')
+    end
+  end
+
+  describe '#outer_html' do
+    it 'returns outer (inner + element itself) HTML code of element' do
+      browser.goto WatirSpec.url_for('inner_outer.html', :needs_server => true)
+      div = browser.div(:id => 'foo')
+      expect(div.outer_html).to eq('<div id="foo"><a href="#">hello</a></div>')
+    end
+  end
 end
