@@ -18,8 +18,8 @@ module Watir
     #
 
     def to_a
-      @control.all_cookies.each do |e|
-        e[:expires] = to_time(e[:expires]) if e[:expires]
+      @control.all_cookies.map do |e|
+        e.merge(:expires => e[:expires] ? to_time(e[:expires]) : nil)
       end
     end
 
