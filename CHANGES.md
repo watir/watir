@@ -1,4 +1,4 @@
-### 0.6.9 (unreleased)
+### 0.6.9 (2014-04-13)
 
 * `Watir::Wait` timer can be re-implemented now (see #242)
 * Added `Watir::Cookies#[]` to retrieve cookie by name (see #251, thanks @mattparlane)
