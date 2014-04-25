@@ -547,7 +547,10 @@ module Watir
 
     def assert_writable
       assert_enabled
-      raise ObjectReadOnlyException if respond_to?(:readonly?) && readonly?
+
+      if respond_to?(:readonly?) && readonly?
+        raise ObjectReadOnlyException, "object is read only #{selector_string}"
+      end
     end
 
     def assert_has_input_devices_for(name)
