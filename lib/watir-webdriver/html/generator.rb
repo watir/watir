@@ -4,6 +4,8 @@ module Watir
   module HTML
     class Generator
 
+      IGNORED_ATTRIBUTES = %w(elements cells rows span)
+
       def generate(spec_url, io = StringIO.new)
         @spec_url, @io = spec_url, io
 
@@ -47,6 +49,11 @@ module Watir
         @sorted_interfaces.reject! { |intf| intf.name == "HTMLLinkElement" }
         # frame is implemented manually, see https://github.com/watir/watir-webdriver/issues/204
         @sorted_interfaces.reject! { |intf| intf.name == "HTMLFrameElement"  }
+
+        # cleanup attributes
+        @sorted_interfaces.each do |intf|
+          intf.members.delete_if { |member| IGNORED_ATTRIBUTES.include?(member.name) }
+        end
       end
 
       def write_header

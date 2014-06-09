@@ -118,7 +118,6 @@ module Watir
   end
   class FrameSet < HTMLElement
     attribute(String, :cols, :cols)
-    attribute(String, :rows, :rows)
     attribute(String, :onafterprint, :onafterprint)
     attribute(String, :onbeforeprint, :onbeforeprint)
     attribute(String, :onbeforeunload, :onbeforeunload)
@@ -266,7 +265,6 @@ module Watir
     attribute(String, :form, :form)
     attribute(String, :name, :name)
     attribute(String, :type, :type)
-    attribute(String, :elements, :elements)
     attribute("Boolean", :will_validate?, :willValidate)
     attribute(String, :validity, :validity)
     attribute(String, :validation_message, :validationMessage)
@@ -350,7 +348,6 @@ module Watir
     attribute(String, :placeholder, :placeholder)
     attribute("Boolean", :read_only?, :readOnly)
     attribute("Boolean", :required?, :required)
-    attribute(Fixnum, :rows, :rows)
     attribute(String, :wrap, :wrap)
     attribute(String, :type, :type)
     attribute(String, :default_value, :defaultValue)
@@ -402,6 +399,7 @@ module Watir
     end
   end
   class Select < HTMLElement
+    attribute(String, :autocomplete, :autocomplete)
     attribute("Boolean", :autofocus?, :autofocus)
     attribute("Boolean", :disabled?, :disabled)
     attribute(String, :form, :form)
@@ -524,7 +522,6 @@ module Watir
     attribute(String, :name, :name)
     attribute("Boolean", :no_validate?, :noValidate)
     attribute(String, :target, :target)
-    attribute(String, :elements, :elements)
     attribute(Fixnum, :length, :length)
   end
   class FormCollection < ElementCollection
@@ -573,7 +570,6 @@ module Watir
   class TableRow < HTMLElement
     attribute(Fixnum, :row_index, :rowIndex)
     attribute(Fixnum, :section_row_index, :sectionRowIndex)
-    attribute(String, :cells, :cells)
     attribute(String, :align, :align)
     attribute(String, :ch, :ch)
     attribute(String, :ch_off, :chOff)
@@ -586,7 +582,6 @@ module Watir
     end
   end
   class TableSection < HTMLElement
-    attribute(String, :rows, :rows)
     attribute(String, :align, :align)
     attribute(String, :ch, :ch)
     attribute(String, :ch_off, :chOff)
@@ -598,7 +593,6 @@ module Watir
     end
   end
   class TableCol < HTMLElement
-    attribute(Fixnum, :span, :span)
     attribute(String, :align, :align)
     attribute(String, :ch, :ch)
     attribute(String, :ch_off, :chOff)
@@ -623,7 +617,6 @@ module Watir
     attribute(String, :t_head, :tHead)
     attribute(String, :t_foot, :tFoot)
     attribute(String, :t_bodies, :tBodies)
-    attribute(String, :rows, :rows)
     attribute("Boolean", :sortable?, :sortable)
     attribute(String, :align, :align)
     attribute(String, :border, :border)
