@@ -1,3 +1,8 @@
+### 0.6.10 (unreleased)
+
+* Changed the way attributes are generated and documented (see #28 and #215)
+* Improved error message for read only elements (see #256)
+
 ### 0.6.9 (2014-04-13)
 
 * `Watir::Wait` timer can be re-implemented now (see #242)
