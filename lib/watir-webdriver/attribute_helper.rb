@@ -8,8 +8,6 @@ module Watir
 
   module AttributeHelper
 
-    IGNORED_ATTRIBUTES = [:text, :hash]
-
     def inherit_attributes_from(kls)
       kls.typed_attributes.each do |type, attrs|
         attrs.each { |method, attr| attribute type, method, attr }
@@ -41,9 +39,7 @@ module Watir
     #
     def attribute(type, method, attr)
       typed_attributes[type] << [method, attr]
-
-      # we don't want to override methods like :text or :hash
-      define_attribute(type, method, attr) unless IGNORED_ATTRIBUTES.include?(attr)
+      define_attribute(type, method, attr)
     end
 
     private

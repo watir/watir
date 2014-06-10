@@ -67,7 +67,7 @@ module Watir
           end
         end
 
-        @interfaces_by_name = @interfaces.group_by { |i| i.name }
+        @interfaces_by_name = @interfaces.group_by(&:name)
         apply_implements(implements)
         merge_interfaces
       end

@@ -4,7 +4,7 @@ module Watir
   module HTML
     class Generator
 
-      IGNORED_ATTRIBUTES = %w(elements cells rows span)
+      IGNORED_ATTRIBUTES = %w(cells elements hash rows span text)
 
       def generate(spec_url, io = StringIO.new)
         @spec_url, @io = spec_url, io

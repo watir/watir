@@ -200,7 +200,6 @@ module Watir
     attribute("Boolean", :async?, :async)
     attribute("Boolean", :defer?, :defer)
     attribute(String, :cross_origin, :crossOrigin)
-    attribute(String, :text, :text)
     attribute(String, :event, :event)
     attribute(String, :for, :htmlFor)
   end
@@ -373,7 +372,6 @@ module Watir
     attribute("Boolean", :default_selected?, :defaultSelected)
     attribute("Boolean", :selected?, :selected)
     attribute(String, :value, :value)
-    attribute(String, :text, :text)
     attribute(Fixnum, :index, :index)
   end
   class OptionCollection < ElementCollection
@@ -888,7 +886,6 @@ module Watir
     attribute(String, :rel_list, :relList)
     attribute(String, :hreflang, :hreflang)
     attribute(String, :type, :type)
-    attribute(String, :text, :text)
     attribute(String, :coords, :coords)
     attribute(String, :charset, :charset)
     attribute(String, :name, :name)
@@ -990,7 +987,6 @@ module Watir
     end
   end
   class Body < HTMLElement
-    attribute(String, :text, :text)
     attribute(String, :link, :link)
     attribute(String, :v_link, :vLink)
     attribute(String, :a_link, :aLink)
@@ -1046,7 +1042,6 @@ module Watir
     end
   end
   class Title < HTMLElement
-    attribute(String, :text, :text)
   end
   class TitleCollection < ElementCollection
     def element_class
