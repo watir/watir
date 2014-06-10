@@ -3,13 +3,11 @@ module Watir
     # @private
     attr_writer :locator_class
 
+    alias_method :colspan, :col_span
+    alias_method :rowspan, :row_span
+
     def locator_class
       @locator_class || super
-    end
-
-    def colspan
-      value = attribute_value :colspan
-      value ? Integer(value) : 1
     end
   end # TableCell
 

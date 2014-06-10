@@ -83,9 +83,7 @@ module Watir
 
       def element_class(name, attributes, parent)
         [:class, Util.classify(name), [:const, Util.classify(parent)],
-          [:scope,
-            [:block, attributes_call(attributes)]
-          ]
+          *attribute_calls(attributes)
         ]
       end
 
@@ -113,77 +111,51 @@ module Watir
         ]
       end
 
-      def attributes_call(attributes)
-        return if attributes.empty?
-
-        attrs = Hash.new { |hash, key| hash[key] = [] }
-        attributes.sort_by { |a| a.name }.each do |a|
-          type = ruby_type_for(a.type)
-          attrs[type] << ruby_attribute_for(type, a.name)
+      def attribute_calls(attributes)
+        attributes.map do |attribute|
+          call(:attribute, [
+            [:lit, ruby_type_for(attribute.type)],
+            [:lit, ruby_method_name_for(attribute)],
+            [:lit, attribute.name.to_sym]
+          ])
         end
-
-        call :attributes, [literal_hash(attrs)]
-      end
-
-      def ruby_attribute_for(type, str)
-        str = str.snake_case
-
-        if str =~ /^is_(.+)/ && type == :bool
-          str = $1
-        end
-
-        str.to_sym
-      end
-
-      def literal_hash(hash)
-        [:hash] + hash.map { |k, v| [[:lit, k.to_sym], [:lit, v]] }.flatten(1)
-      end
-
-      def literal_array(arr)
-        [:array] + arr.map { |e| [:lit, e.to_sym] }
       end
 
       def call(name, args)
         [:call, nil, name.to_sym, [:arglist] + args]
       end
 
+      def ruby_method_name_for(attribute)
+        str = attribute.name.snake_case
+
+        if attribute.type.name == :Boolean
+          str = $1 if str =~ /^is_(.+)/
+          str << '?'
+        end
+
+        str = 'for' if str == 'html_for'
+
+        str.to_sym
+      end
+
       def ruby_type_for(type)
         case type.name.to_s
         when 'DOMString', 'any'
-          :string
+          String
         when 'UnsignedLong', 'Long', 'Integer', 'Short', 'UnsignedShort'
-          :int
+          Fixnum
         when 'Float', /.*Double$/
-          :float
-        when 'Function', /.*EventHandler$/
-          :function
+          Float
         when 'Boolean'
-          :bool
-        when 'Document', 'DocumentFragment'
-          :document
-        when 'DOMTokenList', 'DOMSettableTokenList'
-          :token_list
-        when 'DOMStringMap'
-          :string_map
-        when 'HTMLPropertiesCollection'
-          :properties_collection
-        when /HTML(.*)Element/
-          :html_element
-        when /HTML(.*)Collection/
-          :html_collection
-        when 'CSSStyleDeclaration'
-          :style
-        when /.+List$/
-          :list
-        when 'Date'
-          :date
-        when 'Element'
-          :element
+          'Boolean'
         when 'WindowProxy', 'ValidityState', 'MediaError', 'TimeRanges', 'Location',
              'Any', 'TimedTrackArray', 'TimedTrack', 'TextTrackArray', 'TextTrack',
-             'MediaController', 'TextTrackKind'
+             'MediaController', 'TextTrackKind', 'Function', /.*EventHandler$/,
+             'Document', 'DocumentFragment', 'DOMTokenList', 'DOMSettableTokenList',
+             'DOMStringMap', 'HTMLPropertiesCollection', /HTML(.*)Element/, /HTML(.*)Collection/,
+             'CSSStyleDeclaration',  /.+List$/, 'Date', 'Element'
           # probably completely wrong.
-          :string
+          String
         else
           raise "unknown type: #{type.name}"
         end

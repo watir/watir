@@ -33,8 +33,8 @@ module Watir
         process if @interfaces.nil?
 
         sorter.sort.map { |name|
-          @interfaces_by_name[name] or puts "ignoring interface: #{name}"
-        }.flatten.compact
+          @interfaces.find { |i| i.name == name } or puts "ignoring interface: #{name}"
+        }.compact
       end
 
       def print_hierarchy
@@ -67,8 +67,9 @@ module Watir
           end
         end
 
-        @interfaces_by_name = @interfaces.group_by { |i| i.name }
+        @interfaces_by_name = @interfaces.group_by(&:name)
         apply_implements(implements)
+        merge_interfaces
       end
 
       def extract_interface_map
@@ -134,6 +135,19 @@ module Watir
             puts ex.message
           end
         end
+      end
+
+      def merge_interfaces
+        non_duplicates = @interfaces.uniq(&:name)
+        duplicates = @interfaces - non_duplicates
+
+        duplicates.each do |intf|
+          final = non_duplicates.find { |i| i.name == intf.name }
+          final.members += intf.members
+          final.extended_attributes += intf.extended_attributes
+        end
+
+        @interfaces = non_duplicates
       end
 
       def idl_parser

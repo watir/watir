@@ -21,7 +21,8 @@ module Watir
     #
     # TODO: use IDL from DOM core - http://dvcs.w3.org/hg/domcore/raw-file/tip/Overview.html
     #
-    attributes :string => [:id, :class_name]
+    attribute String, :id, :id
+    attribute String, :class_name, :className
 
     def initialize(parent, selector)
       @parent   = parent

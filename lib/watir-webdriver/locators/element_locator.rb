@@ -216,9 +216,6 @@ module Watir
         [:class, what]
       when :caption
         [:text, what]
-      when :for
-        assert_valid_as_attribute :html_for
-        [how, what]
       else
         assert_valid_as_attribute how
         [how, what]

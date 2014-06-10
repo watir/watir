@@ -9,8 +9,7 @@ module Watir
 
   class Button < HTMLElement
 
-    # add the attributes from <input>
-    attributes Watir::Input.typed_attributes
+    inherit_attributes_from Watir::Input
 
     VALID_TYPES = %w[button reset submit image]
 
