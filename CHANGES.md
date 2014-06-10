@@ -1,4 +1,4 @@
-### 0.6.10 (unreleased)
+### 0.6.10 (2014-06-10)
 
 * Changed the way attributes are generated and documented (see #28 and #215)
 * Improved error message for read only elements (see #256)
