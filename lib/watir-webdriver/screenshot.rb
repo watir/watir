@@ -24,7 +24,6 @@ module Watir
     #
     # @example
     #   browser.screenshot.png
-    #   #=> '\x95\xC7\x8C@1\xC07\x1C(Edb\x15\xB2\vL'
     #
     # @return [String]
     #
@@ -38,7 +37,6 @@ module Watir
     #
     # @example
     #   browser.screenshot.base64
-    #   #=> '7HWJ43tZDscPleeUuPW6HhN3x+z7vU/lufmH0qNTtTum94IBWMT46evImci1vnFGT'
     #
     # @return [String]
     #

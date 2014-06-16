@@ -26,7 +26,7 @@ module Watir
     #
     # @example
     #   size = browser.window.size
-    #   [size.width, size.height] #=> [1600, 1200]
+    #   [size.width, size.height]
     #
 
     def size
@@ -41,7 +41,7 @@ module Watir
     #
     # @example
     #   position = browser.window.position
-    #   [position.x, position.y] #=> [92, 76]
+    #   [position.x, position.y]
     #
 
     def position
@@ -125,7 +125,10 @@ module Watir
     # Returns true if two windows are equal.
     #
     # @example
-    #   browser.window(:index => 1) == browser.window(:index => 2)
+    #   browser.goto "http://www.w3schools.com/html/tryit.asp?filename=tryhtml_link_target"
+    #   browser.iframe(:id => "iframeResult").a.click
+    #   browser.window(:index => 0) == browser.window(:index => 1)
+    #   #=> false
     #
     # @param [Window] other
     #
@@ -154,7 +157,7 @@ module Watir
     end
 
     #
-    # CLoses window.
+    # Closes window.
     #
 
     def close
@@ -191,8 +194,10 @@ module Watir
     # Switches to given window and executes block, then switches back.
     #
     # @example
-    #   browser.window(:title => "2nd window").use do
-    #     browser.button(:id => "close").click
+    #   browser.goto "http://www.w3schools.com/html/tryit.asp?filename=tryhtml_link_target"
+    #   browser.iframe(:id => "iframeResult").a.click
+    #   browser.window(:index => 1).use do
+    #     browser.a(:text => "Learn HTML").click
     #   end
     #
 

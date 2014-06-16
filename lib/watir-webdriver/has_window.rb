@@ -5,8 +5,9 @@ module Watir
     # Returns browser windows array.
     #
     # @example
-    #   browser.a(:id => "open_new_window").click
-    #   browser.windows(:title => "new")
+    #   browser.goto "http://www.w3schools.com/html/tryit.asp?filename=tryhtml_link_target"
+    #   browser.iframe(:id => "iframeResult").a.click
+    #   browser.windows(:title => 'W3Schools Online Web Tutorials')
     #
     # @return [Array<Window>]
     #
@@ -25,8 +26,9 @@ module Watir
     # Returns browser window.
     #
     # @example
-    #   browser.a(:id => "open_new_window").click
-    #   browser.window(:title => "new")
+    #   browser.goto "http://www.w3schools.com/html/tryit.asp?filename=tryhtml_link_target"
+    #   browser.iframe(:id => "iframeResult").a.click
+    #   browser.window(:index => 1)
     #
     # @return [Window]
     #

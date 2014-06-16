@@ -9,6 +9,8 @@ export CHROMEDRIVER_VERSION=2.9
 sh -e /etc/init.d/xvfb start
 git submodule update --init
 
+bundle exec yard config -a autoload_plugins yard-doctest
+
 if [[ "$WATIR_WEBDRIVER_BROWSER" = "chrome" ]]; then
   sudo chmod 1777 /dev/shm
 

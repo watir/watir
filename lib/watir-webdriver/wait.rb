@@ -29,7 +29,8 @@ module Watir
       # Waits until the block evaluates to true or times out.
       #
       # @example
-      #   Watir::Wait.until { browser.a(:id => "ajaxed").visible? }
+      #   browser.goto "www.google.com"
+      #   Watir::Wait.until { browser.text_field(:name => "q").visible? }
       #
       # @param [Fixnum] timeout How long to wait in seconds
       # @param [String] message Message to raise if timeout is exceeded
@@ -52,7 +53,8 @@ module Watir
       # Wait while the block evaluates to true or times out.
       #
       # @example
-      #   Watir::Wait.while { browser.a(:id => "ajaxed").visible? }
+      #   browser.goto "www.google.com"
+      #   Watir::Wait.while { browser.text_field(:name => "abrakadbra").present? }
       #
       # @param [Fixnum] timeout How long to wait in seconds
       # @param [String] message Message to raise if timeout is exceeded
@@ -134,9 +136,10 @@ module Watir
     # Waits until the element is present.
     #
     # @example
-    #   browser.button(:id => 'foo').when_present.click
-    #   browser.div(:id => 'bar').when_present { |div| ... }
-    #   browser.p(:id => 'baz').when_present(60).text
+    #   browser.goto "google.com"
+    #   browser.text_field(:name => "q").when_present.click
+    #   browser.text_field(:name => "q").when_present { |field| field.set "Watir" }
+    #   browser.text_field(:name => "q").when_present(60).text
     #
     # @param [Fixnum] timeout seconds to wait before timing out
     #
@@ -160,7 +163,8 @@ module Watir
     # Waits until the element is present.
     #
     # @example
-    #   browser.button(:id => 'foo').wait_until_present
+    #   browser.goto "google.com"
+    #   browser.text_field(:name => "q").wait_until_present
     #
     # @param [Fixnum] timeout seconds to wait before timing out
     #
@@ -178,7 +182,8 @@ module Watir
     # Waits while the element is present.
     #
     # @example
-    #   browser.button(:id => 'foo').wait_while_present
+    #   browser.goto "google.com"
+    #   browser.text_field(:name => "abrakadbra").wait_while_present
     #
     # @param [Integer] timeout seconds to wait before timing out
     #

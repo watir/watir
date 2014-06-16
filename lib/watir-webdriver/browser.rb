@@ -18,8 +18,8 @@ module Watir
       # Creates a Watir::Browser instance and goes to URL.
       #
       # @example
-      #   browser = Watir::Browser.start "www.google.com", :chrome
-      #   #=> #<Watir::Browser:0x..fa45a499cb41e1752 url="http://www.google.com" title="Google">
+      #   browser = Watir::Browser.start "www.yandex.com", :chrome
+      #   browser.url #=> "http://www.yandex.com/"
       #
       # @param [String] url
       # @param [Symbol, Selenium::WebDriver] browser :firefox, :ie, :chrome, :remote or Selenium::WebDriver instance
@@ -100,9 +100,9 @@ module Watir
     # Returns URL of current page.
     #
     # @example
-    #   browser.goto "http://www.google.com"
+    #   browser.goto "www.yandex.com"
     #   browser.url
-    #   #=> "http://www.google.com"
+    #   #=> "http://www.yandex.com/"
     #
     # @return [String]
     #
@@ -243,13 +243,9 @@ module Watir
     # `return` explicitly.
     #
     # @example Check that Ajax requests are completed with jQuery
-    #   browser.execute_script("return jQuery.active") == '0'
+    #   browser.goto "www.jquery.org"
+    #   browser.execute_script("return jQuery.active") == 0
     #   #=> true
-    #
-    # @example Get inner HTML of element
-    #   span = browser.span(class: "someclass")
-    #   browser.execute_script "return arguments[0].innerHTML", span
-    #   #=> "Span innerHTML"
     #
     # @param [String] script JavaScript snippet to execute
     # @param *args Arguments will be available in the given script in the 'arguments' pseudo-array
