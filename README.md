@@ -38,6 +38,13 @@ watir-webdriver uses [watirspec](http://github.com/watir/watirspec) for testing.
 
 Specs specific to watir-webdriver are found in spec/*_spec.rb, with watirspec in spec/watirspec.
 
+Doctests
+--------
+
+watir-webdriver uses [yard-doctest](https://github.com/p0deje/yard-doctest) for testing documentation examples.
+
+    rake yard:doctest
+
 API docs
 --------
 

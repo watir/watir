@@ -14,7 +14,7 @@ module Watir
     #
     # @example
     #   browser.alert.text
-    #   #=> "This is alert text"
+    #   #=> "ok"
     #
     # @return [String]
     #
@@ -69,6 +69,10 @@ module Watir
 
     #
     # Returns true if alert, confirm or prompt is present and false otherwise.
+    #
+    # @example
+    #   browser.alert.exists?
+    #   #=> true
     #
 
     def exists?

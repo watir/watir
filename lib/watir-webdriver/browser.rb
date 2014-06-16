@@ -18,7 +18,7 @@ module Watir
       # Creates a Watir::Browser instance and goes to URL.
       #
       # @example
-      #   browser = Watir::Browser.start "www.google.com", :chrome
+      #   browser = Watir::Browser.start "www.google.com", :firefox
       #   #=> #<Watir::Browser:0x..fa45a499cb41e1752 url="http://www.google.com" title="Google">
       #
       # @param [String] url
@@ -65,7 +65,7 @@ module Watir
     # Goes to the given URL.
     #
     # @example
-    #   browser.goto "www.google.com"
+    #   browser.goto "www.watir.com"
     #
     # @param [String] uri The url.
     # @return [String] The url you end up at.
@@ -100,9 +100,9 @@ module Watir
     # Returns URL of current page.
     #
     # @example
-    #   browser.goto "http://www.google.com"
+    #   browser.goto "www.watir.com"
     #   browser.url
-    #   #=> "http://www.google.com"
+    #   #=> "http://watir.com/"
     #
     # @return [String]
     #
@@ -116,9 +116,9 @@ module Watir
     # Returns title of current page.
     #
     # @example
-    #   browser.goto "http://www.google.com"
+    #   browser.goto "www.watir.com"
     #   browser.title
-    #   #=> "Google"
+    #   #=> "Watir.com | Web Application Testing in Ruby"
     #
     # @return [String]
     #
@@ -152,9 +152,9 @@ module Watir
     # Returns browser name.
     #
     # @example
-    #   browser = Watir::Browser.new :chrome
+    #   browser = Watir::Browser.new :firefox
     #   browser.name
-    #   #=> :chrome
+    #   #=> :firefox
     #
     # @return [Symbol]
     #
@@ -243,13 +243,8 @@ module Watir
     # `return` explicitly.
     #
     # @example Check that Ajax requests are completed with jQuery
-    #   browser.execute_script("return jQuery.active") == '0'
+    #   browser.execute_script("return jQuery.active") == 0
     #   #=> true
-    #
-    # @example Get inner HTML of element
-    #   span = browser.span(class: "someclass")
-    #   browser.execute_script "return arguments[0].innerHTML", span
-    #   #=> "Span innerHTML"
     #
     # @param [String] script JavaScript snippet to execute
     # @param *args Arguments will be available in the given script in the 'arguments' pseudo-array
@@ -266,7 +261,7 @@ module Watir
     # Sends sequence of keystrokes to currently active element.
     #
     # @example
-    #   browser.goto "http://www.google.com"
+    #   browser.goto "www.google.com"
     #   browser.send_keys "Watir", :return
     #
     # @param [String, Symbol] *args
@@ -299,8 +294,8 @@ module Watir
     #   browser.add_checker do |page|
     #     page.text.include?("Server Error") and puts "Application exception or 500 error!"
     #   end
-    #   browser.goto "www.mywebsite.com/page-with-error"
-    #   "Server error! (RuntimeError)"
+    #   browser.goto "www.watir.com/404"
+    #   "Application exception or 500 error!"
     #
     # @param [#call] checker Object responding to call
     # @yield Checker block
@@ -325,8 +320,8 @@ module Watir
     #     page.text.include?("Server Error") and puts "Application exception or 500 error!"
     #   end
     #   browser.add_checker checker
-    #   browser.goto "www.mywebsite.com/page-with-error"
-    #   "Server error! (RuntimeError)"
+    #   browser.goto "www.watir.com/404"
+    #   "Application exception or 500 error!"
     #   browser.disable_checker checker
     #   browser.refresh
     #
