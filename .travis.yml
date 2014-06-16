@@ -9,6 +9,7 @@ notifications:
   irc: "irc.freenode.net#watir"
 before_script:
   - support/travis.sh
+  - bundle exec yard config -a autoload_plugins yard-doctest
 env:
   - WATIR_WEBDRIVER_BROWSER=firefox
   - WATIR_WEBDRIVER_BROWSER=firefox ALWAYS_LOCATE=false
