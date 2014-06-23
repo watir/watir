@@ -2,7 +2,6 @@ watir-webdriver
 ===============
 
 Watir implementation built on WebDriver's Ruby bindings.
-See http://rubyforge.org/pipermail/wtr-development/2009-October/001313.html.
 
 [![Gem Version](https://badge.fury.io/rb/watir-webdriver.png)](http://badge.fury.io/rb/watir-webdriver)
 [![Build Status](https://travis-ci.org/watir/watir-webdriver.png?branch=master)](https://travis-ci.org/watir/watir-webdriver)
