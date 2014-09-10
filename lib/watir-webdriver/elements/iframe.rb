@@ -139,7 +139,7 @@ module Watir
     def switch!
       @driver.switch_to.frame @element
     rescue Selenium::WebDriver::Error::NoSuchFrameError => e
-      raise UnknownFrameException, e.message
+      raise Exception::UnknownFrameException, e.message
     end
 
   end # FramedDriver
