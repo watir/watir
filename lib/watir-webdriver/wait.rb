@@ -93,37 +93,6 @@ module Watir
   end
 
   #
-  # Wraps an Element so that any subsequent method calls are
-  # put on hold until the element is present (exists and is visible) on the page.
-  #
-
-  class WhenPresentDecorator
-    extend Forwardable
-
-    def_delegator :@element, :present?
-
-    def initialize(element, timeout, message = nil)
-      @element = element
-      @timeout = timeout
-      @message = message
-    end
-
-    def respond_to?(*args)
-      @element.respond_to?(*args)
-    end
-
-    def method_missing(m, *args, &block)
-      unless @element.respond_to?(m)
-        raise NoMethodError, "undefined method `#{m}' for #{@element.inspect}:#{@element.class}"
-      end
-
-      Watir::Wait.until(@timeout, @message) { @element.present? }
-
-      @element.__send__(m, *args, &block)
-    end
-  end # WhenPresentDecorator
-
-  #
   # Convenience methods for things that eventually become present.
   #
   # Includers should implement a public #present? and a (possibly private) #selector_string method.
@@ -148,11 +117,12 @@ module Watir
       timeout ||= Watir.default_timeout
       message = "waiting for #{selector_string} to become present"
 
+      Watir::Wait.until(timeout, message) { present? }
+
       if block_given?
-        Watir::Wait.until(timeout, message) { present? }
         yield self
       else
-        WhenPresentDecorator.new(self, timeout, message)
+        self
       end
     end
 
