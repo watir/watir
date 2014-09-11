@@ -58,4 +58,37 @@ describe Watir::Element do
       end
     end
   end
+
+  describe "#next_sibling" do
+    before :each do
+      browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
+    end
+
+    it "gets the next sibling of this element" do
+      sib = browser.text_field(:id, "new_user_email").next_sibling.next_sibling
+      sib.should be_instance_of(Label)
+      sib.text.should == 'Email address (confirmation)'
+    end
+
+    it "returns nil if the element has no next sibling" do
+      browser.text_field(:id, "html5_email").next_sibling.should be_nil
+    end
+  end
+
+  describe "#previous_sibling" do
+    before :each do
+      browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
+    end
+
+    it "gets the previous sibling of this element" do
+      sib = browser.text_field(:id, "new_user_email").previous_sibling
+      sib.should be_instance_of(Label)
+      sib.text.should == 'Email address'
+    end
+
+    it "returns nil if the element has no previous sibling" do
+      browser.legend(:text, "Personal information").previous_sibling.should be_nil
+    end
+  end
+
 end

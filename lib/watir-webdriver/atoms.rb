@@ -12,6 +12,8 @@ module Watir
     load :getOuterHtml
     load :getInnerHtml
     load :getParentElement
+    load :getPreviousSibling
+    load :getNextSibling
 
     private
 
