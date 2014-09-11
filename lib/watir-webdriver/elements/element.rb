@@ -368,13 +368,15 @@ module Watir
     #
 
     def parent
-      assert_exists
+      locate_dom_element(:getParentElement)
+    end
 
-      e = execute_atom :getParentElement, @element
+    def next_sibling
+      locate_dom_element(:getNextSibling)
+    end
 
-      if e.kind_of?(Selenium::WebDriver::Element)
-        Watir.element_class_for(e.tag_name.downcase).new(@parent, :element => e)
-      end
+    def previous_sibling
+      locate_dom_element(:getPreviousSibling)
     end
 
     #
@@ -572,6 +574,16 @@ module Watir
         attribute_value(method.gsub(/_/, '-'), *args)
       else
         super
+      end
+    end
+
+    def locate_dom_element(method)
+      assert_exists
+
+      e = execute_atom method, @element
+
+      if e.kind_of?(Selenium::WebDriver::Element)
+        Watir.element_class_for(e.tag_name.downcase).new(@parent, :element => e)
       end
     end
 
