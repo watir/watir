@@ -502,7 +502,17 @@ module Watir
         return
       end
 
-      @element = (@selector[:element] || locate)
+      if @selector[:element]
+        @element= @selector[:element]
+        assert_not_stale
+        return
+      end
+
+      begin
+        @element = locate
+      rescue Selenium::WebDriver::Error::ObsoleteElementError
+        @element = nil
+      end
 
       unless @element
         raise UnknownObjectException, "unable to locate element, using #{selector_string}"
