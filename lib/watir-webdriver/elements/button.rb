@@ -49,11 +49,9 @@ module Watir
 
     private
 
-    def locate
-      @parent.assert_exists
-      ButtonLocator.new(@parent.wd, @selector, self.class.attribute_list).locate
+    def locator_class
+      ButtonLocator
     end
-
   end # Button
 
   class ButtonCollection < ElementCollection
