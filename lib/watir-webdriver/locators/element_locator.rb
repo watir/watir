@@ -39,7 +39,7 @@ module Watir
       # It is also used to alter behavior of methods locating more than one type of element
       # (e.g. text_field locates both input and textarea)
       validate_element(element) if element
-    rescue Selenium::WebDriver::Error::NoSuchElementError
+    rescue Selenium::WebDriver::Error::NoSuchElementError, Selenium::WebDriver::Error::ObsoleteElementError
       nil
     end
 

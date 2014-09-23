@@ -31,9 +31,11 @@ describe Watir::Element do
   end
 
   describe "#exists?" do
-    it "should not propagate ObsoleteElementErrors" do
+    before do
       browser.goto WatirSpec.url_for('removed_element.html', :needs_server => true)
+    end
 
+    it "should not propagate ObsoleteElementErrors" do
       button  = browser.button(:id => "remove-button")
       element = browser.div(:id => "text")
 
@@ -42,23 +44,23 @@ describe Watir::Element do
       expect(element).to_not exist
     end
 
-    it "should determine if element constructed with webdriver element is stale" do
-      browser.goto WatirSpec.url_for('removed_element.html', :needs_server => true)
-      element = browser.div(:id => "text")
-      stale_element = browser.element(:element, element.wd)
-      browser.refresh
-      expect(stale_element).to_not exist
+    it "should determine if element constructed with WebDriver element is stale" do
+      button = browser.button(:id => "remove-button")
+      text   = browser.element(:element, browser.div(:id => "text").wd)
+
+      expect(text).to exist
+      button.click
+      expect(text).to_not exist
     end
 
-    it "should determine if element getting looked up is stale" do
-      browser.goto WatirSpec.url_for('removed_element.html', :needs_server => true)
+    it "should handle element that becomes stale during lookup" do
       wd_element = browser.div(:id => "text").wd
 
+      # simulate element going stale during lookup
       allow(browser.driver).to receive(:find_element).with(:id, 'text') { wd_element }
-
       browser.refresh
-      stale_element = browser.div(:id, 'text')
-      expect(stale_element).to_not exist
+
+      expect(browser.div(:id, 'text')).to_not exist
     end
 
   end
