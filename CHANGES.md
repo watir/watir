@@ -1,3 +1,8 @@
+### 0.6.11 (2014-09-23)
+
+* Fix namespacing issue (#265, thanks @titusfortner)
+* Fix handling of elements that go stale during lookup (#271, thanks @titusfortner)
+
 ### 0.6.10 (2014-06-10)
 
 * Changed the way attributes are generated and documented (see #28 and #215)
