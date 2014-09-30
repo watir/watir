@@ -20,7 +20,7 @@ namespace :spec do
   end
 end
 
-task :default => :spec
+task :default => [:spec, 'yard:doctest']
 
 namespace :html5 do
   SPEC_URI  = "http://www.whatwg.org/specs/web-apps/current-work/"
@@ -89,6 +89,12 @@ end # html5
 require 'yard'
 YARD::Rake::YardocTask.new do |task|
   task.options = %w[--debug] # this is pretty slow, so nice with some output
+end
+
+require 'yard-doctest'
+YARD::Doctest::RakeTask.new do |task|
+  task.doctest_opts = %w[-v]
+  task.pattern = 'lib/**/*.rb'
 end
 
 namespace :changes do

@@ -11,8 +11,10 @@ module Watir
     # Returns array of cookies.
     #
     # @example
-    #   browser.cookies.to_a
-    #   #=> {:name=>"my_session", :value=>"BAh7B0kiD3Nlc3Npb25faWQGOgZFRkk", :domain=>"mysite.com"}
+    #   browser.goto "www.google.com"
+    #   cookies = browser.cookies.to_a
+    #   cookies.map { |cookie| cookie[:name] }
+    #   #=> ["NID", "PREF", "OGPC"]
     #
     # @return [Array<Hash>]
     #
@@ -27,8 +29,8 @@ module Watir
     # Returns a cookie by name.
     #
     # @example
-    #   browser.cookies[:my_session]
-    #   #=> {:name=>"my_session", :value=>"BAh7B0kiD3Nlc3Npb25faWQGOgZFRkk", :domain=>"mysite.com"}
+    #   browser.goto "www.google.com"
+    #   browser.cookies["NID"]
     #
     # @param [Symbol] name
     # @return <Hash> or nil if not found
@@ -70,6 +72,7 @@ module Watir
     # Deletes cookie by given name.
     #
     # @example
+    #   browser.goto "www.google.com"
     #   browser.cookies.delete 'my_session'
     #
     # @param [String] name
@@ -84,6 +87,8 @@ module Watir
     #
     # @example
     #   browser.cookies.clear
+    #   browser.cookies.to_a
+    #   #=> []
     #
 
     def clear

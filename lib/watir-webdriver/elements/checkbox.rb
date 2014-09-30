@@ -7,6 +7,8 @@ module Watir
     # Sets checkbox to the given value.
     #
     # @example
+    #   browser.goto "http://www.w3schools.com/html/tryit.asp?filename=tryhtml_checkbox"
+    #   checkbox = browser.iframe(:id => "iframeResult").checkbox
     #   checkbox.set?        #=> false
     #   checkbox.set
     #   checkbox.set?        #=> true

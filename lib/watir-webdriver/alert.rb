@@ -13,8 +13,10 @@ module Watir
     # Returns text of alert.
     #
     # @example
+    #   browser.goto "http://www.w3schools.com/js/tryit.asp?filename=tryjs_alert"
+    #   browser.iframe(:id => "iframeResult").button.click
     #   browser.alert.text
-    #   #=> "This is alert text"
+    #   #=> "I am an alert box!"
     #
     # @return [String]
     #
@@ -28,6 +30,8 @@ module Watir
     # Closes alert or accepts prompts/confirms.
     #
     # @example
+    #   browser.goto "http://www.w3schools.com/js/tryit.asp?filename=tryjs_alert"
+    #   browser.iframe(:id => "iframeResult").button.click
     #   browser.alert.ok
     #   browser.alert.exists?
     #   #=> false
@@ -42,6 +46,8 @@ module Watir
     # Closes alert or cancels prompts/confirms.
     #
     # @example
+    #   browser.goto "http://www.w3schools.com/js/tryit.asp?filename=tryjs_prompt"
+    #   browser.iframe(:id => "iframeResult").button.click
     #   browser.alert.close
     #   browser.alert.exists?
     #   #=> false
@@ -56,6 +62,8 @@ module Watir
     # Enters text to prompt.
     #
     # @example
+    #   browser.goto "http://www.w3schools.com/js/tryit.asp?filename=tryjs_prompt"
+    #   browser.iframe(:id => "iframeResult").button.click
     #   browser.alert.set "Text for prompt"
     #   browser.alert.ok
     #

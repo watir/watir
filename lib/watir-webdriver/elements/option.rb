@@ -11,7 +11,11 @@ module Watir
     # Selects this option.
     #
     # @example
-    #   browser.select(:id => "foo").options.first.select
+    #   browser.goto "http://www.w3schools.com/tags/tryit.asp?filename=tryhtml_select"
+    #   select = browser.iframe(:id => "iframeResult").select
+    #   option = select.option(:value => "opel")
+    #   option.select
+    #   option.selected? #=> true
     #
 
     def select
@@ -23,7 +27,13 @@ module Watir
     # Toggles the selected state of this option.
     #
     # @example
-    #   browser.select(:id => "foo").options.first.toggle
+    #   browser.goto "http://www.w3schools.com/tags/tryit.asp?filename=tryhtml_select_multiple"
+    #   select = browser.iframe(:id => "iframeResult").select
+    #   option = select.option(:value => "opel")
+    #   option.toggle
+    #   option.selected? #=> true
+    #   option.toggle
+    #   option.selected? #=> false
     #
 
     def toggle
@@ -35,7 +45,12 @@ module Watir
     # Clears (i.e. toggles selected state) option.
     #
     # @example
-    #   browser.select(:id => "foo").options.first.clear
+    #   browser.goto "http://www.w3schools.com/tags/tryit.asp?filename=tryhtml_select_multiple"
+    #   select = browser.iframe(:id => "iframeResult").select
+    #   option = select.option(:value => "opel")
+    #   option.select
+    #   option.clear
+    #   option.selected? #=> false
     #
 
     def clear

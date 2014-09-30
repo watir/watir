@@ -60,7 +60,8 @@ module Watir
     # Returns true if two elements are equal.
     #
     # @example
-    #   browser.a(:id => "foo") == browser.a(:id => "foo")
+    #   browser.goto "www.google.com"
+    #   browser.text_field(:name => "q") == browser.text_field(:name => "q")
     #   #=> true
     #
 
@@ -104,13 +105,16 @@ module Watir
     # and may not work at all.
     #
     # @example Click an element
-    #   element.click
+    #   browser.goto "www.google.com"
+    #   browser.element(:name => "btnK").click
     #
     # @example Click an element with shift key pressed
-    #   element.click(:shift)
+    #   browser.goto "www.google.com"
+    #   browser.element(:name => "btnK").click(:shift)
     #
     # @example Click an element with several modifier keys pressed
-    #   element.click(:shift, :control)
+    #   browser.goto "www.google.com"
+    #   browser.element(:name => "btnK").click(:shift, :control)
     #
     # @param [:shift, :alt, :control, :command, :meta] Modifier key(s) to press while clicking.
     #
@@ -140,7 +144,8 @@ module Watir
     # Note that browser support may vary.
     #
     # @example
-    #   browser.a(:id => "foo").double_click
+    #   browser.goto "www.google.com"
+    #   browser.element(:name => "btnK").double_click
     #
 
     def double_click
@@ -156,7 +161,8 @@ module Watir
     # Note that browser support may vary.
     #
     # @example
-    #   browser.a(:id => "foo").right_click
+    #   browser.goto "www.google.com"
+    #   browser.element(:name => "btnK").right_click
     #
 
     def right_click
@@ -172,7 +178,8 @@ module Watir
     # Note that browser support may vary.
     #
     # @example
-    #   browser.a(:id => "foo").hover
+    #   browser.goto "www.google.com"
+    #   browser.element(:name => "btnK").hover
     #
 
     def hover
@@ -187,9 +194,10 @@ module Watir
     # Note that browser support may vary.
     #
     # @example
-    #    a = browser.div(:id => "draggable")
-    #    b = browser.div(:id => "droppable")
-    #    a.drag_and_drop_on b
+    #   browser.goto "html5demos.com/drag"
+    #   drag = browser.a(:id => "one")
+    #   drop = browser.div(:id => "bin")
+    #   drag.drag_and_drop_on drop
     #
 
     def drag_and_drop_on(other)
@@ -207,7 +215,8 @@ module Watir
     # Note that browser support may vary.
     #
     # @example
-    #    browser.div(:id => "draggable").drag_and_drop_by 100, -200
+    #   browser.goto "html5demos.com/drag"
+    #   browser.a(:id => "one").drag_and_drop_by -20, 10
     #
     # @param [Fixnum] right_by
     # @param [Fixnum] down_by
@@ -226,7 +235,8 @@ module Watir
     # Flashes (change background color far a moment) element.
     #
     # @example
-    #    browser.div(:id => "draggable").flash
+    #   browser.goto "www.google.com"
+    #   browser.text_field(:name => "q").flash
     #
 
     def flash
@@ -263,8 +273,9 @@ module Watir
     # Returns given attribute value of element.
     #
     # @example
-    #   browser.a(:id => "foo").attribute_value "href"
-    #   #=> "http://watir.com"
+    #   browser.goto "github.com"
+    #   browser.a(:class => "header-logo-wordmark").attribute_value "href"
+    #   #=> "https://github.com/"
     #
     # @param [String] attribute_name
     # @return [String]
@@ -279,8 +290,9 @@ module Watir
     # Returns outer (inner + element itself) HTML code of element.
     #
     # @example
-    #   browser.div(:id => "foo").html
-    #   #=> "<div id=\"foo\"><a>Click</a></div>"
+    #   browser.goto "http://www.w3schools.com/html/tryit.asp?filename=tryhtml_intro"
+    #   browser.iframe(:id => "iframeResult").h1.outer_html
+    #   #=> "<h1>My First Heading</h1>"
     #
     # @return [String]
     #
@@ -296,8 +308,9 @@ module Watir
     # Returns inner HTML code of element.
     #
     # @example
-    #   browser.div(:id => "foo").html
-    #   #=> "<a>Click</a>"
+    #   browser.goto "http://www.w3schools.com/html/tryit.asp?filename=tryhtml_intro"
+    #   browser.iframe(:id => "iframeResult").h1.inner_html
+    #   #=> "My First Heading"
     #
     # @return [String]
     #
@@ -311,7 +324,8 @@ module Watir
     # Sends sequence of keystrokes to element.
     #
     # @example
-    #   browser.div(:id => "foo").send_keys "Watir", :return
+    #   browser.goto "www.google.com"
+    #   browser.text_field(:name => "q").send_keys "Watir", :return
     #
     # @param [String, Symbol] *args
     #
@@ -349,9 +363,10 @@ module Watir
     # Note that you may omit "on" from event name.
     #
     # @example
-    #   browser.a(:id => "foo").fire_event :click
-    #   browser.a(:id => "foo").fire_event "mousemove"
-    #   browser.a(:id => "foo").fire_event "onmouseover"
+    #   browser.goto "www.google.com"
+    #   browser.button(:name => "btnK").fire_event :click
+    #   browser.button(:name => "btnK").fire_event "mousemove"
+    #   browser.button(:name => "btnK").fire_event "onmouseover"
     #
     # @param [String, Symbol] event_name
     #
@@ -424,10 +439,9 @@ module Watir
     # Returns given style property of this element.
     #
     # @example
-    #   browser.a(:id => "foo").style
-    #   #=> "display: block"
-    #   browser.a(:id => "foo").style "display"
-    #   #=> "block"
+    #   browser.goto "http://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_global_style"
+    #   browser.iframe(:id => "iframeResult").p.style          #=> "color: green;"
+    #   browser.iframe(:id => "iframeResult").p.style("color") #=> "rgba(0, 128, 0, 1)"
     #
     # @param [String] property
     # @return [String]
@@ -454,8 +468,10 @@ module Watir
     # Cast this Element instance to a more specific subtype.
     #
     # @example
-    #   browser.element(:xpath => "//input[@type='submit']").to_subtype
-    #   #=> #<Watir::Button>
+    #   browser.goto "google.com"
+    #   text_field = browser.element(:xpath => "//input[@name='q']").to_subtype
+    #   text_field.class
+    #   #=> Watir::TextField
     #
 
     def to_subtype

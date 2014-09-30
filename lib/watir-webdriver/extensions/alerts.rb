@@ -15,11 +15,6 @@ module Watir
     #
     # This method is provided by an optional require - API is subject to change.
     #
-    # @example
-    #   browser.alert do
-    #     browser.button(:value => "Alert").click
-    #   end #=> "the alert message"
-    #
 
     def alert(&blk)
       warn 'AlertHelper is deprecated. Use the new Alert API instead (e.g. browser.alert.ok)'
@@ -33,10 +28,6 @@ module Watir
     #
     # This method is provided by an optional require - API is subject to change.
     #
-    # @example
-    #   browser.confirm(true) do
-    #     browser.button(:value => "Confirm").click
-    #   end #=> "the confirm message"
 
     def confirm(bool, &blk)
       warn 'AlertHelper is deprecated. Use the new Alert API instead (e.g. browser.alert.ok)'
@@ -49,11 +40,6 @@ module Watir
     # Overwrite window.prompt()
     #
     # This method is provided by an optional require - API is subject to change.
-    #
-    # @example
-    #   browser.prompt("hello") do
-    #     browser.button(:value => "Prompt").click
-    #   end #=> { :message => "foo", :default_value => "bar" }
     #
 
     def prompt(answer, &blk)
