@@ -119,19 +119,26 @@ module Watir
       assert_exists
       assert_enabled
 
-      if modifiers.any?
-        assert_has_input_devices_for "click(#{modifiers.join ', '})"
+      begin
+        if modifiers.any?
+          assert_has_input_devices_for "click(#{modifiers.join ', '})"
 
-        action = driver.action
-        modifiers.each { |mod| action.key_down mod }
-        action.click @element
-        modifiers.each { |mod| action.key_up mod }
+          action = driver.action
+          modifiers.each { |mod| action.key_down mod }
+          action.click @element
+          modifiers.each { |mod| action.key_up mod }
 
-        action.perform
-      else
-        @element.click
+          action.perform
+        else
+          @element.click
+        end
+      rescue Selenium::WebDriver::Error::UnknownError => e
+        if e.message.include? "Element is not clickable at point"
+          raise UnknownObjectException e.message
+        else
+          raise e
+        end
       end
-
       run_checkers
     end
 
