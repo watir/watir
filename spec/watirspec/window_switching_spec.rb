@@ -9,11 +9,8 @@ not_compliant_on [:webdriver, :iphone], [:webdriver, :safari] do
     end
 
     after do
-      begin
-        browser.window(:title => "closeable window").close
-      rescue
-        # not ideal - clean these up
-      end
+      browser.window(:index, 0).use
+      browser.windows[1..-1].each { |win| win.close }
     end
 
     describe "#windows" do
@@ -31,7 +28,7 @@ not_compliant_on [:webdriver, :iphone], [:webdriver, :safari] do
         expect { browser.windows(:name => "foo") }.to raise_error(ArgumentError)
       end
 
-      it "raises returns an empty array if no window matches the selector" do
+      it "returns an empty array if no window matches the selector" do
         expect(browser.windows(:title => "noop")).to eq []
       end
     end
@@ -52,8 +49,18 @@ not_compliant_on [:webdriver, :iphone], [:webdriver, :safari] do
         expect(w).to be_kind_of(Window)
       end
 
+      it "should not find incorrect handle" do
+        expect(browser.window(:handle => 'bar')).to_not be_present
+      end
+
       it "returns the current window if no argument is given" do
         expect(browser.window.url).to match(/window_switching\.html/)
+      end
+
+      it "stores the reference to a window when no argument is given" do
+        original_window = browser.window
+        browser.window(:index => 1).use
+        expect(original_window.url).to match(/window_switching\.html/)
       end
 
       bug "http://github.com/jarib/celerity/issues#issue/17", :celerity do
@@ -72,14 +79,17 @@ not_compliant_on [:webdriver, :iphone], [:webdriver, :safari] do
         expect { browser.window(:name => "foo") }.to raise_error(ArgumentError)
       end
 
-      it "raises an error if no window matches the selector" do
-        expect { browser.window(:title => "noop").use }.to raise_error
+      it "raises a NoMatchingWindowFoundException error if no window matches the selector" do
+        expect { browser.window(:title => "noop").use }.to raise_error(NoMatchingWindowFoundException)
       end
 
-      it "raises an error if there's no window at the given index" do
-        expect { browser.window(:index => 100).use }.to raise_error
+      it "raises a NoMatchingWindowFoundException error if there's no window at the given index" do
+        expect { browser.window(:index => 100).use }.to raise_error(NoMatchingWindowFoundException)
       end
 
+      it "raises NoMatchingWindowFoundException error when attempting to use a window with an incorrect handle" do
+        expect { browser.window(:handle => 'bar').use }.to raise_error(NoMatchingWindowFoundException)
+      end
     end
   end
 
@@ -91,7 +101,8 @@ not_compliant_on [:webdriver, :iphone], [:webdriver, :safari] do
       end
 
       after do
-        browser.window(:title => "closeable window").close
+        browser.window(:index, 0).use
+        browser.windows[1..-1].each { |win| win.close }
       end
 
       describe "#close" do
@@ -152,14 +163,14 @@ not_compliant_on [:webdriver, :iphone], [:webdriver, :safari] do
         end
       end
 
-      describe "#eq" do
+      describe "#eql?" do
         it "knows when two windows are equal" do
-          expect(browser.window).to eq browser.window
+          expect(browser.window).to eq browser.window(:index, 0)
         end
 
         it "knows when two windows are not equal" do
-          win1 = browser.window
-          win2 = browser.window(:title => "closeable window")
+          win1 = browser.window(:index, 0)
+          win2 = browser.window(:index, 1)
 
           expect(win1).to_not eq win2
         end
@@ -180,6 +191,73 @@ not_compliant_on [:webdriver, :iphone], [:webdriver, :safari] do
           expect {
             browser.window(:title => "noop").wait_until_present(0.5)
           }.to raise_error(Wait::TimeoutError)
+        end
+      end
+    end
+
+    context "with a closed window" do
+      before do
+        browser.goto WatirSpec.url_for("window_switching.html")
+        browser.a(:id => "open").click
+      end
+
+      after do
+        browser.window(:index, 0).use
+        browser.windows[1..-1].each { |win| win.close }
+      end
+
+      describe "#exists?" do
+        it "returns false if previously referenced window is closed" do
+          window = browser.window(:title => "closeable window")
+          window.use
+          browser.a(:id => "close").click
+          expect(window).to_not be_present
+        end
+
+        it "returns false if closed window is referenced" do
+          browser.window(:title => "closeable window").use
+          browser.a(:id => "close").click
+          expect(browser.window).to_not be_present
+        end
+      end
+
+      describe "#current?" do
+        it "returns false if the referenced window is closed" do
+          original_window = browser.window
+          browser.window(:title, "closeable window").use
+          original_window.close
+          expect(original_window).to_not be_current
+        end
+
+        it "returns true if current window is closed" do
+          new_window = browser.window(:title, "closeable window").use
+          new_window.close
+          expect(browser.window).to be_current
+        end
+      end
+
+      describe "#eql?" do
+        it "should return false when checking equivalence to a closed window" do
+          orig_window = browser.window
+          other_window = browser.window(:index, 1)
+          other_window.use
+          orig_window.close
+          expect(other_window == orig_window).to be false
+        end
+      end
+
+      describe "#use" do
+        it "raises NoMatchingWindowFoundException error when attempting to use a referenced window that is closed" do
+          orig_window = browser.window
+          browser.window(:index, 1).use
+          orig_window.close
+          expect { orig_window.use }.to raise_error(NoMatchingWindowFoundException)
+        end
+
+        it "raises NoMatchingWindowFoundException error when attempting to use the current window if it is closed" do
+          browser.window(:title => "closeable window").use
+          browser.a(:id => "close").click
+          expect { browser.window.use }.to raise_error(NoMatchingWindowFoundException)
         end
       end
     end
