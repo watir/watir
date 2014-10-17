@@ -11,6 +11,7 @@ module Watir
     def submit
       assert_exists
       @element.submit
+      run_checkers
     end
 
   end # Form
