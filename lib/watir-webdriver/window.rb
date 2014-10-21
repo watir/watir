@@ -3,11 +3,11 @@ module Watir
     include EventuallyPresent
 
     def initialize(driver, selector)
-      @driver   = driver
+      @driver = driver
       @selector = selector
 
       if selector.empty?
-        @handle = driver.window_handle
+        @handle = current_window
       elsif selector.has_key? :handle
         @handle = selector.delete :handle
       else
@@ -103,23 +103,14 @@ module Watir
     #
 
     def exists?
-      handle
+      assert_exists
       true
     rescue Exception::NoMatchingWindowFoundException
       false
     end
 
-    #
-    # Returns true if window is present.
-    #
-    # @return [Boolean]
-    #
-
-    def present?
-      @handle = nil # relocate
-
-      exists?
-    end
+    alias_method :present?, :exists?
+    alias_method :exist?, :exists?
 
     #
     # Returns true if two windows are equal.
@@ -150,11 +141,11 @@ module Watir
     #
 
     def current?
-      @driver.window_handle == handle
+      current_window == handle
     end
 
     #
-    # CLoses window.
+    # Closes window.
     #
 
     def close
@@ -197,6 +188,7 @@ module Watir
     #
 
     def use(&blk)
+      assert_exists
       @driver.switch_to.window(handle, &blk)
       self
     end
@@ -204,23 +196,33 @@ module Watir
     protected
 
     def handle
-      @handle ||= locate
+      @handle ||= locate || raise(Exception::NoMatchingWindowFoundException, @selector.inspect)
     end
 
     private
 
+    # Referenced in EventuallyPresent
     def selector_string
       @selector.inspect
     end
 
     def locate
-      handle = if @selector.has_key?(:index)
-                  @driver.window_handles[Integer(@selector[:index])]
-                else
-                  @driver.window_handles.find { |wh| matches?(wh) }
-                end
+      if @selector.has_key?(:index)
+        @driver.window_handles[Integer(@selector[:index])]
+      else
+        @driver.window_handles.find { |wh| matches?(wh) }
+      end
+    end
 
-      handle or raise Exception::NoMatchingWindowFoundException, @selector.inspect
+    def assert_exists
+      raise(Exception::NoMatchingWindowFoundException, @selector.inspect) unless @driver.window_handles.include?(handle)
+    end
+
+    # return a handle to the currently active window if it is still open; otherwise nil
+    def current_window
+      @driver.window_handle
+    rescue Selenium::WebDriver::Error::NoSuchWindowError
+      nil
     end
 
     def matches?(handle)
