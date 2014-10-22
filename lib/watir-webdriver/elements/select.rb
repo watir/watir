@@ -148,6 +148,8 @@ module Watir
       else
         begin
           e = @element.find_element(:xpath, xpath)
+        rescue Selenium::WebDriver::Error::ObsoleteElementError
+          raise UnknownObjectException, "unable to locate element, using #{selector_string}"
         rescue Selenium::WebDriver::Error::NoSuchElementError
           no_value_found(string)
         end
