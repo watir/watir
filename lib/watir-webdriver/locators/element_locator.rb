@@ -253,8 +253,6 @@ module Watir
       return if tag_name && !tag_name_matches?(element.tag_name.downcase, tag_name)
 
       element
-    rescue Selenium::WebDriver::Error::NoSuchElementError
-      nil
     end
 
     def all_elements
