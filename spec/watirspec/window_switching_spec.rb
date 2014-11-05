@@ -238,20 +238,20 @@ not_compliant_on [:webdriver, :iphone], [:webdriver, :safari] do
 
       describe "#eql?" do
         it "should return false when checking equivalence to a closed window" do
-          orig_window = browser.window
+          original_window = browser.window
           other_window = browser.window(:index, 1)
           other_window.use
-          orig_window.close
-          expect(other_window == orig_window).to be false
+          original_window.close
+          expect(other_window == original_window).to be false
         end
       end
 
       describe "#use" do
         it "raises NoMatchingWindowFoundException error when attempting to use a referenced window that is closed" do
-          orig_window = browser.window
+          original_window = browser.window
           browser.window(:index, 1).use
-          orig_window.close
-          expect { orig_window.use }.to raise_error(NoMatchingWindowFoundException)
+          original_window.close
+          expect { original_window.use }.to raise_error(NoMatchingWindowFoundException)
         end
 
         it "raises NoMatchingWindowFoundException error when attempting to use the current window if it is closed" do
