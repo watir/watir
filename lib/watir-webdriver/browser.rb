@@ -340,7 +340,26 @@ module Watir
     #
 
     def run_checkers
-      @error_checkers.each { |e| e.call(self) }
+      @error_checkers.each { |e| e.call(self) } if !@error_checkers.empty? && window.present?
+    end
+
+    #
+    # Executes a block without running error checkers.
+    #
+    # @example
+    #   browser.without_checkers do
+    #     browser.element(:name => "new_user_button").click
+    #   end
+    #
+    # @yieldparam [Watir::Browser]
+    #
+
+    def without_checkers
+      current_checkers = @error_checkers
+      @error_checkers = []
+      yield(self)
+    ensure
+      @error_checkers = current_checkers
     end
 
     #
