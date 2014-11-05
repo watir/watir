@@ -49,16 +49,6 @@ module WatirSpec
         false
       end
 
-      def find_free_port_above(int)
-        port = int
-
-        until free_port?(port)
-          port += 1
-        end
-
-        port
-      end
-
       def autorun
         @autorun ||= true
       end
@@ -71,15 +61,13 @@ module WatirSpec
         defined?(@running) && @running
       end
 
-      SOCKET_ERRORS = [Errno::EADDRINUSE]
-      SOCKET_ERRORS << SocketError if defined?(SocketError) # ruby versions...
+      def random_free_port
+        s    = TCPServer.new(bind, 0)
+        port = s.addr[1]
 
-      def free_port?(port)
-        s = TCPServer.new(@host, port)
         s.close
-        true
-      rescue *SOCKET_ERRORS
-        false
+
+        port
       end
 
       private
@@ -106,7 +94,7 @@ module WatirSpec
     set :run,           false
     set :environment,   :production
     set :bind,          "localhost" if WatirSpec.platform == :windows
-    set :port,          find_free_port_above(2000)
+    set :port,          random_free_port
 
     get '/' do
       self.class.name
