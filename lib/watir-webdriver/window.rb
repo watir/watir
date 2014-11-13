@@ -196,7 +196,7 @@ module Watir
     protected
 
     def handle
-      @handle ||= locate || raise(Exception::NoMatchingWindowFoundException, @selector.inspect)
+      @handle ||= locate
     end
 
     private
@@ -207,7 +207,9 @@ module Watir
     end
 
     def locate
-      if @selector.has_key?(:index)
+      if @selector.empty?
+        nil
+      elsif @selector.has_key?(:index)
         @driver.window_handles[Integer(@selector[:index])]
       else
         @driver.window_handles.find { |wh| matches?(wh) }
