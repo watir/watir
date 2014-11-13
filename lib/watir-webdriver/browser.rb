@@ -350,7 +350,10 @@ module Watir
     #
 
     def exist?
-      not @closed
+      assert_exists
+      true
+    rescue Exception::NoMatchingWindowFoundException, Exception::Error
+      false
     end
     alias_method :exists?, :exist?
 
@@ -363,6 +366,8 @@ module Watir
     def assert_exists
       if @closed
         raise Exception::Error, "browser was closed"
+      elsif !window.present?
+        raise Exception::NoMatchingWindowFoundException, "browser window was closed"
       else
         driver.switch_to.default_content
         true
