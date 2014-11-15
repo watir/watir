@@ -32,4 +32,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "activesupport", "~> 3.0" # for pluralization during code generation
   s.add_development_dependency "pry"
   s.add_development_dependency "coveralls"
+  s.add_development_dependency "rubocop", '~> 0.27.1'
 end
