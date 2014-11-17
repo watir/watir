@@ -43,8 +43,6 @@ module Watir
       browser.execute_script(*args)
     end
 
-    private
-
     def tag_name
       'iframe'
     end
@@ -66,8 +64,6 @@ module Watir
 
 
   class Frame < IFrame
-
-    private
 
     def tag_name
       'frame'
