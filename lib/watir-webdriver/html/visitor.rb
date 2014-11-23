@@ -148,9 +148,9 @@ module Watir
           Float
         when 'Boolean'
           'Boolean'
-        when 'WindowProxy', 'ValidityState', 'MediaError', 'TimeRanges', 'Location',
+        when 'WindowProxy', 'ValidityState', 'TimeRanges', 'Location',
              'Any', 'TimedTrackArray', 'TimedTrack', 'TextTrackArray', 'TextTrack',
-             'MediaController', 'TextTrackKind', 'Function', /.*EventHandler$/,
+             /Media.+/, 'TextTrackKind', 'Function', /.*EventHandler$/,
              'Document', 'DocumentFragment', 'DOMTokenList', 'DOMSettableTokenList',
              'DOMStringMap', 'HTMLPropertiesCollection', /HTML(.*)Element/, /HTML(.*)Collection/,
              'CSSStyleDeclaration',  /.+List$/, 'Date', 'Element'

@@ -74,8 +74,8 @@ module Watir
 
       def extract_interface_map
         # http://www.whatwg.org/specs/web-apps/current-work/#elements-1
-        table = @doc.search("//h3[@id='elements-1']/following-sibling::table[1]").first
-        table or raise "could not find elements-1 table"
+        table = @doc.search("//h3[@id='elements-3']/following-sibling::table[1]").first
+        table or raise "could not find elements-3 table"
 
         @interface_map = {}
 
