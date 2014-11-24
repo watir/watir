@@ -23,7 +23,7 @@ end
 task :default => :spec
 
 namespace :html5 do
-  SPEC_URI  = "http://www.whatwg.org/specs/web-apps/current-work/"
+  SPEC_URI  = "https://www.whatwg.org/specs/web-apps/current-work/"
   SPEC_PATH = "support/html5.html"
 
   task :html_lib => :lib do
