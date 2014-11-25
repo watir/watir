@@ -832,6 +832,18 @@ module Watir
       Image
     end
   end
+  class Source < HTMLElement
+    attribute(String, :srcset, :srcset)
+    attribute(String, :sizes, :sizes)
+    attribute(String, :media, :media)
+    attribute(String, :src, :src)
+    attribute(String, :type, :type)
+  end
+  class SourceCollection < ElementCollection
+    def element_class
+      Source
+    end
+  end
   class Picture < HTMLElement
   end
   class PictureCollection < ElementCollection

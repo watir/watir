@@ -143,6 +143,7 @@ module Watir
 
         duplicates.each do |intf|
           final = non_duplicates.find { |i| i.name == intf.name }
+          final.inherits += intf.inherits
           final.members += intf.members
           final.extended_attributes += intf.extended_attributes
         end
