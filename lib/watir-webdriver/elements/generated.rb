@@ -19,8 +19,6 @@ module Watir
     attribute(String, :access_key_label, :accessKeyLabel)
     attribute("Boolean", :draggable?, :draggable)
     attribute(String, :dropzone, :dropzone)
-    attribute(String, :content_editable, :contentEditable)
-    attribute("Boolean", :content_editable?, :isContentEditable)
     attribute(String, :context_menu, :contextMenu)
     attribute("Boolean", :spellcheck?, :spellcheck)
     attribute(String, :command_type, :commandType)
@@ -92,6 +90,8 @@ module Watir
     attribute(String, :ontoggle, :ontoggle)
     attribute(String, :onvolumechange, :onvolumechange)
     attribute(String, :onwaiting, :onwaiting)
+    attribute(String, :content_editable, :contentEditable)
+    attribute("Boolean", :content_editable?, :isContentEditable)
   end
   class HTMLElementCollection < ElementCollection
     def element_class
@@ -662,6 +662,7 @@ module Watir
   class Media < HTMLElement
     attribute(String, :error, :error)
     attribute(String, :src, :src)
+    attribute(String, :src_object, :srcObject)
     attribute(String, :current_src, :currentSrc)
     attribute(String, :cross_origin, :crossOrigin)
     attribute(Fixnum, :network_state, :networkState)
@@ -725,15 +726,6 @@ module Watir
   class TrackCollection < ElementCollection
     def element_class
       Track
-    end
-  end
-  class Source < HTMLElement
-    attribute(String, :src, :src)
-    attribute(String, :type, :type)
-  end
-  class SourceCollection < ElementCollection
-    def element_class
-      Source
     end
   end
   class Param < HTMLElement
@@ -817,6 +809,7 @@ module Watir
     attribute(String, :alt, :alt)
     attribute(String, :src, :src)
     attribute(String, :srcset, :srcset)
+    attribute(String, :sizes, :sizes)
     attribute(String, :cross_origin, :crossOrigin)
     attribute(String, :use_map, :useMap)
     attribute("Boolean", :map?, :isMap)
@@ -825,6 +818,7 @@ module Watir
     attribute(Fixnum, :natural_width, :naturalWidth)
     attribute(Fixnum, :natural_height, :naturalHeight)
     attribute("Boolean", :complete?, :complete)
+    attribute(String, :current_src, :currentSrc)
     attribute(String, :name, :name)
     attribute(String, :lowsrc, :lowsrc)
     attribute(String, :align, :align)
@@ -836,6 +830,25 @@ module Watir
   class ImageCollection < ElementCollection
     def element_class
       Image
+    end
+  end
+  class Source < HTMLElement
+    attribute(String, :srcset, :srcset)
+    attribute(String, :sizes, :sizes)
+    attribute(String, :media, :media)
+    attribute(String, :src, :src)
+    attribute(String, :type, :type)
+  end
+  class SourceCollection < ElementCollection
+    def element_class
+      Source
+    end
+  end
+  class Picture < HTMLElement
+  end
+  class PictureCollection < ElementCollection
+    def element_class
+      Picture
     end
   end
   class Mod < HTMLElement
