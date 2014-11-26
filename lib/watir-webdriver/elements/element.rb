@@ -296,7 +296,7 @@ module Watir
     # Returns inner HTML code of element.
     #
     # @example
-    #   browser.div(:id => "foo").html
+    #   browser.div(:id => "foo").inner_html
     #   #=> "<a>Click</a>"
     #
     # @return [String]
