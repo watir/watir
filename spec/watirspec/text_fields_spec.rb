@@ -17,7 +17,7 @@ describe "TextFields" do
 
   describe "#length" do
     it "returns the number of text fields" do
-      expect(browser.text_fields.length).to eq 14
+      expect(browser.text_fields.length).to eq 20
     end
   end
 
