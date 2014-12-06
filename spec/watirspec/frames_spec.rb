@@ -10,7 +10,7 @@ describe "Frames" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.frames(:name => "frame1").to_a).to eq [browser.frame(:name => "frame1")]
+        expect(browser.frames(:name => "frame2").to_a).to eq [browser.frame(:name => "frame2")]
       end
     end
   end
