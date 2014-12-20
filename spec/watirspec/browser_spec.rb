@@ -4,9 +4,22 @@ require File.expand_path("../spec_helper", __FILE__)
 describe "Browser" do
 
   describe "#exists?" do
+    after do
+      browser.window(:index, 0).use
+      browser.windows[1..-1].each { |win| win.close }
+    end
+
     it "returns true if we are at a page" do
       browser.goto(WatirSpec.url_for("non_control_elements.html"))
       expect(browser).to exist
+    end
+
+    it "returns false if window is closed" do
+      browser.goto WatirSpec.url_for("window_switching.html")
+      browser.a(:id => "open").click
+      browser.window(title: "closeable window").use
+      browser.a(:id => "close").click
+      expect(browser.exists?).to be false
     end
 
     not_compliant_on(:safariwatir) do

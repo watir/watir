@@ -106,13 +106,24 @@ not_compliant_on [:webdriver, :iphone], [:webdriver, :safari] do
       end
 
       describe "#close" do
-        it "closes the window" do
+        it "closes a window" do
           expect(browser.windows.size).to eq 2
 
           browser.a(:id => "open").click
           expect(browser.windows.size).to eq 3
 
           browser.window(:title => "closeable window").close
+          expect(browser.windows.size).to eq 2
+        end
+
+        it "closes the current window" do
+          expect(browser.windows.size).to eq 2
+
+          browser.a(:id => "open").click
+          expect(browser.windows.size).to eq 3
+
+          window = browser.window(:title => "closeable window").use
+          window.close
           expect(browser.windows.size).to eq 2
         end
       end
@@ -214,10 +225,12 @@ not_compliant_on [:webdriver, :iphone], [:webdriver, :safari] do
           expect(window).to_not be_present
         end
 
-        it "returns false if closed window is referenced" do
-          browser.window(:title => "closeable window").use
-          browser.a(:id => "close").click
-          expect(browser.window).to_not be_present
+        bug "https://code.google.com/p/chromedriver/issues/detail?id=950", [:webdriver, :chrome] do
+          it "returns false if closed window is referenced" do
+            browser.window(:title => "closeable window").use
+            browser.a(:id => "close").click
+            expect(browser.window).to_not be_present
+          end
         end
       end
 
@@ -227,12 +240,6 @@ not_compliant_on [:webdriver, :iphone], [:webdriver, :safari] do
           browser.window(:title, "closeable window").use
           original_window.close
           expect(original_window).to_not be_current
-        end
-
-        it "returns true if current window is closed" do
-          new_window = browser.window(:title, "closeable window").use
-          new_window.close
-          expect(browser.window).to be_current
         end
       end
 
@@ -259,6 +266,69 @@ not_compliant_on [:webdriver, :iphone], [:webdriver, :safari] do
           browser.a(:id => "close").click
           expect { browser.window.use }.to raise_error(NoMatchingWindowFoundException)
         end
+      end
+    end
+
+    context "with current window closed" do
+      before do
+        browser.goto WatirSpec.url_for("window_switching.html")
+        browser.a(:id => "open").click
+        browser.window(title: "closeable window").use
+        browser.a(:id => "close").click
+      end
+
+      after do
+        browser.window(:index, 0).use
+        browser.windows[1..-1].each { |win| win.close }
+      end
+
+      describe "#present?" do
+        it "should find window by index" do
+          expect(browser.window(:index, 0)).to be_present
+        end
+
+        it "should find window by url" do
+          expect(browser.window(:url, /window_switching\.html/)).to be_present
+        end
+
+        it "should find window by title" do
+          expect(browser.window(:title, "window switching")).to be_present
+        end
+      end
+
+      describe "#use" do
+
+        context "switching windows without blocks" do
+          it "by index" do
+            browser.window(:index, 0).use
+            expect(browser.title).to be == "window switching"
+          end
+
+          it "by url" do
+            browser.window(:url, /window_switching\.html/).use
+            expect(browser.title).to be == "window switching"
+          end
+
+          it "by title" do
+            browser.window(:title, "window switching").use
+            expect(browser.url).to match(/window_switching\.html/)
+          end
+        end
+
+        context "Switching windows with blocks" do
+          it "by index" do
+            browser.window(:index, 0).use { expect(browser.title).to be == "window switching" }
+          end
+
+          it "by url" do
+            browser.window(:url, /window_switching\.html/).use  { expect(browser.title).to be == "window switching" }
+          end
+
+          it "by title" do
+            browser.window(:title, "window switching").use { expect(browser.url).to match(/window_switching\.html/) }
+          end
+        end
+
       end
     end
 
