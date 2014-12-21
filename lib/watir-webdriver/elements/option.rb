@@ -73,9 +73,9 @@ module Watir
       attribute = [:label, :text].find { |a| attribute? a }
 
       if attribute
-        @element.attribute(attribute)
+        @element.attribute(attribute).strip
       else
-        @element.text
+        @element.text.strip
       end
     end
 

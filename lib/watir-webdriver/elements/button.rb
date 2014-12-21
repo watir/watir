@@ -29,9 +29,9 @@ module Watir
 
       case tn
       when 'input'
-        @element.attribute(:value)
+        @element.attribute(:value).strip
       when 'button'
-        @element.text
+        @element.text.strip
       else
         raise Exception::Error, "unknown tag name for button: #{tn}"
       end
