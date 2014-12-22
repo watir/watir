@@ -60,7 +60,7 @@ module Watir
     # Returns true if two elements are equal.
     #
     # @example
-    #   browser.a(:id => "foo") == browser.a(:id => "foo")
+    #   browser.text_field(:name => "new_user_first_name") == browser.text_field(:name => "new_user_first_name")
     #   #=> true
     #
 
@@ -104,13 +104,13 @@ module Watir
     # and may not work at all.
     #
     # @example Click an element
-    #   element.click
+    #   browser.element(:name => "new_user_button").click
     #
     # @example Click an element with shift key pressed
-    #   element.click(:shift)
+    #   browser.element(:name => "new_user_button").click(:shift)
     #
     # @example Click an element with several modifier keys pressed
-    #   element.click(:shift, :control)
+    #   browser.element(:name => "new_user_button").click(:shift, :control)
     #
     # @param [:shift, :alt, :control, :command, :meta] Modifier key(s) to press while clicking.
     #
@@ -140,7 +140,7 @@ module Watir
     # Note that browser support may vary.
     #
     # @example
-    #   browser.a(:id => "foo").double_click
+    #   browser.element(:name => "new_user_button").double_click
     #
 
     def double_click
@@ -156,7 +156,7 @@ module Watir
     # Note that browser support may vary.
     #
     # @example
-    #   browser.a(:id => "foo").right_click
+    #   browser.element(:name => "new_user_button").right_click
     #
 
     def right_click
@@ -172,7 +172,7 @@ module Watir
     # Note that browser support may vary.
     #
     # @example
-    #   browser.a(:id => "foo").hover
+    #   browser.element(:name => "new_user_button").hover
     #
 
     def hover
@@ -187,9 +187,9 @@ module Watir
     # Note that browser support may vary.
     #
     # @example
-    #    a = browser.div(:id => "draggable")
-    #    b = browser.div(:id => "droppable")
-    #    a.drag_and_drop_on b
+    #   a = browser.div(:id => "draggable")
+    #   b = browser.div(:id => "droppable")
+    #   a.drag_and_drop_on b
     #
 
     def drag_and_drop_on(other)
@@ -207,7 +207,7 @@ module Watir
     # Note that browser support may vary.
     #
     # @example
-    #    browser.div(:id => "draggable").drag_and_drop_by 100, -200
+    #   browser.div(:id => "draggable").drag_and_drop_by 100, -200
     #
     # @param [Fixnum] right_by
     # @param [Fixnum] down_by
@@ -226,7 +226,7 @@ module Watir
     # Flashes (change background color far a moment) element.
     #
     # @example
-    #    browser.div(:id => "draggable").flash
+    #   browser.text_field(:name => "new_user_first_name").flash
     #
 
     def flash
@@ -263,8 +263,8 @@ module Watir
     # Returns given attribute value of element.
     #
     # @example
-    #   browser.a(:id => "foo").attribute_value "href"
-    #   #=> "http://watir.com"
+    #   browser.a(:id => "link_2").attribute_value "title"
+    #   #=> "link_title_2"
     #
     # @param [String] attribute_name
     # @return [String]
@@ -279,8 +279,8 @@ module Watir
     # Returns outer (inner + element itself) HTML code of element.
     #
     # @example
-    #   browser.div(:id => "foo").html
-    #   #=> "<div id=\"foo\"><a>Click</a></div>"
+    #   browser.div(:id => 'foo').outer_html
+    #   #=> "<div id=\"foo\"><a href=\"#\">hello</a></div>"
     #
     # @return [String]
     #
@@ -296,8 +296,8 @@ module Watir
     # Returns inner HTML code of element.
     #
     # @example
-    #   browser.div(:id => "foo").inner_html
-    #   #=> "<a>Click</a>"
+    #   browser.div(:id => 'foo').inner_html
+    #   #=> "<a href=\"#\">hello</a>"
     #
     # @return [String]
     #
@@ -311,7 +311,7 @@ module Watir
     # Sends sequence of keystrokes to element.
     #
     # @example
-    #   browser.div(:id => "foo").send_keys "Watir", :return
+    #   browser.text_field(:name => "new_user_first_name").send_keys "Watir", :return
     #
     # @param [String, Symbol] *args
     #
@@ -349,9 +349,9 @@ module Watir
     # Note that you may omit "on" from event name.
     #
     # @example
-    #   browser.a(:id => "foo").fire_event :click
-    #   browser.a(:id => "foo").fire_event "mousemove"
-    #   browser.a(:id => "foo").fire_event "onmouseover"
+    #   browser.button(:name => "new_user_button").fire_event :click
+    #   browser.button(:name => "new_user_button").fire_event "mousemove"
+    #   browser.button(:name => "new_user_button").fire_event "onmouseover"
     #
     # @param [String, Symbol] event_name
     #
@@ -424,10 +424,8 @@ module Watir
     # Returns given style property of this element.
     #
     # @example
-    #   browser.a(:id => "foo").style
-    #   #=> "display: block"
-    #   browser.a(:id => "foo").style "display"
-    #   #=> "block"
+    #   browser.button(:value => "Delete").style           #=> "border: 4px solid red;"
+    #   browser.button(:value => "Delete").style("border") #=> "4px solid red"
     #
     # @param [String] property
     # @return [String]

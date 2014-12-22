@@ -5,8 +5,7 @@ module Watir
     # Returns browser windows array.
     #
     # @example
-    #   browser.a(:id => "open_new_window").click
-    #   browser.windows(:title => "new")
+    #   browser.windows(:title => 'closeable window')
     #
     # @return [Array<Window>]
     #
@@ -25,8 +24,7 @@ module Watir
     # Returns browser window.
     #
     # @example
-    #   browser.a(:id => "open_new_window").click
-    #   browser.window(:title => "new")
+    #   browser.window(:title => 'closeable window')
     #
     # @return [Window]
     #
