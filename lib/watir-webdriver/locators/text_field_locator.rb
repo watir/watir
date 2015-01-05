@@ -66,9 +66,11 @@ module Watir
 
     def by_id
       element = super
-      return if element.nil? || NON_TEXT_TYPES.include?(element.attribute(:type))
-      check_deprecation(element)
-      element
+
+      if element && !NON_TEXT_TYPES.include?(element.attribute(:type))
+        check_deprecation(element)
+        element
+      end
     end
 
     def validate_element(element)
