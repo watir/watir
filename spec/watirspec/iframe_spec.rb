@@ -74,10 +74,8 @@ describe "IFrame" do
     end
   end
 
-  bug 'https://github.com/watir/watir-webdriver/issues/211', :webdriver do
-    it 'handles all locators for element which do not exist' do
-      expect(browser.iframe(:index, 0).div(:id, 'invalid')).to_not exist
-    end
+  it 'handles all locators for element which do not exist' do
+    expect(browser.iframe(:index, 0).div(:id, 'invalid')).to_not exist
   end
 
   bug 'https://github.com/watir/watir-webdriver/issues/237', :webdriver do
