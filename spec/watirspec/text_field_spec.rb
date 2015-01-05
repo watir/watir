@@ -223,8 +223,8 @@ describe "TextField" do
     it "removes all text from the text field" do
       browser.text_field(:name, "new_user_occupation").clear
       expect(browser.text_field(:name, "new_user_occupation").value).to be_empty
-      browser.text_field(:id, "delete_user_comment").clear
-      expect(browser.text_field(:id, "delete_user_comment").value).to be_empty
+      browser.textarea(:id, "delete_user_comment").clear
+      expect(browser.textarea(:id, "delete_user_comment").value).to be_empty
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -244,8 +244,8 @@ describe "TextField" do
     end
 
     it "sets the value of a textarea element" do
-      browser.text_field(:id, 'delete_user_comment').value = 'Hello Cruel World'
-      expect(browser.text_field(:id, "delete_user_comment").value).to eq 'Hello Cruel World'
+      browser.textarea(:id, 'delete_user_comment').value = 'Hello Cruel World'
+      expect(browser.textarea(:id, "delete_user_comment").value).to eq 'Hello Cruel World'
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -260,8 +260,8 @@ describe "TextField" do
     end
 
     it "sets the value of a textarea element" do
-      browser.text_field(:id, 'delete_user_comment').set('Hello Cruel World')
-      expect(browser.text_field(:id, "delete_user_comment").value).to eq 'Hello Cruel World'
+      browser.textarea(:id, 'delete_user_comment').set('Hello Cruel World')
+      expect(browser.textarea(:id, "delete_user_comment").value).to eq 'Hello Cruel World'
     end
 
     it "fires events" do
