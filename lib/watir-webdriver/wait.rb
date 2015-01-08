@@ -190,7 +190,7 @@ module Watir
       timeout ||= Watir.default_timeout
       message = "waiting for #{selector_string} to disappear"
       Watir::Wait.while(timeout, message) { present? }
-    rescue Selenium::WebDriver::Error::ObsoleteElementError
+    rescue Selenium::WebDriver::Error::StaleElementReferenceError
       # it's not present
     end
 

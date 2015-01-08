@@ -414,7 +414,7 @@ module Watir
 
     def present?
       exists? && visible?
-    rescue Selenium::WebDriver::Error::ObsoleteElementError, UnknownObjectException
+    rescue Selenium::WebDriver::Error::StaleElementReferenceError, UnknownObjectException
       # if the element disappears between the exists? and visible? calls,
       # consider it not present.
       false
