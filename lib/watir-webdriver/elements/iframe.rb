@@ -23,7 +23,7 @@ module Watir
         begin
           @element.tag_name # rpc
           return @element
-        rescue Selenium::WebDriver::Error::ObsoleteElementError
+        rescue Selenium::WebDriver::Error::StaleElementReferenceError
           @element = nil # re-locate
         end
       end

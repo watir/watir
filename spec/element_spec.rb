@@ -35,7 +35,7 @@ describe Watir::Element do
       browser.goto WatirSpec.url_for('removed_element.html', :needs_server => true)
     end
 
-    it "should not propagate ObsoleteElementErrors" do
+    it "should not propagate StaleElementReferenceErrors" do
       button  = browser.button(:id => "remove-button")
       element = browser.div(:id => "text")
 
