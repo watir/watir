@@ -7,6 +7,14 @@ describe "IFrames" do
     browser.goto(WatirSpec.url_for("iframes.html"))
   end
 
+  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
+    describe "with selectors" do
+      it "returns the matching elements" do
+        expect(browser.iframes(:id => "iframe_2").to_a).to eq [browser.iframe(:id => "iframe_2")]
+      end
+    end
+  end
+
   describe "#length" do
     it "returns the correct number of iframes" do
       expect(browser.iframes.length).to eq 2
