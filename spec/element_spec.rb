@@ -22,9 +22,11 @@ describe Watir::Element do
 
   describe "#reset!" do
     it "successfully relocates collection elements after a reset!" do
-      element = browser.divs(:id, 'foo').to_a.first
-      expect(element).to_not be_nil
-
+      browser.goto(WatirSpec.url_for("wait.html", :needs_server => true))
+      element = browser.div(:id, 'foo')
+      expect(element).to exist
+      browser.refresh
+      expect(element.exist?).to be false unless Watir.always_locate?
       element.send :reset!
       expect(element).to exist
     end
@@ -35,8 +37,8 @@ describe Watir::Element do
       browser.goto WatirSpec.url_for('removed_element.html', :needs_server => true)
     end
 
-    it "should not propagate StaleElementReferenceErrors" do
-      button  = browser.button(:id => "remove-button")
+    it "does not propagate StaleElementReferenceErrors" do
+      button = browser.button(:id => "remove-button")
       element = browser.div(:id => "text")
 
       expect(element).to exist
@@ -44,16 +46,16 @@ describe Watir::Element do
       expect(element).to_not exist
     end
 
-    it "should determine if element constructed with WebDriver element is stale" do
+    it "returns false when an element from a collection becomes stale" do
       button = browser.button(:id => "remove-button")
-      text   = browser.element(:element, browser.div(:id => "text").wd)
+      text = browser.divs(:id => "text").first
 
       expect(text).to exist
       button.click
       expect(text).to_not exist
     end
 
-    it "should handle element that becomes stale during lookup" do
+    it "returns false when an element becomes stale" do
       wd_element = browser.div(:id => "text").wd
 
       # simulate element going stale during lookup
@@ -61,6 +63,28 @@ describe Watir::Element do
       browser.refresh
 
       expect(browser.div(:id, 'text')).to_not exist
+    end
+  end
+
+  describe "#element_call" do
+
+    it 'handles exceptions when taking an action on an element that goes stale during execution' do
+      browser.goto WatirSpec.url_for('removed_element.html', :needs_server => true)
+
+      watir_element = browser.div(:id => "text")
+
+        # simulate element going stale after assert_exists and before action taken
+      allow(watir_element).to receive(:text) do
+        watir_element.send :assert_exists
+        browser.refresh
+        watir_element.send(:element_call) { watir_element.instance_variable_get('@element').text }
+      end
+
+      if Watir.always_locate?
+        expect { watir_element.text }.to_not raise_error
+      else
+        expect { watir_element.text }.to raise_error Selenium::WebDriver::Error::StaleElementReferenceError
+      end
     end
 
   end

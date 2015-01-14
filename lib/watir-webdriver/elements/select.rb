@@ -46,7 +46,6 @@ module Watir
     #
 
     def include?(str_or_rx)
-      assert_exists
       # TODO: optimize similar to selected?
       options.any? { |e| str_or_rx === e.text }
     end
@@ -88,7 +87,11 @@ module Watir
 
     def selected?(str_or_rx)
       assert_exists
-      matches = @element.find_elements(:tag_name, 'option').select { |e| str_or_rx === e.text || str_or_rx === e.attribute(:label) }
+      matches = element_call do
+        @element.find_elements(:tag_name, 'option').select do |e|
+          str_or_rx === e.text || str_or_rx === e.attribute(:label)
+        end
+      end
 
       if matches.empty?
         raise UnknownObjectException, "Unable to locate option matching #{str_or_rx.inspect}"
@@ -117,7 +120,6 @@ module Watir
     #
 
     def selected_options
-      assert_exists
       options.select { |e| e.selected? }
     end
 
@@ -140,14 +142,18 @@ module Watir
       xpath = option_xpath_for(how, string)
 
       if multiple?
-        elements = @element.find_elements(:xpath, xpath)
+        elements = element_call do
+          @element.find_elements(:xpath, xpath)
+        end
         no_value_found(string) if elements.empty?
 
         elements.each { |e| e.click unless e.selected? }
         elements.first.text
       else
         begin
-          e = @element.find_element(:xpath, xpath)
+          e = element_call do
+            @element.find_element(:xpath, xpath)
+          end
         rescue Selenium::WebDriver::Error::NoSuchElementError
           no_value_found(string)
         end
@@ -159,7 +165,9 @@ module Watir
     end
 
     def select_by_regexp(how, exp)
-      elements = @element.find_elements(:tag_name, 'option')
+      elements = element_call do
+        @element.find_elements(:tag_name, 'option')
+      end
       no_value_found(nil, "no options in select list") if elements.empty?
 
       if multiple?

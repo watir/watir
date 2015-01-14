@@ -17,14 +17,7 @@ module Watir
     #
 
     def set(bool = true)
-      assert_exists
-      assert_enabled
-
-      if @element.selected?
-        @element.click unless bool
-      else
-        @element.click if bool
-      end
+      set? == bool ? assert_enabled : click
     end
 
     #
@@ -34,13 +27,11 @@ module Watir
 
     def set?
       assert_exists
-      @element.selected?
+      element_call { @element.selected? }
     end
 
     #
     # Unsets checkbox.
-    #
-    # Same as +set(false)+
     #
 
     def clear

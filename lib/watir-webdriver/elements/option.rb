@@ -14,10 +14,7 @@ module Watir
     #   browser.select(:id => "foo").options.first.select
     #
 
-    def select
-      assert_exists
-      @element.click
-    end
+    alias_method :select, :click
 
     #
     # Toggles the selected state of this option.
@@ -26,10 +23,7 @@ module Watir
     #   browser.select(:id => "foo").options.first.toggle
     #
 
-    def toggle
-      assert_exists
-      @element.click
-    end
+    alias_method :toggle, :click
 
     #
     # Clears (i.e. toggles selected state) option.
@@ -39,7 +33,7 @@ module Watir
     #
 
     def clear
-      @element.click if selected?
+      click if selected?
     end
 
     #
@@ -50,7 +44,7 @@ module Watir
 
     def selected?
       assert_exists
-      @element.selected?
+      element_call { @element.selected? }
     end
 
     #
@@ -65,17 +59,15 @@ module Watir
     #
 
     def text
-      assert_exists
-
       # A little unintuitive - we'll return the 'label' or 'text' attribute if
       # they exist, otherwise the inner text of the element
 
       attribute = [:label, :text].find { |a| attribute? a }
 
       if attribute
-        @element.attribute(attribute)
+        attribute_value(attribute)
       else
-        @element.text
+        super
       end
     end
 

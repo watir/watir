@@ -7,10 +7,7 @@ module Watir
     #
 
     def set
-      assert_exists
-      assert_enabled
-
-      @element.click unless set?
+      click unless set?
     end
 
     #
@@ -21,7 +18,7 @@ module Watir
 
     def set?
       assert_exists
-      @element.selected?
+      element_call { @element.selected? }
     end
 
   end # Radio
