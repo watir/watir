@@ -7,34 +7,26 @@ describe 'Watir' do
       browser.goto WatirSpec.url_for('removed_element.html', :needs_server => true)
     end
 
-    it 'handles #exists? when the element is stale' do
+    it 'determines whether #exist? returns false for stale element' do
       element = browser.div(:id => "text")
       expect(element.exists?).to be true
 
       browser.refresh
 
-      if Watir.always_locate?
-        expect(element.exists?).to be true
-      else
-        expect(element.exists?).to be false
-      end
+      expect(element.exists?).to be Watir.always_locate?
     end
 
-    it 'handles #exists? when the element is not stale' do
+    it 'allows using cached elements regardless of setting, when element is not stale' do
       element = browser.div(:id => "text")
       expect(element.exists?).to be true
 
       # exception raised if element is re-looked up
       allow(browser.driver).to receive(:find_element).with(:id, 'text') { raise }
 
-      if Watir.always_locate?
-        expect { element.exists? }.to raise_error
-      else
-        expect { element.exists? }.to_not raise_error
-      end
+      expect { element.exists? }.to_not raise_error
     end
 
-    it 'handles exceptions when taking an action on a stale element' do
+    it 'determines whether an exception is raised when taking an action on a stale element' do
       element = browser.div(:id => "text")
       expect(element.exists?).to be true
 
