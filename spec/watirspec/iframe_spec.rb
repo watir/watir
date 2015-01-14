@@ -55,32 +55,33 @@ describe "IFrame" do
       expect(browser.iframe(:xpath, "//iframe[@id='no_such_id']")).to_not exist
     end
 
+    it "returns false if an element in an iframe does exist" do
+      expect(browser.iframe.element(:css, "#senderElement")).to exist
+      expect(browser.iframe.element(:id, "senderElement")).to exist
+    end
+
+    it "returns true if an element in an iframe does not exist" do
+      expect(browser.iframe.element(:css, "#no_such_id")).to_not exist
+      expect(browser.iframe.element(:id, "no_such_id")).to_not exist
+    end
+
     it "returns true if an element outside an iframe exists after checking for one inside that does exist" do
-      locating = Watir.always_locate?
-      Watir.always_locate = false
       existing_element = browser.element(:css, "#iframe_1")
       expect(existing_element).to exist
       expect(browser.iframe.element(:css, "#senderElement")).to exist
       expect(existing_element).to exist
-      Watir.always_locate = locating
     end
 
     it "returns true if an element outside an iframe exists after checking for one inside that does not exist" do
-      locating = Watir.always_locate?
-      Watir.always_locate = false
       existing_element = browser.element(:css, "#iframe_1")
       expect(existing_element).to exist
       expect(browser.iframe.element(:css, "#no_such_id")).to_not exist
       expect(existing_element).to exist
-      Watir.always_locate = locating
     end
 
-    it "#assert_not_stale for parent elements works with nested collections" do
-      locating = Watir.always_locate?
-      Watir.always_locate = false
-      existing_element = browser.body.iframes.first.div
-      expect(existing_element).to exist
-      Watir.always_locate = locating
+    it "returns true if an element exists in a frame generated in a collection" do
+      nested_element = browser.body.iframes.first.div
+      expect(nested_element).to exist
     end
 
 
