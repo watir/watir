@@ -9,23 +9,16 @@ module Watir
       element = locator.locate
       element or raise UnknownFrameException, "unable to locate #{@selector[:tag_name]} using #{selector_string}"
 
-      @parent.reset!
-
       FramedDriver.new(element, driver)
+    end
+
+    def switch_to!
+      locate.send :switch!
     end
 
     def assert_exists
       if @selector.has_key? :element
         raise UnknownFrameException, "wrapping a WebDriver element as a Frame is not currently supported"
-      end
-
-      if @element && !Watir.always_locate?
-        begin
-          @element.tag_name # rpc
-          return @element
-        rescue Selenium::WebDriver::Error::StaleElementReferenceError
-          @element = nil # re-locate
-        end
       end
 
       super
@@ -122,7 +115,7 @@ module Watir
     end
 
     def ==(other)
-      @element == other.wd
+      wd == other.wd
     end
     alias_method :eql?, :==
 
