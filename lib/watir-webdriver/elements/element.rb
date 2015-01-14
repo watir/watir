@@ -84,7 +84,7 @@ module Watir
 
     def text
       assert_exists
-      @element.text
+      element_call { @element.text }
     end
 
     #
@@ -95,7 +95,7 @@ module Watir
 
     def tag_name
       assert_exists
-      @element.tag_name.downcase
+      element_call { @element.tag_name.downcase }
     end
 
     #
@@ -119,17 +119,19 @@ module Watir
       assert_exists
       assert_enabled
 
-      if modifiers.any?
-        assert_has_input_devices_for "click(#{modifiers.join ', '})"
+      element_call do
+        if modifiers.any?
+          assert_has_input_devices_for "click(#{modifiers.join ', '})"
 
-        action = driver.action
-        modifiers.each { |mod| action.key_down mod }
-        action.click @element
-        modifiers.each { |mod| action.key_up mod }
+          action = driver.action
+          modifiers.each { |mod| action.key_down mod }
+          action.click @element
+          modifiers.each { |mod| action.key_up mod }
 
-        action.perform
-      else
-        @element.click
+          action.perform
+        else
+          @element.click
+        end
       end
 
       run_checkers
@@ -147,7 +149,7 @@ module Watir
       assert_exists
       assert_has_input_devices_for :double_click
 
-      driver.action.double_click(@element).perform
+      element_call { driver.action.double_click(@element).perform }
       run_checkers
     end
 
@@ -163,7 +165,7 @@ module Watir
       assert_exists
       assert_has_input_devices_for :right_click
 
-      driver.action.context_click(@element).perform
+      element_call { driver.action.context_click(@element).perform }
       run_checkers
     end
 
@@ -179,7 +181,7 @@ module Watir
       assert_exists
       assert_has_input_devices_for :hover
 
-      driver.action.move_to(@element).perform
+      element_call { driver.action.move_to(@element).perform }
     end
 
     #
@@ -197,9 +199,11 @@ module Watir
       assert_exists
       assert_has_input_devices_for :drag_and_drop_on
 
-      driver.action.
-             drag_and_drop(@element, other.wd).
-             perform
+      element_call do
+        driver.action.
+               drag_and_drop(@element, other.wd).
+               perform
+      end
     end
 
     #
@@ -217,9 +221,11 @@ module Watir
       assert_exists
       assert_has_input_devices_for :drag_and_drop_by
 
-      driver.action.
-             drag_and_drop_by(@element, right_by, down_by).
-             perform
+      element_call do
+        driver.action.
+               drag_and_drop_by(@element, right_by, down_by).
+               perform
+      end
     end
 
     #
@@ -250,13 +256,9 @@ module Watir
     #
 
     def value
-      assert_exists
-
-      begin
-        @element.attribute('value') || ''
-      rescue Selenium::WebDriver::Error::InvalidElementStateError
-        ""
-      end
+      attribute_value('value') || ''
+    rescue Selenium::WebDriver::Error::InvalidElementStateError
+      ''
     end
 
     #
@@ -267,12 +269,12 @@ module Watir
     #   #=> "link_title_2"
     #
     # @param [String] attribute_name
-    # @return [String]
+    # @return [String, nil]
     #
 
     def attribute_value(attribute_name)
       assert_exists
-      @element.attribute attribute_name
+      element_call { @element.attribute attribute_name }
     end
 
     #
@@ -287,7 +289,7 @@ module Watir
 
     def outer_html
       assert_exists
-      execute_atom(:getOuterHtml, @element).strip
+      element_call { execute_atom(:getOuterHtml, @element) }.strip
     end
 
     alias_method :html, :outer_html
@@ -304,7 +306,7 @@ module Watir
 
     def inner_html
       assert_exists
-      execute_atom(:getInnerHtml, @element).strip
+      element_call { execute_atom(:getInnerHtml, @element) }.strip
     end
 
     #
@@ -318,7 +320,8 @@ module Watir
 
     def send_keys(*args)
       assert_exists
-      @element.send_keys(*args)
+      assert_writable
+      element_call { @element.send_keys(*args) }
     end
 
     #
@@ -330,7 +333,7 @@ module Watir
 
     def focus
       assert_exists
-      driver.execute_script "return arguments[0].focus()", @element
+      element_call { driver.execute_script "return arguments[0].focus()", @element }
     end
 
     #
@@ -341,7 +344,7 @@ module Watir
 
     def focused?
       assert_exists
-      @element == driver.switch_to.active_element
+      element_call { @element == driver.switch_to.active_element }
     end
 
     #
@@ -360,7 +363,7 @@ module Watir
       assert_exists
       event_name = event_name.to_s.sub(/^on/, '').downcase
 
-      execute_atom :fireEvent, @element, event_name
+      element_call { execute_atom :fireEvent, @element, event_name }
     end
 
     #
@@ -370,7 +373,7 @@ module Watir
     def parent
       assert_exists
 
-      e = execute_atom :getParentElement, @element
+      e = element_call { execute_atom :getParentElement, @element }
 
       if e.kind_of?(Selenium::WebDriver::Element)
         Watir.element_class_for(e.tag_name.downcase).new(@parent, :element => e)
@@ -402,7 +405,7 @@ module Watir
 
     def visible?
       assert_exists
-      @element.displayed?
+      element_call { @element.displayed? }
     end
 
     #
@@ -434,7 +437,7 @@ module Watir
     def style(property = nil)
       if property
         assert_exists
-        @element.style property
+        element_call { @element.style property }
       else
         attribute_value("style").to_s.strip
       end
@@ -547,7 +550,9 @@ module Watir
     end
 
     def assert_enabled
-      raise ObjectDisabledException, "object is disabled #{selector_string}" unless @element.enabled?
+      unless element_call { @element.enabled? }
+        raise ObjectDisabledException, "object is disabled #{selector_string}"
+      end
     end
 
     def assert_writable
@@ -568,6 +573,15 @@ module Watir
       unless obj.kind_of? Watir::Element
         raise TypeError, "execpted Watir::Element, got #{obj.inspect}:#{obj.class}"
       end
+    end
+
+    def element_call
+      yield
+    rescue Selenium::WebDriver::Error::StaleElementReferenceError
+      raise unless Watir.always_locate?
+      reset!
+      assert_exists
+      retry
     end
 
     def method_missing(meth, *args, &blk)

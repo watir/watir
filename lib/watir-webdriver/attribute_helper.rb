@@ -68,30 +68,26 @@ module Watir
 
     def define_string_attribute(mname, aname)
       define_method mname do
-        assert_exists
-        @element.attribute(aname).to_s
+        attribute_value(aname).to_s
       end
     end
 
     def define_boolean_attribute(mname, aname)
       define_method mname do
-        assert_exists
-        @element.attribute(aname) == "true"
+        attribute_value(aname) == "true"
       end
     end
 
     def define_int_attribute(mname, aname)
       define_method mname do
-        assert_exists
-        value = @element.attribute(aname)
+        value = attribute_value(aname)
         value && Integer(value)
       end
     end
 
     def define_float_attribute(mname, aname)
       define_method mname do
-        assert_exists
-        value = @element.attribute(aname)
+        value = attribute_value(aname)
         value && Float(value)
       end
     end

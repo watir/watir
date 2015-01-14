@@ -23,10 +23,7 @@ module Watir
     #
 
     def append(*args)
-      assert_exists
-      assert_writable
-
-      @element.send_keys(*args)
+      send_keys(*args)
     end
     alias_method :<<, :append
 
