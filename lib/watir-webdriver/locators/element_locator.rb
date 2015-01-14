@@ -27,7 +27,6 @@ module Watir
     def locate
       e = by_id and return e # short-circuit if :id is given
 
-
       if @selector.size == 1
         element = find_first_by_one
       else
@@ -296,26 +295,30 @@ module Watir
     def build_css(selectors)
       return unless use_css?(selectors)
 
-      css = ''
-      css << (selectors.delete(:tag_name) || '')
+      if selectors.empty?
+        css = '*'
+      else
+        css = ''
+        css << (selectors.delete(:tag_name) || '')
 
-      klass = selectors.delete(:class)
-      if klass
-        if klass.include? ' '
-          css << %([class="#{css_escape klass}"])
-        else
-          css << ".#{klass}"
+        klass = selectors.delete(:class)
+        if klass
+          if klass.include? ' '
+            css << %([class="#{css_escape klass}"])
+          else
+            css << ".#{klass}"
+          end
         end
-      end
 
-      href = selectors.delete(:href)
-      if href
-        css << %([href~="#{css_escape href}"])
-      end
+        href = selectors.delete(:href)
+        if href
+          css << %([href~="#{css_escape href}"])
+        end
 
-      selectors.each do |key, value|
-        key = key.to_s.gsub("_", "-")
-        css << %([#{key}="#{css_escape value}"]) # TODO: proper escaping
+        selectors.each do |key, value|
+          key = key.to_s.gsub("_", "-")
+          css << %([#{key}="#{css_escape value}"]) # TODO: proper escaping
+        end
       end
 
       [:css, css]

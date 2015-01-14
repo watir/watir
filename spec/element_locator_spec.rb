@@ -383,6 +383,18 @@ describe Watir::ElementLocator do
       end
     end
 
+    describe "with an empty selector" do
+      it "finds all when an empty selctor is given" do
+        if Watir.prefer_css?
+          expect_all :css, '*'
+        else
+          expect_all :xpath, './/*'
+        end
+
+        locate_all({})
+      end
+    end
+
     describe "with selectors not supported by webdriver" do
       it "handles selector with tag name and a single attribute" do
         if Watir.prefer_css?
