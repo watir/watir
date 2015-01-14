@@ -1,4 +1,3 @@
-require 'pry'
 # encoding: utf-8
 module Watir
   class IFrame < HTMLElement
