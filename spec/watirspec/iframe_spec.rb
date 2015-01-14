@@ -55,13 +55,42 @@ describe "IFrame" do
       expect(browser.iframe(:xpath, "//iframe[@id='no_such_id']")).to_not exist
     end
 
+    it "returns true if an element outside an iframe exists after checking for one inside that does exist" do
+      locating = Watir.always_locate?
+      Watir.always_locate = false
+      existing_element = browser.element(:css, "#iframe_1")
+      expect(existing_element).to exist
+      expect(browser.iframe.element(:css, "#senderElement")).to exist
+      expect(existing_element).to exist
+      Watir.always_locate = locating
+    end
+
+    it "returns true if an element outside an iframe exists after checking for one inside that does not exist" do
+      locating = Watir.always_locate?
+      Watir.always_locate = false
+      existing_element = browser.element(:css, "#iframe_1")
+      expect(existing_element).to exist
+      expect(browser.iframe.element(:css, "#no_such_id")).to_not exist
+      expect(existing_element).to exist
+      Watir.always_locate = locating
+    end
+
+    it "#assert_not_stale for parent elements works with nested collections" do
+      locating = Watir.always_locate?
+      Watir.always_locate = false
+      existing_element = browser.body.iframes.first.div
+      expect(existing_element).to exist
+      Watir.always_locate = locating
+    end
+
+
     bug "https://github.com/detro/ghostdriver/issues/159", :phantomjs do
       it "handles nested iframes" do
         browser.goto(WatirSpec.url_for("nested_iframes.html", :needs_server => true))
 
         browser.iframe(:id, "two").iframe(:id, "three").link(:id => "four").click
 
-        Wait.until{ browser.title == "definition_lists" }
+        Wait.until { browser.title == "definition_lists" }
       end
     end
 
@@ -78,12 +107,10 @@ describe "IFrame" do
     expect(browser.iframe(:index, 0).div(:id, 'invalid')).to_not exist
   end
 
-  bug 'https://github.com/watir/watir-webdriver/issues/237', :webdriver do
-    it 'switches between iframe and parent when needed' do
-      browser.iframe(:id, "iframe_1").elements.each do |element|
-        element.text
-        browser.h1.text
-      end
+  it 'switches between iframe and parent when needed' do
+    browser.iframe(:id, "iframe_1").elements.each do |element|
+      element.text
+      browser.h1.text
     end
   end
 
