@@ -1,3 +1,16 @@
+### 0.7.0 (unreleased)
+
+* Allow finding all elements with prefer_css
+* Add support for yard-doctest (#287)
+* Update from HTML spec (#296)
+* Support tag_name call on Frames and IFrames (#293 & #294)
+* Improved handling of elements that go stale during lookup (#291, thanks @titusfortner)
+* Fix element location issues when switching between IFrames (#286, thanks @titusfortner)
+* Fix creation of an IFrameCollection based on selector (#299, thanks @titusfortner)
+* Fix window handling with closed windows (#290 & 282, thanks @titusfortner)
+* Prevent running checkers on a closed window (#283, thanks @titusfortner)
+* Allow taking actions without triggering run checkers (#283, thanks @titusfortner)
+
 ### 0.6.11 (2014-09-23)
 
 * Fix namespacing issue (#265, thanks @titusfortner)
