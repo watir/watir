@@ -15,6 +15,7 @@ bundle exec yard config -a autoload_plugins yard-doctest
 if [[ "$WATIR_WEBDRIVER_BROWSER" = "chrome" ]]; then
   sudo chmod 1777 /dev/shm
 
+  sudo apt-get update
   sudo apt-get install -y unzip libxss1
 
   curl -L -O "http://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux_x64/${CHROME_REVISION}/chrome-linux.zip"
