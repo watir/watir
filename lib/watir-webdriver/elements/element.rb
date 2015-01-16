@@ -495,16 +495,16 @@ module Watir
   protected
 
     def assert_exists
-      reset! if Watir.always_locate?
+      begin
+        assert_not_stale if @element ||= @selector[:element]
+      rescue UnknownObjectException => ex
+        raise ex if @selector[:element] || !Watir.always_locate?
+      end
 
-      if @element ||= @selector[:element]
-        assert_not_stale
-      else
-        @element = locate
+      @element ||= locate
 
-        unless @element
-          raise UnknownObjectException, "unable to locate element, using #{selector_string}"
-        end
+      unless @element
+        raise UnknownObjectException, "unable to locate element, using #{selector_string}"
       end
     end
 
