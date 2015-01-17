@@ -21,7 +21,7 @@ module Watir
     #
 
     def value=(path)
-      path.gsub!(File::SEPARATOR, File::ALT_SEPARATOR) if File::ALT_SEPARATOR
+      path = path.gsub(File::SEPARATOR, File::ALT_SEPARATOR) if File::ALT_SEPARATOR
       send_keys path
     end
 
