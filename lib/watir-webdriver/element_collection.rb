@@ -42,7 +42,6 @@ module Watir
 
     #
     # Get the element at the given index.
-    # Note that this is 0-indexed and not compatible with older Watir implementations.
     #
     # Also note that because of Watir's lazy loading, this will return an Element
     # instance even if the index is out of bounds.
@@ -52,7 +51,7 @@ module Watir
     #
 
     def [](idx)
-      to_a[idx] || element_class.new(@parent, :index => idx)
+      to_a[idx] || element_class.new(@parent, @selector.merge(:index => idx))
     end
 
     #

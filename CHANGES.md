@@ -10,6 +10,7 @@
 * Fix window handling with closed windows (#290 & 282, thanks @titusfortner)
 * Prevent running checkers on a closed window (#283, thanks @titusfortner)
 * Allow taking actions without triggering run checkers (#283, thanks @titusfortner)
+* Fix bug when ElementCollection#[] returns existing elements for non-existing selector (#309)
 
 ### 0.6.11 (2014-09-23)
 
