@@ -539,7 +539,9 @@ module Watir
 
     def attribute?(attribute)
       assert_exists
-      !!execute_atom(:getAttribute, @element, attribute.to_s.downcase)
+      element_call do
+        !!execute_atom(:getAttribute, @element, attribute.to_s.downcase)
+      end
     end
 
     def assert_enabled
