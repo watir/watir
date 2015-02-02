@@ -230,6 +230,10 @@ describe "TextField" do
     it "raises UnknownObjectException if the text field doesn't exist" do
       expect { browser.text_field(:id, "no_such_id").clear }.to raise_error(UnknownObjectException)
     end
+
+    it "raises ObjectReadOnlyException if the object is read only" do
+      expect { browser.text_field(:id, "new_user_code").clear }.to raise_error(ObjectReadOnlyException)
+    end
   end
 
   describe "#value=" do
