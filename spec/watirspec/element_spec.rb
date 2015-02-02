@@ -194,6 +194,20 @@ describe "Element" do
       expect(browser.text_field(:id, "new_user_email")).to be_visible
     end
 
+    it "raises UnknownObjectException exception if the element does not exist" do
+      expect {browser.text_field(:id, "no_such_id").visible?}.to raise_error(UnknownObjectException)
+    end
+
+    it "raises UnknownObjectException exception if the element is stale" do
+      wd_element = browser.div(:id => "text").wd
+
+      # simulate element going stale during lookup
+      allow(browser.driver).to receive(:find_element).with(:id, 'text') { wd_element }
+      browser.refresh
+
+      expect { browser.div(:id, 'text').visible? }.to raise_error(UnknownObjectException)
+    end
+
     it "returns true if the element has style='visibility: visible' even if parent has style='visibility: hidden'" do
       expect(browser.div(:id => "visible_child")).to be_visible
     end
