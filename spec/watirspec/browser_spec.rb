@@ -355,13 +355,6 @@ describe "Browser" do
       expect { browser.refresh }.to raise_error
     end
 
-    it "runs checkers after Alert#ok" do
-      browser.goto WatirSpec.url_for("alerts.html")
-      @page_checker = Proc.new { raise if browser.title == "Alerts" }
-      browser.add_checker @page_checker
-      expect { browser.alert.ok }.to raise_error
-    end
-
     it "runs checkers after Element#click" do
       browser.goto(WatirSpec.url_for("non_control_elements.html"))
       @page_checker = Proc.new { raise if browser.title == "Non-control elements" }
