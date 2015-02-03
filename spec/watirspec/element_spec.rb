@@ -199,13 +199,13 @@ describe "Element" do
     end
 
     it "raises UnknownObjectException exception if the element is stale" do
-      wd_element = browser.div(:id => "text").wd
+      wd_element = browser.text_field(:id => "new_user_email").wd
 
       # simulate element going stale during lookup
-      allow(browser.driver).to receive(:find_element).with(:id, 'text') { wd_element }
+      allow(browser.driver).to receive(:find_element).with(:id, 'new_user_email') { wd_element }
       browser.refresh
 
-      expect { browser.div(:id, 'text').visible? }.to raise_error(UnknownObjectException)
+      expect { browser.text_field(:id, 'new_user_email').visible? }.to raise_error(UnknownObjectException)
     end
 
     it "returns true if the element has style='visibility: visible' even if parent has style='visibility: hidden'" do
