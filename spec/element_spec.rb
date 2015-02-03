@@ -18,6 +18,17 @@ describe Watir::Element do
     it 'returns false if the element does not exist' do
       expect(browser.div(:id, 'should-not-exist')).to_not be_present
     end
+
+    it "returns false if the element is stale" do
+      wd_element = browser.div(:id => "foo").wd
+
+      # simulate element going stale during lookup
+      allow(browser.driver).to receive(:find_element).with(:id, 'foo') { wd_element }
+      browser.refresh
+
+      expect(browser.div(:id, 'foo')).to_not be_present
+    end
+
   end
 
   describe "#reset!" do
