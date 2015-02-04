@@ -343,39 +343,44 @@ describe "Browser" do
     end
 
     it "runs checkers after Browser#goto" do
-      @page_checker = Proc.new { raise if browser.title == "The font element" }
+      @page_checker = Proc.new { @yeild = browser.title == "The font element" }
       browser.add_checker @page_checker
-      expect { browser.goto WatirSpec.url_for("font.html") }.to raise_error
+      browser.goto WatirSpec.url_for("font.html")
+      expect(@yeild).to be true
     end
 
     it "runs checkers after Browser#refresh" do
       browser.goto WatirSpec.url_for("font.html")
-      @page_checker = Proc.new { raise if browser.title == "The font element" }
+      @page_checker = Proc.new { @yeild = browser.title == "The font element" }
       browser.add_checker @page_checker
-      expect { browser.refresh }.to raise_error
+      browser.refresh
+      expect(@yeild).to be true
     end
 
     it "runs checkers after Element#click" do
       browser.goto(WatirSpec.url_for("non_control_elements.html"))
-      @page_checker = Proc.new { raise if browser.title == "Non-control elements" }
+      @page_checker = Proc.new { @yeild = browser.title == "Non-control elements" }
       browser.add_checker @page_checker
-      expect { browser.link(:index, 0).click }.to raise_error
+      browser.link(:index, 1).click
+      expect(@yeild).to be true
     end
 
     not_compliant_on [:webdriver, :iphone] do
       it "runs checkers after Element#double_click" do
         browser.goto(WatirSpec.url_for("non_control_elements.html"))
-        @page_checker = Proc.new { raise if browser.title == "Non-control elements" }
+        @page_checker = Proc.new { @yeild = browser.title == "Non-control elements" }
         browser.add_checker @page_checker
-        expect { browser.div(:id, 'html_test').double_click }.to raise_error
+        browser.div(:id, 'html_test').double_click
+        expect(@yeild).to be true
       end
     end
 
     it "runs checkers after Element#right_click" do
       browser.goto(WatirSpec.url_for("right_click.html"))
-      @page_checker = Proc.new { raise if browser.title == "Right Click Test" }
+      @page_checker = Proc.new { @yeild = browser.title == "Right Click Test" }
       browser.add_checker @page_checker
-      expect { browser.div(:id, "click").right_click }.to raise_error
+      browser.div(:id, "click").right_click
+      expect(@yeild).to be true
     end
 
     it "raises UnhandledAlertError error when running error checks with alert present" do
