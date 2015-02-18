@@ -100,7 +100,7 @@ describe "IFrame" do
     end
 
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-      expect { browser.iframe(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
+      expect { browser.iframe(:no_such_how, 'some_value').exists? }.to raise_error(Watir::Exception::MissingWayOfFindingObjectException)
     end
   end
 
@@ -116,19 +116,19 @@ describe "IFrame" do
   end
 
   it "raises UnknownFrameException when accessing elements inside non-existing iframe" do
-    expect { browser.iframe(:name, "no_such_name").p(:index, 0).id }.to raise_error(UnknownFrameException)
+    expect { browser.iframe(:name, "no_such_name").p(:index, 0).id }.to raise_error(Watir::Exception::UnknownFrameException)
   end
 
   it "raises UnknownFrameException when accessing a non-existing iframe" do
-    expect { browser.iframe(:name, "no_such_name").id }.to raise_error(UnknownFrameException)
+    expect { browser.iframe(:name, "no_such_name").id }.to raise_error(Watir::Exception::UnknownFrameException)
   end
 
   it "raises UnknownFrameException when accessing a non-existing subframe" do
-    expect { browser.iframe(:name, "iframe1").iframe(:name, "no_such_name").id }.to raise_error(UnknownFrameException)
+    expect { browser.iframe(:name, "iframe1").iframe(:name, "no_such_name").id }.to raise_error(Watir::Exception::UnknownFrameException)
   end
 
   it "raises UnknownObjectException when accessing a non-existing element inside an existing iframe" do
-    expect { browser.iframe(:index, 0).p(:index, 1337).id }.to raise_error(UnknownObjectException)
+    expect { browser.iframe(:index, 0).p(:index, 1337).id }.to raise_error(Watir::Exception::UnknownObjectException)
   end
 
   it "raises NoMethodError when trying to access attributes it doesn't have" do

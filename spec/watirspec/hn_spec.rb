@@ -37,7 +37,7 @@ describe "H1", "H2", "H3", "H4", "H5", "H6" do
     end
 
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-      expect { browser.h1(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
+      expect { browser.h1(:no_such_how, 'some_value').exists? }.to raise_error(Watir::Exception::MissingWayOfFindingObjectException)
     end
   end
 
@@ -52,7 +52,7 @@ describe "H1", "H2", "H3", "H4", "H5", "H6" do
     end
 
     it "raises UnknownObjectException if the p doesn't exist" do
-      expect { browser.h2(:id, 'no_such_id').class_name }.to raise_error(UnknownObjectException)
+      expect { browser.h2(:id, 'no_such_id').class_name }.to raise_error(Watir::Exception::UnknownObjectException)
     end
   end
 
@@ -66,8 +66,8 @@ describe "H1", "H2", "H3", "H4", "H5", "H6" do
     end
 
     it "raises UnknownObjectException if the p doesn't exist" do
-      expect { browser.h1(:id, "no_such_id").id }.to raise_error(UnknownObjectException)
-      expect { browser.h1(:index, 1337).id }.to raise_error(UnknownObjectException)
+      expect { browser.h1(:id, "no_such_id").id }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.h1(:index, 1337).id }.to raise_error(Watir::Exception::UnknownObjectException)
     end
   end
 
@@ -81,8 +81,8 @@ describe "H1", "H2", "H3", "H4", "H5", "H6" do
     end
 
     it "raises UnknownObjectException if the p doesn't exist" do
-      expect { browser.h1(:id, 'no_such_id').text }.to raise_error(UnknownObjectException)
-      expect { browser.h1(:xpath , "//h1[@id='no_such_id']").text }.to raise_error(UnknownObjectException)
+      expect { browser.h1(:id, 'no_such_id').text }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.h1(:xpath , "//h1[@id='no_such_id']").text }.to raise_error(Watir::Exception::UnknownObjectException)
     end
   end
 

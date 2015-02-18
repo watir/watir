@@ -40,7 +40,7 @@ describe "Pre" do
     end
 
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-      expect { browser.pre(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
+      expect { browser.pre(:no_such_how, 'some_value').exists? }.to raise_error(Watir::Exception::MissingWayOfFindingObjectException)
     end
   end
 
@@ -55,7 +55,7 @@ describe "Pre" do
     end
 
     it "raises UnknownObjectException if the p doesn't exist" do
-      expect { browser.pre(:id, 'no_such_id').class_name }.to raise_error(UnknownObjectException)
+      expect { browser.pre(:id, 'no_such_id').class_name }.to raise_error(Watir::Exception::UnknownObjectException)
     end
   end
 
@@ -69,8 +69,8 @@ describe "Pre" do
     end
 
     it "raises UnknownObjectException if the pre doesn't exist" do
-      expect { browser.pre(:id, "no_such_id").id }.to raise_error(UnknownObjectException)
-      expect { browser.pre(:index, 1337).id }.to raise_error(UnknownObjectException)
+      expect { browser.pre(:id, "no_such_id").id }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.pre(:index, 1337).id }.to raise_error(Watir::Exception::UnknownObjectException)
     end
   end
 
@@ -84,8 +84,8 @@ describe "Pre" do
     end
 
     it "raises UnknownObjectException if the pre doesn't exist" do
-      expect { browser.pre(:id, 'no_such_id').title }.to raise_error( UnknownObjectException)
-      expect { browser.pre(:xpath, "//pre[@id='no_such_id']").title }.to raise_error( UnknownObjectException)
+      expect { browser.pre(:id, 'no_such_id').title }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.pre(:xpath, "//pre[@id='no_such_id']").title }.to raise_error(Watir::Exception::UnknownObjectException)
     end
   end
 
@@ -99,8 +99,8 @@ describe "Pre" do
     end
 
     it "raises UnknownObjectException if the pre doesn't exist" do
-      expect { browser.pre(:id, 'no_such_id').text }.to raise_error( UnknownObjectException)
-      expect { browser.pre(:xpath , "//pre[@id='no_such_id']").text }.to raise_error( UnknownObjectException)
+      expect { browser.pre(:id, 'no_such_id').text }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.pre(:xpath , "//pre[@id='no_such_id']").text }.to raise_error(Watir::Exception::UnknownObjectException)
     end
   end
 

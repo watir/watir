@@ -14,7 +14,7 @@ describe "Element" do
     end
 
     it "raises UnknownObjectException with a sane error message when given a hash of :how => 'what' arguments (non-existing object)" do
-      expect { browser.text_field(:index => 100, :name => "foo").id }.to raise_error(UnknownObjectException)
+      expect { browser.text_field(:index => 100, :name => "foo").id }.to raise_error(Watir::Exception::UnknownObjectException)
     end
 
     it "raises ArgumentError if given the wrong number of arguments" do
@@ -88,11 +88,11 @@ describe "Element" do
     it "raises MissingWayOfFindingObjectException if the attribute is invalid for the element type" do
       expect {
         browser.element(:for => "no title").exists?
-      }.to raise_error(MissingWayOfFindingObjectException)
+      }.to raise_error(Watir::Exception::MissingWayOfFindingObjectException)
 
       expect {
         browser.element(:value => //).exists?
-      }.to raise_error(MissingWayOfFindingObjectException)
+      }.to raise_error(Watir::Exception::MissingWayOfFindingObjectException)
     end
 
     it "finds several elements by xpath" do
@@ -195,7 +195,7 @@ describe "Element" do
     end
 
     it "raises UnknownObjectException exception if the element does not exist" do
-      expect {browser.text_field(:id, "no_such_id").visible?}.to raise_error(UnknownObjectException)
+      expect {browser.text_field(:id, "no_such_id").visible?}.to raise_error(Watir::Exception::UnknownObjectException)
     end
 
     it "raises UnknownObjectException exception if the element is stale" do
@@ -205,7 +205,7 @@ describe "Element" do
       allow(browser.driver).to receive(:find_element).with(:id, 'new_user_email') { wd_element }
       browser.refresh
 
-      expect { browser.text_field(:id, 'new_user_email').visible? }.to raise_error(UnknownObjectException)
+      expect { browser.text_field(:id, 'new_user_email').visible? }.to raise_error(Watir::Exception::UnknownObjectException)
     end
 
     it "returns true if the element has style='visibility: visible' even if parent has style='visibility: hidden'" do

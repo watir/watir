@@ -46,8 +46,8 @@ describe "TableBody" do
     end
 
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-      expect { browser.tbody(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
-      expect { browser.table(:index, 0).tbody(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
+      expect { browser.tbody(:no_such_how, 'some_value').exists? }.to raise_error(Watir::Exception::MissingWayOfFindingObjectException)
+      expect { browser.table(:index, 0).tbody(:no_such_how, 'some_value').exists? }.to raise_error(Watir::Exception::MissingWayOfFindingObjectException)
     end
   end
 

@@ -29,7 +29,7 @@ describe "Dt" do
     end
 
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-      expect { browser.dt(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
+      expect { browser.dt(:no_such_how, 'some_value').exists? }.to raise_error(Watir::Exception::MissingWayOfFindingObjectException)
     end
   end
 
@@ -44,10 +44,10 @@ describe "Dt" do
     end
 
     it "raises UnknownObjectException if the element does not exist" do
-      expect { browser.dt(:id, "no_such_id").class_name }.to raise_error(UnknownObjectException)
-      expect { browser.dt(:title, "no_such_title").class_name }.to raise_error(UnknownObjectException)
-      expect { browser.dt(:index, 1337).class_name }.to raise_error(UnknownObjectException)
-      expect { browser.dt(:xpath, "//dt[@id='no_such_id']").class_name }.to raise_error(UnknownObjectException)
+      expect { browser.dt(:id, "no_such_id").class_name }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.dt(:title, "no_such_title").class_name }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.dt(:index, 1337).class_name }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.dt(:xpath, "//dt[@id='no_such_id']").class_name }.to raise_error(Watir::Exception::UnknownObjectException)
     end
   end
 
@@ -61,9 +61,9 @@ describe "Dt" do
     end
 
     it "raises UnknownObjectException if the element does not exist" do
-      expect {browser.dt(:id, "no_such_id").id }.to raise_error(UnknownObjectException)
-      expect {browser.dt(:title, "no_such_id").id }.to raise_error(UnknownObjectException)
-      expect {browser.dt(:index, 1337).id }.to raise_error(UnknownObjectException)
+      expect {browser.dt(:id, "no_such_id").id }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect {browser.dt(:title, "no_such_id").id }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect {browser.dt(:index, 1337).id }.to raise_error(Watir::Exception::UnknownObjectException)
     end
   end
 
@@ -83,10 +83,10 @@ describe "Dt" do
     end
 
     it "raises UnknownObjectException if the element does not exist" do
-      expect { browser.dt(:id, "no_such_id").text }.to raise_error(UnknownObjectException)
-      expect { browser.dt(:title, "no_such_title").text }.to raise_error(UnknownObjectException)
-      expect { browser.dt(:index, 1337).text }.to raise_error(UnknownObjectException)
-      expect { browser.dt(:xpath, "//dt[@id='no_such_id']").text }.to raise_error(UnknownObjectException)
+      expect { browser.dt(:id, "no_such_id").text }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.dt(:title, "no_such_title").text }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.dt(:index, 1337).text }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.dt(:xpath, "//dt[@id='no_such_id']").text }.to raise_error(Watir::Exception::UnknownObjectException)
     end
   end
 
@@ -109,10 +109,10 @@ describe "Dt" do
     end
 
     it "raises UnknownObjectException if the element does not exist" do
-      expect { browser.dt(:id, "no_such_id").click }.to raise_error(UnknownObjectException)
-      expect { browser.dt(:title, "no_such_title").click }.to raise_error(UnknownObjectException)
-      expect { browser.dt(:index, 1337).click }.to raise_error(UnknownObjectException)
-      expect { browser.dt(:xpath, "//dt[@id='no_such_id']").click }.to raise_error(UnknownObjectException)
+      expect { browser.dt(:id, "no_such_id").click }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.dt(:title, "no_such_title").click }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.dt(:index, 1337).click }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.dt(:xpath, "//dt[@id='no_such_id']").click }.to raise_error(Watir::Exception::UnknownObjectException)
     end
   end
 

@@ -43,7 +43,7 @@ describe "FileField" do
     end
 
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-      expect { browser.file_field(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
+      expect { browser.file_field(:no_such_how, 'some_value').exists? }.to raise_error(Watir::Exception::MissingWayOfFindingObjectException)
     end
   end
 
@@ -55,7 +55,7 @@ describe "FileField" do
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
-      expect { browser.file_field(:index, 1337).class_name }.to raise_error(UnknownObjectException)
+      expect { browser.file_field(:index, 1337).class_name }.to raise_error(Watir::Exception::UnknownObjectException)
     end
   end
 
@@ -65,7 +65,7 @@ describe "FileField" do
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
-      expect { browser.file_field(:index, 1337).id }.to raise_error(UnknownObjectException)
+      expect { browser.file_field(:index, 1337).id }.to raise_error(Watir::Exception::UnknownObjectException)
     end
   end
 
@@ -75,7 +75,7 @@ describe "FileField" do
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
-      expect { browser.file_field(:index, 1337).name }.to raise_error(UnknownObjectException)
+      expect { browser.file_field(:index, 1337).name }.to raise_error(Watir::Exception::UnknownObjectException)
     end
   end
 
@@ -91,7 +91,7 @@ describe "FileField" do
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
-      expect { browser.file_field(:index, 1337).type }.to raise_error(UnknownObjectException)
+      expect { browser.file_field(:index, 1337).type }.to raise_error(Watir::Exception::UnknownObjectException)
     end
   end
 
