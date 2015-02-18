@@ -12,8 +12,6 @@ module Watir
     class MissingWayOfFindingObjectException < Error; end
     class UnknownCellException < Error; end
     class NoMatchingWindowFoundException < Error; end
-    class NoStatusBarException < Error; end
-    class NavigationException < Error; end
     class UnknownFrameException < Error; end
     class UnknownRowException < Error; end
 

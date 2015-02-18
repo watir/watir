@@ -11,7 +11,6 @@ require 'rubygems'
 require 'rspec'
 
 include Watir
-include Watir::Exception
 
 if ENV['ALWAYS_LOCATE'] == "false"
   Watir.always_locate = false
