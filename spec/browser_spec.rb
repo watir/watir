@@ -70,7 +70,7 @@ describe Watir::Browser do
     b.goto WatirSpec.url_for "definition_lists.html"
     b.close
 
-    expect { b.dl(:id => "experience-list").id }.to raise_error(Error, "browser was closed")
+    expect { b.dl(:id => "experience-list").id }.to raise_error(Watir::Exception::Error, "browser was closed")
   end
 
   describe "#wait_while" do

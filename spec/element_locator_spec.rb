@@ -368,7 +368,7 @@ describe Watir::ElementLocator do
         valid_attributes = Watir::Input.attributes
 
         expect { locate_one(bad_selector, valid_attributes) }.to \
-        raise_error(MissingWayOfFindingObjectException, "invalid attribute: :href")
+        raise_error(Watir::Exception::MissingWayOfFindingObjectException, "invalid attribute: :href")
       end
     end
   end
