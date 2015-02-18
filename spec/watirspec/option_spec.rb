@@ -67,8 +67,8 @@ describe "Option" do
     end
 
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-      expect { browser.option(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
-      expect { browser.select_list(:name, "new_user_country").option(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
+      expect { browser.option(:no_such_how, 'some_value').exists? }.to raise_error(Watir::Exception::MissingWayOfFindingObjectException)
+      expect { browser.select_list(:name, "new_user_country").option(:no_such_how, 'some_value').exists? }.to raise_error(Watir::Exception::MissingWayOfFindingObjectException)
     end
   end
 
@@ -112,21 +112,21 @@ describe "Option" do
     end
 
     it "raises UnknownObjectException if the option does not exist (page context)" do
-      expect { browser.option(:text, "no_such_text").select }.to raise_error(UnknownObjectException)
-      expect { browser.option(:text, /missing/).select }.to raise_error(UnknownObjectException)
+      expect { browser.option(:text, "no_such_text").select }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.option(:text, /missing/).select }.to raise_error(Watir::Exception::UnknownObjectException)
     end
 
     it "raises UnknownObjectException if the option does not exist (select_list context)" do
-      expect { browser.select_list(:name, "new_user_country").option(:text, "no_such_text").select }.to raise_error(UnknownObjectException)
-      expect { browser.select_list(:name, "new_user_country").option(:text, /missing/).select }.to raise_error(UnknownObjectException)
+      expect { browser.select_list(:name, "new_user_country").option(:text, "no_such_text").select }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.select_list(:name, "new_user_country").option(:text, /missing/).select }.to raise_error(Watir::Exception::UnknownObjectException)
     end
 
     it "raises MissingWayOfFindingObjectException when given a bad 'how' (page context)" do
-      expect { browser.option(:missing, "Denmark").select }.to raise_error(MissingWayOfFindingObjectException)
+      expect { browser.option(:missing, "Denmark").select }.to raise_error(Watir::Exception::MissingWayOfFindingObjectException)
     end
 
     it "raises MissingWayOfFindingObjectException when given a bad 'how' (select_list context)" do
-      expect { browser.select_list(:name, "new_user_country").option(:missing, "Denmark").select }.to raise_error(MissingWayOfFindingObjectException)
+      expect { browser.select_list(:name, "new_user_country").option(:missing, "Denmark").select }.to raise_error(Watir::Exception::MissingWayOfFindingObjectException)
     end
   end
 

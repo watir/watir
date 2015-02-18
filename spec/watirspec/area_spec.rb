@@ -47,7 +47,7 @@ describe "Area" do
     end
 
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-      expect { browser.area(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
+      expect { browser.area(:no_such_how, 'some_value').exists? }.to raise_error(Watir::Exception::MissingWayOfFindingObjectException)
     end
   end
 
@@ -62,8 +62,8 @@ describe "Area" do
     end
 
     it "raises UnknownObjectException if the area doesn't exist" do
-      expect { browser.area(:id, "no_such_id").id }.to raise_error(UnknownObjectException)
-      expect { browser.area(:index, 1337).id }.to raise_error(UnknownObjectException)
+      expect { browser.area(:id, "no_such_id").id }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.area(:index, 1337).id }.to raise_error(Watir::Exception::UnknownObjectException)
     end
 
   end

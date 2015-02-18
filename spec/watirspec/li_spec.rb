@@ -40,7 +40,7 @@ describe "Li" do
     end
 
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-      expect { browser.li(:no_such_how, 'some_value').exists? }.to raise_error(MissingWayOfFindingObjectException)
+      expect { browser.li(:no_such_how, 'some_value').exists? }.to raise_error(Watir::Exception::MissingWayOfFindingObjectException)
     end
   end
 
@@ -55,7 +55,7 @@ describe "Li" do
     end
 
     it "raises UnknownObjectException if the li doesn't exist" do
-      expect { browser.li(:id, 'no_such_id').class_name }.to raise_error(UnknownObjectException)
+      expect { browser.li(:id, 'no_such_id').class_name }.to raise_error(Watir::Exception::UnknownObjectException)
     end
   end
 
@@ -69,8 +69,8 @@ describe "Li" do
     end
 
     it "raises UnknownObjectException if the li doesn't exist" do
-      expect { browser.li(:id, "no_such_id").id }.to raise_error(UnknownObjectException)
-      expect { browser.li(:index, 1337).id }.to raise_error(UnknownObjectException)
+      expect { browser.li(:id, "no_such_id").id }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.li(:index, 1337).id }.to raise_error(Watir::Exception::UnknownObjectException)
     end
   end
 
@@ -84,8 +84,8 @@ describe "Li" do
     end
 
     it "raises UnknownObjectException if the li doesn't exist" do
-      expect { browser.li(:id, 'no_such_id').title }.to raise_error( UnknownObjectException)
-      expect { browser.li(:xpath, "//li[@id='no_such_id']").title }.to raise_error( UnknownObjectException)
+      expect { browser.li(:id, 'no_such_id').title }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.li(:xpath, "//li[@id='no_such_id']").title }.to raise_error(Watir::Exception::UnknownObjectException)
     end
   end
 
@@ -99,8 +99,8 @@ describe "Li" do
     end
 
     it "raises UnknownObjectException if the li doesn't exist" do
-      expect { browser.li(:id, 'no_such_id').text }.to raise_error( UnknownObjectException)
-      expect { browser.li(:xpath , "//li[@id='no_such_id']").text }.to raise_error( UnknownObjectException)
+      expect { browser.li(:id, 'no_such_id').text }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.li(:xpath , "//li[@id='no_such_id']").text }.to raise_error(Watir::Exception::UnknownObjectException)
     end
   end
 
