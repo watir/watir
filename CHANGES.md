@@ -4,6 +4,7 @@
 * Add support for yard-doctest (#287)
 * Update from HTML spec (#296)
 * Support tag_name call on Frames and IFrames (#293 & #294)
+* Increased performance by caching elements by default where possible (#307)
 * Improved handling of elements that go stale during lookup (#291, thanks @titusfortner)
 * Fix element location issues when switching between IFrames (#286, thanks @titusfortner)
 * Fix creation of an IFrameCollection based on selector (#299, thanks @titusfortner)
