@@ -48,6 +48,7 @@ module Watir
   class IFrameCollection < ElementCollection
 
     def to_a
+      element_indexes = elements.map { |el| all_elements.index(el) }
       element_indexes.map { |idx| element_class.new(@parent, tag_name: @selector[:tag_name], :index => idx ) }
     end
 
@@ -57,14 +58,12 @@ module Watir
 
     private
 
-    def element_indexes
-      all_elements = locator_class.new(
+    def all_elements
+      locator_class.new(
           @parent.wd,
-          {tag_name: @selector[:tag_name]},
+          { tag_name: @selector[:tag_name] },
           element_class.attribute_list
       ).locate_all
-
-      elements.map { |el| all_elements.index(el) }
     end
 
   end # IFrameCollection
