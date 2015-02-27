@@ -12,6 +12,8 @@
 * Prevent running checkers on a closed window (#283, thanks @titusfortner)
 * Allow taking actions without triggering run checkers (#283, thanks @titusfortner)
 * Fix bug when ElementCollection#[] returns existing elements for non-existing selector (#309)
+* Fix bug when Wait would never execute block with 0 timeout (#312)
+* Fix race condition with IFrameCollection#to_a (#317)
 
 ### 0.6.11 (2014-09-23)
 
