@@ -36,20 +36,8 @@ module Watir
       # @raise [TimeoutError] if timeout is exceeded
       #
 
-      def until(timeout = nil, message = nil, &block)
-        timeout ||= Watir.default_timeout
-
-        if timeout == 0
-          result = yield(self)
-          return result if result
-        else
-          timer.wait(timeout) do
-            result = yield(self)
-            return result if result
-            sleep INTERVAL
-          end
-        end
-
+      def until(timeout = nil, message = nil)
+        run_with_timer(timeout) { return true if yield(self) }
         raise TimeoutError, message_for(timeout, message)
       end
 
@@ -64,18 +52,8 @@ module Watir
       # @raise [TimeoutError] if timeout is exceeded
       #
 
-      def while(timeout = nil, message = nil, &block)
-        timeout ||= Watir.default_timeout
-
-        if timeout == 0
-          return unless yield(self)
-        else
-          timer.wait(timeout) do
-          return unless yield(self)
-          sleep INTERVAL
-          end
-        end
-
+      def while(timeout = nil, message = nil)
+        run_with_timer(timeout) { return unless yield(self) }
         raise TimeoutError, message_for(timeout, message)
       end
 
@@ -86,6 +64,19 @@ module Watir
         err << ", #{message}" if message
 
         err
+      end
+
+      def run_with_timer(timeout = nil, &block)
+        timeout ||= Watir.default_timeout
+
+        if timeout == 0
+          block.call
+        else
+          timer.wait(timeout) do
+            block.call
+            sleep INTERVAL
+          end
+        end
       end
 
     end # self
