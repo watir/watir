@@ -48,8 +48,12 @@ module Watir
   class IFrameCollection < ElementCollection
 
     def to_a
+      # In case `#all_elements` returns empty array, but `#elements`
+      # returns non-empty array (i.e. any frame has loaded between these two calls),
+      # index will return nil. That's why `#all_elements` should always
+      # be called after `#elements.`
       element_indexes = elements.map { |el| all_elements.index(el) }
-      element_indexes.map { |idx| element_class.new(@parent, tag_name: @selector[:tag_name], :index => idx ) }
+      element_indexes.map { |idx| element_class.new(@parent, tag_name: @selector[:tag_name], :index => idx) }
     end
 
     def element_class
@@ -60,9 +64,9 @@ module Watir
 
     def all_elements
       locator_class.new(
-          @parent.wd,
-          { tag_name: @selector[:tag_name] },
-          element_class.attribute_list
+        @parent.wd,
+        { tag_name: @selector[:tag_name] },
+        element_class.attribute_list
       ).locate_all
     end
 
