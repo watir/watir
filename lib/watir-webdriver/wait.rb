@@ -39,10 +39,15 @@ module Watir
       def until(timeout = nil, message = nil, &block)
         timeout ||= Watir.default_timeout
 
-        timer.wait(timeout) do
+        if timeout == 0
           result = yield(self)
           return result if result
-          sleep INTERVAL
+        else
+          timer.wait(timeout) do
+            result = yield(self)
+            return result if result
+            sleep INTERVAL
+          end
         end
 
         raise TimeoutError, message_for(timeout, message)
@@ -62,9 +67,13 @@ module Watir
       def while(timeout = nil, message = nil, &block)
         timeout ||= Watir.default_timeout
 
-        timer.wait(timeout) do
+        if timeout == 0
+          return unless yield(self)
+        else
+          timer.wait(timeout) do
           return unless yield(self)
           sleep INTERVAL
+          end
         end
 
         raise TimeoutError, message_for(timeout, message)
