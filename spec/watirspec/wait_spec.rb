@@ -8,6 +8,10 @@ not_compliant_on [:webdriver, :safari] do
         expect(Wait.until(0.5) { true }).to be true
       end
 
+      it "executes block if timeout is zero" do
+        expect(Wait.until(0) { true }).to be true
+      end
+
       it "times out" do
         expect {Wait.until(0.5) { false }}.to raise_error(Watir::Wait::TimeoutError)
       end
@@ -28,6 +32,10 @@ not_compliant_on [:webdriver, :safari] do
     describe "#while" do
       it "waits while the block returns true" do
         expect(Wait.while(0.5) { false }).to be_nil
+      end
+
+      it "executes block if timeout is zero" do
+        expect(Wait.while(0) { false }).to be_nil
       end
 
       it "times out" do
