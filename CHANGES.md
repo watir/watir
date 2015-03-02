@@ -1,4 +1,4 @@
-### 0.7.0 (unreleased)
+### 0.7.0
 
 * Allow finding all elements with prefer_css
 * Add support for yard-doctest (#287)

@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_dependency "selenium-webdriver", '>= 2.45.0.dev2'
+  s.add_dependency "selenium-webdriver", '>= 2.45'
 
   s.add_development_dependency "rspec", "~> 2.6"
   s.add_development_dependency "yard", "~> 0.8.2.1"
