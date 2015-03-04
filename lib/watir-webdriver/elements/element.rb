@@ -494,28 +494,39 @@ module Watir
 
   protected
 
+    # Ensure that the element exists, making sure that it is not stale and located if necessary
     def assert_exists
+       @element ||= @selector[:element]
+
+       if @element
+         ensure_not_stale # ensure not stale
+       else
+         @element = locate
+       end
+
+       assert_element_found
+    end
+
+    # Ensure that the element isn't stale, by relocating if it is (unless always_locate = false)
+    def ensure_not_stale
+      @parent.ensure_not_stale
+      @parent.switch_to! if @parent.is_a? IFrame
       begin
-        assert_not_stale if @element ||= @selector[:element]
-      rescue UnknownObjectException => ex
-        raise ex if @selector[:element] || !Watir.always_locate?
+        @element.enabled? # do a staleness check - any wire call will do.
+      rescue Selenium::WebDriver::Error::ObsoleteElementError => ex
+        if Watir.always_locate? && ! @selector[:element]
+          @element = locate
+        else
+          reset!
+        end
       end
+      assert_element_found
+    end
 
-      @element ||= locate
-
+    def assert_element_found
       unless @element
         raise UnknownObjectException, "unable to locate element, using #{selector_string}"
       end
-    end
-
-    def assert_not_stale
-      @parent.assert_not_stale
-      @parent.switch_to! if @parent.is_a? IFrame
-      @element.enabled? # do a staleness check - any wire call will do.
-    rescue Selenium::WebDriver::Error::ObsoleteElementError => ex
-      # don't cache a stale element - it will never come back
-      reset!
-      raise UnknownObjectException, "#{ex.message} - #{selector_string}"
     end
 
     def reset!
