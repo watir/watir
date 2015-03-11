@@ -44,6 +44,7 @@ module Watir
       assert_exists
       true
     rescue UnknownObjectException, UnknownFrameException
+      reset!
       false
     end
     alias_method :exist?, :exists?
@@ -511,9 +512,7 @@ module Watir
     def ensure_not_stale
       @parent.ensure_not_stale
       @parent.switch_to! if @parent.is_a? IFrame
-      begin
-        @element.enabled? # do a staleness check - any wire call will do.
-      rescue Selenium::WebDriver::Error::ObsoleteElementError => ex
+      if stale?
         if Watir.always_locate? && ! @selector[:element]
           @element = locate
         else
@@ -523,6 +522,13 @@ module Watir
       assert_element_found
     end
 
+    def stale?
+      @element.enabled? # any wire call will check for staleness
+      false
+    rescue Selenium::WebDriver::Error::ObsoleteElementError
+      true
+    end
+
     def assert_element_found
       unless @element
         raise UnknownObjectException, "unable to locate element, using #{selector_string}"
@@ -530,6 +536,7 @@ module Watir
     end
 
     def reset!
+      @parent.reset!
       @element = nil
     end
 

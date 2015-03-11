@@ -75,6 +75,20 @@ describe Watir::Element do
 
       expect(browser.div(:id, 'text')).to_not exist
     end
+
+    it "returns appropriate value when an ancestor element becomes stale" do
+      stale_element = browser.div(id: 'top').div(id: 'middle').div(id: 'bottom')
+      expect(stale_element.present?).to be true # look up and store @element for each element in hierarchy
+
+      grandparent = stale_element.instance_variable_get('@parent').instance_variable_get('@parent').instance_variable_get('@element')
+
+      # simulate element going stale during lookup
+      allow(grandparent).to receive('enabled?') { raise Selenium::WebDriver::Error::ObsoleteElementError }
+
+      browser.refresh
+      expect(stale_element.present?).to be Watir.always_locate?
+      expect(stale_element.present?).to be true
+    end
   end
 
   describe "#element_call" do
