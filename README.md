@@ -57,7 +57,7 @@ See also
 * http://watirwebdriver.com
 * http://github.com/jarib/webidl
 * http://github.com/watir/watirspec
-* http://selenium.googlecode.com
+* https://github.com/seleniumhq/selenium
 
 Dependencies
 ------------
