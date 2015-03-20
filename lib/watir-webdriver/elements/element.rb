@@ -1,11 +1,10 @@
+require 'logger'
 # encoding: utf-8
-
 module Watir
 
   #
   # Base class for HTML elements.
   #
-
   class Element
     extend AttributeHelper
 
@@ -24,10 +23,16 @@ module Watir
     attribute String, :id, :id
     attribute String, :class_name, :className
 
+    attr_accessor :selector
+
     def initialize(parent, selector)
       @parent   = parent
       @selector = selector
       @element  = nil
+      @logger = Logger.new(STDOUT)
+      @timer = Watir::Wait::Timer.new
+      @default_timeout = 20
+
 
       unless @selector.kind_of? Hash
         raise ArgumentError, "invalid argument: #{selector.inspect}"
@@ -80,7 +85,9 @@ module Watir
     #
 
     def text
+      @timer.wait(@default_timeout) { present? }
       assert_exists
+      @logger.info "Retrieving element text: #{@selector}."
       element_call { @element.text }
     end
 
@@ -113,6 +120,7 @@ module Watir
     #
 
     def click(*modifiers)
+      @timer.wait(@default_timeout) { present? }
       assert_exists
       assert_enabled
 
@@ -125,8 +133,11 @@ module Watir
           action.click @element
           modifiers.each { |mod| action.key_up mod }
 
+          @logger.info "Clicking element with modifiers #{modifiers.join ', '}: #{@selector.to_s}"
           action.perform
+
         else
+          @logger.info "Clicking element: #{@selector.to_s}"
           @element.click
         end
       end
@@ -143,9 +154,11 @@ module Watir
     #
 
     def double_click
+      @timer.wait(@default_timeout) { present? }
       assert_exists
       assert_has_input_devices_for :double_click
 
+      @logger.info "Double clicking element: #{@selector}."
       element_call { driver.action.double_click(@element).perform }
       run_checkers
     end
@@ -159,9 +172,11 @@ module Watir
     #
 
     def right_click
+      @timer.wait(@default_timeout) { present? }
       assert_exists
       assert_has_input_devices_for :right_click
 
+      @logger.info "Right clicking element: #{@selector}."
       element_call { driver.action.context_click(@element).perform }
       run_checkers
     end
@@ -175,9 +190,11 @@ module Watir
     #
 
     def hover
+      @timer.wait(@default_timeout) { present? }
       assert_exists
       assert_has_input_devices_for :hover
 
+      @logger.info "Hovering over element: #{@selector}."
       element_call { driver.action.move_to(@element).perform }
     end
 
@@ -192,9 +209,14 @@ module Watir
     #
 
     def drag_and_drop_on(other)
+      @timer.wait(@default_timeout) { present? }
+      @timer.wait(@default_timeout) { other.present? }
+
       assert_is_element other
       assert_exists
       assert_has_input_devices_for :drag_and_drop_on
+
+      @logger.info "Draging element #{@selector} on element #{other.selector}."
 
       element_call do
         driver.action.
@@ -215,8 +237,11 @@ module Watir
     #
 
     def drag_and_drop_by(right_by, down_by)
+      @timer.wait(@default_timeout) { present? }
       assert_exists
       assert_has_input_devices_for :drag_and_drop_by
+
+      @logger.info "Draging element #{@selector} to the right #{right_by} and down #{down_by}."
 
       element_call do
         driver.action.
@@ -233,6 +258,7 @@ module Watir
     #
 
     def flash
+      @timer.wait(@default_timeout) { present? }
       background_color = style("backgroundColor")
       element_color = driver.execute_script("arguments[0].style.backgroundColor", @element)
 
@@ -316,6 +342,7 @@ module Watir
     #
 
     def send_keys(*args)
+      @timer.wait(@default_timeout) { present? }
       assert_exists
       assert_writable
       element_call { @element.send_keys(*args) }
@@ -329,6 +356,7 @@ module Watir
     #
 
     def focus
+      @timer.wait(@default_timeout) { present? }
       assert_exists
       element_call { driver.execute_script "return arguments[0].focus()", @element }
     end

@@ -17,6 +17,7 @@ module Watir
     #
 
     def set(bool = true)
+      @timer.wait(@default_timeout) { present? }
       set? == bool ? assert_enabled : click
     end
 
@@ -35,6 +36,7 @@ module Watir
     #
 
     def clear
+      @timer.wait(@default_timeout) { present? }
       set false
     end
 

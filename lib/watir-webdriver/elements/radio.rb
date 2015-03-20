@@ -7,6 +7,7 @@ module Watir
     #
 
     def set
+      @timer.wait(@default_timeout) { present? }
       click unless set?
     end
 
@@ -17,6 +18,7 @@ module Watir
     #
 
     def set?
+      @timer.wait(@default_timeout) { present? }
       assert_exists
       element_call { @element.selected? }
     end

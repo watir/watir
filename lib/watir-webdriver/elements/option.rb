@@ -33,6 +33,7 @@ module Watir
     #
 
     def clear
+      @timer.wait(@default_timeout) { present? }
       click if selected?
     end
 
@@ -43,6 +44,7 @@ module Watir
     #
 
     def selected?
+      @timer.wait(@default_timeout) { present? }
       assert_exists
       element_call { @element.selected? }
     end

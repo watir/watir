@@ -18,6 +18,7 @@ module Watir
     #
 
     def clear
+      @timer.wait(@default_timeout) { present? }
       assert_exists
 
       raise Error, "you can only clear multi-selects" unless multiple?

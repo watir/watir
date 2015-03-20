@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 require "watir-webdriver/version"
 
 Gem::Specification.new do |s|
-  s.name        = "watir-webdriver"
+  s.name        = "sportngin-watir-webdriver"
   s.version     = Watir::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Jari Bakken"]
@@ -33,4 +33,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "pry"
   s.add_development_dependency "coveralls"
   s.add_development_dependency "yard-doctest"
+  s.add_development_dependency "logger"
+  s.add_development_dependency "gemfury", '0.4.24.beta1'
+
 end
