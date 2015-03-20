@@ -85,7 +85,7 @@ module Watir
     #
 
     def text
-      @timer.wait(@default_timeout) { present? }
+      self.wait_until_present(@default_timeout)
       assert_exists
       @logger.info "Retrieving element text: #{@selector}."
       element_call { @element.text }
@@ -120,7 +120,7 @@ module Watir
     #
 
     def click(*modifiers)
-      @timer.wait(@default_timeout) { present? }
+      self.wait_until_present(@default_timeout)
       assert_exists
       assert_enabled
 
@@ -154,7 +154,7 @@ module Watir
     #
 
     def double_click
-      @timer.wait(@default_timeout) { present? }
+      self.wait_until_present(@default_timeout)
       assert_exists
       assert_has_input_devices_for :double_click
 
@@ -172,7 +172,7 @@ module Watir
     #
 
     def right_click
-      @timer.wait(@default_timeout) { present? }
+      self.wait_until_present(@default_timeout)
       assert_exists
       assert_has_input_devices_for :right_click
 
@@ -190,7 +190,7 @@ module Watir
     #
 
     def hover
-      @timer.wait(@default_timeout) { present? }
+      self.wait_until_present(@default_timeout)
       assert_exists
       assert_has_input_devices_for :hover
 
@@ -209,7 +209,7 @@ module Watir
     #
 
     def drag_and_drop_on(other)
-      @timer.wait(@default_timeout) { present? }
+      self.wait_until_present(@default_timeout)
       @timer.wait(@default_timeout) { other.present? }
 
       assert_is_element other
@@ -237,7 +237,7 @@ module Watir
     #
 
     def drag_and_drop_by(right_by, down_by)
-      @timer.wait(@default_timeout) { present? }
+      self.wait_until_present(@default_timeout)
       assert_exists
       assert_has_input_devices_for :drag_and_drop_by
 
@@ -258,7 +258,7 @@ module Watir
     #
 
     def flash
-      @timer.wait(@default_timeout) { present? }
+      self.wait_until_present(@default_timeout)
       background_color = style("backgroundColor")
       element_color = driver.execute_script("arguments[0].style.backgroundColor", @element)
 
@@ -342,7 +342,7 @@ module Watir
     #
 
     def send_keys(*args)
-      @timer.wait(@default_timeout) { present? }
+      self.wait_until_present(@default_timeout)
       assert_exists
       assert_writable
       element_call { @element.send_keys(*args) }
@@ -356,7 +356,7 @@ module Watir
     #
 
     def focus
-      @timer.wait(@default_timeout) { present? }
+      self.wait_until_present(@default_timeout)
       assert_exists
       element_call { driver.execute_script "return arguments[0].focus()", @element }
     end
