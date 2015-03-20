@@ -30,6 +30,16 @@ module Watir
       @selector = selector
       @element  = nil
       @logger = Logger.new(STDOUT)
+      @logger.datetime_format = '%y-%m-#d %H:%M:%S'
+      @logger.formatter = proc do |severity, datetime, _, msg|
+        format = "[#{severity} - #{datetime}] - Watir - #{msg}"
+        if ARGV.any? { |arg| arg == 'h' } #HTML output
+          "#{format}<br>"
+        else
+          "#{format}\n"
+        end
+      end
+
       @timer = Watir::Wait::Timer.new
       @default_timeout = 20
 
