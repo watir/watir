@@ -510,7 +510,7 @@ module Watir
 
     # Ensure that the element isn't stale, by relocating if it is (unless always_locate = false)
     def ensure_not_stale
-      @parent.ensure_not_stale
+      @parent.assert_exists
       @parent.switch_to! if @parent.is_a? IFrame
       if stale?
         if Watir.always_locate? && ! @selector[:element]
