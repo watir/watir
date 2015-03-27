@@ -1,21 +1,21 @@
 require File.expand_path('watirspec/spec_helper', File.dirname(__FILE__))
 
-describe Watir::Browser do
+describe SportNgin::WatirBrowser do
 
   describe ".new" do
     it "passes the args to webdriver" do
       expect(Selenium::WebDriver).to receive(:for).with(:firefox, :foo).and_return(nil)
-      Watir::Browser.new(:firefox, :foo)
+      SportNgin::WatirBrowser.new(:firefox, :foo)
     end
 
     it "takes a Driver instance as argument" do
       mock_driver = double(Selenium::WebDriver::Driver)
       expect(Selenium::WebDriver::Driver).to receive(:===).with(mock_driver).and_return(true)
-      expect { Watir::Browser.new(mock_driver) }.to_not raise_error
+      expect { SportNgin::WatirBrowser.new(mock_driver) }.to_not raise_error
     end
 
     it "raises ArgumentError for invalid args" do
-      expect { Watir::Browser.new(Object.new) }.to raise_error(ArgumentError)
+      expect { SportNgin::WatirBrowser.new(Object.new) }.to raise_error(ArgumentError)
     end
   end
 
@@ -24,25 +24,25 @@ describe Watir::Browser do
 
     it "wraps elements as Watir objects" do
       returned = browser.execute_script("return document.body")
-      expect(returned).to be_kind_of(Watir::Body)
+      expect(returned).to be_kind_of(SportNgin::WatirBody)
     end
 
     it "wraps elements in an array" do
       list = browser.execute_script("return [document.body];")
       expect(list.size).to eq 1
-      expect(list.first).to be_kind_of(Watir::Body)
+      expect(list.first).to be_kind_of(SportNgin::WatirBody)
     end
 
     it "wraps elements in a Hash" do
       hash = browser.execute_script("return {element: document.body};")
-      expect(hash['element']).to be_kind_of(Watir::Body)
+      expect(hash['element']).to be_kind_of(SportNgin::WatirBody)
     end
 
     it "wraps elements in a deep object" do
       hash = browser.execute_script("return {elements: [document.body], body: {element: document.body }}")
 
-      expect(hash['elements'].first).to be_kind_of(Watir::Body)
-      expect(hash['body']['element']).to be_kind_of(Watir::Body)
+      expect(hash['elements'].first).to be_kind_of(SportNgin::WatirBody)
+      expect(hash['body']['element']).to be_kind_of(SportNgin::WatirBody)
     end
   end
 
@@ -70,7 +70,7 @@ describe Watir::Browser do
     b.goto WatirSpec.url_for "definition_lists.html"
     b.close
 
-    expect { b.dl(:id => "experience-list").id }.to raise_error(Watir::Exception::Error, "browser was closed")
+    expect { b.dl(:id => "experience-list").id }.to raise_error(SportNgin::WatirException::Error, "browser was closed")
   end
 
   describe "#wait_while" do
@@ -119,8 +119,8 @@ describe Watir::Browser do
   end
 
   describe '#screenshot' do
-    it 'returns an instance of of Watir::Screenshot' do
-      expect(browser.screenshot).to be_kind_of(Watir::Screenshot)
+    it 'returns an instance of of SportNgin::WatirScreenshot' do
+      expect(browser.screenshot).to be_kind_of(SportNgin::WatirScreenshot)
     end
   end
 end

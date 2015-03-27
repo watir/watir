@@ -1,4 +1,5 @@
-module Watir
+module SportNgin
+	module Watir
   class TableCell < HTMLElement
     # @private
     attr_writer :locator_class
@@ -32,3 +33,4 @@ module Watir
 
   end # TableCellCollection
 end # Watir
+end # SportNgin

@@ -1,4 +1,5 @@
-module Watir
+module SportNgin
+	module Watir
   class TextArea < HTMLElement
     include UserEditable
 
@@ -20,3 +21,4 @@ module Watir
 
   end # TextAreaCollection
 end # Watir
+end # SportNgin

@@ -1,5 +1,6 @@
 # encoding: utf-8
-module Watir
+module SportNgin
+	module Watir
   class Area < HTMLElement
 
     #
@@ -11,3 +12,4 @@ module Watir
 
   end # Area
 end # Watir
+end # SportNgin

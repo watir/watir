@@ -1,5 +1,6 @@
 # encoding: utf-8
-module Watir
+module SportNgin
+	module Watir
 
   #
   # The main class through which you control the browser.
@@ -11,19 +12,19 @@ module Watir
     include Waitable
 
     attr_reader :driver
-    alias_method :wd, :driver # ensures duck typing with Watir::Element
+    alias_method :wd, :driver # ensures duck typing with SportNgin::WatirElement
 
     class << self
       #
-      # Creates a Watir::Browser instance and goes to URL.
+      # Creates a SportNgin::WatirBrowser instance and goes to URL.
       #
       # @example
-      #   browser = Watir::Browser.start "www.google.com", :firefox
-      #   #=> #<Watir::Browser:0x..fa45a499cb41e1752 url="http://www.google.com" title="Google">
+      #   browser = SportNgin::WatirBrowser.start "www.google.com", :firefox
+      #   #=> #<SportNgin::WatirBrowser:0x..fa45a499cb41e1752 url="http://www.google.com" title="Google">
       #
       # @param [String] url
       # @param [Symbol, Selenium::WebDriver] browser :firefox, :ie, :chrome, :remote or Selenium::WebDriver instance
-      # @return [Watir::Browser]
+      # @return [SportNgin::WatirBrowser]
       #
       def start(url, browser = :firefox, *args)
         b = new(browser, *args)
@@ -34,7 +35,7 @@ module Watir
     end
 
     #
-    # Creates a Watir::Browser instance.
+    # Creates a SportNgin::WatirBrowser instance.
     #
     # @param [Symbol, Selenium::WebDriver] browser :firefox, :ie, :chrome, :remote or Selenium::WebDriver instance
     # @param args Passed to the underlying driver
@@ -141,7 +142,7 @@ module Watir
     #
     # Handles cookies.
     #
-    # @return [Watir::Cookies]
+    # @return [SportNgin::WatirCookies]
     #
 
     def cookies
@@ -152,7 +153,7 @@ module Watir
     # Returns browser name.
     #
     # @example
-    #   browser = Watir::Browser.new :firefox
+    #   browser = SportNgin::WatirBrowser.new :firefox
     #   browser.name
     #   #=> :firefox
     #
@@ -187,7 +188,7 @@ module Watir
     #
     # Handles JavaScript alerts, confirms and prompts.
     #
-    # @return [Watir::Alert]
+    # @return [SportNgin::WatirAlert]
     #
 
     def alert
@@ -207,7 +208,7 @@ module Watir
     # Waits until readyState of document is complete.
     #
     # @param [Fixnum] timeout
-    # @raise [Watir::Wait::TimeoutError] if timeout is exceeded
+    # @raise [SportNgin::WatirWait::TimeoutError] if timeout is exceeded
     #
 
     def wait(timeout = 5)
@@ -251,7 +252,7 @@ module Watir
     #
 
     def execute_script(script, *args)
-      args.map! { |e| e.kind_of?(Watir::Element) ? e.wd : e }
+      args.map! { |e| e.kind_of?(SportNgin::WatirElement) ? e.wd : e }
       returned = @driver.execute_script(script, *args)
 
       wrap_elements_in(returned)
@@ -274,7 +275,7 @@ module Watir
     #
     # Handles screenshots of current pages.
     #
-    # @return [Watir::Screenshot]
+    # @return [SportNgin::WatirScreenshot]
     #
 
     def screenshot
@@ -299,7 +300,7 @@ module Watir
     #
     # @param [#call] checker Object responding to call
     # @yield Checker block
-    # @yieldparam [Watir::Browser]
+    # @yieldparam [SportNgin::WatirBrowser]
     #
 
     def add_checker(checker = nil, &block)
@@ -346,7 +347,7 @@ module Watir
     #     browser.element(:name => "new_user_button").click
     #   end
     #
-    # @yieldparam [Watir::Browser]
+    # @yieldparam [SportNgin::WatirBrowser]
     #
 
     def without_checkers
@@ -372,7 +373,7 @@ module Watir
     alias_method :exists?, :exist?
 
     #
-    # Protocol shared with Watir::Element
+    # Protocol shared with SportNgin::WatirElement
     #
     # @api private
     #
@@ -420,3 +421,4 @@ module Watir
 
   end # Browser
 end # Watir
+end # SportNgin

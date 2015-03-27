@@ -1,4 +1,5 @@
-module Watir
+module SportNgin
+	module Watir
   module Wait
     class Timer
 
@@ -17,3 +18,4 @@ module Watir
     end # Timer
   end # Wait
 end # Watir
+end # SportNgin

@@ -1,4 +1,5 @@
-module Watir
+module SportNgin
+	module Watir
   class Window
     include EventuallyPresent
 
@@ -242,3 +243,4 @@ module Watir
 
   end # Window
 end # Watir
+end # SportNgin

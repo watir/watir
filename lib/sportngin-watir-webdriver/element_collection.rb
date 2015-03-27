@@ -1,5 +1,6 @@
 # encoding: utf-8
-module Watir
+module SportNgin
+	module Watir
 
   #
   # Base class for element collections.
@@ -22,7 +23,7 @@ module Watir
     #     puts div.text
     #   end
     #
-    # @yieldparam [Watir::Element] element Iterate through the elements in this collection.
+    # @yieldparam [SportNgin::WatirElement] element Iterate through the elements in this collection.
     #
 
     def each(&blk)
@@ -47,7 +48,7 @@ module Watir
     # instance even if the index is out of bounds.
     #
     # @param [Fixnum] idx Index of wanted element, 0-indexed
-    # @return [Watir::Element] Returns an instance of a Watir::Element subclass
+    # @return [SportNgin::WatirElement] Returns an instance of a SportNgin::WatirElement subclass
     #
 
     def [](idx)
@@ -57,7 +58,7 @@ module Watir
     #
     # First element of this collection
     #
-    # @return [Watir::Element] Returns an instance of a Watir::Element subclass
+    # @return [SportNgin::WatirElement] Returns an instance of a SportNgin::WatirElement subclass
     #
 
     def first
@@ -67,7 +68,7 @@ module Watir
     #
     # Last element of the collection
     #
-    # @return [Watir::Element] Returns an instance of a Watir::Element subclass
+    # @return [SportNgin::WatirElement] Returns an instance of a SportNgin::WatirElement subclass
     #
 
     def last
@@ -77,7 +78,7 @@ module Watir
     #
     # This collection as an Array.
     #
-    # @return [Array<Watir::Element>]
+    # @return [Array<SportNgin::WatirElement>]
     #
 
     def to_a
@@ -102,3 +103,4 @@ module Watir
 
   end # ElementCollection
 end # Watir
+end # SportNgin

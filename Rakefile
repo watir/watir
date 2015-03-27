@@ -47,7 +47,7 @@ namespace :html5 do
 
   desc "Print IDL parts from #{SPEC_URI}"
   task :print => :html_lib do
-    extractor = Watir::HTML::SpecExtractor.new(SPEC_PATH)
+    extractor = SportNgin::WatirHTML::SpecExtractor.new(SPEC_PATH)
 
     extractor.process.each do |tag_name, interface_definitions|
       puts "#{tag_name.ljust(10)} => #{interface_definitions.map { |e| e.name }}"
@@ -64,7 +64,7 @@ namespace :html5 do
   desc 'Re-generate the base Watir element classes from the spec'
   task :generate => :html_lib do
     old_file = "lib/watir-webdriver/elements/generated.rb"
-    generator = Watir::HTML::Generator.new
+    generator = SportNgin::WatirHTML::Generator.new
 
     File.open("#{old_file}.new", "w") do |file|
       generator.generate(SPEC_PATH, file)

@@ -1,4 +1,5 @@
-module Watir
+module SportNgin
+	module Watir
   class ButtonLocator < ElementLocator
 
     def locate_all
@@ -78,3 +79,4 @@ module Watir
 
   end # ButtonLocator
 end # Watir
+end # SportNgin

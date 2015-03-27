@@ -20,7 +20,8 @@ require 'sportngin-watir-webdriver/locators/child_cell_locator'
 require 'sportngin-watir-webdriver/browser'
 require 'sportngin-watir-webdriver/screenshot'
 
-module Watir
+module SportNgin
+	module Watir
   @always_locate = true
 
   class << self

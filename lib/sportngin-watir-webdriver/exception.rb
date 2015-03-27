@@ -1,6 +1,7 @@
 # encoding: utf-8
 
-module Watir
+module SportNgin
+	module Watir
   module Exception
     class Error < StandardError; end
 
@@ -17,3 +18,4 @@ module Watir
 
   end # Exception
 end # Watir
+end # SportNgin

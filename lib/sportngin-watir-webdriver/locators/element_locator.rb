@@ -1,7 +1,8 @@
 # encoding: utf-8
-module Watir
+module SportNgin
+	module Watir
   class ElementLocator
-    include Watir::Exception
+    include SportNgin::WatirException
 
     WD_FINDERS = [
       :class,
@@ -433,3 +434,4 @@ module Watir
 
   end # ElementLocator
 end # Watir
+end # SportNgin

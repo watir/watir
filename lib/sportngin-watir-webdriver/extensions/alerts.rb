@@ -1,4 +1,5 @@
-module Watir
+module SportNgin
+	module Watir
 
   #
   # Deprecated, use the new Alert API instead.

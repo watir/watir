@@ -1,6 +1,6 @@
 require File.expand_path('watirspec/spec_helper', File.dirname(__FILE__))
 
-describe Watir::Browser do
+describe SportNgin::WatirBrowser do
 
   before do
     browser.goto WatirSpec.url_for("special_chars.html", :needs_server => true)

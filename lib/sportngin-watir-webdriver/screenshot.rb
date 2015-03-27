@@ -1,5 +1,6 @@
 # encoding: utf-8
-module Watir
+module SportNgin
+	module Watir
   class Screenshot
 
     def initialize(driver)
@@ -49,3 +50,4 @@ module Watir
 
   end # Screenshot
 end # Watir
+end # SportNgin

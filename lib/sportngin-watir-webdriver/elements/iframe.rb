@@ -1,5 +1,6 @@
 # encoding: utf-8
-module Watir
+module SportNgin
+	module Watir
   class IFrame < HTMLElement
 
     def locate
@@ -152,3 +153,4 @@ module Watir
 
   end # FramedDriver
 end # Watir
+end # SportNgin

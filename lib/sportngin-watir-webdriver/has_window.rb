@@ -1,4 +1,5 @@
-module Watir
+module SportNgin
+	module Watir
   module HasWindow
 
     #
@@ -51,3 +52,4 @@ module Watir
 
   end # HasWindow
 end # Watir
+end # SportNgin

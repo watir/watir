@@ -1,5 +1,6 @@
 # encoding: utf-8
-module Watir
+module SportNgin
+	module Watir
   class Alert
 
     include EventuallyPresent
@@ -101,3 +102,4 @@ module Watir
 
   end # Alert
 end # Watir
+end # SportNgin

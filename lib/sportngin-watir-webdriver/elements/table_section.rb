@@ -1,4 +1,5 @@
-module Watir
+module SportNgin
+	module Watir
   class TableSection < HTMLElement
     include RowContainer
 
@@ -13,3 +14,4 @@ module Watir
     end
   end # TableSection
 end # Watir
+end # SportNgin

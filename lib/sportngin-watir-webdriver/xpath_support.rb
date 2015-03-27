@@ -1,5 +1,6 @@
 # encoding: utf-8
-module Watir
+module SportNgin
+	module Watir
   module XpathSupport
 
     def self.escape(value)
@@ -19,3 +20,4 @@ module Watir
 
   end # XpathSupport
 end # Watir
+end # SportNgin

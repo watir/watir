@@ -1,6 +1,7 @@
 require 'logger'
 # encoding: utf-8
-module Watir
+module SportNgin
+	module Watir
 
   #
   # Base class for HTML elements.
@@ -40,7 +41,7 @@ module Watir
         end
       end
 
-      @timer = Watir::Wait::Timer.new
+      @timer = SportNgin::WatirWait::Timer.new
       @default_timeout = 20
 
 
@@ -447,7 +448,7 @@ module Watir
     # Returns true if the element exists and is visible on the page.
     #
     # @return [Boolean]
-    # @see Watir::Wait
+    # @see SportNgin::WatirWait
     #
 
     def present?
@@ -491,7 +492,7 @@ module Watir
     #
     # @example
     #   browser.element(:xpath => "//input[@type='submit']").to_subtype
-    #   #=> #<Watir::Button>
+    #   #=> #<SportNgin::WatirButton>
     #
 
     def to_subtype
@@ -523,7 +524,7 @@ module Watir
     #
     # Returns browser.
     #
-    # @return [Watir::Browser]
+    # @return [SportNgin::WatirBrowser]
     #
 
     def browser
@@ -603,8 +604,8 @@ module Watir
     end
 
     def assert_is_element(obj)
-      unless obj.kind_of? Watir::Element
-        raise TypeError, "execpted Watir::Element, got #{obj.inspect}:#{obj.class}"
+      unless obj.kind_of? SportNgin::WatirElement
+        raise TypeError, "execpted SportNgin::WatirElement, got #{obj.inspect}:#{obj.class}"
       end
     end
 
@@ -628,3 +629,4 @@ module Watir
 
   end # Element
 end # Watir
+end # SportNgin

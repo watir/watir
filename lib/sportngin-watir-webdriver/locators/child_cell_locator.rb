@@ -1,4 +1,5 @@
-module Watir
+module SportNgin
+	module Watir
   class ChildCellLocator < ElementLocator
 
     def locate_all
@@ -30,3 +31,4 @@ module Watir
 
   end # ChildCellLocator
 end # Watir
+end # SportNgin

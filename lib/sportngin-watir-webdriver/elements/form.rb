@@ -1,5 +1,6 @@
 # encoding: utf-8
-module Watir
+module SportNgin
+	module Watir
   class Form < HTMLElement
 
     #
@@ -16,3 +17,4 @@ module Watir
 
   end # Form
 end # Watir
+end # SportNgin

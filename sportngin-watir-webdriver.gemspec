@@ -4,7 +4,7 @@ require 'sportngin-watir-webdriver/version'
 
 Gem::Specification.new do |s|
   s.name        = 'sportngin-watir-webdriver'
-  s.version     = Watir::VERSION
+  s.version     = SportNgin::WatirVERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['Jari Bakken', 'Aaron Humerickhouse']
   s.email       = ['jari.bakken@gmail.com', 'aaron.humerickhouse@sportngin.com']
