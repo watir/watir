@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 module Watir
   module HTML
     class Generator

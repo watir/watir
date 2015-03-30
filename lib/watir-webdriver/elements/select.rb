@@ -1,4 +1,3 @@
-# encoding: utf-8
 module Watir
   class Select < HTMLElement
     include Watir::Exception
