@@ -95,6 +95,7 @@ module WatirSpec
     set :environment,   :production
     set :bind,          "localhost" if WatirSpec.platform == :windows
     set :port,          random_free_port
+    set :server,        'webrick'
 
     get '/' do
       self.class.name
