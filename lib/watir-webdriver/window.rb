@@ -8,7 +8,7 @@ module Watir
 
       if selector.empty?
         @handle = current_window
-      elsif selector.has_key? :handle
+      elsif selector.key? :handle
         @handle = selector.delete :handle
       else
         unless selector.keys.all? { |k| %i(title url index).include? k }
@@ -210,7 +210,7 @@ module Watir
     def locate
       if @selector.empty?
         nil
-      elsif @selector.has_key?(:index)
+      elsif @selector.key?(:index)
         @driver.window_handles[Integer(@selector[:index])]
       else
         @driver.window_handles.find { |wh| matches?(wh) }

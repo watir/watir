@@ -47,8 +47,8 @@ module Watir
     alias_method :exist?, :exists?
 
     def inspect
-      if @selector.has_key?(:element)
-        '#<%s:0x%x located=%s selector=%s>' % [self.class, hash*2, !!@element, '{:element=>(webdriver element)}']
+      if @selector.key?(:element)
+        '#<%s:0x%x located=%s selector=%s>' % [self.class, hash*2, !!@element, '{element: (webdriver element)}']
       else
         '#<%s:0x%x located=%s selector=%s>' % [self.class, hash*2, !!@element, selector_string]
       end

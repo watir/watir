@@ -99,7 +99,7 @@ module Watir
     def find_all_by_multiple
       selector = normalized_selector
 
-      if selector.has_key? :index
+      if selector.key? :index
         raise ArgumentError, "can't locate all elements by :index"
       end
 
@@ -131,7 +131,7 @@ module Watir
       parent = @wd
       rx_selector = delete_regexps_from(selector)
 
-      if rx_selector.has_key?(:label) && should_use_label_element?
+      if rx_selector.key?(:label) && should_use_label_element?
         label = label_from_text(rx_selector.delete(:label)) || return
         if (id = label.attribute(:for))
           selector[:id] = id
@@ -326,15 +326,15 @@ module Watir
     def use_css?(selectors)
       return false unless Watir.prefer_css?
 
-      if selectors.has_key?(:text) || selectors.has_key?(:label) || selectors.has_key?(:index)
+      if selectors.key?(:text) || selectors.key?(:label) || selectors.key?(:index)
         return false
       end
 
-      if selectors[:tag_name] == 'input' && selectors.has_key?(:type)
+      if selectors[:tag_name] == 'input' && selectors.key?(:type)
         return false
       end
 
-      if selectors.has_key?(:class) && selectors[:class] !~ /^[\w-]+$/ui
+      if selectors.key?(:class) && selectors[:class] !~ /^[\w-]+$/ui
         return false
       end
 
