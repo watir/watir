@@ -24,18 +24,18 @@ YARD::Doctest.configure do |doctest|
   %w[text ok close exists?].each do |name|
     doctest.before("Watir::Alert##{name}") do
       browser.goto WatirSpec.url_for('alerts.html')
-      browser.button(:id => 'alert').click
+      browser.button(id: 'alert').click
     end
   end
 
   doctest.before('Watir::Alert#set') do
     browser.goto WatirSpec.url_for('alerts.html')
-    browser.button(:id => 'prompt').click
+    browser.button(id: 'prompt').click
   end
 
   doctest.before('Watir::CheckBox#set') do
     browser.goto WatirSpec.url_for('forms_with_input_elements.html')
-    checkbox = browser.checkbox(:id => 'new_user_interests_cars')
+    checkbox = browser.checkbox(id: 'new_user_interests_cars')
   end
 
   %w[Watir::Browser#execute_script Watir::Element#drag_and_drop].each do |name|
@@ -57,7 +57,7 @@ YARD::Doctest.configure do |doctest|
   %w[Watir::HasWindow Watir::Window#== Watir::Window#use].each do |name|
     doctest.before(name) do
       browser.goto WatirSpec.url_for('window_switching.html')
-      browser.a(:id => 'open').click
+      browser.a(id: 'open').click
     end
   end
 

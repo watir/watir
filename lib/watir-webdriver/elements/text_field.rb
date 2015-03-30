@@ -21,11 +21,11 @@ module Watir
 
   module Container
     def text_field(*args)
-      TextField.new(self, extract_selector(args).merge(:tag_name => "input"))
+      TextField.new(self, extract_selector(args).merge(tag_name: "input"))
     end
 
     def text_fields(*args)
-      TextFieldCollection.new(self, extract_selector(args).merge(:tag_name => "input"))
+      TextFieldCollection.new(self, extract_selector(args).merge(tag_name: "input"))
     end
   end # Container
 

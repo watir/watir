@@ -1,7 +1,7 @@
 source "http://rubygems.org"
 
 unless ENV['TRAVIS']
-  gem "simplecov", ">= 0.3.5", :platform => :ruby_19
+  gem "simplecov", ">= 0.3.5", platform: :ruby_19
 end
 
 if ENV['LOCAL_WEBIDL']

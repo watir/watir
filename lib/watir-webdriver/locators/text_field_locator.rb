@@ -28,7 +28,7 @@ module Watir
       xpath << "| .//textarea"
       xpath << "[#{textarea_attr_exp}]" unless textarea_attr_exp.empty?
 
-      p :build_wd_selector => xpath if $DEBUG
+      p build_wd_selector: xpath if $DEBUG
 
       [:xpath, xpath]
     end

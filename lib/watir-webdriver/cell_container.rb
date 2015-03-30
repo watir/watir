@@ -8,7 +8,7 @@ module Watir
     #
 
     def cell(*args)
-      cell = TableCell.new(self, extract_selector(args).merge(:tag_name => /^(th|td)$/))
+      cell = TableCell.new(self, extract_selector(args).merge(tag_name: /^(th|td)$/))
       cell.locator_class = ChildCellLocator
 
       cell
@@ -21,7 +21,7 @@ module Watir
     #
 
     def cells(*args)
-      cells = TableCellCollection.new(self, extract_selector(args).merge(:tag_name => /^(th|td)$/))
+      cells = TableCellCollection.new(self, extract_selector(args).merge(tag_name: /^(th|td)$/))
       cells.locator_class = ChildCellLocator
 
       cells

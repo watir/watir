@@ -10,7 +10,7 @@ module Watir
     def wd_find_first_by(how, what)
       if how == :tag_name
         how  = :xpath
-        what = ".//button | .//input[#{attribute_expression :type => Button::VALID_TYPES}]"
+        what = ".//button | .//input[#{attribute_expression type: Button::VALID_TYPES}]"
       end
 
       super
@@ -33,7 +33,7 @@ module Watir
       xpath << " | .//input"
       xpath << "[#{input_attr_exp}]"
 
-      p :build_wd_selector => xpath if $DEBUG
+      p build_wd_selector: xpath if $DEBUG
 
       [:xpath, xpath]
     end

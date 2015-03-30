@@ -28,7 +28,7 @@ module Watir
 
       xpath = expressions.join(" | ")
 
-      p :build_wd_selector => xpath if $DEBUG
+      p build_wd_selector: xpath if $DEBUG
 
       [:xpath, xpath]
     end

@@ -7,7 +7,7 @@ module Watir
     # Returns element.
     #
     # @example
-    #   browser.element(:data_bind => 'func')
+    #   browser.element(data_bind: 'func')
     #
     # @return [HTMLElement]
     #
@@ -20,7 +20,7 @@ module Watir
     # Returns element collection.
     #
     # @example
-    #   browser.elements(:data_bind => 'func')
+    #   browser.elements(data_bind: 'func')
     #
     # @return [HTMLElementCollection]
     #

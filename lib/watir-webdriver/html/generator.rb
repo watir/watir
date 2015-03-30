@@ -90,7 +90,7 @@ module Watir
 #
 
 def #{singular}(*args)
-  #{element_class}.new(self, extract_selector(args).merge(:tag_name => #{tag_string}))
+  #{element_class}.new(self, extract_selector(args).merge(tag_name: #{tag_string}))
 end
 
 #
@@ -98,7 +98,7 @@ end
 #
 
 def #{plural}(*args)
-  #{collection_class}.new(self, extract_selector(args).merge(:tag_name => #{tag_string}))
+  #{collection_class}.new(self, extract_selector(args).merge(tag_name: #{tag_string}))
 end
 
 Watir.tag_to_class[#{tag.to_sym.inspect}] = #{element_class}

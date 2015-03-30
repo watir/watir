@@ -8,7 +8,7 @@ describe Watir::Input do
 
   describe "#type" do
     it "returns an email type" do
-      expect(browser.input(:name => "html5_email").type).to eq 'email'
+      expect(browser.input(name: "html5_email").type).to eq 'email'
     end
   end
 end

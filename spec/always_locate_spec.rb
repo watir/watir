@@ -4,11 +4,11 @@ describe 'Watir' do
   describe '#always_locate?' do
 
     before do
-      browser.goto WatirSpec.url_for('removed_element.html', :needs_server => true)
+      browser.goto WatirSpec.url_for('removed_element.html', needs_server: true)
     end
 
     it 'determines whether #exist? returns false for stale element' do
-      element = browser.div(:id => "text")
+      element = browser.div(id: "text")
       expect(element.exists?).to be true
 
       browser.refresh
@@ -17,7 +17,7 @@ describe 'Watir' do
     end
 
     it 'allows using cached elements regardless of setting, when element is not stale' do
-      element = browser.div(:id => "text")
+      element = browser.div(id: "text")
       expect(element.exists?).to be true
 
       # exception raised if element is re-looked up
@@ -27,7 +27,7 @@ describe 'Watir' do
     end
 
     it 'determines whether an exception is raised when taking an action on a stale element' do
-      element = browser.div(:id => "text")
+      element = browser.div(id: "text")
       expect(element.exists?).to be true
 
       browser.refresh

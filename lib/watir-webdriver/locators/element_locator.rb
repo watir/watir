@@ -168,7 +168,7 @@ module Watir
     def label_from_text(label_exp)
       # TODO: this won't work correctly if @wd is a sub-element
       @wd.find_elements(:tag_name, 'label').find do |el|
-        matches_selector?(el, :text => label_exp)
+        matches_selector?(el, text: label_exp)
       end
     end
 
@@ -254,7 +254,7 @@ module Watir
     end
 
     def all_elements
-      @wd.find_elements(:xpath => ".//*")
+      @wd.find_elements(xpath: ".//*")
     end
 
     def tag_name_matches?(element_tag_name, tag_name)
@@ -286,7 +286,7 @@ module Watir
         xpath << "[" << attribute_expression(selectors) << "]"
       end
 
-      p :xpath => xpath, :selectors => selectors if $DEBUG
+      p xpath: xpath, selectors: selectors if $DEBUG
 
       [:xpath, xpath]
     end

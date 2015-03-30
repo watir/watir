@@ -19,7 +19,7 @@ module Watir
 
     def to_a
       @control.all_cookies.map do |e|
-        e.merge(:expires => e[:expires] ? to_time(e[:expires]) : nil)
+        e.merge(expires: e[:expires] ? to_time(e[:expires]) : nil)
       end
     end
 
@@ -42,7 +42,7 @@ module Watir
     # Adds new cookie.
     #
     # @example
-    #   browser.cookies.add 'my_session', 'BAh7B0kiD3Nlc3Npb25faWQGOgZFRkk', :secure => true
+    #   browser.cookies.add 'my_session', 'BAh7B0kiD3Nlc3Npb25faWQGOgZFRkk', secure: true
     #
     # @param [String] name
     # @param [String] value
@@ -55,12 +55,12 @@ module Watir
 
     def add(name, value, opts = {})
       cookie = {
-        :name    => name,
-        :value   => value,
-        :secure  => opts[:secure],
-        :path    => opts[:path],
-        :expires => opts[:expires],
-        :domain  => opts[:domain]
+        name: name,
+        value: value,
+        secure: opts[:secure],
+        path: opts[:path],
+        expires: opts[:expires],
+        domain: opts[:domain]
       }
 
       @control.add_cookie cookie

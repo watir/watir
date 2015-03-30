@@ -35,7 +35,7 @@ class ImplementationConfig
 
     if ENV['SELECTOR_STATS']
       listener = SelectorListener.new
-      args.last.merge!(:listener => listener)
+      args.last.merge!(listener: listener)
       at_exit { listener.report }
     end
 
@@ -102,13 +102,13 @@ class ImplementationConfig
     profile = Selenium::WebDriver::Firefox::Profile.new
     profile.native_events = native_events?
 
-    [:firefox, {:profile => profile}]
+    [:firefox, {profile: profile}]
   end
 
   def chrome_args
     opts = {
-      :args          => ["--disable-translate"],
-      :native_events => native_events?
+      args: ["--disable-translate"],
+      native_events: native_events?
     }
 
     if url = ENV['WATIR_WEBDRIVER_CHROME_SERVER']
@@ -131,7 +131,7 @@ class ImplementationConfig
   end
 
   def remote_args
-    [:remote, {:url => ENV["WATIR_WEBDRIVER_REMOTE_URL"] || "http://127.0.0.1:8080"}]
+    [:remote, {url: ENV["WATIR_WEBDRIVER_REMOTE_URL"] || "http://127.0.0.1:8080"}]
   end
 
   def add_html_routes

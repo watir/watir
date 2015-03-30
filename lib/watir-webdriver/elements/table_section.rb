@@ -9,7 +9,7 @@ module Watir
     #
 
     def [](idx)
-      row(:index => idx)
+      row(index: idx)
     end
   end # TableSection
 end # Watir
