@@ -510,10 +510,10 @@ module Watir
 
     # Ensure that the element isn't stale, by relocating if it is (unless always_locate = false)
     def ensure_not_stale
-      @parent.assert_exists
-      @parent.switch_to! if @parent.is_a? IFrame
+      # Performance shortcut; only need recursive call to ensure context if stale in current context
+      ensure_context if stale?
       if stale?
-        if Watir.always_locate? && ! @selector[:element]
+        if Watir.always_locate? && !@selector[:element]
           @element = locate
         else
           reset!
@@ -541,7 +541,7 @@ module Watir
     end
 
     def locate
-      @parent.is_a?(IFrame) ? @parent.switch_to! : @parent.assert_exists
+      ensure_context
       locator_class.new(@parent.wd, @selector, self.class.attribute_list).locate
     end
 
@@ -553,6 +553,11 @@ module Watir
 
     def selector_string
       @selector.inspect
+    end
+
+    # This makes sure we switch to desired browser context (frame)
+    def ensure_context
+      @parent.is_a?(IFrame) ? @parent.switch_to! : @parent.assert_exists
     end
 
     def attribute?(attribute)
