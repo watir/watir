@@ -44,7 +44,6 @@ module Watir
       assert_exists
       true
     rescue UnknownObjectException, UnknownFrameException
-      reset!
       false
     end
     alias_method :exist?, :exists?
@@ -536,7 +535,6 @@ module Watir
     end
 
     def reset!
-      @parent.reset!
       @element = nil
     end
 
@@ -597,7 +595,6 @@ module Watir
       yield
     rescue Selenium::WebDriver::Error::StaleElementReferenceError
       raise unless Watir.always_locate?
-      reset!
       assert_exists
       retry
     end

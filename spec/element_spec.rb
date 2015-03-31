@@ -87,7 +87,6 @@ describe Watir::Element do
 
       browser.refresh
       expect(stale_element.present?).to be Watir.always_locate?
-      expect(stale_element.present?).to be true
     end
   end
 
