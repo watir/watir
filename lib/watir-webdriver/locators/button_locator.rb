@@ -67,6 +67,11 @@ module Watir
       end
     end
 
+    def can_convert_regexp_to_contains?
+      # regexp conversion won't work with the complex xpath selector
+      false
+    end
+
     def tag_name_matches?(tag_name, _)
       !!(/^(input|button)$/ === tag_name)
     end

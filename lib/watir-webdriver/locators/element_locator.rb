@@ -17,6 +17,17 @@ module Watir
 
     WILDCARD_ATTRIBUTE = /^(aria|data)_(.+)$/
 
+    # Regular expressions that can be reliably converted to xpath `contains`
+    # expressions in order to optimize the locator.
+    #
+    CONVERTABLE_REGEXP = %r{
+      \A
+      ([^\[\]\\^$.|?*+()]*) # leading literal characters
+      [^|]*?                # do not try to convert expressions with alternates
+      ([^\[\]\\^$.|?*+()]*) # trailing literal characters
+      \z
+    }x
+
     def initialize(wd, selector, valid_attributes)
       @wd               = wd
       @selector         = selector.dup
@@ -146,6 +157,15 @@ module Watir
         raise Error, "internal error: unable to build WebDriver selector from #{selector.inspect}"
       end
 
+      if how == :xpath && can_convert_regexp_to_contains?
+        rx_selector.each do |key, value|
+          next if key == :tag_name || key == :text
+
+          predicates = regexp_selector_to_predicates(key, value)
+          what = "(#{what})[#{predicates.join(' and ')}]" unless predicates.empty?
+        end
+      end
+
       elements = parent.find_elements(how, what)
       elements.__send__(method) { |el| matches_selector?(el, rx_selector) }
     end
@@ -230,6 +250,22 @@ module Watir
       end
 
       rx_selector
+    end
+
+    def regexp_selector_to_predicates(key, re)
+      return [] if re.casefold?
+
+      match = re.source.match(CONVERTABLE_REGEXP)
+      return [] unless match
+
+      lhs = lhs_for(key)
+      match.captures.reject(&:empty?).map do |literals|
+        "contains(#{lhs}, #{XpathSupport.escape(literals)})"
+      end
+    end
+
+    def can_convert_regexp_to_contains?
+      true
     end
 
     def assert_valid_as_attribute(attribute)

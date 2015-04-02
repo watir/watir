@@ -192,7 +192,7 @@ describe Watir::ElementLocator do
         if Watir.prefer_css?
           expect_all(:css, "div").and_return(elements)
         else
-          expect_all(:xpath, ".//div").and_return(elements)
+          expect_all(:xpath, "(.//div)[contains(@class, 'oob')]").and_return(elements)
         end
 
         expect(locate_one(tag_name: "div", class: /oob/)).to eq elements[1]
@@ -207,7 +207,7 @@ describe Watir::ElementLocator do
         if Watir.prefer_css?
           expect_all(:css, "div").and_return(elements)
         else
-          expect_all(:xpath, ".//div").and_return(elements)
+          expect_all(:xpath, "(.//div)[contains(@class, 'foo')]").and_return(elements)
         end
 
         selector = {
@@ -260,9 +260,8 @@ describe Watir::ElementLocator do
         if Watir.prefer_css?
           expect_all(:css, 'div[dir="foo"]').and_return(elements)
         else
-          expect_all(:xpath, ".//div[@dir='foo']").and_return(elements)
+          expect_all(:xpath, "(.//div[@dir='foo'])[contains(@title, 'baz')]").and_return(elements)
         end
-
 
         selector = {
           tag_name: "div",
@@ -282,7 +281,7 @@ describe Watir::ElementLocator do
         if Watir.prefer_css?
           expect_all(:css, 'div').and_return(elements)
         else
-          expect_all(:xpath, ".//div").and_return(elements)
+          expect_all(:xpath, "(.//div)[contains(@data-automation-id, 'bar')]").and_return(elements)
         end
 
 
@@ -316,7 +315,6 @@ describe Watir::ElementLocator do
         expect_all(:tag_name, "label").and_return([])
         expect(locate_one(tag_name: "div", label: /foo/)).to be_nil
       end
-
     end
 
     it "finds all if :index is given" do
@@ -432,7 +430,7 @@ describe Watir::ElementLocator do
         if Watir.prefer_css?
           expect_all(:css, "div").and_return(elements)
         else
-          expect_all(:xpath, ".//div").and_return(elements)
+          expect_all(:xpath, "(.//div)[contains(@class, 'oob')]").and_return(elements)
         end
 
         expect(locate_all(tag_name: "div", class: /oob/)).to eq elements.last(3)
@@ -448,7 +446,7 @@ describe Watir::ElementLocator do
         if Watir.prefer_css?
           expect_all(:css, 'div[dir="foo"]').and_return(elements)
         else
-          expect_all(:xpath, ".//div[@dir='foo']").and_return(elements)
+          expect_all(:xpath, "(.//div[@dir='foo'])[contains(@title, 'baz')]").and_return(elements)
         end
 
         selector = {
@@ -458,6 +456,69 @@ describe Watir::ElementLocator do
         }
 
         expect(locate_all(selector)).to eq elements.last(2)
+      end
+
+      context "and xpath" do
+        before do
+          expect(Watir).to receive(:prefer_css?).and_return(false)
+        end
+
+        it "converts a leading run of regexp literals to a contains() expression" do
+          elements = [
+            element(tag_name: "div", attributes: { class: "foo" }),
+            element(tag_name: "div", attributes: { class: "foob" }),
+            element(tag_name: "div", attributes: { class: "bar" })
+          ]
+
+          expect_all(:xpath, "(.//div)[contains(@class, 'fo')]").and_return(elements.first(2))
+
+          expect(locate_one(tag_name: "div", class: /fo.b$/)).to eq elements[1]
+        end
+
+        it "converts a trailing run of regexp literals to a contains() expression" do
+          elements = [
+            element(tag_name: "div", attributes: { class: "foo" }),
+            element(tag_name: "div", attributes: { class: "foob" })
+          ]
+
+          expect_all(:xpath, "(.//div)[contains(@class, 'b')]").and_return(elements.last(1))
+
+          expect(locate_one(tag_name: "div", class: /^fo.b/)).to eq elements[1]
+        end
+
+        it "converts a leading and a trailing run of regexp literals to a contains() expression" do
+          elements = [
+            element(tag_name: "div", attributes: { class: "foo" }),
+            element(tag_name: "div", attributes: { class: "foob" })
+          ]
+
+          expect_all(:xpath, "(.//div)[contains(@class, 'fo') and contains(@class, 'b')]").
+            and_return(elements.last(1))
+
+          expect(locate_one(tag_name: "div", class: /fo.b/)).to eq elements[1]
+        end
+
+        it "does not try to convert case insensitive expressions" do
+          elements = [
+            element(tag_name: "div", attributes: { class: "foo" }),
+            element(tag_name: "div", attributes: { class: "foob"})
+          ]
+
+          expect_all(:xpath, ".//div").and_return(elements.last(1))
+
+          expect(locate_one(tag_name: "div", class: /FOOB/i)).to eq elements[1]
+        end
+
+        it "does not try to convert expressions containing '|'" do
+          elements = [
+            element(tag_name: "div", attributes: { class: "foo" }),
+            element(tag_name: "div", attributes: { class: "foob"})
+          ]
+
+          expect_all(:xpath, ".//div").and_return(elements.last(1))
+
+          expect(locate_one(tag_name: "div", class: /x|b/)).to eq elements[1]
+        end
       end
     end
 
