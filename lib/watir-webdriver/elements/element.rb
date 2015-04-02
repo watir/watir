@@ -494,28 +494,46 @@ module Watir
 
   protected
 
+    # Ensure that the element exists, making sure that it is not stale and located if necessary
     def assert_exists
-      begin
-        assert_not_stale if @element ||= @selector[:element]
-      rescue UnknownObjectException => ex
-        raise ex if @selector[:element] || !Watir.always_locate?
+      @element ||= @selector[:element]
+
+      if @element
+        ensure_not_stale # ensure not stale
+      else
+        @element = locate
       end
 
-      @element ||= locate
+      assert_element_found
+    end
 
+    # Ensure that the element isn't stale, by relocating if it is (unless always_locate = false)
+    def ensure_not_stale
+      # Performance shortcut; only need recursive call to ensure context if stale in current context
+      return unless stale?
+
+      ensure_context
+      if stale?
+        if Watir.always_locate? && !@selector[:element]
+          @element = locate
+        else
+          reset!
+        end
+      end
+      assert_element_found
+    end
+
+    def stale?
+      @element.enabled? # any wire call will check for staleness
+      false
+    rescue Selenium::WebDriver::Error::ObsoleteElementError
+      true
+    end
+
+    def assert_element_found
       unless @element
         raise UnknownObjectException, "unable to locate element, using #{selector_string}"
       end
-    end
-
-    def assert_not_stale
-      @parent.assert_not_stale
-      @parent.switch_to! if @parent.is_a? IFrame
-      @element.enabled? # do a staleness check - any wire call will do.
-    rescue Selenium::WebDriver::Error::ObsoleteElementError => ex
-      # don't cache a stale element - it will never come back
-      reset!
-      raise UnknownObjectException, "#{ex.message} - #{selector_string}"
     end
 
     def reset!
@@ -523,7 +541,7 @@ module Watir
     end
 
     def locate
-      @parent.is_a?(IFrame) ? @parent.switch_to! : @parent.assert_exists
+      ensure_context
       locator_class.new(@parent.wd, @selector, self.class.attribute_list).locate
     end
 
@@ -535,6 +553,11 @@ module Watir
 
     def selector_string
       @selector.inspect
+    end
+
+    # Ensure the driver is in the desired browser context
+    def ensure_context
+      @parent.is_a?(IFrame) ? @parent.switch_to! : @parent.assert_exists
     end
 
     def attribute?(attribute)
@@ -574,7 +597,6 @@ module Watir
       yield
     rescue Selenium::WebDriver::Error::StaleElementReferenceError
       raise unless Watir.always_locate?
-      reset!
       assert_exists
       retry
     end

@@ -387,7 +387,7 @@ module Watir
         true
       end
     end
-    alias_method :assert_not_stale, :assert_exists
+    alias_method :ensure_not_stale, :assert_exists
 
     def reset!
       # no-op
