@@ -496,21 +496,23 @@ module Watir
 
     # Ensure that the element exists, making sure that it is not stale and located if necessary
     def assert_exists
-       @element ||= @selector[:element]
+      @element ||= @selector[:element]
 
-       if @element
-         ensure_not_stale # ensure not stale
-       else
-         @element = locate
-       end
+      if @element
+        ensure_not_stale # ensure not stale
+      else
+        @element = locate
+      end
 
-       assert_element_found
+      assert_element_found
     end
 
     # Ensure that the element isn't stale, by relocating if it is (unless always_locate = false)
     def ensure_not_stale
       # Performance shortcut; only need recursive call to ensure context if stale in current context
-      ensure_context if stale?
+      return unless stale?
+
+      ensure_context
       if stale?
         if Watir.always_locate? && !@selector[:element]
           @element = locate
@@ -553,7 +555,7 @@ module Watir
       @selector.inspect
     end
 
-    # This makes sure we switch to desired browser context (frame)
+    # Ensure the driver is in the desired browser context
     def ensure_context
       @parent.is_a?(IFrame) ? @parent.switch_to! : @parent.assert_exists
     end
