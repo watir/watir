@@ -10,10 +10,10 @@ describe "Dl" do
   # Exists method
   describe "#exists?" do
     it "returns true if the element exists" do
-      expect(browser.dl(:id, "experience-list")).to exist
-      expect(browser.dl(:class, "list")).to exist
-      expect(browser.dl(:xpath, "//dl[@id='experience-list']")).to exist
-      expect(browser.dl(:index, 0)).to exist
+      expect(browser.dl(id: "experience-list")).to exist
+      expect(browser.dl(class: "list")).to exist
+      expect(browser.dl(xpath: "//dl[@id='experience-list']")).to exist
+      expect(browser.dl(index: 0)).to exist
     end
 
     it "returns the first dl if given no args" do
@@ -21,104 +21,104 @@ describe "Dl" do
     end
 
     it "returns false if the element does not exist" do
-      expect(browser.dl(:id, "no_such_id")).to_not exist
+      expect(browser.dl(id: "no_such_id")).to_not exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do
-      expect { browser.dl(:id, 3.14).exists? }.to raise_error(TypeError)
+      expect { browser.dl(id: 3.14).exists? }.to raise_error(TypeError)
     end
 
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-      expect { browser.dl(:no_such_how, 'some_value').exists? }.to raise_error(Watir::Exception::MissingWayOfFindingObjectException)
+      expect { browser.dl(no_such_how: 'some_value').exists? }.to raise_error(Watir::Exception::MissingWayOfFindingObjectException)
     end
   end
 
   # Attribute methods
   describe "#class_name" do
     it "returns the class attribute if the element exists" do
-      expect(browser.dl(:id, "experience-list").class_name).to eq "list"
+      expect(browser.dl(id: "experience-list").class_name).to eq "list"
     end
 
     it "returns an empty string if the element exists but the attribute doesn't" do
-      expect(browser.dl(:id, "noop").class_name).to eq ""
+      expect(browser.dl(id: "noop").class_name).to eq ""
     end
 
     it "raises UnknownObjectException if the element does not exist" do
-      expect { browser.dl(:id, "no_such_id").class_name }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.dl(:title, "no_such_title").class_name }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.dl(:index, 1337).class_name }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.dl(:xpath, "//dl[@id='no_such_id']").class_name }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.dl(id: "no_such_id").class_name }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.dl(title: "no_such_title").class_name }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.dl(index: 1337).class_name }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.dl(xpath: "//dl[@id='no_such_id']").class_name }.to raise_error(Watir::Exception::UnknownObjectException)
     end
   end
 
   describe "#id" do
     it "returns the id attribute if the element exists" do
-      expect(browser.dl(:class, 'list').id).to eq "experience-list"
+      expect(browser.dl(class: 'list').id).to eq "experience-list"
     end
 
     it "returns an empty string if the element exists, but the attribute doesn't" do
-      expect(browser.dl(:class, 'personalia').id).to eq ""
+      expect(browser.dl(class: 'personalia').id).to eq ""
     end
 
     it "raises UnknownObjectException if the element does not exist" do
-      expect {browser.dl(:id, "no_such_id").id }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect {browser.dl(:title, "no_such_id").id }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect {browser.dl(:index, 1337).id }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect {browser.dl(id: "no_such_id").id }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect {browser.dl(title: "no_such_id").id }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect {browser.dl(index: 1337).id }.to raise_error(Watir::Exception::UnknownObjectException)
     end
   end
 
   describe "#title" do
     it "returns the id attribute if the element exists" do
-      expect(browser.dl(:class, 'list').title).to eq "experience"
+      expect(browser.dl(class: 'list').title).to eq "experience"
     end
   end
 
   describe "#text" do
     it "returns the text of the element" do
-      expect(browser.dl(:id, "experience-list").text).to include("11 years")
+      expect(browser.dl(id: "experience-list").text).to include("11 years")
     end
 
     it "returns an empty string if the element exists but contains no text" do
-      expect(browser.dl(:id, 'noop').text).to eq ""
+      expect(browser.dl(id: 'noop').text).to eq ""
     end
 
     it "raises UnknownObjectException if the element does not exist" do
-      expect { browser.dl(:id, "no_such_id").text }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.dl(:title, "no_such_title").text }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.dl(:index, 1337).text }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.dl(:xpath, "//dl[@id='no_such_id']").text }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.dl(id: "no_such_id").text }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.dl(title: "no_such_title").text }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.dl(index: 1337).text }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.dl(xpath: "//dl[@id='no_such_id']").text }.to raise_error(Watir::Exception::UnknownObjectException)
     end
   end
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      expect(browser.dl(:index, 0)).to respond_to(:id)
-      expect(browser.dl(:index, 0)).to respond_to(:class_name)
-      expect(browser.dl(:index, 0)).to respond_to(:style)
-      expect(browser.dl(:index, 0)).to respond_to(:text)
-      expect(browser.dl(:index, 0)).to respond_to(:title)
+      expect(browser.dl(index: 0)).to respond_to(:id)
+      expect(browser.dl(index: 0)).to respond_to(:class_name)
+      expect(browser.dl(index: 0)).to respond_to(:style)
+      expect(browser.dl(index: 0)).to respond_to(:text)
+      expect(browser.dl(index: 0)).to respond_to(:title)
     end
   end
 
   # Manipulation methods
   describe "#click" do
     it "fires events when clicked" do
-      expect(browser.dt(:id, 'name').text).to_not eq 'changed!'
-      browser.dt(:id, 'name').click
-      expect(browser.dt(:id, 'name').text).to eq 'changed!'
+      expect(browser.dt(id: 'name').text).to_not eq 'changed!'
+      browser.dt(id: 'name').click
+      expect(browser.dt(id: 'name').text).to eq 'changed!'
     end
 
     it "raises UnknownObjectException if the element does not exist" do
-      expect { browser.dl(:id, "no_such_id").click }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.dl(:title, "no_such_title").click }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.dl(:index, 1337).click }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.dl(:xpath, "//dl[@id='no_such_id']").click }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.dl(id: "no_such_id").click }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.dl(title: "no_such_title").click }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.dl(index: 1337).click }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.dl(xpath: "//dl[@id='no_such_id']").click }.to raise_error(Watir::Exception::UnknownObjectException)
     end
   end
 
   describe "#html" do
     it "returns the HTML of the element" do
-      html = browser.dl(:id, 'experience-list').html.downcase
+      html = browser.dl(id: 'experience-list').html.downcase
       not_compliant_on :internet_explorer do
         expect(html).to include('<dt class="current-industry">')
       end
@@ -139,7 +139,7 @@ describe "Dl" do
 
   describe "#to_hash" do
     it "converts the dl to a Hash" do
-      expect(browser.dl(:id, 'experience-list').to_hash).to eq Hash[
+      expect(browser.dl(id: 'experience-list').to_hash).to eq Hash[
         "Experience"                   => "11 years",
         "Education"                    => "Master",
         "Current industry"             => "Architecture",

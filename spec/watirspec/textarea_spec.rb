@@ -20,7 +20,7 @@ describe "TextArea" do
 
   it 'locates textarea by value' do
     browser.textarea.set 'foo'
-    expect(browser.textarea(:value, /foo/)).to exist
-    expect(browser.textarea(:value, 'foo')).to exist
+    expect(browser.textarea(value: /foo/)).to exist
+    expect(browser.textarea(value: 'foo')).to exist
   end
 end

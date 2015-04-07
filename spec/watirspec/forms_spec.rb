@@ -10,7 +10,7 @@ describe "Forms" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.forms(:method => "post").to_a).to eq [browser.form(:method => "post")]
+        expect(browser.forms(method: "post").to_a).to eq [browser.form(method: "post")]
       end
     end
   end
@@ -33,9 +33,9 @@ describe "Forms" do
       count = 0
 
       browser.forms.each_with_index do |f, index|
-        expect(f.name).to eq browser.form(:index, index).name
-        expect(f.id).to eq browser.form(:index, index).id
-        expect(f.class_name).to eq browser.form(:index, index).class_name
+        expect(f.name).to eq browser.form(index: index).name
+        expect(f.id).to eq browser.form(index: index).id
+        expect(f.class_name).to eq browser.form(index: index).class_name
 
         count += 1
       end

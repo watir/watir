@@ -8,7 +8,7 @@ module WatirSpec
       end
 
       def record(guard_name, impls, data)
-        guards[impls] << {:name => guard_name, :data => data}
+        guards[impls] << {name: guard_name, data: data}
       end
 
       def report
@@ -29,25 +29,25 @@ module WatirSpec
     private
 
     def deviates_on(*impls)
-      Guards.record :deviates, impls, :file => caller.first
+      Guards.record :deviates, impls, file: caller.first
       return yield if WatirSpec.unguarded?
       yield if WatirSpec.implementation.matches_guard?(impls)
     end
 
     def not_compliant_on(*impls)
-      Guards.record :not_compliant, impls, :file => caller.first
+      Guards.record :not_compliant, impls, file: caller.first
       return yield if WatirSpec.unguarded?
       yield unless WatirSpec.implementation.matches_guard?(impls)
     end
 
     def compliant_on(*impls)
-      Guards.record :compliant, impls, :file => caller.first
+      Guards.record :compliant, impls, file: caller.first
       return yield if WatirSpec.unguarded?
       yield if WatirSpec.implementation.matches_guard?(impls)
     end
 
     def bug(key, *impls)
-      Guards.record :bug, impls, :file => caller.first, :key => key
+      Guards.record :bug, impls, file: caller.first, key: key
       return yield if WatirSpec.unguarded?
       yield unless WatirSpec.implementation.matches_guard?(impls)
     end

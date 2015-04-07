@@ -10,7 +10,7 @@ describe "Divs" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.divs(:id => "header").to_a).to eq [browser.div(:id => "header")]
+        expect(browser.divs(id: "header").to_a).to eq [browser.div(id: "header")]
       end
     end
   end
@@ -32,8 +32,8 @@ describe "Divs" do
       count = 0
 
       browser.divs.each_with_index do |d, index|
-        expect(d.id).to eq browser.div(:index, index).id
-        expect(d.class_name).to eq browser.div(:index, index).class_name
+        expect(d.id).to eq browser.div(index: index).id
+        expect(d.class_name).to eq browser.div(index: index).class_name
 
         count += 1
       end

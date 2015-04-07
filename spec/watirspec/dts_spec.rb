@@ -10,7 +10,7 @@ describe "Dts" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.dts(:class => "current-industry").to_a).to eq [browser.dt(:class => "current-industry")]
+        expect(browser.dts(class: "current-industry").to_a).to eq [browser.dt(class: "current-industry")]
       end
     end
   end
@@ -32,8 +32,8 @@ describe "Dts" do
       count = 0
 
       browser.dts.each_with_index do |d, index|
-        expect(d.id).to eq browser.dt(:index, index).id
-        expect(d.class_name).to eq browser.dt(:index, index).class_name
+        expect(d.id).to eq browser.dt(index: index).id
+        expect(d.class_name).to eq browser.dt(index: index).class_name
 
         count += 1
       end

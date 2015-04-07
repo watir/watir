@@ -10,7 +10,7 @@ describe "Metas" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.metas(:name => "description").to_a).to eq [browser.meta(:name => "description")]
+        expect(browser.metas(name: "description").to_a).to eq [browser.meta(name: "description")]
       end
     end
   end
@@ -32,7 +32,7 @@ describe "Metas" do
       count = 0
 
       browser.metas.each_with_index do |m, index|
-        expect(m.content).to eq browser.meta(:index, index).content
+        expect(m.content).to eq browser.meta(index: index).content
         count += 1
       end
 

@@ -12,7 +12,7 @@ module WatirSpec
 
     module MessagesHelper
       def messages
-        browser.div(:id, 'messages').divs.map { |d| d.text }
+        browser.div(id: 'messages').divs.map(&:text)
       end
     end
 

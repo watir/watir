@@ -5,8 +5,8 @@ describe "Browser" do
 
   describe "#exists?" do
     after do
-      browser.window(:index, 0).use
-      browser.windows[1..-1].each { |win| win.close }
+      browser.window(index: 0).use
+      browser.windows[1..-1].each(&:close)
     end
 
     it "returns true if we are at a page" do
@@ -16,9 +16,9 @@ describe "Browser" do
 
     it "returns false if window is closed" do
       browser.goto WatirSpec.url_for("window_switching.html")
-      browser.a(:id => "open").click
+      browser.a(id: "open").click
       browser.window(title: "closeable window").use
-      browser.a(:id => "close").click
+      browser.a(id: "close").click
       expect(browser.exists?).to be false
     end
 
@@ -70,7 +70,7 @@ describe "Browser" do
     #
     # for IE9, this needs to be enabled in
     # View => Toolbars -> Status bar
-    not_compliant_on [:webdriver, :firefox], :internet_explorer9, :internet_explorer10 do
+    not_compliant_on %i(webdriver firefox), :internet_explorer9, :internet_explorer10 do
       it "returns the current value of window.status" do
         browser.goto(WatirSpec.url_for("non_control_elements.html"))
 
@@ -82,11 +82,11 @@ describe "Browser" do
 
   describe "#name" do
     it "returns browser name" do
-      not_compliant_on :watir_classic, [:webdriver, :phantomjs] do
+      not_compliant_on :watir_classic, %i(webdriver phantomjs) do
         expect(browser.name).to eq WatirSpec.implementation.browser_args[0]
       end
 
-      deviates_on [:webdriver, :phantomjs] do
+      deviates_on %i(webdriver phantomjs) do
         expect(browser.name).to be_an_instance_of(Symbol)
       end
 
@@ -104,52 +104,51 @@ describe "Browser" do
 
     it "returns the text also if the content-type is text/plain" do
       # more specs for text/plain? what happens if we call other methods?
-      browser.goto(WatirSpec.url_for("plain_text", :needs_server => true))
+      browser.goto(WatirSpec.url_for("plain_text", needs_server: true))
       expect(browser.text.strip).to eq 'This is text/plain'
     end
   end
 
   describe "#url" do
     it "returns the current url" do
-      browser.goto(WatirSpec.url_for("non_control_elements.html", :needs_server => true))
-      expect(browser.url).to eq WatirSpec.url_for("non_control_elements.html", :needs_server => true)
+      browser.goto(WatirSpec.url_for("non_control_elements.html", needs_server: true))
+      expect(browser.url).to eq WatirSpec.url_for("non_control_elements.html", needs_server: true)
     end
 
     it "always returns top url" do
-      browser.goto(WatirSpec.url_for("frames.html", :needs_server => true))
+      browser.goto(WatirSpec.url_for("frames.html", needs_server: true))
       browser.frame.body.exists? # switches to frame
-      expect(browser.url).to eq WatirSpec.url_for("frames.html", :needs_server => true)
+      expect(browser.url).to eq WatirSpec.url_for("frames.html", needs_server: true)
     end
   end
 
   describe "#title" do
     it "returns the current title" do
-      browser.goto(WatirSpec.url_for("non_control_elements.html", :needs_server => true))
+      browser.goto(WatirSpec.url_for("non_control_elements.html", needs_server: true))
       expect(browser.title).to eq "Non-control elements"
     end
 
     it "always returns top title" do
-      browser.goto(WatirSpec.url_for("frames.html", :needs_server => true))
-      title = browser.element(:tag_name => 'title').text
+      browser.goto(WatirSpec.url_for("frames.html", needs_server: true))
+      browser.element(tag_name: 'title').text
       browser.frame.body.exists? # switches to frame
       expect(browser.title).to eq "Frames"
     end
   end
 
   describe ".start" do
-    not_compliant_on(:webdriver, :safariwatir) {
+    not_compliant_on %i(webdriver, safariwatir) do
       it "goes to the given URL and return an instance of itself" do
-        url = WatirSpec.url_for("non_control_elements.html")
         browser = WatirSpec.implementation.browser_class.start(WatirSpec.url_for("non_control_elements.html"))
 
         expect(browser).to be_instance_of(WatirSpec.implementation.browser_class)
         expect(browser.title).to eq "Non-control elements"
         browser.close
       end
-    }
+    end
 
     # we need to specify what browser to use
-    deviates_on(:webdriver) {
+    deviates_on(:webdriver) do
       it "goes to the given URL and return an instance of itself" do
         driver, args = WatirSpec.implementation.browser_args
         browser = Watir::Browser.start(WatirSpec.url_for("non_control_elements.html"), driver, args)
@@ -158,11 +157,11 @@ describe "Browser" do
         expect(browser.title).to eq "Non-control elements"
         browser.close
       end
-    }
+    end
   end
 
   describe "#goto" do
-    not_compliant_on [:webdriver, :internet_explorer] do
+    not_compliant_on %i(webdriver internet_explorer) do
       it "adds http:// to URLs with no URL scheme specified" do
         url = WatirSpec.host[%r{http://(.*)}, 1]
         expect(url).to_not be_nil
@@ -180,7 +179,7 @@ describe "Browser" do
       expect { browser.goto("about:blank") }.to_not raise_error
     end
 
-    not_compliant_on :internet_explorer, [:webdriver, :safari] do
+    not_compliant_on :internet_explorer, %i(webdriver safari) do
       it "goes to a data URL scheme address without raising errors" do
         expect { browser.goto("data:text/html;content-type=utf-8,foobar") }.to_not raise_error
       end
@@ -214,10 +213,10 @@ describe "Browser" do
   describe "#refresh" do
     it "refreshes the page" do
       browser.goto(WatirSpec.url_for("non_control_elements.html"))
-      browser.span(:class, 'footer').click
-      expect(browser.span(:class, 'footer').text).to include('Javascript')
+      browser.span(class: 'footer').click
+      expect(browser.span(class: 'footer').text).to include('Javascript')
       browser.refresh
-      expect(browser.span(:class, 'footer').text).to_not include('Javascript')
+      expect(browser.span(class: 'footer').text).to_not include('Javascript')
     end
   end
 
@@ -225,9 +224,9 @@ describe "Browser" do
     before { browser.goto(WatirSpec.url_for("non_control_elements.html")) }
 
     it "executes the given JavaScript on the current page" do
-      expect(browser.pre(:id, 'rspec').text).to_not eq "javascript text"
+      expect(browser.pre(id: 'rspec').text).to_not eq "javascript text"
       browser.execute_script("document.getElementById('rspec').innerHTML = 'javascript text'")
-      expect(browser.pre(:id, 'rspec').text).to eq "javascript text"
+      expect(browser.pre(id: 'rspec').text).to eq "javascript text"
     end
 
     it "executes the given JavaScript in the context of an anonymous function" do
@@ -261,9 +260,9 @@ describe "Browser" do
 
   describe "#back and #forward" do
     it "goes to the previous page" do
-      browser.goto WatirSpec.url_for("non_control_elements.html", :needs_server => true)
+      browser.goto WatirSpec.url_for("non_control_elements.html", needs_server: true)
       orig_url = browser.url
-      browser.goto(WatirSpec.url_for("tables.html", :needs_server => true))
+      browser.goto(WatirSpec.url_for("tables.html", needs_server: true))
       new_url = browser.url
       expect(orig_url).to_not eq new_url
       browser.back
@@ -272,9 +271,9 @@ describe "Browser" do
 
     it "goes to the next page" do
       urls = []
-      browser.goto WatirSpec.url_for("non_control_elements.html", :needs_server => true)
+      browser.goto WatirSpec.url_for("non_control_elements.html", needs_server: true)
       urls << browser.url
-      browser.goto WatirSpec.url_for("tables.html", :needs_server => true)
+      browser.goto WatirSpec.url_for("tables.html", needs_server: true)
       urls << browser.url
 
       browser.back
@@ -289,7 +288,7 @@ describe "Browser" do
                "forms_with_input_elements.html",
                "definition_lists.html"
       ].map do |page|
-        browser.goto WatirSpec.url_for(page, :needs_server => true)
+        browser.goto WatirSpec.url_for(page, needs_server: true)
         browser.url
       end
 
@@ -337,7 +336,7 @@ describe "Browser" do
 
   describe "#run_checkers" do
     after(:each) do
-      browser.window(:index, 0).use
+      browser.window(index: 0).use
       browser.alert.close if browser.alert.exists?
       browser.disable_checker @page_checker
     end
@@ -361,16 +360,16 @@ describe "Browser" do
       browser.goto(WatirSpec.url_for("non_control_elements.html"))
       @page_checker = Proc.new { @yeild = browser.title == "Non-control elements" }
       browser.add_checker @page_checker
-      browser.link(:index, 1).click
+      browser.link(index: 1).click
       expect(@yeild).to be true
     end
 
-    not_compliant_on [:webdriver, :iphone] do
+    not_compliant_on %i(webdriver iphone) do
       it "runs checkers after Element#double_click" do
         browser.goto(WatirSpec.url_for("non_control_elements.html"))
         @page_checker = Proc.new { @yeild = browser.title == "Non-control elements" }
         browser.add_checker @page_checker
-        browser.div(:id, 'html_test').double_click
+        browser.div(id: 'html_test').double_click
         expect(@yeild).to be true
       end
     end
@@ -379,7 +378,7 @@ describe "Browser" do
       browser.goto(WatirSpec.url_for("right_click.html"))
       @page_checker = Proc.new { @yeild = browser.title == "Right Click Test" }
       browser.add_checker @page_checker
-      browser.div(:id, "click").right_click
+      browser.div(id: "click").right_click
       expect(@yeild).to be true
     end
 
@@ -388,7 +387,7 @@ describe "Browser" do
       @page_checker = Proc.new { browser.url }
       browser.add_checker @page_checker
       browser.goto url
-      expect { browser.button(:id => "alert").click }.to raise_error(Selenium::WebDriver::Error::UnhandledAlertError)
+      expect { browser.button(id: "alert").click }.to raise_error(Selenium::WebDriver::Error::UnhandledAlertError)
     end
 
     it "does not raise error when running error checks using #without_checkers with alert present" do
@@ -396,7 +395,7 @@ describe "Browser" do
       @page_checker = Proc.new { browser.url }
       browser.add_checker @page_checker
       browser.goto url
-      expect { browser.without_checkers {browser.button(:id => "alert").click} }.to_not raise_error
+      expect { browser.without_checkers {browser.button(id: "alert").click} }.to_not raise_error
     end
 
     it "does not raise error if no error checks are defined with alert present" do
@@ -405,7 +404,7 @@ describe "Browser" do
       browser.add_checker @page_checker
       browser.goto url
       browser.disable_checker @page_checker
-      expect { browser.button(:id => "alert").click }.to_not raise_error
+      expect { browser.button(id: "alert").click }.to_not raise_error
       browser.alert.close
     end
 
@@ -414,18 +413,18 @@ describe "Browser" do
       @page_checker = Proc.new { browser.url }
       browser.add_checker @page_checker
       browser.goto url
-      browser.a(:id => "open").click
+      browser.a(id: "open").click
 
-      window = browser.window(:title => "closeable window")
+      window = browser.window(title: "closeable window")
       window.use
-      expect { browser.a(:id => "close").click }.to_not raise_error
-      browser.window(:index, 0).use
+      expect { browser.a(id: "close").click }.to_not raise_error
+      browser.window(index: 0).use
     end
   end
 
   it "raises UnknownObjectException when trying to access DOM elements on plain/text-page" do
-    browser.goto(WatirSpec.url_for("plain_text", :needs_server => true))
-    expect { browser.div(:id, 'foo').id }.to raise_error(Watir::Exception::UnknownObjectException)
+    browser.goto(WatirSpec.url_for("plain_text", needs_server: true))
+    expect { browser.div(id: 'foo').id }.to raise_error(Watir::Exception::UnknownObjectException)
   end
 
 end

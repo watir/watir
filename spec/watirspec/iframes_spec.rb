@@ -10,14 +10,14 @@ describe "IFrames" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.iframes(:id => "iframe_2").to_a).to eq [browser.iframe(:id => "iframe_2")]
+        expect(browser.iframes(id: "iframe_2").to_a).to eq [browser.iframe(id: "iframe_2")]
       end
     end
   end
 
   describe "eql?" do
     it "matches equality of iframe with that from a collection" do
-      expect(browser.iframes.last).to eq browser.iframe(:id => "iframe_2")
+      expect(browser.iframes.last).to eq browser.iframe(id: "iframe_2")
     end
 
   end
@@ -39,8 +39,8 @@ describe "IFrames" do
       count = 0
 
       browser.iframes.each_with_index do |f, index|
-        expect(f.name).to eq browser.iframe(:index, index).name
-        expect(f.id).to eq browser.iframe(:index, index).id
+        expect(f.name).to eq browser.iframe(index: index).name
+        expect(f.id).to eq browser.iframe(index: index).id
         count += 1
       end
 

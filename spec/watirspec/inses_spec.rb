@@ -10,7 +10,7 @@ describe "Inses" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.inses(:class => "lead").to_a).to eq [browser.ins(:class => "lead")]
+        expect(browser.inses(class: "lead").to_a).to eq [browser.ins(class: "lead")]
       end
     end
   end
@@ -32,7 +32,7 @@ describe "Inses" do
       count = 0
 
       browser.inses.each_with_index do |s, index|
-        expect(s.id).to eq browser.ins(:index, index).id
+        expect(s.id).to eq browser.ins(index: index).id
         count += 1
       end
 

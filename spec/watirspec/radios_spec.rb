@@ -10,7 +10,7 @@ describe "Radios" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.radios(:value => "yes").to_a).to eq [browser.radio(:value => "yes")]
+        expect(browser.radios(value: "yes").to_a).to eq [browser.radio(value: "yes")]
       end
     end
   end
@@ -32,9 +32,9 @@ describe "Radios" do
       count = 0
 
       browser.radios.each_with_index do |r, index|
-        expect(r.name).to eq browser.radio(:index, index).name
-        expect(r.id).to eq  browser.radio(:index, index).id
-        expect(r.value).to eq browser.radio(:index, index).value
+        expect(r.name).to eq browser.radio(index: index).name
+        expect(r.id).to eq  browser.radio(index: index).id
+        expect(r.value).to eq browser.radio(index: index).value
 
         count += 1
       end

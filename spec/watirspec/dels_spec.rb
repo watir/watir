@@ -10,7 +10,7 @@ describe "Dels" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.dels(:class => "lead").to_a).to eq [browser.del(:class => "lead")]
+        expect(browser.dels(class: "lead").to_a).to eq [browser.del(class: "lead")]
       end
     end
   end
@@ -32,7 +32,7 @@ describe "Dels" do
       count = 0
 
       browser.dels.each_with_index do |s, index|
-        expect(s.id).to eq browser.del(:index, index).id
+        expect(s.id).to eq browser.del(index: index).id
         count += 1
       end
 

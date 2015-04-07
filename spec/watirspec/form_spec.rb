@@ -9,23 +9,23 @@ describe "Form" do
 
   describe "#exists?" do
     it "returns true if the form exists" do
-      expect(browser.form(:id, 'new_user')).to exist
-      expect(browser.form(:id, /new_user/)).to exist
+      expect(browser.form(id: 'new_user')).to exist
+      expect(browser.form(id: /new_user/)).to exist
 
-      expect(browser.form(:class, 'user')).to exist
-      expect(browser.form(:class, /user/)).to exist
+      expect(browser.form(class: 'user')).to exist
+      expect(browser.form(class: /user/)).to exist
 
-      expect(browser.form(:method, 'post')).to exist
-      expect(browser.form(:method, /post/)).to exist
+      expect(browser.form(method: 'post')).to exist
+      expect(browser.form(method: /post/)).to exist
       deviates_on :internet_explorer8 do
-        expect(browser.form(:action, 'post_to_me')).to exist
+        expect(browser.form(action: 'post_to_me')).to exist
       end
       deviates_on :internet_explorer9 do
-        expect(browser.form(:action, /post_to_me/)).to exist
+        expect(browser.form(action: /post_to_me/)).to exist
       end
-      expect(browser.form(:action, /to_me/)).to exist
-      expect(browser.form(:index, 0)).to exist
-      expect(browser.form(:xpath, "//form[@id='new_user']")).to exist
+      expect(browser.form(action: /to_me/)).to exist
+      expect(browser.form(index: 0)).to exist
+      expect(browser.form(xpath: "//form[@id='new_user']")).to exist
     end
 
     it "returns the first form if given no args" do
@@ -33,38 +33,38 @@ describe "Form" do
     end
 
     it "returns false if the form doesn't exist" do
-      expect(browser.form(:id, 'no_such_id')).to_not exist
-      expect(browser.form(:id, /no_such_id/)).to_not exist
+      expect(browser.form(id: 'no_such_id')).to_not exist
+      expect(browser.form(id: /no_such_id/)).to_not exist
 
-      expect(browser.form(:class, 'no_such_class')).to_not exist
-      expect(browser.form(:class, /no_such_class/)).to_not exist
+      expect(browser.form(class: 'no_such_class')).to_not exist
+      expect(browser.form(class: /no_such_class/)).to_not exist
 
-      expect(browser.form(:method, 'no_such_method')).to_not exist
-      expect(browser.form(:method, /no_such_method/)).to_not exist
-      expect(browser.form(:action, 'no_such_action')).to_not exist
-      expect(browser.form(:action, /no_such_action/)).to_not exist
-      expect(browser.form(:index, 1337)).to_not exist
-      expect(browser.form(:xpath, "//form[@id='no_such_id']")).to_not exist
+      expect(browser.form(method: 'no_such_method')).to_not exist
+      expect(browser.form(method: /no_such_method/)).to_not exist
+      expect(browser.form(action: 'no_such_action')).to_not exist
+      expect(browser.form(action: /no_such_action/)).to_not exist
+      expect(browser.form(index: 1337)).to_not exist
+      expect(browser.form(xpath: "//form[@id='no_such_id']")).to_not exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do
-      expect { browser.form(:id, 3.14).exists? }.to raise_error(TypeError)
+      expect { browser.form(id: 3.14).exists? }.to raise_error(TypeError)
     end
 
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-      expect { browser.form(:no_such_how, 'some_value').exists? }.to raise_error(Watir::Exception::MissingWayOfFindingObjectException)
+      expect { browser.form(no_such_how: 'some_value').exists? }.to raise_error(Watir::Exception::MissingWayOfFindingObjectException)
     end
   end
 
   describe "#submit" do
     not_compliant_on :celerity do
       it "submits the form" do
-        browser.form(:id, "delete_user").submit
+        browser.form(id: "delete_user").submit
         expect(browser.text).to include("Semantic table")
       end
 
       it "triggers onsubmit event and takes its result into account" do
-        form = browser.form(:name, "user_new")
+        form = browser.form(name: "user_new")
         form.submit
         expect(form).to exist
         expect(messages.size).to eq 1

@@ -10,7 +10,7 @@ describe "Hiddens" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.hiddens(:value => "dolls").to_a).to eq [browser.hidden(:value => "dolls")]
+        expect(browser.hiddens(value: "dolls").to_a).to eq [browser.hidden(value: "dolls")]
       end
     end
   end
@@ -32,9 +32,9 @@ describe "Hiddens" do
       count = 0
 
       browser.hiddens.each_with_index do |h, index|
-        expect(h.name).to eq browser.hidden(:index, index).name
-        expect(h.id).to eq browser.hidden(:index, index).id
-        expect(h.value).to eq browser.hidden(:index, index).value
+        expect(h.name).to eq browser.hidden(index: index).name
+        expect(h.id).to eq browser.hidden(index: index).id
+        expect(h.value).to eq browser.hidden(index: index).value
 
         count += 1
       end

@@ -6,22 +6,22 @@ describe "Font" do
   before :each do
     browser.goto(WatirSpec.url_for("font.html"))
   end
-  
+
   bug "http://github.com/jarib/celerity/issues#issue/29", :celerity do
     it "finds the font element" do
-      expect(browser.font(:index, 0)).to exist
+      expect(browser.font(index: 0)).to exist
     end
 
     it "knows about the color attribute" do
-      expect(browser.font(:index, 0).color).to eq "#ff00ff"
+      expect(browser.font(index: 0).color).to eq "#ff00ff"
     end
 
     it "knows about the face attribute" do
-      expect(browser.font(:index, 0).face).to eq "Helvetica"
+      expect(browser.font(index: 0).face).to eq "Helvetica"
     end
 
     it "knows about the size attribute" do
-      expect(browser.font(:index, 0).size).to eq "12"
+      expect(browser.font(index: 0).size).to eq "12"
     end
 
     it "finds all font elements" do

@@ -10,23 +10,23 @@ describe "TableCells" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.tds(:headers => "before_tax").to_a).to eq [browser.td(:headers => "before_tax")]
+        expect(browser.tds(headers: "before_tax").to_a).to eq [browser.td(headers: "before_tax")]
       end
     end
   end
 
   #  describe "#length" do
   #    it "returns the number of cells" do
-  #      browser.table(:id, 'outer').cells.length.to eq 6
-  #      browser.table(:id, 'inner').cells.length.to eq 2
+  #      browser.table(id: 'outer').cells.length.to eq 6
+  #      browser.table(id: 'inner').cells.length.to eq 2
   #    end
   #  end
   #
   #  describe "#[]" do
   #    it "returns the row at the given index" do
-  #      browser.table(:id, 'outer').cells[0].text.to eq "Table 1, Row 1, Cell 1"
-  #      browser.table(:id, 'inner').cells[0].text.to eq "Table 2, Row 1, Cell 1"
-  #      browser.table(:id, 'outer').cells[6].text.to eq "Table 1, Row 3, Cell 2"
+  #      browser.table(id: 'outer').cells[0].text.to eq "Table 1, Row 1, Cell 1"
+  #      browser.table(id: 'inner').cells[0].text.to eq "Table 2, Row 1, Cell 1"
+  #      browser.table(id: 'outer').cells[6].text.to eq "Table 1, Row 3, Cell 2"
   #    end
   #  end
 
@@ -35,7 +35,7 @@ describe "TableCells" do
       count = 0
 
       browser.tds.each_with_index do |c, index|
-        expect(c.id).to eq browser.td(:index, index).id
+        expect(c.id).to eq browser.td(index: index).id
         count += 1
       end
 
@@ -45,9 +45,9 @@ describe "TableCells" do
     it "iterates through cells inside a table" do
       count = 0
 
-      inner_table = browser.table(:id, 'inner')
+      inner_table = browser.table(id: 'inner')
       inner_table.tds.each_with_index do |c, index|
-        expect(c.id).to eq inner_table.td(:index, index).id
+        expect(c.id).to eq inner_table.td(index: index).id
         count += 1
       end
     end

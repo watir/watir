@@ -10,7 +10,7 @@ describe "Dls" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.dls(:title => "experience").to_a).to eq [browser.dl(:title => "experience")]
+        expect(browser.dls(title: "experience").to_a).to eq [browser.dl(title: "experience")]
       end
     end
   end
@@ -32,9 +32,9 @@ describe "Dls" do
       count = 0
 
       browser.dls.each_with_index do |d, index|
-        expect(d.text).to eq browser.dl(:index, index).text
-        expect(d.id).to eq browser.dl(:index, index).id
-        expect(d.class_name).to eq browser.dl(:index, index).class_name
+        expect(d.text).to eq browser.dl(index: index).text
+        expect(d.id).to eq browser.dl(index: index).id
+        expect(d.class_name).to eq browser.dl(index: index).class_name
 
         count += 1
       end

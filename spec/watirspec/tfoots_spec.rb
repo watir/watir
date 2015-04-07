@@ -9,7 +9,7 @@ describe "TableFooters" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.tfoots(:id => "tax_totals").to_a).to eq [browser.tfoot(:id => "tax_totals")]
+        expect(browser.tfoots(id: "tax_totals").to_a).to eq [browser.tfoot(id: "tax_totals")]
       end
     end
   end
@@ -20,7 +20,7 @@ describe "TableFooters" do
     end
 
     it "returns the correct number of table tfoots (table context)" do
-      expect(browser.table(:index, 0).tfoots.length).to eq 1
+      expect(browser.table(index: 0).tfoots.length).to eq 1
     end
   end
 
@@ -30,14 +30,14 @@ describe "TableFooters" do
     end
 
     it "returns the row at the given index (table context)" do
-      expect(browser.table(:index, 0).tfoots[0].id).to eq "tax_totals"
+      expect(browser.table(index: 0).tfoots[0].id).to eq "tax_totals"
     end
   end
 
   describe "#each" do
     it "iterates through table tfoots correctly (page context)" do
       browser.tfoots.each_with_index do |tfoot, index|
-        expect(tfoot.id).to eq browser.tfoot(:index, index).id
+        expect(tfoot.id).to eq browser.tfoot(index: index).id
       end
     end
 
@@ -46,7 +46,7 @@ describe "TableFooters" do
         count = 0
 
         browser.tfoots.each_with_index do |tfoot, index|
-          expect(tfoot.id).to eq browser.tfoot(:index, index).id
+          expect(tfoot.id).to eq browser.tfoot(index: index).id
 
           count += 1
         end
@@ -55,11 +55,11 @@ describe "TableFooters" do
       end
 
       it "iterates through table tfoots correctly (table context)" do
-        table = browser.table(:index, 0)
+        table = browser.table(index: 0)
         count = 0
 
         table.tfoots.each_with_index do |tfoot, index|
-          expect(tfoot.id).to eq table.tfoot(:index, index).id
+          expect(tfoot.id).to eq table.tfoot(index: index).id
 
           count += 1
         end

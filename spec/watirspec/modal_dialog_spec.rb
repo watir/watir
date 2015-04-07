@@ -6,7 +6,7 @@ describe "Modal Dialog" do
   not_compliant_on :webdriver do
     before :each do
       browser.goto(WatirSpec.url_for("modal_dialog.html"))
-      browser.button(:value, 'Launch Dialog').click_no_wait
+      browser.button(value: 'Launch Dialog').click_no_wait
       @modal = browser.modal_dialog
       # make sure that modal dialog exists
       @modal.locate
@@ -32,15 +32,15 @@ describe "Modal Dialog" do
     end
 
     it "allows to access elements within" do
-      expect(@modal.select_list(:id, 'new_user_country')).to exist
-      expect(@modal.text_field(:id, 'new_user_email')).to exist
-      expect(@modal.radio(:id, 'new_user_newsletter_no')).to exist
-      expect(@modal.checkbox(:id, 'new_user_interests_cars')).to exist
+      expect(@modal.select_list(id: 'new_user_country')).to exist
+      expect(@modal.text_field(id: 'new_user_email')).to exist
+      expect(@modal.radio(id: 'new_user_newsletter_no')).to exist
+      expect(@modal.checkbox(id: 'new_user_interests_cars')).to exist
     end
 
     it "allows to interact with elements within" do
-      @modal.select_list(:id, 'new_user_country').select "Sweden"
-      expect(@modal.select_list(:id, 'new_user_country')).to be_selected("Sweden")
+      @modal.select_list(id: 'new_user_country').select "Sweden"
+      expect(@modal.select_list(id: 'new_user_country')).to be_selected("Sweden")
     end
   end
 

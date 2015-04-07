@@ -10,7 +10,7 @@ describe "Spans" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.spans(:class => "footer").to_a).to eq [browser.span(:class => "footer")]
+        expect(browser.spans(class: "footer").to_a).to eq [browser.span(class: "footer")]
       end
     end
   end
@@ -32,7 +32,7 @@ describe "Spans" do
       count = 0
 
       browser.spans.each_with_index do |s, index|
-        expect(s.id).to eq browser.span(:index, index).id
+        expect(s.id).to eq browser.span(index: index).id
         count += 1
       end
 

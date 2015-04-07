@@ -10,7 +10,7 @@ describe "Uls" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.uls(:class => "navigation").to_a).to eq [browser.ul(:class => "navigation")]
+        expect(browser.uls(class: "navigation").to_a).to eq [browser.ul(class: "navigation")]
       end
     end
   end
@@ -32,7 +32,7 @@ describe "Uls" do
       count = 0
 
       browser.uls.each_with_index do |ul, index|
-        expect(ul.id).to eq browser.ul(:index, index).id
+        expect(ul.id).to eq browser.ul(index: index).id
         count += 1
       end
 

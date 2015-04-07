@@ -10,7 +10,7 @@ describe "Dds" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.dds(:text => "11 years").to_a).to eq [browser.dd(:text => "11 years")]
+        expect(browser.dds(text: "11 years").to_a).to eq [browser.dd(text: "11 years")]
       end
     end
   end
@@ -32,8 +32,8 @@ describe "Dds" do
       count = 0
 
       browser.dds.each_with_index do |d, index|
-        expect(d.id).to eq browser.dd(:index, index).id
-        expect(d.class_name).to eq browser.dd(:index, index).class_name
+        expect(d.id).to eq browser.dd(index: index).id
+        expect(d.class_name).to eq browser.dd(index: index).class_name
 
         count += 1
       end

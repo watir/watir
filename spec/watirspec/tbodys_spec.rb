@@ -10,7 +10,7 @@ describe "TableBodies" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.tbodys(:id => "first").to_a).to eq [browser.tbody(:id => "first")]
+        expect(browser.tbodys(id: "first").to_a).to eq [browser.tbody(id: "first")]
       end
     end
   end
@@ -21,7 +21,7 @@ describe "TableBodies" do
     end
 
     it "returns the correct number of table bodies (table context)" do
-      expect(browser.table(:index, 0).tbodys.length).to eq 2
+      expect(browser.table(index: 0).tbodys.length).to eq 2
     end
   end
 
@@ -31,7 +31,7 @@ describe "TableBodies" do
     end
 
     it "returns the row at the given index (table context)" do
-      expect(browser.table(:index, 0).tbodys[0].id).to eq "first"
+      expect(browser.table(index: 0).tbodys[0].id).to eq "first"
     end
   end
 
@@ -40,7 +40,7 @@ describe "TableBodies" do
       count = 0
 
       browser.tbodys.each_with_index do |body, index|
-        expect(body.id).to eq browser.tbody(:index, index).id
+        expect(body.id).to eq browser.tbody(index: index).id
 
         count += 1
       end
@@ -49,11 +49,11 @@ describe "TableBodies" do
     end
 
     it "iterates through table bodies correctly (table context)" do
-      table = browser.table(:index, 0)
+      table = browser.table(index: 0)
       count = 0
 
       table.tbodys.each_with_index do |body, index|
-        expect(body.id).to eq table.tbody(:index, index).id
+        expect(body.id).to eq table.tbody(index: index).id
 
         count += 1
       end

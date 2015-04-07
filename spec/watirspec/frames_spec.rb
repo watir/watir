@@ -10,7 +10,7 @@ describe "Frames" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.frames(:name => "frame2").to_a).to eq [browser.frame(:name => "frame2")]
+        expect(browser.frames(name: "frame2").to_a).to eq [browser.frame(name: "frame2")]
       end
     end
   end
@@ -32,8 +32,8 @@ describe "Frames" do
       count = 0
 
       browser.frames.each_with_index do |f, index|
-        expect(f.name).to eq browser.frame(:index, index).name
-        expect(f.id).to eq browser.frame(:index, index).id
+        expect(f.name).to eq browser.frame(index: index).name
+        expect(f.id).to eq browser.frame(index: index).id
         count += 1
       end
 

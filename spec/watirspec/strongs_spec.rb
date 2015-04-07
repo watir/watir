@@ -10,7 +10,7 @@ describe "Strongs" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.strongs(:class => "descartes").to_a).to eq [browser.strong(:class => "descartes")]
+        expect(browser.strongs(class: "descartes").to_a).to eq [browser.strong(class: "descartes")]
       end
     end
   end
@@ -32,7 +32,7 @@ describe "Strongs" do
       count = 0
 
       browser.strongs.each_with_index do |s, index|
-        strong = browser.strong(:index, index)
+        strong = browser.strong(index: index)
         expect(s.id).to         eq strong.id
         expect(s.class_name).to eq strong.class_name
 
