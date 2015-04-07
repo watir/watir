@@ -10,7 +10,7 @@ describe Watir::Element do
     let(:log)     { browser.element(:id => "log").ps.map { |e| e.text } }
 
     # TODO: make guards more flexible, in reality this currently only works on linux with native events
-    compliant_on [:webdriver, :firefox, :native_events] do
+    compliant_on %i(webdriver firefox native_events) do
       it "should perform a click with no modifier keys" do
         clicker.click
         expect(log).to eq ["shift=false alt=false"]

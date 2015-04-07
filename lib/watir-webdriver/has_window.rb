@@ -40,7 +40,7 @@ module Watir
     private
 
     def filter_windows(selector, windows)
-      unless selector.keys.all? { |k| [:title, :url].include? k }
+      unless selector.keys.all? { |k| %i(title url).include? k }
         raise ArgumentError, "invalid window selector: #{selector.inspect}"
       end
 
