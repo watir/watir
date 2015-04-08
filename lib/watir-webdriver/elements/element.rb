@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 module Watir
 
   #
@@ -49,8 +47,8 @@ module Watir
     alias_method :exist?, :exists?
 
     def inspect
-      if @selector.has_key?(:element)
-        '#<%s:0x%x located=%s selector=%s>' % [self.class, hash*2, !!@element, '{:element=>(webdriver element)}']
+      if @selector.key?(:element)
+        '#<%s:0x%x located=%s selector=%s>' % [self.class, hash*2, !!@element, '{element: (webdriver element)}']
       else
         '#<%s:0x%x located=%s selector=%s>' % [self.class, hash*2, !!@element, selector_string]
       end
@@ -60,12 +58,12 @@ module Watir
     # Returns true if two elements are equal.
     #
     # @example
-    #   browser.text_field(:name => "new_user_first_name") == browser.text_field(:name => "new_user_first_name")
+    #   browser.text_field(name: "new_user_first_name") == browser.text_field(name: "new_user_first_name")
     #   #=> true
     #
 
     def ==(other)
-      other.kind_of?(self.class) && wd == other.wd
+      other.is_a?(self.class) && wd == other.wd
     end
     alias_method :eql?, :==
 
@@ -101,15 +99,15 @@ module Watir
     # and may not work at all.
     #
     # @example Click an element
-    #   browser.element(:name => "new_user_button").click
+    #   browser.element(name: "new_user_button").click
     #
     # @example Click an element with shift key pressed
-    #   browser.element(:name => "new_user_button").click(:shift)
+    #   browser.element(name: "new_user_button").click(:shift)
     #
     # @example Click an element with several modifier keys pressed
-    #   browser.element(:name => "new_user_button").click(:shift, :control)
+    #   browser.element(name: "new_user_button").click(:shift, :control)
     #
-    # @param [:shift, :alt, :control, :command, :meta] Modifier key(s) to press while clicking.
+    # @param %i(shift alt control command meta) Modifier key(s) to press while clicking.
     #
 
     def click(*modifiers)
@@ -139,7 +137,7 @@ module Watir
     # Note that browser support may vary.
     #
     # @example
-    #   browser.element(:name => "new_user_button").double_click
+    #   browser.element(name: "new_user_button").double_click
     #
 
     def double_click
@@ -155,7 +153,7 @@ module Watir
     # Note that browser support may vary.
     #
     # @example
-    #   browser.element(:name => "new_user_button").right_click
+    #   browser.element(name: "new_user_button").right_click
     #
 
     def right_click
@@ -171,7 +169,7 @@ module Watir
     # Note that browser support may vary.
     #
     # @example
-    #   browser.element(:name => "new_user_button").hover
+    #   browser.element(name: "new_user_button").hover
     #
 
     def hover
@@ -186,8 +184,8 @@ module Watir
     # Note that browser support may vary.
     #
     # @example
-    #   a = browser.div(:id => "draggable")
-    #   b = browser.div(:id => "droppable")
+    #   a = browser.div(id: "draggable")
+    #   b = browser.div(id: "droppable")
     #   a.drag_and_drop_on b
     #
 
@@ -208,7 +206,7 @@ module Watir
     # Note that browser support may vary.
     #
     # @example
-    #   browser.div(:id => "draggable").drag_and_drop_by 100, -200
+    #   browser.div(id: "draggable").drag_and_drop_by 100, -200
     #
     # @param [Fixnum] right_by
     # @param [Fixnum] down_by
@@ -229,7 +227,7 @@ module Watir
     # Flashes (change background color far a moment) element.
     #
     # @example
-    #   browser.text_field(:name => "new_user_first_name").flash
+    #   browser.text_field(name: "new_user_first_name").flash
     #
 
     def flash
@@ -262,7 +260,7 @@ module Watir
     # Returns given attribute value of element.
     #
     # @example
-    #   browser.a(:id => "link_2").attribute_value "title"
+    #   browser.a(id: "link_2").attribute_value "title"
     #   #=> "link_title_2"
     #
     # @param [String] attribute_name
@@ -278,7 +276,7 @@ module Watir
     # Returns outer (inner + element itself) HTML code of element.
     #
     # @example
-    #   browser.div(:id => 'foo').outer_html
+    #   browser.div(id: 'foo').outer_html
     #   #=> "<div id=\"foo\"><a href=\"#\">hello</a></div>"
     #
     # @return [String]
@@ -295,7 +293,7 @@ module Watir
     # Returns inner HTML code of element.
     #
     # @example
-    #   browser.div(:id => 'foo').inner_html
+    #   browser.div(id: 'foo').inner_html
     #   #=> "<a href=\"#\">hello</a>"
     #
     # @return [String]
@@ -310,7 +308,7 @@ module Watir
     # Sends sequence of keystrokes to element.
     #
     # @example
-    #   browser.text_field(:name => "new_user_first_name").send_keys "Watir", :return
+    #   browser.text_field(name: "new_user_first_name").send_keys "Watir", :return
     #
     # @param [String, Symbol] *args
     #
@@ -349,9 +347,9 @@ module Watir
     # Note that you may omit "on" from event name.
     #
     # @example
-    #   browser.button(:name => "new_user_button").fire_event :click
-    #   browser.button(:name => "new_user_button").fire_event "mousemove"
-    #   browser.button(:name => "new_user_button").fire_event "onmouseover"
+    #   browser.button(name: "new_user_button").fire_event :click
+    #   browser.button(name: "new_user_button").fire_event "mousemove"
+    #   browser.button(name: "new_user_button").fire_event "onmouseover"
     #
     # @param [String, Symbol] event_name
     #
@@ -373,7 +371,7 @@ module Watir
       e = element_call { execute_atom :getParentElement, @element }
 
       if e.kind_of?(Selenium::WebDriver::Element)
-        Watir.element_class_for(e.tag_name.downcase).new(@parent, :element => e)
+        Watir.element_class_for(e.tag_name.downcase).new(@parent, element: e)
       end
     end
 
@@ -424,8 +422,8 @@ module Watir
     # Returns given style property of this element.
     #
     # @example
-    #   browser.button(:value => "Delete").style           #=> "border: 4px solid red;"
-    #   browser.button(:value => "Delete").style("border") #=> "4px solid red"
+    #   browser.button(value: "Delete").style           #=> "border: 4px solid red;"
+    #   browser.button(value: "Delete").style("border") #=> "4px solid red"
     #
     # @param [String] property
     # @return [String]
@@ -452,7 +450,7 @@ module Watir
     # Cast this Element instance to a more specific subtype.
     #
     # @example
-    #   browser.element(:xpath => "//input[@type='submit']").to_subtype
+    #   browser.element(xpath: "//input[@type='submit']").to_subtype
     #   #=> #<Watir::Button>
     #
 
@@ -479,7 +477,7 @@ module Watir
         klass = Watir.element_class_for(tag_name)
       end
 
-      klass.new(@parent, :element => elem)
+      klass.new(@parent, element: elem)
     end
 
     #

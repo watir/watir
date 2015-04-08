@@ -1,4 +1,3 @@
-# encoding: utf-8
 module Watir
   class Radio < Input
 
@@ -25,11 +24,11 @@ module Watir
 
   module Container
     def radio(*args)
-      Radio.new(self, extract_selector(args).merge(:tag_name => "input", :type => "radio"))
+      Radio.new(self, extract_selector(args).merge(tag_name: "input", type: "radio"))
     end
 
     def radios(*args)
-      RadioCollection.new(self, extract_selector(args).merge(:tag_name => "input", :type => "radio" ))
+      RadioCollection.new(self, extract_selector(args).merge(tag_name: "input", type: "radio" ))
     end
   end # Container
 

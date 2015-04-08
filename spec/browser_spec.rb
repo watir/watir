@@ -51,12 +51,12 @@ describe Watir::Browser do
       browser.goto WatirSpec.url_for "forms_with_input_elements.html"
 
       browser.send_keys "hello"
-      expect(browser.text_field(:id => "new_user_first_name").value).to eq "hello"
+      expect(browser.text_field(id: "new_user_first_name").value).to eq "hello"
     end
 
     it "sends keys to a frame" do
       browser.goto WatirSpec.url_for "frames.html"
-      tf = browser.frame.text_field(:id => "senderElement")
+      tf = browser.frame.text_field(id: "senderElement")
       tf.clear
 
       browser.frame.send_keys "hello"
@@ -70,7 +70,7 @@ describe Watir::Browser do
     b.goto WatirSpec.url_for "definition_lists.html"
     b.close
 
-    expect { b.dl(:id => "experience-list").id }.to raise_error(Watir::Exception::Error, "browser was closed")
+    expect { b.dl(id: "experience-list").id }.to raise_error(Watir::Exception::Error, "browser was closed")
   end
 
   describe "#wait_while" do

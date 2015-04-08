@@ -8,10 +8,10 @@ module Watir
 
       if selector.empty?
         @handle = current_window
-      elsif selector.has_key? :handle
+      elsif selector.key? :handle
         @handle = selector.delete :handle
       else
-        unless selector.keys.all? { |k| [:title, :url, :index].include? k }
+        unless selector.keys.all? { |k| %i(title url index).include? k }
           raise ArgumentError, "invalid window selector: #{selector.inspect}"
         end
       end
@@ -116,7 +116,7 @@ module Watir
     # Returns true if two windows are equal.
     #
     # @example
-    #   browser.window(:index => 0) == browser.window(:index => 1)
+    #   browser.window(index: 0) == browser.window(index: 1)
     #   #=> false
     #
     # @param [Window] other
@@ -183,8 +183,8 @@ module Watir
     # Switches to given window and executes block, then switches back.
     #
     # @example
-    #   browser.window(:title => "closeable window").use do
-    #     browser.a(:id => "close").click
+    #   browser.window(title: "closeable window").use do
+    #     browser.a(id: "close").click
     #   end
     #
 
@@ -210,7 +210,7 @@ module Watir
     def locate
       if @selector.empty?
         nil
-      elsif @selector.has_key?(:index)
+      elsif @selector.key?(:index)
         @driver.window_handles[Integer(@selector[:index])]
       else
         @driver.window_handles.find { |wh| matches?(wh) }

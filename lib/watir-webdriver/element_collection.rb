@@ -1,4 +1,3 @@
-# encoding: utf-8
 module Watir
 
   #
@@ -17,7 +16,7 @@ module Watir
     # Yields each element in collection.
     #
     # @example
-    #   divs = browser.divs(:class => 'kls')
+    #   divs = browser.divs(class: 'kls')
     #   divs.each do |div|
     #     puts div.text
     #   end
@@ -51,7 +50,7 @@ module Watir
     #
 
     def [](idx)
-      to_a[idx] || element_class.new(@parent, @selector.merge(:index => idx))
+      to_a[idx] || element_class.new(@parent, @selector.merge(index: idx))
     end
 
     #
@@ -82,7 +81,7 @@ module Watir
 
     def to_a
       # TODO: optimize - lazy element_class instance?
-      @to_a ||= elements.map { |e| element_class.new(@parent, :element => e) }
+      @to_a ||= elements.map { |e| element_class.new(@parent, element: e) }
     end
 
     private

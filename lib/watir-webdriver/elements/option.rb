@@ -1,4 +1,3 @@
-# encoding: utf-8
 module Watir
 
   #
@@ -11,7 +10,7 @@ module Watir
     # Selects this option.
     #
     # @example
-    #   browser.select(:id => "foo").options.first.select
+    #   browser.select(id: "foo").options.first.select
     #
 
     alias_method :select, :click
@@ -20,7 +19,7 @@ module Watir
     # Toggles the selected state of this option.
     #
     # @example
-    #   browser.select(:id => "foo").options.first.toggle
+    #   browser.select(id: "foo").options.first.toggle
     #
 
     alias_method :toggle, :click
@@ -29,7 +28,7 @@ module Watir
     # Clears (i.e. toggles selected state) option.
     #
     # @example
-    #   browser.select(:id => "foo").options.first.clear
+    #   browser.select(id: "foo").options.first.clear
     #
 
     def clear
@@ -62,7 +61,7 @@ module Watir
       # A little unintuitive - we'll return the 'label' or 'text' attribute if
       # they exist, otherwise the inner text of the element
 
-      attribute = [:label, :text].find { |a| attribute? a }
+      attribute = %i(label text).find { |a| attribute? a }
 
       if attribute
         attribute_value(attribute)

@@ -1,4 +1,3 @@
-# encoding: utf-8
 module Watir
   class FileField < Input
 
@@ -29,11 +28,11 @@ module Watir
 
   module Container
     def file_field(*args)
-      FileField.new(self, extract_selector(args).merge(:tag_name => "input", :type => "file"))
+      FileField.new(self, extract_selector(args).merge(tag_name: "input", type: "file"))
     end
 
     def file_fields(*args)
-      FileFieldCollection.new(self, extract_selector(args).merge(:tag_name => "input", :type => "file"))
+      FileFieldCollection.new(self, extract_selector(args).merge(tag_name: "input", type: "file"))
     end
   end # Container
 

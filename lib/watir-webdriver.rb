@@ -1,4 +1,3 @@
-# encoding: utf-8
 require 'selenium-webdriver'
 
 require 'watir-webdriver/version'

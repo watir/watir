@@ -1,4 +1,3 @@
-# encoding: utf-8
 module Watir
   class Hidden < Input
     def visible?
@@ -8,11 +7,11 @@ module Watir
 
   module Container
     def hidden(*args)
-      Hidden.new(self, extract_selector(args).merge(:tag_name => "input", :type => "hidden"))
+      Hidden.new(self, extract_selector(args).merge(tag_name: "input", type: "hidden"))
     end
 
     def hiddens(*args)
-      HiddenCollection.new(self, extract_selector(args).merge(:tag_name => "input", :type => "hidden"))
+      HiddenCollection.new(self, extract_selector(args).merge(tag_name: "input", type: "hidden"))
     end
   end # Container
 

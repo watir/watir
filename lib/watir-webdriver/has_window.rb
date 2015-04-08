@@ -5,13 +5,13 @@ module Watir
     # Returns browser windows array.
     #
     # @example
-    #   browser.windows(:title => 'closeable window')
+    #   browser.windows(title: 'closeable window')
     #
     # @return [Array<Window>]
     #
 
     def windows(*args)
-      all = @driver.window_handles.map { |handle| Window.new(@driver, :handle => handle) }
+      all = @driver.window_handles.map { |handle| Window.new(@driver, handle: handle) }
 
       if args.empty?
         all
@@ -24,7 +24,7 @@ module Watir
     # Returns browser window.
     #
     # @example
-    #   browser.window(:title => 'closeable window')
+    #   browser.window(title: 'closeable window')
     #
     # @return [Window]
     #
@@ -40,7 +40,7 @@ module Watir
     private
 
     def filter_windows(selector, windows)
-      unless selector.keys.all? { |k| [:title, :url].include? k }
+      unless selector.keys.all? { |k| %i(title url).include? k }
         raise ArgumentError, "invalid window selector: #{selector.inspect}"
       end
 

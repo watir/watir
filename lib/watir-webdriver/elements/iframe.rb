@@ -1,11 +1,10 @@
-# encoding: utf-8
 module Watir
   class IFrame < HTMLElement
 
     def locate
       @parent.assert_exists
 
-      locator = locator_class.new(@parent.wd, @selector.merge(:tag_name => frame_tag), self.class.attribute_list)
+      locator = locator_class.new(@parent.wd, @selector.merge(tag_name: frame_tag), self.class.attribute_list)
       element = locator.locate
       element or raise UnknownFrameException, "unable to locate #{@selector[:tag_name]} using #{selector_string}"
 
@@ -17,7 +16,7 @@ module Watir
     end
 
     def assert_exists
-      if @selector.has_key? :element
+      if @selector.key? :element
         raise UnknownFrameException, "wrapping a WebDriver element as a Frame is not currently supported"
       end
 
@@ -29,7 +28,7 @@ module Watir
 
       # this will actually give us the innerHTML instead of the outerHTML of the <frame>,
       # but given the choice this seems more useful
-      element_call { execute_atom(:getOuterHtml, @element.find_element(:tag_name => "html")).strip }
+      element_call { execute_atom(:getOuterHtml, @element.find_element(tag_name: "html")).strip }
     end
 
     def execute_script(*args)
@@ -53,7 +52,7 @@ module Watir
       # index will return nil. That's why `#all_elements` should always
       # be called after `#elements.`
       element_indexes = elements.map { |el| all_elements.index(el) }
-      element_indexes.map { |idx| element_class.new(@parent, tag_name: @selector[:tag_name], :index => idx) }
+      element_indexes.map { |idx| element_class.new(@parent, tag_name: @selector[:tag_name], index: idx) }
     end
 
     def element_class
@@ -96,11 +95,11 @@ module Watir
   module Container
 
     def frame(*args)
-      Frame.new(self, extract_selector(args).merge(:tag_name => "frame"))
+      Frame.new(self, extract_selector(args).merge(tag_name: "frame"))
     end
 
     def frames(*args)
-      FrameCollection.new(self, extract_selector(args).merge(:tag_name => "frame"))
+      FrameCollection.new(self, extract_selector(args).merge(tag_name: "frame"))
     end
 
   end # Container

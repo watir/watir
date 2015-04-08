@@ -1092,7 +1092,7 @@ module Watir
       #
 
       def a(*args)
-        Anchor.new(self, extract_selector(args).merge(:tag_name => "a"))
+        Anchor.new(self, extract_selector(args).merge(tag_name: "a"))
       end
 
       #
@@ -1100,7 +1100,7 @@ module Watir
       #
 
       def as(*args)
-        AnchorCollection.new(self, extract_selector(args).merge(:tag_name => "a"))
+        AnchorCollection.new(self, extract_selector(args).merge(tag_name: "a"))
       end
 
       Watir.tag_to_class[:a] = Anchor
@@ -1110,7 +1110,7 @@ module Watir
       #
 
       def abbr(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "abbr"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "abbr"))
       end
 
       #
@@ -1118,7 +1118,7 @@ module Watir
       #
 
       def abbrs(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "abbr"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "abbr"))
       end
 
       Watir.tag_to_class[:abbr] = HTMLElement
@@ -1128,7 +1128,7 @@ module Watir
       #
 
       def address(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "address"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "address"))
       end
 
       #
@@ -1136,7 +1136,7 @@ module Watir
       #
 
       def addresses(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "address"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "address"))
       end
 
       Watir.tag_to_class[:address] = HTMLElement
@@ -1146,7 +1146,7 @@ module Watir
       #
 
       def area(*args)
-        Area.new(self, extract_selector(args).merge(:tag_name => "area"))
+        Area.new(self, extract_selector(args).merge(tag_name: "area"))
       end
 
       #
@@ -1154,7 +1154,7 @@ module Watir
       #
 
       def areas(*args)
-        AreaCollection.new(self, extract_selector(args).merge(:tag_name => "area"))
+        AreaCollection.new(self, extract_selector(args).merge(tag_name: "area"))
       end
 
       Watir.tag_to_class[:area] = Area
@@ -1164,7 +1164,7 @@ module Watir
       #
 
       def article(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "article"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "article"))
       end
 
       #
@@ -1172,7 +1172,7 @@ module Watir
       #
 
       def articles(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "article"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "article"))
       end
 
       Watir.tag_to_class[:article] = HTMLElement
@@ -1182,7 +1182,7 @@ module Watir
       #
 
       def aside(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "aside"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "aside"))
       end
 
       #
@@ -1190,7 +1190,7 @@ module Watir
       #
 
       def asides(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "aside"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "aside"))
       end
 
       Watir.tag_to_class[:aside] = HTMLElement
@@ -1200,7 +1200,7 @@ module Watir
       #
 
       def audio(*args)
-        Audio.new(self, extract_selector(args).merge(:tag_name => "audio"))
+        Audio.new(self, extract_selector(args).merge(tag_name: "audio"))
       end
 
       #
@@ -1208,7 +1208,7 @@ module Watir
       #
 
       def audios(*args)
-        AudioCollection.new(self, extract_selector(args).merge(:tag_name => "audio"))
+        AudioCollection.new(self, extract_selector(args).merge(tag_name: "audio"))
       end
 
       Watir.tag_to_class[:audio] = Audio
@@ -1218,7 +1218,7 @@ module Watir
       #
 
       def b(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "b"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "b"))
       end
 
       #
@@ -1226,7 +1226,7 @@ module Watir
       #
 
       def bs(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "b"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "b"))
       end
 
       Watir.tag_to_class[:b] = HTMLElement
@@ -1236,7 +1236,7 @@ module Watir
       #
 
       def base(*args)
-        Base.new(self, extract_selector(args).merge(:tag_name => "base"))
+        Base.new(self, extract_selector(args).merge(tag_name: "base"))
       end
 
       #
@@ -1244,7 +1244,7 @@ module Watir
       #
 
       def bases(*args)
-        BaseCollection.new(self, extract_selector(args).merge(:tag_name => "base"))
+        BaseCollection.new(self, extract_selector(args).merge(tag_name: "base"))
       end
 
       Watir.tag_to_class[:base] = Base
@@ -1254,7 +1254,7 @@ module Watir
       #
 
       def bdi(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "bdi"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "bdi"))
       end
 
       #
@@ -1262,7 +1262,7 @@ module Watir
       #
 
       def bdis(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "bdi"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "bdi"))
       end
 
       Watir.tag_to_class[:bdi] = HTMLElement
@@ -1272,7 +1272,7 @@ module Watir
       #
 
       def bdo(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "bdo"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "bdo"))
       end
 
       #
@@ -1280,7 +1280,7 @@ module Watir
       #
 
       def bdos(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "bdo"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "bdo"))
       end
 
       Watir.tag_to_class[:bdo] = HTMLElement
@@ -1290,7 +1290,7 @@ module Watir
       #
 
       def blockquote(*args)
-        Quote.new(self, extract_selector(args).merge(:tag_name => "blockquote"))
+        Quote.new(self, extract_selector(args).merge(tag_name: "blockquote"))
       end
 
       #
@@ -1298,7 +1298,7 @@ module Watir
       #
 
       def blockquotes(*args)
-        QuoteCollection.new(self, extract_selector(args).merge(:tag_name => "blockquote"))
+        QuoteCollection.new(self, extract_selector(args).merge(tag_name: "blockquote"))
       end
 
       Watir.tag_to_class[:blockquote] = Quote
@@ -1308,7 +1308,7 @@ module Watir
       #
 
       def body(*args)
-        Body.new(self, extract_selector(args).merge(:tag_name => "body"))
+        Body.new(self, extract_selector(args).merge(tag_name: "body"))
       end
 
       #
@@ -1316,7 +1316,7 @@ module Watir
       #
 
       def bodys(*args)
-        BodyCollection.new(self, extract_selector(args).merge(:tag_name => "body"))
+        BodyCollection.new(self, extract_selector(args).merge(tag_name: "body"))
       end
 
       Watir.tag_to_class[:body] = Body
@@ -1326,7 +1326,7 @@ module Watir
       #
 
       def br(*args)
-        BR.new(self, extract_selector(args).merge(:tag_name => "br"))
+        BR.new(self, extract_selector(args).merge(tag_name: "br"))
       end
 
       #
@@ -1334,7 +1334,7 @@ module Watir
       #
 
       def brs(*args)
-        BRCollection.new(self, extract_selector(args).merge(:tag_name => "br"))
+        BRCollection.new(self, extract_selector(args).merge(tag_name: "br"))
       end
 
       Watir.tag_to_class[:br] = BR
@@ -1344,7 +1344,7 @@ module Watir
       #
 
       def button(*args)
-        Button.new(self, extract_selector(args).merge(:tag_name => "button"))
+        Button.new(self, extract_selector(args).merge(tag_name: "button"))
       end
 
       #
@@ -1352,7 +1352,7 @@ module Watir
       #
 
       def buttons(*args)
-        ButtonCollection.new(self, extract_selector(args).merge(:tag_name => "button"))
+        ButtonCollection.new(self, extract_selector(args).merge(tag_name: "button"))
       end
 
       Watir.tag_to_class[:button] = Button
@@ -1362,7 +1362,7 @@ module Watir
       #
 
       def canvas(*args)
-        Canvas.new(self, extract_selector(args).merge(:tag_name => "canvas"))
+        Canvas.new(self, extract_selector(args).merge(tag_name: "canvas"))
       end
 
       #
@@ -1370,7 +1370,7 @@ module Watir
       #
 
       def canvases(*args)
-        CanvasCollection.new(self, extract_selector(args).merge(:tag_name => "canvas"))
+        CanvasCollection.new(self, extract_selector(args).merge(tag_name: "canvas"))
       end
 
       Watir.tag_to_class[:canvas] = Canvas
@@ -1380,7 +1380,7 @@ module Watir
       #
 
       def caption(*args)
-        TableCaption.new(self, extract_selector(args).merge(:tag_name => "caption"))
+        TableCaption.new(self, extract_selector(args).merge(tag_name: "caption"))
       end
 
       #
@@ -1388,7 +1388,7 @@ module Watir
       #
 
       def captions(*args)
-        TableCaptionCollection.new(self, extract_selector(args).merge(:tag_name => "caption"))
+        TableCaptionCollection.new(self, extract_selector(args).merge(tag_name: "caption"))
       end
 
       Watir.tag_to_class[:caption] = TableCaption
@@ -1398,7 +1398,7 @@ module Watir
       #
 
       def cite(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "cite"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "cite"))
       end
 
       #
@@ -1406,7 +1406,7 @@ module Watir
       #
 
       def cites(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "cite"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "cite"))
       end
 
       Watir.tag_to_class[:cite] = HTMLElement
@@ -1416,7 +1416,7 @@ module Watir
       #
 
       def code(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "code"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "code"))
       end
 
       #
@@ -1424,7 +1424,7 @@ module Watir
       #
 
       def codes(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "code"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "code"))
       end
 
       Watir.tag_to_class[:code] = HTMLElement
@@ -1434,7 +1434,7 @@ module Watir
       #
 
       def col(*args)
-        TableCol.new(self, extract_selector(args).merge(:tag_name => "col"))
+        TableCol.new(self, extract_selector(args).merge(tag_name: "col"))
       end
 
       #
@@ -1442,7 +1442,7 @@ module Watir
       #
 
       def cols(*args)
-        TableColCollection.new(self, extract_selector(args).merge(:tag_name => "col"))
+        TableColCollection.new(self, extract_selector(args).merge(tag_name: "col"))
       end
 
       Watir.tag_to_class[:col] = TableCol
@@ -1452,7 +1452,7 @@ module Watir
       #
 
       def colgroup(*args)
-        TableCol.new(self, extract_selector(args).merge(:tag_name => "colgroup"))
+        TableCol.new(self, extract_selector(args).merge(tag_name: "colgroup"))
       end
 
       #
@@ -1460,7 +1460,7 @@ module Watir
       #
 
       def colgroups(*args)
-        TableColCollection.new(self, extract_selector(args).merge(:tag_name => "colgroup"))
+        TableColCollection.new(self, extract_selector(args).merge(tag_name: "colgroup"))
       end
 
       Watir.tag_to_class[:colgroup] = TableCol
@@ -1470,7 +1470,7 @@ module Watir
       #
 
       def data(*args)
-        Data.new(self, extract_selector(args).merge(:tag_name => "data"))
+        Data.new(self, extract_selector(args).merge(tag_name: "data"))
       end
 
       #
@@ -1478,7 +1478,7 @@ module Watir
       #
 
       def datas(*args)
-        DataCollection.new(self, extract_selector(args).merge(:tag_name => "data"))
+        DataCollection.new(self, extract_selector(args).merge(tag_name: "data"))
       end
 
       Watir.tag_to_class[:data] = Data
@@ -1488,7 +1488,7 @@ module Watir
       #
 
       def datalist(*args)
-        DataList.new(self, extract_selector(args).merge(:tag_name => "datalist"))
+        DataList.new(self, extract_selector(args).merge(tag_name: "datalist"))
       end
 
       #
@@ -1496,7 +1496,7 @@ module Watir
       #
 
       def datalists(*args)
-        DataListCollection.new(self, extract_selector(args).merge(:tag_name => "datalist"))
+        DataListCollection.new(self, extract_selector(args).merge(tag_name: "datalist"))
       end
 
       Watir.tag_to_class[:datalist] = DataList
@@ -1506,7 +1506,7 @@ module Watir
       #
 
       def dd(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "dd"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "dd"))
       end
 
       #
@@ -1514,7 +1514,7 @@ module Watir
       #
 
       def dds(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "dd"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "dd"))
       end
 
       Watir.tag_to_class[:dd] = HTMLElement
@@ -1524,7 +1524,7 @@ module Watir
       #
 
       def del(*args)
-        Mod.new(self, extract_selector(args).merge(:tag_name => "del"))
+        Mod.new(self, extract_selector(args).merge(tag_name: "del"))
       end
 
       #
@@ -1532,7 +1532,7 @@ module Watir
       #
 
       def dels(*args)
-        ModCollection.new(self, extract_selector(args).merge(:tag_name => "del"))
+        ModCollection.new(self, extract_selector(args).merge(tag_name: "del"))
       end
 
       Watir.tag_to_class[:del] = Mod
@@ -1542,7 +1542,7 @@ module Watir
       #
 
       def details(*args)
-        Details.new(self, extract_selector(args).merge(:tag_name => "details"))
+        Details.new(self, extract_selector(args).merge(tag_name: "details"))
       end
 
       #
@@ -1550,7 +1550,7 @@ module Watir
       #
 
       def detailses(*args)
-        DetailsCollection.new(self, extract_selector(args).merge(:tag_name => "details"))
+        DetailsCollection.new(self, extract_selector(args).merge(tag_name: "details"))
       end
 
       Watir.tag_to_class[:details] = Details
@@ -1560,7 +1560,7 @@ module Watir
       #
 
       def dfn(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "dfn"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "dfn"))
       end
 
       #
@@ -1568,7 +1568,7 @@ module Watir
       #
 
       def dfns(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "dfn"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "dfn"))
       end
 
       Watir.tag_to_class[:dfn] = HTMLElement
@@ -1578,7 +1578,7 @@ module Watir
       #
 
       def dialog(*args)
-        Dialog.new(self, extract_selector(args).merge(:tag_name => "dialog"))
+        Dialog.new(self, extract_selector(args).merge(tag_name: "dialog"))
       end
 
       #
@@ -1586,7 +1586,7 @@ module Watir
       #
 
       def dialogs(*args)
-        DialogCollection.new(self, extract_selector(args).merge(:tag_name => "dialog"))
+        DialogCollection.new(self, extract_selector(args).merge(tag_name: "dialog"))
       end
 
       Watir.tag_to_class[:dialog] = Dialog
@@ -1596,7 +1596,7 @@ module Watir
       #
 
       def div(*args)
-        Div.new(self, extract_selector(args).merge(:tag_name => "div"))
+        Div.new(self, extract_selector(args).merge(tag_name: "div"))
       end
 
       #
@@ -1604,7 +1604,7 @@ module Watir
       #
 
       def divs(*args)
-        DivCollection.new(self, extract_selector(args).merge(:tag_name => "div"))
+        DivCollection.new(self, extract_selector(args).merge(tag_name: "div"))
       end
 
       Watir.tag_to_class[:div] = Div
@@ -1614,7 +1614,7 @@ module Watir
       #
 
       def dl(*args)
-        DList.new(self, extract_selector(args).merge(:tag_name => "dl"))
+        DList.new(self, extract_selector(args).merge(tag_name: "dl"))
       end
 
       #
@@ -1622,7 +1622,7 @@ module Watir
       #
 
       def dls(*args)
-        DListCollection.new(self, extract_selector(args).merge(:tag_name => "dl"))
+        DListCollection.new(self, extract_selector(args).merge(tag_name: "dl"))
       end
 
       Watir.tag_to_class[:dl] = DList
@@ -1632,7 +1632,7 @@ module Watir
       #
 
       def dt(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "dt"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "dt"))
       end
 
       #
@@ -1640,7 +1640,7 @@ module Watir
       #
 
       def dts(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "dt"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "dt"))
       end
 
       Watir.tag_to_class[:dt] = HTMLElement
@@ -1650,7 +1650,7 @@ module Watir
       #
 
       def em(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "em"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "em"))
       end
 
       #
@@ -1658,7 +1658,7 @@ module Watir
       #
 
       def ems(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "em"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "em"))
       end
 
       Watir.tag_to_class[:em] = HTMLElement
@@ -1668,7 +1668,7 @@ module Watir
       #
 
       def embed(*args)
-        Embed.new(self, extract_selector(args).merge(:tag_name => "embed"))
+        Embed.new(self, extract_selector(args).merge(tag_name: "embed"))
       end
 
       #
@@ -1676,7 +1676,7 @@ module Watir
       #
 
       def embeds(*args)
-        EmbedCollection.new(self, extract_selector(args).merge(:tag_name => "embed"))
+        EmbedCollection.new(self, extract_selector(args).merge(tag_name: "embed"))
       end
 
       Watir.tag_to_class[:embed] = Embed
@@ -1686,7 +1686,7 @@ module Watir
       #
 
       def fieldset(*args)
-        FieldSet.new(self, extract_selector(args).merge(:tag_name => "fieldset"))
+        FieldSet.new(self, extract_selector(args).merge(tag_name: "fieldset"))
       end
 
       #
@@ -1694,7 +1694,7 @@ module Watir
       #
 
       def fieldsets(*args)
-        FieldSetCollection.new(self, extract_selector(args).merge(:tag_name => "fieldset"))
+        FieldSetCollection.new(self, extract_selector(args).merge(tag_name: "fieldset"))
       end
 
       Watir.tag_to_class[:fieldset] = FieldSet
@@ -1704,7 +1704,7 @@ module Watir
       #
 
       def figcaption(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "figcaption"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "figcaption"))
       end
 
       #
@@ -1712,7 +1712,7 @@ module Watir
       #
 
       def figcaptions(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "figcaption"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "figcaption"))
       end
 
       Watir.tag_to_class[:figcaption] = HTMLElement
@@ -1722,7 +1722,7 @@ module Watir
       #
 
       def figure(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "figure"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "figure"))
       end
 
       #
@@ -1730,7 +1730,7 @@ module Watir
       #
 
       def figures(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "figure"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "figure"))
       end
 
       Watir.tag_to_class[:figure] = HTMLElement
@@ -1740,7 +1740,7 @@ module Watir
       #
 
       def footer(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "footer"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "footer"))
       end
 
       #
@@ -1748,7 +1748,7 @@ module Watir
       #
 
       def footers(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "footer"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "footer"))
       end
 
       Watir.tag_to_class[:footer] = HTMLElement
@@ -1758,7 +1758,7 @@ module Watir
       #
 
       def form(*args)
-        Form.new(self, extract_selector(args).merge(:tag_name => "form"))
+        Form.new(self, extract_selector(args).merge(tag_name: "form"))
       end
 
       #
@@ -1766,7 +1766,7 @@ module Watir
       #
 
       def forms(*args)
-        FormCollection.new(self, extract_selector(args).merge(:tag_name => "form"))
+        FormCollection.new(self, extract_selector(args).merge(tag_name: "form"))
       end
 
       Watir.tag_to_class[:form] = Form
@@ -1776,7 +1776,7 @@ module Watir
       #
 
       def frameset(*args)
-        FrameSet.new(self, extract_selector(args).merge(:tag_name => "frameset"))
+        FrameSet.new(self, extract_selector(args).merge(tag_name: "frameset"))
       end
 
       #
@@ -1784,7 +1784,7 @@ module Watir
       #
 
       def framesets(*args)
-        FrameSetCollection.new(self, extract_selector(args).merge(:tag_name => "frameset"))
+        FrameSetCollection.new(self, extract_selector(args).merge(tag_name: "frameset"))
       end
 
       Watir.tag_to_class[:frameset] = FrameSet
@@ -1794,7 +1794,7 @@ module Watir
       #
 
       def h1(*args)
-        Heading.new(self, extract_selector(args).merge(:tag_name => "h1"))
+        Heading.new(self, extract_selector(args).merge(tag_name: "h1"))
       end
 
       #
@@ -1802,7 +1802,7 @@ module Watir
       #
 
       def h1s(*args)
-        HeadingCollection.new(self, extract_selector(args).merge(:tag_name => "h1"))
+        HeadingCollection.new(self, extract_selector(args).merge(tag_name: "h1"))
       end
 
       Watir.tag_to_class[:h1] = Heading
@@ -1812,7 +1812,7 @@ module Watir
       #
 
       def h2(*args)
-        Heading.new(self, extract_selector(args).merge(:tag_name => "h2"))
+        Heading.new(self, extract_selector(args).merge(tag_name: "h2"))
       end
 
       #
@@ -1820,7 +1820,7 @@ module Watir
       #
 
       def h2s(*args)
-        HeadingCollection.new(self, extract_selector(args).merge(:tag_name => "h2"))
+        HeadingCollection.new(self, extract_selector(args).merge(tag_name: "h2"))
       end
 
       Watir.tag_to_class[:h2] = Heading
@@ -1830,7 +1830,7 @@ module Watir
       #
 
       def h3(*args)
-        Heading.new(self, extract_selector(args).merge(:tag_name => "h3"))
+        Heading.new(self, extract_selector(args).merge(tag_name: "h3"))
       end
 
       #
@@ -1838,7 +1838,7 @@ module Watir
       #
 
       def h3s(*args)
-        HeadingCollection.new(self, extract_selector(args).merge(:tag_name => "h3"))
+        HeadingCollection.new(self, extract_selector(args).merge(tag_name: "h3"))
       end
 
       Watir.tag_to_class[:h3] = Heading
@@ -1848,7 +1848,7 @@ module Watir
       #
 
       def h4(*args)
-        Heading.new(self, extract_selector(args).merge(:tag_name => "h4"))
+        Heading.new(self, extract_selector(args).merge(tag_name: "h4"))
       end
 
       #
@@ -1856,7 +1856,7 @@ module Watir
       #
 
       def h4s(*args)
-        HeadingCollection.new(self, extract_selector(args).merge(:tag_name => "h4"))
+        HeadingCollection.new(self, extract_selector(args).merge(tag_name: "h4"))
       end
 
       Watir.tag_to_class[:h4] = Heading
@@ -1866,7 +1866,7 @@ module Watir
       #
 
       def h5(*args)
-        Heading.new(self, extract_selector(args).merge(:tag_name => "h5"))
+        Heading.new(self, extract_selector(args).merge(tag_name: "h5"))
       end
 
       #
@@ -1874,7 +1874,7 @@ module Watir
       #
 
       def h5s(*args)
-        HeadingCollection.new(self, extract_selector(args).merge(:tag_name => "h5"))
+        HeadingCollection.new(self, extract_selector(args).merge(tag_name: "h5"))
       end
 
       Watir.tag_to_class[:h5] = Heading
@@ -1884,7 +1884,7 @@ module Watir
       #
 
       def h6(*args)
-        Heading.new(self, extract_selector(args).merge(:tag_name => "h6"))
+        Heading.new(self, extract_selector(args).merge(tag_name: "h6"))
       end
 
       #
@@ -1892,7 +1892,7 @@ module Watir
       #
 
       def h6s(*args)
-        HeadingCollection.new(self, extract_selector(args).merge(:tag_name => "h6"))
+        HeadingCollection.new(self, extract_selector(args).merge(tag_name: "h6"))
       end
 
       Watir.tag_to_class[:h6] = Heading
@@ -1902,7 +1902,7 @@ module Watir
       #
 
       def head(*args)
-        Head.new(self, extract_selector(args).merge(:tag_name => "head"))
+        Head.new(self, extract_selector(args).merge(tag_name: "head"))
       end
 
       #
@@ -1910,7 +1910,7 @@ module Watir
       #
 
       def heads(*args)
-        HeadCollection.new(self, extract_selector(args).merge(:tag_name => "head"))
+        HeadCollection.new(self, extract_selector(args).merge(tag_name: "head"))
       end
 
       Watir.tag_to_class[:head] = Head
@@ -1920,7 +1920,7 @@ module Watir
       #
 
       def header(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "header"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "header"))
       end
 
       #
@@ -1928,7 +1928,7 @@ module Watir
       #
 
       def headers(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "header"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "header"))
       end
 
       Watir.tag_to_class[:header] = HTMLElement
@@ -1938,7 +1938,7 @@ module Watir
       #
 
       def hgroup(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "hgroup"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "hgroup"))
       end
 
       #
@@ -1946,7 +1946,7 @@ module Watir
       #
 
       def hgroups(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "hgroup"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "hgroup"))
       end
 
       Watir.tag_to_class[:hgroup] = HTMLElement
@@ -1956,7 +1956,7 @@ module Watir
       #
 
       def hr(*args)
-        HR.new(self, extract_selector(args).merge(:tag_name => "hr"))
+        HR.new(self, extract_selector(args).merge(tag_name: "hr"))
       end
 
       #
@@ -1964,7 +1964,7 @@ module Watir
       #
 
       def hrs(*args)
-        HRCollection.new(self, extract_selector(args).merge(:tag_name => "hr"))
+        HRCollection.new(self, extract_selector(args).merge(tag_name: "hr"))
       end
 
       Watir.tag_to_class[:hr] = HR
@@ -1974,7 +1974,7 @@ module Watir
       #
 
       def html(*args)
-        Html.new(self, extract_selector(args).merge(:tag_name => "html"))
+        Html.new(self, extract_selector(args).merge(tag_name: "html"))
       end
 
       #
@@ -1982,7 +1982,7 @@ module Watir
       #
 
       def htmls(*args)
-        HtmlCollection.new(self, extract_selector(args).merge(:tag_name => "html"))
+        HtmlCollection.new(self, extract_selector(args).merge(tag_name: "html"))
       end
 
       Watir.tag_to_class[:html] = Html
@@ -1992,7 +1992,7 @@ module Watir
       #
 
       def i(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "i"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "i"))
       end
 
       #
@@ -2000,7 +2000,7 @@ module Watir
       #
 
       def is(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "i"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "i"))
       end
 
       Watir.tag_to_class[:i] = HTMLElement
@@ -2010,7 +2010,7 @@ module Watir
       #
 
       def iframe(*args)
-        IFrame.new(self, extract_selector(args).merge(:tag_name => "iframe"))
+        IFrame.new(self, extract_selector(args).merge(tag_name: "iframe"))
       end
 
       #
@@ -2018,7 +2018,7 @@ module Watir
       #
 
       def iframes(*args)
-        IFrameCollection.new(self, extract_selector(args).merge(:tag_name => "iframe"))
+        IFrameCollection.new(self, extract_selector(args).merge(tag_name: "iframe"))
       end
 
       Watir.tag_to_class[:iframe] = IFrame
@@ -2028,7 +2028,7 @@ module Watir
       #
 
       def img(*args)
-        Image.new(self, extract_selector(args).merge(:tag_name => "img"))
+        Image.new(self, extract_selector(args).merge(tag_name: "img"))
       end
 
       #
@@ -2036,7 +2036,7 @@ module Watir
       #
 
       def imgs(*args)
-        ImageCollection.new(self, extract_selector(args).merge(:tag_name => "img"))
+        ImageCollection.new(self, extract_selector(args).merge(tag_name: "img"))
       end
 
       Watir.tag_to_class[:img] = Image
@@ -2046,7 +2046,7 @@ module Watir
       #
 
       def input(*args)
-        Input.new(self, extract_selector(args).merge(:tag_name => "input"))
+        Input.new(self, extract_selector(args).merge(tag_name: "input"))
       end
 
       #
@@ -2054,7 +2054,7 @@ module Watir
       #
 
       def inputs(*args)
-        InputCollection.new(self, extract_selector(args).merge(:tag_name => "input"))
+        InputCollection.new(self, extract_selector(args).merge(tag_name: "input"))
       end
 
       Watir.tag_to_class[:input] = Input
@@ -2064,7 +2064,7 @@ module Watir
       #
 
       def ins(*args)
-        Mod.new(self, extract_selector(args).merge(:tag_name => "ins"))
+        Mod.new(self, extract_selector(args).merge(tag_name: "ins"))
       end
 
       #
@@ -2072,7 +2072,7 @@ module Watir
       #
 
       def inses(*args)
-        ModCollection.new(self, extract_selector(args).merge(:tag_name => "ins"))
+        ModCollection.new(self, extract_selector(args).merge(tag_name: "ins"))
       end
 
       Watir.tag_to_class[:ins] = Mod
@@ -2082,7 +2082,7 @@ module Watir
       #
 
       def kbd(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "kbd"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "kbd"))
       end
 
       #
@@ -2090,7 +2090,7 @@ module Watir
       #
 
       def kbds(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "kbd"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "kbd"))
       end
 
       Watir.tag_to_class[:kbd] = HTMLElement
@@ -2100,7 +2100,7 @@ module Watir
       #
 
       def keygen(*args)
-        Keygen.new(self, extract_selector(args).merge(:tag_name => "keygen"))
+        Keygen.new(self, extract_selector(args).merge(tag_name: "keygen"))
       end
 
       #
@@ -2108,7 +2108,7 @@ module Watir
       #
 
       def keygens(*args)
-        KeygenCollection.new(self, extract_selector(args).merge(:tag_name => "keygen"))
+        KeygenCollection.new(self, extract_selector(args).merge(tag_name: "keygen"))
       end
 
       Watir.tag_to_class[:keygen] = Keygen
@@ -2118,7 +2118,7 @@ module Watir
       #
 
       def label(*args)
-        Label.new(self, extract_selector(args).merge(:tag_name => "label"))
+        Label.new(self, extract_selector(args).merge(tag_name: "label"))
       end
 
       #
@@ -2126,7 +2126,7 @@ module Watir
       #
 
       def labels(*args)
-        LabelCollection.new(self, extract_selector(args).merge(:tag_name => "label"))
+        LabelCollection.new(self, extract_selector(args).merge(tag_name: "label"))
       end
 
       Watir.tag_to_class[:label] = Label
@@ -2136,7 +2136,7 @@ module Watir
       #
 
       def legend(*args)
-        Legend.new(self, extract_selector(args).merge(:tag_name => "legend"))
+        Legend.new(self, extract_selector(args).merge(tag_name: "legend"))
       end
 
       #
@@ -2144,7 +2144,7 @@ module Watir
       #
 
       def legends(*args)
-        LegendCollection.new(self, extract_selector(args).merge(:tag_name => "legend"))
+        LegendCollection.new(self, extract_selector(args).merge(tag_name: "legend"))
       end
 
       Watir.tag_to_class[:legend] = Legend
@@ -2154,7 +2154,7 @@ module Watir
       #
 
       def li(*args)
-        LI.new(self, extract_selector(args).merge(:tag_name => "li"))
+        LI.new(self, extract_selector(args).merge(tag_name: "li"))
       end
 
       #
@@ -2162,7 +2162,7 @@ module Watir
       #
 
       def lis(*args)
-        LICollection.new(self, extract_selector(args).merge(:tag_name => "li"))
+        LICollection.new(self, extract_selector(args).merge(tag_name: "li"))
       end
 
       Watir.tag_to_class[:li] = LI
@@ -2172,7 +2172,7 @@ module Watir
       #
 
       def main(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "main"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "main"))
       end
 
       #
@@ -2180,7 +2180,7 @@ module Watir
       #
 
       def mains(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "main"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "main"))
       end
 
       Watir.tag_to_class[:main] = HTMLElement
@@ -2190,7 +2190,7 @@ module Watir
       #
 
       def map(*args)
-        Map.new(self, extract_selector(args).merge(:tag_name => "map"))
+        Map.new(self, extract_selector(args).merge(tag_name: "map"))
       end
 
       #
@@ -2198,7 +2198,7 @@ module Watir
       #
 
       def maps(*args)
-        MapCollection.new(self, extract_selector(args).merge(:tag_name => "map"))
+        MapCollection.new(self, extract_selector(args).merge(tag_name: "map"))
       end
 
       Watir.tag_to_class[:map] = Map
@@ -2208,7 +2208,7 @@ module Watir
       #
 
       def mark(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "mark"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "mark"))
       end
 
       #
@@ -2216,7 +2216,7 @@ module Watir
       #
 
       def marks(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "mark"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "mark"))
       end
 
       Watir.tag_to_class[:mark] = HTMLElement
@@ -2226,7 +2226,7 @@ module Watir
       #
 
       def menu(*args)
-        Menu.new(self, extract_selector(args).merge(:tag_name => "menu"))
+        Menu.new(self, extract_selector(args).merge(tag_name: "menu"))
       end
 
       #
@@ -2234,7 +2234,7 @@ module Watir
       #
 
       def menus(*args)
-        MenuCollection.new(self, extract_selector(args).merge(:tag_name => "menu"))
+        MenuCollection.new(self, extract_selector(args).merge(tag_name: "menu"))
       end
 
       Watir.tag_to_class[:menu] = Menu
@@ -2244,7 +2244,7 @@ module Watir
       #
 
       def menuitem(*args)
-        MenuItem.new(self, extract_selector(args).merge(:tag_name => "menuitem"))
+        MenuItem.new(self, extract_selector(args).merge(tag_name: "menuitem"))
       end
 
       #
@@ -2252,7 +2252,7 @@ module Watir
       #
 
       def menuitems(*args)
-        MenuItemCollection.new(self, extract_selector(args).merge(:tag_name => "menuitem"))
+        MenuItemCollection.new(self, extract_selector(args).merge(tag_name: "menuitem"))
       end
 
       Watir.tag_to_class[:menuitem] = MenuItem
@@ -2262,7 +2262,7 @@ module Watir
       #
 
       def meta(*args)
-        Meta.new(self, extract_selector(args).merge(:tag_name => "meta"))
+        Meta.new(self, extract_selector(args).merge(tag_name: "meta"))
       end
 
       #
@@ -2270,7 +2270,7 @@ module Watir
       #
 
       def metas(*args)
-        MetaCollection.new(self, extract_selector(args).merge(:tag_name => "meta"))
+        MetaCollection.new(self, extract_selector(args).merge(tag_name: "meta"))
       end
 
       Watir.tag_to_class[:meta] = Meta
@@ -2280,7 +2280,7 @@ module Watir
       #
 
       def meter(*args)
-        Meter.new(self, extract_selector(args).merge(:tag_name => "meter"))
+        Meter.new(self, extract_selector(args).merge(tag_name: "meter"))
       end
 
       #
@@ -2288,7 +2288,7 @@ module Watir
       #
 
       def meters(*args)
-        MeterCollection.new(self, extract_selector(args).merge(:tag_name => "meter"))
+        MeterCollection.new(self, extract_selector(args).merge(tag_name: "meter"))
       end
 
       Watir.tag_to_class[:meter] = Meter
@@ -2298,7 +2298,7 @@ module Watir
       #
 
       def nav(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "nav"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "nav"))
       end
 
       #
@@ -2306,7 +2306,7 @@ module Watir
       #
 
       def navs(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "nav"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "nav"))
       end
 
       Watir.tag_to_class[:nav] = HTMLElement
@@ -2316,7 +2316,7 @@ module Watir
       #
 
       def noscript(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "noscript"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "noscript"))
       end
 
       #
@@ -2324,7 +2324,7 @@ module Watir
       #
 
       def noscripts(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "noscript"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "noscript"))
       end
 
       Watir.tag_to_class[:noscript] = HTMLElement
@@ -2334,7 +2334,7 @@ module Watir
       #
 
       def object(*args)
-        Object.new(self, extract_selector(args).merge(:tag_name => "object"))
+        Object.new(self, extract_selector(args).merge(tag_name: "object"))
       end
 
       #
@@ -2342,7 +2342,7 @@ module Watir
       #
 
       def objects(*args)
-        ObjectCollection.new(self, extract_selector(args).merge(:tag_name => "object"))
+        ObjectCollection.new(self, extract_selector(args).merge(tag_name: "object"))
       end
 
       Watir.tag_to_class[:object] = Object
@@ -2352,7 +2352,7 @@ module Watir
       #
 
       def ol(*args)
-        OList.new(self, extract_selector(args).merge(:tag_name => "ol"))
+        OList.new(self, extract_selector(args).merge(tag_name: "ol"))
       end
 
       #
@@ -2360,7 +2360,7 @@ module Watir
       #
 
       def ols(*args)
-        OListCollection.new(self, extract_selector(args).merge(:tag_name => "ol"))
+        OListCollection.new(self, extract_selector(args).merge(tag_name: "ol"))
       end
 
       Watir.tag_to_class[:ol] = OList
@@ -2370,7 +2370,7 @@ module Watir
       #
 
       def optgroup(*args)
-        OptGroup.new(self, extract_selector(args).merge(:tag_name => "optgroup"))
+        OptGroup.new(self, extract_selector(args).merge(tag_name: "optgroup"))
       end
 
       #
@@ -2378,7 +2378,7 @@ module Watir
       #
 
       def optgroups(*args)
-        OptGroupCollection.new(self, extract_selector(args).merge(:tag_name => "optgroup"))
+        OptGroupCollection.new(self, extract_selector(args).merge(tag_name: "optgroup"))
       end
 
       Watir.tag_to_class[:optgroup] = OptGroup
@@ -2388,7 +2388,7 @@ module Watir
       #
 
       def option(*args)
-        Option.new(self, extract_selector(args).merge(:tag_name => "option"))
+        Option.new(self, extract_selector(args).merge(tag_name: "option"))
       end
 
       #
@@ -2396,7 +2396,7 @@ module Watir
       #
 
       def options(*args)
-        OptionCollection.new(self, extract_selector(args).merge(:tag_name => "option"))
+        OptionCollection.new(self, extract_selector(args).merge(tag_name: "option"))
       end
 
       Watir.tag_to_class[:option] = Option
@@ -2406,7 +2406,7 @@ module Watir
       #
 
       def output(*args)
-        Output.new(self, extract_selector(args).merge(:tag_name => "output"))
+        Output.new(self, extract_selector(args).merge(tag_name: "output"))
       end
 
       #
@@ -2414,7 +2414,7 @@ module Watir
       #
 
       def outputs(*args)
-        OutputCollection.new(self, extract_selector(args).merge(:tag_name => "output"))
+        OutputCollection.new(self, extract_selector(args).merge(tag_name: "output"))
       end
 
       Watir.tag_to_class[:output] = Output
@@ -2424,7 +2424,7 @@ module Watir
       #
 
       def p(*args)
-        Paragraph.new(self, extract_selector(args).merge(:tag_name => "p"))
+        Paragraph.new(self, extract_selector(args).merge(tag_name: "p"))
       end
 
       #
@@ -2432,7 +2432,7 @@ module Watir
       #
 
       def ps(*args)
-        ParagraphCollection.new(self, extract_selector(args).merge(:tag_name => "p"))
+        ParagraphCollection.new(self, extract_selector(args).merge(tag_name: "p"))
       end
 
       Watir.tag_to_class[:p] = Paragraph
@@ -2442,7 +2442,7 @@ module Watir
       #
 
       def param(*args)
-        Param.new(self, extract_selector(args).merge(:tag_name => "param"))
+        Param.new(self, extract_selector(args).merge(tag_name: "param"))
       end
 
       #
@@ -2450,7 +2450,7 @@ module Watir
       #
 
       def params(*args)
-        ParamCollection.new(self, extract_selector(args).merge(:tag_name => "param"))
+        ParamCollection.new(self, extract_selector(args).merge(tag_name: "param"))
       end
 
       Watir.tag_to_class[:param] = Param
@@ -2460,7 +2460,7 @@ module Watir
       #
 
       def pre(*args)
-        Pre.new(self, extract_selector(args).merge(:tag_name => "pre"))
+        Pre.new(self, extract_selector(args).merge(tag_name: "pre"))
       end
 
       #
@@ -2468,7 +2468,7 @@ module Watir
       #
 
       def pres(*args)
-        PreCollection.new(self, extract_selector(args).merge(:tag_name => "pre"))
+        PreCollection.new(self, extract_selector(args).merge(tag_name: "pre"))
       end
 
       Watir.tag_to_class[:pre] = Pre
@@ -2478,7 +2478,7 @@ module Watir
       #
 
       def progress(*args)
-        Progress.new(self, extract_selector(args).merge(:tag_name => "progress"))
+        Progress.new(self, extract_selector(args).merge(tag_name: "progress"))
       end
 
       #
@@ -2486,7 +2486,7 @@ module Watir
       #
 
       def progresses(*args)
-        ProgressCollection.new(self, extract_selector(args).merge(:tag_name => "progress"))
+        ProgressCollection.new(self, extract_selector(args).merge(tag_name: "progress"))
       end
 
       Watir.tag_to_class[:progress] = Progress
@@ -2496,7 +2496,7 @@ module Watir
       #
 
       def q(*args)
-        Quote.new(self, extract_selector(args).merge(:tag_name => "q"))
+        Quote.new(self, extract_selector(args).merge(tag_name: "q"))
       end
 
       #
@@ -2504,7 +2504,7 @@ module Watir
       #
 
       def qs(*args)
-        QuoteCollection.new(self, extract_selector(args).merge(:tag_name => "q"))
+        QuoteCollection.new(self, extract_selector(args).merge(tag_name: "q"))
       end
 
       Watir.tag_to_class[:q] = Quote
@@ -2514,7 +2514,7 @@ module Watir
       #
 
       def rp(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "rp"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "rp"))
       end
 
       #
@@ -2522,7 +2522,7 @@ module Watir
       #
 
       def rps(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "rp"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "rp"))
       end
 
       Watir.tag_to_class[:rp] = HTMLElement
@@ -2532,7 +2532,7 @@ module Watir
       #
 
       def rt(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "rt"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "rt"))
       end
 
       #
@@ -2540,7 +2540,7 @@ module Watir
       #
 
       def rts(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "rt"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "rt"))
       end
 
       Watir.tag_to_class[:rt] = HTMLElement
@@ -2550,7 +2550,7 @@ module Watir
       #
 
       def ruby(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "ruby"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "ruby"))
       end
 
       #
@@ -2558,7 +2558,7 @@ module Watir
       #
 
       def rubies(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "ruby"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "ruby"))
       end
 
       Watir.tag_to_class[:ruby] = HTMLElement
@@ -2568,7 +2568,7 @@ module Watir
       #
 
       def s(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "s"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "s"))
       end
 
       #
@@ -2576,7 +2576,7 @@ module Watir
       #
 
       def ss(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "s"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "s"))
       end
 
       Watir.tag_to_class[:s] = HTMLElement
@@ -2586,7 +2586,7 @@ module Watir
       #
 
       def samp(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "samp"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "samp"))
       end
 
       #
@@ -2594,7 +2594,7 @@ module Watir
       #
 
       def samps(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "samp"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "samp"))
       end
 
       Watir.tag_to_class[:samp] = HTMLElement
@@ -2604,7 +2604,7 @@ module Watir
       #
 
       def script(*args)
-        Script.new(self, extract_selector(args).merge(:tag_name => "script"))
+        Script.new(self, extract_selector(args).merge(tag_name: "script"))
       end
 
       #
@@ -2612,7 +2612,7 @@ module Watir
       #
 
       def scripts(*args)
-        ScriptCollection.new(self, extract_selector(args).merge(:tag_name => "script"))
+        ScriptCollection.new(self, extract_selector(args).merge(tag_name: "script"))
       end
 
       Watir.tag_to_class[:script] = Script
@@ -2622,7 +2622,7 @@ module Watir
       #
 
       def section(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "section"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "section"))
       end
 
       #
@@ -2630,7 +2630,7 @@ module Watir
       #
 
       def sections(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "section"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "section"))
       end
 
       Watir.tag_to_class[:section] = HTMLElement
@@ -2640,7 +2640,7 @@ module Watir
       #
 
       def select(*args)
-        Select.new(self, extract_selector(args).merge(:tag_name => "select"))
+        Select.new(self, extract_selector(args).merge(tag_name: "select"))
       end
 
       #
@@ -2648,7 +2648,7 @@ module Watir
       #
 
       def selects(*args)
-        SelectCollection.new(self, extract_selector(args).merge(:tag_name => "select"))
+        SelectCollection.new(self, extract_selector(args).merge(tag_name: "select"))
       end
 
       Watir.tag_to_class[:select] = Select
@@ -2658,7 +2658,7 @@ module Watir
       #
 
       def small(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "small"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "small"))
       end
 
       #
@@ -2666,7 +2666,7 @@ module Watir
       #
 
       def smalls(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "small"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "small"))
       end
 
       Watir.tag_to_class[:small] = HTMLElement
@@ -2676,7 +2676,7 @@ module Watir
       #
 
       def source(*args)
-        Source.new(self, extract_selector(args).merge(:tag_name => "source"))
+        Source.new(self, extract_selector(args).merge(tag_name: "source"))
       end
 
       #
@@ -2684,7 +2684,7 @@ module Watir
       #
 
       def sources(*args)
-        SourceCollection.new(self, extract_selector(args).merge(:tag_name => "source"))
+        SourceCollection.new(self, extract_selector(args).merge(tag_name: "source"))
       end
 
       Watir.tag_to_class[:source] = Source
@@ -2694,7 +2694,7 @@ module Watir
       #
 
       def span(*args)
-        Span.new(self, extract_selector(args).merge(:tag_name => "span"))
+        Span.new(self, extract_selector(args).merge(tag_name: "span"))
       end
 
       #
@@ -2702,7 +2702,7 @@ module Watir
       #
 
       def spans(*args)
-        SpanCollection.new(self, extract_selector(args).merge(:tag_name => "span"))
+        SpanCollection.new(self, extract_selector(args).merge(tag_name: "span"))
       end
 
       Watir.tag_to_class[:span] = Span
@@ -2712,7 +2712,7 @@ module Watir
       #
 
       def strong(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "strong"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "strong"))
       end
 
       #
@@ -2720,7 +2720,7 @@ module Watir
       #
 
       def strongs(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "strong"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "strong"))
       end
 
       Watir.tag_to_class[:strong] = HTMLElement
@@ -2730,7 +2730,7 @@ module Watir
       #
 
       def style(*args)
-        Style.new(self, extract_selector(args).merge(:tag_name => "style"))
+        Style.new(self, extract_selector(args).merge(tag_name: "style"))
       end
 
       #
@@ -2738,7 +2738,7 @@ module Watir
       #
 
       def styles(*args)
-        StyleCollection.new(self, extract_selector(args).merge(:tag_name => "style"))
+        StyleCollection.new(self, extract_selector(args).merge(tag_name: "style"))
       end
 
       Watir.tag_to_class[:style] = Style
@@ -2748,7 +2748,7 @@ module Watir
       #
 
       def sub(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "sub"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "sub"))
       end
 
       #
@@ -2756,7 +2756,7 @@ module Watir
       #
 
       def subs(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "sub"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "sub"))
       end
 
       Watir.tag_to_class[:sub] = HTMLElement
@@ -2766,7 +2766,7 @@ module Watir
       #
 
       def summary(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "summary"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "summary"))
       end
 
       #
@@ -2774,7 +2774,7 @@ module Watir
       #
 
       def summaries(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "summary"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "summary"))
       end
 
       Watir.tag_to_class[:summary] = HTMLElement
@@ -2784,7 +2784,7 @@ module Watir
       #
 
       def sup(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "sup"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "sup"))
       end
 
       #
@@ -2792,7 +2792,7 @@ module Watir
       #
 
       def sups(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "sup"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "sup"))
       end
 
       Watir.tag_to_class[:sup] = HTMLElement
@@ -2802,7 +2802,7 @@ module Watir
       #
 
       def table(*args)
-        Table.new(self, extract_selector(args).merge(:tag_name => "table"))
+        Table.new(self, extract_selector(args).merge(tag_name: "table"))
       end
 
       #
@@ -2810,7 +2810,7 @@ module Watir
       #
 
       def tables(*args)
-        TableCollection.new(self, extract_selector(args).merge(:tag_name => "table"))
+        TableCollection.new(self, extract_selector(args).merge(tag_name: "table"))
       end
 
       Watir.tag_to_class[:table] = Table
@@ -2820,7 +2820,7 @@ module Watir
       #
 
       def tbody(*args)
-        TableSection.new(self, extract_selector(args).merge(:tag_name => "tbody"))
+        TableSection.new(self, extract_selector(args).merge(tag_name: "tbody"))
       end
 
       #
@@ -2828,7 +2828,7 @@ module Watir
       #
 
       def tbodys(*args)
-        TableSectionCollection.new(self, extract_selector(args).merge(:tag_name => "tbody"))
+        TableSectionCollection.new(self, extract_selector(args).merge(tag_name: "tbody"))
       end
 
       Watir.tag_to_class[:tbody] = TableSection
@@ -2838,7 +2838,7 @@ module Watir
       #
 
       def td(*args)
-        TableDataCell.new(self, extract_selector(args).merge(:tag_name => "td"))
+        TableDataCell.new(self, extract_selector(args).merge(tag_name: "td"))
       end
 
       #
@@ -2846,7 +2846,7 @@ module Watir
       #
 
       def tds(*args)
-        TableDataCellCollection.new(self, extract_selector(args).merge(:tag_name => "td"))
+        TableDataCellCollection.new(self, extract_selector(args).merge(tag_name: "td"))
       end
 
       Watir.tag_to_class[:td] = TableDataCell
@@ -2856,7 +2856,7 @@ module Watir
       #
 
       def template(*args)
-        Template.new(self, extract_selector(args).merge(:tag_name => "template"))
+        Template.new(self, extract_selector(args).merge(tag_name: "template"))
       end
 
       #
@@ -2864,7 +2864,7 @@ module Watir
       #
 
       def templates(*args)
-        TemplateCollection.new(self, extract_selector(args).merge(:tag_name => "template"))
+        TemplateCollection.new(self, extract_selector(args).merge(tag_name: "template"))
       end
 
       Watir.tag_to_class[:template] = Template
@@ -2874,7 +2874,7 @@ module Watir
       #
 
       def textarea(*args)
-        TextArea.new(self, extract_selector(args).merge(:tag_name => "textarea"))
+        TextArea.new(self, extract_selector(args).merge(tag_name: "textarea"))
       end
 
       #
@@ -2882,7 +2882,7 @@ module Watir
       #
 
       def textareas(*args)
-        TextAreaCollection.new(self, extract_selector(args).merge(:tag_name => "textarea"))
+        TextAreaCollection.new(self, extract_selector(args).merge(tag_name: "textarea"))
       end
 
       Watir.tag_to_class[:textarea] = TextArea
@@ -2892,7 +2892,7 @@ module Watir
       #
 
       def tfoot(*args)
-        TableSection.new(self, extract_selector(args).merge(:tag_name => "tfoot"))
+        TableSection.new(self, extract_selector(args).merge(tag_name: "tfoot"))
       end
 
       #
@@ -2900,7 +2900,7 @@ module Watir
       #
 
       def tfoots(*args)
-        TableSectionCollection.new(self, extract_selector(args).merge(:tag_name => "tfoot"))
+        TableSectionCollection.new(self, extract_selector(args).merge(tag_name: "tfoot"))
       end
 
       Watir.tag_to_class[:tfoot] = TableSection
@@ -2910,7 +2910,7 @@ module Watir
       #
 
       def th(*args)
-        TableHeaderCell.new(self, extract_selector(args).merge(:tag_name => "th"))
+        TableHeaderCell.new(self, extract_selector(args).merge(tag_name: "th"))
       end
 
       #
@@ -2918,7 +2918,7 @@ module Watir
       #
 
       def ths(*args)
-        TableHeaderCellCollection.new(self, extract_selector(args).merge(:tag_name => "th"))
+        TableHeaderCellCollection.new(self, extract_selector(args).merge(tag_name: "th"))
       end
 
       Watir.tag_to_class[:th] = TableHeaderCell
@@ -2928,7 +2928,7 @@ module Watir
       #
 
       def thead(*args)
-        TableSection.new(self, extract_selector(args).merge(:tag_name => "thead"))
+        TableSection.new(self, extract_selector(args).merge(tag_name: "thead"))
       end
 
       #
@@ -2936,7 +2936,7 @@ module Watir
       #
 
       def theads(*args)
-        TableSectionCollection.new(self, extract_selector(args).merge(:tag_name => "thead"))
+        TableSectionCollection.new(self, extract_selector(args).merge(tag_name: "thead"))
       end
 
       Watir.tag_to_class[:thead] = TableSection
@@ -2946,7 +2946,7 @@ module Watir
       #
 
       def time(*args)
-        Time.new(self, extract_selector(args).merge(:tag_name => "time"))
+        Time.new(self, extract_selector(args).merge(tag_name: "time"))
       end
 
       #
@@ -2954,7 +2954,7 @@ module Watir
       #
 
       def times(*args)
-        TimeCollection.new(self, extract_selector(args).merge(:tag_name => "time"))
+        TimeCollection.new(self, extract_selector(args).merge(tag_name: "time"))
       end
 
       Watir.tag_to_class[:time] = Time
@@ -2964,7 +2964,7 @@ module Watir
       #
 
       def title(*args)
-        Title.new(self, extract_selector(args).merge(:tag_name => "title"))
+        Title.new(self, extract_selector(args).merge(tag_name: "title"))
       end
 
       #
@@ -2972,7 +2972,7 @@ module Watir
       #
 
       def titles(*args)
-        TitleCollection.new(self, extract_selector(args).merge(:tag_name => "title"))
+        TitleCollection.new(self, extract_selector(args).merge(tag_name: "title"))
       end
 
       Watir.tag_to_class[:title] = Title
@@ -2982,7 +2982,7 @@ module Watir
       #
 
       def tr(*args)
-        TableRow.new(self, extract_selector(args).merge(:tag_name => "tr"))
+        TableRow.new(self, extract_selector(args).merge(tag_name: "tr"))
       end
 
       #
@@ -2990,7 +2990,7 @@ module Watir
       #
 
       def trs(*args)
-        TableRowCollection.new(self, extract_selector(args).merge(:tag_name => "tr"))
+        TableRowCollection.new(self, extract_selector(args).merge(tag_name: "tr"))
       end
 
       Watir.tag_to_class[:tr] = TableRow
@@ -3000,7 +3000,7 @@ module Watir
       #
 
       def track(*args)
-        Track.new(self, extract_selector(args).merge(:tag_name => "track"))
+        Track.new(self, extract_selector(args).merge(tag_name: "track"))
       end
 
       #
@@ -3008,7 +3008,7 @@ module Watir
       #
 
       def tracks(*args)
-        TrackCollection.new(self, extract_selector(args).merge(:tag_name => "track"))
+        TrackCollection.new(self, extract_selector(args).merge(tag_name: "track"))
       end
 
       Watir.tag_to_class[:track] = Track
@@ -3018,7 +3018,7 @@ module Watir
       #
 
       def u(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "u"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "u"))
       end
 
       #
@@ -3026,7 +3026,7 @@ module Watir
       #
 
       def us(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "u"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "u"))
       end
 
       Watir.tag_to_class[:u] = HTMLElement
@@ -3036,7 +3036,7 @@ module Watir
       #
 
       def ul(*args)
-        UList.new(self, extract_selector(args).merge(:tag_name => "ul"))
+        UList.new(self, extract_selector(args).merge(tag_name: "ul"))
       end
 
       #
@@ -3044,7 +3044,7 @@ module Watir
       #
 
       def uls(*args)
-        UListCollection.new(self, extract_selector(args).merge(:tag_name => "ul"))
+        UListCollection.new(self, extract_selector(args).merge(tag_name: "ul"))
       end
 
       Watir.tag_to_class[:ul] = UList
@@ -3054,7 +3054,7 @@ module Watir
       #
 
       def var(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "var"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "var"))
       end
 
       #
@@ -3062,7 +3062,7 @@ module Watir
       #
 
       def vars(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "var"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "var"))
       end
 
       Watir.tag_to_class[:var] = HTMLElement
@@ -3072,7 +3072,7 @@ module Watir
       #
 
       def video(*args)
-        Video.new(self, extract_selector(args).merge(:tag_name => "video"))
+        Video.new(self, extract_selector(args).merge(tag_name: "video"))
       end
 
       #
@@ -3080,7 +3080,7 @@ module Watir
       #
 
       def videos(*args)
-        VideoCollection.new(self, extract_selector(args).merge(:tag_name => "video"))
+        VideoCollection.new(self, extract_selector(args).merge(tag_name: "video"))
       end
 
       Watir.tag_to_class[:video] = Video
@@ -3090,7 +3090,7 @@ module Watir
       #
 
       def wbr(*args)
-        HTMLElement.new(self, extract_selector(args).merge(:tag_name => "wbr"))
+        HTMLElement.new(self, extract_selector(args).merge(tag_name: "wbr"))
       end
 
       #
@@ -3098,7 +3098,7 @@ module Watir
       #
 
       def wbrs(*args)
-        HTMLElementCollection.new(self, extract_selector(args).merge(:tag_name => "wbr"))
+        HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "wbr"))
       end
 
       Watir.tag_to_class[:wbr] = HTMLElement
