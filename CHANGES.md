@@ -1,3 +1,10 @@
+### Unreleased
+
+* Ruby 1.8 is no longer supported. Ruby 1.9 still works, but not supported as well (#327)
+* Ensure `Watir::Element` responds to `data_*` and `aria_*` methods (#333, thanks @daneandersen)
+* Fixed the handling of child elements becoming stale (#321)
+* Performance optimization for nested elements (#321)
+
 ### 0.7.0
 
 * Allow finding all elements with prefer_css
