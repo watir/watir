@@ -607,9 +607,9 @@ module Watir
         super
       end
     end
-    
-     def respond_to_missing?(meth, include_private = false)
-      (meth.to_s =~ ElementLocator::WILDCARD_ATTRIBUTE) || super
+
+    def respond_to_missing?(meth, *)
+      ElementLocator::WILDCARD_ATTRIBUTE === meth.to_s || super
     end
 
   end # Element
