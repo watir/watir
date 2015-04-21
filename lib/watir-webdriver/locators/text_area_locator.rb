@@ -3,6 +3,10 @@ module Watir
 
     private
 
+    def can_convert_regexp_to_contains?
+      false
+    end
+
     def normalize_selector(how, what)
       # We need to iterate through located elements and fetch
       # attribute value using WebDriver because XPath doesn't understand
