@@ -32,6 +32,10 @@ describe "TextField" do
       expect(browser.text_field).to exist
     end
 
+    it "respects text fields types" do
+      expect(browser.text_field.type).to eq('text')
+    end
+
     it "returns true if the element exists (no type attribute)" do
       expect(browser.text_field(:id, 'new_user_first_name')).to exist
     end

@@ -17,13 +17,13 @@ describe "Hiddens" do
 
   describe "#length" do
     it "returns the number of hiddens" do
-      expect(browser.hiddens.length).to eq 1
+      expect(browser.hiddens.length).to eq 2
     end
   end
 
   describe "#[]" do
     it "returns the Hidden at the given index" do
-      expect(browser.hiddens[0].id).to eq "new_user_interests_dolls"
+      expect(browser.hiddens[1].id).to eq "new_user_interests_dolls"
     end
   end
 

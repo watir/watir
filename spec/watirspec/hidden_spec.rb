@@ -53,7 +53,7 @@ describe "Hidden" do
   # Attribute methods
   describe "#id" do
     it "returns the id attribute if the text field exists" do
-      expect(browser.hidden(:index, 0).id).to eq "new_user_interests_dolls"
+      expect(browser.hidden(:index, 1).id).to eq "new_user_interests_dolls"
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -63,7 +63,7 @@ describe "Hidden" do
 
   describe "#name" do
     it "returns the name attribute if the text field exists" do
-      expect(browser.hidden(:index, 0).name).to eq "new_user_interests"
+      expect(browser.hidden(:index, 1).name).to eq "new_user_interests"
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -73,7 +73,7 @@ describe "Hidden" do
 
   describe "#type" do
     it "returns the type attribute if the text field exists" do
-      expect(browser.hidden(:index, 0).type).to eq "hidden"
+      expect(browser.hidden(:index, 1).type).to eq "hidden"
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -83,7 +83,7 @@ describe "Hidden" do
 
   describe "#value" do
     it "returns the value attribute if the text field exists" do
-      expect(browser.hidden(:index, 0).value).to eq "dolls"
+      expect(browser.hidden(:index, 1).value).to eq "dolls"
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -93,10 +93,10 @@ describe "Hidden" do
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
-      expect(browser.hidden(:index, 0)).to respond_to(:id)
-      expect(browser.hidden(:index, 0)).to respond_to(:name)
-      expect(browser.hidden(:index, 0)).to respond_to(:type)
-      expect(browser.hidden(:index, 0)).to respond_to(:value)
+      expect(browser.hidden(:index, 1)).to respond_to(:id)
+      expect(browser.hidden(:index, 1)).to respond_to(:name)
+      expect(browser.hidden(:index, 1)).to respond_to(:type)
+      expect(browser.hidden(:index, 1)).to respond_to(:value)
     end
   end
 
