@@ -5,6 +5,11 @@ module Watir
     # TODO: better way of finding input text fields?
     NEGATIVE_TYPE_EXPR = NON_TEXT_TYPES.map { |type| "%s!=%s" % [XpathSupport.downcase('@type'), type.inspect] }.join(' and ')
 
+    def wd_find_first_by(how, what)
+      how, what = build_wd_selector(how => what) if how == :tag_name
+      super
+    end
+
     def locate_all
       find_all_by_multiple
     end
