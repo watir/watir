@@ -5,7 +5,7 @@
 * Fixed the handling of child elements becoming stale (#321)
 * Performance optimization for nested elements (#321)
 
-### 0.7.0
+### 0.7.0 (2015-03-02)
 
 * Allow finding all elements with prefer_css
 * Add support for yard-doctest (#287)
