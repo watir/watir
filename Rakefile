@@ -20,71 +20,72 @@ namespace :spec do
   end
 end
 
-task default: [:spec, 'yard:doctest']
+{
+  html: 'https://www.whatwg.org/specs/web-apps/current-work/',
+  svg: 'http://www.w3.org/TR/SVG2/single-page.html'
+}.each do |type, spec_uri|
+  namespace type do
+    spec_path = "support/#{type}.html"
 
-namespace :html5 do
-  SPEC_URI  = "https://www.whatwg.org/specs/web-apps/current-work/"
-  SPEC_PATH = "support/html5.html"
-
-  task html_lib: :lib do
-    require 'watir-webdriver/html'
-  end
-
-  desc "Download the HTML5 spec from #{SPEC_URI}"
-  task :download do
-    require "open-uri"
-    mv SPEC_PATH, "#{SPEC_PATH}.old" if File.exist?(SPEC_PATH)
-    downloaded_bytes = 0
-
-    File.open(SPEC_PATH, "w") do |io|
-      io << "<!--  downloaded from #{SPEC_URI} on #{Time.now} -->\n"
-      io << data = open(SPEC_URI).read
-      downloaded_bytes = data.bytesize
+    task generator_lib: :lib do
+      require "watir-webdriver/generator"
     end
 
-    puts "#{SPEC_URI} => #{SPEC_PATH} (#{downloaded_bytes} bytes)"
-  end
+    desc "Download #{type.upcase} spec from #{spec_uri}"
+    task :download do
+      require "open-uri"
+      mv spec_path, "#{spec_path}.old" if File.exist?(spec_path)
+      downloaded_bytes = 0
 
-  desc "Print IDL parts from #{SPEC_URI}"
-  task print: :html_lib do
-    extractor = Watir::HTML::SpecExtractor.new(SPEC_PATH)
+      File.open(spec_path, "w") do |io|
+        io << "<!--  downloaded from #{spec_uri} on #{Time.now} -->\n"
+        io << data = open(spec_uri).read
+        downloaded_bytes = data.bytesize
+      end
 
-    extractor.process.each do |tag_name, interface_definitions|
-      puts "#{tag_name.ljust(10)} => #{interface_definitions.map { |e| e.name }}"
+      puts "#{spec_uri} => #{spec_path} (#{downloaded_bytes} bytes)"
     end
 
-    extractor.print_hierarchy
+    desc "Print IDL parts from #{spec_uri}"
+    task print: :generator_lib do
+      extractor = Watir::Generator.const_get("#{type.upcase}::SpecExtractor").new(spec_path)
 
-    unless extractor.errors.empty?
-      puts "\n\n<======================= ERRORS =======================>\n\n"
-      puts extractor.errors.join("\n" + "="*80 + "\n")
+      extractor.process.each do |tag_name, interface_definitions|
+        puts "#{tag_name.ljust(10)} => #{interface_definitions.map(&:name)}"
+      end
+
+      extractor.print_hierarchy
+
+      if extractor.errors.any?
+        puts "\n\n<======================= ERRORS =======================>\n\n"
+        puts extractor.errors.join("\n" + "=" * 80 + "\n")
+      end
     end
-  end
 
-  desc 'Re-generate the base Watir element classes from the spec'
-  task generate: :html_lib do
-    old_file = "lib/watir-webdriver/elements/generated.rb"
-    generator = Watir::HTML::Generator.new
+    desc 'Re-generate the base Watir element classes from the spec'
+    task generate: :generator_lib do
+      old_file = "lib/watir-webdriver/elements/#{type}.rb"
+      generator = Watir::Generator.const_get(type.upcase).new
 
-    File.open("#{old_file}.new", "w") do |file|
-      generator.generate(SPEC_PATH, file)
+      File.open("#{old_file}.new", "w") do |file|
+        generator.generate(spec_path, file)
+      end
+
+      if File.exist?(old_file)
+        system "diff -Naut #{old_file} #{old_file}.new | less"
+      end
     end
 
-    if File.exist?(old_file)
-      system "diff -Naut #{old_file} #{old_file}.new | less"
+    desc "Move #{type}.rb.new to #{type}.rb"
+    task :overwrite do
+      file = "lib/watir-webdriver/elements/#{type}.rb"
+      mv "#{file}.new", file
     end
+
+    desc "download spec -> generate -> #{type}.rb"
+    task update: [:download, :generate, :overwrite]
   end
-
-  desc 'Move generated.rb.new to generated.rb'
-  task :overwrite do
-    file = "lib/watir-webdriver/elements/generated.rb"
-    mv "#{file}.new", file
-  end
-
-  desc 'download spec -> generate -> generated.rb'
-  task update: [:download, :generate, :overwrite]
-end # html5
-
+end
 
 require 'yard'
 YARD::Rake::YardocTask.new do |task|
@@ -118,3 +119,5 @@ namespace :changes do
 end
 
 load "spec/watirspec/watirspec.rake" if File.exist?("spec/watirspec/watirspec.rake")
+
+task default: [:spec, 'yard:doctest']

@@ -1,6 +1,6 @@
 module Watir
-  module HTML
-    class Visitor < WebIDL::RubySexpVisitor
+  module Generator
+    class Base::Visitor < WebIDL::RubySexpVisitor
 
       def initialize
         super
@@ -21,10 +21,10 @@ module Watir
         parent = interface.inherits.first
 
         $stderr.puts name
-        return unless name =~ /^HTML/ && name !~ /(Collection|Document)$/
+        return if name !~ interface_regexp || name =~ /(Collection|Document)$/
 
-        if name == "HTMLElement"
-          parent = 'Element'
+        if force_inheritance.keys.include?(name)
+          parent = force_inheritance[name]
         elsif parent
           @inheritance_map[name] ||= parent.name
           parent = parent.name
@@ -56,9 +56,9 @@ module Watir
       #
       # def visit_tag(tag_name, interface_name)
       #   tag_string       = tag.inspect
-      #   singular         = Util.paramify(tag)
+      #   singular         = Util.paramify(classify_regexp, tag)
       #   plural           = singular.pluralize
-      #   element_class    = Util.classify(interfaces.first.name)
+      #   element_class    = Util.classify(classify_regexp, interfaces.first.name)
       #   collection_class = "#{element_class}Collection"
       #
       #   [:defn,
@@ -80,7 +80,7 @@ module Watir
       private
 
       def element_class(name, attributes, parent)
-        [:class, Util.classify(name), [:const, Util.classify(parent)],
+        [:class, Util.classify(classify_regexp, name), [:const, Util.classify(classify_regexp, parent)],
           *attribute_calls(attributes)
         ]
       end
@@ -95,7 +95,7 @@ module Watir
       def collection_class(name)
         return if @already_defined.include?(name)
         @already_defined << name
-        name = Util.classify(name)
+        name = Util.classify(classify_regexp, name)
 
         [:class, "#{name}Collection", [:const, :ElementCollection],
           [:scope,
@@ -140,7 +140,8 @@ module Watir
         case type.name.to_s
         when 'DOMString', 'any'
           String
-        when 'UnsignedLong', 'Long', 'Integer', 'Short', 'UnsignedShort'
+        when 'UnsignedLong', 'Long', 'Integer', 'Short', 'UnsignedShort',
+             'SVGAnimatedLength'
           Fixnum
         when 'Float', /.*Double$/
           Float
@@ -150,8 +151,9 @@ module Watir
              'Any', 'TimedTrackArray', 'TimedTrack', 'TextTrackArray', 'TextTrack',
              /Media.+/, 'TextTrackKind', 'Function', /.*EventHandler$/,
              'Document', 'DocumentFragment', 'DOMTokenList', 'DOMSettableTokenList',
-             'DOMStringMap', 'HTMLPropertiesCollection', /HTML(.*)Element/, /HTML(.*)Collection/,
-             'CSSStyleDeclaration',  /.+List$/, 'Date', 'Element'
+             'DOMStringMap', 'HTMLPropertiesCollection', /HTML.*Element/, /HTML.*Collection/,
+             'CSSStyleDeclaration',  /.+List$/, 'Date', 'Element', /DOM.+ReadOnly/,
+             /SVGAnimated.+/, /SVG.*Element/, /SVG.*Collection/, 'SVGViewSpec'
           # probably completely wrong.
           String
         else
@@ -160,5 +162,5 @@ module Watir
       end
 
     end # Visitor
-  end # Support
+  end # Generator
 end # Watir

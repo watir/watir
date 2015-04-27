@@ -1,8 +1,8 @@
 require 'tsort'
 
 module Watir
-  module HTML
-    class IDLSorter
+  module Generator
+    class Base::IDLSorter
       include TSort
 
       def initialize(interfaces)
@@ -43,5 +43,5 @@ module Watir
       end
 
     end # IDLSorter
-  end # HTML
+  end # Generator
 end # Watir

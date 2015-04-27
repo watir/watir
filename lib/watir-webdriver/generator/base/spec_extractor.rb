@@ -1,9 +1,10 @@
 module Watir
-  module HTML
-    class SpecExtractor
+  module Generator
+    class Base::SpecExtractor
 
-      class InterfaceNotFound < StandardError
-      end
+      IDL_SELECTOR = "//pre[@class='idl']"
+
+      class InterfaceNotFound < StandardError; end
 
       def initialize(uri)
         @uri = uri
@@ -13,6 +14,7 @@ module Watir
         download_and_parse
         extract_idl_parts
         extract_interface_map
+        drop_issued_interfaces
         build_result
       rescue
         p errors
@@ -51,7 +53,7 @@ module Watir
       end
 
       def extract_idl_parts
-        parsed = @doc.search("//pre[@class='idl']").map {  |e| parse_idl(e.inner_text) }.compact
+        parsed = @doc.search(IDL_SELECTOR).map {  |e| parse_idl(e.inner_text) }.compact
 
         implements = []
         @interfaces = []
@@ -71,43 +73,17 @@ module Watir
       end
 
       def extract_interface_map
-        # http://www.whatwg.org/specs/web-apps/current-work/#elements-1
-        table = @doc.search("//h3[@id='elements-3']/following-sibling::table[1]").first
-        table or raise "could not find elements-3 table"
+        raise NotImplementedError
+      end
 
-        @interface_map = {}
-
-        parse_table(table).each do |row|
-          row['Element'].split(", ").each { |tag| @interface_map[tag] = row['Interface'] }
+      def drop_issued_interfaces
+        @interface_map.delete_if do |_, interface|
+          issued_interfaces.include?(interface)
         end
       end
 
       def build_result
-        # tag name => Interface instance(s)
-        result = {}
-
-        @interface_map.each do |tag, interface|
-          result[tag] = fetch_interface(interface)
-        end
-
-        # missing from the elements-1 table
-        result['frameset'] = fetch_interface('HTMLFrameSetElement')
-
-        result
-      end
-
-      def parse_table(table)
-        headers = table.css("thead th").map { |e| e.inner_text.strip }
-
-        table.css("tbody tr").map do |row|
-          result = {}
-
-          row.css("th, td").each_with_index do |node, idx|
-            result[headers[idx]] = node.inner_text.strip
-          end
-
-          result
-        end
+        raise NotImplementedError
       end
 
       def parse_idl(str)
@@ -154,9 +130,9 @@ module Watir
       end
 
       def sorter
-        @idl_sorter ||= IDLSorter.new(@interfaces)
+        @idl_sorter ||= Base::IDLSorter.new(@interfaces)
       end
 
     end # SpecExtractor
-  end # HTML
+  end # Generator
 end # Watir
