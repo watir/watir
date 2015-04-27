@@ -7,7 +7,7 @@ class VersionDiffer
   def update(path)
     old = File.read(path)
     File.open(path, "w") do |file|
-      show_latest(file)
+      print_latest(file)
       file << old
     end
   end

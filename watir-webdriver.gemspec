@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.add_dependency "selenium-webdriver", '>= 2.45'
 
   s.add_development_dependency "rspec", "~> 2.6"
-  s.add_development_dependency "yard", "~> 0.8.2.1"
+  s.add_development_dependency "yard", "> 0.8.2.1"
   s.add_development_dependency "webidl", ">= 0.1.5"
   s.add_development_dependency "sinatra", "~> 1.0"
   s.add_development_dependency "rake", "~> 0.9.2"
