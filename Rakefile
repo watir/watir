@@ -82,7 +82,7 @@ namespace :html5 do
   end
 
   desc 'download spec -> generate -> generated.rb'
-  task update: %i(download generate overwrite)
+  task update: [:download, :generate, :overwrite]
 end # html5
 
 

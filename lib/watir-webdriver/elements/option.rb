@@ -61,7 +61,7 @@ module Watir
       # A little unintuitive - we'll return the 'label' or 'text' attribute if
       # they exist, otherwise the inner text of the element
 
-      attribute = %i(label text).find { |a| attribute? a }
+      attribute = [:label, :text].find { |a| attribute? a }
 
       if attribute
         attribute_value(attribute)
