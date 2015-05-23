@@ -72,13 +72,13 @@ describe Watir::ElementLocator do
 
     describe "with special cased selectors" do
       it "normalizes space for :text" do
-        expect_one :xpath, ".//div[normalize-space()='foo']"
+        expect_one :xpath, ".//div[normalize-space(text())='foo']"
         locate_one tag_name: "div",
                    text: "foo"
       end
 
       it "translates :caption to :text" do
-        expect_one :xpath, ".//div[normalize-space()='foo']"
+        expect_one :xpath, ".//div[normalize-space(text())='foo']"
 
         locate_one tag_name: "div",
                    caption: "foo"
@@ -146,7 +146,7 @@ describe Watir::ElementLocator do
 
       it "uses the corresponding <label>'s @for attribute or parent::label when locating by label" do
         translated_type = "translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')"
-        expect_one :xpath, ".//input[#{translated_type}='text' and (@id=//label[normalize-space()='foo']/@for or parent::label[normalize-space()='foo'])]"
+        expect_one :xpath, ".//input[#{translated_type}='text' and (@id=//label[normalize-space(text())='foo']/@for or parent::label[normalize-space(text())='foo'])]"
 
         selector = [
           :tag_name, "input",

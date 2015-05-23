@@ -397,7 +397,7 @@ module Watir
         "contains(concat(' ', @class, ' '), #{klass})"
       elsif key == :label && should_use_label_element?
         # we assume :label means a corresponding label element, not the attribute
-        text = "normalize-space()=#{XpathSupport.escape value}"
+        text = "normalize-space(text())=#{XpathSupport.escape value}"
         "(@id=//label[#{text}]/@for or parent::label[#{text}])"
       else
         "#{lhs_for(key)}=#{XpathSupport.escape value}"
@@ -407,7 +407,7 @@ module Watir
     def lhs_for(key)
       case key
       when :text, 'text'
-        'normalize-space()'
+        'normalize-space(text())'
       when :href
         # TODO: change this behaviour?
         'normalize-space(@href)'
