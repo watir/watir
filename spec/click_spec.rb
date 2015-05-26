@@ -9,6 +9,13 @@ describe Watir::Element do
     let(:clicker) { browser.element(id: "click-logger") }
     let(:log)     { browser.element(id: "log").ps.map { |e| e.text } }
 
+    bug "https://github.com/watir/watir-webdriver/issues/343", :webdriver do
+      it "clicks an element with text in nested text node using text selector" do
+        browser.element(text: "Can You Click This?").click
+        expect(browser.element(text: "You Clicked It!")).to exist
+      end
+    end
+
     # TODO: make guards more flexible, in reality this currently only works on linux with native events
     compliant_on %i(webdriver firefox native_events) do
       it "should perform a click with no modifier keys" do
