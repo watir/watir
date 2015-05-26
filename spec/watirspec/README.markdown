@@ -26,7 +26,7 @@ WatirSpec::Implementation do |imp|
   imp.name = :awesome
 
   imp.browser_class = AwesomeWatir::Browser
-  imp.browser_args  = [:some => 'option']
+  imp.browser_args  = [some: 'option']
 end
 
 WatirSpec.persistent_browser = false               # defaults to true, but can be disabled if needed

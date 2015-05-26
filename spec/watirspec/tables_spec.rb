@@ -10,7 +10,7 @@ describe "Tables" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.tables(:rules => "groups").to_a).to eq [browser.table(:rules => "groups")]
+        expect(browser.tables(rules: "groups").to_a).to eq [browser.table(rules: "groups")]
       end
     end
   end
@@ -34,7 +34,7 @@ describe "Tables" do
       count = 0
 
       browser.tables.each_with_index do |t, index|
-        expect(t.id).to eq browser.table(:index, index).id
+        expect(t.id).to eq browser.table(index: index).id
         count += 1
       end
 

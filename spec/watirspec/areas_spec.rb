@@ -10,7 +10,7 @@ describe "Areas" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.areas(:alt => "Tables").to_a).to eq [browser.area(:alt => "Tables")]
+        expect(browser.areas(alt: "Tables").to_a).to eq [browser.area(alt: "Tables")]
       end
     end
   end
@@ -32,8 +32,8 @@ describe "Areas" do
       count = 0
 
       browser.areas.each_with_index do |a, index|
-        expect(a.id).to eq browser.area(:index, index).id
-        expect(a.title).to eq browser.area(:index, index).title
+        expect(a.id).to eq browser.area(index: index).id
+        expect(a.title).to eq browser.area(index: index).title
 
         count += 1
       end

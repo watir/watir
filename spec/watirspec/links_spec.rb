@@ -10,7 +10,7 @@ describe "Links" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.links(:title => "link_title_2").to_a).to eq [browser.link(:title => "link_title_2")]
+        expect(browser.links(title: "link_title_2").to_a).to eq [browser.link(title: "link_title_2")]
       end
     end
   end
@@ -36,7 +36,7 @@ describe "Links" do
       count = 0
 
       browser.links.each_with_index do |c, index|
-        expect(c.id).to eq browser.link(:index, index).id
+        expect(c.id).to eq browser.link(index: index).id
         count += 1
       end
 

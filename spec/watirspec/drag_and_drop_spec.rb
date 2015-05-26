@@ -4,17 +4,17 @@ describe "Element" do
   context "drag and drop" do
     before { browser.goto WatirSpec.url_for("drag_and_drop.html") }
 
-    let(:draggable) { browser.div :id => "draggable" }
-    let(:droppable) { browser.div :id => "droppable" }
+    let(:draggable) { browser.div id: "draggable" }
+    let(:droppable) { browser.div id: "droppable" }
 
-    not_compliant_on [:webdriver, :iphone] do
+    not_compliant_on %i(webdriver iphone) do
       it "can drag and drop an element onto another" do
         expect(droppable.text).to eq 'Drop here'
         draggable.drag_and_drop_on droppable
         expect(droppable.text).to eq 'Dropped!'
       end
 
-      bug "http://code.google.com/p/selenium/issues/detail?id=3075", [:webdriver, :firefox] do
+      bug "http://code.google.com/p/selenium/issues/detail?id=3075", %i(webdriver firefox) do
         it "can drag and drop an element onto another when draggable is out of viewport" do
           reposition "draggable"
           perform_drag_and_drop_on_droppable
@@ -33,7 +33,7 @@ describe "Element" do
       end
 
       def reposition(what)
-        browser.button(:id => "reposition#{what.capitalize}").click
+        browser.button(id: "reposition#{what.capitalize}").click
       end
 
       def perform_drag_and_drop_on_droppable

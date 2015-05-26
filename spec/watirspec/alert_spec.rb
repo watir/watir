@@ -14,11 +14,11 @@ describe 'Alert API' do
       describe '#text' do
         it 'returns text of alert' do
           not_compliant_on :watir_classic do
-            browser.button(:id => 'alert').click
+            browser.button(id: 'alert').click
           end
 
           deviates_on :watir_classic do
-            browser.button(:id => 'alert').click_no_wait
+            browser.button(id: 'alert').click_no_wait
           end
 
           expect(browser.alert.text).to include('ok')
@@ -32,11 +32,11 @@ describe 'Alert API' do
 
         it 'returns true if alert is present' do
           not_compliant_on :watir_classic do
-            browser.button(:id => 'alert').click
+            browser.button(id: 'alert').click
           end
 
           deviates_on :watir_classic do
-            browser.button(:id => 'alert').click_no_wait
+            browser.button(id: 'alert').click_no_wait
           end
 
           browser.wait_until(10) { browser.alert.exists? }
@@ -46,11 +46,11 @@ describe 'Alert API' do
       describe '#ok' do
         it 'closes alert' do
           not_compliant_on :watir_classic do
-            browser.button(:id => 'alert').click
+            browser.button(id: 'alert').click
           end
 
           deviates_on :watir_classic do
-            browser.button(:id => 'alert').click_no_wait
+            browser.button(id: 'alert').click_no_wait
           end
 
           browser.alert.ok
@@ -61,11 +61,11 @@ describe 'Alert API' do
       describe '#close' do
         it 'closes alert' do
           not_compliant_on :watir_classic do
-            browser.button(:id => 'alert').click
+            browser.button(id: 'alert').click
           end
 
           deviates_on :watir_classic do
-            browser.button(:id => 'alert').click_no_wait
+            browser.button(id: 'alert').click_no_wait
           end
 
           browser.alert.when_present.close
@@ -75,7 +75,7 @@ describe 'Alert API' do
 
       describe 'when_present' do
         it 'waits until alert is present and goes on' do
-          browser.button(:id => 'timeout-alert').click
+          browser.button(id: 'timeout-alert').click
           browser.alert.when_present.close
 
           expect(browser.alert).to_not exist
@@ -93,30 +93,30 @@ describe 'Alert API' do
       describe '#ok' do
         it 'accepts confirm' do
           not_compliant_on :watir_classic do
-            browser.button(:id => 'confirm').click
+            browser.button(id: 'confirm').click
           end
 
           deviates_on :watir_classic do
-            browser.button(:id => 'confirm').click_no_wait
+            browser.button(id: 'confirm').click_no_wait
           end
 
           browser.alert.ok
-          expect(browser.button(:id => 'confirm').value).to eq "true"
+          expect(browser.button(id: 'confirm').value).to eq "true"
         end
       end
 
       describe '#close' do
         it 'cancels confirm' do
           not_compliant_on :watir_classic do
-            browser.button(:id => 'confirm').click
+            browser.button(id: 'confirm').click
           end
 
           deviates_on :watir_classic do
-            browser.button(:id => 'confirm').click_no_wait
+            browser.button(id: 'confirm').click_no_wait
           end
 
           browser.alert.when_present.close
-          expect(browser.button(:id => 'confirm').value).to eq "false"
+          expect(browser.button(id: 'confirm').value).to eq "false"
         end
       end
     end
@@ -125,16 +125,16 @@ describe 'Alert API' do
       describe '#set' do
         it 'enters text to prompt' do
           not_compliant_on :watir_classic do
-            browser.button(:id => 'prompt').click
+            browser.button(id: 'prompt').click
           end
 
           deviates_on :watir_classic do
-            browser.button(:id => 'prompt').click_no_wait
+            browser.button(id: 'prompt').click_no_wait
           end
 
           browser.alert.set 'My Name'
           browser.alert.ok
-          expect(browser.button(:id => 'prompt').value).to eq 'My Name'
+          expect(browser.button(id: 'prompt').value).to eq 'My Name'
         end
       end
     end

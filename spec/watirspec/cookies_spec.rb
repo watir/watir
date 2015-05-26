@@ -41,7 +41,7 @@ describe "Browser#cookies" do
     end
   end
 
-  not_compliant_on [:webdriver, :internet_explorer] do
+  not_compliant_on %i(webdriver internet_explorer) do
     it 'adds a cookie' do
       browser.goto set_cookie_url
       verify_cookies_count 1
@@ -51,14 +51,14 @@ describe "Browser#cookies" do
     end
   end
 
-  not_compliant_on [:webdriver, :chrome], [:webdriver, :internet_explorer], :phantomjs do
+  not_compliant_on %i(webdriver chrome), %i(webdriver internet_explorer), :phantomjs do
     it 'adds a cookie with options' do
       browser.goto set_cookie_url
 
       expires = Time.now + 10000
-      options = {:path    => "/set_cookie",
-                 :secure  => true,
-                 :expires => expires}
+      options = {path: "/set_cookie",
+                 secure: true,
+                 expires: expires}
 
       deviates_on :watir_classic do
         # secure cookie can't be accessed running on WatirSpec test server
@@ -84,7 +84,7 @@ describe "Browser#cookies" do
     end
   end
 
-  not_compliant_on [:webdriver, :internet_explorer] do
+  not_compliant_on %i(webdriver internet_explorer) do
     it 'removes a cookie' do
       browser.goto set_cookie_url
       verify_cookies_count 1
@@ -103,7 +103,7 @@ describe "Browser#cookies" do
     end
   end
 
-  not_compliant_on [:webdriver, :internet_explorer], :phantomjs do
+  not_compliant_on %i(webdriver internet_explorer), :phantomjs do
     let(:file) { "#{Dir.tmpdir}/cookies" }
 
     before do
@@ -135,7 +135,7 @@ describe "Browser#cookies" do
 
   def set_cookie_url
     # add timestamp to url to avoid caching in IE8
-    WatirSpec.url_for('set_cookie/index.html', :needs_server => true) + "?t=#{Time.now.to_i + Time.now.usec}"
+    WatirSpec.url_for('set_cookie/index.html', needs_server: true) + "?t=#{Time.now.to_i + Time.now.usec}"
   end
 
   def verify_cookies_count expected_size

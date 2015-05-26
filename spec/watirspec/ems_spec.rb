@@ -10,7 +10,7 @@ describe "Ems" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.ems(:class => "important-class").to_a).to eq [browser.em(:class => "important-class")]
+        expect(browser.ems(class: "important-class").to_a).to eq [browser.em(class: "important-class")]
       end
     end
   end
@@ -32,9 +32,9 @@ describe "Ems" do
       count = 0
 
       browser.ems.each_with_index do |e, index|
-        expect(e.text).to eq browser.em(:index, index).text
-        expect(e.id).to eq browser.em(:index, index).id
-        expect(e.class_name).to eq browser.em(:index, index).class_name
+        expect(e.text).to eq browser.em(index: index).text
+        expect(e.id).to eq browser.em(index: index).id
+        expect(e.class_name).to eq browser.em(index: index).class_name
 
         count += 1
       end

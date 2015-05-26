@@ -10,7 +10,7 @@ describe "Images" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.images(:alt => "circle").to_a).to eq [browser.image(:alt => "circle")]
+        expect(browser.images(alt: "circle").to_a).to eq [browser.image(alt: "circle")]
       end
     end
   end
@@ -32,7 +32,7 @@ describe "Images" do
       count = 0
 
       browser.images.each_with_index do |c, index|
-        expect(c.id).to eq browser.image(:index, index).id
+        expect(c.id).to eq browser.image(index: index).id
         count += 1
       end
 

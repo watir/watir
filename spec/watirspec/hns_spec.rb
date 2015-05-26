@@ -9,7 +9,7 @@ describe "H1s", "H2s", "H3s", "H4s", "H5s", "H6s" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.h1s(:class => "primary").to_a).to eq [browser.h1(:class => "primary")]
+        expect(browser.h1s(class: "primary").to_a).to eq [browser.h1(class: "primary")]
       end
     end
   end

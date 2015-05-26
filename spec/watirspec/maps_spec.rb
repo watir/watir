@@ -10,7 +10,7 @@ describe "Maps" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.maps(:name => "triangle_map").to_a).to eq [browser.map(:name => "triangle_map")]
+        expect(browser.maps(name: "triangle_map").to_a).to eq [browser.map(name: "triangle_map")]
       end
     end
   end
@@ -32,8 +32,8 @@ describe "Maps" do
       count = 0
 
       browser.maps.each_with_index do |m, index|
-        expect(m.name).to eq browser.map(:index, index).name
-        expect(m.id).to eq browser.map(:index, index).id
+        expect(m.name).to eq browser.map(index: index).name
+        expect(m.id).to eq browser.map(index: index).id
         count += 1
       end
 

@@ -10,7 +10,7 @@ describe "SelectLists" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.select_lists(:name => "delete_user_username").to_a).to eq [browser.select_list(:name => "delete_user_username")]
+        expect(browser.select_lists(name: "delete_user_username").to_a).to eq [browser.select_list(name: "delete_user_username")]
       end
     end
   end
@@ -35,9 +35,9 @@ describe "SelectLists" do
       count = 0
 
       browser.select_lists.each_with_index do |l, index|
-        expect(browser.select_list(:index, index).name).to eq l.name
-        expect(browser.select_list(:index, index).id).to eq  l.id
-        expect(browser.select_list(:index, index).value).to eq l.value
+        expect(browser.select_list(index: index).name).to eq l.name
+        expect(browser.select_list(index: index).id).to eq  l.id
+        expect(browser.select_list(index: index).value).to eq l.value
 
         count += 1
       end

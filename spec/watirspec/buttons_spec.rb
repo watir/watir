@@ -10,7 +10,7 @@ describe "Buttons" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.buttons(:name => "new_user_button").to_a).to eq [browser.button(:name => "new_user_button")]
+        expect(browser.buttons(name: "new_user_button").to_a).to eq [browser.button(name: "new_user_button")]
       end
     end
   end
@@ -44,9 +44,9 @@ describe "Buttons" do
       count = 0
 
       browser.buttons.each_with_index do |b, index|
-        expect(b.name).to eq browser.button(:index, index).name
-        expect(b.id).to eq browser.button(:index, index).id
-        expect(b.value).to eq browser.button(:index, index).value
+        expect(b.name).to eq browser.button(index: index).name
+        expect(b.id).to eq browser.button(index: index).id
+        expect(b.value).to eq browser.button(index: index).value
 
         count += 1
       end

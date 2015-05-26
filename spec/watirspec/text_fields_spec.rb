@@ -10,7 +10,7 @@ describe "TextFields" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.text_fields(:name => "new_user_email").to_a).to eq [browser.text_field(:name => "new_user_email")]
+        expect(browser.text_fields(name: "new_user_email").to_a).to eq [browser.text_field(name: "new_user_email")]
       end
     end
   end
@@ -34,9 +34,9 @@ describe "TextFields" do
       count = 0
 
       browser.text_fields.each_with_index do |r, index|
-        expect(r.name).to eq browser.text_field(:index, index).name
-        expect(r.id).to eq browser.text_field(:index, index).id
-        expect(r.value).to eq browser.text_field(:index, index).value
+        expect(r.name).to eq browser.text_field(index: index).name
+        expect(r.id).to eq browser.text_field(index: index).id
+        expect(r.value).to eq browser.text_field(index: index).value
 
         count += 1
       end

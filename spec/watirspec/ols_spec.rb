@@ -10,7 +10,7 @@ describe "Ols" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.ols(:class => "chemistry").to_a).to eq [browser.ol(:class => "chemistry")]
+        expect(browser.ols(class: "chemistry").to_a).to eq [browser.ol(class: "chemistry")]
       end
     end
   end
@@ -32,7 +32,7 @@ describe "Ols" do
       count = 0
 
       browser.ols.each_with_index do |ol, index|
-        expect(ol.id).to eq browser.ol(:index, index).id
+        expect(ol.id).to eq browser.ol(index: index).id
         count += 1
       end
 
