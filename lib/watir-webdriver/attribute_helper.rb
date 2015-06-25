@@ -47,7 +47,7 @@ module Watir
     def self.extended(klass)
       klass.class_eval do
         # undefine deprecated methods to use them for Element attributes
-        %i(id type).each { |m| undef_method m if method_defined? m }
+        [:id, :type].each { |m| undef_method m if method_defined? m }
       end
     end
 
