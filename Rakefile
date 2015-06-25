@@ -64,7 +64,7 @@ end
 
     desc 'Re-generate the base Watir element classes from the spec'
     task generate: :generator_lib do
-      old_file = "lib/watir-webdriver/elements/#{type}.rb"
+      old_file = "lib/watir-webdriver/elements/#{type}_elements.rb"
       generator = Watir::Generator.const_get(type.upcase).new
 
       File.open("#{old_file}.new", "w") do |file|
@@ -78,7 +78,7 @@ end
 
     desc "Move #{type}.rb.new to #{type}.rb"
     task :overwrite do
-      file = "lib/watir-webdriver/elements/#{type}.rb"
+      file = "lib/watir-webdriver/elements/#{type}_elements.rb"
       mv "#{file}.new", file
     end
 
