@@ -5,6 +5,7 @@
 * Fixed the handling of child elements becoming stale (#321)
 * Performance optimization for nested elements (#321)
 * Support for SVG elements (see `lib/watir-webdriver/elements/svg_elements.rb`)
+* Updated selenium-webdriver to 2.46.2
 
 ### 0.7.0 (2015-03-02)
 
