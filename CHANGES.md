@@ -1,4 +1,4 @@
-### Unreleased
+### 0.8.0 (2015-06-26)
 
 * Ruby 1.8 is no longer supported. Ruby 1.9 still works, but not supported as well (#327)
 * Ensure `Watir::Element` responds to `data_*` and `aria_*` methods (#333, thanks @daneandersen)
