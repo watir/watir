@@ -86,7 +86,9 @@ require 'watir-webdriver/cell_container'
 require 'watir-webdriver/user_editable'
 require 'watir-webdriver/element_collection'
 require 'watir-webdriver/elements/element'
-require 'watir-webdriver/elements/generated'
+
+require 'watir-webdriver/elements/html_elements'
+require 'watir-webdriver/elements/svg_elements'
 
 require 'watir-webdriver/elements/area'
 require 'watir-webdriver/elements/button'

@@ -4,6 +4,7 @@
 * Ensure `Watir::Element` responds to `data_*` and `aria_*` methods (#333, thanks @daneandersen)
 * Fixed the handling of child elements becoming stale (#321)
 * Performance optimization for nested elements (#321)
+* Support for SVG elements (see `lib/watir-webdriver/elements/svg_elements.rb`)
 
 ### 0.7.0 (2015-03-02)
 

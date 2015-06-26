@@ -41,7 +41,7 @@ module Watir
 
     def initialize(browser = :firefox, *args)
       case browser
-      when Symbol, String
+      when ::Symbol, String
         @driver = Selenium::WebDriver.for browser.to_sym, *args
       when Selenium::WebDriver::Driver
         @driver = browser

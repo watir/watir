@@ -1,0 +1,11 @@
+require "nokogiri"
+require "open-uri"
+require "pp"
+require "webidl"
+require "active_support/inflector"
+
+require "watir-webdriver/generator/base/generator"
+require "watir-webdriver/generator/base/idl_sorter"
+require "watir-webdriver/generator/base/spec_extractor"
+require "watir-webdriver/generator/base/util"
+require "watir-webdriver/generator/base/visitor"
