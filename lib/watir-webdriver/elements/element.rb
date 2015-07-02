@@ -129,7 +129,7 @@ module Watir
         end
       end
 
-      run_checkers
+      browser.checkers.run
     end
 
     #
@@ -145,7 +145,7 @@ module Watir
       assert_has_input_devices_for :double_click
 
       element_call { driver.action.double_click(@element).perform }
-      run_checkers
+      browser.checkers.run
     end
 
     #
@@ -161,7 +161,7 @@ module Watir
       assert_has_input_devices_for :right_click
 
       element_call { driver.action.context_click(@element).perform }
-      run_checkers
+      browser.checkers.run
     end
 
     #
@@ -436,14 +436,6 @@ module Watir
       else
         attribute_value("style").to_s.strip
       end
-    end
-
-    #
-    # Runs checkers.
-    #
-
-    def run_checkers
-      @parent.run_checkers
     end
 
     #

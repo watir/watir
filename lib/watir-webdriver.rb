@@ -18,6 +18,7 @@ require 'watir-webdriver/locators/child_row_locator'
 require 'watir-webdriver/locators/child_cell_locator'
 require 'watir-webdriver/browser'
 require 'watir-webdriver/screenshot'
+require 'watir-webdriver/checkers'
 
 module Watir
   @always_locate = true

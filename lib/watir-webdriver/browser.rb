@@ -10,6 +10,7 @@ module Watir
     include Waitable
 
     attr_reader :driver
+    attr_reader :checkers
     alias_method :wd, :driver # ensures duck typing with Watir::Element
 
     class << self
@@ -49,9 +50,9 @@ module Watir
         raise ArgumentError, "expected Symbol or Selenium::WebDriver::Driver, got #{browser.class}"
       end
 
-      @error_checkers = []
+      @checkers = Checkers.new(self)
       @current_frame  = nil
-      @closed         = false
+      @closed = false
     end
 
     def inspect
@@ -74,7 +75,7 @@ module Watir
       uri = "http://#{uri}" unless uri =~ URI.regexp
 
       @driver.navigate.to uri
-      run_checkers
+      @checkers.run
 
       url
     end
@@ -199,7 +200,7 @@ module Watir
 
     def refresh
       @driver.navigate.refresh
-      run_checkers
+      @checkers.run
     end
 
     #
@@ -281,79 +282,39 @@ module Watir
     end
 
     #
-    # Adds new checker.
-    #
-    # Checkers are generally used to ensure application under test does not encounter
-    # any error. They are automatically executed after following events:
-    #   1. Open URL
-    #   2. Refresh page
-    #   3. Click, double-click or right-click on element
-    #
-    # @example
-    #   browser.add_checker do |page|
-    #     page.text.include?("Server Error") and puts "Application exception or 500 error!"
-    #   end
-    #   browser.goto "www.watir.com/404"
-    #   "Application exception or 500 error!"
-    #
-    # @param [#call] checker Object responding to call
-    # @yield Checker block
-    # @yieldparam [Watir::Browser]
+    # @deprecated Use `Watir::Checkers#add` instead
     #
 
     def add_checker(checker = nil, &block)
-      if block_given?
-        @error_checkers << block
-      elsif checker.respond_to? :call
-        @error_checkers << checker
-      else
-        raise ArgumentError, "expected block or object responding to #call"
-      end
+      warn 'Browser#add_checker is deprecated. Use Browser#checkers#add instead.'
+      @checkers.add(checker, &block)
     end
 
     #
-    # Deletes checker.
-    #
-    # @example
-    #   checker = lambda do |page|
-    #     page.text.include?("Server Error") and puts "Application exception or 500 error!"
-    #   end
-    #   browser.add_checker checker
-    #   browser.goto "www.watir.com/404"
-    #   "Application exception or 500 error!"
-    #   browser.disable_checker checker
-    #   browser.refresh
+    # @deprecated Use `Watir::Checkers#disable` instead
     #
 
     def disable_checker(checker)
-      @error_checkers.delete(checker)
+      warn 'Browser#disable_checker is deprecated. Use Browser#checkers#disable instead.'
+      @checkers.disable(checker)
     end
 
     #
-    # Runs checkers.
+    # @deprecated Use `Watir::Checkers#run` instead
     #
 
     def run_checkers
-      @error_checkers.each { |e| e.call(self) } if !@error_checkers.empty? && window.present?
+      warn 'Browser#run_checkers is deprecated. Use Browser#checkers#run instead.'
+      @checkers.run
     end
 
     #
-    # Executes a block without running error checkers.
-    #
-    # @example
-    #   browser.without_checkers do
-    #     browser.element(name: "new_user_button").click
-    #   end
-    #
-    # @yieldparam [Watir::Browser]
+    # @deprecated Use `Watir::Checkers#without` instead
     #
 
-    def without_checkers
-      current_checkers = @error_checkers
-      @error_checkers = []
-      yield(self)
-    ensure
-      @error_checkers = current_checkers
+    def without_checkers(&block)
+      warn 'Browser#without_checkers is deprecated. Use Browser#checkers#without instead.'
+      @checkers.without(&block)
     end
 
     #
