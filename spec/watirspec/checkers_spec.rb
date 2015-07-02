@@ -84,6 +84,44 @@ describe "Browser::Checkers" do
       expect(@yield).to be true
     end
 
+    bug "https://github.com/detro/ghostdriver/issues/20", :phantomjs do
+      it "runs checkers after Alert#ok" do
+        browser.goto(WatirSpec.url_for("alerts.html"))
+        @page_checker = Proc.new { @yield = browser.title == "Alerts" }
+        browser.checkers.add @page_checker
+
+        browser.checkers.without do
+          not_compliant_on :watir_classic do
+            browser.button(id: 'alert').click
+          end
+          deviates_on :watir_classic do
+            browser.button(id: 'alert').click_no_wait
+          end
+        end
+
+        browser.alert.ok
+        expect(@yield).to be true
+      end
+
+      it "runs checkers after Alert#close" do
+        browser.goto(WatirSpec.url_for("alerts.html"))
+        @page_checker = Proc.new { @yield = browser.title == "Alerts" }
+        browser.checkers.add @page_checker
+
+        browser.checkers.without do
+          not_compliant_on :watir_classic do
+            browser.button(id: 'alert').click
+          end
+          deviates_on :watir_classic do
+            browser.button(id: 'alert').click_no_wait
+          end
+        end
+
+        browser.alert.close
+        expect(@yield).to be true
+      end
+    end
+
     it "raises UnhandledAlertError error when running error checks with alert present" do
       url = WatirSpec.url_for("alerts.html")
       @page_checker = Proc.new { browser.url }
@@ -92,7 +130,7 @@ describe "Browser::Checkers" do
       expect { browser.button(id: "alert").click }.to raise_error(Selenium::WebDriver::Error::UnhandledAlertError)
     end
 
-    it "does not raise error when running error checks using #checkers.without with alert present" do
+    it "does not raise error when running error checks using #checkers#without with alert present" do
       url = WatirSpec.url_for("alerts.html")
       @page_checker = Proc.new { browser.url }
       browser.checkers.add @page_checker
