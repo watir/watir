@@ -291,12 +291,12 @@ module Watir
     end
 
     #
-    # @deprecated Use `Watir::Checkers#disable` instead
+    # @deprecated Use `Watir::Checkers#delete` instead
     #
 
     def disable_checker(checker)
-      warn 'Browser#disable_checker is deprecated. Use Browser#checkers#disable instead.'
-      @checkers.disable(checker)
+      warn 'Browser#disable_checker is deprecated. Use Browser#checkers#delete instead.'
+      @checkers.delete(checker)
     end
 
     #
