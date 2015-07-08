@@ -3,8 +3,8 @@ module Watir
 
     include EventuallyPresent
 
-    def initialize(target_locator)
-      @target_locator = target_locator
+    def initialize(browser)
+      @browser = browser
       @alert = nil
     end
 
@@ -35,6 +35,7 @@ module Watir
     def ok
       assert_exists
       @alert.accept
+      @browser.checkers.run
     end
 
     #
@@ -49,6 +50,7 @@ module Watir
     def close
       assert_exists
       @alert.dismiss
+      @browser.checkers.run
     end
 
     #
@@ -93,7 +95,7 @@ module Watir
     private
 
     def assert_exists
-      @alert = @target_locator.alert
+      @alert = @browser.driver.switch_to.alert
     rescue Selenium::WebDriver::Error::NoAlertPresentError
       raise Exception::UnknownObjectException, 'unable to locate alert'
     end

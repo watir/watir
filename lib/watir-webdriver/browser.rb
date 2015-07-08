@@ -191,7 +191,7 @@ module Watir
     #
 
     def alert
-      Alert.new driver.switch_to
+      Alert.new(self)
     end
 
     #
