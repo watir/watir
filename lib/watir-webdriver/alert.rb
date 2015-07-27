@@ -35,7 +35,7 @@ module Watir
     def ok
       assert_exists
       @alert.accept
-      @browser.checkers.run
+      @browser.after_hooks.run
     end
 
     #
@@ -50,7 +50,7 @@ module Watir
     def close
       assert_exists
       @alert.dismiss
-      @browser.checkers.run
+      @browser.after_hooks.run
     end
 
     #

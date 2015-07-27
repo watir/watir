@@ -1,3 +1,7 @@
+### Unreleased
+
+* Deprecated checkers. Use `Browser#after_hooks` instead.
+
 ### 0.8.0 (2015-06-26)
 
 * Ruby 1.8 is no longer supported. Ruby 1.9 still works, but not supported as well (#327)

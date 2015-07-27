@@ -10,7 +10,7 @@ module Watir
     include Waitable
 
     attr_reader :driver
-    attr_reader :checkers
+    attr_reader :after_hooks
     alias_method :wd, :driver # ensures duck typing with Watir::Element
 
     class << self
@@ -50,7 +50,7 @@ module Watir
         raise ArgumentError, "expected Symbol or Selenium::WebDriver::Driver, got #{browser.class}"
       end
 
-      @checkers = Checkers.new(self)
+      @after_hooks = AfterHooks.new(self)
       @current_frame  = nil
       @closed = false
     end
@@ -75,7 +75,7 @@ module Watir
       uri = "http://#{uri}" unless uri =~ URI.regexp
 
       @driver.navigate.to uri
-      @checkers.run
+      @after_hooks.run
 
       url
     end
@@ -200,7 +200,7 @@ module Watir
 
     def refresh
       @driver.navigate.refresh
-      @checkers.run
+      @after_hooks.run
     end
 
     #
@@ -282,39 +282,39 @@ module Watir
     end
 
     #
-    # @deprecated Use `Watir::Checkers#add` instead
+    # @deprecated Use `Watir::AfterHooks#add` instead
     #
 
     def add_checker(checker = nil, &block)
-      warn 'Browser#add_checker is deprecated. Use Browser#checkers#add instead.'
-      @checkers.add(checker, &block)
+      warn 'Browser#add_checker is deprecated. Use Browser#after_hooks#add instead.'
+      @after_hooks.add(checker, &block)
     end
 
     #
-    # @deprecated Use `Watir::Checkers#delete` instead
+    # @deprecated Use `Watir::AfterHooks#delete` instead
     #
 
     def disable_checker(checker)
-      warn 'Browser#disable_checker is deprecated. Use Browser#checkers#delete instead.'
-      @checkers.delete(checker)
+      warn 'Browser#disable_checker is deprecated. Use Browser#after_hooks#delete instead.'
+      @after_hooks.delete(checker)
     end
 
     #
-    # @deprecated Use `Watir::Checkers#run` instead
+    # @deprecated Use `Watir::AfterHooks#run` instead
     #
 
     def run_checkers
-      warn 'Browser#run_checkers is deprecated. Use Browser#checkers#run instead.'
-      @checkers.run
+      warn 'Browser#run_checkers is deprecated. Use Browser#after_hooks#run instead.'
+      @after_hooks.run
     end
 
     #
-    # @deprecated Use `Watir::Checkers#without` instead
+    # @deprecated Use `Watir::AfterHooks#without` instead
     #
 
     def without_checkers(&block)
-      warn 'Browser#without_checkers is deprecated. Use Browser#checkers#without instead.'
-      @checkers.without(&block)
+      warn 'Browser#without_checkers is deprecated. Use Browser#after_hooks#without instead.'
+      @after_hooks.without(&block)
     end
 
     #

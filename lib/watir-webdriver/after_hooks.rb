@@ -1,7 +1,7 @@
 module Watir
 
   #
-  # Checkers are blocks that run after certain browser events.
+  # After hooks are blocks that run after certain browser events.
   # They are generally used to ensure application under test does not encounter
   # any error and are automatically executed after following events:
   #   1. Open URL.
@@ -10,34 +10,34 @@ module Watir
   #   4. Alert closing.
   #
 
-  class Checkers
+  class AfterHooks
     include Enumerable
 
     def initialize(browser)
       @browser = browser
-      @checkers = []
+      @after_hooks = []
     end
 
     #
-    # Adds new checker.
+    # Adds new after hook.
     #
     # @example
-    #   browser.checkers.add do |browser|
+    #   browser.after_hooks.add do |browser|
     #     browser.text.include?("Server Error") and puts "Application exception or 500 error!"
     #   end
     #   browser.goto "www.watir.com/404"
     #   "Application exception or 500 error!"
     #
-    # @param [#call] checker Object responding to call
-    # @yield Checker block
+    # @param [#call] after_hook Object responding to call
+    # @yield after_hook block
     # @yieldparam [Watir::Browser]
     #
 
-    def add(checker = nil, &block)
+    def add(after_hook = nil, &block)
       if block_given?
-        @checkers << block
-      elsif checker.respond_to? :call
-        @checkers << checker
+        @after_hooks << block
+      elsif after_hook.respond_to? :call
+        @after_hooks << after_hook
       else
         raise ArgumentError, "expected block or object responding to #call"
       end
@@ -45,88 +45,88 @@ module Watir
     alias_method :<<, :add
 
     #
-    # Deletes checker.
+    # Deletes after hook.
     #
     # @example
-    #   browser.checkers.add do |browser|
+    #   browser.after_hooks.add do |browser|
     #     browser.text.include?("Server Error") and puts "Application exception or 500 error!"
     #   end
     #   browser.goto "www.watir.com/404"
     #   "Application exception or 500 error!"
-    #   browser.checkers.delete browser.checkers[0]
+    #   browser.after_hooks.delete browser.after_hooks[0]
     #   browser.refresh
     #
 
-    def delete(checker)
-      @checkers.delete(checker)
+    def delete(after_hook)
+      @after_hooks.delete(after_hook)
     end
 
     #
-    # Runs checkers.
+    # Runs after hooks.
     #
 
     def run
-      if @checkers.any? && @browser.window.present?
-        each { |checker| checker.call(@browser) }
+      if @after_hooks.any? && @browser.window.present?
+        each { |after_hook| after_hook.call(@browser) }
       end
     end
 
     #
-    # Executes a block without running error checkers.
+    # Executes a block without running error after hooks.
     #
     # @example
-    #   browser.checkers.without do |browser|
+    #   browser.after_hooks.without do |browser|
     #     browser.element(name: "new_user_button").click
     #   end
     #
-    # @yield Block that is executed without checkers being run
+    # @yield Block that is executed without after hooks being run
     # @yieldparam [Watir::Browser]
     #
 
     def without
-      current_checkers = @checkers
-      @checkers = []
+      current_after_hooks = @after_hooks
+      @after_hooks = []
       yield(@browser)
     ensure
-      @checkers = current_checkers
+      @after_hooks = current_after_hooks
     end
 
     #
-    # Yields each checker.
+    # Yields each after hook.
     #
-    # @yieldparam [#call] checker Object responding to call
+    # @yieldparam [#call] after_hook Object responding to call
     #
 
     def each
-      @checkers.each { |checker| yield checker }
+      @after_hooks.each { |after_hook| yield after_hook }
     end
 
     #
-    # Returns number of checkers.
+    # Returns number of after hooks.
     #
     # @example
-    #   browser.checkers.add { puts 'Some checker.' }
-    #   browser.checkers.length
+    #   browser.after_hooks.add { puts 'Some after_hook.' }
+    #   browser.after_hooks.length
     #   #=> 1
     #
     # @return [Fixnum]
     #
 
     def length
-      @checkers.length
+      @after_hooks.length
     end
     alias_method :size, :length
 
     #
-    # Get the checker at the given index.
+    # Gets the after hook at the given index.
     #
     # @param [Fixnum] index
     # @return [#call]
     #
 
     def [](index)
-      @checkers[index]
+      @after_hooks[index]
     end
 
-  end # Checkers
+  end # AfterHooks
 end # Watir
