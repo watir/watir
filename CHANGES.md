@@ -1,6 +1,10 @@
 ### Unreleased
 
-* Deprecated checkers. Use `Browser#after_hooks` instead.
+* New AfterHooks API that deprecates Checkers:
+  * Use `Browser#after_hooks#add` instead of `Browser#add_checker`
+  * Use `Browser#after_hooks#delete` instead of `Browser#disable_checker`
+  * Use `Browser#after_hooks#run` instead of `Browser#run_checkers`
+  * Use `Browser#after_hooks#without` instead of `Browser#without_checkers`
 
 ### 0.8.0 (2015-06-26)
 
