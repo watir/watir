@@ -37,7 +37,10 @@ module Watir
 
       def until(timeout = nil, message = nil)
         timeout ||= Watir.default_timeout
-        run_with_timer(timeout) { return true if yield(self) }
+        run_with_timer(timeout) do
+          result = yield(self)
+          return result if result
+        end
         raise TimeoutError, message_for(timeout, message)
       end
 
