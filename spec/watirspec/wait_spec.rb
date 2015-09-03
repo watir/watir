@@ -4,6 +4,12 @@ require File.expand_path("../spec_helper", __FILE__)
 not_compliant_on %i(webdriver safari) do
   describe Watir::Wait do
     describe "#until" do
+
+      it "returns result of block if truthy" do
+        result = 'catter'
+        expect(Wait.until(0.5) { result }).to be result
+      end
+
       it "waits until the block returns true" do
         expect(Wait.until(0.5) { true }).to be true
       end
