@@ -87,6 +87,8 @@ module Watir
     private
 
     def elements
+      @parent.is_a?(IFrame) ? @parent.switch_to! : @parent.send(:assert_exists)
+
       @elements ||= locator_class.new(
         @parent.wd,
         @selector,
