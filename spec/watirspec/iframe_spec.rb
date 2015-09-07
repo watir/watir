@@ -115,6 +115,13 @@ describe "IFrame" do
     end
   end
 
+  it 'switches back to top level browsing context' do
+    # Point driver to browsing context of first iframe
+    browser.iframes.first.ps.to_a
+
+    expect(browser.h1s.first.text).to be == 'Iframes'
+  end
+
   it "raises UnknownFrameException when accessing elements inside non-existing iframe" do
     expect { browser.iframe(name: "no_such_name").p(index: 0).id }.to raise_error(Watir::Exception::UnknownFrameException)
   end
