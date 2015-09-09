@@ -404,6 +404,17 @@ module Watir
     end
 
     #
+    # Returns true if this element is exists and is enabled on the page.
+    #
+    # @return [Boolean]
+    #
+
+    def enabled?
+      assert_exists
+      assert_enabled
+    end
+
+    #
     # Returns true if the element exists and is visible on the page.
     #
     # @return [Boolean]

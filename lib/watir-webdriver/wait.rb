@@ -126,6 +126,37 @@ module Watir
   end # WhenPresentDecorator
 
   #
+  # Wraps an Element so that any subsequent method calls are
+  # put on hold until the element is enabled (exists and is enabled) on the page.
+  #
+
+  class WhenEnabledDecorator
+    extend Forwardable
+
+    def_delegator :@element, :enabled?
+
+    def initialize(element, timeout, message = nil)
+      @element = element
+      @timeout = timeout
+      @message = message
+    end
+
+    def respond_to?(*args)
+      @element.respond_to?(*args)
+    end
+
+    def method_missing(m, *args, &block)
+      unless @element.respond_to?(m)
+        raise NoMethodError, "undefined method `#{m}' for #{@element.inspect}:#{@element.class}"
+      end
+
+      Watir::Wait.until(@timeout, @message) { @element.enabled? }
+
+      @element.__send__(m, *args, &block)
+    end
+  end # WhenEnabledDecorator
+
+  #
   # Convenience methods for things that eventually become present.
   #
   # Includers should implement a public #present? and a (possibly private) #selector_string method.
@@ -155,6 +186,30 @@ module Watir
         yield self
       else
         WhenPresentDecorator.new(self, timeout, message)
+      end
+    end
+
+    #
+    # Waits until the element is enabled.
+    #
+    # @example
+    #   browser.button(name: "submit").when_enabled.click
+    #
+    # @param [Fixnum] timeout seconds to wait before timing out
+    #
+    # @see Watir::Wait
+    # @see Watir::Element#enabled?
+    #
+
+    def when_enabled(timeout = nil)
+      timeout ||= Watir.default_timeout
+      message = "waiting for #{selector_string} to become enabled"
+
+      if block_given?
+        Watir::Wait.until(timeout, message) { enabled? }
+        yield self
+      else
+        WhenEnabledDecorator.new(self, timeout, message)
       end
     end
 
