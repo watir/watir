@@ -170,7 +170,7 @@ module Watir
     #
 
     def text
-      @driver.find_element(:tag_name, "body").text
+      body.text
     end
 
     #
