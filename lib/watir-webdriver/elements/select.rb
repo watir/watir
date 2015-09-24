@@ -86,17 +86,22 @@ module Watir
 
     def selected?(str_or_rx)
       assert_exists
-      matches = element_call do
-        @element.find_elements(:tag_name, 'option').select do |e|
-          str_or_rx === e.text || str_or_rx === e.attribute(:label)
+
+      match_found = false
+
+      element_call do
+        @element.find_elements(:tag_name, 'option').each do |e|
+          matched = str_or_rx === e.text || str_or_rx === e.attribute(:label)
+          if matched
+            return true if e.selected?
+            match_found = true
+          end
         end
       end
 
-      if matches.empty?
-        raise UnknownObjectException, "Unable to locate option matching #{str_or_rx.inspect}"
-      end
+      raise(UnknownObjectException, "Unable to locate option matching #{str_or_rx.inspect}") unless match_found
 
-      matches.any? { |e| e.selected? }
+      false
     end
 
     #
