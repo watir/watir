@@ -7,7 +7,7 @@ describe 'Alert API' do
     end
 
     after do
-      browser.alert.close if browser.alert.exists?
+      browser.alert.ok if browser.alert.exists?
     end
 
     context 'alert' do
@@ -58,32 +58,34 @@ describe 'Alert API' do
         end
       end
 
-      describe '#close' do
-        it 'closes alert' do
-          not_compliant_on :watir_classic do
-            browser.button(id: 'alert').click
-          end
+      bug "https://code.google.com/p/chromedriver/issues/detail?id=26", [:macosx, :chrome] do
+        describe '#close' do
+          it 'closes alert' do
+            not_compliant_on :watir_classic do
+              browser.button(id: 'alert').click
+            end
 
-          deviates_on :watir_classic do
-            browser.button(id: 'alert').click_no_wait
-          end
+            deviates_on :watir_classic do
+              browser.button(id: 'alert').click_no_wait
+            end
 
-          browser.alert.when_present.close
-          expect(browser.alert).to_not exist
+            browser.alert.when_present.close
+            expect(browser.alert).to_not exist
+          end
         end
       end
 
       describe 'when_present' do
         it 'waits until alert is present and goes on' do
           browser.button(id: 'timeout-alert').click
-          browser.alert.when_present.close
+          browser.alert.when_present.ok
 
           expect(browser.alert).to_not exist
         end
 
         it 'raises error if alert is not present after timeout' do
           expect {
-            browser.alert.when_present(0.1).close
+            browser.alert.when_present(0.1).ok
           }.to raise_error(Watir::Wait::TimeoutError)
         end
       end
@@ -105,18 +107,20 @@ describe 'Alert API' do
         end
       end
 
-      describe '#close' do
-        it 'cancels confirm' do
-          not_compliant_on :watir_classic do
-            browser.button(id: 'confirm').click
-          end
+      bug "https://code.google.com/p/chromedriver/issues/detail?id=26", [:macosx, :chrome] do
+        describe '#close' do
+          it 'cancels confirm' do
+            not_compliant_on :watir_classic do
+              browser.button(id: 'confirm').click
+            end
 
-          deviates_on :watir_classic do
-            browser.button(id: 'confirm').click_no_wait
-          end
+            deviates_on :watir_classic do
+              browser.button(id: 'confirm').click_no_wait
+            end
 
-          browser.alert.when_present.close
-          expect(browser.button(id: 'confirm').value).to eq "false"
+            browser.alert.when_present.close
+            expect(browser.button(id: 'confirm').value).to eq "false"
+          end
         end
       end
     end

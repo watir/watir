@@ -39,7 +39,7 @@ describe "Browser::AfterHooks" do
   describe "#run" do
     after(:each) do
       browser.window(index: 0).use
-      browser.alert.close if browser.alert.exists?
+      browser.alert.ok if browser.alert.exists?
       browser.after_hooks.delete @page_after_hook
     end
 
@@ -103,22 +103,24 @@ describe "Browser::AfterHooks" do
         expect(@yield).to be true
       end
 
-      it "runs after_hooks after Alert#close" do
-        browser.goto(WatirSpec.url_for("alerts.html"))
-        @page_after_hook = Proc.new { @yield = browser.title == "Alerts" }
-        browser.after_hooks.add @page_after_hook
+      bug "https://code.google.com/p/chromedriver/issues/detail?id=26", [:macosx, :chrome] do
+        it "runs after_hooks after Alert#close" do
+          browser.goto(WatirSpec.url_for("alerts.html"))
+          @page_after_hook = Proc.new { @yield = browser.title == "Alerts" }
+          browser.after_hooks.add @page_after_hook
 
-        browser.after_hooks.without do
-          not_compliant_on :watir_classic do
-            browser.button(id: 'alert').click
+          browser.after_hooks.without do
+            not_compliant_on :watir_classic do
+              browser.button(id: 'alert').click
+            end
+            deviates_on :watir_classic do
+              browser.button(id: 'alert').click_no_wait
+            end
           end
-          deviates_on :watir_classic do
-            browser.button(id: 'alert').click_no_wait
-          end
+
+          browser.alert.close
+          expect(@yield).to be true
         end
-
-        browser.alert.close
-        expect(@yield).to be true
       end
     end
 
@@ -145,7 +147,7 @@ describe "Browser::AfterHooks" do
       browser.goto url
       browser.after_hooks.delete @page_after_hook
       expect { browser.button(id: "alert").click }.to_not raise_error
-      browser.alert.close
+      browser.alert.ok
     end
 
     it "does not raise error when running error checks on closed window" do
