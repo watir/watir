@@ -94,15 +94,8 @@ module Watir
     end
   end
 
-  #
-  # Wraps an Element so that any subsequent method calls are
-  # put on hold until the element is present (exists and is visible) on the page.
-  #
-
-  class WhenPresentDecorator
+  class BaseDecorator
     extend Forwardable
-
-    def_delegator :@element, :present?
 
     def initialize(element, timeout, message = nil)
       @element = element
@@ -114,14 +107,27 @@ module Watir
       @element.respond_to?(*args)
     end
 
-    def method_missing(m, *args, &block)
+    def method_missing(decorator, m, *args, &block)
       unless @element.respond_to?(m)
         raise NoMethodError, "undefined method `#{m}' for #{@element.inspect}:#{@element.class}"
       end
 
-      Watir::Wait.until(@timeout, @message) { @element.present? }
+      Watir::Wait.until(@timeout, @message) { @element.send(decorator) }
 
       @element.__send__(m, *args, &block)
+    end
+  end
+
+  #
+  # Wraps an Element so that any subsequent method calls are
+  # put on hold until the element is present (exists and is visible) on the page.
+  #
+
+  class WhenPresentDecorator < BaseDecorator
+    def_delegator :@element, :present?
+
+    def method_missing(m, *args, &block)
+      super(:present?, m, *args, &block)
     end
   end # WhenPresentDecorator
 
@@ -130,29 +136,11 @@ module Watir
   # put on hold until the element is enabled (exists and is enabled) on the page.
   #
 
-  class WhenEnabledDecorator
-    extend Forwardable
-
+  class WhenEnabledDecorator < BaseDecorator
     def_delegator :@element, :enabled?
 
-    def initialize(element, timeout, message = nil)
-      @element = element
-      @timeout = timeout
-      @message = message
-    end
-
-    def respond_to?(*args)
-      @element.respond_to?(*args)
-    end
-
     def method_missing(m, *args, &block)
-      unless @element.respond_to?(m)
-        raise NoMethodError, "undefined method `#{m}' for #{@element.inspect}:#{@element.class}"
-      end
-
-      Watir::Wait.until(@timeout, @message) { @element.enabled? }
-
-      @element.__send__(m, *args, &block)
+      super(:enabled?, m, *args, &block)
     end
   end # WhenEnabledDecorator
 
