@@ -107,6 +107,12 @@ describe "Browser" do
       browser.goto(WatirSpec.url_for("plain_text", needs_server: true))
       expect(browser.text.strip).to eq 'This is text/plain'
     end
+
+    it "returns text of top most browsing context" do
+      browser.goto(WatirSpec.url_for("nested_iframes.html"))
+      browser.iframe(id: 'two').h3.exists?
+      expect(browser.text).to eq 'Top Layer'
+    end
   end
 
   describe "#url" do
