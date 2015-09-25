@@ -72,7 +72,8 @@ class ImplementationConfig
       matching_browser,               # guard only applies to this browser
       matching_browser_with_version,  # guard only applies to this browser with specific version
       [:webdriver, matching_browser], # guard only applies to this browser on webdriver
-      [:webdriver, matching_browser_with_version]  # guard only applies to this browser with specific version on webdriver
+      [:webdriver, matching_browser_with_version],  # guard only applies to this browser with specific version on webdriver
+      [matching_browser, Selenium::WebDriver::Platform.os] # guard only applies to this browser with this OS
     ]
 
     if native_events?
