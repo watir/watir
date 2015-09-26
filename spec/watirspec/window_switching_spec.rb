@@ -366,17 +366,19 @@ not_compliant_on %i(webdriver iphone), %i(webdriver safari) do
         expect(new_size.height).to eq initial_size.height - 10
       end
 
-      it "should move the window" do
-        initial_pos = browser.window.position
+      bug "https://github.com/detro/ghostdriver/issues/466", :phantomjs do
+        it "should move the window" do
+          initial_pos = browser.window.position
 
-        browser.window.move_to(
-          initial_pos.x + 10,
-          initial_pos.y + 10
-        )
+          browser.window.move_to(
+            initial_pos.x + 10,
+            initial_pos.y + 10
+          )
 
-        new_pos = browser.window.position
-        expect(new_pos.x).to eq initial_pos.x + 10
-        expect(new_pos.y).to eq initial_pos.y + 10
+          new_pos = browser.window.position
+          expect(new_pos.x).to eq initial_pos.x + 10
+          expect(new_pos.y).to eq initial_pos.y + 10
+        end
       end
 
       compliant_on %i(webdriver firefox window_manager) do

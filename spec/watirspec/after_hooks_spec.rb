@@ -39,7 +39,6 @@ describe "Browser::AfterHooks" do
   describe "#run" do
     after(:each) do
       browser.window(index: 0).use
-      browser.alert.ok if browser.alert.exists?
       browser.after_hooks.delete @page_after_hook
     end
 
@@ -124,30 +123,37 @@ describe "Browser::AfterHooks" do
       end
     end
 
-    it "raises UnhandledAlertError error when running error checks with alert present" do
-      url = WatirSpec.url_for("alerts.html")
-      @page_after_hook = Proc.new { browser.url }
-      browser.after_hooks.add @page_after_hook
-      browser.goto url
-      expect { browser.button(id: "alert").click }.to raise_error(Selenium::WebDriver::Error::UnhandledAlertError)
+    bug "https://github.com/detro/ghostdriver/issues/20", :phantomjs do
+      it "raises UnhandledAlertError error when running error checks with alert present" do
+        url = WatirSpec.url_for("alerts.html")
+        @page_after_hook = Proc.new { browser.url }
+        browser.after_hooks.add @page_after_hook
+        browser.goto url
+        expect { browser.button(id: "alert").click }.to raise_error(Selenium::WebDriver::Error::UnhandledAlertError)
+      end
     end
 
-    it "does not raise error when running error checks using #after_hooks#without with alert present" do
-      url = WatirSpec.url_for("alerts.html")
-      @page_after_hook = Proc.new { browser.url }
-      browser.after_hooks.add @page_after_hook
-      browser.goto url
-      expect { browser.after_hooks.without {browser.button(id: "alert").click} }.to_not raise_error
+    bug "https://github.com/detro/ghostdriver/issues/20", :phantomjs do
+      it "does not raise error when running error checks using #after_hooks#without with alert present" do
+        url = WatirSpec.url_for("alerts.html")
+        @page_after_hook = Proc.new { browser.url }
+        browser.after_hooks.add @page_after_hook
+        browser.goto url
+        expect { browser.after_hooks.without {browser.button(id: "alert").click} }.to_not raise_error
+        browser.alert.ok
+      end
     end
 
-    it "does not raise error if no error checks are defined with alert present" do
-      url = WatirSpec.url_for("alerts.html")
-      @page_after_hook = Proc.new { browser.url }
-      browser.after_hooks.add @page_after_hook
-      browser.goto url
-      browser.after_hooks.delete @page_after_hook
-      expect { browser.button(id: "alert").click }.to_not raise_error
-      browser.alert.ok
+    bug "https://github.com/detro/ghostdriver/issues/20", :phantomjs do
+      it "does not raise error if no error checks are defined with alert present" do
+        url = WatirSpec.url_for("alerts.html")
+        @page_after_hook = Proc.new { browser.url }
+        browser.after_hooks.add @page_after_hook
+        browser.goto url
+        browser.after_hooks.delete @page_after_hook
+        expect { browser.button(id: "alert").click }.to_not raise_error
+        browser.alert.ok
+      end
     end
 
     it "does not raise error when running error checks on closed window" do
