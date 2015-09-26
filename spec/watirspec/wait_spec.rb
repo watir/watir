@@ -80,7 +80,7 @@ not_compliant_on %i(webdriver safari) do
 
   describe Watir::Element do
     before do
-      browser.goto WatirSpec.url_for("wait.html", needs_server: true)
+      browser.goto WatirSpec.url_for("wait.html")
     end
 
     describe "#when_present" do
@@ -234,7 +234,7 @@ not_compliant_on %i(webdriver safari) do
     before do
       Watir.default_timeout = 1
 
-      browser.goto WatirSpec.url_for("wait.html", needs_server: true)
+      browser.goto WatirSpec.url_for("wait.html")
     end
 
     after do

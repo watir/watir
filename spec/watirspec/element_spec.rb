@@ -341,7 +341,7 @@ describe "Element" do
 
   describe '#inner_html' do
     it 'returns inner HTML code of element' do
-      browser.goto WatirSpec.url_for('inner_outer.html', needs_server: true)
+      browser.goto WatirSpec.url_for('inner_outer.html')
       div = browser.div(id: 'foo')
       expect(div.inner_html).to eq('<a href="#">hello</a>')
     end
@@ -349,7 +349,7 @@ describe "Element" do
 
   describe '#outer_html' do
     it 'returns outer (inner + element itself) HTML code of element' do
-      browser.goto WatirSpec.url_for('inner_outer.html', needs_server: true)
+      browser.goto WatirSpec.url_for('inner_outer.html')
       div = browser.div(id: 'foo')
       expect(div.outer_html).to eq('<div id="foo"><a href="#">hello</a></div>')
     end

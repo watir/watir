@@ -132,7 +132,7 @@ describe "Image" do
     not_compliant_on :watir_classic do
       describe "#file_created_date" do
         it "returns the date the image was created as reported by the file system" do
-          browser.goto(WatirSpec.url_for("images.html", needs_server: true))
+          browser.goto(WatirSpec.url_for("images.html"))
           image = browser.image(index: 1)
           path = "#{File.dirname(__FILE__)}/html#{image.src.gsub(WatirSpec.host, '')}"
           image.file_created_date.to_i.to eq File.mtime(path).to_i

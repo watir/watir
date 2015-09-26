@@ -58,7 +58,7 @@ describe "Frame" do
 
     bug "https://github.com/detro/ghostdriver/issues/159", :phantomjs do
       it "handles nested frames" do
-        browser.goto(WatirSpec.url_for("nested_frames.html", needs_server: true))
+        browser.goto(WatirSpec.url_for("nested_frames.html"))
 
         browser.frame(id: "two").frame(id: "three").link(id: "four").click
 

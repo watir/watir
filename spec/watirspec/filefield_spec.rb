@@ -112,7 +112,7 @@ describe "FileField" do
     not_compliant_on %i(webdriver iphone), %i(webdriver safari) do
       bug "https://github.com/detro/ghostdriver/issues/183", :phantomjs do
         it "is able to set a file path in the field and click the upload button and fire the onchange event" do
-          browser.goto WatirSpec.url_for("forms_with_input_elements.html", needs_server: true)
+          browser.goto WatirSpec.url_for("forms_with_input_elements.html")
 
           path    = File.expand_path(__FILE__)
           element = browser.file_field(name: "new_user_portrait")
@@ -139,7 +139,7 @@ describe "FileField" do
     not_compliant_on %i(webdriver iphone), %i(webdriver safari) do
       describe "#value=" do
         it "is able to set a file path in the field and click the upload button and fire the onchange event" do
-          browser.goto WatirSpec.url_for("forms_with_input_elements.html", needs_server: true)
+          browser.goto WatirSpec.url_for("forms_with_input_elements.html")
 
           path    = File.expand_path(__FILE__)
           element = browser.file_field(name: "new_user_portrait")

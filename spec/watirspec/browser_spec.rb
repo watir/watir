@@ -117,25 +117,25 @@ describe "Browser" do
 
   describe "#url" do
     it "returns the current url" do
-      browser.goto(WatirSpec.url_for("non_control_elements.html", needs_server: true))
-      expect(browser.url).to eq WatirSpec.url_for("non_control_elements.html", needs_server: true)
+      browser.goto(WatirSpec.url_for("non_control_elements.html"))
+      expect(browser.url).to eq WatirSpec.url_for("non_control_elements.html")
     end
 
     it "always returns top url" do
-      browser.goto(WatirSpec.url_for("frames.html", needs_server: true))
+      browser.goto(WatirSpec.url_for("frames.html"))
       browser.frame.body.exists? # switches to frame
-      expect(browser.url).to eq WatirSpec.url_for("frames.html", needs_server: true)
+      expect(browser.url).to eq WatirSpec.url_for("frames.html")
     end
   end
 
   describe "#title" do
     it "returns the current title" do
-      browser.goto(WatirSpec.url_for("non_control_elements.html", needs_server: true))
+      browser.goto(WatirSpec.url_for("non_control_elements.html"))
       expect(browser.title).to eq "Non-control elements"
     end
 
     it "always returns top title" do
-      browser.goto(WatirSpec.url_for("frames.html", needs_server: true))
+      browser.goto(WatirSpec.url_for("frames.html"))
       browser.element(tag_name: 'title').text
       browser.frame.body.exists? # switches to frame
       expect(browser.title).to eq "Frames"
@@ -167,12 +167,11 @@ describe "Browser" do
   end
 
   describe "#goto" do
-    not_compliant_on %i(webdriver internet_explorer) do
+    not_compliant_on %i(webdriver internet_explorer), :no_server do
       it "adds http:// to URLs with no URL scheme specified" do
         url = WatirSpec.host[%r{http://(.*)}, 1]
         expect(url).to_not be_nil
         browser.goto(url)
-        #expect(browser.url).to =~ %r[http://#{url}/?]
         expect(browser.url).to match(%r[http://#{url}/?])
       end
     end
@@ -267,9 +266,9 @@ describe "Browser" do
   not_compliant_on %i(webdriver safari) do
     describe "#back and #forward" do
       it "goes to the previous page" do
-        browser.goto WatirSpec.url_for("non_control_elements.html", needs_server: true)
+        browser.goto WatirSpec.url_for("non_control_elements.html")
         orig_url = browser.url
-        browser.goto(WatirSpec.url_for("tables.html", needs_server: true))
+        browser.goto WatirSpec.url_for("tables.html")
         new_url = browser.url
         expect(orig_url).to_not eq new_url
         browser.back
@@ -278,9 +277,9 @@ describe "Browser" do
 
       it "goes to the next page" do
         urls = []
-        browser.goto WatirSpec.url_for("non_control_elements.html", needs_server: true)
+        browser.goto WatirSpec.url_for("non_control_elements.html")
         urls << browser.url
-        browser.goto WatirSpec.url_for("tables.html", needs_server: true)
+        browser.goto WatirSpec.url_for("tables.html")
         urls << browser.url
 
         browser.back
@@ -295,7 +294,7 @@ describe "Browser" do
                  "forms_with_input_elements.html",
                  "definition_lists.html"
         ].map do |page|
-          browser.goto WatirSpec.url_for(page, needs_server: true)
+          browser.goto WatirSpec.url_for(page)
           browser.url
         end
 
@@ -308,7 +307,7 @@ describe "Browser" do
   end
 
   it "raises UnknownObjectException when trying to access DOM elements on plain/text-page" do
-    browser.goto(WatirSpec.url_for("plain_text", needs_server: true))
+    browser.goto(WatirSpec.url_for("plain_text"))
     expect { browser.div(id: 'foo').id }.to raise_error(Watir::Exception::UnknownObjectException)
   end
 

@@ -87,7 +87,7 @@ describe "IFrame" do
 
     bug "https://github.com/detro/ghostdriver/issues/159", :phantomjs do
       it "handles nested iframes" do
-        browser.goto(WatirSpec.url_for("nested_iframes.html", needs_server: true))
+        browser.goto(WatirSpec.url_for("nested_iframes.html"))
 
         browser.iframe(id: "two").iframe(id: "three").link(id: "four").click
 
