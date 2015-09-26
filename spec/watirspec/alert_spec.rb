@@ -58,7 +58,7 @@ describe 'Alert API' do
         end
       end
 
-      bug "https://code.google.com/p/chromedriver/issues/detail?id=26", [:macosx, :chrome] do
+      bug "https://code.google.com/p/chromedriver/issues/detail?id=26", [:chrome, :macosx] do
         describe '#close' do
           it 'closes alert' do
             not_compliant_on :watir_classic do
@@ -107,7 +107,7 @@ describe 'Alert API' do
         end
       end
 
-      bug "https://code.google.com/p/chromedriver/issues/detail?id=26", [:macosx, :chrome] do
+      bug "https://code.google.com/p/chromedriver/issues/detail?id=26", [:chrome, :macosx] do
         describe '#close' do
           it 'cancels confirm' do
             not_compliant_on :watir_classic do

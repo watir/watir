@@ -103,7 +103,7 @@ describe "Browser::AfterHooks" do
         expect(@yield).to be true
       end
 
-      bug "https://code.google.com/p/chromedriver/issues/detail?id=26", [:macosx, :chrome] do
+      bug "https://code.google.com/p/chromedriver/issues/detail?id=26", [:chrome, :macosx] do
         it "runs after_hooks after Alert#close" do
           browser.goto(WatirSpec.url_for("alerts.html"))
           @page_after_hook = Proc.new { @yield = browser.title == "Alerts" }
