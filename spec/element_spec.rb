@@ -4,7 +4,7 @@ describe Watir::Element do
 
   describe '#present?' do
     before do
-      browser.goto(WatirSpec.url_for("wait.html", needs_server: true))
+      browser.goto(WatirSpec.url_for("wait.html"))
     end
 
     it 'returns true if the element exists and is visible' do
@@ -33,7 +33,7 @@ describe Watir::Element do
 
   describe "#reset!" do
     it "successfully relocates collection elements after a reset!" do
-      browser.goto(WatirSpec.url_for("wait.html", needs_server: true))
+      browser.goto(WatirSpec.url_for("wait.html"))
       element = browser.div(:id, 'foo')
       expect(element).to exist
       browser.refresh
@@ -45,7 +45,7 @@ describe Watir::Element do
 
   describe "#exists?" do
     before do
-      browser.goto WatirSpec.url_for('removed_element.html', needs_server: true)
+      browser.goto WatirSpec.url_for('removed_element.html')
     end
 
     it "does not propagate StaleElementReferenceErrors" do
@@ -93,7 +93,7 @@ describe Watir::Element do
   describe "#element_call" do
 
     it 'handles exceptions when taking an action on an element that goes stale during execution' do
-      browser.goto WatirSpec.url_for('removed_element.html', needs_server: true)
+      browser.goto WatirSpec.url_for('removed_element.html')
 
       watir_element = browser.div(id: "text")
 
@@ -119,7 +119,7 @@ describe Watir::Element do
                      %i(webdriver iphone),
                      %i(webdriver safari) do
       it "should hover over the element" do
-        browser.goto WatirSpec.url_for('hover.html', needs_server: true)
+        browser.goto WatirSpec.url_for('hover.html')
         link = browser.a
 
         expect(link.style("font-size")).to eq "10px"

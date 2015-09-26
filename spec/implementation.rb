@@ -64,6 +64,7 @@ class ImplementationConfig
 
   def set_guard_proc
     matching_browser = remote? ? remote_browser : browser
+    server = ENV['NO_SERVER'] ? :no_server : :server
     browser_instance = WatirSpec.new_browser
     browser_version = browser_instance.driver.capabilities.version
     matching_browser_with_version = "#{matching_browser}#{browser_version}".to_sym
@@ -73,7 +74,8 @@ class ImplementationConfig
       matching_browser_with_version,  # guard only applies to this browser with specific version
       [:webdriver, matching_browser], # guard only applies to this browser on webdriver
       [:webdriver, matching_browser_with_version],  # guard only applies to this browser with specific version on webdriver
-      [matching_browser, Selenium::WebDriver::Platform.os] # guard only applies to this browser with this OS
+      [matching_browser, Selenium::WebDriver::Platform.os], # guard only applies to this browser with this OS
+      server
     ]
 
     if native_events?
