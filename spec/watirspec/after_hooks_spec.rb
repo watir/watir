@@ -130,6 +130,10 @@ describe "Browser::AfterHooks" do
         browser.after_hooks.add @page_after_hook
         browser.goto url
         expect { browser.button(id: "alert").click }.to raise_error(Selenium::WebDriver::Error::UnhandledAlertError)
+
+        not_compliant_on :firefox do
+          browser.alert.ok
+        end
       end
     end
 
