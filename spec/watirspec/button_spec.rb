@@ -147,13 +147,14 @@ describe "Button" do
         expect(browser.button(id: 'delete_user_submit').style).to eq "BORDER-BOTTOM: red 4px solid; BORDER-LEFT: red 4px solid; BORDER-TOP: red 4px solid; BORDER-RIGHT: red 4px solid"
       end
     end
-    deviates_on :internet_explorer9 do
+
+    deviates_on :internet_explorer9, %i(webdriver safari) do
       it "returns the style attribute if the button exists" do
         expect(browser.button(id: 'delete_user_submit').style).to eq "border: 4px solid red;"
       end
     end
 
-    deviates_on %i(webdriver iphone), %i(webdriver safari), %i(webdriver phantomjs) do
+    deviates_on %i(webdriver iphone), %i(webdriver phantomjs) do
       it "returns the style attribute if the button exists" do
         style = browser.button(id: 'delete_user_submit').style
         expect(style).to include("border-top-width: 4px;")
@@ -265,6 +266,7 @@ describe "Button" do
     it "clicks the button if it exists" do
       browser.goto(WatirSpec.url_for("forms_with_input_elements.html", needs_server: true))
       browser.button(id: 'delete_user_submit').click
+      Watir::Wait.until { !browser.url.include? 'forms_with_input_elements.html'}
       expect(browser.text).to include("Semantic table")
     end
 

@@ -211,7 +211,7 @@ describe "Browser" do
 
     it "updates the page when location is changed with setTimeout + window.location" do
       browser.goto(WatirSpec.url_for("timeout_window_location.html"))
-      sleep 1
+      Watir::Wait.while {browser.url.include? 'timeout_window_location.html'}
       expect(browser.url).to include("non_control_elements.html")
     end
   end
@@ -264,44 +264,46 @@ describe "Browser" do
     end
   end
 
-  describe "#back and #forward" do
-    it "goes to the previous page" do
-      browser.goto WatirSpec.url_for("non_control_elements.html", needs_server: true)
-      orig_url = browser.url
-      browser.goto(WatirSpec.url_for("tables.html", needs_server: true))
-      new_url = browser.url
-      expect(orig_url).to_not eq new_url
-      browser.back
-      expect(orig_url).to eq browser.url
-    end
-
-    it "goes to the next page" do
-      urls = []
-      browser.goto WatirSpec.url_for("non_control_elements.html", needs_server: true)
-      urls << browser.url
-      browser.goto WatirSpec.url_for("tables.html", needs_server: true)
-      urls << browser.url
-
-      browser.back
-      expect(browser.url).to eq urls.first
-      browser.forward
-      expect(browser.url).to eq urls.last
-    end
-
-    it "navigates between several history items" do
-      urls = [ "non_control_elements.html",
-               "tables.html",
-               "forms_with_input_elements.html",
-               "definition_lists.html"
-      ].map do |page|
-        browser.goto WatirSpec.url_for(page, needs_server: true)
-        browser.url
+  not_compliant_on %i(webdriver safari) do
+    describe "#back and #forward" do
+      it "goes to the previous page" do
+        browser.goto WatirSpec.url_for("non_control_elements.html", needs_server: true)
+        orig_url = browser.url
+        browser.goto(WatirSpec.url_for("tables.html", needs_server: true))
+        new_url = browser.url
+        expect(orig_url).to_not eq new_url
+        browser.back
+        expect(orig_url).to eq browser.url
       end
 
-      3.times { browser.back }
-      expect(browser.url).to eq urls.first
-      2.times { browser.forward }
-      expect(browser.url).to eq urls[2]
+      it "goes to the next page" do
+        urls = []
+        browser.goto WatirSpec.url_for("non_control_elements.html", needs_server: true)
+        urls << browser.url
+        browser.goto WatirSpec.url_for("tables.html", needs_server: true)
+        urls << browser.url
+
+        browser.back
+        expect(browser.url).to eq urls.first
+        browser.forward
+        expect(browser.url).to eq urls.last
+      end
+
+      it "navigates between several history items" do
+        urls = [ "non_control_elements.html",
+                 "tables.html",
+                 "forms_with_input_elements.html",
+                 "definition_lists.html"
+        ].map do |page|
+          browser.goto WatirSpec.url_for(page, needs_server: true)
+          browser.url
+        end
+
+        3.times { browser.back }
+        expect(browser.url).to eq urls.first
+        2.times { browser.forward }
+        expect(browser.url).to eq urls[2]
+      end
     end
   end
 

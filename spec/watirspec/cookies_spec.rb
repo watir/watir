@@ -48,10 +48,15 @@ describe "Browser#cookies" do
 
       browser.cookies.add 'foo', 'bar'
       verify_cookies_count 2
+
+      compliant_on %i(webdriver safari) do
+        $browser.close
+        $browser = WatirSpec.new_browser
+      end
     end
   end
 
-  not_compliant_on %i(webdriver chrome), %i(webdriver internet_explorer), :phantomjs do
+  not_compliant_on %i(webdriver chrome), %i(webdriver internet_explorer), %i(webdriver safari), :phantomjs do
     it 'adds a cookie with options' do
       browser.goto set_cookie_url
 
@@ -93,13 +98,15 @@ describe "Browser#cookies" do
       verify_cookies_count 0
     end
 
-    it 'clears all cookies' do
-      browser.goto set_cookie_url
-      browser.cookies.add 'foo', 'bar'
-      verify_cookies_count 2
+    bug "https://code.google.com/p/selenium/issues/detail?id=5487", %i(webdriver safari) do
+      it 'clears all cookies' do
+        browser.goto set_cookie_url
+        browser.cookies.add 'foo', 'bar'
+        verify_cookies_count 2
 
-      browser.cookies.clear
-      verify_cookies_count 0
+        browser.cookies.clear
+        verify_cookies_count 0
+      end
     end
   end
 

@@ -193,14 +193,16 @@ describe "SelectList" do
       expect { browser.select_list(name: 'no_such_name').clear }.to raise_error(Watir::Exception::UnknownObjectException)
     end
 
-    it "fires onchange event" do
-      browser.select_list(name: "new_user_languages").clear
-      expect(messages.size).to eq 2
-    end
+    not_compliant_on %i(webdriver safari) do
+      it "fires onchange event" do
+        browser.select_list(name: "new_user_languages").clear
+        expect(messages.size).to eq 2
+      end
 
-    it "doesn't fire onchange event for already cleared option" do
-      browser.select_list(name: "new_user_languages").option.clear
-      expect(messages.size).to eq 0
+      it "doesn't fire onchange event for already cleared option" do
+        browser.select_list(name: "new_user_languages").option.clear
+        expect(messages.size).to eq 0
+      end
     end
   end
 
@@ -282,18 +284,20 @@ describe "SelectList" do
       expect(browser.select_list(name: "new_user_languages").select(/ish/)).to eq "Danish"
     end
 
-    it "fires onchange event when selecting an item" do
-      browser.select_list(id: "new_user_languages").select("Danish")
-      expect(messages).to eq ['changed language']
-    end
+    not_compliant_on %i(webdriver safari) do
+      it "fires onchange event when selecting an item" do
+        browser.select_list(id: "new_user_languages").select("Danish")
+        expect(messages).to eq ['changed language']
+      end
 
-    it "doesn't fire onchange event when selecting an already selected item" do
-      browser.select_list(id: "new_user_languages").clear # removes the two pre-selected options
-      browser.select_list(id: "new_user_languages").select("English")
-      expect(messages.size).to eq 3
+      it "doesn't fire onchange event when selecting an already selected item" do
+        browser.select_list(id: "new_user_languages").clear # removes the two pre-selected options
+        browser.select_list(id: "new_user_languages").select("English")
+        expect(messages.size).to eq 3
 
-      browser.select_list(id: "new_user_languages").select("English")
-      expect(messages.size).to eq 3
+        browser.select_list(id: "new_user_languages").select("English")
+        expect(messages.size).to eq 3
+      end
     end
 
     it "returns the text of the selected option" do

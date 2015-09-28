@@ -305,25 +305,27 @@ describe "Element" do
 
     # key combinations probably not ever possible on mobile devices?
     bug "http://code.google.com/p/chromium/issues/detail?id=93879", %i(webdriver chrome), %i(webdriver iphone) do
-      it 'performs key combinations' do
-        receiver.send_keys 'foo'
-        receiver.send_keys [@c, 'a']
-        receiver.send_keys :backspace
-        expect(receiver.value).to be_empty
-        expect(events).to eq 6
-      end
+      not_compliant_on %i(webdriver safari) do
+        it 'performs key combinations' do
+          receiver.send_keys 'foo'
+          receiver.send_keys [@c, 'a']
+          receiver.send_keys :backspace
+          expect(receiver.value).to be_empty
+          expect(events).to eq 6
+        end
 
-      it 'performs arbitrary list of key combinations' do
-        receiver.send_keys 'foo'
-        receiver.send_keys [@c, 'a'], [@c, 'x']
-        expect(receiver.value).to be_empty
-        expect(events).to eq 7
-      end
+        it 'performs arbitrary list of key combinations' do
+          receiver.send_keys 'foo'
+          receiver.send_keys [@c, 'a'], [@c, 'x']
+          expect(receiver.value).to be_empty
+          expect(events).to eq 7
+        end
 
-      it 'supports combination of strings and arrays' do
-        receiver.send_keys 'foo', [@c, 'a'], :backspace
-        expect(receiver.value).to be_empty
-        expect(events).to eq 6
+        it 'supports combination of strings and arrays' do
+          receiver.send_keys 'foo', [@c, 'a'], :backspace
+          expect(receiver.value).to be_empty
+          expect(events).to eq 6
+        end
       end
     end
   end

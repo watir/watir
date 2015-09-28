@@ -109,7 +109,7 @@ describe "FileField" do
   # Manipulation methods
 
   describe "#set" do
-    not_compliant_on %i(webdriver iphone) do
+    not_compliant_on %i(webdriver iphone), %i(webdriver safari) do
       bug "https://github.com/detro/ghostdriver/issues/183", :phantomjs do
         it "is able to set a file path in the field and click the upload button and fire the onchange event" do
           browser.goto WatirSpec.url_for("forms_with_input_elements.html", needs_server: true)
@@ -135,9 +135,9 @@ describe "FileField" do
   end
 
 
-  describe "#value=" do
-    not_compliant_on %i(webdriver iphone) do
-      bug "https://github.com/detro/ghostdriver/issues/183", :phantomjs do
+  bug "https://github.com/detro/ghostdriver/issues/183", :phantomjs do
+    not_compliant_on %i(webdriver iphone), %i(webdriver safari) do
+      describe "#value=" do
         it "is able to set a file path in the field and click the upload button and fire the onchange event" do
           browser.goto WatirSpec.url_for("forms_with_input_elements.html", needs_server: true)
 
@@ -147,26 +147,24 @@ describe "FileField" do
           element.value = path
           expect(element.value).to include(File.basename(path)) # only some browser will return the full path
         end
-      end
-    end
 
-    not_compliant_on :internet_explorer, %i(webdriver chrome), %i(webdriver iphone) do
-      bug "https://github.com/detro/ghostdriver/issues/183", :phantomjs do
-        # for chrome, the check also happens in the driver
-        it "does not raise an error if the file does not exist" do
-          path = File.join(Dir.tmpdir, 'unlikely-to-exist')
-          browser.file_field.value = path
+        not_compliant_on :internet_explorer, %i(webdriver chrome) do
+          # for chrome, the check also happens in the driver
+          it "does not raise an error if the file does not exist" do
+            path = File.join(Dir.tmpdir, 'unlikely-to-exist')
+            browser.file_field.value = path
 
-          expected = path
-          expected.gsub!("/", "\\") if WatirSpec.platform == :windows
+            expected = path
+            expected.gsub!("/", "\\") if WatirSpec.platform == :windows
 
-          expect(browser.file_field.value).to include(File.basename(expected)) # only some browser will return the full path
-        end
+            expect(browser.file_field.value).to include(File.basename(expected)) # only some browser will return the full path
+          end
 
-        it "does not alter its argument" do
-          value = '/foo/bar'
-          browser.file_field.value = value
-          expect(value).to eq '/foo/bar'
+          it "does not alter its argument" do
+            value = '/foo/bar'
+            browser.file_field.value = value
+            expect(value).to eq '/foo/bar'
+          end
         end
       end
     end

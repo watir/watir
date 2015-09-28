@@ -7,7 +7,7 @@ describe "Element" do
     let(:draggable) { browser.div id: "draggable" }
     let(:droppable) { browser.div id: "droppable" }
 
-    not_compliant_on %i(webdriver iphone) do
+    not_compliant_on %i(webdriver iphone), %i(webdriver safari) do
       it "can drag and drop an element onto another" do
         expect(droppable.text).to eq 'Drop here'
         draggable.drag_and_drop_on droppable
