@@ -121,3 +121,23 @@ end
 load "spec/watirspec/watirspec.rake" if File.exist?("spec/watirspec/watirspec.rake")
 
 task default: [:spec, 'yard:doctest']
+
+
+namespace :spec do
+  require 'selenium-webdriver'
+  desc 'Run specs in all browsers'
+  task all_browsers: [:firefox,
+                      :firefox_nightly,
+                      :chrome,
+                      (:safari if Selenium::WebDriver::Platform.os == :macosx),
+                      (:ie if Selenium::WebDriver::Platform.os == :windows),
+                      (:edge if Selenium::WebDriver::Platform.os == :windows),
+                      :phantomjs].compact
+
+  %i(firefox firefox_nightly chrome safari phantomjs ie edge).each do |browser|
+    task browser do
+      ENV['WATIR_WEBDRIVER_BROWSER'] = browser.to_s
+      Rake::Task['spec'].execute
+    end
+  end
+end
