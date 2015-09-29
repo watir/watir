@@ -77,7 +77,7 @@ module Watir
       @driver.navigate.to uri
       @after_hooks.run
 
-      url
+      uri
     end
 
     #
