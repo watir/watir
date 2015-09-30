@@ -144,7 +144,13 @@ module Watir
 
       if rx_selector.key?(:label) && should_use_label_element?
         label = label_from_text(rx_selector.delete(:label)) || return
-        if (id = label.attribute(:for))
+        begin
+          id = label.attribute(:for)
+        rescue Selenium::WebDriver::Error::UnknownError
+          raise unless @wd.capabilities.browser_name == 'MicrosoftEdge'
+        end
+
+        if id
           selector[:id] = id
         else
           parent = label
@@ -201,7 +207,12 @@ module Watir
       when :href
         (href = element.attribute(:href)) && href.strip
       else
-        element.attribute(how.to_s.gsub("_", "-").to_sym)
+        begin
+          element.attribute(how.to_s.gsub("_", "-").to_sym)
+        rescue Selenium::WebDriver::Error::UnknownError
+          return nil if @wd.capabilities.browser_name == 'MicrosoftEdge'
+          raise
+        end
       end
     end
 

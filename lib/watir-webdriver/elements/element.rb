@@ -125,6 +125,7 @@ module Watir
 
           action.perform
         else
+          @element.location_once_scrolled_into_view if driver.capabilities.browser_name == 'MicrosoftEdge'
           @element.click
         end
       end
@@ -270,6 +271,9 @@ module Watir
     def attribute_value(attribute_name)
       assert_exists
       element_call { @element.attribute attribute_name }
+    rescue Selenium::WebDriver::Error::UnknownError
+      return '' if browser.driver.capabilities.browser_name == 'MicrosoftEdge'
+      raise
     end
 
     #
