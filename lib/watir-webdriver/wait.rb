@@ -107,13 +107,13 @@ module Watir
       @element.respond_to?(*args)
     end
 
-    def method_missing(decorator, m, *args, &block)
+    def method_missing(m, *args, &block)
       unless @element.respond_to?(m)
         raise NoMethodError, "undefined method `#{m}' for #{@element.inspect}:#{@element.class}"
       end
 
-      Watir::Wait.until(@timeout, @message) { @element.send(decorator) }
-
+      Watir::Wait.until(@timeout, @message) { wait_until }
+    
       @element.__send__(m, *args, &block)
     end
   end
@@ -124,10 +124,9 @@ module Watir
   #
 
   class WhenPresentDecorator < BaseDecorator
-    def_delegator :@element, :present?
-
-    def method_missing(m, *args, &block)
-      super(:present?, m, *args, &block)
+    private
+    def wait_until
+      @element.present?
     end
   end # WhenPresentDecorator
 
@@ -137,10 +136,9 @@ module Watir
   #
 
   class WhenEnabledDecorator < BaseDecorator
-    def_delegator :@element, :enabled?
-
-    def method_missing(m, *args, &block)
-      super(:enabled?, m, *args, &block)
+    private
+    def wait_until
+      @element.enabled?
     end
   end # WhenEnabledDecorator
 
@@ -181,7 +179,7 @@ module Watir
     # Waits until the element is enabled.
     #
     # @example
-    #   browser.button(name: "submit").when_enabled.click
+    #   browser.button(name: "new_user_button_2").when_enabled.click
     #
     # @param [Fixnum] timeout seconds to wait before timing out
     #
