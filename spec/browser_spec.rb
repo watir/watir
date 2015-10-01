@@ -65,12 +65,14 @@ describe Watir::Browser do
     end
   end
 
-  it "raises an error when trying to interact with a closed browser" do
-    b = WatirSpec.new_browser
-    b.goto WatirSpec.url_for "definition_lists.html"
-    b.close
+  bug "https://connect.microsoft.com/IE/feedback/details/1856881/", :edge do
+    it "raises an error when trying to interact with a closed browser" do
+      b = WatirSpec.new_browser
+      b.goto WatirSpec.url_for "definition_lists.html"
+      b.close
 
-    expect { b.dl(id: "experience-list").id }.to raise_error(Watir::Exception::Error, "browser was closed")
+      expect { b.dl(id: "experience-list").id }.to raise_error(Watir::Exception::Error, "browser was closed")
+    end
   end
 
   describe "#wait_while" do

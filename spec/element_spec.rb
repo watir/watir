@@ -8,6 +8,7 @@ describe Watir::Element do
     end
 
     it 'returns true if the element exists and is visible' do
+      Watir::Wait.until {browser.links.size == 3}
       expect(browser.div(:id, 'foo')).to be_present
     end
 
