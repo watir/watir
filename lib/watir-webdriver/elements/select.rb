@@ -45,8 +45,13 @@ module Watir
     #
 
     def include?(str_or_rx)
-      # TODO: optimize similar to selected?
-      options.any? { |e| str_or_rx === e.text }
+      assert_exists
+
+      element_call do
+        @element.find_elements(:tag_name, 'option').any? do |e|
+          str_or_rx === e.text
+        end
+      end
     end
 
     #
