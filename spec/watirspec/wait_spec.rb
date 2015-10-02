@@ -124,9 +124,9 @@ not_compliant_on %i(webdriver safari) do
       it "responds to Element methods" do
         decorator = browser.div.when_present
 
-        decorator.should respond_to(:exist?)
-        decorator.should respond_to(:present?)
-        decorator.should respond_to(:click)
+        expect(decorator).to respond_to(:exist?)
+        expect(decorator).to respond_to(:present?)
+        expect(decorator).to respond_to(:click)
       end
 
       it "delegates present? to element" do
@@ -137,6 +137,49 @@ not_compliant_on %i(webdriver safari) do
         end
         element = browser.a(id: "show_bar").when_present(1)
         expect(element).to be_present
+      end
+    end
+
+    describe "#when_enabled" do
+      it "yields when the element becomes enabled" do
+        called = false
+
+        browser.a(id: 'enable_btn').click
+        browser.button(id: 'btn').when_enabled(2) { called = true }
+
+        expect(called).to be true
+      end
+
+      it "invokes subsequent method calls when the element becomes enabled" do
+        browser.a(id: 'enable_btn').click
+
+        btn = browser.button(id: 'btn')
+        btn.when_enabled(2).click
+        expect(btn.disabled?).to be true
+      end
+
+      it "times out when given a block" do
+        expect { browser.button(id: 'btn').when_enabled(1) {}}.to raise_error(Watir::Wait::TimeoutError)
+      end
+
+      it "times out when not given a block" do
+        expect { browser.button(id: 'btn').when_enabled(1).click }.to raise_error(Watir::Wait::TimeoutError,
+          /^timed out after 1 seconds, waiting for (\{:id=>"btn", :tag_name=>"button"\}|\{:tag_name=>"button", :id=>"btn"\}) to become enabled$/
+        )
+      end
+
+      it "times out when not given a block" do
+        expect { browser.button(id: 'btn').when_enabled(1).click }.to raise_error(Watir::Wait::TimeoutError,
+          /timed out after 1 seconds, waiting for {:id=>"btn", :tag_name=>"button"} to become enabled$/
+        )
+      end
+
+      it "responds to Element methods" do
+        decorator = browser.button.when_enabled
+
+        expect(decorator).to respond_to(:exist?)
+        expect(decorator).to respond_to(:present?)
+        expect(decorator).to respond_to(:click)
       end
     end
 
