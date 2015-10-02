@@ -404,6 +404,16 @@ module Watir
     end
 
     #
+    # Returns true if this element is present and enabled on the page.
+    #
+    # @return [Boolean]
+    #
+
+    def enabled?
+      present? && element_call { @element.enabled? }
+    end
+
+    #
     # Returns true if the element exists and is visible on the page.
     #
     # @return [Boolean]

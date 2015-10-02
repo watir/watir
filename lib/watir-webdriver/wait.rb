@@ -94,15 +94,7 @@ module Watir
     end
   end
 
-  #
-  # Wraps an Element so that any subsequent method calls are
-  # put on hold until the element is present (exists and is visible) on the page.
-  #
-
-  class WhenPresentDecorator
-    extend Forwardable
-
-    def_delegator :@element, :present?
+  class BaseDecorator
 
     def initialize(element, timeout, message = nil)
       @element = element
@@ -119,11 +111,42 @@ module Watir
         raise NoMethodError, "undefined method `#{m}' for #{@element.inspect}:#{@element.class}"
       end
 
-      Watir::Wait.until(@timeout, @message) { @element.present? }
+      Watir::Wait.until(@timeout, @message) { wait_until }
 
       @element.__send__(m, *args, &block)
     end
+  end
+
+  #
+  # Wraps an Element so that any subsequent method calls are
+  # put on hold until the element is present (exists and is visible) on the page.
+  #
+
+  class WhenPresentDecorator < BaseDecorator
+    extend Forwardable
+
+    def_delegator :@element, :present?
+
+    private
+
+    def wait_until
+      @element.present?
+    end
   end # WhenPresentDecorator
+
+  #
+  # Wraps an Element so that any subsequent method calls are
+  # put on hold until the element is enabled (exists and is enabled) on the page.
+  #
+
+  class WhenEnabledDecorator < BaseDecorator
+
+    private
+
+    def wait_until
+      @element.enabled?
+    end
+  end # WhenEnabledDecorator
 
   #
   # Convenience methods for things that eventually become present.
@@ -155,6 +178,30 @@ module Watir
         yield self
       else
         WhenPresentDecorator.new(self, timeout, message)
+      end
+    end
+
+    #
+    # Waits until the element is enabled.
+    #
+    # @example
+    #   browser.button(name: "new_user_button_2").when_enabled.click
+    #
+    # @param [Fixnum] timeout seconds to wait before timing out
+    #
+    # @see Watir::Wait
+    # @see Watir::Element#enabled?
+    #
+
+    def when_enabled(timeout = nil)
+      timeout ||= Watir.default_timeout
+      message = "waiting for #{selector_string} to become enabled"
+
+      if block_given?
+        Watir::Wait.until(timeout, message) { enabled? }
+        yield self
+      else
+        WhenEnabledDecorator.new(self, timeout, message)
       end
     end
 
