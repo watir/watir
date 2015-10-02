@@ -98,7 +98,7 @@ describe "Option" do
     compliant_on :firefox do
       it "fires the onclick event (page context)" do
         browser.option(text: "Username 3").select
-        expect(browser.text_field(id: 'delete_user_comment').value).to eq 'Don\'t do it!'
+        expect(browser.textarea(id: 'delete_user_comment').value).to eq 'Don\'t do it!'
       end
     end
 
@@ -107,7 +107,7 @@ describe "Option" do
     compliant_on :firefox do
       it "fires onclick event (select_list context)" do
         browser.select_list(id: 'delete_user_username').option(text: "Username 3").select
-        expect(browser.text_field(id: 'delete_user_comment').value).to eq 'Don\'t do it!'
+        expect(browser.textarea(id: 'delete_user_comment').value).to eq 'Don\'t do it!'
       end
     end
 
