@@ -217,13 +217,22 @@ describe "SelectList" do
   end
 
   describe "#selected?" do
-    it "returns true if the given option is selected" do
+    it "returns true if the given option is selected by text" do
       browser.select_list(name: 'new_user_country').select('Denmark')
       expect(browser.select_list(name: 'new_user_country')).to be_selected('Denmark')
     end
 
-    it "returns false if the given option is not selected" do
+    it "returns false if the given option is not selected by text" do
       expect(browser.select_list(name: 'new_user_country')).to_not be_selected('Sweden')
+    end
+
+    it "returns true if the given option is selected by label" do
+      browser.select_list(name: 'new_user_country').select('Germany')
+      expect(browser.select_list(name: 'new_user_country')).to be_selected('Germany')
+    end
+
+    it "returns false if the given option is not selected by label" do
+      expect(browser.select_list(name: 'new_user_country')).to_not be_selected('Germany')
     end
 
     it "raises UnknownObjectException if the option doesn't exist" do
