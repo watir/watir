@@ -49,7 +49,7 @@ module Watir
 
       element_call do
         @element.find_elements(:tag_name, 'option').any? do |e|
-          str_or_rx === e.text
+          str_or_rx === e.text || str_or_rx === e.attribute(:label)
         end
       end
     end
