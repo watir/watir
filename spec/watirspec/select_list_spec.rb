@@ -207,8 +207,12 @@ describe "SelectList" do
   end
 
   describe "#include?" do
-    it "returns true if the given option exists" do
+    it "returns true if the given option exists by text" do
       expect(browser.select_list(name: 'new_user_country')).to include('Denmark')
+    end
+
+    it "returns true if the given option exists by label" do
+      expect(browser.select_list(name: 'new_user_country')).to include('Germany')
     end
 
     it "returns false if the given option doesn't exist" do
