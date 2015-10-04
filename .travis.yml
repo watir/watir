@@ -1,10 +1,12 @@
 rvm:
   - 2.0
   - 2.1
+  - 2.2
 notifications:
   recipients:
     - p0deje@gmail.com
     - jarmo.p@gmail.com
+    - titusfortner@gmail.com
   irc: "irc.freenode.net#watir"
 before_script:
   - support/travis.sh
@@ -16,9 +18,9 @@ env:
   - RAKE_TASK=spec WATIR_WEBDRIVER_BROWSER=chrome
   - RAKE_TASK=spec WATIR_WEBDRIVER_BROWSER=chrome ALWAYS_LOCATE=false
   - RAKE_TASK=spec WATIR_WEBDRIVER_BROWSER=chrome PREFER_CSS=1 SELECTOR_STATS=1
-  # - RAKE_TASK=spec WATIR_WEBDRIVER_BROWSER=phantomjs
-  # - RAKE_TASK=spec WATIR_WEBDRIVER_BROWSER=phantomjs ALWAYS_LOCATE=false
-  # - RAKE_TASK=spec WATIR_WEBDRIVER_BROWSER=phantomjs PREFER_CSS=1 SELECTOR_STATS=1
+  - RAKE_TASK=spec WATIR_WEBDRIVER_BROWSER=phantomjs
+  - RAKE_TASK=spec WATIR_WEBDRIVER_BROWSER=phantomjs ALWAYS_LOCATE=false
+  - RAKE_TASK=spec WATIR_WEBDRIVER_BROWSER=phantomjs PREFER_CSS=1 SELECTOR_STATS=1
   - RAKE_TASK=yard:doctest
 matrix:
   allow_failures:
