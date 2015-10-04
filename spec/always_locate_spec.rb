@@ -4,7 +4,7 @@ describe 'Watir' do
   describe '#always_locate?' do
 
     before do
-      browser.goto WatirSpec.url_for('removed_element.html', needs_server: true)
+      browser.goto WatirSpec.url_for('removed_element.html')
     end
 
     it 'determines whether #exist? returns false for stale element' do

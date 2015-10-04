@@ -346,6 +346,10 @@ module Watir
         driver.switch_to.default_content
         true
       end
+    rescue Selenium::WebDriver::Error::NoSuchWindowError
+      raise unless driver.capabilities.browser_name == 'MicrosoftEdge'
+      driver.switch_to.window(driver.window_handle)
+      retry
     end
     alias_method :ensure_not_stale, :assert_exists
 
