@@ -5,6 +5,7 @@ module Watir
     # Sets checkbox to the given value.
     #
     # @example
+    #   checkbox = browser.checkbox(id: 'new_user_interests_cars')
     #   checkbox.set?        #=> false
     #   checkbox.set
     #   checkbox.set?        #=> true

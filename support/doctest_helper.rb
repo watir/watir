@@ -33,11 +33,6 @@ YARD::Doctest.configure do |doctest|
     browser.button(id: 'prompt').click
   end
 
-  doctest.before('Watir::CheckBox#set') do
-    browser.goto WatirSpec.url_for('forms_with_input_elements.html')
-    checkbox = browser.checkbox(id: 'new_user_interests_cars')
-  end
-
   %w[Watir::Browser#execute_script Watir::Element#drag_and_drop].each do |name|
     doctest.before(name) do
       browser.goto WatirSpec.url_for('drag_and_drop.html')
