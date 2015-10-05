@@ -22,8 +22,3 @@ env:
   - RAKE_TASK=spec WATIR_WEBDRIVER_BROWSER=phantomjs ALWAYS_LOCATE=false
   - RAKE_TASK=spec WATIR_WEBDRIVER_BROWSER=phantomjs PREFER_CSS=1 SELECTOR_STATS=1
   - RAKE_TASK=yard:doctest
-matrix:
-  allow_failures:
-    - env: RAKE_TASK=spec WATIR_WEBDRIVER_BROWSER=phantomjs
-    - env: RAKE_TASK=spec WATIR_WEBDRIVER_BROWSER=phantomjs ALWAYS_LOCATE=false
-    - env: RAKE_TASK=spec WATIR_WEBDRIVER_BROWSER=phantomjs PREFER_CSS=1 SELECTOR_STATS=1
