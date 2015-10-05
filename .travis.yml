@@ -1,15 +1,21 @@
+sudo: false
 rvm:
   - 2.0
   - 2.1
   - 2.2
+addons:
+  apt:
+    packages:
+      - unzip
+      - libxss1
+cache: bundler
 notifications:
   recipients:
     - p0deje@gmail.com
     - jarmo.p@gmail.com
     - titusfortner@gmail.com
   irc: "irc.freenode.net#watir"
-before_script:
-  - support/travis.sh
+before_script: support/travis.sh
 script: bundle exec rake $RAKE_TASK
 env:
   - RAKE_TASK=spec WATIR_WEBDRIVER_BROWSER=firefox
