@@ -1,5 +1,13 @@
 ### Unreleased
 
+* Improve performance for Select#include? (#375, thanks @Conky5)
+* Add support for waiting for elements to be enabled (#370, thanks @Rodney-QAGeek)
+* Remove unnecessary wire calls for navigation (#369)
+* Improve performance for Select#selected? with large drop-down lists (#367)
+* Add stale element protection and correct context assurance for Browser#text (#366)
+* Restore behavior for Wait#until to return result of block (#362, thanks @chrismikehogan)
+* Fix context switching between frames for element collections (#361)
+* AfterHooks run after closing an alert (#352)
 * New AfterHooks API that deprecates Checkers:
   * Use `Browser#after_hooks#add` instead of `Browser#add_checker`
   * Use `Browser#after_hooks#delete` instead of `Browser#disable_checker`
