@@ -18,13 +18,13 @@ notifications:
 before_script: support/travis.sh
 script: bundle exec rake $RAKE_TASK
 env:
-  - RAKE_TASK=spec WATIR_WEBDRIVER_BROWSER=firefox
-  - RAKE_TASK=spec WATIR_WEBDRIVER_BROWSER=firefox ALWAYS_LOCATE=false
-  - RAKE_TASK=spec WATIR_WEBDRIVER_BROWSER=firefox PREFER_CSS=1 SELECTOR_STATS=1
-  - RAKE_TASK=spec WATIR_WEBDRIVER_BROWSER=chrome
-  - RAKE_TASK=spec WATIR_WEBDRIVER_BROWSER=chrome ALWAYS_LOCATE=false
-  - RAKE_TASK=spec WATIR_WEBDRIVER_BROWSER=chrome PREFER_CSS=1 SELECTOR_STATS=1
-  - RAKE_TASK=spec WATIR_WEBDRIVER_BROWSER=phantomjs
-  - RAKE_TASK=spec WATIR_WEBDRIVER_BROWSER=phantomjs ALWAYS_LOCATE=false
-  - RAKE_TASK=spec WATIR_WEBDRIVER_BROWSER=phantomjs PREFER_CSS=1 SELECTOR_STATS=1
+  - RAKE_TASK=spec:firefox
+  - RAKE_TASK=spec:firefox ALWAYS_LOCATE=false
+  - RAKE_TASK=spec:firefox PREFER_CSS=1 SELECTOR_STATS=1
+  - RAKE_TASK=spec:chrome
+  - RAKE_TASK=spec:chrome ALWAYS_LOCATE=false
+  - RAKE_TASK=spec:chrome PREFER_CSS=1 SELECTOR_STATS=1
+  - RAKE_TASK=spec:phantomjs
+  - RAKE_TASK=spec:phantomjs ALWAYS_LOCATE=false
+  - RAKE_TASK=spec:phantomjs PREFER_CSS=1 SELECTOR_STATS=1
   - RAKE_TASK=yard:doctest
