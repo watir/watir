@@ -9,7 +9,7 @@ git submodule update --init
 mkdir ~/.yard
 bundle exec yard config -a autoload_plugins yard-doctest
 
-if [[ "$WATIR_WEBDRIVER_BROWSER" = "chrome" ]]; then
+if [[ "$RAKE_TASK" = "spec:chrome" ]]; then
   export CHROME_REVISION=`curl -s http://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux_x64/LAST_CHANGE`
   export CHROMEDRIVER_VERSION=`curl -s http://chromedriver.storage.googleapis.com/LATEST_RELEASE`
 
