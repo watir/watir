@@ -167,7 +167,7 @@ describe "Browser" do
   end
 
   describe "#goto" do
-    not_compliant_on %i(webdriver internet_explorer), :no_server do
+    not_compliant_on %i(webdriver internet_explorer) do
       it "adds http:// to URLs with no URL scheme specified" do
         url = WatirSpec.host[%r{http://(.*)}, 1]
         expect(url).to_not be_nil
