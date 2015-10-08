@@ -167,6 +167,7 @@ module Watir
           no_value_found(string)
         end
 
+        raise Selenium::WebDriver::Error::ElementNotSelectableError, "Element with string #{string} is disabled" unless e.enabled?
         e.click unless e.selected?
 
         safe_text(e)
@@ -193,6 +194,7 @@ module Watir
         element = elements.find { |e| matches_regexp?(how, e, exp) }
         no_value_found(exp) unless element
 
+        raise Selenium::WebDriver::Error::ElementNotSelectableError, "Element with regex #{exp} is disabled" unless element.enabled?
         element.click unless element.selected?
 
         safe_text(element)
