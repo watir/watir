@@ -1,4 +1,4 @@
-### Unreleased
+### 0.9.0 (2015-10-08)
 
 * Improve performance for Select#include? (#375, thanks @Conky5)
 * Add support for waiting for elements to be enabled (#370, thanks @Rodney-QAGeek)
