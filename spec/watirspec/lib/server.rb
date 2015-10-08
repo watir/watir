@@ -61,15 +61,6 @@ module WatirSpec
         defined?(@running) && @running
       end
 
-      def random_free_port
-        s    = TCPServer.new(bind, 0)
-        port = s.addr[1]
-
-        s.close
-
-        port
-      end
-
       private
 
       def run_in_child_process
@@ -87,6 +78,19 @@ module WatirSpec
 
         at_exit { process.stop }
       end
+
+      def pick_port_above(port)
+        port += 1 until port_free? port
+        port
+      end
+
+      def port_free?(port)
+        TCPServer.new(bind, port).close
+        true
+      rescue SocketError, Errno::EADDRINUSE
+        false
+      end
+
     end # class << Server
 
     set :public_folder, WatirSpec.html
@@ -94,8 +98,8 @@ module WatirSpec
     set :run,           false
     set :environment,   :production
     set :bind,          "localhost" if WatirSpec.platform == :windows
-    set :port,          random_free_port
-    set :server,        'webrick'
+    set :port,          pick_port_above(8180)
+    set :server,        "webrick"
 
     get '/' do
       self.class.name
