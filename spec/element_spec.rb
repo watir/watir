@@ -31,6 +31,24 @@ describe Watir::Element do
 
   end
 
+  describe "#enabled?" do
+    before do
+      browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
+    end
+
+    it "returns true if the element is enabled" do
+      expect(browser.element(name: 'new_user_submit')).to be_enabled
+    end
+
+    it "returns false if the element is disabled" do
+      expect(browser.element(name: 'new_user_submit_disabled')).to_not be_enabled
+    end
+
+    it "raises UnknownObjectException if the element doesn't exist" do
+      expect { browser.element(name: "no_such_name").enabled? }.to raise_error(Watir::Exception::UnknownObjectException)
+    end
+  end
+
   describe "#reset!" do
     it "successfully relocates collection elements after a reset!" do
       browser.goto(WatirSpec.url_for("wait.html"))

@@ -34,16 +34,6 @@ module Watir
       end
     end
 
-    #
-    # Returns true if this element is enabled.
-    #
-    # @return [Boolean]
-    #
-
-    def enabled?
-      !disabled?
-    end
-
     private
 
     def locator_class

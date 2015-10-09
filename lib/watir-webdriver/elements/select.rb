@@ -3,16 +3,6 @@ module Watir
     include Watir::Exception
 
     #
-    # Returns true if this element is enabled
-    #
-    # @return [Boolean]
-    #
-
-    def enabled?
-      !disabled?
-    end
-
-    #
     # Clears all selected options.
     #
 

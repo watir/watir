@@ -410,7 +410,8 @@ module Watir
     #
 
     def enabled?
-      present? && element_call { @element.enabled? }
+      assert_exists
+      element_call { @element.enabled? }
     end
 
     #
