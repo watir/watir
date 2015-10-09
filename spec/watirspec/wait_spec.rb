@@ -4,7 +4,6 @@ require File.expand_path("../spec_helper", __FILE__)
 not_compliant_on %i(webdriver safari) do
   describe Watir::Wait do
     describe "#until" do
-
       it "returns result of block if truthy" do
         result = 'catter'
         expect(Wait.until(0.5) { result }).to be result
@@ -90,7 +89,7 @@ not_compliant_on %i(webdriver safari) do
         browser.a(id: 'show_bar').click
         browser.div(id: 'bar').when_present(2) { called = true }
 
-       expect(called).to be true
+        expect(called).to be true
       end
 
       it "invokes subsequent method calls when the element becomes present" do
@@ -180,6 +179,14 @@ not_compliant_on %i(webdriver safari) do
         expect(decorator).to respond_to(:exist?)
         expect(decorator).to respond_to(:present?)
         expect(decorator).to respond_to(:click)
+      end
+
+      it "can be chained with #when_present" do
+        browser.a(id: 'show_and_enable_btn').click
+        browser.button(id: 'btn2').when_present(1).when_enabled(1).click
+
+        expect(browser.button(id: 'btn2')).to exist
+        expect(browser.button(id: 'btn2')).to be_enabled
       end
     end
 

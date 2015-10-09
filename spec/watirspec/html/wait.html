@@ -33,6 +33,10 @@
     <div>
       <button id="btn" type="button" onclick="setDisabled('btn', true, 0)" disabled>Click To Disable!</button>
       <a id="enable_btn" href="#" onclick="setDisabled('btn', false, 500);">enable btn</a>
+      <button id="btn2" style="display:none;" type="button" disabled>Hidden and Disabled</button>
+      <a id="show_and_enable_btn" href="#" onclick="setTimeoutDisplay('btn2', 'block', 500); setDisabled('btn2', false, 1000);">
+        show and enable btn
+      </a>
     </div>
   </body>
 </html>
