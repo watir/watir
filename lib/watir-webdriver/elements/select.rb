@@ -22,7 +22,7 @@ module Watir
       raise Error, "you can only clear multi-selects" unless multiple?
 
       options.each do |o|
-        o.click if o.selected?
+        click_option(o) if o.selected?
       end
     end
 
@@ -156,7 +156,7 @@ module Watir
         end
         no_value_found(string) if elements.empty?
 
-        elements.each { |e| e.click unless e.selected? }
+        elements.each { |e| click_option(e) unless e.selected? }
         elements.first.text
       else
         begin
@@ -167,8 +167,7 @@ module Watir
           no_value_found(string)
         end
 
-        e.click unless e.selected?
-
+        click_option(e) unless e.selected?
         safe_text(e)
       end
     end
@@ -182,7 +181,7 @@ module Watir
       if multiple?
         found = elements.select do |e|
           next unless matches_regexp?(how, e, exp)
-          e.click unless e.selected?
+          click_option(e) unless e.selected?
           true
         end
 
@@ -193,8 +192,7 @@ module Watir
         element = elements.find { |e| matches_regexp?(how, e, exp) }
         no_value_found(exp) unless element
 
-        element.click unless element.selected?
-
+        click_option(element) unless element.selected?
         safe_text(element)
       end
     end
@@ -221,6 +219,11 @@ module Watir
       else
         raise Error, "unknown how: #{how.inspect}"
       end
+    end
+
+    def click_option(element)
+      element = Option.new(self, element: element) unless element.is_a?(Option)
+      element.click
     end
 
     def safe_text(element)
