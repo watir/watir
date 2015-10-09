@@ -330,6 +330,12 @@ describe "SelectList" do
       expect { browser.select_list(name: "new_user_country").select(/missing_option/) }.to raise_error(Watir::Exception::NoValueFoundException)
     end
 
+    bug "https://github.com/watir/watir-webdriver/pull/378" do
+      it "raises ObjectDisabledException if the option is disabled" do
+        expect { browser.select_list(name: "new_user_languages").select("Russian") }.to raise_error(Watir::Exception::ObjectDisabledException)
+      end
+    end
+
     it "raises a TypeError if argument is not a String, Regexp or Numeric" do
       expect { browser.select_list(id: "new_user_languages").select([]) }.to raise_error(TypeError)
     end
