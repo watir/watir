@@ -1,3 +1,8 @@
+### Unreleased
+
+* Trying to select a disabled option now raises `ObjectDisabledException` (#378)
+* `Element#enabled?` raises `UnknownObjectException` if element is not present (#379)
+
 ### 0.9.0 (2015-10-08)
 
 * Improve performance for Select#include? (#375, thanks @Conky5)
