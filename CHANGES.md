@@ -1,5 +1,6 @@
-### Unreleased
+### 0.9.1 (2015-10-14)
 
+* Fix permissions issue with element_locator file(#381)
 * Trying to select a disabled option now raises `ObjectDisabledException` (#378)
 * `Element#enabled?` raises `UnknownObjectException` if element is not present (#379)
 
