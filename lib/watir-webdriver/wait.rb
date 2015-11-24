@@ -148,7 +148,7 @@ module Watir
         #angular not used in the application, continue as normal
       end
     end
-    
+
 
     #
     # Make calls to the browser waiting for ajax to complete
