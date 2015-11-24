@@ -139,15 +139,16 @@ module Watir
       begin
         browser.execute_script("angular.element(#{angular_element}).scope().pageFinishedRendering = false")
         browser.execute_script("angular.getTestability(#{angular_element}).whenStable(function(){angular.element(#{angular_element}).scope().pageFinishedRendering = true})")
+        Watir::Wait.until(timeout, "waiting for angular to render") {
+          browser.execute_script("return angular.element(#{angular_element}).scope().pageFinishedRendering")
+        }
+      rescue Selenium::WebDriver::Error::InvalidElementStateError
+        #no ng-app found on page, continue as normal
+      rescue Selenium::WebDriver::Error::JavascriptError
+        #angular not used in the application, continue as normal
       end
-      Watir::Wait.until(timeout, "waiting for angular to render") {
-        browser.execute_script("return angular.element(#{angular_element}).scope().pageFinishedRendering")
-      }
-    rescue Selenium::WebDriver::Error::InvalidElementStateError
-      #no ng-app found on page, continue as normal
-    rescue Selenium::WebDriver::Error::JavascriptError
-      #angular not used in the application, continue as normal
     end
+    
 
     #
     # Make calls to the browser waiting for ajax to complete
