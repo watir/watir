@@ -4,7 +4,8 @@ require 'watir-webdriver/wait/timer'
 module Watir
   module Wait
 
-    class TimeoutError < StandardError ; end
+    class TimeoutError < StandardError;
+    end
 
     INTERVAL = 0.1
 
@@ -83,6 +84,61 @@ module Watir
 
     end # self
   end # Wait
+
+  module PageLoad
+
+    #
+    # Waits for all page requests to finish before acting on the browser
+    # To be used in conjuction with after_hooks
+    #
+    # @example
+    #   browser.after_hooks.add {Watir::Wait.wait_for_page_load}
+    #
+
+    def wait_for_page_load(timeout)
+      wait_for_angular(timeout)
+      wait_for_ajax(timeout)
+    end
+
+    #
+    # Wait for angular requests to complete before continuing
+    # To be used in conjunction with after_hooks
+    #
+    # @example
+    #   browser.after_hooks.add {Watir::Wait.wait_for_angular}
+    #
+
+    def wait_for_angular(timeout = 30)
+      angular_element = "document.querySelectorAll('[ng-app]')[0]"
+      begin
+        @browser.execute_script("angular.element(#{angular_element}).scope().pageFinishedRendering = false")
+        @browser.execute_script("angular.getTestability(#{angular_element}).whenStable(function(){angular.element(#{angular_element}).scope().pageFinishedRendering = true})")
+      end
+      Watir::Wait.until(timeout, "waiting for angular to render") {
+        @browser.execute_script("return angular.element(#{angular_element}).scope().pageFinishedRendering")
+      }
+    rescue Selenium::WebDriver::Error::InvalidElementStateError
+      #angular not used in the application, continue as normal
+    end
+  end
+
+  #
+  # Wait for all ajax request to complete before continuing
+  #
+  # @example
+  #   Watir::Wait.wait_for_ajax
+  #
+  # currently only jQuery Ajax is supported
+  
+  def wait_for_ajax(timeout=30)
+    if @browser.execute_script('return (typeof jQuery != "undefined")')
+      if @browser.execute_script('return jQuery.active') > 0
+        Watir::Wait.until(timeout, "waiting for ajax") {
+          @browser.execute_script('return jQuery.active') == 0;
+        }
+      end
+    end
+  end
 
   module Waitable
     def wait_until(*args, &blk)
