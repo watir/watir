@@ -92,53 +92,78 @@ module Watir
     # To be used in conjuction with after_hooks
     #
     # @example
-    #   browser.after_hooks.add {Watir::Wait.wait_for_page_load}
+    #   browser.after_hooks.add {Watir::PageLoad.wait_for_page_load}
     #
 
-    def wait_for_page_load(timeout)
-      wait_for_angular(timeout)
-      wait_for_ajax(timeout)
+    def self.wait_for_page_load(timeout = 30)
+      lambda do |browser|
+        self.wait_for_angular(timeout, browser)
+        self.wait_for_ajax(timeout, browser)
+      end
     end
 
     #
-    # Wait for angular requests to complete before continuing
-    # To be used in conjunction with after_hooks
+    # Waits for all angular actions to finish before acting on the browser
+    # To be used in conjuction with after_hooks
     #
     # @example
-    #   browser.after_hooks.add {Watir::Wait.wait_for_angular}
+    #   browser.after_hooks.add {Watir::PageLoad.wait_for_angular_completion}
     #
 
-    def wait_for_angular(timeout = 30)
+    def self.wait_for_angular_completion(timeout = 30)
+      lambda do |browser|
+        self.wait_for_angular(timeout, browser)
+      end
+    end
+
+    #
+    # Waits for all ajax requests to finish before acting on the browser
+    # To be used in conjuction with after_hooks
+    #
+    # @example
+    #   browser.after_hooks.add {Watir::PageLoad.wait_for_ajax_completion}
+    #
+
+    def self.wait_for_ajax_completion(timeout = 30)
+      lambda do |browser|
+        self.wait_for_ajax(timeout, browser)
+      end
+    end
+
+    #
+    # Make calls to the browser waiting for angular to complete
+    #
+
+    def self.wait_for_angular(timeout = 30, browser)
       angular_element = "document.querySelectorAll('[ng-app]')[0]"
       begin
-        @browser.execute_script("angular.element(#{angular_element}).scope().pageFinishedRendering = false")
-        @browser.execute_script("angular.getTestability(#{angular_element}).whenStable(function(){angular.element(#{angular_element}).scope().pageFinishedRendering = true})")
+        browser.execute_script("angular.element(#{angular_element}).scope().pageFinishedRendering = false")
+        browser.execute_script("angular.getTestability(#{angular_element}).whenStable(function(){angular.element(#{angular_element}).scope().pageFinishedRendering = true})")
       end
       Watir::Wait.until(timeout, "waiting for angular to render") {
-        @browser.execute_script("return angular.element(#{angular_element}).scope().pageFinishedRendering")
+        browser.execute_script("return angular.element(#{angular_element}).scope().pageFinishedRendering")
       }
     rescue Selenium::WebDriver::Error::InvalidElementStateError
+      #no ng-app found on page, continue as normal
+    rescue Selenium::WebDriver::Error::JavascriptError
       #angular not used in the application, continue as normal
+    end
+
+    #
+    # Make calls to the browser waiting for ajax to complete
+    #
+
+    def self.wait_for_ajax(timeout=30, browser)
+      if browser.execute_script('return (typeof jQuery != "undefined")')
+        if browser.execute_script('return jQuery.active') > 0
+          Watir::Wait.until(timeout, "waiting for ajax") {
+            browser.execute_script('return jQuery.active') == 0;
+          }
+        end
+      end
     end
   end
 
-  #
-  # Wait for all ajax request to complete before continuing
-  #
-  # @example
-  #   Watir::Wait.wait_for_ajax
-  #
-  # currently only jQuery Ajax is supported
-  
-  def wait_for_ajax(timeout=30)
-    if @browser.execute_script('return (typeof jQuery != "undefined")')
-      if @browser.execute_script('return jQuery.active') > 0
-        Watir::Wait.until(timeout, "waiting for ajax") {
-          @browser.execute_script('return jQuery.active') == 0;
-        }
-      end
-    end
-  end
 
   module Waitable
     def wait_until(*args, &blk)
