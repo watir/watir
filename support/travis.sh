@@ -10,7 +10,7 @@ mkdir ~/.yard
 bundle exec yard config -a autoload_plugins yard-doctest
 
 if [[ "$RAKE_TASK" = "spec:chrome" ]]; then
-  export CHROME_REVISION=`curl -s http://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux_x64/LAST_CHANGE`
+  export CHROME_REVISION=354250
   export CHROMEDRIVER_VERSION=`curl -s http://chromedriver.storage.googleapis.com/LATEST_RELEASE`
 
   curl -L -O "http://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux_x64/${CHROME_REVISION}/chrome-linux.zip"
