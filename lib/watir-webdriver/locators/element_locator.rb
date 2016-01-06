@@ -123,7 +123,7 @@ module Watir
     end
 
     def wd_find_first_by(how, what)
-      if what.kind_of? String
+      if what.is_a? String
         @wd.find_element(how, what)
       else
         all_elements.find { |element| fetch_value(element, how) =~ what }
@@ -131,7 +131,7 @@ module Watir
     end
 
     def wd_find_all_by(how, what)
-      if what.kind_of? String
+      if what.is_a? String
         @wd.find_elements(how, what)
       else
         all_elements.select { |element| fetch_value(element, how) =~ what }
@@ -175,11 +175,11 @@ module Watir
     def check_type(how, what)
       case how
       when :index
-        unless what.kind_of?(Fixnum)
+        unless what.is_a?(Fixnum)
           raise TypeError, "expected Fixnum, got #{what.inspect}:#{what.class}"
         end
       else
-        unless VALID_WHATS.any? { |t| what.kind_of? t }
+        unless VALID_WHATS.any? { |t| what.is_a? t }
           raise TypeError, "expected one of #{VALID_WHATS.inspect}, got #{what.inspect}:#{what.class}"
         end
       end
@@ -201,7 +201,7 @@ module Watir
       when :href
         (href = element.attribute(:href)) && href.strip
       else
-        element.attribute(how.to_s.gsub("_", "-").to_sym)
+        element.attribute(how.to_s.tr("_", "-").to_sym)
       end
     end
 
@@ -269,13 +269,12 @@ module Watir
     end
 
     def assert_valid_as_attribute(attribute)
-      unless valid_attribute? attribute or attribute.to_s =~ WILDCARD_ATTRIBUTE
-        raise MissingWayOfFindingObjectException, "invalid attribute: #{attribute.inspect}"
-      end
+      return if valid_attribute?(attribute) || attribute.to_s =~ WILDCARD_ATTRIBUTE
+      raise MissingWayOfFindingObjectException, "invalid attribute: #{attribute.inspect}"
     end
 
     def by_id
-      return unless id = @selector[:id] and id.kind_of? String
+      return unless id = @selector[:id] and id.is_a? String
 
       selector = @selector.dup
       selector.delete(:id)
@@ -306,7 +305,7 @@ module Watir
     end
 
     def build_wd_selector(selectors)
-      unless selectors.values.any? { |e| e.kind_of? Regexp }
+      unless selectors.values.any? { |e| e.is_a? Regexp }
         build_css(selectors) || build_xpath(selectors)
       end
     end
@@ -315,7 +314,7 @@ module Watir
       xpath = ".//"
       xpath << (selectors.delete(:tag_name) || '*').to_s
 
-      idx = selectors.delete :index
+      selectors.delete :index
 
       # the remaining entries should be attributes
       unless selectors.empty?
@@ -351,7 +350,7 @@ module Watir
         end
 
         selectors.each do |key, value|
-          key = key.to_s.gsub("_", "-")
+          key = key.to_s.tr("_", "-")
           css << %([#{key}="#{css_escape value}"]) # TODO: proper escaping
         end
       end
@@ -379,7 +378,7 @@ module Watir
 
     def attribute_expression(selectors)
       selectors.map do |key, val|
-        if val.kind_of?(Array)
+        if val.is_a?(Array)
           "(" + val.map { |v| equal_pair(key, v) }.join(" or ") + ")"
         else
           equal_pair(key, val)
@@ -416,7 +415,7 @@ module Watir
         # https://github.com/watir/watir-webdriver/issues/72
         XpathSupport.downcase('@type')
       else
-        "@#{key.to_s.gsub("_", "-")}"
+        "@#{key.to_s.tr("_", "-")}"
       end
     end
 
@@ -460,7 +459,7 @@ module Watir
       return true if keys == [:tag_name]
 
       if selector[:tag_name] == "input"
-        return keys == [:tag_name, :type] || keys == [:type, :tag_name]
+        return keys.sort == [:tag_name, :type]
       end
 
       false
