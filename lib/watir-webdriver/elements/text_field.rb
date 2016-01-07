@@ -2,9 +2,6 @@ module Watir
   class TextField < Input
     include UserEditable
 
-    inherit_attributes_from Watir::TextArea
-    remove_method :type # we want Input#type here, which was overriden by TextArea's attributes
-
     private
 
     def locator_class
@@ -14,7 +11,7 @@ module Watir
     def selector_string
       selector = @selector.dup
       selector[:type] = '(any text type)'
-      selector[:tag_name] = "input or textarea"
+      selector[:tag_name] = "input"
       selector.inspect
     end
   end # TextField

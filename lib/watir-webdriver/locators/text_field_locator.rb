@@ -21,17 +21,11 @@ module Watir
 
       selectors.delete(:tag_name)
 
-      @building = :textarea
-      textarea_attr_exp = attribute_expression(selectors)
-
       @building = :input
       input_attr_exp = attribute_expression(selectors)
 
       xpath = ".//input[(not(@type) or (#{NEGATIVE_TYPE_EXPR}))"
-      xpath << " and #{input_attr_exp}" unless input_attr_exp.empty?
-      xpath << "] "
-      xpath << "| .//textarea"
-      xpath << "[#{textarea_attr_exp}]" unless textarea_attr_exp.empty?
+      xpath << " and #{input_attr_exp}]" unless input_attr_exp.empty?
 
       p build_wd_selector: xpath if $DEBUG
 
@@ -41,8 +35,6 @@ module Watir
     def lhs_for(key)
       if @building == :input && key == :text
         "@value"
-      elsif @building == :textarea && key == :value
-        "text()"
       else
         super
       end
@@ -63,29 +55,11 @@ module Watir
       super
     end
 
-    VALID_TEXT_FIELD_TAGS = %w[input textarea]
-
-    def tag_name_matches?(tag_name, _)
-      VALID_TEXT_FIELD_TAGS.include?(tag_name)
-    end
-
     def by_id
       element = super
 
       if element && !NON_TEXT_TYPES.include?(element.attribute(:type))
-        check_deprecation(element)
         element
-      end
-    end
-
-    def validate_element(element)
-      check_deprecation(element)
-      super
-    end
-
-    def check_deprecation(element)
-      if element.tag_name.downcase == 'textarea'
-        warn "Locating textareas with '#text_field' is deprecated. Please, use '#textarea' method instead."
       end
     end
 
