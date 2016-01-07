@@ -4,10 +4,6 @@ module Watir
 
     private
 
-    def locator_class
-      TextFieldLocator
-    end
-
     def selector_string
       selector = @selector.dup
       selector[:type] = '(any text type)'
@@ -28,10 +24,6 @@ module Watir
 
   class TextFieldCollection < InputCollection
     private
-
-    def locator_class
-      TextFieldLocator
-    end
 
     def element_class
       TextField

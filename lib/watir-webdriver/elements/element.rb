@@ -546,9 +546,11 @@ module Watir
       locator_class.new(@parent.wd, @selector, self.class.attribute_list).locate
     end
 
-  private
+    private
 
     def locator_class
+      Kernel.const_get("#{self.class.name}Locator")
+    rescue NameError
       ElementLocator
     end
 

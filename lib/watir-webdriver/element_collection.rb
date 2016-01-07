@@ -96,8 +96,9 @@ module Watir
       ).locate_all
     end
 
-    # overridable by subclasses
     def locator_class
+      Kernel.const_get(self.class.name.sub(/Collection$/, 'Locator'))
+    rescue NameError
       ElementLocator
     end
 

@@ -33,23 +33,13 @@ module Watir
         raise Exception::Error, "unknown tag name for button: #{tn}"
       end
     end
-
-    private
-
-    def locator_class
-      ButtonLocator
-    end
   end # Button
 
   class ButtonCollection < ElementCollection
     private
 
-    def locator_class
-      ButtonLocator
-    end
-
     def element_class
       Button
     end
-  end # ButtonsCollection
+  end # ButtonCollection
 end # Watir
