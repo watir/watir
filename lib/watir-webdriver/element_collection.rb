@@ -102,5 +102,9 @@ module Watir
       ElementLocator
     end
 
+    def element_class
+      Kernel.const_get(self.class.name.sub(/Collection$/, ''))
+    end
+
   end # ElementCollection
 end # Watir

@@ -34,12 +34,4 @@ module Watir
       end
     end
   end # Button
-
-  class ButtonCollection < ElementCollection
-    private
-
-    def element_class
-      Button
-    end
-  end # ButtonCollection
 end # Watir

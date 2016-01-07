@@ -8,18 +8,12 @@ module Watir
     attribute(Fixnum, :tab_index, :tabIndex)
   end
   class SVGElementCollection < ElementCollection
-    def element_class
-      SVGElement
-    end
   end
 
   class MPath < SVGElement
     attribute(String, :href, :href)
   end
   class MPathCollection < ElementCollection
-    def element_class
-      MPath
-    end
   end
 
   class Animation < SVGElement
@@ -32,41 +26,26 @@ module Watir
     attribute(String, :system_language, :systemLanguage)
   end
   class AnimationCollection < ElementCollection
-    def element_class
-      Animation
-    end
   end
 
   class AnimateTransform < Animation
   end
   class AnimateTransformCollection < ElementCollection
-    def element_class
-      AnimateTransform
-    end
   end
 
   class AnimateMotion < Animation
   end
   class AnimateMotionCollection < ElementCollection
-    def element_class
-      AnimateMotion
-    end
   end
 
   class Set < Animation
   end
   class SetCollection < ElementCollection
-    def element_class
-      Set
-    end
   end
 
   class Animate < Animation
   end
   class AnimateCollection < ElementCollection
-    def element_class
-      Animate
-    end
   end
 
   class View < SVGElement
@@ -76,9 +55,6 @@ module Watir
     attribute(Fixnum, :zoom_and_pan, :zoomAndPan)
   end
   class ViewCollection < ElementCollection
-    def element_class
-      View
-    end
   end
 
   class Cursor < SVGElement
@@ -87,9 +63,6 @@ module Watir
     attribute(String, :href, :href)
   end
   class CursorCollection < ElementCollection
-    def element_class
-      Cursor
-    end
   end
 
   class Pattern < SVGElement
@@ -105,34 +78,22 @@ module Watir
     attribute(String, :href, :href)
   end
   class PatternCollection < ElementCollection
-    def element_class
-      Pattern
-    end
   end
 
   class Stop < SVGElement
     attribute(String, :offset, :offset)
   end
   class StopCollection < ElementCollection
-    def element_class
-      Stop
-    end
   end
 
   class MeshPatch < SVGElement
   end
   class MeshPatchCollection < ElementCollection
-    def element_class
-      MeshPatch
-    end
   end
 
   class MeshRow < SVGElement
   end
   class MeshRowCollection < ElementCollection
-    def element_class
-      MeshRow
-    end
   end
 
   class Gradient < SVGElement
@@ -142,9 +103,6 @@ module Watir
     attribute(String, :href, :href)
   end
   class GradientCollection < ElementCollection
-    def element_class
-      Gradient
-    end
   end
 
   class MeshGradient < Gradient
@@ -152,9 +110,6 @@ module Watir
     attribute(Fixnum, :y, :y)
   end
   class MeshGradientCollection < ElementCollection
-    def element_class
-      MeshGradient
-    end
   end
 
   class RadialGradient < Gradient
@@ -166,9 +121,6 @@ module Watir
     attribute(Fixnum, :fr, :fr)
   end
   class RadialGradientCollection < ElementCollection
-    def element_class
-      RadialGradient
-    end
   end
 
   class LinearGradient < Gradient
@@ -178,9 +130,6 @@ module Watir
     attribute(Fixnum, :y2, :y2)
   end
   class LinearGradientCollection < ElementCollection
-    def element_class
-      LinearGradient
-    end
   end
 
   class Marker < SVGElement
@@ -196,9 +145,6 @@ module Watir
     attribute(String, :preserve_aspect_ratio, :preserveAspectRatio)
   end
   class MarkerCollection < ElementCollection
-    def element_class
-      Marker
-    end
   end
 
   class Symbol < SVGElement
@@ -206,25 +152,16 @@ module Watir
     attribute(String, :preserve_aspect_ratio, :preserveAspectRatio)
   end
   class SymbolCollection < ElementCollection
-    def element_class
-      Symbol
-    end
   end
 
   class Metadata < SVGElement
   end
   class MetadataCollection < ElementCollection
-    def element_class
-      Metadata
-    end
   end
 
   class Desc < SVGElement
   end
   class DescCollection < ElementCollection
-    def element_class
-      Desc
-    end
   end
 
   class Graphics < SVGElement
@@ -234,9 +171,6 @@ module Watir
     attribute(String, :system_language, :systemLanguage)
   end
   class GraphicsCollection < ElementCollection
-    def element_class
-      Graphics
-    end
   end
 
   class ForeignObject < Graphics
@@ -246,9 +180,6 @@ module Watir
     attribute(Fixnum, :height, :height)
   end
   class ForeignObjectCollection < ElementCollection
-    def element_class
-      ForeignObject
-    end
   end
 
   class TextContent < Graphics
@@ -256,9 +187,6 @@ module Watir
     attribute(String, :length_adjust, :lengthAdjust)
   end
   class TextContentCollection < ElementCollection
-    def element_class
-      TextContent
-    end
   end
 
   class TextPath < TextContent
@@ -270,9 +198,6 @@ module Watir
     attribute(String, :animated_path_seg_list, :animatedPathSegList)
   end
   class TextPathCollection < ElementCollection
-    def element_class
-      TextPath
-    end
   end
 
   class TextPositioning < TextContent
@@ -283,25 +208,16 @@ module Watir
     attribute(String, :rotate, :rotate)
   end
   class TextPositioningCollection < ElementCollection
-    def element_class
-      TextPositioning
-    end
   end
 
   class TSpan < TextPositioning
   end
   class TSpanCollection < ElementCollection
-    def element_class
-      TSpan
-    end
   end
 
   class Switch < Graphics
   end
   class SwitchCollection < ElementCollection
-    def element_class
-      Switch
-    end
   end
 
   class Use < Graphics
@@ -312,25 +228,16 @@ module Watir
     attribute(String, :href, :href)
   end
   class UseCollection < ElementCollection
-    def element_class
-      Use
-    end
   end
 
   class Defs < Graphics
   end
   class DefsCollection < ElementCollection
-    def element_class
-      Defs
-    end
   end
 
   class G < Graphics
   end
   class GCollection < ElementCollection
-    def element_class
-      G
-    end
   end
 
   class SVG < Graphics
@@ -348,17 +255,11 @@ module Watir
     attribute(Fixnum, :zoom_and_pan, :zoomAndPan)
   end
   class SVGCollection < ElementCollection
-    def element_class
-      SVG
-    end
   end
 
   class Geometry < Graphics
   end
   class GeometryCollection < ElementCollection
-    def element_class
-      Geometry
-    end
   end
 
   class Polygon < Geometry
@@ -366,9 +267,6 @@ module Watir
     attribute(String, :animated_points, :animatedPoints)
   end
   class PolygonCollection < ElementCollection
-    def element_class
-      Polygon
-    end
   end
 
   class Polyline < Geometry
@@ -376,9 +274,6 @@ module Watir
     attribute(String, :animated_points, :animatedPoints)
   end
   class PolylineCollection < ElementCollection
-    def element_class
-      Polyline
-    end
   end
 
   class Line < Geometry
@@ -388,9 +283,6 @@ module Watir
     attribute(Fixnum, :y2, :y2)
   end
   class LineCollection < ElementCollection
-    def element_class
-      Line
-    end
   end
 
   class Ellipse < Geometry
@@ -400,9 +292,6 @@ module Watir
     attribute(Fixnum, :ry, :ry)
   end
   class EllipseCollection < ElementCollection
-    def element_class
-      Ellipse
-    end
   end
 
   class Circle < Geometry
@@ -411,9 +300,6 @@ module Watir
     attribute(Fixnum, :r, :r)
   end
   class CircleCollection < ElementCollection
-    def element_class
-      Circle
-    end
   end
 
   class Rect < Geometry
@@ -425,9 +311,6 @@ module Watir
     attribute(Fixnum, :ry, :ry)
   end
   class RectCollection < ElementCollection
-    def element_class
-      Rect
-    end
   end
 
   class Path < Geometry
@@ -436,9 +319,6 @@ module Watir
     attribute(String, :animated_path_seg_list, :animatedPathSegList)
   end
   class PathCollection < ElementCollection
-    def element_class
-      Path
-    end
   end
 
 
