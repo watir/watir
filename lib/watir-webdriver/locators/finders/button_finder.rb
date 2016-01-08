@@ -1,0 +1,32 @@
+module Watir
+  class ButtonLocator
+    class Finder < ElementLocator::Finder
+      def wd_find_first_by(how, what)
+        if how == :tag_name
+          how  = :xpath
+          what = ".//button | .//input[#{selector_builder.attribute_expression(type: Button::VALID_TYPES)}]"
+        end
+
+        super
+      end
+
+      private
+
+      def can_convert_regexp_to_contains?
+        # regexp conversion won't work with the complex xpath selector
+        false
+      end
+
+      def matches_selector?(element, selector)
+        if selector.key?(:value)
+          copy  = selector.dup
+          value = copy.delete(:value)
+
+          super(element, copy) && (value === fetch_value(element, :value) || value === fetch_value(element, :text))
+        else
+          super
+        end
+      end
+    end
+  end
+end

@@ -493,7 +493,7 @@ module Watir
       @parent.browser
     end
 
-  protected
+    protected
 
     # Ensure that the element exists, making sure that it is not stale and located if necessary
     def assert_exists
@@ -543,7 +543,7 @@ module Watir
 
     def locate
       ensure_context
-      locator_class.new(@parent.wd, @selector, self.class.attribute_list).locate
+      locator_class.new(@parent.wd, @selector, self.class.attribute_list, element_validator_class, selector_builder_class, finder_class).locate
     end
 
     private
@@ -552,6 +552,24 @@ module Watir
       Kernel.const_get("#{self.class.name}Locator")
     rescue NameError
       ElementLocator
+    end
+
+    def element_validator_class
+      Kernel.const_get("#{locator_class}::ElementValidator")
+    rescue NameError
+      ElementLocator::ElementValidator
+    end
+
+    def selector_builder_class
+      Kernel.const_get("#{locator_class}::SelectorBuilder")
+    rescue NameError
+      ElementLocator::SelectorBuilder
+    end
+
+    def finder_class
+      Kernel.const_get("#{locator_class}::Finder")
+    rescue NameError
+      ElementLocator::Finder
     end
 
     def selector_string
@@ -610,7 +628,7 @@ module Watir
 
     def method_missing(meth, *args, &blk)
       method = meth.to_s
-      if method =~ ElementLocator::SelectorBuild::WILDCARD_ATTRIBUTE
+      if method =~ ElementLocator::SelectorBuilder::WILDCARD_ATTRIBUTE
         attribute_value(method.gsub(/_/, '-'), *args)
       else
         super
@@ -618,7 +636,7 @@ module Watir
     end
 
     def respond_to_missing?(meth, *)
-      ElementLocator::SelectorBuild::WILDCARD_ATTRIBUTE === meth.to_s || super
+      ElementLocator::SelectorBuilder::WILDCARD_ATTRIBUTE === meth.to_s || super
     end
 
   end # Element
