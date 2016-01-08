@@ -1,6 +1,8 @@
 module Watir
   class TextAreaLocator
     class SelectorBuilder < ElementLocator::SelectorBuilder
+      private
+
       def normalize_selector(how, what)
         # We need to iterate through located elements and fetch
         # attribute value using WebDriver because XPath doesn't understand

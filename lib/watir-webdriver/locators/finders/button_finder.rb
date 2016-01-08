@@ -1,6 +1,12 @@
 module Watir
   class ButtonLocator
     class Finder < ElementLocator::Finder
+      def find_all
+        find_all_by_multiple
+      end
+
+      private
+
       def wd_find_first_by(how, what)
         if how == :tag_name
           how  = :xpath
@@ -9,8 +15,6 @@ module Watir
 
         super
       end
-
-      private
 
       def can_convert_regexp_to_contains?
         # regexp conversion won't work with the complex xpath selector

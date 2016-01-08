@@ -22,7 +22,6 @@ module Watir
     def finder
       @finder ||= @finder_class.new(@wd, @selector, @valid_attributes, @selector_builder_class, @element_validator_class)
     end
-
   end # ElementLocator
 end # Watir
 

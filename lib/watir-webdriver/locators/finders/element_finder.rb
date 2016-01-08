@@ -14,6 +14,16 @@ module Watir
         :xpath
       ]
 
+      # Regular expressions that can be reliably converted to xpath `contains`
+      # expressions in order to optimize the locator.
+      CONVERTABLE_REGEXP = %r{
+        \A
+        ([^\[\]\\^$.|?*+()]*) # leading literal characters
+        [^|]*?                # do not try to convert expressions with alternates
+          ([^\[\]\\^$.|?*+()]*) # trailing literal characters
+        \z
+      }x
+
       def initialize(wd, selector, valid_attributes, selector_builder_class, element_validator_class)
         @wd = wd
         @selector = selector.dup
@@ -47,6 +57,8 @@ module Watir
           find_all_by_multiple
         end
       end
+
+      private
 
       def by_id
         return unless id = @selector[:id] and id.is_a? String
@@ -148,8 +160,6 @@ module Watir
         @wd.find_elements(xpath: ".//*")
       end
 
-      private
-
       def wd_find_first_by(how, what)
         if what.is_a? String
           @wd.find_element(how, what)
@@ -218,17 +228,6 @@ module Watir
       def can_convert_regexp_to_contains?
         true
       end
-
-      # Regular expressions that can be reliably converted to xpath `contains`
-      # expressions in order to optimize the locator.
-      #
-      CONVERTABLE_REGEXP = %r{
-        \A
-        ([^\[\]\\^$.|?*+()]*) # leading literal characters
-        [^|]*?                # do not try to convert expressions with alternates
-        ([^\[\]\\^$.|?*+()]*) # trailing literal characters
-        \z
-      }x
 
       def regexp_selector_to_predicates(key, re)
         return [] if re.casefold?

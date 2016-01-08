@@ -1,8 +1,5 @@
 module Watir
   class ButtonLocator < ElementLocator
-    def locate_all
-      finder.find_all_by_multiple
-    end
   end # ButtonLocator
 end # Watir
 

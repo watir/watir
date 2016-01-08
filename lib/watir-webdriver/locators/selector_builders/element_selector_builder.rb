@@ -1,6 +1,9 @@
 module Watir
   class ElementLocator
     class SelectorBuilder
+      VALID_WHATS = [String, Regexp]
+      WILDCARD_ATTRIBUTE = /^(aria|data)_(.+)$/
+
       def initialize(wd, selector, valid_attributes)
         @wd = wd # TODO: get rid of wd, it's only used in child cells
         @selector = selector
@@ -20,24 +23,6 @@ module Watir
         selector
       end
 
-      def normalize_selector(how, what)
-        case how
-        when :tag_name, :text, :xpath, :index, :class, :label, :css
-          # include :class since the valid attribute is 'class_name'
-          # include :for since the valid attribute is 'html_for'
-          [how, what]
-        when :class_name
-          [:class, what]
-        when :caption
-          [:text, what]
-        else
-          assert_valid_as_attribute how
-          [how, what]
-        end
-      end
-
-      VALID_WHATS = [String, Regexp]
-
       def check_type(how, what)
         case how
         when :index
@@ -51,15 +36,24 @@ module Watir
         end
       end
 
-      WILDCARD_ATTRIBUTE = /^(aria|data)_(.+)$/
-
-      def assert_valid_as_attribute(attribute)
-        return if valid_attribute?(attribute) || attribute.to_s =~ WILDCARD_ATTRIBUTE
-        raise Exception::MissingWayOfFindingObjectException, "invalid attribute: #{attribute.inspect}"
+      def lhs_for(key)
+        case key
+        when :text, 'text'
+          'normalize-space()'
+        when :href
+          # TODO: change this behaviour?
+          'normalize-space(@href)'
+        when :type
+          # type attributes can be upper case - downcase them
+          # https://github.com/watir/watir-webdriver/issues/72
+          XpathSupport.downcase('@type')
+        else
+          "@#{key.to_s.tr("_", "-")}"
+        end
       end
 
-      def valid_attribute?(attribute)
-        @valid_attributes && @valid_attributes.include?(attribute)
+      def should_use_label_element?
+        !valid_attribute?(:label)
       end
 
       def given_xpath_or_css(selector)
@@ -84,6 +78,50 @@ module Watir
         [how, what]
       end
 
+      def build_wd_selector(selectors)
+        unless selectors.values.any? { |e| e.is_a? Regexp }
+          build_css(selectors) || build_xpath(selectors)
+        end
+      end
+
+      def attribute_expression(selectors)
+        f = selectors.map do |key, val|
+          if val.is_a?(Array)
+            "(" + val.map { |v| equal_pair(key, v) }.join(" or ") + ")"
+          else
+            equal_pair(key, val)
+          end
+        end
+        f.join(" and ")
+      end
+
+      private
+
+      def normalize_selector(how, what)
+        case how
+        when :tag_name, :text, :xpath, :index, :class, :label, :css
+          # include :class since the valid attribute is 'class_name'
+          # include :for since the valid attribute is 'html_for'
+          [how, what]
+        when :class_name
+          [:class, what]
+        when :caption
+          [:text, what]
+        else
+          assert_valid_as_attribute how
+          [how, what]
+        end
+      end
+
+      def assert_valid_as_attribute(attribute)
+        return if valid_attribute?(attribute) || attribute.to_s =~ WILDCARD_ATTRIBUTE
+        raise Exception::MissingWayOfFindingObjectException, "invalid attribute: #{attribute.inspect}"
+      end
+
+      def valid_attribute?(attribute)
+        @valid_attributes && @valid_attributes.include?(attribute)
+      end
+
       def can_be_combined_with_xpath_or_css?(selector)
         keys = selector.keys
         return true if keys == [:tag_name]
@@ -93,12 +131,6 @@ module Watir
         end
 
         false
-      end
-
-      def build_wd_selector(selectors)
-        unless selectors.values.any? { |e| e.is_a? Regexp }
-          build_css(selectors) || build_xpath(selectors)
-        end
       end
 
       def build_xpath(selectors)
@@ -167,17 +199,6 @@ module Watir
         true
       end
 
-      def attribute_expression(selectors)
-        f = selectors.map do |key, val|
-          if val.is_a?(Array)
-            "(" + val.map { |v| equal_pair(key, v) }.join(" or ") + ")"
-          else
-            equal_pair(key, val)
-          end
-        end
-        f.join(" and ")
-      end
-
       def css_escape(str)
         str.gsub('"', '\\"')
       end
@@ -193,26 +214,6 @@ module Watir
         else
           "#{lhs_for(key)}=#{XpathSupport.escape value}"
         end
-      end
-
-      def lhs_for(key)
-        case key
-        when :text, 'text'
-          'normalize-space()'
-        when :href
-          # TODO: change this behaviour?
-          'normalize-space(@href)'
-        when :type
-          # type attributes can be upper case - downcase them
-          # https://github.com/watir/watir-webdriver/issues/72
-          XpathSupport.downcase('@type')
-        else
-          "@#{key.to_s.tr("_", "-")}"
-        end
-      end
-
-      def should_use_label_element?
-        !valid_attribute?(:label)
       end
     end
   end

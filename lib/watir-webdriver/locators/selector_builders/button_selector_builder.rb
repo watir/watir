@@ -31,6 +31,8 @@ module Watir
         end
       end
 
+      private
+
       def equal_pair(key, value)
         if @building == :button && key == :value
           # :value should look for both node text and @value attribute

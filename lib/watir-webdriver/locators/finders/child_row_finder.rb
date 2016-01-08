@@ -5,6 +5,8 @@ module Watir
         find_all_by_multiple
       end
 
+      private
+
       def by_id
         nil # avoid this
       end
