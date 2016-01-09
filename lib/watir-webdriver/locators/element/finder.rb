@@ -1,6 +1,9 @@
 module Watir
   class Element
     class Finder
+      attr_reader :selector_builder
+      attr_reader :element_validator
+
       WD_FINDERS = [
         :class,
         :class_name,
@@ -18,18 +21,17 @@ module Watir
       # expressions in order to optimize the .
       CONVERTABLE_REGEXP = %r{
         \A
-        ([^\[\]\\^$.|?*+()]*) # leading literal characters
-        [^|]*?                # do not try to convert expressions with alternates
+          ([^\[\]\\^$.|?*+()]*) # leading literal characters
+          [^|]*?                # do not try to convert expressions with alternates
           ([^\[\]\\^$.|?*+()]*) # trailing literal characters
         \z
       }x
 
-      def initialize(wd, selector, valid_attributes, selector_builder_class, element_validator_class)
+      def initialize(wd, selector, selector_builder, element_validator)
         @wd = wd
         @selector = selector.dup
-        @valid_attributes = valid_attributes
-        @selector_builder_class = selector_builder_class
-        @element_validator_class = element_validator_class
+        @selector_builder = selector_builder
+        @element_validator = element_validator
       end
 
       def find
@@ -45,7 +47,7 @@ module Watir
         # We don't need to validate the element if we built the xpath ourselves.
         # It is also used to alter behavior of methods locating more than one type of element
         # (e.g. text_field locates both input and textarea)
-        element_validator(element, @selector).validate if element
+        element_validator.validate(element, @selector) if element
       rescue Selenium::WebDriver::Error::NoSuchElementError, Selenium::WebDriver::Error::StaleElementReferenceError
         nil
       end
@@ -70,7 +72,7 @@ module Watir
         return unless selector.empty? # multiple attributes
 
         element = @wd.find_element(:id, id)
-        return if tag_name && !element_validator(element, selector).validate
+        return if tag_name && !element_validator.validate(element, selector)
 
         element
       end
@@ -239,14 +241,6 @@ module Watir
         match.captures.reject(&:empty?).map do |literals|
           "contains(#{lhs}, #{XpathSupport.escape(literals)})"
         end
-      end
-
-      def selector_builder
-        @selector_builder ||= @selector_builder_class.new(@wd, @selector, @valid_attributes)
-      end
-
-      def element_validator(element, selector)
-        @element_validator ||= @element_validator_class.new(element, selector)
       end
     end
   end

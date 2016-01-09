@@ -5,7 +5,7 @@ module Watir
       WILDCARD_ATTRIBUTE = /^(aria|data)_(.+)$/
 
       def initialize(wd, selector, valid_attributes)
-        @wd = wd # TODO: get rid of wd, it's only used in child cells
+        @wd = wd # TODO: get rid of wd, it's only used in cells finder
         @selector = selector
         @valid_attributes = valid_attributes
       end

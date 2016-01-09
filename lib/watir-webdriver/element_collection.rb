@@ -89,14 +89,11 @@ module Watir
     def elements
       @parent.is_a?(IFrame) ? @parent.switch_to! : @parent.send(:assert_exists)
 
-      @elements ||= locator_class.new(
-        @parent.wd,
-        @selector,
-        element_class.attribute_list,
-        element_validator_class,
-        selector_builder_class,
-        finder_class
-      ).locate_all
+      element_validator = element_validator_class.new
+      selector_builder = selector_builder_class.new(@parent.wd, @selector, element_class.attribute_list)
+      finder = finder_class.new(@parent.wd, @selector, selector_builder, element_validator)
+
+      @elements ||= locator_class.new(finder).locate_all
     end
 
     def locator_class
