@@ -7,7 +7,7 @@ module LocatorSpecHelper
 
   def locator(selector, attrs)
     attrs ||= Watir::HTMLElement.attributes
-    Watir::ElementLocator.new(driver, selector, attrs, Watir::ElementLocator::ElementValidator, Watir::ElementLocator::SelectorBuilder, Watir::ElementLocator::Finder)
+    Watir::Element::Locator.new(driver, selector, attrs, Watir::Element::Validator, Watir::Element::SelectorBuilder, Watir::Element::Finder)
   end
 
   def expect_one(*args)

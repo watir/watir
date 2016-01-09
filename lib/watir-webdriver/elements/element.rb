@@ -549,27 +549,27 @@ module Watir
     private
 
     def locator_class
-      Kernel.const_get("#{self.class.name}Locator")
+      Kernel.const_get("#{self.class.name}::Locator")
     rescue NameError
-      ElementLocator
+      Locator
     end
 
     def element_validator_class
-      Kernel.const_get("#{locator_class}::ElementValidator")
+      Kernel.const_get("#{self.class.name}::Validator")
     rescue NameError
-      ElementLocator::ElementValidator
+      Element::Validator
     end
 
     def selector_builder_class
-      Kernel.const_get("#{locator_class}::SelectorBuilder")
+      Kernel.const_get("#{self.class.name}::SelectorBuilder")
     rescue NameError
-      ElementLocator::SelectorBuilder
+      Element::SelectorBuilder
     end
 
     def finder_class
-      Kernel.const_get("#{locator_class}::Finder")
+      Kernel.const_get("#{self.class.name}::Finder")
     rescue NameError
-      ElementLocator::Finder
+      Element::Finder
     end
 
     def selector_string
@@ -628,7 +628,7 @@ module Watir
 
     def method_missing(meth, *args, &blk)
       method = meth.to_s
-      if method =~ ElementLocator::SelectorBuilder::WILDCARD_ATTRIBUTE
+      if method =~ Element::SelectorBuilder::WILDCARD_ATTRIBUTE
         attribute_value(method.gsub(/_/, '-'), *args)
       else
         super
@@ -636,7 +636,7 @@ module Watir
     end
 
     def respond_to_missing?(meth, *)
-      ElementLocator::SelectorBuilder::WILDCARD_ATTRIBUTE === meth.to_s || super
+      Element::SelectorBuilder::WILDCARD_ATTRIBUTE === meth.to_s || super
     end
 
   end # Element

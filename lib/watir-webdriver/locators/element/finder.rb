@@ -1,5 +1,5 @@
 module Watir
-  class ElementLocator
+  class Element
     class Finder
       WD_FINDERS = [
         :class,
@@ -15,7 +15,7 @@ module Watir
       ]
 
       # Regular expressions that can be reliably converted to xpath `contains`
-      # expressions in order to optimize the locator.
+      # expressions in order to optimize the .
       CONVERTABLE_REGEXP = %r{
         \A
         ([^\[\]\\^$.|?*+()]*) # leading literal characters
@@ -45,7 +45,7 @@ module Watir
         # We don't need to validate the element if we built the xpath ourselves.
         # It is also used to alter behavior of methods locating more than one type of element
         # (e.g. text_field locates both input and textarea)
-        element_validator(element, @selector).validate_element if element
+        element_validator(element, @selector).validate if element
       rescue Selenium::WebDriver::Error::NoSuchElementError, Selenium::WebDriver::Error::StaleElementReferenceError
         nil
       end
@@ -70,7 +70,7 @@ module Watir
         return unless selector.empty? # multiple attributes
 
         element = @wd.find_element(:id, id)
-        return if tag_name && !element_validator(element, selector).validate_element
+        return if tag_name && !element_validator(element, selector).validate
 
         element
       end

@@ -1,6 +1,6 @@
 module Watir
-  class TextFieldLocator
-    class SelectorBuilder < ElementLocator::SelectorBuilder
+  class TextField
+    class SelectorBuilder < Element::SelectorBuilder
       def build_wd_selector(selectors)
         return if selectors.values.any? { |e| e.kind_of? Regexp }
 

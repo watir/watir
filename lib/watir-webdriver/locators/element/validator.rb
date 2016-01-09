@@ -1,12 +1,12 @@
 module Watir
-  class ElementLocator
-    class ElementValidator
+  class Element
+    class Validator
       def initialize(element, selector)
         @element = element
         @selector = selector
       end
 
-      def validate_element
+      def validate
         selector_tag_name = @selector[:tag_name]
         element_tag_name = @element.tag_name.downcase
 

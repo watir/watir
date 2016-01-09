@@ -1,6 +1,6 @@
 module Watir
-  class TextAreaLocator
-    class Finder < ElementLocator::Finder
+  class TextArea
+    class Finder < Element::Finder
       private
 
       def can_convert_regexp_to_contains?

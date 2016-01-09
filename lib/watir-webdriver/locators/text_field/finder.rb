@@ -1,6 +1,6 @@
 module Watir
-  class TextFieldLocator
-    class Finder < ElementLocator::Finder
+  class TextField
+    class Finder < Element::Finder
       def find_all
         find_all_by_multiple
       end

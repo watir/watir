@@ -1,5 +1,5 @@
 module Watir
-  class ElementLocator
+  class Element
     class SelectorBuilder
       VALID_WHATS = [String, Regexp]
       WILDCARD_ATTRIBUTE = /^(aria|data)_(.+)$/

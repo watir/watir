@@ -1,6 +1,6 @@
 module Watir
-  class CellLocator
-    class Finder < ElementLocator::Finder
+  class Row
+    class Finder < Element::Finder
       def find_all
         find_all_by_multiple
       end
@@ -8,7 +8,7 @@ module Watir
       private
 
       def by_id
-        nil
+        nil # avoid this
       end
     end
   end

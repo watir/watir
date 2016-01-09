@@ -100,27 +100,27 @@ module Watir
     end
 
     def locator_class
-      Kernel.const_get(self.class.name.sub(/Collection$/, 'Locator'))
+      Kernel.const_get("#{element_class}::Locator")
     rescue NameError
-      ElementLocator
+      Element::Locator
     end
 
     def element_validator_class
-      Kernel.const_get("#{locator_class}::ElementValidator")
+      Kernel.const_get("#{element_class}::Validator")
     rescue NameError
-      ElementLocator::ElementValidator
+      Element::Validator
     end
 
     def selector_builder_class
-      Kernel.const_get("#{locator_class}::SelectorBuilder")
+      Kernel.const_get("#{element_class}::SelectorBuilder")
     rescue NameError
-      ElementLocator::SelectorBuilder
+      Element::SelectorBuilder
     end
 
     def finder_class
-      Kernel.const_get("#{locator_class}::Finder")
+      Kernel.const_get("#{element_class}::Finder")
     rescue NameError
-      ElementLocator::Finder
+      Element::Finder
     end
 
     def element_class
