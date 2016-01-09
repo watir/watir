@@ -6,8 +6,7 @@ module Watir
 
         selectors.delete(:tag_name)
 
-        @building = :input
-        input_attr_exp = attribute_expression(selectors)
+        input_attr_exp = xpath_builder.attribute_expression(:input, selectors)
 
         xpath = ".//input[(not(@type) or (#{negative_type_expr}))"
         xpath << " and #{input_attr_exp}" unless input_attr_exp.empty?
@@ -16,14 +15,6 @@ module Watir
         p build_wd_selector: xpath if $DEBUG
 
         [:xpath, xpath]
-      end
-
-      def lhs_for(key)
-        if @building == :input && key == :text
-          "@value"
-        else
-          super
-        end
       end
 
       private

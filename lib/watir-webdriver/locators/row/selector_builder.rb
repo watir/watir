@@ -10,7 +10,7 @@ module Watir
           expressions += %w[./tbody/tr ./thead/tr ./tfoot/tr]
         end
 
-        attr_expr = attribute_expression(selectors)
+        attr_expr = xpath_builder.attribute_expression(nil, selectors)
 
         unless attr_expr.empty?
           expressions.map! { |e| "#{e}[#{attr_expr}]" }

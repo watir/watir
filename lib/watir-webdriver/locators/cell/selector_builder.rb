@@ -5,7 +5,7 @@ module Watir
         return if selectors.values.any? { |e| e.kind_of? Regexp }
 
         expressions = %w[./th ./td]
-        attr_expr = attribute_expression(selectors)
+        attr_expr = xpath_builder.attribute_expression(nil, selectors)
 
         unless attr_expr.empty?
           expressions.map! { |e| "#{e}[#{attr_expr}]" }

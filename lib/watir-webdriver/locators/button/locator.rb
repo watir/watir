@@ -10,7 +10,7 @@ module Watir
       def wd_find_first_by(how, what)
         if how == :tag_name
           how  = :xpath
-          what = ".//button | .//input[#{selector_builder.attribute_expression(type: Button::VALID_TYPES)}]"
+          what = ".//button | .//input[#{selector_builder.xpath_builder.attribute_expression(:input, type: Button::VALID_TYPES)}]"
         end
 
         super

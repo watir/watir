@@ -237,7 +237,7 @@ module Watir
         match = re.source.match(CONVERTABLE_REGEXP)
         return [] unless match
 
-        lhs = selector_builder.lhs_for(key)
+        lhs = selector_builder.xpath_builder.lhs_for(nil, key)
         match.captures.reject(&:empty?).map do |literals|
           "contains(#{lhs}, #{XpathSupport.escape(literals)})"
         end

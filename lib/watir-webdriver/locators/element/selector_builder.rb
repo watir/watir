@@ -1,3 +1,6 @@
+require 'watir-webdriver/locators/element/selector_builder/css'
+require 'watir-webdriver/locators/element/selector_builder/xpath'
+
 module Watir
   class Element
     class SelectorBuilder
@@ -5,7 +8,7 @@ module Watir
       WILDCARD_ATTRIBUTE = /^(aria|data)_(.+)$/
 
       def initialize(wd, selector, valid_attributes)
-        @wd = wd # TODO: get rid of wd, it's only used in cells finder
+        @wd = wd # TODO: get rid of wd, it's only used in cells selector builder
         @selector = selector
         @valid_attributes = valid_attributes
       end
@@ -33,22 +36,6 @@ module Watir
           unless VALID_WHATS.any? { |t| what.is_a? t }
             raise TypeError, "expected one of #{VALID_WHATS.inspect}, got #{what.inspect}:#{what.class}"
           end
-        end
-      end
-
-      def lhs_for(key)
-        case key
-        when :text, 'text'
-          'normalize-space()'
-        when :href
-          # TODO: change this behaviour?
-          'normalize-space(@href)'
-        when :type
-          # type attributes can be upper case - downcase them
-          # https://github.com/watir/watir-webdriver/issues/72
-          XpathSupport.downcase('@type')
-        else
-          "@#{key.to_s.tr("_", "-")}"
         end
       end
 
@@ -84,15 +71,8 @@ module Watir
         end
       end
 
-      def attribute_expression(selectors)
-        f = selectors.map do |key, val|
-          if val.is_a?(Array)
-            "(" + val.map { |v| equal_pair(key, v) }.join(" or ") + ")"
-          else
-            equal_pair(key, val)
-          end
-        end
-        f.join(" and ")
+      def xpath_builder
+        @xpath_builder ||= xpath_builder_class.new(should_use_label_element?)
       end
 
       private
@@ -134,86 +114,27 @@ module Watir
       end
 
       def build_xpath(selectors)
-        xpath = ".//"
-        xpath << (selectors.delete(:tag_name) || '*').to_s
-
-        selectors.delete :index
-
-        # the remaining entries should be attributes
-        unless selectors.empty?
-          xpath << "[" << attribute_expression(selectors) << "]"
-        end
-
-        p xpath: xpath, selectors: selectors if $DEBUG
-
-        [:xpath, xpath]
+        xpath_builder.build(selectors)
       end
 
       def build_css(selectors)
-        return unless use_css?(selectors)
-
-        if selectors.empty?
-          css = '*'
-        else
-          css = ''
-          css << (selectors.delete(:tag_name) || '')
-
-          klass = selectors.delete(:class)
-          if klass
-            if klass.include? ' '
-              css << %([class="#{css_escape klass}"])
-            else
-              css << ".#{klass}"
-            end
-          end
-
-          href = selectors.delete(:href)
-          if href
-            css << %([href~="#{css_escape href}"])
-          end
-
-          selectors.each do |key, value|
-            key = key.to_s.tr("_", "-")
-            css << %([#{key}="#{css_escape value}"]) # TODO: proper escaping
-          end
-        end
-
-        [:css, css]
+        css_builder.build(selectors)
       end
 
-      def use_css?(selectors)
-        return false unless Watir.prefer_css?
-
-        if selectors.key?(:text) || selectors.key?(:label) || selectors.key?(:index)
-          return false
-        end
-
-        if selectors[:tag_name] == 'input' && selectors.key?(:type)
-          return false
-        end
-
-        if selectors.key?(:class) && selectors[:class] !~ /^[\w-]+$/ui
-          return false
-        end
-
-        true
+      def xpath_builder_class
+        Kernel.const_get("#{self.class.name}::XPath")
+      rescue
+        XPath
       end
 
-      def css_escape(str)
-        str.gsub('"', '\\"')
+      def css_builder
+        @css_builder ||= css_builder_class.new
       end
 
-      def equal_pair(key, value)
-        if key == :class
-          klass = XpathSupport.escape " #{value} "
-          "contains(concat(' ', @class, ' '), #{klass})"
-        elsif key == :label && should_use_label_element?
-          # we assume :label means a corresponding label element, not the attribute
-          text = "normalize-space()=#{XpathSupport.escape value}"
-          "(@id=//label[#{text}]/@for or parent::label[#{text}])"
-        else
-          "#{lhs_for(key)}=#{XpathSupport.escape value}"
-        end
+      def css_builder_class
+        Kernel.const_get("#{self.class.name}::CSS")
+      rescue
+        CSS
       end
     end
   end

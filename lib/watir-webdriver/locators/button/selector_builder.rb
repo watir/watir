@@ -6,12 +6,10 @@ module Watir
 
         selectors.delete(:tag_name) || raise("internal error: no tag_name?!")
 
-        @building = :button
-        button_attr_exp = attribute_expression(selectors)
+        button_attr_exp = xpath_builder.attribute_expression(:button, selectors)
 
-        @building = :input
         selectors[:type] = Button::VALID_TYPES
-        input_attr_exp = attribute_expression(selectors)
+        input_attr_exp = xpath_builder.attribute_expression(:input, selectors)
 
         xpath = ".//button"
         xpath << "[#{button_attr_exp}]" unless button_attr_exp.empty?
@@ -21,26 +19,6 @@ module Watir
         p build_wd_selector: xpath if $DEBUG
 
         [:xpath, xpath]
-      end
-
-      def lhs_for(key)
-        if @building == :input && key == :text
-          "@value"
-        else
-          super
-        end
-      end
-
-      private
-
-      def equal_pair(key, value)
-        if @building == :button && key == :value
-          # :value should look for both node text and @value attribute
-          text = XpathSupport.escape(value)
-          "(text()=#{text} or @value=#{text})"
-        else
-          super
-        end
       end
     end
   end
