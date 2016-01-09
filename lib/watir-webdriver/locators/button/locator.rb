@@ -1,7 +1,7 @@
 module Watir
   class Button
-    class Finder < Element::Finder
-      def find_all
+    class Locator < Element::Locator
+      def locate_all
         find_all_by_multiple
       end
 

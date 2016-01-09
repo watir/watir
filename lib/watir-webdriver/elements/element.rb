@@ -543,10 +543,12 @@ module Watir
 
     def locate
       ensure_context
+
       element_validator = element_validator_class.new
       selector_builder = selector_builder_class.new(@parent.wd, @selector, self.class.attribute_list)
-      finder = finder_class.new(@parent.wd, @selector, selector_builder, element_validator)
-      locator_class.new(finder).locate
+      locator = locator_class.new(@parent.wd, @selector, selector_builder, element_validator)
+
+      locator.locate
     end
 
     private
@@ -567,12 +569,6 @@ module Watir
       Kernel.const_get("#{self.class.name}::SelectorBuilder")
     rescue NameError
       SelectorBuilder
-    end
-
-    def finder_class
-      Kernel.const_get("#{self.class.name}::Finder")
-    rescue NameError
-      Finder
     end
 
     def selector_string

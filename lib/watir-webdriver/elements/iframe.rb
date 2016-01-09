@@ -7,9 +7,9 @@ module Watir
       selector = @selector.merge(tag_name: frame_tag)
       element_validator = element_validator_class.new
       selector_builder = selector_builder_class.new(@parent.wd, selector, self.class.attribute_list)
-      finder = finder_class.new(@parent.wd, selector, selector_builder, element_validator)
+      locator = locator_class.new(@parent.wd, selector, selector_builder, element_validator)
 
-      element = locator_class.new(finder).locate
+      element = locator.locate
       element or raise UnknownFrameException, "unable to locate #{@selector[:tag_name]} using #{selector_string}"
 
       FramedDriver.new(element, driver)
@@ -76,11 +76,12 @@ module Watir
 
     def all_elements
       selector = { tag_name: @selector[:tag_name] }
+
       element_validator = element_validator_class.new
       selector_builder = selector_builder_class.new(@parent.wd, selector, element_class.attribute_list)
-      finder = finder_class.new(@parent.wd, selector, selector_builder, element_validator)
+      locator = locator_class.new(@parent.wd, selector, selector_builder, element_validator)
 
-      locator_class.new(finder).locate_all
+      locator.locate_all
     end
 
   end # IFrameCollection
