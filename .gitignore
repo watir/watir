@@ -16,3 +16,6 @@ support/svg.html
 /doc
 .idea
 .ruby-version
+.envrc
+.projections.json
+bin/
