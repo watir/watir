@@ -31,7 +31,7 @@ module Watir
     # Returns row of this table with given index.
     #
     # @param [Fixnum] idx
-    # @return Watir::TableRow
+    # @return Watir::Row
     #
 
     def [](idx)

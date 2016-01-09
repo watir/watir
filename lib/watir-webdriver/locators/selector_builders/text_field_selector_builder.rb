@@ -29,7 +29,7 @@ module Watir
       private
 
       def negative_type_expr
-        TextFieldLocator::NON_TEXT_TYPES.map do |type|
+        TextField::NON_TEXT_TYPES.map do |type|
           "%s!=%s" % [XpathSupport.downcase('@type'), type.inspect]
         end.join(' and ')
       end

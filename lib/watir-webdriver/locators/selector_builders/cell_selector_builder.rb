@@ -1,15 +1,10 @@
 module Watir
-  class ChildRowLocator
+  class CellLocator
     class SelectorBuilder < ElementLocator::SelectorBuilder
       def build_wd_selector(selectors)
         return if selectors.values.any? { |e| e.kind_of? Regexp }
-        selectors.delete(:tag_name) || raise("internal error: no tag_name?!")
 
-        expressions = %w[./tr]
-        unless %w[tbody tfoot thead].include?(@wd.tag_name.downcase)
-          expressions += %w[./tbody/tr ./thead/tr ./tfoot/tr]
-        end
-
+        expressions = %w[./th ./td]
         attr_expr = attribute_expression(selectors)
 
         unless attr_expr.empty?

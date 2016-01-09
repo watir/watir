@@ -30,7 +30,7 @@ module Watir
       def by_id
         element = super
 
-        if element && !TextFieldLocator::NON_TEXT_TYPES.include?(element.attribute(:type))
+        if element && !TextField::NON_TEXT_TYPES.include?(element.attribute(:type))
           element
         end
       end

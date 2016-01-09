@@ -2,6 +2,8 @@ module Watir
   class TextField < Input
     include UserEditable
 
+    NON_TEXT_TYPES = %w[file radio checkbox submit reset image button hidden datetime date month week time datetime-local range color]
+
     private
 
     def selector_string
