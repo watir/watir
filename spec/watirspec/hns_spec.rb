@@ -1,7 +1,7 @@
 # encoding: utf-8
 require File.expand_path("../spec_helper", __FILE__)
 
-describe "H1s", "H2s", "H3s", "H4s", "H5s", "H6s" do
+describe ["H1s", "H2s", "H3s", "H4s", "H5s", "H6s"] do
   before :each do
     browser.goto(WatirSpec.url_for("non_control_elements.html"))
   end
