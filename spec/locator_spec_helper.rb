@@ -1,6 +1,10 @@
 require 'active_support/ordered_hash'
 
 module LocatorSpecHelper
+  def browser
+    @browser ||= double(Watir::Browser, wd: driver)
+  end
+
   def driver
     @driver ||= double(Selenium::WebDriver::Driver)
   end
@@ -9,7 +13,7 @@ module LocatorSpecHelper
     attrs ||= Watir::HTMLElement.attributes
     element_validator = Watir::Element::Validator.new
     selector_builder = Watir::Element::SelectorBuilder.new(driver, selector, attrs)
-    Watir::Element::Locator.new(driver, selector, selector_builder, element_validator)
+    Watir::Element::Locator.new(browser, selector, selector_builder, element_validator)
   end
 
   def expect_one(*args)
@@ -33,7 +37,7 @@ module LocatorSpecHelper
     el = double(Watir::Element, opts)
 
     attrs.each do |key, value|
-      el.stub(:attribute).with(key).and_return(value)
+      allow(el).to receive(:attribute).with(key).and_return(value)
     end if attrs
 
     el

@@ -7,8 +7,8 @@ module Watir
       VALID_WHATS = [String, Regexp]
       WILDCARD_ATTRIBUTE = /^(aria|data)_(.+)$/
 
-      def initialize(wd, selector, valid_attributes)
-        @wd = wd # TODO: get rid of wd, it's only used in cells selector builder
+      def initialize(parent, selector, valid_attributes)
+        @parent = parent # either element or browser
         @selector = selector
         @valid_attributes = valid_attributes
       end
@@ -43,32 +43,8 @@ module Watir
         !valid_attribute?(:label)
       end
 
-      def given_xpath_or_css(selector)
-        xpath = selector.delete(:xpath)
-        css   = selector.delete(:css)
-        return unless xpath || css
-
-        if xpath && css
-          raise ArgumentError, ":xpath and :css cannot be combined (#{selector.inspect})"
-        end
-
-        how, what = if xpath
-                      [:xpath, xpath]
-                    elsif css
-                      [:css, css]
-                    end
-
-        if selector.any? && !can_be_combined_with_xpath_or_css?(selector)
-          raise ArgumentError, "#{how} cannot be combined with other selectors (#{selector.inspect})"
-        end
-
-        [how, what]
-      end
-
-      def build_wd_selector(selectors)
-        unless selectors.values.any? { |e| e.is_a? Regexp }
-          build_css(selectors) || build_xpath(selectors)
-        end
+      def build(selector)
+        given_xpath_or_css(selector) || build_wd_selector(selector)
       end
 
       def xpath_builder
@@ -96,6 +72,34 @@ module Watir
       def assert_valid_as_attribute(attribute)
         return if valid_attribute?(attribute) || attribute.to_s =~ WILDCARD_ATTRIBUTE
         raise Exception::MissingWayOfFindingObjectException, "invalid attribute: #{attribute.inspect}"
+      end
+
+      def given_xpath_or_css(selector)
+        xpath = selector.delete(:xpath)
+        css   = selector.delete(:css)
+        return unless xpath || css
+
+        if xpath && css
+          raise ArgumentError, ":xpath and :css cannot be combined (#{selector.inspect})"
+        end
+
+        how, what = if xpath
+                      [:xpath, xpath]
+                    elsif css
+                      [:css, css]
+                    end
+
+        if selector.any? && !can_be_combined_with_xpath_or_css?(selector)
+          raise ArgumentError, "#{how} cannot be combined with other selectors (#{selector.inspect})"
+        end
+
+        [how, what]
+      end
+
+      def build_wd_selector(selectors)
+        unless selectors.values.any? { |e| e.is_a? Regexp }
+          build_css(selectors) || build_xpath(selectors)
+        end
       end
 
       def valid_attribute?(attribute)

@@ -545,8 +545,8 @@ module Watir
       ensure_context
 
       element_validator = element_validator_class.new
-      selector_builder = selector_builder_class.new(@parent.wd, @selector, self.class.attribute_list)
-      locator = locator_class.new(@parent.wd, @selector, selector_builder, element_validator)
+      selector_builder = selector_builder_class.new(@parent, @selector, self.class.attribute_list)
+      locator = locator_class.new(@parent, @selector, selector_builder, element_validator)
 
       locator.locate
     end
@@ -628,7 +628,7 @@ module Watir
     def method_missing(meth, *args, &blk)
       method = meth.to_s
       if method =~ Element::SelectorBuilder::WILDCARD_ATTRIBUTE
-        attribute_value(method.gsub(/_/, '-'), *args)
+        attribute_value(method.tr('_', '-'), *args)
       else
         super
       end

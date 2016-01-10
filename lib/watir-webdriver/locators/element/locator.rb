@@ -27,8 +27,8 @@ module Watir
         \z
       }x
 
-      def initialize(wd, selector, selector_builder, element_validator)
-        @wd = wd
+      def initialize(parent, selector, selector_builder, element_validator)
+        @parent = parent # either element or browser
         @selector = selector.dup
         @selector_builder = selector_builder
         @element_validator = element_validator
@@ -71,7 +71,7 @@ module Watir
         tag_name = selector.delete(:tag_name)
         return unless selector.empty? # multiple attributes
 
-        element = @wd.find_element(:id, id)
+        element = @parent.wd.find_element(:id, id)
         return if tag_name && !element_validator.validate(element, selector)
 
         element
@@ -92,14 +92,14 @@ module Watir
         selector = selector_builder.normalized_selector
 
         idx = selector.delete(:index)
-        how, what = selector_builder.given_xpath_or_css(selector) || selector_builder.build_wd_selector(selector)
+        how, what = selector_builder.build(selector)
 
         if how
           # could build xpath/css for selector
           if idx
-            @wd.find_elements(how, what)[idx]
+            @parent.wd.find_elements(how, what)[idx]
           else
-            @wd.find_element(how, what)
+            @parent.wd.find_element(how, what)
           end
         else
           # can't use xpath, probably a regexp in there
@@ -129,9 +129,9 @@ module Watir
           raise ArgumentError, "can't locate all elements by :index"
         end
 
-        how, what = selector_builder.given_xpath_or_css(selector) || selector_builder.build_wd_selector(selector)
+        how, what = selector_builder.build(selector)
         if how
-          @wd.find_elements(how, what)
+          @parent.wd.find_elements(how, what)
         else
           wd_find_by_regexp_selector(selector, :select)
         end
@@ -139,7 +139,7 @@ module Watir
 
       def wd_find_all_by(how, what)
         if what.is_a? String
-          @wd.find_elements(how, what)
+          @parent.wd.find_elements(how, what)
         else
           all_elements.select { |element| fetch_value(element, how) =~ what }
         end
@@ -159,19 +159,19 @@ module Watir
       end
 
       def all_elements
-        @wd.find_elements(xpath: ".//*")
+        @parent.wd.find_elements(xpath: ".//*")
       end
 
       def wd_find_first_by(how, what)
         if what.is_a? String
-          @wd.find_element(how, what)
+          @parent.wd.find_element(how, what)
         else
           all_elements.find { |element| fetch_value(element, how) =~ what }
         end
       end
 
       def wd_find_by_regexp_selector(selector, method = :find)
-        parent = @wd
+        parent = @parent.wd
         rx_selector = delete_regexps_from(selector)
 
         if rx_selector.key?(:label) && selector_builder.should_use_label_element?
@@ -183,7 +183,7 @@ module Watir
           end
         end
 
-        how, what = selector_builder.build_wd_selector(selector)
+        how, what = selector_builder.build(selector)
 
         unless how
           raise Error, "internal error: unable to build WebDriver selector from #{selector.inspect}"
@@ -206,7 +206,7 @@ module Watir
         rx_selector = {}
 
         selector.dup.each do |how, what|
-          next unless what.kind_of?(Regexp)
+          next unless what.is_a?(Regexp)
           rx_selector[how] = what
           selector.delete how
         end
@@ -216,7 +216,7 @@ module Watir
 
       def label_from_text(label_exp)
         # TODO: this won't work correctly if @wd is a sub-element
-        @wd.find_elements(:tag_name, 'label').find do |el|
+        @parent.wd.find_elements(:tag_name, 'label').find do |el|
           matches_selector?(el, text: label_exp)
         end
       end
