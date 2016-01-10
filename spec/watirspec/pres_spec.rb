@@ -10,7 +10,7 @@ describe "Pres" do
   bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
     describe "with selectors" do
       it "returns the matching elements" do
-        expect(browser.pres(class: "c++").to_a).to eq [browser.pre(class: "c++")]
+        expect(browser.pres(class: "c-plus-plus").to_a).to eq [browser.pre(class: "c-plus-plus")]
       end
     end
   end
