@@ -143,7 +143,7 @@ describe "Browser" do
   end
 
   describe ".start" do
-    not_compliant_on %i(webdriver, safariwatir) do
+    not_compliant_on %i(webdriver safariwatir) do
       it "goes to the given URL and return an instance of itself" do
         browser = WatirSpec.implementation.browser_class.start(WatirSpec.url_for("non_control_elements.html"))
 
