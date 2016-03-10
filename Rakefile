@@ -126,18 +126,30 @@ namespace :spec do
   require 'selenium-webdriver'
 
   desc 'Run specs in all browsers'
-  task all_browsers: [:firefox,
-                      :firefox_nightly,
-                      :chrome,
+  task all_browsers: [:chrome,
+                      :firefox,
+                      :phantomjs,
+                      :remote_chrome,
+                      :remote_firefox,
+                      :remote_phantomjs,
                       (:safari if Selenium::WebDriver::Platform.os == :macosx),
+                      (:remote_safari if Selenium::WebDriver::Platform.os == :macosx),
                       (:ie if Selenium::WebDriver::Platform.os == :windows),
+                      (:remote_ie if Selenium::WebDriver::Platform.os == :windows),
                       (:edge if Selenium::WebDriver::Platform.os == :windows),
-                      :phantomjs].compact
+                      (:remote_edge if Selenium::WebDriver::Platform.os == :windows)].compact
 
-  %w(firefox firefox_nightly chrome safari phantomjs ie edge).each do |browser|
+  %w(firefox marionette chrome safari phantomjs ie edge).each do |browser|
     desc "Run specs in #{browser}"
     task browser do
       ENV['WATIR_WEBDRIVER_BROWSER'] = browser
+      Rake::Task['spec'].execute
+    end
+
+    desc "Run specs in Remote #{browser}"
+    task "remote_#{browser}" do
+      ENV['WATIR_WEBDRIVER_BROWSER'] = 'remote'
+      ENV['REMOTE_BROWSER'] =  browser
       Rake::Task['spec'].execute
     end
   end
