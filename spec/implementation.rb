@@ -76,16 +76,6 @@ class ImplementationConfig
       [matching_browser, Selenium::WebDriver::Platform.os] # guard only applies to this browser with this OS
     ]
 
-    if native_events?
-      # guard only applies to this browser on webdriver with native events enabled
-      matching_guards << [:webdriver, matching_browser, :native_events]
-      matching_guards << [:webdriver, matching_browser_with_version, :native_events]
-    else
-      # guard only applies to this browser on webdriver with native events disabled
-      matching_guards << [:webdriver, matching_browser, :synthesized_events]
-      matching_guards << [:webdriver, matching_browser_with_version, :synthesized_events]
-    end
-
     if !Selenium::WebDriver::Platform.linux? || ENV['DESKTOP_SESSION']
       # some specs (i.e. Window#maximize) needs a window manager on linux
       matching_guards << [:webdriver, matching_browser, :window_manager]
@@ -100,16 +90,12 @@ class ImplementationConfig
   end
 
   def firefox_args
-    profile = Selenium::WebDriver::Firefox::Profile.new
-    profile.native_events = native_events?
-
-    [:firefox, {profile: profile}]
+    [:firefox, {}]
   end
 
   def chrome_args
     opts = {
-      args: ["--disable-translate"],
-      native_events: native_events?
+      args: ["--disable-translate"]
     }
 
     if url = ENV['WATIR_WEBDRIVER_CHROME_SERVER']
@@ -151,20 +137,6 @@ class ImplementationConfig
     remote_browser.browser.name
   ensure
     remote_browser.close
-  end
-
-  def native_events?
-    if ENV['NATIVE_EVENTS'] == "true"
-      true
-    elsif ENV['NATIVE_EVENTS'] == "false" && !ie?
-      false
-    else
-      native_events_by_default?
-    end
-  end
-
-  def native_events_by_default?
-    Selenium::WebDriver::Platform.windows? && [:firefox, :internet_explorer].include?(browser)
   end
 
   class SelectorListener < Selenium::WebDriver::Support::AbstractEventListener
