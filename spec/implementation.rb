@@ -7,6 +7,7 @@ class ImplementationConfig
 
   def configure
     set_webdriver
+    start_remote_server if remote? && !ENV["REMOTE_SERVER_URL"]
     set_browser_args
     set_guard_proc
     add_html_routes
@@ -15,6 +16,32 @@ class ImplementationConfig
   end
 
   private
+
+  def start_remote_server
+    require 'selenium/server'
+
+    @server ||= Selenium::Server.new(remote_server_jar,
+                                     :port       => Selenium::WebDriver::PortProber.above(4444),
+                                     :log        => !!$DEBUG,
+                                     :background => true,
+                                     :timeout    => 60)
+
+    @server.start
+    at_exit { @server.stop }
+  end
+
+  def remote_server_jar
+    if File.exist?(ENV['REMOTE_SERVER_BINARY'] || '')
+      ENV['REMOTE_SERVER_BINARY']
+    elsif !Dir.glob('selenium-server-standalone*.jar').empty?
+      Dir.glob('selenium-server-standalone*.jar').first
+    else
+      Selenium::Server.download :latest
+    end
+  rescue SocketError
+    # not connected to internet
+    raise Watir::Exception::Error, "unable to find or download selenium-server-standalone jar"
+  end
 
   def set_webdriver
     @imp.name          = :webdriver
@@ -63,18 +90,26 @@ class ImplementationConfig
   end
 
   def set_guard_proc
-    matching_browser = remote? ? remote_browser : browser
+    matching_guards = [:webdriver]
+
+    if remote?
+      matching_browser = remote_browser
+      matching_guards << :remote
+      matching_guards << [:remote, matching_browser]
+    else
+      matching_browser = browser
+    end
+
     browser_instance = WatirSpec.new_browser
     browser_version = browser_instance.driver.capabilities.version
-    matching_browser_with_version = "#{matching_browser}#{browser_version}".to_sym
-    matching_guards = [
-      :webdriver,                     # guard only applies to webdriver
-      matching_browser,               # guard only applies to this browser
-      matching_browser_with_version,  # guard only applies to this browser with specific version
-      [:webdriver, matching_browser], # guard only applies to this browser on webdriver
-      [:webdriver, matching_browser_with_version],  # guard only applies to this browser with specific version on webdriver
-      [matching_browser, Selenium::WebDriver::Platform.os] # guard only applies to this browser with this OS
-    ]
+
+    matching_browser_with_version = "#{browser}#{browser_version}".to_sym
+    matching_guards << matching_browser_with_version if browser_version
+    matching_guards << [:webdriver, matching_browser_with_version]
+
+    matching_guards << matching_browser
+    matching_guards << [:webdriver, matching_browser]
+    matching_guards << [matching_browser, Selenium::WebDriver::Platform.os]
 
     if !Selenium::WebDriver::Platform.linux? || ENV['DESKTOP_SESSION']
       # some specs (i.e. Window#maximize) needs a window manager on linux
@@ -118,7 +153,10 @@ class ImplementationConfig
   end
 
   def remote_args
-    [:remote, {url: ENV["WATIR_WEBDRIVER_REMOTE_URL"] || "http://127.0.0.1:8080"}]
+    url = ENV["REMOTE_SERVER_URL"] || "http://127.0.0.1:#{@server.port}/wd/hub"
+    remote_browser_name = ENV['REMOTE_BROWSER'].to_sym
+    caps =  Selenium::WebDriver::Remote::Capabilities.send(remote_browser_name)
+    [:remote, {url: url, desired_capabilities: caps}]
   end
 
   def add_html_routes
@@ -133,10 +171,7 @@ class ImplementationConfig
   end
 
   def remote_browser
-    remote_browser = WatirSpec.new_browser
-    remote_browser.browser.name
-  ensure
-    remote_browser.close
+    @remote_browser ||= (ENV['REMOTE_BROWSER'] || :firefox).to_sym
   end
 
   class SelectorListener < Selenium::WebDriver::Support::AbstractEventListener
