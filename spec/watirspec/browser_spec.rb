@@ -82,7 +82,7 @@ describe "Browser" do
 
   describe "#name" do
     it "returns browser name" do
-      not_compliant_on :watir_classic, %i(webdriver phantomjs) do
+      not_compliant_on :watir_classic, :remote, %i(webdriver phantomjs) do
         expect(browser.name).to eq WatirSpec.implementation.browser_args[0]
       end
 
@@ -92,6 +92,10 @@ describe "Browser" do
 
       deviates_on :watir_classic do
         expect(browser.name).to eq :internet_explorer
+      end
+
+      deviates on :remote do
+        expect(browser.name).to eq WatirSpec.implementation.browser_args[1][:browser]
       end
     end
   end
