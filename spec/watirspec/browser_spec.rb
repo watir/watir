@@ -94,8 +94,8 @@ describe "Browser" do
         expect(browser.name).to eq :internet_explorer
       end
 
-      deviates on :remote do
-        expect(browser.name).to eq WatirSpec.implementation.browser_args[1][:browser]
+      deviates_on :remote do
+        expect(browser.name).to eq WatirSpec.implementation.browser_args[1][:desired_capabilities].browser_name.to_sym
       end
     end
   end
