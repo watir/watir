@@ -194,9 +194,11 @@ describe "SelectList" do
     end
 
     not_compliant_on %i(webdriver safari) do
-      it "fires onchange event" do
-        browser.select_list(name: "new_user_languages").clear
-        expect(messages.size).to eq 2
+      bug "Not firing events", :phantomjs do
+        it "fires onchange event" do
+          browser.select_list(name: "new_user_languages").clear
+          expect(messages.size).to eq 2
+        end
       end
 
       it "doesn't fire onchange event for already cleared option" do
@@ -298,18 +300,22 @@ describe "SelectList" do
     end
 
     not_compliant_on %i(webdriver safari) do
-      it "fires onchange event when selecting an item" do
-        browser.select_list(id: "new_user_languages").select("Danish")
-        expect(messages).to eq ['changed language']
+      bug "Not firing events", :phantomjs do
+        it "fires onchange event when selecting an item" do
+          browser.select_list(id: "new_user_languages").select("Danish")
+          expect(messages).to eq ['changed language']
+        end
       end
 
-      it "doesn't fire onchange event when selecting an already selected item" do
-        browser.select_list(id: "new_user_languages").clear # removes the two pre-selected options
-        browser.select_list(id: "new_user_languages").select("English")
-        expect(messages.size).to eq 3
+      bug "Not firing events", :phantomjs do
+        it "doesn't fire onchange event when selecting an already selected item" do
+          browser.select_list(id: "new_user_languages").clear # removes the two pre-selected options
+          browser.select_list(id: "new_user_languages").select("English")
+          expect(messages.size).to eq 3
 
-        browser.select_list(id: "new_user_languages").select("English")
-        expect(messages.size).to eq 3
+          browser.select_list(id: "new_user_languages").select("English")
+          expect(messages.size).to eq 3
+        end
       end
     end
 
