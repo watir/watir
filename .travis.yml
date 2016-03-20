@@ -1,8 +1,8 @@
-sudo: false
+sudo: true
 rvm:
-  - 2.0
   - 2.1
   - 2.2
+  - 2.3
 addons:
   apt:
     packages:
