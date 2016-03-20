@@ -23,12 +23,25 @@ module Watir
       super
     end
 
+    #
+    # Returns text of iframe body.
+    #
+    # @return [String]
+    #
+
+    def text
+      body.text
+    end
+
+    #
+    # Returns HTML code of iframe.
+    #
+    # @return [String]
+    #
+
     def html
       assert_exists
-
-      # this will actually give us the innerHTML instead of the outerHTML of the <frame>,
-      # but given the choice this seems more useful
-      element_call { execute_atom(:getOuterHtml, @element.find_element(tag_name: "html")).strip }
+      wd.page_source
     end
 
     def execute_script(*args)
