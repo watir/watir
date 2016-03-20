@@ -23,7 +23,7 @@ if [[ "$RAKE_TASK" = "spec:chrome" ]]; then
   chmod +x chrome-linux/chromedriver
 fi
 
-if [[ "$WATIR_WEBDRIVER_BROWSER" = "phantomjs" ]]; then
+if [[ "$RAKE_TASK" = "spec:phantomjs" ]]; then
   PHANTOMJS_NAME=phantomjs-2.1.1-linux-x86_64
   curl -L -O "https://bitbucket.org/ariya/phantomjs/downloads/${PHANTOMJS_NAME}.tar.bz2"
   tar -xvjf $PHANTOMJS_NAME.tar.bz2
