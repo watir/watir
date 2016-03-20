@@ -35,7 +35,7 @@ describe 'Watir' do
       if Watir.always_locate?
         expect { element.text }.to_not raise_error
       else
-        expect { element.text }.to raise_error
+        expect { element.text }.to raise_error Watir::Exception::UnknownObjectException
       end
     end
   end

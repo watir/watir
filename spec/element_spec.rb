@@ -66,46 +66,15 @@ describe Watir::Element do
       browser.goto WatirSpec.url_for('removed_element.html')
     end
 
-    it "does not propagate StaleElementReferenceErrors" do
-      button = browser.button(id: "remove-button")
-      element = browser.div(id: "text")
-
-      expect(element).to exist
-      button.click
-      expect(element).to_not exist
-    end
-
     it "returns false when an element from a collection becomes stale" do
-      button = browser.button(id: "remove-button")
-      text = browser.divs(id: "text").first
-
-      expect(text).to exist
-      button.click
-      expect(text).to_not exist
-    end
-
-    it "returns false when an element becomes stale" do
-      wd_element = browser.div(id: "text").wd
-
-      # simulate element going stale during lookup
-      allow(browser.driver).to receive(:find_element).with(:id, 'text') { wd_element }
-      browser.refresh
-
-      expect(browser.div(:id, 'text')).to_not exist
-    end
-
-    it "returns appropriate value when an ancestor element becomes stale" do
-      stale_element = browser.div(id: 'top').div(id: 'middle').div(id: 'bottom')
-      expect(stale_element.present?).to be true # look up and store @element for each element in hierarchy
-
-      grandparent = stale_element.instance_variable_get('@parent').instance_variable_get('@parent').instance_variable_get('@element')
-
-      # simulate element going stale during lookup
-      allow(grandparent).to receive('enabled?') { raise Selenium::WebDriver::Error::ObsoleteElementError }
+      watir_element = browser.divs(id: "text").first
+      expect(watir_element).to exist
 
       browser.refresh
-      expect(stale_element.present?).to be Watir.always_locate?
+
+      expect(watir_element).to_not exist
     end
+
   end
 
   describe "#element_call" do
@@ -125,7 +94,7 @@ describe Watir::Element do
       if Watir.always_locate?
         expect { watir_element.text }.to_not raise_error
       else
-        expect { watir_element.text }.to raise_error Selenium::WebDriver::Error::StaleElementReferenceError
+        expect { watir_element.text }.to raise_error Watir::Exception::UnknownObjectException
       end
     end
 

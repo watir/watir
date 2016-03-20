@@ -597,8 +597,12 @@ module Watir
     def element_call
       yield
     rescue Selenium::WebDriver::Error::StaleElementReferenceError
-      raise unless Watir.always_locate?
-      assert_exists
+      if Watir.always_locate? && !@selector[:element]
+        @element = locate
+      else
+        reset!
+      end
+      assert_element_found
       retry
     end
 
