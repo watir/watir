@@ -28,6 +28,6 @@ if [[ "$RAKE_TASK" = "spec:phantomjs" ]]; then
   curl -L -O "https://bitbucket.org/ariya/phantomjs/downloads/${PHANTOMJS_NAME}.tar.bz2"
   tar -xvjf $PHANTOMJS_NAME.tar.bz2
   chmod +x $PHANTOMJS_NAME/bin/phantomjs
-  mv $PHANTOMJS_NAME/bin/phantomjs chrome-linux/phantomjs
+  cp $PHANTOMJS_NAME/bin/phantomjs travis-phantomjs/phantomjs
   phantomjs --version
 fi
