@@ -14,7 +14,10 @@ notifications:
     - jarmo.p@gmail.com
     - titusfortner@gmail.com
   irc: "irc.freenode.net#watir"
-before_script: support/travis.sh
+before_script:
+  - mkdir travis-phantomjs
+  - export PATH=$PWD/travis-phantomjs:$PATH
+  - support/travis.sh
 script: bundle exec rake $RAKE_TASK
 env:
   - RAKE_TASK=spec:firefox
