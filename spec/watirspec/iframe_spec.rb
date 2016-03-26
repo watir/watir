@@ -165,4 +165,13 @@ describe "IFrame" do
     end
   end
 
+  compliant_on :webdriver do
+    describe "#text" do
+      it "returns the text inside the iframe" do
+        browser.goto WatirSpec.url_for("iframes.html")
+        expect(browser.iframe.text).to include("Frame 1")
+      end
+    end
+  end
+
 end
