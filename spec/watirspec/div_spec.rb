@@ -95,17 +95,6 @@ describe "Div" do
       end
     end
 
-    deviates_on :internet_explorer8 do
-      it "returns the style attribute if the element exists" do
-        expect(browser.div(id: 'best_language').style).to eq "COLOR: red; CURSOR: pointer; TEXT-DECORATION: underline"
-      end
-    end
-    deviates_on :internet_explorer9 do
-      it "returns the style attribute if the element exists" do
-        expect(browser.div(id: 'best_language').style).to eq "color: red; text-decoration: underline; cursor: pointer;"
-      end
-    end
-
     it "returns an empty string if the element exists but the attribute doesn't" do
       expect(browser.div(id: 'promo').style).to eq ""
     end
@@ -200,16 +189,6 @@ describe "Div" do
         html = browser.div(id: 'footer').html.downcase
         expect(html).to include('title="closing remarks"')
         expect(html).to_not include('</body>')
-        deviates_on :internet_explorer8 do
-          expect(html).to include('id=footer')
-          expect(html).to include('class=profile')
-          expect(html).to_not include('<div id=content>')
-        end
-        deviates_on :internet_explorer9 do
-          expect(html).to include('id="footer"')
-          expect(html).to include('class="profile"')
-          expect(html).to_not include('<div id="content">')
-        end
       end
     end
   end

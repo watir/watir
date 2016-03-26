@@ -17,12 +17,6 @@ describe "Form" do
 
       expect(browser.form(method: 'post')).to exist
       expect(browser.form(method: /post/)).to exist
-      deviates_on :internet_explorer8 do
-        expect(browser.form(action: 'post_to_me')).to exist
-      end
-      deviates_on :internet_explorer9 do
-        expect(browser.form(action: /post_to_me/)).to exist
-      end
       expect(browser.form(action: /to_me/)).to exist
       expect(browser.form(index: 0)).to exist
       expect(browser.form(xpath: "//form[@id='new_user']")).to exist

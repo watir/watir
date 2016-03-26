@@ -123,14 +123,8 @@ describe "Dl" do
         expect(html).to include('<dt class="current-industry">')
       end
 
-      deviates_on :internet_explorer9, :internet_explorer10 do
-        expect(html).to include('<dt class="current-industry">')
-      end
-
-      not_compliant_on :internet_explorer9, :internet_explorer10 do
-        deviates_on :internet_explorer do
-          expect(html).to include('<dt class=current-industry>')
-        end
+      deviates_on :internet_explorer do
+        expect(html).to include('<dt class=current-industry>')
       end
 
       expect(html).to_not include('</body>')
