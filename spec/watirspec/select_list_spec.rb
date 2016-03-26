@@ -163,10 +163,8 @@ describe "SelectList" do
   end
 
   describe "#selected_options" do
-    not_compliant_on :safariwatir do
-      it "should raise UnknownObjectException if the select list doesn't exist" do
-        expect { browser.select_list(name: 'no_such_name').selected_options }.to raise_error(Watir::Exception::UnknownObjectException)
-      end
+    it "should raise UnknownObjectException if the select list doesn't exist" do
+      expect { browser.select_list(name: 'no_such_name').selected_options }.to raise_error(Watir::Exception::UnknownObjectException)
     end
 
     it "gets the currently selected item(s)" do

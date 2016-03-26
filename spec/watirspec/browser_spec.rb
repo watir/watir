@@ -24,12 +24,10 @@ describe "Browser" do
       expect(browser.exists?).to be false
     end
 
-    not_compliant_on(:safariwatir) do
-      it "returns false after Browser#close" do
-        b = WatirSpec.new_browser
-        b.close
-        expect(b).to_not exist
-      end
+    it "returns false after Browser#close" do
+      b = WatirSpec.new_browser
+      b.close
+      expect(b).to_not exist
     end
   end
 
@@ -143,14 +141,12 @@ describe "Browser" do
   end
 
   describe ".start" do
-    not_compliant_on %i(webdriver safariwatir) do
-      it "goes to the given URL and return an instance of itself" do
-        browser = WatirSpec.implementation.browser_class.start(WatirSpec.url_for("non_control_elements.html"))
+    it "goes to the given URL and return an instance of itself" do
+      browser = WatirSpec.implementation.browser_class.start(WatirSpec.url_for("non_control_elements.html"))
 
-        expect(browser).to be_instance_of(WatirSpec.implementation.browser_class)
-        expect(browser.title).to eq "Non-control elements"
-        browser.close
-      end
+      expect(browser).to be_instance_of(WatirSpec.implementation.browser_class)
+      expect(browser.title).to eq "Non-control elements"
+      browser.close
     end
 
     # we need to specify what browser to use
