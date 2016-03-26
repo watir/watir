@@ -7,11 +7,9 @@ describe "Lis" do
     browser.goto(WatirSpec.url_for("non_control_elements.html"))
   end
 
-  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
-    describe "with selectors" do
-      it "returns the matching elements" do
-        expect(browser.lis(class: "nonlink").to_a).to eq [browser.li(class: "nonlink")]
-      end
+  describe "with selectors" do
+    it "returns the matching elements" do
+      expect(browser.lis(class: "nonlink").to_a).to eq [browser.li(class: "nonlink")]
     end
   end
 

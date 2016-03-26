@@ -7,11 +7,9 @@ describe "Dts" do
     browser.goto(WatirSpec.url_for("definition_lists.html"))
   end
 
-  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
-    describe "with selectors" do
-      it "returns the matching elements" do
-        expect(browser.dts(class: "current-industry").to_a).to eq [browser.dt(class: "current-industry")]
-      end
+  describe "with selectors" do
+    it "returns the matching elements" do
+      expect(browser.dts(class: "current-industry").to_a).to eq [browser.dt(class: "current-industry")]
     end
   end
 

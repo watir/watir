@@ -7,11 +7,9 @@ describe "Uls" do
     browser.goto(WatirSpec.url_for("non_control_elements.html"))
   end
 
-  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
-    describe "with selectors" do
-      it "returns the matching elements" do
-        expect(browser.uls(class: "navigation").to_a).to eq [browser.ul(class: "navigation")]
-      end
+  describe "with selectors" do
+    it "returns the matching elements" do
+      expect(browser.uls(class: "navigation").to_a).to eq [browser.ul(class: "navigation")]
     end
   end
 

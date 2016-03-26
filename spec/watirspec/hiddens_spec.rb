@@ -7,11 +7,9 @@ describe "Hiddens" do
     browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
   end
 
-  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
-    describe "with selectors" do
-      it "returns the matching elements" do
-        expect(browser.hiddens(value: "dolls").to_a).to eq [browser.hidden(value: "dolls")]
-      end
+  describe "with selectors" do
+    it "returns the matching elements" do
+      expect(browser.hiddens(value: "dolls").to_a).to eq [browser.hidden(value: "dolls")]
     end
   end
 

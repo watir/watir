@@ -6,11 +6,9 @@ describe "TableHeaders" do
     browser.goto(WatirSpec.url_for("tables.html"))
   end
 
-  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
-    describe "with selectors" do
-      it "returns the matching elements" do
-        expect(browser.theads(id: "tax_headers").to_a).to eq [browser.thead(id: "tax_headers")]
-      end
+  describe "with selectors" do
+    it "returns the matching elements" do
+      expect(browser.theads(id: "tax_headers").to_a).to eq [browser.thead(id: "tax_headers")]
     end
   end
 

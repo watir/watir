@@ -7,11 +7,9 @@ describe "Dls" do
     browser.goto(WatirSpec.url_for("definition_lists.html"))
   end
 
-  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
-    describe "with selectors" do
-      it "returns the matching elements" do
-        expect(browser.dls(title: "experience").to_a).to eq [browser.dl(title: "experience")]
-      end
+  describe "with selectors" do
+    it "returns the matching elements" do
+      expect(browser.dls(title: "experience").to_a).to eq [browser.dl(title: "experience")]
     end
   end
 

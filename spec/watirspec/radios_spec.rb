@@ -7,11 +7,9 @@ describe "Radios" do
     browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
   end
 
-  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
-    describe "with selectors" do
-      it "returns the matching elements" do
-        expect(browser.radios(value: "yes").to_a).to eq [browser.radio(value: "yes")]
-      end
+  describe "with selectors" do
+    it "returns the matching elements" do
+      expect(browser.radios(value: "yes").to_a).to eq [browser.radio(value: "yes")]
     end
   end
 
@@ -33,7 +31,7 @@ describe "Radios" do
 
       browser.radios.each_with_index do |r, index|
         expect(r.name).to eq browser.radio(index: index).name
-        expect(r.id).to eq  browser.radio(index: index).id
+        expect(r.id).to eq browser.radio(index: index).id
         expect(r.value).to eq browser.radio(index: index).value
 
         count += 1

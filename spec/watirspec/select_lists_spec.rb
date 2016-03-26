@@ -7,11 +7,9 @@ describe "SelectLists" do
     browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
   end
 
-  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
-    describe "with selectors" do
-      it "returns the matching elements" do
-        expect(browser.select_lists(name: "delete_user_username").to_a).to eq [browser.select_list(name: "delete_user_username")]
-      end
+  describe "with selectors" do
+    it "returns the matching elements" do
+      expect(browser.select_lists(name: "delete_user_username").to_a).to eq [browser.select_list(name: "delete_user_username")]
     end
   end
 
@@ -36,7 +34,7 @@ describe "SelectLists" do
 
       browser.select_lists.each_with_index do |l, index|
         expect(browser.select_list(index: index).name).to eq l.name
-        expect(browser.select_list(index: index).id).to eq  l.id
+        expect(browser.select_list(index: index).id).to eq l.id
         expect(browser.select_list(index: index).value).to eq l.value
 
         count += 1

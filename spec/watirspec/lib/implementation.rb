@@ -46,13 +46,10 @@ if __FILE__ == $0
           {name: :deviates,      data: {file: "./spec/watirspec/div_spec.rb:114"}},
           {name: :not_compliant, data: {file: "./spec/watirspec/div_spec.rb:200"}},
           {name: :bug,           data: {file: "./spec/watirspec/div_spec.rb:228", key: "WTR-350"}}
-        ],
-        [:celerity] => [
-          {name: :deviates,      data: {file: "./spec/watirspec/div_spec.rb:143"}}
         ]
       }
-      @impl.name = :celerity
-      @impl.matching_guards_in(guards).should == [{name: :deviates, data: {file: "./spec/watirspec/div_spec.rb:143"}}]
+      @impl.name = :watir_classic
+      @impl.matching_guards_in(guards).should == [{name: :deviates, data: {file: "./spec/watirspec/div_spec.rb:114"}}]
     end
   end
 end

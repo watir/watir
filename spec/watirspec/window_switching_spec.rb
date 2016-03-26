@@ -64,16 +64,14 @@ not_compliant_on %i(webdriver iphone), %i(webdriver safari) do
         expect(original_window.url).to match(/window_switching\.html/)
       end
 
-      bug "http://github.com/jarib/celerity/issues#issue/17", :celerity do
-        it "it executes the given block in the window" do
-          browser.window(title: "closeable window") do
-            link = browser.a(id: "close")
-            expect(link).to exist
-            link.click
-          end.wait_while_present
+      it "it executes the given block in the window" do
+        browser.window(title: "closeable window") do
+          link = browser.a(id: "close")
+          expect(link).to exist
+          link.click
+        end.wait_while_present
 
-          expect(browser.windows.size).to eq 1
-        end
+        expect(browser.windows.size).to eq 1
       end
 
       it "raises ArgumentError if the selector is invalid" do

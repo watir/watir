@@ -7,11 +7,9 @@ describe "TableCells" do
     browser.goto(WatirSpec.url_for("tables.html"))
   end
 
-  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
-    describe "with selectors" do
-      it "returns the matching elements" do
-        expect(browser.tds(headers: "before_tax").to_a).to eq [browser.td(headers: "before_tax")]
-      end
+  describe "with selectors" do
+    it "returns the matching elements" do
+      expect(browser.tds(headers: "before_tax").to_a).to eq [browser.td(headers: "before_tax")]
     end
   end
 

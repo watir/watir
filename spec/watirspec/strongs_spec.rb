@@ -7,11 +7,9 @@ describe "Strongs" do
     browser.goto(WatirSpec.url_for("non_control_elements.html"))
   end
 
-  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
-    describe "with selectors" do
-      it "returns the matching elements" do
-        expect(browser.strongs(class: "descartes").to_a).to eq [browser.strong(class: "descartes")]
-      end
+  describe "with selectors" do
+    it "returns the matching elements" do
+      expect(browser.strongs(class: "descartes").to_a).to eq [browser.strong(class: "descartes")]
     end
   end
 
@@ -33,7 +31,7 @@ describe "Strongs" do
 
       browser.strongs.each_with_index do |s, index|
         strong = browser.strong(index: index)
-        expect(s.id).to         eq strong.id
+        expect(s.id).to eq strong.id
         expect(s.class_name).to eq strong.class_name
 
         count += 1

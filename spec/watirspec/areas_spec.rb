@@ -7,11 +7,9 @@ describe "Areas" do
     browser.goto(WatirSpec.url_for("images.html"))
   end
 
-  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
-    describe "with selectors" do
-      it "returns the matching elements" do
-        expect(browser.areas(alt: "Tables").to_a).to eq [browser.area(alt: "Tables")]
-      end
+  describe "with selectors" do
+    it "returns the matching elements" do
+      expect(browser.areas(alt: "Tables").to_a).to eq [browser.area(alt: "Tables")]
     end
   end
 

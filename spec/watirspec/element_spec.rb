@@ -51,28 +51,24 @@ describe "Element" do
   describe "data-* attributes" do
     before { browser.goto WatirSpec.url_for("data_attributes.html") }
 
-    bug "http://github.com/jarib/celerity/issues#issue/27", :celerity do
-      it "finds elements by a data-* attribute" do
-        expect(browser.p(data_type: "ruby-library")).to exist
-      end
+    it "finds elements by a data-* attribute" do
+      expect(browser.p(data_type: "ruby-library")).to exist
+    end
 
-      it "returns the value of a data-* attribute" do
-        expect(browser.p.data_type).to eq "ruby-library"
-      end
+    it "returns the value of a data-* attribute" do
+      expect(browser.p.data_type).to eq "ruby-library"
     end
   end
 
   describe "aria-* attributes" do
     before { browser.goto WatirSpec.url_for("aria_attributes.html") }
 
-    bug "http://github.com/jarib/celerity/issues#issue/27", :celerity do
-      it "finds elements by a aria-* attribute" do
-        expect(browser.p(aria_label: "ruby-library")).to exist
-      end
+    it "finds elements by a aria-* attribute" do
+      expect(browser.p(aria_label: "ruby-library")).to exist
+    end
 
-      it "returns the value of a aria-* attribute" do
-        expect(browser.p.aria_label).to eq "ruby-library"
-      end
+    it "returns the value of a aria-* attribute" do
+      expect(browser.p.aria_label).to eq "ruby-library"
     end
   end
 
@@ -178,14 +174,12 @@ describe "Element" do
   end
 
   describe "#parent" do
-    bug "http://github.com/jarib/celerity/issues#issue/28", :celerity do
-      it "gets the parent of this element" do
-        expect(browser.text_field(id: "new_user_email").parent).to be_instance_of(FieldSet)
-      end
+    it "gets the parent of this element" do
+      expect(browser.text_field(id: "new_user_email").parent).to be_instance_of(FieldSet)
+    end
 
-      it "returns nil if the element has no parent" do
-        expect(browser.body.parent.parent).to be_nil
-      end
+    it "returns nil if the element has no parent" do
+      expect(browser.body.parent.parent).to be_nil
     end
   end
 

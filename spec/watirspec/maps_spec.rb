@@ -7,11 +7,9 @@ describe "Maps" do
     browser.goto(WatirSpec.url_for("images.html"))
   end
 
-  bug "http://github.com/jarib/celerity/issues#issue/25", :celerity do
-    describe "with selectors" do
-      it "returns the matching elements" do
-        expect(browser.maps(name: "triangle_map").to_a).to eq [browser.map(name: "triangle_map")]
-      end
+  describe "with selectors" do
+    it "returns the matching elements" do
+      expect(browser.maps(name: "triangle_map").to_a).to eq [browser.map(name: "triangle_map")]
     end
   end
 
