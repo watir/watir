@@ -24,10 +24,8 @@ if [[ "$RAKE_TASK" = "spec:chrome" ]]; then
 fi
 
 if [[ "$RAKE_TASK" = "spec:phantomjs" ]]; then
-  PHANTOMJS_NAME=phantomjs-2.1.1-linux-x86_64
-  curl -L -O "https://bitbucket.org/ariya/phantomjs/downloads/${PHANTOMJS_NAME}.tar.bz2"
-  tar -xvjf $PHANTOMJS_NAME.tar.bz2
-  chmod +x $PHANTOMJS_NAME/bin/phantomjs
-  cp $PHANTOMJS_NAME/bin/phantomjs travis-phantomjs/phantomjs
+  curl -L -O "https://bintray.com/artifact/download/tfortner/phantomjs-clone/p/phantomjs"
+  chmod +x phantomjs
+  mv phantomjs travis-phantomjs/phantomjs
   phantomjs --version
 fi
