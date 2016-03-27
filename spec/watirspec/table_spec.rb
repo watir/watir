@@ -48,22 +48,11 @@ describe "Table" do
         ["Table 2, Row 1, Cell 1",
          "Table 2, Row 1, Cell 2"]
       ]
-
-      not_compliant_on :watir_classic do
-        expect(browser.table(id: 'outer').strings).to eq [
-          ["Table 1, Row 1, Cell 1", "Table 1, Row 1, Cell 2"],
-          ["Table 1, Row 2, Cell 1", "Table 1, Row 2, Cell 2\nTable 2, Row 1, Cell 1 Table 2, Row 1, Cell 2"],
-          ["Table 1, Row 3, Cell 1", "Table 1, Row 3, Cell 2"]
-       ]
-      end
-
-      deviates_on :watir_classic do
-        expect(browser.table(id: 'outer').strings).to eq [
-          ["Table 1, Row 1, Cell 1", "Table 1, Row 1, Cell 2"],
-          ["Table 1, Row 2, Cell 1", "Table 1, Row 2, Cell 2 Table 2, Row 1, Cell 1 Table 2, Row 1, Cell 2"],
-          ["Table 1, Row 3, Cell 1", "Table 1, Row 3, Cell 2"]
-       ]
-      end
+      expect(browser.table(id: 'outer').strings).to eq [
+        ["Table 1, Row 1, Cell 1", "Table 1, Row 1, Cell 2"],
+        ["Table 1, Row 2, Cell 1", "Table 1, Row 2, Cell 2\nTable 2, Row 1, Cell 1 Table 2, Row 1, Cell 2"],
+        ["Table 1, Row 3, Cell 1", "Table 1, Row 3, Cell 2"]
+     ]
     end
   end
 
@@ -101,12 +90,6 @@ describe "Table" do
       expect(browser.table(id: 'outer')[0].id).to eq "outer_first"
       expect(browser.table(id: 'inner')[0].id).to eq "inner_first"
       expect(browser.table(id: 'outer')[2].id).to eq "outer_last"
-    end
-
-    not_compliant_on :webdriver, :watir_classic do
-      it "raises UnknownRowException if the index is out of bounds" do
-        expect { browser.table(id: 'outer')[1337] }.to raise_error(Watir::Exception::UnknownRowException)
-      end
     end
   end
 

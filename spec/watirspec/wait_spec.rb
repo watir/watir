@@ -1,7 +1,7 @@
 # encoding: utf-8
 require File.expand_path("../spec_helper", __FILE__)
 
-not_compliant_on %i(webdriver safari) do
+not_compliant_on :safari do
   describe Watir::Wait do
     describe "#until" do
       it "returns result of block if truthy" do
@@ -104,20 +104,10 @@ not_compliant_on %i(webdriver safari) do
         expect { browser.div(id: 'bar').when_present(1) {}}.to raise_error(Watir::Wait::TimeoutError)
       end
 
-      not_compliant_on :watir_classic do
-        it "times out when not given a block" do
-          expect { browser.div(id: 'bar').when_present(1).click }.to raise_error(Watir::Wait::TimeoutError,
-            /^timed out after 1 seconds, waiting for (\{:id=>"bar", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"bar"\}) to become present$/
-          )
-        end
-      end
-
-      deviates_on :watir_classic do
-        it "times out when not given a block" do
-          expect { browser.div(id: 'bar').when_present(1).click }.to raise_error(Watir::Wait::TimeoutError,
-            /^timed out after 1 seconds, waiting for (\{:id=>"bar", :tag_name=>\["div"\]\}|\{:tag_name=>\["div"\], :id=>"bar"\}) to become present$/
-          )
-        end
+      it "times out when not given a block" do
+        expect { browser.div(id: 'bar').when_present(1).click }.to raise_error(Watir::Wait::TimeoutError,
+          /^timed out after 1 seconds, waiting for (\{:id=>"bar", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"bar"\}) to become present$/
+        )
       end
 
       it "responds to Element methods" do
@@ -196,21 +186,12 @@ not_compliant_on %i(webdriver safari) do
         browser.div(id: 'bar').wait_until_present(5)
       end
 
-      not_compliant_on :watir_classic do
-        it "times out if the element doesn't appear" do
-          expect { browser.div(id: 'bar').wait_until_present(1) }.to raise_error(Watir::Wait::TimeoutError,
-            /^timed out after 1 seconds, waiting for (\{:id=>"bar", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"bar"\}) to become present$/
-          )
-        end
+      it "times out if the element doesn't appear" do
+        expect { browser.div(id: 'bar').wait_until_present(1) }.to raise_error(Watir::Wait::TimeoutError,
+          /^timed out after 1 seconds, waiting for (\{:id=>"bar", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"bar"\}) to become present$/
+        )
       end
 
-      deviates_on :watir_classic do
-        it "times out if the element doesn't appear" do
-          expect { browser.div(id: 'bar').wait_until_present(1) }.to raise_error(Watir::Wait::TimeoutError,
-            /^timed out after 1 seconds, waiting for (\{:id=>"bar", :tag_name=>\["div"\]\}|\{:tag_name=>\["div"\], :id=>"bar"\}) to become present$/
-          )
-        end
-      end
     end
 
     describe "#wait_while_present" do
@@ -219,20 +200,10 @@ not_compliant_on %i(webdriver safari) do
         browser.div(id: 'foo').wait_while_present(1)
       end
 
-      not_compliant_on :watir_classic do
-        it "times out if the element doesn't disappear" do
-          expect { browser.div(id: 'foo').wait_while_present(1) }.to raise_error(Watir::Wait::TimeoutError,
-            /^timed out after 1 seconds, waiting for (\{:id=>"foo", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"foo"\}) to disappear$/
-          )
-        end
-      end
-
-      deviates_on :watir_classic do
-        it "times out if the element doesn't disappear" do
-          expect { browser.div(id: 'foo').wait_while_present(1) }.to raise_error(Watir::Wait::TimeoutError,
-            /^timed out after 1 seconds, waiting for (\{:id=>"foo", :tag_name=>\["div"\]\}|\{:tag_name=>\["div"\], :id=>"foo"\}) to disappear$/
-          )
-        end
+      it "times out if the element doesn't disappear" do
+        expect { browser.div(id: 'foo').wait_while_present(1) }.to raise_error(Watir::Wait::TimeoutError,
+          /^timed out after 1 seconds, waiting for (\{:id=>"foo", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"foo"\}) to disappear$/
+        )
       end
     end
   end

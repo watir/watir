@@ -36,9 +36,7 @@ describe "TableRow" do
   end
 
   describe "#click" do
-    bug "http://github.com/watir/watir-webdriver/issues/issue/32",
-      %i(webdriver internet_explorer),
-      %i(webdriver chrome) do
+    bug "http://github.com/watir/watir-webdriver/issues/issue/32", :internet_explorer, :chrome do
       it "fires the row's onclick event" do
         browser.tr(id: 'inner_first').click
         expect(messages).to include('tr')
@@ -52,13 +50,6 @@ describe "TableRow" do
     it "returns the nth cell of the row" do
       expect(table[0][0].text).to eq "Table 1, Row 1, Cell 1"
       expect(table[2][0].text).to eq "Table 1, Row 3, Cell 1"
-    end
-
-    not_compliant_on :webdriver do #[] returns watir elements (lazy locate)
-      it "raises UnknownCellException if the index is out of bounds" do
-        expect { table.tr(index: 0)[1337] }.to raise_error(Watir::Exception::UnknownCellException)
-        expect { table[0][1337] }.to raise_error(Watir::Exception::UnknownCellException)
-      end
     end
   end
 

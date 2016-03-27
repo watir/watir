@@ -14,12 +14,6 @@ describe "SelectList" do
       expect(browser.select_list(id: /new_user_country/)).to exist
       expect(browser.select_list(name: 'new_user_country')).to exist
       expect(browser.select_list(name: /new_user_country/)).to exist
-
-      not_compliant_on :webdriver, :watir_classic do
-        expect(browser.select_list(text: 'Norway')).to exist
-        expect(browser.select_list(text: /Norway/)).to exist
-      end
-
       expect(browser.select_list(class: 'country')).to exist
       expect(browser.select_list(class: /country/)).to exist
       expect(browser.select_list(index: 0)).to exist
@@ -191,7 +185,7 @@ describe "SelectList" do
       expect { browser.select_list(name: 'no_such_name').clear }.to raise_error(Watir::Exception::UnknownObjectException)
     end
 
-    not_compliant_on %i(webdriver safari) do
+    not_compliant_on :safari do
       bug "Not firing events", :phantomjs do
         it "fires onchange event" do
           browser.select_list(name: "new_user_languages").clear
@@ -297,7 +291,7 @@ describe "SelectList" do
       expect(browser.select_list(name: "new_user_languages").select(/ish/)).to eq "Danish"
     end
 
-    not_compliant_on %i(webdriver safari) do
+    not_compliant_on :safari do
       bug "Not firing events", :phantomjs do
         it "fires onchange event when selecting an item" do
           browser.select_list(id: "new_user_languages").select("Danish")

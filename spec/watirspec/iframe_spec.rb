@@ -26,12 +26,8 @@ describe "IFrame" do
       expect(browser.iframe(name: "iframe1")).to exist
       expect(browser.iframe(index: 0)).to exist
       expect(browser.iframe(class: "half")).to exist
-      not_compliant_on %i(watir_classic internet_explorer10) do
-        expect(browser.iframe(xpath: "//iframe[@id='iframe_1']")).to exist
-      end
-      not_compliant_on :watir_classic do
-        expect(browser.iframe(src: "iframe_1.html")).to exist
-      end
+      expect(browser.iframe(xpath: "//iframe[@id='iframe_1']")).to exist
+      expect(browser.iframe(src: "iframe_1.html")).to exist
       expect(browser.iframe(id: /iframe/)).to exist
       expect(browser.iframe(name: /iframe/)).to exist
       expect(browser.iframe(src: /iframe_1/)).to exist
@@ -157,7 +153,7 @@ describe "IFrame" do
   end
 
   describe "#html" do
-    not_compliant_on %i(webdriver iphone) do
+    not_compliant_on :iphone do
       it "returns the full HTML source of the iframe" do
         browser.goto WatirSpec.url_for("iframes.html")
         expect(browser.iframe.html.downcase).to include("<title>iframe 1</title>")
@@ -165,12 +161,10 @@ describe "IFrame" do
     end
   end
 
-  compliant_on :webdriver do
-    describe "#text" do
-      it "returns the text inside the iframe" do
-        browser.goto WatirSpec.url_for("iframes.html")
-        expect(browser.iframe.text).to include("Frame 1")
-      end
+  describe "#text" do
+    it "returns the text inside the iframe" do
+      browser.goto WatirSpec.url_for("iframes.html")
+      expect(browser.iframe.text).to include("Frame 1")
     end
   end
 

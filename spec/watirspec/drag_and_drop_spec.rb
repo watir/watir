@@ -7,14 +7,14 @@ describe "Element" do
     let(:draggable) { browser.div id: "draggable" }
     let(:droppable) { browser.div id: "droppable" }
 
-    not_compliant_on %i(webdriver iphone), %i(webdriver safari) do
+    not_compliant_on :iphone, :safari do
       it "can drag and drop an element onto another" do
         expect(droppable.text).to eq 'Drop here'
         draggable.drag_and_drop_on droppable
         expect(droppable.text).to eq 'Dropped!'
       end
 
-      bug "http://code.google.com/p/selenium/issues/detail?id=3075", %i(webdriver firefox) do
+      bug "http://code.google.com/p/selenium/issues/detail?id=3075", :firefox do
         it "can drag and drop an element onto another when draggable is out of viewport" do
           reposition "draggable"
           perform_drag_and_drop_on_droppable

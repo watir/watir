@@ -12,15 +12,7 @@ describe "Image" do
     it "returns true when the image exists" do
       expect(browser.image(id: 'square')).to exist
       expect(browser.image(id: /square/)).to exist
-
-      not_compliant_on :watir_classic do
-        expect(browser.image(src: 'images/circle.png')).to exist
-      end
-
-      deviates_on :watir_classic do
-        expect(browser.image(src: %r{images/circle.png})).to exist
-      end
-
+      expect(browser.image(src: 'images/circle.png')).to exist
       expect(browser.image(src: /circle/)).to exist
       expect(browser.image(alt: 'circle')).to exist
       expect(browser.image(alt: /cir/)).to exist
@@ -128,25 +120,6 @@ describe "Image" do
     end
   end
 
-  not_compliant_on :webdriver, :watir_classic do
-    not_compliant_on :watir_classic do
-      describe "#file_created_date" do
-        it "returns the date the image was created as reported by the file system" do
-          browser.goto(WatirSpec.url_for("images.html"))
-          image = browser.image(index: 1)
-          path = "#{File.dirname(__FILE__)}/html#{image.src.gsub(WatirSpec.host, '')}"
-          image.file_created_date.to_i.to eq File.mtime(path).to_i
-        end
-      end
-    end
-
-    describe "#file_size" do
-      it "returns the file size of the image if the image exists" do
-        expect(browser.image(id: 'square').file_size).to eq File.size("#{WatirSpec.files}/images/square.png".sub("file://", ''))
-      end
-    end
-  end
-
   it "raises UnknownObjectException if the image doesn't exist" do
     expect { browser.image(index: 1337).file_size }.to raise_error(Watir::Exception::UnknownObjectException)
   end
@@ -188,20 +161,6 @@ describe "Image" do
       expect { browser.image(src: 'no_such_image').loaded? }.to raise_error(Watir::Exception::UnknownObjectException)
       expect { browser.image(alt: 'no_such_image').loaded? }.to raise_error(Watir::Exception::UnknownObjectException)
       expect { browser.image(index: 1337).loaded? }.to raise_error(Watir::Exception::UnknownObjectException)
-    end
-  end
-
-  not_compliant_on :webdriver do
-    describe "#save" do
-      it "saves the image to a file" do
-        file = "#{File.expand_path Dir.pwd}/sample.img.dat"
-        begin
-          browser.image(index: 1).save(file)
-          expect(File.exist?(file)).to be true
-        ensure
-          File.delete(file) if File.exist?(file)
-        end
-      end
     end
   end
 

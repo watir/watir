@@ -109,7 +109,7 @@ describe "FileField" do
   # Manipulation methods
 
   describe "#set" do
-    not_compliant_on %i(webdriver iphone), %i(webdriver safari) do
+    not_compliant_on :iphone, :safari do
       bug "https://github.com/detro/ghostdriver/issues/183", :phantomjs do
         it "is able to set a file path in the field and click the upload button and fire the onchange event" do
           browser.goto WatirSpec.url_for("forms_with_input_elements.html")
@@ -136,7 +136,7 @@ describe "FileField" do
 
 
   bug "https://github.com/detro/ghostdriver/issues/183", :phantomjs do
-    not_compliant_on %i(webdriver iphone), %i(webdriver safari) do
+    not_compliant_on :iphone, :safari do
       describe "#value=" do
         it "is able to set a file path in the field and click the upload button and fire the onchange event" do
           browser.goto WatirSpec.url_for("forms_with_input_elements.html")
@@ -148,7 +148,7 @@ describe "FileField" do
           expect(element.value).to include(File.basename(path)) # only some browser will return the full path
         end
 
-        not_compliant_on :internet_explorer, %i(webdriver chrome) do
+        not_compliant_on :internet_explorer, :chrome do
           # for chrome, the check also happens in the driver
           it "does not raise an error if the file does not exist" do
             path = File.join(Dir.tmpdir, 'unlikely-to-exist')

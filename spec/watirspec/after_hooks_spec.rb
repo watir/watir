@@ -65,7 +65,7 @@ describe "Browser::AfterHooks" do
       expect(@yield).to be true
     end
 
-    not_compliant_on %i(webdriver iphone), %i(webdriver safari) do
+    not_compliant_on :iphone, :safari do
       it "runs after_hooks after Element#double_click" do
         browser.goto(WatirSpec.url_for("non_control_elements.html"))
         @page_after_hook = Proc.new { @yield = browser.title == "Non-control elements" }
@@ -75,7 +75,7 @@ describe "Browser::AfterHooks" do
       end
     end
 
-    not_compliant_on %i(webdriver safari) do
+    not_compliant_on :safari do
       it "runs after_hooks after Element#right_click" do
         browser.goto(WatirSpec.url_for("right_click.html"))
         @page_after_hook = Proc.new { @yield = browser.title == "Right Click Test" }
@@ -86,21 +86,12 @@ describe "Browser::AfterHooks" do
     end
 
     bug "https://github.com/detro/ghostdriver/issues/20", :phantomjs do
-      not_compliant_on %i(webdriver safari) do
+      not_compliant_on :safari do
         it "runs after_hooks after Alert#ok" do
           browser.goto(WatirSpec.url_for("alerts.html"))
           @page_after_hook = Proc.new { @yield = browser.title == "Alerts" }
           browser.after_hooks.add @page_after_hook
-
-          browser.after_hooks.without do
-            not_compliant_on :watir_classic do
-              browser.button(id: 'alert').click
-            end
-            deviates_on :watir_classic do
-              browser.button(id: 'alert').click_no_wait
-            end
-          end
-
+          browser.after_hooks.without { browser.button(id: 'alert').click }
           browser.alert.ok
           expect(@yield).to be true
         end
@@ -110,16 +101,7 @@ describe "Browser::AfterHooks" do
             browser.goto(WatirSpec.url_for("alerts.html"))
             @page_after_hook = Proc.new { @yield = browser.title == "Alerts" }
             browser.after_hooks.add @page_after_hook
-
-            browser.after_hooks.without do
-              not_compliant_on :watir_classic do
-                browser.button(id: 'alert').click
-              end
-              deviates_on :watir_classic do
-                browser.button(id: 'alert').click_no_wait
-              end
-            end
-
+            browser.after_hooks.without { browser.button(id: 'alert').click }
             browser.alert.close
             expect(@yield).to be true
           end

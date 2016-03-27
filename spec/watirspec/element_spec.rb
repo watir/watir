@@ -148,7 +148,7 @@ describe "Element" do
   end
 
   describe "#focus" do
-    bug "http://code.google.com/p/selenium/issues/detail?id=157", %i(webdriver firefox) do
+    bug "http://code.google.com/p/selenium/issues/detail?id=157", :firefox do
       it "fires the onfocus event for the given element" do
         tf = browser.text_field(id: "new_user_occupation")
         expect(tf.value).to eq "Developer"
@@ -298,8 +298,8 @@ describe "Element" do
     end
 
     # key combinations probably not ever possible on mobile devices?
-    bug "http://code.google.com/p/chromium/issues/detail?id=93879", %i(webdriver chrome), %i(webdriver iphone) do
-      not_compliant_on %i(webdriver safari) do
+    bug "http://code.google.com/p/chromium/issues/detail?id=93879", :chrome, :iphone do
+      not_compliant_on :safari do
         it 'performs key combinations' do
           receiver.send_keys 'foo'
           receiver.send_keys [@c, 'a']

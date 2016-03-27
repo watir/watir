@@ -1,6 +1,6 @@
 require File.expand_path("../spec_helper", __FILE__)
 
-not_compliant_on %i(webdriver iphone), %i(webdriver safari) do
+not_compliant_on :iphone, :safari do
   describe "Browser" do
     before do
       url = WatirSpec.url_for("window_switching.html")
@@ -222,7 +222,7 @@ not_compliant_on %i(webdriver iphone), %i(webdriver safari) do
           expect(window).to_not be_present
         end
 
-        bug "https://code.google.com/p/chromedriver/issues/detail?id=950", %i(webdriver chrome) do
+        bug "https://code.google.com/p/chromedriver/issues/detail?id=950", :chrome do
           it "returns false if closed window is referenced" do
             browser.window(title: "closeable window").use
             browser.a(id: "close").click
@@ -338,7 +338,7 @@ not_compliant_on %i(webdriver iphone), %i(webdriver safari) do
         browser.goto WatirSpec.url_for("window_switching.html")
       end
 
-      compliant_on %i(webdriver firefox), %i(webdriver chrome) do
+      compliant_on :firefox, :chrome do
         it "should get the size of the current window" do
           size = browser.window.size
 
@@ -382,7 +382,7 @@ not_compliant_on %i(webdriver iphone), %i(webdriver safari) do
         end
       end
 
-      compliant_on %i(webdriver firefox window_manager) do
+      compliant_on %i(firefox window_manager) do
         it "should maximize the window" do
           initial_size = browser.window.size
 
