@@ -2,6 +2,7 @@ sudo: false
 rvm:
   - 2.1
   - 2.2
+  - 2.3.0
 addons:
   apt:
     packages:
@@ -13,7 +14,8 @@ notifications:
     - p0deje@gmail.com
     - jarmo.p@gmail.com
     - titusfortner@gmail.com
-  irc: "irc.freenode.net#watir"
+  slack:
+    secure: BLsBCm33R32VNRccrLx9F0P24X6BVpVHj1OWaN4Kyn6g9qXteIwC2VKVMnKNbifpojfMkrn0OeFQFK1O1DSOsC3mgzn/udoB+DnUGcSemFUn04xhbYF5SI+3zGPKPo0JLvjjdEKSSma84YwKdrj88pGUK34p01gL8hiaqjFzWdk=
 before_script:
   - mkdir travis-phantomjs
   - export PATH=$PWD/travis-phantomjs:$PATH
