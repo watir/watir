@@ -52,9 +52,11 @@ describe Watir::Element do
   describe "#reset!" do
     it "successfully relocates collection elements after a reset!" do
       browser.goto(WatirSpec.url_for("wait.html"))
-      element = browser.div(:id, 'foo')
+      element = browser.div(id: 'foo')
       expect(element).to exist
       browser.refresh
+      browser.div(id: 'foo').wait_until_present
+
       expect(element.exist?).to be false unless Watir.always_locate?
       element.send :reset!
       expect(element).to exist
@@ -101,9 +103,7 @@ describe Watir::Element do
   end
 
   describe "#hover" do
-    not_compliant_on %i(webdriver internet_explorer),
-                     %i(webdriver iphone),
-                     %i(webdriver safari) do
+    not_compliant_on :internet_explorer, :iphone, :safari do
       it "should hover over the element" do
         browser.goto WatirSpec.url_for('hover.html')
         link = browser.a

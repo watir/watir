@@ -31,6 +31,7 @@ describe 'Watir' do
       expect(element.exists?).to be true
 
       browser.refresh
+      browser.div(id: "text").wait_until_present
 
       if Watir.always_locate?
         expect { element.text }.to_not raise_error
