@@ -210,6 +210,7 @@ describe "Browser" do
       browser.span(class: 'footer').click
       expect(browser.span(class: 'footer').text).to include('Javascript')
       browser.refresh
+      browser.span(class: 'footer').wait_until_present
       expect(browser.span(class: 'footer').text).to_not include('Javascript')
     end
   end
