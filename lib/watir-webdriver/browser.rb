@@ -72,7 +72,7 @@ module Watir
     #
 
     def goto(uri)
-      uri = "http://#{uri}" unless uri =~ URI.regexp
+      uri = "http://#{uri}" unless uri =~ URI.regexp('http')
 
       @driver.navigate.to uri
       @after_hooks.run
