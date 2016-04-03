@@ -1,3 +1,8 @@
+### Unreleased
+
+* Massive reorganization and refactoring of element locators (#392)
+* Remove deprecated way to locate textarea using `Browser#text_field` (#392)
+
 ### 0.9.1 (2015-10-14)
 
 * Fix permissions issue with element_locator file(#381)
