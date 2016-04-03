@@ -1,28 +1,30 @@
 module Watir
-  class TextField
-    class SelectorBuilder < Element::SelectorBuilder
-      def build_wd_selector(selectors)
-        return if selectors.values.any? { |e| e.kind_of? Regexp }
+  module Locators
+    class TextField
+      class SelectorBuilder < Element::SelectorBuilder
+        def build_wd_selector(selectors)
+          return if selectors.values.any? { |e| e.kind_of? Regexp }
 
-        selectors.delete(:tag_name)
+          selectors.delete(:tag_name)
 
-        input_attr_exp = xpath_builder.attribute_expression(:input, selectors)
+          input_attr_exp = xpath_builder.attribute_expression(:input, selectors)
 
-        xpath = ".//input[(not(@type) or (#{negative_type_expr}))"
-        xpath << " and #{input_attr_exp}" unless input_attr_exp.empty?
-        xpath << "]"
+          xpath = ".//input[(not(@type) or (#{negative_type_expr}))"
+          xpath << " and #{input_attr_exp}" unless input_attr_exp.empty?
+          xpath << "]"
 
-        p build_wd_selector: xpath if $DEBUG
+          p build_wd_selector: xpath if $DEBUG
 
-        [:xpath, xpath]
-      end
+          [:xpath, xpath]
+        end
 
-      private
+        private
 
-      def negative_type_expr
-        TextField::NON_TEXT_TYPES.map do |type|
-          "%s!=%s" % [XpathSupport.downcase('@type'), type.inspect]
-        end.join(' and ')
+        def negative_type_expr
+          Watir::TextField::NON_TEXT_TYPES.map do |type|
+            "%s!=%s" % [XpathSupport.downcase('@type'), type.inspect]
+          end.join(' and ')
+        end
       end
     end
   end

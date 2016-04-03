@@ -97,21 +97,25 @@ module Watir
     end
 
     def locator_class
-      Kernel.const_get("#{element_class}::Locator")
+      Kernel.const_get("#{Watir.locator_namespace}::#{element_class_name}::Locator")
     rescue NameError
-      Element::Locator
+      Kernel.const_get("#{Watir.locator_namespace}::Element::Locator")
     end
 
     def element_validator_class
-      Kernel.const_get("#{element_class}::Validator")
+      Kernel.const_get("#{Watir.locator_namespace}::#{element_class_name}::Validator")
     rescue NameError
-      Element::Validator
+      Kernel.const_get("#{Watir.locator_namespace}::Element::Validator")
     end
 
     def selector_builder_class
-      Kernel.const_get("#{element_class}::SelectorBuilder")
+      Kernel.const_get("#{Watir.locator_namespace}::#{element_class_name}::SelectorBuilder")
     rescue NameError
-      Element::SelectorBuilder
+      Kernel.const_get("#{Watir.locator_namespace}::Element::SelectorBuilder")
+    end
+
+    def element_class_name
+      element_class.to_s.split('::').last
     end
 
     def element_class

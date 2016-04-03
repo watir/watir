@@ -56,6 +56,19 @@ module Watir
       @prefer_css = bool
     end
 
+    def locator_namespace
+      @locator_namespace ||= Watir::Locators
+    end
+
+    #
+    # Whether the locators should be used from a different namespace.
+    # Defaults to Watir::Locators.
+    #
+
+    def locator_namespace=(mod)
+      @locator_namespace = mod
+    end
+
     #
     # @api private
     #

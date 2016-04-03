@@ -1,14 +1,16 @@
 module Watir
-  class Row
-    class Locator < Element::Locator
-      def locate_all
-        find_all_by_multiple
-      end
+  module Locators
+    class Row
+      class Locator < Element::Locator
+        def locate_all
+          find_all_by_multiple
+        end
 
-      private
+        private
 
-      def by_id
-        nil # avoid this
+        def by_id
+          nil # avoid this
+        end
       end
     end
   end

@@ -1,6 +1,6 @@
 require File.expand_path("spec_helper", File.dirname(__FILE__))
 
-describe Watir::Element::Locator do
+describe Watir::Locators::Element::Locator do
   include LocatorSpecHelper
 
   describe "finds a single element" do
