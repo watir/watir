@@ -32,6 +32,7 @@ module Watir
           element = super
 
           if element && !Watir::TextField::NON_TEXT_TYPES.include?(element.attribute(:type))
+            warn "Locating textareas with '#text_field' is deprecated. Please, use '#textarea' method instead."
             element
           end
         end
