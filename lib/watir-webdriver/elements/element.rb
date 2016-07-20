@@ -434,7 +434,7 @@ module Watir
     #
     # @example
     #   browser.button(value: "Delete").style           #=> "border: 4px solid red;"
-    #   browser.button(value: "Delete").style("border") #=> "4px solid red"
+    #   browser.button(value: "Delete").style("border") #=> "4px solid rgb(255, 0, 0)"
     #
     # @param [String] property
     # @return [String]
