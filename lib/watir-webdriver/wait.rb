@@ -123,9 +123,12 @@ module Watir
   #
 
   class WhenPresentDecorator < BaseDecorator
-    extend Forwardable
-
-    def_delegator :@element, :present?
+    def present?
+      Watir::Wait.until(@timeout, @message) { wait_until }
+      true
+    rescue Watir::Wait::TimeoutError
+      false
+    end
 
     private
 
