@@ -127,6 +127,12 @@ not_compliant_on :safari do
         element = browser.a(id: "show_bar").when_present(1)
         expect(element).to be_present
       end
+
+      it "processes before calling present?" do
+        browser.a(id: 'show_bar').click
+        expect(browser.div(id: 'bar').when_present.present?).to be true
+      end
+
     end
 
     describe "#when_enabled" do
