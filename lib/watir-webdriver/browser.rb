@@ -41,6 +41,11 @@ module Watir
     #
 
     def initialize(browser = :firefox, *args)
+      unless args.find {|a| a[:listener]}
+        @after_hooks = AfterHooks.new(self)
+        args.last.merge!(listener: @after_hooks)
+      end
+
       case browser
       when ::Symbol, String
         @driver = Selenium::WebDriver.for browser.to_sym, *args
@@ -50,7 +55,6 @@ module Watir
         raise ArgumentError, "expected Symbol or Selenium::WebDriver::Driver, got #{browser.class}"
       end
 
-      @after_hooks = AfterHooks.new(self)
       @current_frame  = nil
       @closed = false
     end
@@ -75,7 +79,6 @@ module Watir
       uri = "http://#{uri}" unless uri =~ URI.regexp
 
       @driver.navigate.to uri
-      @after_hooks.run
 
       uri
     end
@@ -200,7 +203,6 @@ module Watir
 
     def refresh
       @driver.navigate.refresh
-      @after_hooks.run
     end
 
     #
@@ -279,42 +281,6 @@ module Watir
 
     def screenshot
       Screenshot.new driver
-    end
-
-    #
-    # @deprecated Use `Watir::AfterHooks#add` instead
-    #
-
-    def add_checker(checker = nil, &block)
-      warn 'Browser#add_checker is deprecated. Use Browser#after_hooks#add instead.'
-      @after_hooks.add(checker, &block)
-    end
-
-    #
-    # @deprecated Use `Watir::AfterHooks#delete` instead
-    #
-
-    def disable_checker(checker)
-      warn 'Browser#disable_checker is deprecated. Use Browser#after_hooks#delete instead.'
-      @after_hooks.delete(checker)
-    end
-
-    #
-    # @deprecated Use `Watir::AfterHooks#run` instead
-    #
-
-    def run_checkers
-      warn 'Browser#run_checkers is deprecated. Use Browser#after_hooks#run instead.'
-      @after_hooks.run
-    end
-
-    #
-    # @deprecated Use `Watir::AfterHooks#without` instead
-    #
-
-    def without_checkers(&block)
-      warn 'Browser#without_checkers is deprecated. Use Browser#after_hooks#without instead.'
-      @after_hooks.without(&block)
     end
 
     #

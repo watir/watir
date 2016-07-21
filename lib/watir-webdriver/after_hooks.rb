@@ -1,3 +1,56 @@
+# TODO - remove this when implemented in Selenium
+module Selenium
+  module WebDriver
+    module Support
+      class EventFiringBridge
+
+        def accept_alert
+          dispatch(:accept_alert, driver) do
+            @delegate.acceptAlert
+          end
+        end
+        alias_method :acceptAlert, :accept_alert
+
+        def dismiss_alert
+          dispatch(:dismiss_alert, driver) do
+            @delegate.dismissAlert
+          end
+        end
+        alias_method :dismissAlert, :dismiss_alert
+
+        def double_click
+          dispatch(:double_click, driver) do
+            @delegate.doubleClick
+          end
+        end
+        alias_method :doubleClick, :double_click
+
+        def context_click
+          dispatch(:context_click, driver) do
+            @delegate.contextClick
+          end
+        end
+        alias_method :right_click, :context_click
+        alias_method :contextClick, :context_click
+
+        def submit_element(id)
+          dispatch(:submit_element, driver) do
+            @delegate.submitElement(id)
+          end
+        end
+        alias_method :submitElement, :submit_element
+
+        def refresh
+          dispatch(:refresh, driver) do
+            @delegate.refresh
+          end
+        end
+
+      end
+    end
+  end
+end
+
 module Watir
 
   #
@@ -10,7 +63,7 @@ module Watir
   #   4. Alert closing.
   #
 
-  class AfterHooks
+  class AfterHooks < Selenium::WebDriver::Support::AbstractEventListener
     include Enumerable
 
     def initialize(browser)
@@ -65,9 +118,16 @@ module Watir
     # Runs after hooks.
     #
 
-    def run
-      if @after_hooks.any? && @browser.window.present?
-        each { |after_hook| after_hook.call(@browser) }
+    %w[navigate_to click context_click accept_alert dismiss_alert double_click right_click
+       submit_element refresh].each do |method|
+      define_method("after_#{method}") do |*args|
+        if @after_hooks.any? && @browser.window.present?
+          each { |after_hook| after_hook.call(@browser) }
+        end
+      end
+      # TODO - remove this when implemented in Selenium
+      define_method("before_#{method}") do |*args|
+        # Do nothing
       end
     end
 
