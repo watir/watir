@@ -65,6 +65,14 @@ describe "Browser::AfterHooks" do
       expect(@yield).to be true
     end
 
+    it "runs after_hooks after Element#submit" do
+      browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
+      @page_after_hook = Proc.new { @yield = browser.div(id: 'messages').text == 'submit' }
+      browser.after_hooks.add @page_after_hook
+      browser.form(id: "new_user").submit
+      expect(@yield).to be true
+    end
+
     not_compliant_on :iphone, :safari do
       it "runs after_hooks after Element#double_click" do
         browser.goto(WatirSpec.url_for("non_control_elements.html"))
