@@ -10,12 +10,6 @@ require 'watir-webdriver/alert'
 require 'watir-webdriver/atoms'
 require 'watir-webdriver/container'
 require 'watir-webdriver/cookies'
-require 'watir-webdriver/locators/element_locator'
-require 'watir-webdriver/locators/button_locator'
-require 'watir-webdriver/locators/text_area_locator'
-require 'watir-webdriver/locators/text_field_locator'
-require 'watir-webdriver/locators/child_row_locator'
-require 'watir-webdriver/locators/child_cell_locator'
 require 'watir-webdriver/browser'
 require 'watir-webdriver/screenshot'
 require 'watir-webdriver/after_hooks'
@@ -62,6 +56,19 @@ module Watir
       @prefer_css = bool
     end
 
+    def locator_namespace
+      @locator_namespace ||= Watir::Locators
+    end
+
+    #
+    # Whether the locators should be used from a different namespace.
+    # Defaults to Watir::Locators.
+    #
+
+    def locator_namespace=(mod)
+      @locator_namespace = mod
+    end
+
     #
     # @api private
     #
@@ -93,6 +100,7 @@ require 'watir-webdriver/elements/svg_elements'
 
 require 'watir-webdriver/elements/area'
 require 'watir-webdriver/elements/button'
+require 'watir-webdriver/elements/cell'
 require 'watir-webdriver/elements/checkbox'
 require 'watir-webdriver/elements/dlist'
 require 'watir-webdriver/elements/file_field'
@@ -105,6 +113,7 @@ require 'watir-webdriver/elements/input'
 require 'watir-webdriver/elements/link'
 require 'watir-webdriver/elements/option'
 require 'watir-webdriver/elements/radio'
+require 'watir-webdriver/elements/row'
 require 'watir-webdriver/elements/select'
 require 'watir-webdriver/elements/table'
 require 'watir-webdriver/elements/table_cell'
@@ -113,6 +122,7 @@ require 'watir-webdriver/elements/table_section'
 require 'watir-webdriver/elements/text_area'
 require 'watir-webdriver/elements/text_field'
 
+require 'watir-webdriver/locators'
 require 'watir-webdriver/aliases'
 
 Watir.tag_to_class.freeze

@@ -89,16 +89,37 @@ module Watir
     def elements
       @parent.is_a?(IFrame) ? @parent.switch_to! : @parent.send(:assert_exists)
 
-      @elements ||= locator_class.new(
-        @parent.wd,
-        @selector,
-        element_class.attribute_list
-      ).locate_all
+      element_validator = element_validator_class.new
+      selector_builder = selector_builder_class.new(@parent, @selector, element_class.attribute_list)
+      locator = locator_class.new(@parent, @selector, selector_builder, element_validator)
+
+      @elements ||= locator.locate_all
     end
 
-    # overridable by subclasses
     def locator_class
-      ElementLocator
+      Kernel.const_get("#{Watir.locator_namespace}::#{element_class_name}::Locator")
+    rescue NameError
+      Kernel.const_get("#{Watir.locator_namespace}::Element::Locator")
+    end
+
+    def element_validator_class
+      Kernel.const_get("#{Watir.locator_namespace}::#{element_class_name}::Validator")
+    rescue NameError
+      Kernel.const_get("#{Watir.locator_namespace}::Element::Validator")
+    end
+
+    def selector_builder_class
+      Kernel.const_get("#{Watir.locator_namespace}::#{element_class_name}::SelectorBuilder")
+    rescue NameError
+      Kernel.const_get("#{Watir.locator_namespace}::Element::SelectorBuilder")
+    end
+
+    def element_class_name
+      element_class.to_s.split('::').last
+    end
+
+    def element_class
+      Kernel.const_get(self.class.name.sub(/Collection$/, ''))
     end
 
   end # ElementCollection

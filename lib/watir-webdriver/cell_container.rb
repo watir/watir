@@ -4,27 +4,21 @@ module Watir
     #
     # Returns table cell.
     #
-    # @return [TableCell]
+    # @return [Cell]
     #
 
     def cell(*args)
-      cell = TableCell.new(self, extract_selector(args).merge(tag_name: /^(th|td)$/))
-      cell.locator_class = ChildCellLocator
-
-      cell
+      Cell.new(self, extract_selector(args).merge(tag_name: /^(th|td)$/))
     end
 
     #
     # Returns table cells collection.
     #
-    # @return [TableCell]
+    # @return [Cell]
     #
 
     def cells(*args)
-      cells = TableCellCollection.new(self, extract_selector(args).merge(tag_name: /^(th|td)$/))
-      cells.locator_class = ChildCellLocator
-
-      cells
+      CellCollection.new(self, extract_selector(args).merge(tag_name: /^(th|td)$/))
     end
 
   end # CellContainer

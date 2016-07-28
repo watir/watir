@@ -97,16 +97,7 @@ module Watir
         @already_defined << name
         name = Util.classify(classify_regexp, name)
 
-        [:class, "#{name}Collection", [:const, :ElementCollection],
-          [:scope,
-            [:defn, :element_class,
-              [:args],
-              [:scope,
-                [:block, [:const, name]]
-              ]
-            ]
-          ]
-        ]
+        [:class, "#{name}Collection", [:const, :ElementCollection]]
       end
 
       def attribute_calls(attributes)

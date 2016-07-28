@@ -434,7 +434,7 @@ module Watir
     #
     # @example
     #   browser.button(value: "Delete").style           #=> "border: 4px solid red;"
-    #   browser.button(value: "Delete").style("border") #=> "4px solid red"
+    #   browser.button(value: "Delete").style("border") #=> "4px solid rgb(255, 0, 0)"
     #
     # @param [String] property
     # @return [String]
@@ -493,7 +493,7 @@ module Watir
       @parent.browser
     end
 
-  protected
+    protected
 
     # Ensure that the element exists, making sure that it is not stale and located if necessary
     def assert_exists
@@ -543,13 +543,36 @@ module Watir
 
     def locate
       ensure_context
-      locator_class.new(@parent.wd, @selector, self.class.attribute_list).locate
+
+      element_validator = element_validator_class.new
+      selector_builder = selector_builder_class.new(@parent, @selector, self.class.attribute_list)
+      locator = locator_class.new(@parent, @selector, selector_builder, element_validator)
+
+      locator.locate
     end
 
-  private
+    private
 
     def locator_class
-      ElementLocator
+      Kernel.const_get("#{Watir.locator_namespace}::#{element_class_name}::Locator")
+    rescue NameError
+      Kernel.const_get("#{Watir.locator_namespace}::Element::Locator")
+    end
+
+    def element_validator_class
+      Kernel.const_get("#{Watir.locator_namespace}::#{element_class_name}::Validator")
+    rescue NameError
+      Kernel.const_get("#{Watir.locator_namespace}::Element::Validator")
+    end
+
+    def selector_builder_class
+      Kernel.const_get("#{Watir.locator_namespace}::#{element_class_name}::SelectorBuilder")
+    rescue NameError
+      Kernel.const_get("#{Watir.locator_namespace}::Element::SelectorBuilder")
+    end
+
+    def element_class_name
+      self.class.name.split('::').last
     end
 
     def selector_string
@@ -608,15 +631,15 @@ module Watir
 
     def method_missing(meth, *args, &blk)
       method = meth.to_s
-      if method =~ ElementLocator::WILDCARD_ATTRIBUTE
-        attribute_value(method.gsub(/_/, '-'), *args)
+      if method =~ Locators::Element::SelectorBuilder::WILDCARD_ATTRIBUTE
+        attribute_value(method.tr('_', '-'), *args)
       else
         super
       end
     end
 
     def respond_to_missing?(meth, *)
-      ElementLocator::WILDCARD_ATTRIBUTE === meth.to_s || super
+      Locators::Element::SelectorBuilder::WILDCARD_ATTRIBUTE === meth.to_s || super
     end
 
   end # Element

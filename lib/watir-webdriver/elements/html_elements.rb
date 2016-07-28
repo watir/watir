@@ -94,9 +94,6 @@ module Watir
     attribute("Boolean", :content_editable?, :isContentEditable)
   end
   class HTMLElementCollection < ElementCollection
-    def element_class
-      HTMLElement
-    end
   end
 
   class Font < HTMLElement
@@ -105,18 +102,12 @@ module Watir
     attribute(String, :size, :size)
   end
   class FontCollection < ElementCollection
-    def element_class
-      Font
-    end
   end
 
   class Directory < HTMLElement
     attribute("Boolean", :compact?, :compact)
   end
   class DirectoryCollection < ElementCollection
-    def element_class
-      Directory
-    end
   end
 
   class FrameSet < HTMLElement
@@ -136,9 +127,6 @@ module Watir
     attribute(String, :onunload, :onunload)
   end
   class FrameSetCollection < ElementCollection
-    def element_class
-      FrameSet
-    end
   end
 
   class Marquee < HTMLElement
@@ -158,9 +146,6 @@ module Watir
     attribute(String, :onstart, :onstart)
   end
   class MarqueeCollection < ElementCollection
-    def element_class
-      Marquee
-    end
   end
 
   class Applet < HTMLElement
@@ -177,9 +162,6 @@ module Watir
     attribute(String, :width, :width)
   end
   class AppletCollection < ElementCollection
-    def element_class
-      Applet
-    end
   end
 
   class Canvas < HTMLElement
@@ -187,18 +169,12 @@ module Watir
     attribute(Fixnum, :height, :height)
   end
   class CanvasCollection < ElementCollection
-    def element_class
-      Canvas
-    end
   end
 
   class Template < HTMLElement
     attribute(String, :content, :content)
   end
   class TemplateCollection < ElementCollection
-    def element_class
-      Template
-    end
   end
 
   class Script < HTMLElement
@@ -212,9 +188,6 @@ module Watir
     attribute(String, :for, :htmlFor)
   end
   class ScriptCollection < ElementCollection
-    def element_class
-      Script
-    end
   end
 
   class Dialog < HTMLElement
@@ -222,9 +195,6 @@ module Watir
     attribute(String, :return_value, :returnValue)
   end
   class DialogCollection < ElementCollection
-    def element_class
-      Dialog
-    end
   end
 
   class MenuItem < HTMLElement
@@ -238,9 +208,6 @@ module Watir
     attribute(String, :command, :command)
   end
   class MenuItemCollection < ElementCollection
-    def element_class
-      MenuItem
-    end
   end
 
   class Menu < HTMLElement
@@ -249,18 +216,12 @@ module Watir
     attribute("Boolean", :compact?, :compact)
   end
   class MenuCollection < ElementCollection
-    def element_class
-      Menu
-    end
   end
 
   class Details < HTMLElement
     attribute("Boolean", :open?, :open)
   end
   class DetailsCollection < ElementCollection
-    def element_class
-      Details
-    end
   end
 
   class Legend < HTMLElement
@@ -268,9 +229,6 @@ module Watir
     attribute(String, :align, :align)
   end
   class LegendCollection < ElementCollection
-    def element_class
-      Legend
-    end
   end
 
   class FieldSet < HTMLElement
@@ -283,9 +241,6 @@ module Watir
     attribute(String, :validation_message, :validationMessage)
   end
   class FieldSetCollection < ElementCollection
-    def element_class
-      FieldSet
-    end
   end
 
   class Meter < HTMLElement
@@ -298,9 +253,6 @@ module Watir
     attribute(String, :labels, :labels)
   end
   class MeterCollection < ElementCollection
-    def element_class
-      Meter
-    end
   end
 
   class Progress < HTMLElement
@@ -310,9 +262,6 @@ module Watir
     attribute(String, :labels, :labels)
   end
   class ProgressCollection < ElementCollection
-    def element_class
-      Progress
-    end
   end
 
   class Output < HTMLElement
@@ -328,9 +277,6 @@ module Watir
     attribute(String, :labels, :labels)
   end
   class OutputCollection < ElementCollection
-    def element_class
-      Output
-    end
   end
 
   class Keygen < HTMLElement
@@ -347,9 +293,6 @@ module Watir
     attribute(String, :labels, :labels)
   end
   class KeygenCollection < ElementCollection
-    def element_class
-      Keygen
-    end
   end
 
   class TextArea < HTMLElement
@@ -380,9 +323,6 @@ module Watir
     attribute(String, :selection_direction, :selectionDirection)
   end
   class TextAreaCollection < ElementCollection
-    def element_class
-      TextArea
-    end
   end
 
   class Option < HTMLElement
@@ -395,9 +335,6 @@ module Watir
     attribute(Fixnum, :index, :index)
   end
   class OptionCollection < ElementCollection
-    def element_class
-      Option
-    end
   end
 
   class OptGroup < HTMLElement
@@ -405,18 +342,12 @@ module Watir
     attribute(String, :label, :label)
   end
   class OptGroupCollection < ElementCollection
-    def element_class
-      OptGroup
-    end
   end
 
   class DataList < HTMLElement
     attribute(String, :options, :options)
   end
   class DataListCollection < ElementCollection
-    def element_class
-      DataList
-    end
   end
 
   class Select < HTMLElement
@@ -440,9 +371,6 @@ module Watir
     attribute(String, :labels, :labels)
   end
   class SelectCollection < ElementCollection
-    def element_class
-      Select
-    end
   end
 
   class Button < HTMLElement
@@ -464,9 +392,6 @@ module Watir
     attribute(String, :labels, :labels)
   end
   class ButtonCollection < ElementCollection
-    def element_class
-      Button
-    end
   end
 
   class Input < HTMLElement
@@ -521,9 +446,6 @@ module Watir
     attribute(String, :use_map, :useMap)
   end
   class InputCollection < ElementCollection
-    def element_class
-      Input
-    end
   end
 
   class Label < HTMLElement
@@ -532,9 +454,6 @@ module Watir
     attribute(String, :control, :control)
   end
   class LabelCollection < ElementCollection
-    def element_class
-      Label
-    end
   end
 
   class Form < HTMLElement
@@ -550,9 +469,6 @@ module Watir
     attribute(Fixnum, :length, :length)
   end
   class FormCollection < ElementCollection
-    def element_class
-      Form
-    end
   end
 
   class TableCell < HTMLElement
@@ -571,9 +487,6 @@ module Watir
     attribute(String, :bg_color, :bgColor)
   end
   class TableCellCollection < ElementCollection
-    def element_class
-      TableCell
-    end
   end
 
   class TableHeaderCell < TableCell
@@ -582,18 +495,12 @@ module Watir
     attribute(String, :sorted, :sorted)
   end
   class TableHeaderCellCollection < ElementCollection
-    def element_class
-      TableHeaderCell
-    end
   end
 
   class TableDataCell < TableCell
     attribute(String, :abbr, :abbr)
   end
   class TableDataCellCollection < ElementCollection
-    def element_class
-      TableDataCell
-    end
   end
 
   class TableRow < HTMLElement
@@ -606,9 +513,6 @@ module Watir
     attribute(String, :bg_color, :bgColor)
   end
   class TableRowCollection < ElementCollection
-    def element_class
-      TableRow
-    end
   end
 
   class TableSection < HTMLElement
@@ -618,9 +522,6 @@ module Watir
     attribute(String, :v_align, :vAlign)
   end
   class TableSectionCollection < ElementCollection
-    def element_class
-      TableSection
-    end
   end
 
   class TableCol < HTMLElement
@@ -631,18 +532,12 @@ module Watir
     attribute(String, :width, :width)
   end
   class TableColCollection < ElementCollection
-    def element_class
-      TableCol
-    end
   end
 
   class TableCaption < HTMLElement
     attribute(String, :align, :align)
   end
   class TableCaptionCollection < ElementCollection
-    def element_class
-      TableCaption
-    end
   end
 
   class Table < HTMLElement
@@ -662,9 +557,6 @@ module Watir
     attribute(String, :cell_spacing, :cellSpacing)
   end
   class TableCollection < ElementCollection
-    def element_class
-      Table
-    end
   end
 
   class Area < HTMLElement
@@ -681,9 +573,6 @@ module Watir
     attribute("Boolean", :no_href?, :noHref)
   end
   class AreaCollection < ElementCollection
-    def element_class
-      Area
-    end
   end
 
   class Map < HTMLElement
@@ -692,9 +581,6 @@ module Watir
     attribute(String, :images, :images)
   end
   class MapCollection < ElementCollection
-    def element_class
-      Map
-    end
   end
 
   class Media < HTMLElement
@@ -729,17 +615,11 @@ module Watir
     attribute(String, :text_tracks, :textTracks)
   end
   class MediaCollection < ElementCollection
-    def element_class
-      Media
-    end
   end
 
   class Audio < Media
   end
   class AudioCollection < ElementCollection
-    def element_class
-      Audio
-    end
   end
 
   class Video < Media
@@ -750,9 +630,6 @@ module Watir
     attribute(String, :poster, :poster)
   end
   class VideoCollection < ElementCollection
-    def element_class
-      Video
-    end
   end
 
   class Track < HTMLElement
@@ -765,9 +642,6 @@ module Watir
     attribute(String, :track, :track)
   end
   class TrackCollection < ElementCollection
-    def element_class
-      Track
-    end
   end
 
   class Param < HTMLElement
@@ -777,9 +651,6 @@ module Watir
     attribute(String, :value_type, :valueType)
   end
   class ParamCollection < ElementCollection
-    def element_class
-      Param
-    end
   end
 
   class Object < HTMLElement
@@ -808,9 +679,6 @@ module Watir
     attribute(String, :border, :border)
   end
   class ObjectCollection < ElementCollection
-    def element_class
-      Object
-    end
   end
 
   class Embed < HTMLElement
@@ -822,9 +690,6 @@ module Watir
     attribute(String, :name, :name)
   end
   class EmbedCollection < ElementCollection
-    def element_class
-      Embed
-    end
   end
 
   class IFrame < HTMLElement
@@ -846,9 +711,6 @@ module Watir
     attribute(String, :margin_width, :marginWidth)
   end
   class IFrameCollection < ElementCollection
-    def element_class
-      IFrame
-    end
   end
 
   class Image < HTMLElement
@@ -874,9 +736,6 @@ module Watir
     attribute(String, :border, :border)
   end
   class ImageCollection < ElementCollection
-    def element_class
-      Image
-    end
   end
 
   class Source < HTMLElement
@@ -887,17 +746,11 @@ module Watir
     attribute(String, :type, :type)
   end
   class SourceCollection < ElementCollection
-    def element_class
-      Source
-    end
   end
 
   class Picture < HTMLElement
   end
   class PictureCollection < ElementCollection
-    def element_class
-      Picture
-    end
   end
 
   class Mod < HTMLElement
@@ -905,44 +758,29 @@ module Watir
     attribute(String, :date_time, :dateTime)
   end
   class ModCollection < ElementCollection
-    def element_class
-      Mod
-    end
   end
 
   class BR < HTMLElement
     attribute(String, :clear, :clear)
   end
   class BRCollection < ElementCollection
-    def element_class
-      BR
-    end
   end
 
   class Span < HTMLElement
   end
   class SpanCollection < ElementCollection
-    def element_class
-      Span
-    end
   end
 
   class Time < HTMLElement
     attribute(String, :date_time, :dateTime)
   end
   class TimeCollection < ElementCollection
-    def element_class
-      Time
-    end
   end
 
   class Data < HTMLElement
     attribute(String, :value, :value)
   end
   class DataCollection < ElementCollection
-    def element_class
-      Data
-    end
   end
 
   class Anchor < HTMLElement
@@ -960,27 +798,18 @@ module Watir
     attribute(String, :shape, :shape)
   end
   class AnchorCollection < ElementCollection
-    def element_class
-      Anchor
-    end
   end
 
   class Div < HTMLElement
     attribute(String, :align, :align)
   end
   class DivCollection < ElementCollection
-    def element_class
-      Div
-    end
   end
 
   class DList < HTMLElement
     attribute("Boolean", :compact?, :compact)
   end
   class DListCollection < ElementCollection
-    def element_class
-      DList
-    end
   end
 
   class LI < HTMLElement
@@ -988,9 +817,6 @@ module Watir
     attribute(String, :type, :type)
   end
   class LICollection < ElementCollection
-    def element_class
-      LI
-    end
   end
 
   class UList < HTMLElement
@@ -998,9 +824,6 @@ module Watir
     attribute(String, :type, :type)
   end
   class UListCollection < ElementCollection
-    def element_class
-      UList
-    end
   end
 
   class OList < HTMLElement
@@ -1010,27 +833,18 @@ module Watir
     attribute("Boolean", :compact?, :compact)
   end
   class OListCollection < ElementCollection
-    def element_class
-      OList
-    end
   end
 
   class Quote < HTMLElement
     attribute(String, :cite, :cite)
   end
   class QuoteCollection < ElementCollection
-    def element_class
-      Quote
-    end
   end
 
   class Pre < HTMLElement
     attribute(Fixnum, :width, :width)
   end
   class PreCollection < ElementCollection
-    def element_class
-      Pre
-    end
   end
 
   class HR < HTMLElement
@@ -1041,27 +855,18 @@ module Watir
     attribute(String, :width, :width)
   end
   class HRCollection < ElementCollection
-    def element_class
-      HR
-    end
   end
 
   class Paragraph < HTMLElement
     attribute(String, :align, :align)
   end
   class ParagraphCollection < ElementCollection
-    def element_class
-      Paragraph
-    end
   end
 
   class Heading < HTMLElement
     attribute(String, :align, :align)
   end
   class HeadingCollection < ElementCollection
-    def element_class
-      Heading
-    end
   end
 
   class Body < HTMLElement
@@ -1085,9 +890,6 @@ module Watir
     attribute(String, :onunload, :onunload)
   end
   class BodyCollection < ElementCollection
-    def element_class
-      Body
-    end
   end
 
   class Style < HTMLElement
@@ -1096,9 +898,6 @@ module Watir
     attribute("Boolean", :scoped?, :scoped)
   end
   class StyleCollection < ElementCollection
-    def element_class
-      Style
-    end
   end
 
   class Meta < HTMLElement
@@ -1108,9 +907,6 @@ module Watir
     attribute(String, :scheme, :scheme)
   end
   class MetaCollection < ElementCollection
-    def element_class
-      Meta
-    end
   end
 
   class Base < HTMLElement
@@ -1118,42 +914,27 @@ module Watir
     attribute(String, :target, :target)
   end
   class BaseCollection < ElementCollection
-    def element_class
-      Base
-    end
   end
 
   class Title < HTMLElement
   end
   class TitleCollection < ElementCollection
-    def element_class
-      Title
-    end
   end
 
   class Head < HTMLElement
   end
   class HeadCollection < ElementCollection
-    def element_class
-      Head
-    end
   end
 
   class Html < HTMLElement
     attribute(String, :version, :version)
   end
   class HtmlCollection < ElementCollection
-    def element_class
-      Html
-    end
   end
 
   class Unknown < HTMLElement
   end
   class UnknownCollection < ElementCollection
-    def element_class
-      Unknown
-    end
   end
 
 

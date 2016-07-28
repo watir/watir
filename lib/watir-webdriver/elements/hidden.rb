@@ -16,8 +16,5 @@ module Watir
   end # Container
 
   class HiddenCollection < InputCollection
-    def element_class
-      Hidden
-    end
   end # HiddenCollection
 end

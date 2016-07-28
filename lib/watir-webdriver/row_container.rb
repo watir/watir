@@ -6,10 +6,7 @@ module Watir
     #
 
     def row(*args)
-      row = tr(*args)
-      row.locator_class = ChildRowLocator
-
-      row
+      Row.new(self, extract_selector(args).merge(tag_name: "tr"))
     end
 
     #
@@ -17,10 +14,7 @@ module Watir
     #
 
     def rows(*args)
-      rows = trs(*args)
-      rows.locator_class = ChildRowLocator
-
-      rows
+      RowCollection.new(self, extract_selector(args).merge(tag_name: "tr"))
     end
 
     #
@@ -33,7 +27,7 @@ module Watir
       assert_exists
 
       rows.inject [] do |res, row|
-        res << row.cells.map { |cell| cell.text }
+        res << row.cells.map(&:text)
       end
     end
     alias_method :to_a, :strings

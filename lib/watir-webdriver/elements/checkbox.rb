@@ -50,8 +50,5 @@ module Watir
   end # Container
 
   class CheckBoxCollection < InputCollection
-    def element_class
-      CheckBox
-    end
   end # CheckBoxCollection
 end # Watir

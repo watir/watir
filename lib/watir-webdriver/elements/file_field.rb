@@ -37,8 +37,5 @@ module Watir
   end # Container
 
   class FileFieldCollection < InputCollection
-    def element_class
-      FileField
-    end
   end # FileFieldCollection
 end # Watir

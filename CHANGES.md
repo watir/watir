@@ -1,3 +1,7 @@
+### Unreleased
+
+* Massive reorganization and refactoring of element locators (#392)
+
 ### 0.9.1 (2015-10-14)
 
 * Fix permissions issue with element_locator file(#381)
