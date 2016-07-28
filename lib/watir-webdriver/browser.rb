@@ -65,7 +65,7 @@ module Watir
     # Goes to the given URL.
     #
     # @example
-    #   browser.goto "www.watir.com"
+    #   browser.goto "github.com/watir/watir"
     #
     # @param [String] uri The url.
     # @return [String] The url you end up at.
@@ -100,9 +100,9 @@ module Watir
     # Returns URL of current page.
     #
     # @example
-    #   browser.goto "www.watir.com"
+    #   browser.goto "github.com/watir/watir"
     #   browser.url
-    #   #=> "http://watir.com/"
+    #   #=> "https://github.com/watir/watir"
     #
     # @return [String]
     #
@@ -116,9 +116,9 @@ module Watir
     # Returns title of current page.
     #
     # @example
-    #   browser.goto "www.watir.com"
+    #   browser.goto "github.com/watir/watir"
     #   browser.title
-    #   #=> "Watir.com | Web Application Testing in Ruby"
+    #   #=> "watir/watir · GitHub"
     #
     # @return [String]
     #
