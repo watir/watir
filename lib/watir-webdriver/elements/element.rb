@@ -128,8 +128,6 @@ module Watir
           @element.click
         end
       end
-
-      browser.after_hooks.run
     end
 
     #
@@ -145,7 +143,6 @@ module Watir
       assert_has_input_devices_for :double_click
 
       element_call { driver.action.double_click(@element).perform }
-      browser.after_hooks.run
     end
 
     #
@@ -161,7 +158,6 @@ module Watir
       assert_has_input_devices_for :right_click
 
       element_call { driver.action.context_click(@element).perform }
-      browser.after_hooks.run
     end
 
     #
