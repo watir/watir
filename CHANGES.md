@@ -1,6 +1,8 @@
-### Unreleased
+### 0.9.2 (2016-07-29)
 
 * Massive reorganization and refactoring of element locators (#392)
+* Fix bug with when_present (#432)
+* Bug fix for elements in collections going stale
 
 ### 0.9.1 (2015-10-14)
 
