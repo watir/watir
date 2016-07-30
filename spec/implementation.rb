@@ -146,8 +146,7 @@ class ImplementationConfig
 
   def remote_args
     url = ENV["REMOTE_SERVER_URL"] || "http://127.0.0.1:#{@server.port}/wd/hub"
-    remote_browser_name = ENV['REMOTE_BROWSER'].to_sym
-    caps = Selenium::WebDriver::Remote::Capabilities.send(remote_browser_name)
+    caps = Selenium::WebDriver::Remote::Capabilities.send(remote_browser)
     {url: url, desired_capabilities: caps}
   end
 

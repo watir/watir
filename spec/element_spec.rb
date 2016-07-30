@@ -114,4 +114,21 @@ describe Watir::Element do
       end
     end
   end
+
+  # TODO - Can remove when decide issue #295
+  describe "warnings" do
+    it "does not return a warning if using text_field for an unspecified text input" do
+       browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
+      expect do
+       browser.text_field(id: "new_user_first_name").exists?
+      end.to_not output.to_stderr
+    end
+
+    it "returns a warning if using text_field for textarea" do
+      browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
+      expect do
+        browser.text_field(id: "create_user_comment").exists?
+      end.to output.to_stderr
+    end
+  end
 end
