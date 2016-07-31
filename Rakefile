@@ -126,31 +126,36 @@ namespace :spec do
   require 'selenium-webdriver'
 
   desc 'Run specs in all browsers'
-  task all_browsers: [:chrome,
-                      :firefox,
-                      :phantomjs,
-                      :remote_chrome,
-                      :remote_firefox,
-                      :remote_phantomjs,
-                      (:safari if Selenium::WebDriver::Platform.os == :macosx),
-                      (:remote_safari if Selenium::WebDriver::Platform.os == :macosx),
-                      (:ie if Selenium::WebDriver::Platform.os == :windows),
-                      (:remote_ie if Selenium::WebDriver::Platform.os == :windows),
-                      (:edge if Selenium::WebDriver::Platform.os == :windows),
-                      (:remote_edge if Selenium::WebDriver::Platform.os == :windows)].compact
+  task all_browsers: [:browsers, :remote_browsers]
+
+  desc 'Run specs locally for all browsers'
+  task browsers: [:chrome,
+                  :firefox,
+                  :phantomjs,
+                  (:safari if Selenium::WebDriver::Platform.os == :macosx),
+                  (:ie if Selenium::WebDriver::Platform.os == :windows),
+                  (:edge if Selenium::WebDriver::Platform.os == :windows)].compact
+
+  desc 'Run specs remotely for all browsers'
+  task remote_browsers: [:remote_chrome,
+             :remote_firefox,
+             :remote_phantomjs,
+             (:remote_safari if Selenium::WebDriver::Platform.os == :macosx),
+             (:remote_ie if Selenium::WebDriver::Platform.os == :windows),
+             (:remote_edge if Selenium::WebDriver::Platform.os == :windows)].compact
 
   %w(firefox marionette chrome safari phantomjs ie edge).each do |browser|
     desc "Run specs in #{browser}"
     task browser do
       ENV['WATIR_WEBDRIVER_BROWSER'] = browser
-      Rake::Task['spec'].execute
+      Rake::Task[:spec].execute
     end
 
     desc "Run specs in Remote #{browser}"
     task "remote_#{browser}" do
       ENV['WATIR_WEBDRIVER_BROWSER'] = 'remote'
       ENV['REMOTE_BROWSER'] =  browser
-      Rake::Task['spec'].execute
+      Rake::Task[:spec].execute
     end
   end
 end

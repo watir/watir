@@ -21,10 +21,10 @@ class ImplementationConfig
     require 'selenium/server'
 
     @server ||= Selenium::Server.new(remote_server_jar,
-                                     :port       => Selenium::WebDriver::PortProber.above(4444),
-                                     :log        => !!$DEBUG,
-                                     :background => true,
-                                     :timeout    => 60)
+                                     port: Selenium::WebDriver::PortProber.above(4444),
+                                     log: !!$DEBUG,
+                                     background: true,
+                                     timeout: 60)
 
     @server.start
     at_exit { @server.stop }
@@ -50,23 +50,21 @@ class ImplementationConfig
 
   def set_browser_args
     args = case browser
-           when :firefox
-             firefox_args
            when :chrome
              chrome_args
            when :remote
              remote_args
            else
-             [browser, {}]
+             {}
            end
 
     if ENV['SELECTOR_STATS']
       listener = SelectorListener.new
-      args.last.merge!(listener: listener)
+      args.merge!(listener: listener)
       at_exit { listener.report }
     end
 
-    @imp.browser_args = args
+    @imp.browser_args = [browser, args]
   end
 
   def mobile?
@@ -124,14 +122,8 @@ class ImplementationConfig
     browser_instance.close if browser_instance
   end
 
-  def firefox_args
-    [:firefox, {}]
-  end
-
   def chrome_args
-    opts = {
-      args: ["--disable-translate"]
-    }
+    opts = {args: ["--disable-translate"]}
 
     if url = ENV['WATIR_WEBDRIVER_CHROME_SERVER']
       opts[:url] = url
@@ -149,14 +141,14 @@ class ImplementationConfig
       opts[:args] << "--no-sandbox" # https://github.com/travis-ci/travis-ci/issues/938
     end
 
-    [:chrome, opts]
+    opts
   end
 
   def remote_args
     url = ENV["REMOTE_SERVER_URL"] || "http://127.0.0.1:#{@server.port}/wd/hub"
     remote_browser_name = ENV['REMOTE_BROWSER'].to_sym
-    caps =  Selenium::WebDriver::Remote::Capabilities.send(remote_browser_name)
-    [:remote, {url: url, desired_capabilities: caps}]
+    caps = Selenium::WebDriver::Remote::Capabilities.send(remote_browser_name)
+    {url: url, desired_capabilities: caps}
   end
 
   def add_html_routes
