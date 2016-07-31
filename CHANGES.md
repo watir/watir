@@ -1,3 +1,7 @@
+### 0.9.3 (2016-07-31)
+
+* Fix warning message for untyped text field (#434)
+
 ### 0.9.2 (2016-07-29)
 
 * Massive reorganization and refactoring of element locators (#392)
