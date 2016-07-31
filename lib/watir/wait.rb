@@ -1,5 +1,5 @@
 require 'forwardable'
-require 'watir-webdriver/wait/timer'
+require 'watir/wait/timer'
 
 module Watir
   module Wait

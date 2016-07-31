@@ -10,6 +10,6 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.plural 'datalist', 'datalists'
 end
 
-require "watir-webdriver/generator/html/generator"
-require "watir-webdriver/generator/html/spec_extractor"
-require "watir-webdriver/generator/html/visitor"
+require "watir/generator/html/generator"
+require "watir/generator/html/spec_extractor"
+require "watir/generator/html/visitor"

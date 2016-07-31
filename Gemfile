@@ -8,5 +8,5 @@ if ENV['LOCAL_WEBIDL']
   gem 'webidl', path: File.expand_path('../webidl')
 end
 
-# Specify your gem's dependencies in watir-webdriver.gemspec
+# Specify your gem's dependencies in watir.gemspec
 gemspec

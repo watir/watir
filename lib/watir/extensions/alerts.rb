@@ -5,7 +5,7 @@ module Watir
   #
   # Module provided by optional require:
   #
-  #   require "watir-webdriver/extensions/alerts"
+  #   require "watir/extensions/alerts"
   #
 
   module AlertHelper

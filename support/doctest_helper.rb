@@ -1,4 +1,4 @@
-require 'watir-webdriver'
+require 'watir'
 require 'spec/watirspec/lib/watirspec'
 
 #

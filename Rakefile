@@ -1,8 +1,6 @@
 $LOAD_PATH.unshift File.expand_path("../lib", __FILE__)
 
-require 'rubygems'
 require 'bundler'
-require 'watir-webdriver/version'
 Bundler::GemHelper.install_tasks
 
 require 'rspec/core/rake_task'
@@ -28,7 +26,7 @@ end
     spec_path = "support/#{type}.html"
 
     task generator_lib: :lib do
-      require "watir-webdriver/generator"
+      require "watir/generator"
     end
 
     desc "Download #{type.upcase} spec from #{spec_uri}"
@@ -64,7 +62,7 @@ end
 
     desc 'Re-generate the base Watir element classes from the spec'
     task generate: :generator_lib do
-      old_file = "lib/watir-webdriver/elements/#{type}_elements.rb"
+      old_file = "lib/watir/elements/#{type}_elements.rb"
       generator = Watir::Generator.const_get(type.upcase).new
 
       File.open("#{old_file}.new", "w") do |file|
@@ -78,7 +76,7 @@ end
 
     desc "Move #{type}.rb.new to #{type}.rb"
     task :overwrite do
-      file = "lib/watir-webdriver/elements/#{type}_elements.rb"
+      file = "lib/watir/elements/#{type}_elements.rb"
       mv "#{file}.new", file
     end
 
@@ -154,7 +152,7 @@ namespace :spec do
     desc "Run specs in Remote #{browser}"
     task "remote_#{browser}" do
       ENV['WATIR_WEBDRIVER_BROWSER'] = 'remote'
-      ENV['REMOTE_BROWSER'] =  browser
+      ENV['REMOTE_BROWSER'] = browser
       Rake::Task[:spec].execute
     end
   end

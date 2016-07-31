@@ -1,5 +1,5 @@
-require 'watir-webdriver/locators/element/selector_builder/css'
-require 'watir-webdriver/locators/element/selector_builder/xpath'
+require 'watir/locators/element/selector_builder/css'
+require 'watir/locators/element/selector_builder/xpath'
 
 module Watir
   module Locators

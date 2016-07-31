@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'coveralls'
 Coveralls.wear!
 
-require 'watir-webdriver'
+require 'watir'
 require 'locator_spec_helper'
 require 'rubygems'
 require 'rspec'
