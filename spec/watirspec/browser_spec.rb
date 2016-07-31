@@ -138,17 +138,6 @@ describe "Browser" do
 
   describe ".start" do
     it "goes to the given URL and return an instance of itself" do
-      browser_name = WatirSpec.implementation.browser_args.first
-      args = WatirSpec.implementation.browser_args.last
-      browser = WatirSpec.implementation.browser_class.
-          start(WatirSpec.url_for("non_control_elements.html"), browser_name, args)
-
-      expect(browser).to be_instance_of(WatirSpec.implementation.browser_class)
-      expect(browser.title).to eq "Non-control elements"
-      browser.close
-    end
-
-    it "goes to the given URL and return an instance of itself" do
       driver, args = WatirSpec.implementation.browser_args
       browser = Watir::Browser.start(WatirSpec.url_for("non_control_elements.html"), driver, args)
 
