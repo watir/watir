@@ -1,3 +1,8 @@
+### 6.0.0.beta1 (Unreleased)
+* Project renamed to watir
+* References to WebDriver removed or replaced by Selenium
+
+
 ### 0.9.9 (2016-08-01)
 * Final release as watir-webdriver
 

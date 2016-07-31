@@ -3,7 +3,7 @@ require File.expand_path('watirspec/spec_helper', File.dirname(__FILE__))
 describe Watir::Browser do
 
   describe ".new" do
-    it "passes the args to webdriver" do
+    it "passes the args to Selenium" do
       expect(Selenium::WebDriver).to receive(:for).with(:firefox, :foo).and_return(nil)
       Watir::Browser.new(:firefox, :foo)
     end

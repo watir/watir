@@ -4,16 +4,16 @@ describe Watir::Locators::Element::Locator do
   include LocatorSpecHelper
 
   describe "finds a single element" do
-    describe "by delegating to webdriver" do
-      WEBDRIVER_SELECTORS.each do |loc|
-        it "delegates to webdriver's #{loc} locator" do
+    describe "by delegating to Selenium" do
+      SELENIUM_SELECTORS.each do |loc|
+        it "delegates to Selenium's #{loc} locator" do
           expect_one(loc, "bar").and_return(element(tag_name: "div"))
           locate_one loc => "bar"
         end
       end
     end
 
-    describe "with selectors not supported by webdriver" do
+    describe "with selectors not supported by Selenium" do
       it "handles selector with tag name and a single attribute" do
         if Watir.prefer_css?
           expect_one :css, 'div[title="foo"]'
@@ -371,9 +371,9 @@ describe Watir::Locators::Element::Locator do
   end
 
   describe "finds several elements" do
-    describe "by delegating to webdriver" do
-      WEBDRIVER_SELECTORS.each do |loc|
-        it "delegates to webdriver's #{loc} locator" do
+    describe "by delegating to Selenium" do
+      SELENIUM_SELECTORS.each do |loc|
+        it "delegates to Selenium's #{loc} locator" do
           expect_all(loc, "bar").and_return([element(tag_name: "div")])
           locate_all(loc => "bar")
         end
@@ -392,7 +392,7 @@ describe Watir::Locators::Element::Locator do
       end
     end
 
-    describe "with selectors not supported by webdriver" do
+    describe "with selectors not supported by Selenium" do
       it "handles selector with tag name and a single attribute" do
         if Watir.prefer_css?
           expect_all :css, 'div[dir="foo"]'

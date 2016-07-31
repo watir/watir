@@ -145,13 +145,13 @@ namespace :spec do
   %w(firefox marionette chrome safari phantomjs ie edge).each do |browser|
     desc "Run specs in #{browser}"
     task browser do
-      ENV['WATIR_WEBDRIVER_BROWSER'] = browser
+      ENV['WATIR_BROWSER'] = browser
       Rake::Task[:spec].execute
     end
 
     desc "Run specs in Remote #{browser}"
     task "remote_#{browser}" do
-      ENV['WATIR_WEBDRIVER_BROWSER'] = 'remote'
+      ENV['WATIR_BROWSER'] = 'remote'
       ENV['REMOTE_BROWSER'] = browser
       Rake::Task[:spec].execute
     end

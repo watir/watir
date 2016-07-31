@@ -21,7 +21,7 @@ module Watir
 
     def assert_exists
       if @selector.key? :element
-        raise UnknownFrameException, "wrapping a WebDriver element as a Frame is not currently supported"
+        raise UnknownFrameException, "wrapping a Selenium element as a Frame is not currently supported"
       end
 
       super

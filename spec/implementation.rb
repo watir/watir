@@ -5,6 +5,14 @@ class ImplementationConfig
     @imp = imp
   end
 
+  def browser
+    @browser ||= (ENV['WATIR_BROWSER'] || :chrome).to_sym
+  end
+
+  def remote_browser
+    @remote_browser ||= (ENV['REMOTE_BROWSER'] || :chrome).to_sym
+  end
+
   def configure
     set_webdriver
     start_remote_server if remote? && !ENV["REMOTE_SERVER_URL"]
@@ -125,15 +133,15 @@ class ImplementationConfig
   def chrome_args
     opts = {args: ["--disable-translate"]}
 
-    if url = ENV['WATIR_WEBDRIVER_CHROME_SERVER']
+    if url = ENV['WATIR_CHROME_SERVER']
       opts[:url] = url
     end
 
-    if driver = ENV['WATIR_WEBDRIVER_CHROME_DRIVER']
+    if driver = ENV['WATIR_CHROME_DRIVER']
       Selenium::WebDriver::Chrome.driver_path = driver
     end
 
-    if path = ENV['WATIR_WEBDRIVER_CHROME_BINARY']
+    if path = ENV['WATIR_CHROME_BINARY']
       Selenium::WebDriver::Chrome.path = path
     end
 
@@ -157,14 +165,6 @@ class ImplementationConfig
     end
   end
 
-  def browser
-    @browser ||= (ENV['WATIR_WEBDRIVER_BROWSER'] || :firefox).to_sym
-  end
-
-  def remote_browser
-    @remote_browser ||= (ENV['REMOTE_BROWSER'] || :firefox).to_sym
-  end
-
   class SelectorListener < Selenium::WebDriver::Support::AbstractEventListener
     def initialize
       @counts = Hash.new(0)
@@ -176,7 +176,7 @@ class ImplementationConfig
 
     def report
       total = @counts.values.inject(0) { |mem, var| mem + var }
-      puts "\nWebDriver selector stats: "
+      puts "\nSelenium selector stats: "
       @counts.each do |how, count|
         puts "\t#{how.to_s.ljust(20)}: #{count * 100 / total} (#{count})"
       end

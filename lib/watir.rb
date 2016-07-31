@@ -47,7 +47,7 @@ module Watir
     end
 
     #
-    # Whether or not Watir should prefer CSS when translating the Watir selectors to WebDriver.
+    # Whether or not Watir should prefer CSS when translating the Watir selectors to Selenium.
     # Defaults to false.
     #
 

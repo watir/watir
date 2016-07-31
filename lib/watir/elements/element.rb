@@ -48,7 +48,7 @@ module Watir
 
     def inspect
       if @selector.key?(:element)
-        '#<%s:0x%x located=%s selector=%s>' % [self.class, hash*2, !!@element, '{element: (webdriver element)}']
+        '#<%s:0x%x located=%s selector=%s>' % [self.class, hash*2, !!@element, '{element: (selenium element)}']
       else
         '#<%s:0x%x located=%s selector=%s>' % [self.class, hash*2, !!@element, selector_string]
       end

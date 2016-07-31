@@ -187,7 +187,7 @@ module Watir
           how, what = selector_builder.build(selector)
 
           unless how
-            raise Error, "internal error: unable to build WebDriver selector from #{selector.inspect}"
+            raise Error, "internal error: unable to build Selenium selector from #{selector.inspect}"
           end
 
           if how == :xpath && can_convert_regexp_to_contains?
