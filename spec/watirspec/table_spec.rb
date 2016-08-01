@@ -57,16 +57,18 @@ describe "Table" do
   end
 
   describe "#hashes" do
-    it "returns an Array of Hashes for the common table usage" do
-      expect(browser.table(id: "axis_example").hashes).to eq [
-        { "" => "March 2008",     "Before income tax" => "",       "Income tax" => "",      "After income tax" => ""      },
-        { "" => "Gregory House",  "Before income tax" => "5 934",  "Income tax" => "1 347", "After income tax" => "4 587" },
-        { "" => "Hugh Laurie",    "Before income tax" => "6 300",  "Income tax" => "1 479", "After income tax" => "4 821" },
-        { "" => "April 2008",     "Before income tax" => "",       "Income tax" => "",      "After income tax" => ""      },
-        { "" => "Gregory House",  "Before income tax" => "5 863",  "Income tax" => "1 331", "After income tax" => "4 532" },
-        { "" => "Hugh Laurie",    "Before income tax" => "6 252",  "Income tax" => "1 420", "After income tax" => "4 832" },
-        { "" => "Sum",            "Before income tax" => "24 349", "Income tax" => "5 577", "After income tax" => "18 722"},
-      ]
+    bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1260233", :firefox do
+      it "returns an Array of Hashes for the common table usage" do
+        expect(browser.table(id: "axis_example").hashes).to eq [
+          { "" => "March 2008",     "Before income tax" => "",       "Income tax" => "",      "After income tax" => ""      },
+          { "" => "Gregory House",  "Before income tax" => "5 934",  "Income tax" => "1 347", "After income tax" => "4 587" },
+          { "" => "Hugh Laurie",    "Before income tax" => "6 300",  "Income tax" => "1 479", "After income tax" => "4 821" },
+          { "" => "April 2008",     "Before income tax" => "",       "Income tax" => "",      "After income tax" => ""      },
+          { "" => "Gregory House",  "Before income tax" => "5 863",  "Income tax" => "1 331", "After income tax" => "4 532" },
+          { "" => "Hugh Laurie",    "Before income tax" => "6 252",  "Income tax" => "1 420", "After income tax" => "4 832" },
+          { "" => "Sum",            "Before income tax" => "24 349", "Income tax" => "5 577", "After income tax" => "18 722"},
+        ]
+      end
     end
 
     it "raises an error if the table could not be parsed" do

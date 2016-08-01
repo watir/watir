@@ -7,7 +7,7 @@ describe "Table" do
     browser.goto(WatirSpec.url_for("nested_tables.html"))
   end
 
-  # not a webdriver bug - IE seems unable to deal with the invalid nesting
+  # not a selenium bug - IE seems unable to deal with the invalid nesting
   not_compliant_on :internet_explorer do
     it "returns the correct number of rows under a table" do
       tables = browser.div(id: "table-rows-test").tables(id: /^tbl/)
@@ -48,6 +48,5 @@ describe "Table" do
       end
     end
   end
-
 
 end

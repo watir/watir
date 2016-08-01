@@ -110,19 +110,21 @@ describe "FileField" do
 
   describe "#set" do
     not_compliant_on :iphone, :safari do
-      bug "https://github.com/detro/ghostdriver/issues/183", :phantomjs do
-        it "is able to set a file path in the field and click the upload button and fire the onchange event" do
-          browser.goto WatirSpec.url_for("forms_with_input_elements.html")
+      bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1260233", :firefox do
+        bug "https://github.com/detro/ghostdriver/issues/183", :phantomjs do
+          it "is able to set a file path in the field and click the upload button and fire the onchange event" do
+            browser.goto WatirSpec.url_for("forms_with_input_elements.html")
 
-          path    = File.expand_path(__FILE__)
-          element = browser.file_field(name: "new_user_portrait")
+            path    = File.expand_path(__FILE__)
+            element = browser.file_field(name: "new_user_portrait")
 
-          element.set path
+            element.set path
 
-          expect(element.value).to include(File.basename(path)) # only some browser will return the full path
-          expect(messages.first).to include(File.basename(path))
+            expect(element.value).to include(File.basename(path)) # only some browser will return the full path
+            expect(messages.first).to include(File.basename(path))
 
-          browser.button(name: "new_user_submit").click
+            browser.button(name: "new_user_submit").click
+          end
         end
 
         it "raises an error if the file does not exist" do
@@ -137,33 +139,34 @@ describe "FileField" do
 
   bug "https://github.com/detro/ghostdriver/issues/183", :phantomjs do
     not_compliant_on :iphone, :safari do
-      describe "#value=" do
-        it "is able to set a file path in the field and click the upload button and fire the onchange event" do
-          browser.goto WatirSpec.url_for("forms_with_input_elements.html")
+      bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1260233", :firefox do
+        describe "#value=" do
+          it "is able to set a file path in the field and click the upload button and fire the onchange event" do
+            browser.goto WatirSpec.url_for("forms_with_input_elements.html")
 
-          path    = File.expand_path(__FILE__)
-          element = browser.file_field(name: "new_user_portrait")
+            path    = File.expand_path(__FILE__)
+            element = browser.file_field(name: "new_user_portrait")
 
-          element.value = path
-          expect(element.value).to include(File.basename(path)) # only some browser will return the full path
-        end
-
-        not_compliant_on :internet_explorer, :chrome do
-          # for chrome, the check also happens in the driver
-          it "does not raise an error if the file does not exist" do
-            path = File.join(Dir.tmpdir, 'unlikely-to-exist')
-            browser.file_field.value = path
-
-            expected = path
-            expected.gsub!("/", "\\") if WatirSpec.platform == :windows
-
-            expect(browser.file_field.value).to include(File.basename(expected)) # only some browser will return the full path
+            element.value = path
+            expect(element.value).to include(File.basename(path)) # only some browser will return the full path
           end
 
-          it "does not alter its argument" do
-            value = '/foo/bar'
-            browser.file_field.value = value
-            expect(value).to eq '/foo/bar'
+          not_compliant_on :internet_explorer do
+            it "does not raise an error if the file does not exist" do
+              path = File.join(Dir.tmpdir, 'unlikely-to-exist')
+              browser.file_field.value = path
+
+              expected = path
+              expected.gsub!("/", "\\") if WatirSpec.platform == :windows
+
+              expect(browser.file_field.value).to include(File.basename(expected)) # only some browser will return the full path
+            end
+
+            it "does not alter its argument" do
+              value = '/foo/bar'
+              browser.file_field.value = value
+              expect(value).to eq '/foo/bar'
+            end
           end
         end
       end

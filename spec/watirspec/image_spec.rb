@@ -145,22 +145,24 @@ describe "Image" do
   end
 
   # Other
-  describe "#loaded?" do
-    it "returns true if the image has been loaded" do
-      expect(browser.image(title: 'Circle')).to be_loaded
-      expect(browser.image(alt: 'circle')).to be_loaded
-      expect(browser.image(alt: /circle/)).to be_loaded
-    end
+  bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1260233", :firefox do
+    describe "#loaded?" do
+      it "returns true if the image has been loaded" do
+        expect(browser.image(title: 'Circle')).to be_loaded
+        expect(browser.image(alt: 'circle')).to be_loaded
+        expect(browser.image(alt: /circle/)).to be_loaded
+      end
 
-    it "returns false if the image has not been loaded" do
-      expect(browser.image(id: 'no_such_file')).to_not be_loaded
-    end
+      it "returns false if the image has not been loaded" do
+        expect(browser.image(id: 'no_such_file')).to_not be_loaded
+      end
 
-    it "raises UnknownObjectException if the image doesn't exist" do
-      expect { browser.image(id: 'no_such_image').loaded? }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.image(src: 'no_such_image').loaded? }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.image(alt: 'no_such_image').loaded? }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.image(index: 1337).loaded? }.to raise_error(Watir::Exception::UnknownObjectException)
+      it "raises UnknownObjectException if the image doesn't exist" do
+        expect { browser.image(id: 'no_such_image').loaded? }.to raise_error(Watir::Exception::UnknownObjectException)
+        expect { browser.image(src: 'no_such_image').loaded? }.to raise_error(Watir::Exception::UnknownObjectException)
+        expect { browser.image(alt: 'no_such_image').loaded? }.to raise_error(Watir::Exception::UnknownObjectException)
+        expect { browser.image(index: 1337).loaded? }.to raise_error(Watir::Exception::UnknownObjectException)
+      end
     end
   end
 

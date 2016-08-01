@@ -153,19 +153,23 @@ describe "Div" do
   end
 
   not_compliant_on :iphone, :safari do
-    describe "#double_click" do
-      it "fires the ondblclick event" do
-        browser.div(id: 'html_test').double_click
-        expect(messages).to include('double clicked')
+    bug "Actions Endpoint Not Yet Implemented", :firefox do
+      describe "#double_click" do
+        it "fires the ondblclick event" do
+          browser.div(id: 'html_test').double_click
+          expect(messages).to include('double clicked')
+        end
       end
     end
 
-    describe "#right_click" do
-      it "fires the oncontextmenu event" do
-        browser.goto(WatirSpec.url_for("right_click.html"))
-        browser.div(id: "click").right_click
-        bug "https://github.com/detro/ghostdriver/issues/125", :phantomjs do
-          expect(messages.first).to eq 'right-clicked'
+    bug "Actions Endpoint Not Yet Implemented", :firefox do
+      describe "#right_click" do
+        it "fires the oncontextmenu event" do
+          browser.goto(WatirSpec.url_for("right_click.html"))
+          browser.div(id: "click").right_click
+          bug "https://github.com/detro/ghostdriver/issues/125", :phantomjs do
+            expect(messages.first).to eq 'right-clicked'
+          end
         end
       end
     end

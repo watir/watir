@@ -65,31 +65,37 @@ describe "Browser::AfterHooks" do
       expect(@yield).to be true
     end
 
-    it "runs after_hooks after Element#submit" do
-      browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
-      @page_after_hook = Proc.new { @yield = browser.div(id: 'messages').text == 'submit' }
-      browser.after_hooks.add @page_after_hook
-      browser.form(id: "new_user").submit
-      expect(@yield).to be true
-    end
-
-    not_compliant_on :iphone, :safari do
-      it "runs after_hooks after Element#double_click" do
-        browser.goto(WatirSpec.url_for("non_control_elements.html"))
-        @page_after_hook = Proc.new { @yield = browser.title == "Non-control elements" }
+    bug "AutomatedTester: 'known bug with execute script'", :firefox do
+      it "runs after_hooks after Element#submit" do
+        browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
+        @page_after_hook = Proc.new { @yield = browser.div(id: 'messages').text == 'submit' }
         browser.after_hooks.add @page_after_hook
-        browser.div(id: 'html_test').double_click
+        browser.form(id: "new_user").submit
         expect(@yield).to be true
       end
     end
 
+    not_compliant_on :iphone, :safari do
+      bug "Actions Endpoint Not Yet Implemented", :firefox do
+        it "runs after_hooks after Element#double_click" do
+          browser.goto(WatirSpec.url_for("non_control_elements.html"))
+          @page_after_hook = Proc.new { @yield = browser.title == "Non-control elements" }
+          browser.after_hooks.add @page_after_hook
+          browser.div(id: 'html_test').double_click
+          expect(@yield).to be true
+        end
+      end
+    end
+
     not_compliant_on :safari do
-      it "runs after_hooks after Element#right_click" do
-        browser.goto(WatirSpec.url_for("right_click.html"))
-        @page_after_hook = Proc.new { @yield = browser.title == "Right Click Test" }
-        browser.after_hooks.add @page_after_hook
-        browser.div(id: "click").right_click
-        expect(@yield).to be true
+      bug "Actions Endpoint Not Yet Implemented", :firefox do
+        it "runs after_hooks after Element#right_click" do
+          browser.goto(WatirSpec.url_for("right_click.html"))
+          @page_after_hook = Proc.new { @yield = browser.title == "Right Click Test" }
+          browser.after_hooks.add @page_after_hook
+          browser.div(id: "click").right_click
+          expect(@yield).to be true
+        end
       end
     end
 
@@ -115,15 +121,17 @@ describe "Browser::AfterHooks" do
           end
         end
 
-        it "raises UnhandledAlertError error when running error checks with alert present" do
-          url = WatirSpec.url_for("alerts.html")
-          @page_after_hook = Proc.new { browser.url }
-          browser.after_hooks.add @page_after_hook
-          browser.goto url
-          expect { browser.button(id: "alert").click }.to raise_error(Selenium::WebDriver::Error::UnhandledAlertError)
+        bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1279211", :firefox do
+          it "raises UnhandledAlertError error when running error checks with alert present" do
+            url = WatirSpec.url_for("alerts.html")
+            @page_after_hook = Proc.new { browser.url }
+            browser.after_hooks.add @page_after_hook
+            browser.goto url
+            expect { browser.button(id: "alert").click }.to raise_error(Selenium::WebDriver::Error::UnhandledAlertError)
 
-          not_compliant_on :firefox do
-            browser.alert.ok
+            not_compliant_on :ff_legacy do
+              browser.alert.ok
+            end
           end
         end
 
@@ -148,17 +156,19 @@ describe "Browser::AfterHooks" do
       end
     end
 
-    it "does not raise error when running error checks on closed window" do
-      url = WatirSpec.url_for("window_switching.html")
-      @page_after_hook = Proc.new { browser.url }
-      browser.after_hooks.add @page_after_hook
-      browser.goto url
-      browser.a(id: "open").click
+    bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1223277", :firefox do
+      it "does not raise error when running error checks on closed window" do
+        url = WatirSpec.url_for("window_switching.html")
+        @page_after_hook = Proc.new { browser.url }
+        browser.after_hooks.add @page_after_hook
+        browser.goto url
+        browser.a(id: "open").click
 
-      window = browser.window(title: "closeable window")
-      window.use
-      expect { browser.a(id: "close").click }.to_not raise_error
-      browser.window(index: 0).use
+        window = browser.window(title: "closeable window")
+        window.use
+        expect { browser.a(id: "close").click }.to_not raise_error
+        browser.window(index: 0).use
+      end
     end
   end
 end

@@ -50,19 +50,21 @@ describe "Form" do
     end
   end
 
-  describe "#submit" do
-    it "submits the form" do
-      browser.form(id: "delete_user").submit
-      Watir::Wait.until { !browser.url.include? 'forms_with_input_elements.html' }
-      expect(browser.text).to include("Semantic table")
-    end
+  bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1290985", :firefox do
+    describe "#submit" do
+      it "submits the form" do
+        browser.form(id: "delete_user").submit
+        Watir::Wait.until { !browser.url.include? 'forms_with_input_elements.html' }
+        expect(browser.text).to include("Semantic table")
+      end
 
-    it "triggers onsubmit event and takes its result into account" do
-      form = browser.form(name: "user_new")
-      form.submit
-      expect(form).to exist
-      expect(messages.size).to eq 1
-      expect(messages[0]).to eq "submit"
+      it "triggers onsubmit event and takes its result into account" do
+        form = browser.form(name: "user_new")
+        form.submit
+        expect(form).to exist
+        expect(messages.size).to eq 1
+        expect(messages[0]).to eq "submit"
+      end
     end
   end
 

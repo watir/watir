@@ -72,39 +72,41 @@ describe "Option" do
     end
   end
 
-  describe "#select" do
-    it "selects the chosen option (page context)" do
-      browser.option(text: "Denmark").select
-      expect(browser.select_list(name: "new_user_country").selected_options.map(&:text)).to eq ["Denmark"]
-    end
+  bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1255957", :firefox do
+    describe "#select" do
+      it "selects the chosen option (page context)" do
+        browser.option(text: "Denmark").select
+        expect(browser.select_list(name: "new_user_country").selected_options.map(&:text)).to eq ["Denmark"]
+      end
 
-    it "selects the chosen option (select_list context)" do
-      browser.select_list(name: "new_user_country").option(text: "Denmark").select
-      expect(browser.select_list(name: "new_user_country").selected_options.map(&:text)).to eq ["Denmark"]
-    end
+      it "selects the chosen option (select_list context)" do
+        browser.select_list(name: "new_user_country").option(text: "Denmark").select
+        expect(browser.select_list(name: "new_user_country").selected_options.map(&:text)).to eq ["Denmark"]
+      end
 
-    it "selects the option when found by text (page context)" do
-      browser.option(text: 'Sweden').select
-      expect(browser.option(text: 'Sweden')).to be_selected
-    end
+      it "selects the option when found by text (page context)" do
+        browser.option(text: 'Sweden').select
+        expect(browser.option(text: 'Sweden')).to be_selected
+      end
 
-    it "selects the option when found by text (select_list context)" do
-      browser.select_list(name: 'new_user_country').option(text: 'Sweden').select
-      expect(browser.select_list(name: 'new_user_country').option(text: 'Sweden')).to be_selected
-    end
+      it "selects the option when found by text (select_list context)" do
+        browser.select_list(name: 'new_user_country').option(text: 'Sweden').select
+        expect(browser.select_list(name: 'new_user_country').option(text: 'Sweden')).to be_selected
+      end
 
-    # there's no onclick event for Option in IE / WebKit
-    # http://msdn.microsoft.com/en-us/library/ms535877(VS.85).aspx
-    compliant_on :firefox do
-      it "fires the onclick event (page context)" do
-        browser.option(text: "Username 3").select
-        expect(browser.textarea(id: 'delete_user_comment').value).to eq 'Don\'t do it!'
+      # there's no onclick event for Option in IE / WebKit
+      # http://msdn.microsoft.com/en-us/library/ms535877(VS.85).aspx
+      compliant_on :ff_legacy do
+        it "fires the onclick event (page context)" do
+          browser.option(text: "Username 3").select
+          expect(browser.textarea(id: 'delete_user_comment').value).to eq 'Don\'t do it!'
+        end
       end
     end
 
     # there's no onclick event for Option in IE / WebKit
     # http://msdn.microsoft.com/en-us/library/ms535877(VS.85).aspx
-    compliant_on :firefox do
+    compliant_on :ff_legacy do
       it "fires onclick event (select_list context)" do
         browser.select_list(id: 'delete_user_username').option(text: "Username 3").select
         expect(browser.textarea(id: 'delete_user_comment').value).to eq 'Don\'t do it!'

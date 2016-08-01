@@ -11,13 +11,15 @@ describe "IFrame" do
     browser.goto(WatirSpec.url_for("iframes.html"))
   end
 
-  it "handles crossframe javascript" do
-    browser.goto WatirSpec.url_for("iframes.html", needs_server: true)
+  bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1255906", :firefox do
+    it "handles crossframe javascript" do
+      browser.goto WatirSpec.url_for("iframes.html", needs_server: true)
 
-    expect(browser.iframe(id: "iframe_1").text_field(name: 'senderElement').value).to eq 'send_this_value'
-    expect(browser.iframe(id: "iframe_2").text_field(name: 'recieverElement').value).to eq 'old_value'
-    browser.iframe(id: "iframe_1").button(id: 'send').click
-    expect(browser.iframe(id: "iframe_2").text_field(name: 'recieverElement').value).to eq 'send_this_value'
+      expect(browser.iframe(id: "iframe_1").text_field(name: 'senderElement').value).to eq 'send_this_value'
+      expect(browser.iframe(id: "iframe_2").text_field(name: 'recieverElement').value).to eq 'old_value'
+      browser.iframe(id: "iframe_1").button(id: 'send').click
+      expect(browser.iframe(id: "iframe_2").text_field(name: 'recieverElement').value).to eq 'send_this_value'
+    end
   end
 
   describe "#exist?" do
@@ -82,12 +84,14 @@ describe "IFrame" do
 
 
     bug "https://github.com/detro/ghostdriver/issues/159", :phantomjs do
-      it "handles nested iframes" do
-        browser.goto(WatirSpec.url_for("nested_iframes.html"))
+      bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1255946", :firefox do
+        it "handles nested iframes" do
+          browser.goto(WatirSpec.url_for("nested_iframes.html"))
 
-        browser.iframe(id: "two").iframe(id: "three").link(id: "four").click
+          browser.iframe(id: "two").iframe(id: "three").link(id: "four").click
 
-        Wait.until { browser.title == "definition_lists" }
+          Wait.until { browser.title == "definition_lists" }
+        end
       end
     end
 
@@ -138,9 +142,11 @@ describe "IFrame" do
     expect { browser.iframe(index: 0).foo }.to raise_error(NoMethodError)
   end
 
-  it "is able to set a field" do
-    browser.iframe(index: 0).text_field(name: 'senderElement').set("new value")
-    expect(browser.iframe(index: 0).text_field(name: 'senderElement').value).to eq "new value"
+  bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1255906", :firefox do
+    it "is able to set a field" do
+      browser.iframe(index: 0).text_field(name: 'senderElement').set("new value")
+      expect(browser.iframe(index: 0).text_field(name: 'senderElement').value).to eq "new value"
+    end
   end
 
   describe "#execute_script" do

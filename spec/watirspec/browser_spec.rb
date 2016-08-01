@@ -14,20 +14,24 @@ describe "Browser" do
       expect(browser).to exist
     end
 
-    it "returns false if window is closed" do
-      browser.goto WatirSpec.url_for("window_switching.html")
-      browser.a(id: "open").click
-      Watir::Wait.until { browser.windows.size == 2 }
-      browser.window(title: "closeable window").use
-      browser.a(id: "close").click
-      Watir::Wait.until { browser.windows.size == 1 }
-      expect(browser.exists?).to be false
+    bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1223277", :firefox do
+      it "returns false if window is closed" do
+        browser.goto WatirSpec.url_for("window_switching.html")
+        browser.a(id: "open").click
+        Watir::Wait.until { browser.windows.size == 2 }
+        browser.window(title: "closeable window").use
+        browser.a(id: "close").click
+        Watir::Wait.until { browser.windows.size == 1 }
+        expect(browser.exists?).to be false
+      end
     end
 
-    it "returns false after Browser#close" do
-      b = WatirSpec.new_browser
-      b.close
-      expect(b).to_not exist
+    bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1290814", :firefox do
+      it "returns false after Browser#close" do
+        b = WatirSpec.new_browser
+        b.close
+        expect(b).to_not exist
+      end
     end
   end
 
@@ -64,13 +68,11 @@ describe "Browser" do
     #
     # for IE9, this needs to be enabled in
     # View => Toolbars -> Status bar
-    not_compliant_on :firefox do
-      it "returns the current value of window.status" do
-        browser.goto(WatirSpec.url_for("non_control_elements.html"))
+    it "returns the current value of window.status" do
+      browser.goto(WatirSpec.url_for("non_control_elements.html"))
 
-        browser.execute_script "window.status = 'All done!';"
-        expect(browser.status).to eq "All done!"
-      end
+      browser.execute_script "window.status = 'All done!';"
+      expect(browser.status).to eq "All done!"
     end
   end
 
@@ -137,13 +139,15 @@ describe "Browser" do
   end
 
   describe ".start" do
-    it "goes to the given URL and return an instance of itself" do
-      driver, args = WatirSpec.implementation.browser_args
-      browser = Watir::Browser.start(WatirSpec.url_for("non_control_elements.html"), driver, args)
+    bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1290814", :firefox do
+      it "goes to the given URL and return an instance of itself" do
+        driver, args = WatirSpec.implementation.browser_args
+        browser = Watir::Browser.start(WatirSpec.url_for("non_control_elements.html"), driver, args)
 
-      expect(browser).to be_instance_of(Watir::Browser)
-      expect(browser.title).to eq "Non-control elements"
-      browser.close
+        expect(browser).to be_instance_of(Watir::Browser)
+        expect(browser.title).to eq "Non-control elements"
+        browser.close
+      end
     end
   end
 
@@ -171,7 +175,7 @@ describe "Browser" do
       end
     end
 
-    compliant_on :firefox do
+    compliant_on :ff_legacy do
       it "goes to internal Firefox URL 'about:mozilla' without raising errors" do
         expect { browser.goto("about:mozilla") }.to_not raise_error
       end
@@ -271,10 +275,10 @@ describe "Browser" do
       end
 
       it "navigates between several history items" do
-        urls = [ "non_control_elements.html",
-                 "tables.html",
-                 "forms_with_input_elements.html",
-                 "definition_lists.html"
+        urls = ["non_control_elements.html",
+                "tables.html",
+                "forms_with_input_elements.html",
+                "definition_lists.html"
         ].map do |page|
           browser.goto WatirSpec.url_for(page)
           browser.url
@@ -289,7 +293,7 @@ describe "Browser" do
   end
 
   it "raises UnknownObjectException when trying to access DOM elements on plain/text-page" do
-    browser.goto(WatirSpec.url_for("plain_text"))
+    browser.goto(WatirSpec.url_for("plain_text", needs_server: true))
     expect { browser.div(id: 'foo').id }.to raise_error(Watir::Exception::UnknownObjectException)
   end
 

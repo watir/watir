@@ -7,9 +7,11 @@ describe "TextArea" do
 
   let(:textarea) { browser.textarea }
 
-  it 'can set a value' do
-    textarea.set 'foo'
-    expect(textarea.value).to eq 'foo'
+  bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1260233", :firefox do
+    it 'can set a value' do
+      textarea.set 'foo'
+      expect(textarea.value).to eq 'foo'
+    end
   end
 
   it 'can clear a value' do
@@ -18,9 +20,11 @@ describe "TextArea" do
     expect(textarea.value).to eq ''
   end
 
-  it 'locates textarea by value' do
-    browser.textarea.set 'foo'
-    expect(browser.textarea(value: /foo/)).to exist
-    expect(browser.textarea(value: 'foo')).to exist
+  bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1260233", :firefox do
+    it 'locates textarea by value' do
+      browser.textarea.set 'foo'
+      expect(browser.textarea(value: /foo/)).to exist
+      expect(browser.textarea(value: 'foo')).to exist
+    end
   end
 end

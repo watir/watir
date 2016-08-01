@@ -73,24 +73,24 @@ describe 'Alert API' do
           end
         end
 
-        bug "https://code.google.com/p/chromedriver/issues/detail?id=26", [:chrome, :macosx] do
-          describe '#close' do
-            it 'cancels confirm' do
-              browser.button(id: 'confirm').click
-              browser.alert.when_present.close
-              expect(browser.button(id: 'confirm').value).to eq "false"
-            end
+        describe '#close' do
+          it 'cancels confirm' do
+            browser.button(id: 'confirm').click
+            browser.alert.when_present.close
+            expect(browser.button(id: 'confirm').value).to eq "false"
           end
         end
       end
 
       context 'prompt' do
         describe '#set' do
-          it 'enters text to prompt' do
-            browser.button(id: 'prompt').click
-            browser.alert.set 'My Name'
-            browser.alert.ok
-            expect(browser.button(id: 'prompt').value).to eq 'My Name'
+          bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1255906", :firefox do
+            it 'enters text to prompt' do
+              browser.button(id: 'prompt').click
+              browser.alert.set 'My Name'
+              browser.alert.ok
+              expect(browser.button(id: 'prompt').value).to eq 'My Name'
+            end
           end
         end
       end
