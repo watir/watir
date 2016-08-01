@@ -1,6 +1,9 @@
 ### 6.0.0.beta1 (Unreleased)
 * Project renamed to watir
 * References to WebDriver removed or replaced by Selenium
+* Require Selenium > 3.0.0.beta1
+* Default browser in Watir is now Chrome
+* Default implementation for Firefox is with geckodriver
 
 
 ### 0.9.9 (2016-08-01)

@@ -4,7 +4,8 @@ module Watir
       class Validator < Element::Validator
         def validate(element, selector)
           return unless %w[input button].include?(element.tag_name.downcase)
-          return if element.tag_name.downcase == "input" && !Watir::Button::VALID_TYPES.include?(element.attribute(:type))
+          # TODO - Verify this is desired behavior based on https://bugzilla.mozilla.org/show_bug.cgi?id=1290963
+          return if element.tag_name.downcase == "input" && !Watir::Button::VALID_TYPES.include?(element.attribute(:type).downcase)
 
           element
         end

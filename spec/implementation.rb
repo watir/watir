@@ -58,6 +58,8 @@ class ImplementationConfig
 
   def set_browser_args
     args = case browser
+           when :ff_legacy
+             ff_legacy_args
            when :chrome
              chrome_args
            when :remote
@@ -102,25 +104,26 @@ class ImplementationConfig
       matching_browser = remote_browser
       matching_guards << :remote
       matching_guards << [:remote, matching_browser]
+      matching_guards << [:remote, :ff_legacy] if @ff_legacy
     else
       matching_browser = browser
     end
+
+    matching_guards << :ff_legacy if @ff_legacy
 
     browser_instance = WatirSpec.new_browser
     browser_version = browser_instance.driver.capabilities.version
 
     matching_browser_with_version = "#{browser}#{browser_version}".to_sym
     matching_guards << matching_browser_with_version if browser_version
-    matching_guards << [:webdriver, matching_browser_with_version]
 
     matching_guards << matching_browser
-    matching_guards << [:webdriver, matching_browser]
     matching_guards << [matching_browser, Selenium::WebDriver::Platform.os]
 
     if !Selenium::WebDriver::Platform.linux? || ENV['DESKTOP_SESSION']
       # some specs (i.e. Window#maximize) needs a window manager on linux
-      matching_guards << [:webdriver, matching_browser, :window_manager]
-      matching_guards << [:webdriver, matching_browser_with_version, :window_manager]
+      matching_guards << [matching_browser, :window_manager]
+      matching_guards << [matching_browser_with_version, :window_manager]
     end
 
     @imp.guard_proc = lambda { |args|
@@ -128,6 +131,13 @@ class ImplementationConfig
     }
   ensure
     browser_instance.close if browser_instance
+  end
+
+  def ff_legacy_args
+    @browser = :firefox
+    @ff_legacy = true
+    caps = Selenium::WebDriver::Remote::Capabilities.firefox(marionette: false)
+    {desired_capabilities: caps}
   end
 
   def chrome_args
@@ -154,7 +164,14 @@ class ImplementationConfig
 
   def remote_args
     url = ENV["REMOTE_SERVER_URL"] || "http://127.0.0.1:#{@server.port}/wd/hub"
-    caps = Selenium::WebDriver::Remote::Capabilities.send(remote_browser)
+    opts = {}
+    if remote_browser == :ff_legacy
+      @remote_browser = :firefox
+      @ff_legacy = true
+      opts[:marionette] = false
+    end
+
+    caps = Selenium::WebDriver::Remote::Capabilities.send(remote_browser, opts)
     {url: url, desired_capabilities: caps}
   end
 

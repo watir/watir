@@ -102,15 +102,17 @@ describe Watir::Element do
 
   end
 
-  describe "#hover" do
-    not_compliant_on :internet_explorer, :iphone, :safari do
-      it "should hover over the element" do
-        browser.goto WatirSpec.url_for('hover.html')
-        link = browser.a
+  bug "Actions Endpoint Not Yet Implemented", :firefox do
+    describe "#hover" do
+      not_compliant_on :internet_explorer, :iphone, :safari do
+        it "should hover over the element" do
+          browser.goto WatirSpec.url_for('hover.html')
+          link = browser.a
 
-        expect(link.style("font-size")).to eq "10px"
-        link.hover
-        expect(link.style("font-size")).to eq "20px"
+          expect(link.style("font-size")).to eq "10px"
+          link.hover
+          expect(link.style("font-size")).to eq "20px"
+        end
       end
     end
   end

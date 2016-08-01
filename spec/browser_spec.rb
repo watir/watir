@@ -46,31 +46,35 @@ describe Watir::Browser do
     end
   end
 
-  describe "#send_key{,s}" do
-    it "sends keystrokes to the active element" do
-      browser.goto WatirSpec.url_for "forms_with_input_elements.html"
+  bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1260233", :firefox do
+    describe "#send_key{,s}" do
+      it "sends keystrokes to the active element" do
+        browser.goto WatirSpec.url_for "forms_with_input_elements.html"
 
-      browser.send_keys "hello"
-      expect(browser.text_field(id: "new_user_first_name").value).to eq "hello"
-    end
+        browser.send_keys "hello"
+        expect(browser.text_field(id: "new_user_first_name").value).to eq "hello"
+      end
 
-    it "sends keys to a frame" do
-      browser.goto WatirSpec.url_for "frames.html"
-      tf = browser.frame.text_field(id: "senderElement")
-      tf.clear
+      it "sends keys to a frame" do
+        browser.goto WatirSpec.url_for "frames.html"
+        tf = browser.frame.text_field(id: "senderElement")
+        tf.clear
 
-      browser.frame.send_keys "hello"
+        browser.frame.send_keys "hello"
 
-      expect(tf.value).to eq "hello"
+        expect(tf.value).to eq "hello"
+      end
     end
   end
 
-  it "raises an error when trying to interact with a closed browser" do
-    b = WatirSpec.new_browser
-    b.goto WatirSpec.url_for "definition_lists.html"
-    b.close
+  bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1290814", :firefox do
+    it "raises an error when trying to interact with a closed browser" do
+      b = WatirSpec.new_browser
+      b.goto WatirSpec.url_for "definition_lists.html"
+      b.close
 
-    expect { b.dl(id: "experience-list").id }.to raise_error(Watir::Exception::Error, "browser was closed")
+      expect { b.dl(id: "experience-list").id }.to raise_error(Watir::Exception::Error, "browser was closed")
+    end
   end
 
   describe "#wait_while" do

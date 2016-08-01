@@ -5,16 +5,16 @@ Bundler::GemHelper.install_tasks
 
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec) do |spec|
-  spec.ruby_opts  = "-I lib:spec"
+  spec.ruby_opts = "-I lib:spec"
   spec.rspec_opts = %w[--color --require fuubar --format Fuubar]
-  spec.pattern    = 'spec/**/*_spec.rb'
+  spec.pattern = 'spec/**/*_spec.rb'
 end
 
 namespace :spec do
   RSpec::Core::RakeTask.new(:html) do |spec|
-    spec.ruby_opts  = "-I lib:spec"
+    spec.ruby_opts = "-I lib:spec"
     spec.rspec_opts = "--format html --out #{ENV["SPEC_REPORT"] || "specs.html"}"
-    spec.pattern    = 'spec/**/*_spec.rb'
+    spec.pattern = 'spec/**/*_spec.rb'
   end
 end
 
@@ -129,6 +129,7 @@ namespace :spec do
   desc 'Run specs locally for all browsers'
   task browsers: [:chrome,
                   :firefox,
+                  :ff_legacy,
                   :phantomjs,
                   (:safari if Selenium::WebDriver::Platform.os == :macosx),
                   (:ie if Selenium::WebDriver::Platform.os == :windows),
@@ -136,13 +137,14 @@ namespace :spec do
 
   desc 'Run specs remotely for all browsers'
   task remote_browsers: [:remote_chrome,
-             :remote_firefox,
-             :remote_phantomjs,
-             (:remote_safari if Selenium::WebDriver::Platform.os == :macosx),
-             (:remote_ie if Selenium::WebDriver::Platform.os == :windows),
-             (:remote_edge if Selenium::WebDriver::Platform.os == :windows)].compact
+                         :remote_firefox,
+                         :remote_ff_legacy,
+                         :remote_phantomjs,
+                         (:remote_safari if Selenium::WebDriver::Platform.os == :macosx),
+                         (:remote_ie if Selenium::WebDriver::Platform.os == :windows),
+                         (:remote_edge if Selenium::WebDriver::Platform.os == :windows)].compact
 
-  %w(firefox marionette chrome safari phantomjs ie edge).each do |browser|
+  %w(firefox ff_legacy chrome safari phantomjs ie edge).each do |browser|
     desc "Run specs in #{browser}"
     task browser do
       ENV['WATIR_BROWSER'] = browser

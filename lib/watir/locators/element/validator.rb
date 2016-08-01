@@ -11,7 +11,8 @@ module Watir
           end
 
           if element_tag_name == 'input'
-            return if selector[:type] && selector[:type] != element.attribute(:type)
+            # TODO - Verify this is desired behavior based on https://bugzilla.mozilla.org/show_bug.cgi?id=1290963
+            return if selector[:type] && selector[:type] != element.attribute(:type).downcase
           end
 
           element

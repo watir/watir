@@ -68,6 +68,8 @@ module Watir
 
     def define_string_attribute(mname, aname)
       define_method mname do
+        # final w3c likely will not support className
+        aname = :class if mname == :class_name
         attribute_value(aname).to_s
       end
     end
