@@ -109,7 +109,7 @@ describe "FileField" do
   # Manipulation methods
 
   describe "#set" do
-    not_compliant_on :iphone, :safari do
+    not_compliant_on :safari do
       bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1260233", :firefox do
         bug "https://github.com/detro/ghostdriver/issues/183", :phantomjs do
           it "is able to set a file path in the field and click the upload button and fire the onchange event" do
@@ -138,7 +138,7 @@ describe "FileField" do
 
 
   bug "https://github.com/detro/ghostdriver/issues/183", :phantomjs do
-    not_compliant_on :iphone, :safari do
+    not_compliant_on :safari do
       bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1260233", :firefox do
         describe "#value=" do
           it "is able to set a file path in the field and click the upload button and fire the onchange event" do

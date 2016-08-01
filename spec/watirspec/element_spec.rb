@@ -300,8 +300,7 @@ describe "Element" do
         expect(events).to eq 10
       end
 
-      # key combinations probably not ever possible on mobile devices?
-      bug "http://code.google.com/p/chromium/issues/detail?id=93879", :chrome, :iphone do
+      bug "http://code.google.com/p/chromium/issues/detail?id=93879", :chrome do
         not_compliant_on :safari do
           it 'performs key combinations' do
             receiver.send_keys 'foo'

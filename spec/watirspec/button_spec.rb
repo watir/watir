@@ -133,7 +133,7 @@ describe "Button" do
   end
 
   describe "#style" do
-    not_compliant_on :internet_explorer, :iphone, :safari do
+    not_compliant_on :internet_explorer, :safari do
       it "returns the style attribute if the button exists" do
         expect(browser.button(id: 'delete_user_submit').style).to eq "border: 4px solid red;"
       end
@@ -142,15 +142,6 @@ describe "Button" do
     deviates_on :safari do
       it "returns the style attribute if the button exists" do
         expect(browser.button(id: 'delete_user_submit').style).to eq "border: 4px solid red;"
-      end
-    end
-
-    deviates_on :iphone do
-      it "returns the style attribute if the button exists" do
-        style = browser.button(id: 'delete_user_submit').style
-        expect(style).to include("border-top-width: 4px;")
-        expect(style).to include("border-left-style: solid;")
-        expect(style).to include("border-right-color: red;")
       end
     end
 

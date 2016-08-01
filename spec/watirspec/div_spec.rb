@@ -152,7 +152,7 @@ describe "Div" do
     end
   end
 
-  not_compliant_on :iphone, :safari do
+  not_compliant_on :safari do
     bug "Actions Endpoint Not Yet Implemented", :firefox do
       describe "#double_click" do
         it "fires the ondblclick event" do

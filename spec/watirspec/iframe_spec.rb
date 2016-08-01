@@ -159,11 +159,9 @@ describe "IFrame" do
   end
 
   describe "#html" do
-    not_compliant_on :iphone do
-      it "returns the full HTML source of the iframe" do
-        browser.goto WatirSpec.url_for("iframes.html")
-        expect(browser.iframe.html.downcase).to include("<title>iframe 1</title>")
-      end
+    it "returns the full HTML source of the iframe" do
+      browser.goto WatirSpec.url_for("iframes.html")
+      expect(browser.iframe.html.downcase).to include("<title>iframe 1</title>")
     end
   end
 

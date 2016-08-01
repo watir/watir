@@ -75,7 +75,7 @@ describe "Browser::AfterHooks" do
       end
     end
 
-    not_compliant_on :iphone, :safari do
+    not_compliant_on :safari do
       bug "Actions Endpoint Not Yet Implemented", :firefox do
         it "runs after_hooks after Element#double_click" do
           browser.goto(WatirSpec.url_for("non_control_elements.html"))
