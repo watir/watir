@@ -104,7 +104,7 @@ describe Watir::Element do
 
   bug "Actions Endpoint Not Yet Implemented", :firefox do
     describe "#hover" do
-      not_compliant_on :internet_explorer, :iphone, :safari do
+      not_compliant_on :internet_explorer, :safari do
         it "should hover over the element" do
           browser.goto WatirSpec.url_for('hover.html')
           link = browser.a
