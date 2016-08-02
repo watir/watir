@@ -1,3 +1,6 @@
+### 0.9.9 (2016-08-01)
+* Final release as watir-webdriver
+
 ### 0.9.3 (2016-07-31)
 
 * Fix warning message for untyped text field (#434)

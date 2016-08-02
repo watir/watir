@@ -12,6 +12,12 @@ Gem::Specification.new do |s|
   s.summary     = %q{Watir on WebDriver}
   s.description = %q{WebDriver-backed Watir}
   s.license     = 'MIT'
+  s.post_install_message = <<-POST_INSTALL_MESSAGE
+
+With the release of Watir 6.0, the watir-webdriver gem has changed its name
+to watir. Update your dependencies to use "watir", "~> 6.0"
+
+  POST_INSTALL_MESSAGE
 
   s.rubyforge_project = "watir-webdriver"
 
