@@ -58,6 +58,8 @@ class ImplementationConfig
 
   def set_browser_args
     args = case browser
+           when :firefox
+             firefox_args
            when :ff_legacy
              ff_legacy_args
            when :chrome
@@ -65,7 +67,7 @@ class ImplementationConfig
            when :remote
              remote_args
            else
-             {}
+             {desired_capabilities: Selenium::WebDriver::Remote::Capabilities.send(browser)}
            end
 
     if ENV['SELECTOR_STATS']
@@ -118,8 +120,7 @@ class ImplementationConfig
 
     if !Selenium::WebDriver::Platform.linux? || ENV['DESKTOP_SESSION']
       # some specs (i.e. Window#maximize) needs a window manager on linux
-      matching_guards << [matching_browser, :window_manager]
-      matching_guards << [matching_browser_with_version, :window_manager]
+      matching_guards << :window_manager
     end
 
     @imp.guard_proc = lambda { |args|
@@ -129,15 +130,24 @@ class ImplementationConfig
     browser_instance.close if browser_instance
   end
 
+  def firefox_args
+    path = ENV['FIREFOX_BINARY']
+    Selenium::WebDriver::Firefox::Binary.path = path if path
+    {desired_capabilities: Selenium::WebDriver::Remote::Capabilities.firefox}
+  end
+
   def ff_legacy_args
     @browser = :firefox
     @ff_legacy = true
     caps = Selenium::WebDriver::Remote::Capabilities.firefox(marionette: false)
+    path = ENV['FF_LEGACY_BINARY']
+    Selenium::WebDriver::Firefox::Binary.path = path if path
     {desired_capabilities: caps}
   end
 
   def chrome_args
-    opts = {args: ["--disable-translate"]}
+    opts = {args: ["--disable-translate"],
+            desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome}
 
     if url = ENV['WATIR_CHROME_SERVER']
       opts[:url] = url
@@ -162,9 +172,14 @@ class ImplementationConfig
     url = ENV["REMOTE_SERVER_URL"] || "http://127.0.0.1:#{@server.port}/wd/hub"
     opts = {}
     if remote_browser == :ff_legacy
+      path = ENV['FF_LEGACY_BINARY']
+      opts[:firefox_binary] = path if path
       @remote_browser = :firefox
       @ff_legacy = true
       opts[:marionette] = false
+    elsif remote_browser == :firefox
+      path = ENV['FIREFOX_BINARY']
+      opts[:firefox_binary] = path if path
     end
 
     caps = Selenium::WebDriver::Remote::Capabilities.send(remote_browser, opts)
