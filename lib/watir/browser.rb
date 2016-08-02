@@ -282,42 +282,6 @@ module Watir
     end
 
     #
-    # @deprecated Use `Watir::AfterHooks#add` instead
-    #
-
-    def add_checker(checker = nil, &block)
-      warn 'Browser#add_checker is deprecated. Use Browser#after_hooks#add instead.'
-      @after_hooks.add(checker, &block)
-    end
-
-    #
-    # @deprecated Use `Watir::AfterHooks#delete` instead
-    #
-
-    def disable_checker(checker)
-      warn 'Browser#disable_checker is deprecated. Use Browser#after_hooks#delete instead.'
-      @after_hooks.delete(checker)
-    end
-
-    #
-    # @deprecated Use `Watir::AfterHooks#run` instead
-    #
-
-    def run_checkers
-      warn 'Browser#run_checkers is deprecated. Use Browser#after_hooks#run instead.'
-      @after_hooks.run
-    end
-
-    #
-    # @deprecated Use `Watir::AfterHooks#without` instead
-    #
-
-    def without_checkers(&block)
-      warn 'Browser#without_checkers is deprecated. Use Browser#after_hooks#without instead.'
-      @after_hooks.without(&block)
-    end
-
-    #
     # Returns true if browser is not closed and false otherwise.
     #
     # @return [Boolean]

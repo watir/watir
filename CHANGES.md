@@ -4,7 +4,8 @@
 * Require Selenium > 3.0.0.beta1
 * Default browser in Watir is now Chrome
 * Default implementation for Firefox is with geckodriver
-
+* Remove deprecated alerts helpers
+* Remove deprecated checkers
 
 ### 0.9.9 (2016-08-01)
 * Final release as watir-webdriver
