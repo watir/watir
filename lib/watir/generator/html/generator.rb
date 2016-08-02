@@ -11,7 +11,7 @@ module Watir
 
       def ignored_interfaces
         ignored = ignored_tags.map { |tag| "HTML#{tag.capitalize}Element" }
-        # frame is implemented manually, see https://github.com/watir/watir-webdriver/issues/204
+        # frame is implemented manually, see https://github.com/watir/watir/issues/204
         ignored << 'HTMLFrameElement'
       end
 

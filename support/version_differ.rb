@@ -33,15 +33,15 @@ class VersionDiffer
     require 'open-uri'
     require 'multi_json'
 
-    versions = MultiJson.decode(open("https://rubygems.org/api/v1/versions/watir-webdriver.json").read)
+    versions = MultiJson.decode(open("https://rubygems.org/api/v1/versions/watir.json").read)
     versions.map! { |e| e.fetch('number')}
   end
 
   def diff(old_version, new_version)
     puts "diffing #{old_version} -> #{new_version}"
 
-    left = "watir-webdriver-#{old_version}.gem"
-    right = new_version == "." ? new_version : "watir-webdriver-#{new_version}.gem"
+    left = "watir-#{old_version}.gem"
+    right = new_version == "." ? new_version : "watir-#{new_version}.gem"
 
     str = StringIO.new
     str.puts "#{new_version}"

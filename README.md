@@ -3,17 +3,17 @@ watir
 
 Watir Powered By Selenium!
 
-[![Gem Version](https://badge.fury.io/rb/watir-webdriver.svg)](http://badge.fury.io/rb/watir-webdriver)
-[![Build Status](https://travis-ci.org/watir/watir-webdriver.svg?branch=master)](https://travis-ci.org/watir/watir-webdriver)
-[![Code Climate](https://codeclimate.com/github/watir/watir-webdriver.svg)](https://codeclimate.com/github/watir/watir-webdriver)
-[![Dependency Status](https://gemnasium.com/watir/watir-webdriver.svg)](https://gemnasium.com/watir/watir-webdriver)
-[![Coverage Status](https://coveralls.io/repos/watir/watir-webdriver/badge.svg?branch=master)](https://coveralls.io/r/watir/watir-webdriver)
+[![Gem Version](https://badge.fury.io/rb/watir.svg)](http://badge.fury.io/rb/watir)
+[![Build Status](https://travis-ci.org/watir/watir.svg?branch=master)](https://travis-ci.org/watir/watir)
+[![Code Climate](https://codeclimate.com/github/watir/watir.svg)](https://codeclimate.com/github/watir/watir)
+[![Dependency Status](https://gemnasium.com/watir/watir.svg)](https://gemnasium.com/watir/watir)
+[![Coverage Status](https://coveralls.io/repos/watir/watir/badge.svg?branch=master)](https://coveralls.io/r/watir/watir)
 
 Example
 -------
 
 ```ruby
-require 'watir-webdriver'
+require 'watir'
 
 browser = Watir::Browser.new
 browser.goto 'google.com'
@@ -58,7 +58,7 @@ rake yard:doctest
 API docs
 --------
 
-* http://rdoc.info/gems/watir-webdriver/ (updated on every release)
+* http://rdoc.info/gems/watir/ (updated on every release)
 
 See also
 --------

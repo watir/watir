@@ -59,7 +59,7 @@ module Watir
               'normalize-space(@href)'
             when :type
               # type attributes can be upper case - downcase them
-              # https://github.com/watir/watir-webdriver/issues/72
+              # https://github.com/watir/watir/issues/72
               XpathSupport.downcase('@type')
             else
               "@#{key.to_s.tr("_", "-")}"
