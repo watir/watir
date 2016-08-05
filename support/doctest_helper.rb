@@ -29,7 +29,7 @@ YARD::Doctest.configure do |doctest|
   doctest.skip 'Watir::Window#size'
   doctest.skip 'Watir::Window#position'
 
-  %w[text ok close exists?].each do |name|
+  %w[text ok close exists? present?].each do |name|
     doctest.before("Watir::Alert##{name}") do
       browser.goto WatirSpec.url_for('alerts.html')
       browser.button(id: 'alert').click
@@ -51,7 +51,7 @@ YARD::Doctest.configure do |doctest|
     browser.goto WatirSpec.url_for('non_control_elements.html')
   end
 
-  %w[inner_html outer_html].each do |name|
+  %w[inner_html outer_html html].each do |name|
     doctest.before("Watir::Element##{name}") do
       browser.goto WatirSpec.url_for('inner_outer.html')
     end
