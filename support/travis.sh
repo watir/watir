@@ -11,7 +11,7 @@ if [[ "$RAKE_TASK" = "yard:doctest" ]]; then
   bundle exec yard config -a autoload_plugins yard-doctest
 fi
 
-if [[ "$RAKE_TASK" = "spec:chrome" ]]; then
+if [[ "$RAKE_TASK" = "spec:chrome" ]] || [[ "$RAKE_TASK" = "yard:doctest" ]]; then
   # https://omahaproxy.appspot.com
   # https://commondatastorage.googleapis.com/chromium-browser-snapshots/index.html?prefix=Linux_x64/
   CHROME_REVISION=386257

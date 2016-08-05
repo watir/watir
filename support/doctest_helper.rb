@@ -3,13 +3,21 @@ require 'spec/watirspec/lib/watirspec'
 
 #
 # 1. If example does not start browser, start new one, reuse until example
-#    finishes and close after
+#    finishes and close after.
 # 2. If example starts browser and assigns it to local variable `browser`,
-#    it will still be closed
+#    it will still be closed.
 #
 
 def browser
-  @browser ||= Watir::Browser.start(WatirSpec.url_for('forms_with_input_elements.html'))
+  @browser ||= begin
+    opts = {}
+    opts[:args] = ['--no-sandbox'] if ENV['TRAVIS']
+
+    browser = Watir::Browser.new(:chrome, opts)
+    browser.goto WatirSpec.url_for('forms_with_input_elements.html')
+
+    browser
+  end
 end
 
 YARD::Doctest.configure do |doctest|
@@ -64,4 +72,7 @@ end
 
 if ENV['TRAVIS']
   ENV['DISPLAY'] = ':99.0'
+
+  Selenium::WebDriver::Chrome.path = File.expand_path 'chrome-linux/chrome'
+  Selenium::WebDriver::Chrome.driver_path = File.expand_path 'chrome-linux/chromedriver'
 end

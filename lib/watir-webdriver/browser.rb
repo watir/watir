@@ -18,7 +18,7 @@ module Watir
       # Creates a Watir::Browser instance and goes to URL.
       #
       # @example
-      #   browser = Watir::Browser.start "www.google.com", :firefox
+      #   browser = Watir::Browser.start "www.google.com", :phantomjs
       #   #=> #<Watir::Browser:0x..fa45a499cb41e1752 url="http://www.google.com" title="Google">
       #
       # @param [String] url
@@ -152,9 +152,9 @@ module Watir
     # Returns browser name.
     #
     # @example
-    #   browser = Watir::Browser.new :firefox
+    #   browser = Watir::Browser.new :phantomjs
     #   browser.name
-    #   #=> :firefox
+    #   #=> :phantomjs
     #
     # @return [Symbol]
     #
