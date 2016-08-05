@@ -245,6 +245,17 @@ module Watir
     end
 
     #
+    # Scrolls page until element is in view
+    #
+    # @example
+    #   browser.div(id: "scroll_to").scroll_into_view
+    #
+
+    def scroll_into_view
+      wd.location_once_scrolled_into_view
+    end
+
+    #
     # Returns value of the element.
     #
     # @return [String]
