@@ -59,7 +59,10 @@ describe "Browser::AfterHooks" do
 
     it "runs after_hooks after Element#click" do
       browser.goto(WatirSpec.url_for("non_control_elements.html"))
-      @page_after_hook = Proc.new { @yield = browser.title == "Non-control elements" }
+      @page_after_hook = Proc.new do
+        Watir::Wait.while { browser.title.empty? }
+        @yield = browser.title == "Non-control elements"
+      end
       browser.after_hooks.add @page_after_hook
       browser.link(index: 1).click
       expect(@yield).to be true

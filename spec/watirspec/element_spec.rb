@@ -158,10 +158,14 @@ describe "Element" do
     end
   end
 
-  describe "#focused?" do
-    it "knows if the element is focused" do
-      expect(browser.element(id: 'new_user_first_name')).to be_focused
-      expect(browser.element(id: 'new_user_last_name')).to_not be_focused
+  bug "https://github.com/SeleniumHQ/selenium/issues/2555", %i(remote firefox) do
+    bug "https://github.com/SeleniumHQ/selenium/issues/1795", %i(remote edge) do
+      describe "#focused?" do
+        it "knows if the element is focused" do
+          expect(browser.element(id: 'new_user_first_name')).to be_focused
+          expect(browser.element(id: 'new_user_last_name')).to_not be_focused
+        end
+      end
     end
   end
 

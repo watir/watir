@@ -76,17 +76,9 @@ describe "Browser" do
     end
   end
 
-  describe "#name" do
-    it "returns browser name" do
-      not_compliant_on :remote, :phantomjs do
-        expect(browser.name).to eq WatirSpec.implementation.browser_args[0]
-      end
-
-      deviates_on :phantomjs do
-        expect(browser.name).to be_an_instance_of(Symbol)
-      end
-
-      deviates_on :remote do
+  bug "Capitalization bug fixed in upcoming release", %i(remote firefox) do
+    describe "#name" do
+      it "returns browser name" do
         expect(browser.name).to eq WatirSpec.implementation.browser_args[1][:desired_capabilities].browser_name.to_sym
       end
     end
@@ -114,13 +106,13 @@ describe "Browser" do
   describe "#url" do
     it "returns the current url" do
       browser.goto(WatirSpec.url_for("non_control_elements.html"))
-      expect(browser.url).to eq WatirSpec.url_for("non_control_elements.html")
+      expect(browser.url.casecmp(WatirSpec.url_for("non_control_elements.html"))).to eq 0
     end
 
     it "always returns top url" do
       browser.goto(WatirSpec.url_for("frames.html"))
       browser.frame.body.exists? # switches to frame
-      expect(browser.url).to eq WatirSpec.url_for("frames.html")
+      expect(browser.url.casecmp(WatirSpec.url_for("frames.html"))).to eq 0
     end
   end
 

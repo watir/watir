@@ -97,7 +97,7 @@ module WatirSpec
     set :static,        true
     set :run,           false
     set :environment,   :production
-    set :bind,          "localhost" if WatirSpec.platform == :windows
+    set :bind,          "127.0.0.1" if WatirSpec.platform == :windows
     set :port,          pick_port_above(8180)
     set :server,        "webrick"
 

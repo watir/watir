@@ -162,10 +162,12 @@ describe "FileField" do
               expect(browser.file_field.value).to include(File.basename(expected)) # only some browser will return the full path
             end
 
-            it "does not alter its argument" do
-              value = '/foo/bar'
-              browser.file_field.value = value
-              expect(value).to eq '/foo/bar'
+            not_compliant_on %i(chrome windows) do
+              it "does not alter its argument" do
+                value = '/foo/bar'
+                browser.file_field.value = value
+                expect(value).to eq '/foo/bar'
+              end
             end
           end
         end

@@ -367,14 +367,14 @@ not_compliant_on :safari do
       it "should resize the window" do
         initial_size = browser.window.size
         browser.window.resize_to(
-          initial_size.width - 10,
-          initial_size.height - 10
+          initial_size.width - 20,
+          initial_size.height - 20
         )
 
         new_size = browser.window.size
 
-        expect(new_size.width).to eq initial_size.width - 10
-        expect(new_size.height).to eq initial_size.height - 10
+        expect(new_size.width).to eq initial_size.width - 20
+        expect(new_size.height).to eq initial_size.height - 20
       end
 
       not_compliant_on :firefox do
@@ -383,18 +383,18 @@ not_compliant_on :safari do
             initial_pos = browser.window.position
 
             browser.window.move_to(
-              initial_pos.x + 10,
-              initial_pos.y + 10
+              initial_pos.x + 2,
+              initial_pos.y + 2
             )
 
             new_pos = browser.window.position
-            expect(new_pos.x).to eq initial_pos.x + 10
-            expect(new_pos.y).to eq initial_pos.y + 10
+            expect(new_pos.x).to eq initial_pos.x + 2
+            expect(new_pos.y).to eq initial_pos.y + 2
           end
         end
       end
 
-      compliant_on %i(firefox window_manager) do
+      compliant_on :window_manager do
         it "should maximize the window" do
           initial_size = browser.window.size
 
@@ -408,5 +408,4 @@ not_compliant_on :safari do
       end
     end
   end
-
 end
