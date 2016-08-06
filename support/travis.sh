@@ -26,10 +26,19 @@ if [[ "$RAKE_TASK" = "spec:chrome" ]] || [[ "$RAKE_TASK" = "yard:doctest" ]]; th
   chmod +x chrome-linux/chromedriver
 fi
 
+if [[ "$RAKE_TASK" = "spec:firefox" ]]; then
+  curl -L -O "http://raw.githubusercontent.com/watir/driver_binaries/master/geckodriver"
+  chmod +x geckodriver
+
+  mv geckodriver travis-drivers/geckodriver
+  geckodriver --version
+  firefox --version
+fi
+
 if [[ "$RAKE_TASK" = "spec:phantomjs" ]]; then
-  curl -L -O "https://bintray.com/artifact/download/tfortner/phantomjs-clone/p/phantomjs"
+  curl -L -O "http://raw.githubusercontent.com/watir/driver_binaries/master/phantomjs"
   chmod +x phantomjs
 
-  mv phantomjs travis-phantomjs/phantomjs
+  mv phantomjs travis-drivers/phantomjs
   phantomjs --version
 fi
