@@ -47,7 +47,7 @@ WRITE ME
 
 - what guards are available (bug, not\_compliant, deviates\_on, ...)
 - setting a custom guard proc
-    (example in http://github.com/watir/watir-webdriver/blob/master/spec/implementation.rb)
+    (example in http://github.com/watir/watir/blob/master/spec/implementation.rb)
 
 Where
 =====
