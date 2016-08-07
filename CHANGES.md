@@ -1,7 +1,10 @@
+### 6.0.0.beta3 (2016-08-07)
+
+* Deprecate `require "watir-webdriver"` in favor of `require "watir"`
+
 ### 6.0.0.beta2 (2016-08-06)
 
 * Support projects with files using `require "watir-webdriver"`
-* Deprecate `require "watir-webdriver"` in favor of `require "watir"`
 
 ### 6.0.0.beta1 (2016-08-06)
 
