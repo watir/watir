@@ -152,9 +152,9 @@ module Watir
     # Returns browser name.
     #
     # @example
-    #   browser = Watir::Browser.new :chrome
+    #   browser = Watir::Browser.new :phantomjs
     #   browser.name
-    #   #=> :chrome
+    #   #=> :phantomjs
     #
     # @return [Symbol]
     #
