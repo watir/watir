@@ -61,10 +61,8 @@ describe "Label" do
   end
 
   describe "#for" do
-    bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1260233", :firefox do
-      it "returns the 'for' attribute if the label exists" do
-        expect(browser.label(index: 0).for).to eq "new_user_first_name"
-      end
+    it "returns the 'for' attribute if the label exists" do
+      expect(browser.label(index: 0).for).to eq "new_user_first_name"
     end
 
     it "raises UnknownObjectException if the label doesn't exist" do

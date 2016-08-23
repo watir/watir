@@ -56,11 +56,9 @@ describe "TableCell" do
   end
 
   describe "#colspan" do
-    bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1260233", :firefox do
-      it "gets the colspan attribute" do
-        expect(browser.td(id: 'colspan_2').colspan).to eq 2
-        expect(browser.td(id: 'no_colspan').colspan).to eq 1
-      end
+    it "gets the colspan attribute" do
+      expect(browser.td(id: 'colspan_2').colspan).to eq 2
+      expect(browser.td(id: 'no_colspan').colspan).to eq 1
     end
   end
 

@@ -115,7 +115,7 @@ describe "FileField" do
           it "is able to set a file path in the field and click the upload button and fire the onchange event" do
             browser.goto WatirSpec.url_for("forms_with_input_elements.html")
 
-            path    = File.expand_path(__FILE__)
+            path = File.expand_path(__FILE__)
             element = browser.file_field(name: "new_user_portrait")
 
             element.set path
@@ -139,12 +139,12 @@ describe "FileField" do
 
   bug "https://github.com/detro/ghostdriver/issues/183", :phantomjs do
     not_compliant_on :safari do
-      bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1260233", :firefox do
         describe "#value=" do
-          it "is able to set a file path in the field and click the upload button and fire the onchange event" do
+          bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1260233", :firefox do
+            it "is able to set a file path in the field and click the upload button and fire the onchange event" do
             browser.goto WatirSpec.url_for("forms_with_input_elements.html")
 
-            path    = File.expand_path(__FILE__)
+            path = File.expand_path(__FILE__)
             element = browser.file_field(name: "new_user_portrait")
 
             element.value = path
@@ -152,21 +152,25 @@ describe "FileField" do
           end
 
           not_compliant_on :internet_explorer do
-            it "does not raise an error if the file does not exist" do
-              path = File.join(Dir.tmpdir, 'unlikely-to-exist')
-              browser.file_field.value = path
+            bug "Raises File not found error - File Bug Report", :firefox do
+              it "does not raise an error if the file does not exist" do
+                path = File.join(Dir.tmpdir, 'unlikely-to-exist')
+                browser.file_field.value = path
 
-              expected = path
-              expected.gsub!("/", "\\") if WatirSpec.platform == :windows
+                expected = path
+                expected.gsub!("/", "\\") if WatirSpec.platform == :windows
 
-              expect(browser.file_field.value).to include(File.basename(expected)) # only some browser will return the full path
+                expect(browser.file_field.value).to include(File.basename(expected)) # only some browser will return the full path
+              end
             end
 
             not_compliant_on %i(chrome windows) do
-              it "does not alter its argument" do
-                value = '/foo/bar'
-                browser.file_field.value = value
-                expect(value).to eq '/foo/bar'
+              bug "Raises File not found error - File Bug Report", :firefox do
+                it "does not alter its argument" do
+                  value = '/foo/bar'
+                  browser.file_field.value = value
+                  expect(value).to eq '/foo/bar'
+                end
               end
             end
           end

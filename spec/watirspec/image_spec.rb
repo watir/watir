@@ -145,7 +145,7 @@ describe "Image" do
   end
 
   # Other
-  bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1260233", :firefox do
+  bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1297339", :firefox do
     describe "#loaded?" do
       it "returns true if the image has been loaded" do
         expect(browser.image(title: 'Circle')).to be_loaded

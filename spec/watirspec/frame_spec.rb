@@ -11,15 +11,13 @@ describe "Frame" do
     browser.goto(WatirSpec.url_for("frames.html"))
   end
 
-  bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1260233", :firefox do
-    it "handles crossframe javascript" do
-      browser.goto WatirSpec.url_for("frames.html", needs_server: true)
+  it "handles crossframe javascript" do
+    browser.goto WatirSpec.url_for("frames.html", needs_server: true)
 
-      expect(browser.frame(id: "frame_1").text_field(name: 'senderElement').value).to eq 'send_this_value'
-      expect(browser.frame(id: "frame_2").text_field(name: 'recieverElement').value).to eq 'old_value'
-      browser.frame(id: "frame_1").button(id: 'send').click
-      expect(browser.frame(id: "frame_2").text_field(name: 'recieverElement').value).to eq 'send_this_value'
-    end
+    expect(browser.frame(id: "frame_1").text_field(name: 'senderElement').value).to eq 'send_this_value'
+    expect(browser.frame(id: "frame_2").text_field(name: 'recieverElement').value).to eq 'old_value'
+    browser.frame(id: "frame_1").button(id: 'send').click
+    expect(browser.frame(id: "frame_2").text_field(name: 'recieverElement').value).to eq 'send_this_value'
   end
 
   describe "#exist?" do
@@ -94,11 +92,9 @@ describe "Frame" do
     expect { browser.frame(index: 0).foo }.to raise_error(NoMethodError)
   end
 
-  bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1260233", :firefox do
-    it "is able to set a field" do
-      browser.frame(index: 0).text_field(name: 'senderElement').set("new value")
-      expect(browser.frame(index: 0).text_field(name: 'senderElement').value).to eq "new value"
-    end
+  it "is able to set a field" do
+    browser.frame(index: 0).text_field(name: 'senderElement').set("new value")
+    expect(browser.frame(index: 0).text_field(name: 'senderElement').value).to eq "new value"
   end
 
   it "can access the frame's parent element after use" do

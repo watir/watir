@@ -32,10 +32,8 @@ describe "TextField" do
       expect(browser.text_field).to exist
     end
 
-    bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1260233", :firefox do
-      it "respects text fields types" do
-        expect(browser.text_field.type).to eq('text')
-      end
+    it "respects text fields types" do
+      expect(browser.text_field.type).to eq('text')
     end
 
     it "returns true if the element exists (no type attribute)" do
@@ -114,23 +112,21 @@ describe "TextField" do
     end
   end
 
-  bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1260233", :firefox do
-    describe "#type" do
-      it "returns the type attribute if the text field exists" do
-        expect(browser.text_field(index: 3).type).to eq "text"
-      end
+  describe "#type" do
+    it "returns the type attribute if the text field exists" do
+      expect(browser.text_field(index: 3).type).to eq "text"
+    end
 
-      it "returns 'text' if the type attribute is invalid" do
-        expect(browser.text_field(id: 'new_user_last_name').type).to eq "text"
-      end
+    it "returns 'text' if the type attribute is invalid" do
+      expect(browser.text_field(id: 'new_user_last_name').type).to eq "text"
+    end
 
-      it "returns 'text' if the type attribute does not exist" do
-        expect(browser.text_field(id: 'new_user_first_name').type).to eq "text"
-      end
+    it "returns 'text' if the type attribute does not exist" do
+      expect(browser.text_field(id: 'new_user_first_name').type).to eq "text"
+    end
 
-      it "raises UnknownObjectException if the text field doesn't exist" do
-        expect { browser.text_field(index: 1337).type }.to raise_error(Watir::Exception::UnknownObjectException)
-      end
+    it "raises UnknownObjectException if the text field doesn't exist" do
+      expect { browser.text_field(index: 1337).type }.to raise_error(Watir::Exception::UnknownObjectException)
     end
   end
 
@@ -206,24 +202,18 @@ describe "TextField" do
 
   # Manipulation methods
   describe "#append" do
-    bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1260233", :firefox do
-      it "appends the text to the text field" do
-        browser.text_field(name: "new_user_occupation").append(" Append This")
-        expect(browser.text_field(name: "new_user_occupation").value).to eq "Developer Append This"
-      end
+    it "appends the text to the text field" do
+      browser.text_field(name: "new_user_occupation").append(" Append This")
+      expect(browser.text_field(name: "new_user_occupation").value).to eq "Developer Append This"
     end
 
-    bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1260233", :firefox do
-      it "appends multi-byte characters" do
-        browser.text_field(name: "new_user_occupation").append(" ĳĳ")
-        expect(browser.text_field(name: "new_user_occupation").value).to eq "Developer ĳĳ"
-      end
+    it "appends multi-byte characters" do
+      browser.text_field(name: "new_user_occupation").append(" ĳĳ")
+      expect(browser.text_field(name: "new_user_occupation").value).to eq "Developer ĳĳ"
     end
 
-    bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1200366", :firefox do
-      it "raises ObjectReadOnlyException if the object is read only" do
-        expect { browser.text_field(id: "new_user_code").append("Append This") }.to raise_error(Watir::Exception::ObjectReadOnlyException)
-      end
+    it "raises ObjectReadOnlyException if the object is read only" do
+      expect { browser.text_field(id: "new_user_code").append("Append This") }.to raise_error(Watir::Exception::ObjectReadOnlyException)
     end
 
     it "raises ObjectDisabledException if the object is disabled" do
@@ -236,13 +226,11 @@ describe "TextField" do
   end
 
   describe "#clear" do
-    bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1260233", :firefox do
-      it "removes all text from the text field" do
-        browser.text_field(name: "new_user_occupation").clear
-        expect(browser.text_field(name: "new_user_occupation").value).to be_empty
-        browser.textarea(id: "delete_user_comment").clear
-        expect(browser.textarea(id: "delete_user_comment").value).to be_empty
-      end
+    it "removes all text from the text field" do
+      browser.text_field(name: "new_user_occupation").clear
+      expect(browser.text_field(name: "new_user_occupation").value).to be_empty
+      browser.textarea(id: "delete_user_comment").clear
+      expect(browser.textarea(id: "delete_user_comment").value).to be_empty
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -256,64 +244,60 @@ describe "TextField" do
     end
   end
 
-  bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1260233", :firefox do
-    describe "#value=" do
-      it "sets the value of the element" do
-        browser.text_field(id: 'new_user_email').value = 'Hello Cruel World'
-        expect(browser.text_field(id: "new_user_email").value).to eq 'Hello Cruel World'
-      end
+  describe "#value=" do
+    it "sets the value of the element" do
+      browser.text_field(id: 'new_user_email').value = 'Hello Cruel World'
+      expect(browser.text_field(id: "new_user_email").value).to eq 'Hello Cruel World'
+    end
 
-      it "is able to set multi-byte characters" do
-        browser.text_field(name: "new_user_occupation").value = "ĳĳ"
-        expect(browser.text_field(name: "new_user_occupation").value).to eq "ĳĳ"
-      end
+    it "is able to set multi-byte characters" do
+      browser.text_field(name: "new_user_occupation").value = "ĳĳ"
+      expect(browser.text_field(name: "new_user_occupation").value).to eq "ĳĳ"
+    end
 
-      it "sets the value of a textarea element" do
-        browser.textarea(id: 'delete_user_comment').value = 'Hello Cruel World'
-        expect(browser.textarea(id: "delete_user_comment").value).to eq 'Hello Cruel World'
-      end
+    it "sets the value of a textarea element" do
+      browser.textarea(id: 'delete_user_comment').value = 'Hello Cruel World'
+      expect(browser.textarea(id: "delete_user_comment").value).to eq 'Hello Cruel World'
+    end
 
-      it "raises UnknownObjectException if the text field doesn't exist" do
-        expect { browser.text_field(name: "no_such_name").value = 'yo' }.to raise_error(Watir::Exception::UnknownObjectException)
-      end
+    it "raises UnknownObjectException if the text field doesn't exist" do
+      expect { browser.text_field(name: "no_such_name").value = 'yo' }.to raise_error(Watir::Exception::UnknownObjectException)
     end
   end
 
-  bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1260233", :firefox do
-    describe "#set" do
-      it "sets the value of the element" do
-        browser.text_field(id: 'new_user_email').set('Bye Cruel World')
-        expect(browser.text_field(id: "new_user_email").value).to eq 'Bye Cruel World'
-      end
+  describe "#set" do
+    it "sets the value of the element" do
+      browser.text_field(id: 'new_user_email').set('Bye Cruel World')
+      expect(browser.text_field(id: "new_user_email").value).to eq 'Bye Cruel World'
+    end
 
-      it "sets the value of a textarea element" do
-        browser.textarea(id: 'delete_user_comment').set('Hello Cruel World')
-        expect(browser.textarea(id: "delete_user_comment").value).to eq 'Hello Cruel World'
-      end
+    it "sets the value of a textarea element" do
+      browser.textarea(id: 'delete_user_comment').set('Hello Cruel World')
+      expect(browser.textarea(id: "delete_user_comment").value).to eq 'Hello Cruel World'
+    end
 
-      it "fires events" do
-        browser.text_field(id: "new_user_username").set("Hello World")
-        expect(browser.span(id: "current_length").text).to eq "11"
-      end
+    it "fires events" do
+      browser.text_field(id: "new_user_username").set("Hello World")
+      expect(browser.span(id: "current_length").text).to eq "11"
+    end
 
-      it "sets the value of a password field" do
-        browser.text_field(name: 'new_user_password').set('secret')
-        expect(browser.text_field(name: 'new_user_password').value).to eq 'secret'
-      end
+    it "sets the value of a password field" do
+      browser.text_field(name: 'new_user_password').set('secret')
+      expect(browser.text_field(name: 'new_user_password').value).to eq 'secret'
+    end
 
-      it "sets the value when accessed through the enclosing Form" do
-        browser.form(id: 'new_user').text_field(name: 'new_user_password').set('secret')
-        expect(browser.form(id: 'new_user').text_field(name: 'new_user_password').value).to eq 'secret'
-      end
+    it "sets the value when accessed through the enclosing Form" do
+      browser.form(id: 'new_user').text_field(name: 'new_user_password').set('secret')
+      expect(browser.form(id: 'new_user').text_field(name: 'new_user_password').value).to eq 'secret'
+    end
 
-      it "is able to set multi-byte characters" do
-        browser.text_field(name: "new_user_occupation").set("ĳĳ")
-        expect(browser.text_field(name: "new_user_occupation").value).to eq "ĳĳ"
-      end
+    it "is able to set multi-byte characters" do
+      browser.text_field(name: "new_user_occupation").set("ĳĳ")
+      expect(browser.text_field(name: "new_user_occupation").value).to eq "ĳĳ"
+    end
 
-      it "raises UnknownObjectException if the text field doesn't exist" do
-        expect { browser.text_field(id: "no_such_id").set('secret') }.to raise_error(Watir::Exception::UnknownObjectException)
-      end
+    it "raises UnknownObjectException if the text field doesn't exist" do
+      expect { browser.text_field(id: "no_such_id").set('secret') }.to raise_error(Watir::Exception::UnknownObjectException)
     end
   end
 end
