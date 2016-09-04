@@ -189,7 +189,7 @@ not_compliant_on :safari do
     describe "#wait_until_present" do
       it "it waits until the element appears" do
         browser.a(id: 'show_bar').click
-        browser.div(id: 'bar').wait_until_present(5)
+        expect { browser.div(id: 'bar').wait_until_present(5) }.to_not raise_exception
       end
 
       it "times out if the element doesn't appear" do
@@ -203,12 +203,30 @@ not_compliant_on :safari do
     describe "#wait_while_present" do
       it "waits until the element disappears" do
         browser.a(id: 'hide_foo').click
-        browser.div(id: 'foo').wait_while_present(1)
+        expect { browser.div(id: 'foo').wait_while_present(1) }.to_not raise_exception
       end
 
       it "times out if the element doesn't disappear" do
         expect { browser.div(id: 'foo').wait_while_present(1) }.to raise_error(Watir::Wait::TimeoutError,
           /^timed out after 1 seconds, waiting for (\{:id=>"foo", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"foo"\}) to disappear$/
+        )
+      end
+    end
+
+    describe "#wait_until_stale" do
+      it "waits until the element disappears" do
+        stale_element = browser.a(id: 'foo')
+        stale_element.exists?
+        browser.refresh
+        expect { stale_element.wait_until_stale(1) }.to_not raise_exception
+      end
+
+      it "times out if the element doesn't go stale" do
+
+        element = browser.div(id: 'foo')
+        element.exists?
+        expect { element.wait_until_stale(1) }.to raise_error(Watir::Wait::TimeoutError,
+                                                              /^timed out after 1 seconds, waiting for (\{:id=>"foo", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"foo"\}) to become stale$/
         )
       end
     end
