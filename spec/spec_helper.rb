@@ -11,10 +11,6 @@ require 'rspec'
 
 include Watir
 
-if ENV['ALWAYS_LOCATE'] == "false"
-  Watir.always_locate = false
-end
-
 if ENV['PREFER_CSS']
   Watir.prefer_css = true
 end

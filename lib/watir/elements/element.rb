@@ -407,6 +407,7 @@ module Watir
     # Returns true if this element is present and enabled on the page.
     #
     # @return [Boolean]
+    # @see Watir::Wait
     #
 
     def enabled?
@@ -493,6 +494,21 @@ module Watir
       @query_scope.browser
     end
 
+    #
+    # Returns true if a previously located element is no longer attached to DOM.
+    #
+    # @return [Boolean]
+    # @see Watir::Wait
+    #
+
+    def stale?
+      raise Watir::Exception::Error, "Can not check staleness of unused element" unless @element
+      @element.enabled? # any wire call will check for staleness
+      false
+    rescue Selenium::WebDriver::Error::ObsoleteElementError
+      true
+    end
+
     protected
 
     # Ensure that the element exists, making sure that it is not stale and located if necessary
@@ -508,27 +524,14 @@ module Watir
       assert_element_found
     end
 
-    # Ensure that the element isn't stale, by relocating if it is (unless always_locate = false)
+    # Ensure that the element isn't stale, by relocating if it is
     def ensure_not_stale
+      ensure_context
+
       # Performance shortcut; only need recursive call to ensure context if stale in current context
       return unless stale?
-
-      ensure_context
-      if stale?
-        if Watir.always_locate? && !@selector[:element]
-          @element = locate
-        else
-          reset!
-        end
-      end
+      @element = @selector.key?(:element) ? nil : locate
       assert_element_found
-    end
-
-    def stale?
-      @element.enabled? # any wire call will check for staleness
-      false
-    rescue Selenium::WebDriver::Error::ObsoleteElementError
-      true
     end
 
     def assert_element_found
@@ -617,11 +620,7 @@ module Watir
     def element_call
       yield
     rescue Selenium::WebDriver::Error::StaleElementReferenceError
-      if Watir.always_locate? && !@selector[:element]
-        @element = locate
-      else
-        reset!
-      end
+      @element = @selector.key?(:element) ? nil : locate
       assert_element_found
       retry
     end

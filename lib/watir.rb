@@ -14,20 +14,30 @@ require 'watir/screenshot'
 require 'watir/after_hooks'
 
 module Watir
-  @always_locate = true
 
   class << self
-    def always_locate?
-      @always_locate
-    end
 
     #
-    # Whether or not Watir should cache element references or always re-locate an Element on use.
+    # Whether or not Watir should re-locate a stale Element on use.
     # Defaults to true.
     #
 
-    def always_locate=(bool)
-      @always_locate = bool
+    def always_locate?
+      always_locate_message
+      true
+    end
+
+    def always_locate=(_bool)
+      always_locate_message
+    end
+
+    def always_locate_message
+      warn <<-EOS
+Watir#always_locate is deprecated; elements are always cached and will always
+be re-located if they go stale before use.
+Use Element#stale? or Element#wait_until_stale if needed for flow control.
+      EOS
+
     end
 
     def default_timeout

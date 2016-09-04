@@ -93,11 +93,7 @@ describe Watir::Element do
         watir_element.send(:element_call) { watir_element.instance_variable_get('@element').text }
       end
 
-      if Watir.always_locate?
-        expect { watir_element.text }.to_not raise_error
-      else
-        expect { watir_element.text }.to raise_error Watir::Exception::UnknownObjectException
-      end
+      expect { watir_element.text }.to_not raise_error
     end
 
   end
