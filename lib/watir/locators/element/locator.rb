@@ -128,6 +128,10 @@ module Watir
 
           if selector.key? :index
             raise ArgumentError, "can't locate all elements by :index"
+          elsif selector.key?(:children) && (selector.key?(:xpath) || selector.has_key?(:css))
+            raise ArgumentError, "can't combine :children with either :xpath or :css"
+          elsif selector.delete(:children)
+            selector.merge!(xpath: "./#{selector.delete(:tag_name) || '*'}")
           end
 
           how, what = selector_builder.build(selector)

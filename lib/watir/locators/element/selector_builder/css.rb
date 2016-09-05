@@ -40,7 +40,7 @@ module Watir
           def use_css?(selectors)
             return false unless Watir.prefer_css?
 
-            if selectors.key?(:text) || selectors.key?(:label) || selectors.key?(:index)
+            if %i(text label index children).any? { |how| selectors.key?(how) }
               return false
             end
 

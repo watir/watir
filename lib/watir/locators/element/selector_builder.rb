@@ -33,6 +33,10 @@ module Watir
             unless what.is_a?(Fixnum)
               raise TypeError, "expected Fixnum, got #{what.inspect}:#{what.class}"
             end
+          when :children
+            unless what.kind_of?(TrueClass) || what.kind_of?(FalseClass)
+              raise TypeError, "expected true or false, got #{what.inspect}:#{what.class}"
+            end
           else
             unless VALID_WHATS.any? { |t| what.is_a? t }
               raise TypeError, "expected one of #{VALID_WHATS.inspect}, got #{what.inspect}:#{what.class}"
@@ -56,7 +60,7 @@ module Watir
 
         def normalize_selector(how, what)
           case how
-          when :tag_name, :text, :xpath, :index, :class, :label, :css
+          when :tag_name, :text, :xpath, :index, :class, :label, :css, :children
             # include :class since the valid attribute is 'class_name'
             # include :for since the valid attribute is 'html_for'
             [how, what]
