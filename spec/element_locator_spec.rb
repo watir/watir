@@ -415,6 +415,28 @@ describe Watir::Locators::Element::Locator do
                     :dir     , "foo",
                     :title   , 'bar']
       end
+
+      it "handles selector with children" do
+        expect_all :xpath, './*'
+        locate_all children: true
+      end
+      it "handles selector with tag name and children" do
+        expect_all :xpath, './div'
+        locate_all tag_name: "div",
+                   children: true
+      end
+      it "raises exception when combining children with anything" do
+        expect { locate_all children: true,
+                            dir: "foo" }.to raise_error(ArgumentError)
+      end
+      it "raises exception when combining children and xpath" do
+        expect { locate_all children: true,
+                            xpath: ".//*" }.to raise_error(ArgumentError)
+      end
+      it "raises exception when combining children and css" do
+        expect { locate_all children: true,
+                            css: "*" }.to raise_error(ArgumentError)
+      end
     end
 
     describe "with regexp selectors" do
