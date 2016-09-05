@@ -246,5 +246,24 @@ module Watir
       # it's not present
     end
 
+    #
+    # Waits until the text is present.
+    #
+    # @example
+    #   browser.text_field(name: "new_user_first_name").wait_until_text("First name")
+    #
+    # @param [String, Regexp] text value to wait for before timing out
+    # @param [Fixnum] timeout seconds to wait before timing out
+    #
+    # @see Watir::Wait
+    # @see Watir::Element#text
+    #
+
+    def wait_until_text(text, timeout = nil)
+      timeout ||= Watir.default_timeout
+      message = "waiting for #{selector_string} text to equal \"#{text}\""
+      Watir::Wait.until(timeout, message) { self.text =~ /#{text}/ }
+    end
+
   end # EventuallyPresent
 end # Watir
