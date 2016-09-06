@@ -584,11 +584,8 @@ module Watir
       @parent.is_a?(IFrame) ? @parent.switch_to! : @parent.assert_exists
     end
 
-    def attribute?(attribute)
-      assert_exists
-      element_call do
-        !!execute_atom(:getAttribute, @element, attribute.to_s.downcase)
-      end
+    def attribute?(attribute_name)
+      !attribute_value(attribute_name).nil?
     end
 
     def assert_enabled

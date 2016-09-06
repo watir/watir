@@ -8,7 +8,6 @@ module Watir
     end
 
     load :fireEvent
-    load :getAttribute
     load :getOuterHtml
     load :getInnerHtml
     load :getParentElement
