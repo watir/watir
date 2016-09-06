@@ -551,6 +551,14 @@ module Watir
       locator.locate
     end
 
+    def selector_string
+      if @parent.is_a?(Browser)
+        @selector.inspect
+      else
+        "#{parent.selector_string} --> #{@selector.inspect}"
+      end
+    end
+
     private
 
     def locator_class
@@ -573,10 +581,6 @@ module Watir
 
     def element_class_name
       self.class.name.split('::').last
-    end
-
-    def selector_string
-      @selector.inspect
     end
 
     # Ensure the driver is in the desired browser context
