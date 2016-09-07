@@ -1,4 +1,4 @@
-require File.expand_path("../spec_helper", __FILE__)
+require "watirspec_helper"
 
 not_compliant_on :safari do
   describe "Browser" do
@@ -18,7 +18,7 @@ not_compliant_on :safari do
       it "returns an array of window handles" do
         wins = browser.windows
         expect(wins).to_not be_empty
-        wins.each { |win| expect(win).to be_kind_of(Window) }
+        wins.each { |win| expect(win).to be_kind_of(Watir::Window) }
       end
 
       it "only returns windows matching the given selector" do
@@ -37,17 +37,17 @@ not_compliant_on :safari do
     describe "#window" do
       it "finds window by :url" do
         w = browser.window(url: /closeable\.html/).use
-        expect(w).to be_kind_of(Window)
+        expect(w).to be_kind_of(Watir::Window)
       end
 
       it "finds window by :title" do
         w = browser.window(title: "closeable window").use
-        expect(w).to be_kind_of(Window)
+        expect(w).to be_kind_of(Watir::Window)
       end
 
       it "finds window by :index" do
         w = browser.window(index: 1).use
-        expect(w).to be_kind_of(Window)
+        expect(w).to be_kind_of(Watir::Window)
       end
 
       it "should not find incorrect handle" do
@@ -200,7 +200,7 @@ not_compliant_on :safari do
         it "times out waiting for a non-present window" do
           expect {
             browser.window(title: "noop").wait_until_present(0.5)
-          }.to raise_error(Wait::TimeoutError)
+          }.to raise_error(Watir::Wait::TimeoutError)
         end
       end
     end

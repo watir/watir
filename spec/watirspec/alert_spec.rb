@@ -1,4 +1,4 @@
-require File.expand_path("../spec_helper", __FILE__)
+require "watirspec_helper"
 
 describe 'Alert API' do
   bug "https://github.com/detro/ghostdriver/issues/20", :phantomjs do

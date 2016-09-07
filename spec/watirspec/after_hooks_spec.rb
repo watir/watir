@@ -1,4 +1,4 @@
-require File.expand_path("../spec_helper", __FILE__)
+require "watirspec_helper"
 
 describe "Browser::AfterHooks" do
   describe "#add" do

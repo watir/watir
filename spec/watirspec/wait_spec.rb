@@ -1,78 +1,77 @@
-# encoding: utf-8
-require File.expand_path("../spec_helper", __FILE__)
+require "watirspec_helper"
 
 not_compliant_on :safari do
   describe Watir::Wait do
     describe "#until" do
       it "returns result of block if truthy" do
         result = 'catter'
-        expect(Wait.until(0.5) { result }).to be result
+        expect(Watir::Wait.until(0.5) { result }).to be result
       end
 
       it "waits until the block returns true" do
-        expect(Wait.until(0.5) { true }).to be true
+        expect(Watir::Wait.until(0.5) { true }).to be true
       end
 
       it "executes block if timeout is zero" do
-        expect(Wait.until(0) { true }).to be true
+        expect(Watir::Wait.until(0) { true }).to be true
       end
 
       it "times out" do
-        expect {Wait.until(0.5) { false }}.to raise_error(Watir::Wait::TimeoutError)
+        expect {Watir::Wait.until(0.5) { false }}.to raise_error(Watir::Wait::TimeoutError)
       end
 
       it "times out with a custom message" do
         expect {
-          Wait.until(0.5, "oops") { false }
+          Watir::Wait.until(0.5, "oops") { false }
         }.to raise_error(Watir::Wait::TimeoutError, "timed out after 0.5 seconds, oops")
       end
 
       it "uses timer for waiting" do
-        timer = Wait.timer
+        timer = Watir::Wait.timer
         expect(timer).to receive(:wait).with(0.5).and_call_original
-        Wait.until(0.5) { true }
+        Watir::Wait.until(0.5) { true }
       end
     end
 
     describe "#while" do
       it "waits while the block returns true" do
-        expect(Wait.while(0.5) { false }).to be_nil
+        expect(Watir::Wait.while(0.5) { false }).to be_nil
       end
 
       it "executes block if timeout is zero" do
-        expect(Wait.while(0) { false }).to be_nil
+        expect(Watir::Wait.while(0) { false }).to be_nil
       end
 
       it "times out" do
-        expect {Wait.while(0.5) { true }}.to raise_error(Watir::Wait::TimeoutError)
+        expect {Watir::Wait.while(0.5) { true }}.to raise_error(Watir::Wait::TimeoutError)
       end
 
       it "times out with a custom message" do
         expect {
-          Wait.while(0.5, "oops") { true }
+          Watir::Wait.while(0.5, "oops") { true }
         }.to raise_error(Watir::Wait::TimeoutError, "timed out after 0.5 seconds, oops")
       end
 
       it "uses timer for waiting" do
-        timer = Wait.timer
+        timer = Watir::Wait.timer
         expect(timer).to receive(:wait).with(0.5).and_call_original
-        Wait.while(0.5) { false }
+        Watir::Wait.while(0.5) { false }
       end
     end
 
     describe "#timer" do
       it "returns default timer" do
-        expect(Wait.timer).to be_a(Wait::Timer)
+        expect(Watir::Wait.timer).to be_a(Watir::Wait::Timer)
       end
     end
 
     describe "#timer=" do
-      after { Wait.timer = nil }
+      after { Watir::Wait.timer = nil }
 
       it "changes default timer" do
         timer = Class.new
-        Wait.timer = timer
-        expect(Wait.timer).to eq(timer)
+        Watir::Wait.timer = timer
+        expect(Watir::Wait.timer).to eq(timer)
       end
     end
   end
@@ -245,15 +244,15 @@ not_compliant_on :safari do
     end
 
     context "when no timeout is specified" do
-      it "is used by Wait#until" do
+      it "is used by Watir::Wait#until" do
         expect {
-          Wait.until { false }
+          Watir::Wait.until { false }
         }.to raise_error(Watir::Wait::TimeoutError)
       end
 
-      it "is used by Wait#while" do
+      it "is used by Watir::Wait#while" do
         expect {
-          Wait.while { true }
+          Watir::Wait.while { true }
         }.to raise_error(Watir::Wait::TimeoutError)
       end
 

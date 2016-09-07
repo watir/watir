@@ -1,4 +1,4 @@
-require File.expand_path("../spec_helper", __FILE__)
+require "watirspec_helper"
 
 describe "Element" do
   bug "Actions Endpoint Not Yet Implemented", :firefox do

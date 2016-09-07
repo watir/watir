@@ -116,8 +116,6 @@ namespace :changes do
   end
 end
 
-load "spec/watirspec/watirspec.rake" if File.exist?("spec/watirspec/watirspec.rake")
-
 task default: [:spec, 'yard:doctest']
 
 namespace :spec do

@@ -1,10 +1,10 @@
 require "base64"
-require File.expand_path("../spec_helper", __FILE__)
+require "watirspec_helper"
 
 describe "Watir::Screenshot" do
+
   let(:png_header) do
     str = "\211PNG"
-    str.force_encoding('BINARY') if str.respond_to?(:force_encoding)
 
     str
   end

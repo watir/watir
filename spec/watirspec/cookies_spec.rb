@@ -1,4 +1,4 @@
-require File.expand_path("../spec_helper", __FILE__)
+require "watirspec_helper"
 
 bug "https://github.com/ariya/phantomjs/issues/13115", :phantomjs do
   describe "Browser#cookies" do
