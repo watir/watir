@@ -9,7 +9,7 @@ module Watir
 
     include Exception
     include Container
-    include EventuallyPresent
+    include ConditionalWaits
 
     #
     # temporarily add :id and :class_name manually since they're no longer specified in the HTML spec.

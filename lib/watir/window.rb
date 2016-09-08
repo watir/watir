@@ -1,6 +1,6 @@
 module Watir
   class Window
-    include EventuallyPresent
+    include ConditionalWaits
 
     def initialize(driver, selector)
       @driver = driver
@@ -202,7 +202,7 @@ module Watir
 
     private
 
-    # Referenced in EventuallyPresent
+    # Referenced in ConditionalWaits
     def selector_string
       @selector.inspect
     end
