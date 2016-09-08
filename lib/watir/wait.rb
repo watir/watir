@@ -133,71 +133,39 @@ module Watir
 
   module ConditionalWaits
 
-    %w[exist exists present visible stale attribute text current enabled].each do | meth |
+    PREDICATES = %w[exist exists present visible stale attribute text current enabled].freeze
 
-      #
-      # Waits until the a condition is met.
-      #
-      # @example
-      #   browser.text_field(name: "new_user_first_name").wait_until_present
-      #
-      # @param [Fixnum] timeout seconds to wait before timing out
-      #
-      # @see Watir::Wait
-      # @see Watir::Element#present?
-      #
+    def method_missing(meth, *args, &blk)
+      method = meth.to_s
 
-      define_method("wait_until_#{meth}") do |timeout = nil, message = nil, *args|
-        raise ArgumentError, "#{self.class} does not have a #{meth}? method" unless self.respond_to? "#{meth}?"
-        timeout ||= Watir.default_timeout
-        message = "waiting for #{selector_string} to become #{meth}"
-        Watir::Wait.until(timeout, message) { send("#{meth}?", *args) }
-      end
+      if method =~ /^wait_until_(\w+)/
+        super unless $1.split('_and_').all? { |m| PREDICATES.include?(m)  && self.respond_to?(m)}
 
-      #
-      # Waits while a condition is not met.
-      #
-      # @example
-      #   browser.text_field(name: "abrakadbra").wait_while_present
-      #
-      # @param [Fixnum] timeout seconds to wait before timing out
-      #
-      # @see Watir::Wait
-      # @see Watir::Element#present?
-      #
+        timeout = args.pop || Watir.default_timeout
+        message = args.pop || "waiting for #{selector_string} to become #{$1.tr('_', ' ')}"
 
-      define_method("wait_while_#{meth}") do |timeout = nil, message = nil, *args|
-        raise ArgumentError, "#{self.class} does not have a #{meth}? method" unless self.respond_to? "#{meth}?"
-        timeout ||= Watir.default_timeout
-        message = "waiting for #{selector_string} to not be #{meth}"
-        Watir::Wait.while(timeout, message) { send("#{meth}?", *args) }
-      end
+        Watir::Wait.until(timeout, message) { send("#{$1}?", *args) }
+      elsif method =~ /^wait_while_(\w+)/
+        super unless $1.split('_and_').all? { |m| PREDICATES.include?(m)  && self.respond_to?(m)}
 
-      #
-      # Waits until the element is present.
-      #
-      # @example
-      #   browser.text_field(name: "new_user_first_name").when_present.click
-      #   browser.text_field(name: "new_user_first_name").when_present { |field| field.set "Watir" }
-      #   browser.text_field(name: "new_user_first_name").when_present(60).text
-      #
-      # @param [Fixnum] timeout seconds to wait before timing out
-      #
-      # @see Watir::Wait
-      # @see Watir::Element#present?
-      #
+        timeout = args.pop || Watir.default_timeout
+        message = args.pop || "waiting for #{selector_string} to become not #{$1.tr('_', ' ')}"
 
-      define_method("when_#{meth}") do |timeout = nil, message = nil, *args, &block|
-        raise ArgumentError, "#{self.class} does not have a #{meth}? method" unless self.respond_to? "#{meth}?"
+        Watir::Wait.while(timeout, message) { send("#{$1}?", *args) }
+      elsif method =~ /^when_(\w+)/
+        super unless $1.split('_and_').all? { |m| PREDICATES.include?(m)  && self.respond_to?(m)}
 
-        timeout ||= Watir.default_timeout
-        message = "waiting for #{selector_string} to become #{meth}"
-        if block
-          Watir::Wait.until(timeout, message) { send("#{meth}?", *args) }
-          block.call self
+        timeout = args.pop || Watir.default_timeout
+        message = args.pop || "waiting for #{selector_string} to become #{$1}"
+
+        if block_given?
+          Watir::Wait.until(timeout, message) { send("#{$1}?", *args) }
+          yield self
         else
-          WaitsDecorator.new(self, timeout, meth, message)
+          WaitsDecorator.new(self, timeout, $1, message)
         end
+      else
+        super
       end
     end
 
