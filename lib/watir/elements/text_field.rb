@@ -2,7 +2,7 @@ module Watir
   class TextField < Input
     include UserEditable
 
-    NON_TEXT_TYPES = %w[file radio checkbox submit reset image button hidden datetime date month week time datetime-local range color]
+    NON_TEXT_TYPES = %w[file radio checkbox submit reset image button hidden range color]
 
     inherit_attributes_from Watir::TextArea
     remove_method :type # we want Input#type here, which was overriden by TextArea's attributes

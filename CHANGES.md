@@ -1,3 +1,7 @@
+### Unreleased
+
+* Allow locating date/time/etc. input types with `#text_field` (#295)
+
 ### 6.0.0.beta3 (2016-08-07)
 
 * Deprecate `require "watir-webdriver"` in favor of `require "watir"`
