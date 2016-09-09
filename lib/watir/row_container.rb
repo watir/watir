@@ -24,8 +24,6 @@ module Watir
     #
 
     def strings
-      assert_exists
-
       rows.inject [] do |res, row|
         res << row.cells.map(&:text)
       end

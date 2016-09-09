@@ -32,6 +32,7 @@ module Watir
       #
       # @param [Fixnum] timeout How long to wait in seconds
       # @param [String] message Message to raise if timeout is exceeded
+      # @yield block
       # @raise [TimeoutError] if timeout is exceeded
       #
 
@@ -52,6 +53,7 @@ module Watir
       #
       # @param [Fixnum] timeout How long to wait in seconds
       # @param [String] message Message to raise if timeout is exceeded
+      # @yield block
       # @raise [TimeoutError] if timeout is exceeded
       #
 
@@ -92,9 +94,30 @@ module Watir
     def wait_while(*args, &blk)
       Wait.while(*args, &blk)
     end
+
+    #
+    # Execute the block once, bypassing execution of default wait_for_exists and wait_for_present methods
+    #
+    # @example
+    #   browser.without_waiting {browser.text_field(:name => "new_user_first_name").visible?}
+    #
+
+    def without_waiting
+      begin
+        @original_timeout = Watir.default_timeout
+        Watir.default_timeout = 0
+        yield
+      ensure
+        Watir.default_timeout = @original_timeout
+      end
+    end
+
   end
 
   class BaseDecorator
+
+    ELEMENT_ACTIONS = %i[select_text click double_click right_click hover drag_and_drop_on
+                         drag_and_drop_by send_keys submit set clear append].freeze
 
     def initialize(element, timeout, message = nil)
       @element = element
@@ -109,6 +132,10 @@ module Watir
     def method_missing(m, *args, &block)
       unless @element.respond_to?(m)
         raise NoMethodError, "undefined method `#{m}' for #{@element.inspect}:#{@element.class}"
+      end
+
+      if ELEMENT_ACTIONS.include?(m)
+        warn "#when_present might be unnecessary for #{@element.send :selector_string}; Watir automatically waits when using ##{m}"
       end
 
       Watir::Wait.until(@timeout, @message) { wait_until }

@@ -14,11 +14,20 @@ require 'watir/screenshot'
 require 'watir/after_hooks'
 
 module Watir
+  @relaxed_locate = true
   @always_locate = true
 
+  attr_writer :relaxed_locate, :always_locate, :default_timeout, :prefer_css, :locator_namespace
+
   class << self
-    def always_locate?
-      @always_locate
+    #
+    # Whether or not Watir should wait for an element to be found or present
+    # before taking an action.
+    # Defaults to true.
+    #
+
+    def relaxed_locate?
+      @relaxed_locate
     end
 
     #
@@ -26,24 +35,16 @@ module Watir
     # Defaults to true.
     #
 
-    def always_locate=(bool)
-      @always_locate = bool
-    end
-
-    def default_timeout
-      @default_timeout ||= 30
+    def always_locate?
+      @always_locate
     end
 
     #
     # Default wait time for wait methods.
     #
 
-    def default_timeout=(value)
-      @default_timeout = value
-    end
-
-    def prefer_css?
-      @prefer_css
+    def default_timeout
+      @default_timeout ||= 30
     end
 
     #
@@ -51,12 +52,8 @@ module Watir
     # Defaults to false.
     #
 
-    def prefer_css=(bool)
-      @prefer_css = bool
-    end
-
-    def locator_namespace
-      @locator_namespace ||= Watir::Locators
+    def prefer_css?
+      @prefer_css
     end
 
     #
@@ -64,8 +61,8 @@ module Watir
     # Defaults to Watir::Locators.
     #
 
-    def locator_namespace=(mod)
-      @locator_namespace = mod
+    def locator_namespace
+      @locator_namespace ||= Watir::Locators
     end
 
     #
