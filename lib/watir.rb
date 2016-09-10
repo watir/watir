@@ -43,7 +43,8 @@ module Watir
     end
 
     def prefer_css?
-      @prefer_css
+      prefer_css_message
+      false
     end
 
     #
@@ -51,8 +52,16 @@ module Watir
     # Defaults to false.
     #
 
-    def prefer_css=(bool)
-      @prefer_css = bool
+    def prefer_css=(_bool)
+      prefer_css_message
+    end
+
+    def prefer_css_message
+      warn <<-EOS
+Watir#prefer_css is deprecated; all elements that can not be passed directly
+as Selenium locators will be translated to XPath. To continue using CSS Selectors
+use: https://github.com/titusfortner/watir_css
+EOS
     end
 
     def locator_namespace
