@@ -242,8 +242,24 @@ module Watir
       timeout ||= Watir.default_timeout
       message = "waiting for #{selector_string} to disappear"
       Watir::Wait.while(timeout, message) { present? }
-    rescue Selenium::WebDriver::Error::StaleElementReferenceError
-      # it's not present
+    end
+
+    #
+    # Waits until the element is stale.
+    #
+    # @example
+    #   browser.text_field(name: "abrakadbra").wait_until_stale
+    #
+    # @param [Fixnum] timeout seconds to wait before timing out
+    #
+    # @see Watir::Wait
+    # @see Watir::Element#stale?
+    #
+
+    def wait_until_stale(timeout = nil)
+      timeout ||= Watir.default_timeout
+      message = "waiting for #{selector_string} to become stale"
+      Watir::Wait.until(timeout, message) { stale? }
     end
 
   end # EventuallyPresent
