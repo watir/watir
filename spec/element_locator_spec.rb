@@ -15,42 +15,26 @@ describe Watir::Locators::Element::Locator do
 
     describe "with selectors not supported by Selenium" do
       it "handles selector with tag name and a single attribute" do
-        if Watir.prefer_css?
-          expect_one :css, 'div[title="foo"]'
-        else
-          expect_one :xpath, ".//div[@title='foo']"
-        end
+        expect_one :xpath, ".//div[@title='foo']"
 
         locate_one tag_name: "div",
                    title: "foo"
       end
 
       it "handles selector with no tag name and and a single attribute" do
-        if Watir.prefer_css?
-          expect_one :css, '[title="foo"]'
-        else
-          expect_one :xpath, ".//*[@title='foo']"
-        end
+        expect_one :xpath, ".//*[@title='foo']"
 
         locate_one title: "foo"
       end
 
       it "handles single quotes in the attribute string" do
-        if Watir.prefer_css?
-          expect_one :css, %{[title="foo and 'bar'"]}
-        else
-          expect_one :xpath, %{.//*[@title=concat('foo and ',"'",'bar',"'",'')]}
-        end
+        expect_one :xpath, %{.//*[@title=concat('foo and ',"'",'bar',"'",'')]}
 
         locate_one title: "foo and 'bar'"
       end
 
       it "handles selector with tag name and multiple attributes" do
-        if Watir.prefer_css?
-          expect_one :css, 'div[title="foo"][dir="bar"]'
-        else
-          expect_one :xpath, ".//div[@title='foo' and @dir='bar']"
-        end
+        expect_one :xpath, ".//div[@title='foo' and @dir='bar']"
 
         locate_one [:tag_name, "div",
                     :title   , "foo",
@@ -58,11 +42,7 @@ describe Watir::Locators::Element::Locator do
       end
 
       it "handles selector with no tag name and multiple attributes" do
-        if Watir.prefer_css?
-          expect_one :css, '[dir="foo"][title="bar"]'
-        else
-          expect_one :xpath, ".//*[@dir='foo' and @title='bar']"
-        end
+        expect_one :xpath, ".//*[@dir='foo' and @title='bar']"
 
         locate_one [:dir,   "foo",
                     :title, "bar"]
@@ -84,44 +64,28 @@ describe Watir::Locators::Element::Locator do
       end
 
       it "translates :class_name to :class" do
-        if Watir.prefer_css?
-          expect_one :css, "div.foo"
-        else
-          expect_one :xpath, ".//div[contains(concat(' ', @class, ' '), ' foo ')]"
-        end
+        expect_one :xpath, ".//div[contains(concat(' ', @class, ' '), ' foo ')]"
 
         locate_one tag_name: "div",
                    class_name: "foo"
       end
 
       it "handles data-* attributes" do
-        if Watir.prefer_css?
-          expect_one :css, 'div[data-name="foo"]'
-        else
-          expect_one :xpath, ".//div[@data-name='foo']"
-        end
+        expect_one :xpath, ".//div[@data-name='foo']"
 
         locate_one tag_name: "div",
                    data_name: "foo"
       end
 
       it "handles aria-* attributes" do
-        if Watir.prefer_css?
-          expect_one :css, 'div[aria-label="foo"]'
-        else
-          expect_one :xpath, ".//div[@aria-label='foo']"
-        end
+        expect_one :xpath, ".//div[@aria-label='foo']"
 
         locate_one tag_name: "div",
                    aria_label: "foo"
       end
 
       it "normalizes space for the :href attribute" do
-        if Watir.prefer_css?
-          expect_one :css, 'a[href~="foo"]'
-        else
-          expect_one :xpath, ".//a[normalize-space(@href)='foo']"
-        end
+        expect_one :xpath, ".//a[normalize-space(@href)='foo']"
 
         selector = {
           tag_name: "a",
@@ -164,11 +128,7 @@ describe Watir::Locators::Element::Locator do
       end
 
       it "translates ruby attribute names to content attribute names" do
-        if Watir.prefer_css?
-          expect_one :css, 'meta[http-equiv="foo"]'
-        else
-          expect_one :xpath, ".//meta[@http-equiv='foo']"
-        end
+        expect_one :xpath, ".//meta[@http-equiv='foo']"
 
         selector = {
           tag_name: "meta",
@@ -188,11 +148,7 @@ describe Watir::Locators::Element::Locator do
           element(tag_name: "div", attributes: { class: "foob"})
         ]
 
-        if Watir.prefer_css?
-          expect_all(:css, "div").and_return(elements)
-        else
-          expect_all(:xpath, "(.//div)[contains(@class, 'oob')]").and_return(elements)
-        end
+        expect_all(:xpath, "(.//div)[contains(@class, 'oob')]").and_return(elements)
 
         expect(locate_one(tag_name: "div", class: /oob/)).to eq elements[1]
       end
@@ -203,11 +159,7 @@ describe Watir::Locators::Element::Locator do
           element(tag_name: "div", attributes: { class: "foo" })
         ]
 
-        if Watir.prefer_css?
-          expect_all(:css, "div").and_return(elements)
-        else
-          expect_all(:xpath, "(.//div)[contains(@class, 'foo')]").and_return(elements)
-        end
+        expect_all(:xpath, "(.//div)[contains(@class, 'foo')]").and_return(elements)
 
         selector = {
           tag_name: "div",
@@ -256,11 +208,7 @@ describe Watir::Locators::Element::Locator do
           element(tag_name: "div", attributes: { dir: "foo", title: "baz" })
         ]
 
-        if Watir.prefer_css?
-          expect_all(:css, 'div[dir="foo"]').and_return(elements)
-        else
-          expect_all(:xpath, "(.//div[@dir='foo'])[contains(@title, 'baz')]").and_return(elements)
-        end
+        expect_all(:xpath, "(.//div[@dir='foo'])[contains(@title, 'baz')]").and_return(elements)
 
         selector = {
           tag_name: "div",
@@ -277,12 +225,7 @@ describe Watir::Locators::Element::Locator do
           element(tag_name: "div", attributes: { :'data-automation-id' => "bar" })
         ]
 
-        if Watir.prefer_css?
-          expect_all(:css, 'div').and_return(elements)
-        else
-          expect_all(:xpath, "(.//div)[contains(@data-automation-id, 'bar')]").and_return(elements)
-        end
-
+        expect_all(:xpath, "(.//div)[contains(@data-automation-id, 'bar')]").and_return(elements)
 
         selector = {
           tag_name: "div",
@@ -300,13 +243,7 @@ describe Watir::Locators::Element::Locator do
         div_elements = [element(tag_name: "div")]
 
         expect_all(:tag_name, "label").ordered.and_return(label_elements)
-
-        if Watir.prefer_css?
-          expect_all(:css, 'div[id="baz"]').ordered.and_return(div_elements)
-        else
-          expect_all(:xpath, ".//div[@id='baz']").ordered.and_return(div_elements)
-        end
-
+        expect_all(:xpath, ".//div[@id='baz']").ordered.and_return(div_elements)
         expect(locate_one(tag_name: "div", label: /oob/)).to eq div_elements.first
       end
 
@@ -323,11 +260,7 @@ describe Watir::Locators::Element::Locator do
         element(tag_name: "div")
       ]
 
-      if Watir.prefer_css?
-        expect_all(:css, 'div[dir="foo"]').and_return(elements)
-      else
-        expect_all(:xpath, ".//div[@dir='foo']").and_return(elements)
-      end
+      expect_all(:xpath, ".//div[@dir='foo']").and_return(elements)
 
       selector = {
         tag_name: "div",
@@ -382,35 +315,20 @@ describe Watir::Locators::Element::Locator do
 
     describe "with an empty selector" do
       it "finds all when an empty selctor is given" do
-        if Watir.prefer_css?
-          expect_all :css, '*'
-        else
-          expect_all :xpath, './/*'
-        end
-
+        expect_all :xpath, './/*'
         locate_all({})
       end
     end
 
     describe "with selectors not supported by Selenium" do
       it "handles selector with tag name and a single attribute" do
-        if Watir.prefer_css?
-          expect_all :css, 'div[dir="foo"]'
-        else
-          expect_all :xpath, ".//div[@dir='foo']"
-        end
-
+        expect_all :xpath, ".//div[@dir='foo']"
         locate_all tag_name: "div",
                    dir: "foo"
       end
 
       it "handles selector with tag name and multiple attributes" do
-        if Watir.prefer_css?
-          expect_all :css, 'div[dir="foo"][title="bar"]'
-        else
-          expect_all :xpath, ".//div[@dir='foo' and @title='bar']"
-        end
-
+        expect_all :xpath, ".//div[@dir='foo' and @title='bar']"
         locate_all [:tag_name, "div",
                     :dir     , "foo",
                     :title   , 'bar']
@@ -426,12 +344,7 @@ describe Watir::Locators::Element::Locator do
           element(tag_name: "div", attributes: { class: "noob"})
         ]
 
-        if Watir.prefer_css?
-          expect_all(:css, "div").and_return(elements)
-        else
-          expect_all(:xpath, "(.//div)[contains(@class, 'oob')]").and_return(elements)
-        end
-
+        expect_all(:xpath, "(.//div)[contains(@class, 'oob')]").and_return(elements)
         expect(locate_all(tag_name: "div", class: /oob/)).to eq elements.last(3)
       end
 
@@ -442,11 +355,7 @@ describe Watir::Locators::Element::Locator do
           element(tag_name: "div", attributes: { dir: "foo", title: "bazt"})
         ]
 
-        if Watir.prefer_css?
-          expect_all(:css, 'div[dir="foo"]').and_return(elements)
-        else
-          expect_all(:xpath, "(.//div[@dir='foo'])[contains(@title, 'baz')]").and_return(elements)
-        end
+        expect_all(:xpath, "(.//div[@dir='foo'])[contains(@title, 'baz')]").and_return(elements)
 
         selector = {
           tag_name: "div",
@@ -458,10 +367,6 @@ describe Watir::Locators::Element::Locator do
       end
 
       context "and xpath" do
-        before do
-          expect(Watir).to receive(:prefer_css?).and_return(false)
-        end
-
         it "converts a leading run of regexp literals to a contains() expression" do
           elements = [
             element(tag_name: "div", attributes: { class: "foo" }),

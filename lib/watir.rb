@@ -19,7 +19,6 @@ module Watir
 
     #
     # Whether or not Watir should re-locate a stale Element on use.
-    # Defaults to true.
     #
 
     def always_locate?
@@ -37,7 +36,27 @@ Watir#always_locate is deprecated; elements are always cached and will always
 be re-located if they go stale before use.
 Use Element#stale? or Element#wait_until_stale if needed for flow control.
       EOS
+    end
 
+    #
+    # Whether or not Watir should prefer CSS when translating the Watir selectors to Selenium.
+    #
+
+    def prefer_css?
+      prefer_css_message
+      false
+    end
+
+    def prefer_css=(_bool)
+      prefer_css_message
+    end
+
+    def prefer_css_message
+      warn <<-EOS
+Watir#prefer_css is deprecated; all elements that can not be passed directly
+as Selenium locators will be translated to XPath. To continue using CSS Selectors
+require the watir_css gem - https://github.com/watir/watir_css
+      EOS
     end
 
     def default_timeout
@@ -50,19 +69,6 @@ Use Element#stale? or Element#wait_until_stale if needed for flow control.
 
     def default_timeout=(value)
       @default_timeout = value
-    end
-
-    def prefer_css?
-      @prefer_css
-    end
-
-    #
-    # Whether or not Watir should prefer CSS when translating the Watir selectors to Selenium.
-    # Defaults to false.
-    #
-
-    def prefer_css=(bool)
-      @prefer_css = bool
     end
 
     def locator_namespace

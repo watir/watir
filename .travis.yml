@@ -2,7 +2,7 @@ sudo: false
 rvm:
   - 2.1
   - 2.2
-  - 2.3.0
+  - 2.3.1
 addons:
   firefox: latest
   apt:
@@ -24,9 +24,6 @@ before_script:
 script: bundle exec rake $RAKE_TASK
 env:
   - RAKE_TASK=spec:firefox
-  - RAKE_TASK=spec:firefox PREFER_CSS=1 SELECTOR_STATS=1
   - RAKE_TASK=spec:chrome
-  - RAKE_TASK=spec:chrome PREFER_CSS=1 SELECTOR_STATS=1
   - RAKE_TASK=spec:phantomjs
-  - RAKE_TASK=spec:phantomjs PREFER_CSS=1 SELECTOR_STATS=1
   - RAKE_TASK=yard:doctest

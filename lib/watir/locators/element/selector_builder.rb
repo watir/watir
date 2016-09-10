@@ -1,6 +1,3 @@
-require 'watir/locators/element/selector_builder/css'
-require 'watir/locators/element/selector_builder/xpath'
-
 module Watir
   module Locators
     class Element
@@ -98,9 +95,8 @@ module Watir
         end
 
         def build_wd_selector(selectors)
-          unless selectors.values.any? { |e| e.is_a? Regexp }
-            build_css(selectors) || build_xpath(selectors)
-          end
+          return if selectors.values.any? { |e| e.is_a? Regexp }
+          build_xpath(selectors)
         end
 
         def valid_attribute?(attribute)
@@ -122,25 +118,12 @@ module Watir
           xpath_builder.build(selectors)
         end
 
-        def build_css(selectors)
-          css_builder.build(selectors)
-        end
-
         def xpath_builder_class
           Kernel.const_get("#{self.class.name}::XPath")
         rescue
           XPath
         end
 
-        def css_builder
-          @css_builder ||= css_builder_class.new
-        end
-
-        def css_builder_class
-          Kernel.const_get("#{self.class.name}::CSS")
-        rescue
-          CSS
-        end
       end
     end
   end
