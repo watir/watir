@@ -15,7 +15,7 @@ describe "Labels" do
 
   describe "#length" do
     it "returns the number of labels" do
-      expect(browser.labels.length).to eq 32
+      expect(browser.labels.length).to eq 38
     end
   end
 
