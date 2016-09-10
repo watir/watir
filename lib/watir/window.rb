@@ -189,7 +189,7 @@ module Watir
     #
 
     def use(&blk)
-      assert_exists
+      wait_for_exists
       @driver.switch_to.window(handle, &blk)
       self
     end
@@ -238,6 +238,21 @@ module Watir
     rescue Selenium::WebDriver::Error::NoSuchWindowError, Selenium::WebDriver::Error::NoSuchDriverError
       # the window may disappear while we're iterating.
       false
+    end
+
+    def wait_for_exists
+      return assert_exists unless Watir.relaxed_locate?
+
+      begin
+        Watir::Wait.until { exists? }
+      rescue Watir::Wait::TimeoutError
+        unless Watir.default_timeout == 0
+          warn "This test has slept for the duration of the default timeout. "\
+                  "If your test is passing, consider using Window#exists? instead of rescuing this error"
+        end
+        raise Exception::NoMatchingWindowFoundException, "unable to locate window: #{@selector.inspect} "\
+                                         "after waiting #{Watir.default_timeout} seconds"
+      end
     end
 
   end # Window

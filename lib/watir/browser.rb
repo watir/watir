@@ -301,7 +301,7 @@ module Watir
     # @api private
     #
 
-    def assert_exists
+    def assert_exists(_timeout = nil)
       if @closed
         raise Exception::Error, "browser was closed"
       elsif !window.present?
@@ -312,6 +312,8 @@ module Watir
       end
     end
     alias_method :ensure_not_stale, :assert_exists
+    alias_method :wait_for_exists, :assert_exists
+    alias_method :wait_for_present, :assert_exists
 
     def reset!
       # no-op

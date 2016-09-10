@@ -19,7 +19,7 @@ module Watir
     #
 
     def text
-      assert_exists
+      wait_for_exists
       @alert.text
     end
 
@@ -33,7 +33,7 @@ module Watir
     #
 
     def ok
-      assert_exists
+      wait_for_exists
       @alert.accept
       @browser.after_hooks.run
     end
@@ -48,7 +48,7 @@ module Watir
     #
 
     def close
-      assert_exists
+      wait_for_exists
       @alert.dismiss
       @browser.after_hooks.run
     end
@@ -64,7 +64,7 @@ module Watir
     #
 
     def set(value)
-      assert_exists
+      wait_for_exists
       @alert.send_keys(value)
     end
 
@@ -98,6 +98,21 @@ module Watir
       @alert = @browser.driver.switch_to.alert
     rescue Selenium::WebDriver::Error::NoAlertPresentError
       raise Exception::UnknownObjectException, 'unable to locate alert'
+    end
+
+    def wait_for_exists(timeout = nil)
+      return assert_exists unless Watir.relaxed_locate?
+
+      timeout ||= Watir.default_timeout
+      begin
+        Watir::Wait.until(timeout) { exists? }
+      rescue Watir::Wait::TimeoutError
+        unless Watir.default_timeout == 0
+          warn "This test has slept for the duration of the default timeout. "\
+                "If your test is passing, consider using Alert#exists? instead of rescuing this error"
+        end
+        raise Exception::UnknownObjectException, "unable to locate alert after waiting #{timeout} seconds"
+      end
     end
 
   end # Alert
