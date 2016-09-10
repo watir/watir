@@ -2,12 +2,12 @@ module Watir
   class IFrame < HTMLElement
 
     def locate
-      @parent.assert_exists
+      @query_scope.assert_exists
 
       selector = @selector.merge(tag_name: frame_tag)
       element_validator = element_validator_class.new
-      selector_builder = selector_builder_class.new(@parent, selector, self.class.attribute_list)
-      locator = locator_class.new(@parent, selector, selector_builder, element_validator)
+      selector_builder = selector_builder_class.new(@query_scope, selector, self.class.attribute_list)
+      locator = locator_class.new(@query_scope, selector, selector_builder, element_validator)
 
       element = locator.locate
       element or raise UnknownFrameException, "unable to locate #{@selector[:tag_name]} using #{selector_string}"
@@ -69,7 +69,7 @@ module Watir
       # index will return nil. That's why `#all_elements` should always
       # be called after `#elements.`
       element_indexes = elements.map { |el| all_elements.index(el) }
-      element_indexes.map { |idx| element_class.new(@parent, tag_name: @selector[:tag_name], index: idx) }
+      element_indexes.map { |idx| element_class.new(@query_scope, tag_name: @selector[:tag_name], index: idx) }
     end
 
     private
@@ -78,8 +78,8 @@ module Watir
       selector = { tag_name: @selector[:tag_name] }
 
       element_validator = element_validator_class.new
-      selector_builder = selector_builder_class.new(@parent, selector, element_class.attribute_list)
-      locator = locator_class.new(@parent, selector, selector_builder, element_validator)
+      selector_builder = selector_builder_class.new(@query_scope, selector, element_class.attribute_list)
+      locator = locator_class.new(@query_scope, selector, selector_builder, element_validator)
 
       locator.locate_all
     end

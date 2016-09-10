@@ -7,8 +7,8 @@ module Watir
   class ElementCollection
     include Enumerable
 
-    def initialize(parent, selector)
-      @parent   = parent
+    def initialize(query_scope, selector)
+      @query_scope = query_scope
       @selector = selector
     end
 
@@ -50,7 +50,7 @@ module Watir
     #
 
     def [](idx)
-      to_a[idx] || element_class.new(@parent, @selector.merge(index: idx))
+      to_a[idx] || element_class.new(@query_scope, @selector.merge(index: idx))
     end
 
     #
@@ -81,17 +81,17 @@ module Watir
 
     def to_a
       # TODO: optimize - lazy element_class instance?
-      @to_a ||= elements.map { |e| element_class.new(@parent, element: e) }
+      @to_a ||= elements.map { |e| element_class.new(@query_scope, element: e) }
     end
 
     private
 
     def elements
-      @parent.is_a?(IFrame) ? @parent.switch_to! : @parent.send(:assert_exists)
+      @query_scope.is_a?(IFrame) ? @query_scope.switch_to! : @query_scope.send(:assert_exists)
 
       element_validator = element_validator_class.new
-      selector_builder = selector_builder_class.new(@parent, @selector, element_class.attribute_list)
-      locator = locator_class.new(@parent, @selector, selector_builder, element_validator)
+      selector_builder = selector_builder_class.new(@query_scope, @selector, element_class.attribute_list)
+      locator = locator_class.new(@query_scope, @selector, selector_builder, element_validator)
 
       @elements ||= locator.locate_all
     end

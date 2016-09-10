@@ -22,10 +22,10 @@ module Watir
     attribute String, :id, :id
     attribute String, :class_name, :className
 
-    def initialize(parent, selector)
-      @parent   = parent
+    def initialize(query_scope, selector)
+      @query_scope = query_scope
       @selector = selector
-      @element  = nil
+      @element = nil
 
       unless @selector.kind_of? Hash
         raise ArgumentError, "invalid argument: #{selector.inspect}"
@@ -371,7 +371,7 @@ module Watir
       e = element_call { execute_atom :getParentElement, @element }
 
       if e.kind_of?(Selenium::WebDriver::Element)
-        Watir.element_class_for(e.tag_name.downcase).new(@parent, element: e)
+        Watir.element_class_for(e.tag_name.downcase).new(@query_scope, element: e)
       end
     end
 
@@ -380,7 +380,7 @@ module Watir
     #
 
     def driver
-      @parent.driver
+      @query_scope.driver
     end
 
     #
@@ -480,7 +480,7 @@ module Watir
         klass = Watir.element_class_for(tag_name)
       end
 
-      klass.new(@parent, element: elem)
+      klass.new(@query_scope, element: elem)
     end
 
     #
@@ -490,7 +490,7 @@ module Watir
     #
 
     def browser
-      @parent.browser
+      @query_scope.browser
     end
 
     protected
@@ -545,8 +545,8 @@ module Watir
       ensure_context
 
       element_validator = element_validator_class.new
-      selector_builder = selector_builder_class.new(@parent, @selector, self.class.attribute_list)
-      locator = locator_class.new(@parent, @selector, selector_builder, element_validator)
+      selector_builder = selector_builder_class.new(@query_scope, @selector, self.class.attribute_list)
+      locator = locator_class.new(@query_scope, @selector, selector_builder, element_validator)
 
       locator.locate
     end
@@ -581,7 +581,7 @@ module Watir
 
     # Ensure the driver is in the desired browser context
     def ensure_context
-      @parent.is_a?(IFrame) ? @parent.switch_to! : @parent.assert_exists
+      @query_scope.is_a?(IFrame) ? @query_scope.switch_to! : @query_scope.assert_exists
     end
 
     def attribute?(attribute_name)

@@ -8,8 +8,8 @@ module Watir
         VALID_WHATS = [String, Regexp]
         WILDCARD_ATTRIBUTE = /^(aria|data)_(.+)$/
 
-        def initialize(parent, selector, valid_attributes)
-          @parent = parent # either element or browser
+        def initialize(query_scope, selector, valid_attributes)
+          @query_scope = query_scope # either element or browser
           @selector = selector
           @valid_attributes = valid_attributes
         end
