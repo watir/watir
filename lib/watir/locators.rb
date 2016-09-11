@@ -1,5 +1,6 @@
 require 'watir/locators/element/locator'
 require 'watir/locators/element/selector_builder'
+require 'watir/locators/element/selector_builder/xpath'
 require 'watir/locators/element/validator'
 
 require 'watir/locators/button/locator'
