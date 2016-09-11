@@ -120,10 +120,6 @@ describe "Image" do
     end
   end
 
-  it "raises UnknownObjectException if the image doesn't exist" do
-    expect { browser.image(index: 1337).file_size }.to raise_error(Watir::Exception::UnknownObjectException)
-  end
-
   describe "#height" do
     it "returns the height of the image if the image exists" do
       expect(browser.image(id: 'square').height).to eq 88
