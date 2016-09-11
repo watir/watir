@@ -1,7 +1,7 @@
 module Watir
   class Alert
 
-    include EventuallyPresent
+    include ConditionalWaits
 
     def initialize(browser)
       @browser = browser

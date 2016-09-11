@@ -9,7 +9,7 @@ module Watir
 
     include Exception
     include Container
-    include EventuallyPresent
+    include ConditionalWaits
 
     #
     # temporarily add :id and :class_name manually since they're no longer specified in the HTML spec.
@@ -630,6 +630,14 @@ module Watir
       method = meth.to_s
       if method =~ Locators::Element::SelectorBuilder::WILDCARD_ATTRIBUTE
         attribute_value(method.tr('_', '-'), *args)
+      elsif method =~ /^(\w+)_and_(\w+)\?$/
+        if !self.respond_to? "#{$1}?"
+          raise NoMethodError, "undefined method `#{$1}' for #{@element.inspect}:#{@element.class}"
+        elsif !self.respond_to? "#{$2}?"
+          raise NoMethodError, "undefined method `#{$2}' for #{@element.inspect}:#{@element.class}"
+        else
+          self.send("#{$1}?") && self.send("#{$2}?")
+        end
       else
         super
       end
