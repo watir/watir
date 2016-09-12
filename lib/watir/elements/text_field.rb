@@ -7,13 +7,18 @@ module Watir
     inherit_attributes_from Watir::TextArea
     remove_method :type # we want Input#type here, which was overriden by TextArea's attributes
 
-    private
+    protected
 
     def selector_string
       selector = @selector.dup
       selector[:type] = '(any text type)'
       selector[:tag_name] = "input or textarea"
-      selector.inspect
+
+      if @query_scope.is_a?(Browser) || @query_scope.is_a?(IFrame)
+        super
+      else
+        "#{@query_scope.selector_string} --> #{selector.inspect}"
+      end
     end
   end # TextField
 

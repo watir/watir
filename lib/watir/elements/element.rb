@@ -551,6 +551,18 @@ module Watir
       locator.locate
     end
 
+    protected
+
+    def selector_string
+      return @selector.inspect if @query_scope.is_a?(Browser)
+      query_scope = if @query_scope.is_a?(IFrame)
+                      @query_scope.element.instance_variable_get("@query_scope")
+                    else
+                      @query_scope
+                    end
+      "#{query_scope.selector_string} --> #{@selector.inspect}"
+    end
+
     private
 
     def locator_class
@@ -573,10 +585,6 @@ module Watir
 
     def element_class_name
       self.class.name.split('::').last
-    end
-
-    def selector_string
-      @selector.inspect
     end
 
     # Ensure the driver is in the desired browser context
