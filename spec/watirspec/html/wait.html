@@ -30,7 +30,7 @@
     <a id="show_bar" href="#" onclick="setTimeoutDisplay('bar', 'block', 500);">show bar</a>
     <a id="hide_foo" href="#" onclick="setTimeoutDisplay('foo', 'none', 500);">hide foo</a>
     <a id="remove_foo" href="#" onclick="setTimeoutRemove('foo', 1000);">remove foo</a>
-    <div>
+    <div id="buttons">
       <button id="btn" type="button" onclick="setDisabled('btn', true, 0)" disabled>Click To Disable!</button>
       <a id="enable_btn" href="#" onclick="setDisabled('btn', false, 500);">enable btn</a>
       <button id="btn2" style="display:none;" type="button" disabled>Hidden and Disabled</button>
@@ -38,5 +38,6 @@
         show and enable btn
       </a>
     </div>
+    <div id="also_hidden" style="display:block;"></div>
   </body>
 </html>
