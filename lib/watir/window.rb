@@ -200,12 +200,12 @@ module Watir
       @handle ||= locate
     end
 
-    private
-
     # Referenced in EventuallyPresent
     def selector_string
       @selector.inspect
     end
+
+    private
 
     def locate
       if @selector.empty?

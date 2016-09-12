@@ -129,4 +129,34 @@ describe Watir::Element do
       end.to output.to_stderr
     end
   end
+
+  describe "#selector_string" do
+    it "displays selector string for regular element" do
+      browser.goto(WatirSpec.url_for("wait.html"))
+      delegator = browser.div(:id, 'foo').when_present
+      message = delegator.instance_variable_get('@message')
+      expect(message).to eq 'waiting for {:id=>"foo", :tag_name=>"div"} to become present'
+    end
+
+    it "displays selector string for element from colection" do
+      browser.goto(WatirSpec.url_for("wait.html"))
+      delegator = browser.divs.last.when_present
+      message = delegator.instance_variable_get('@message')
+      expect(message).to match /waiting for {:element=>#<Selenium::WebDriver::Element:0x\w+ id=\"[^\"]*\">} to become present/
+    end
+
+    it "displays selector string for nested element" do
+      browser.goto(WatirSpec.url_for("wait.html"))
+      delegator = browser.div(index: -1).div(:id, 'foo').when_present
+      message = delegator.instance_variable_get('@message')
+      expect(message).to eq 'waiting for {:index=>-1, :tag_name=>"div"} --> {:id=>"foo", :tag_name=>"div"} to become present'
+    end
+
+    it "displays selector string for nested element under frame" do
+      browser.goto(WatirSpec.url_for("nested_iframes.html"))
+      delegator = browser.iframe(id: 'one').iframe(:id, 'three').when_present
+      message = delegator.instance_variable_get('@message')
+      expect(message).to eq 'waiting for {:id=>"one", :tag_name=>"iframe"} --> {:id=>"three", :tag_name=>"iframe"} to become present'
+    end
+  end
 end
