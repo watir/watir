@@ -177,7 +177,7 @@ module Watir
       message = "waiting for #{selector_string} to become present"
 
       if block_given?
-        Watir::Wait.until(timeout, message) { present? }
+        wait_until(timeout, message, &:present?)
         yield self
       else
         WhenPresentDecorator.new(self, timeout, message)
@@ -201,7 +201,7 @@ module Watir
       message = "waiting for #{selector_string} to become enabled"
 
       if block_given?
-        Watir::Wait.until(timeout, message) { enabled? }
+        wait_until(timeout, message, &:enabled?)
         yield self
       else
         WhenEnabledDecorator.new(self, timeout, message)
@@ -223,7 +223,7 @@ module Watir
     def wait_until_present(timeout = nil)
       timeout ||= Watir.default_timeout
       message = "waiting for #{selector_string} to become present"
-      Watir::Wait.until(timeout, message) { present? }
+      wait_until(timeout, message, &:present?)
     end
 
     #
@@ -241,10 +241,21 @@ module Watir
     def wait_while_present(timeout = nil)
       timeout ||= Watir.default_timeout
       message = "waiting for #{selector_string} to disappear"
-      Watir::Wait.while(timeout, message) { present? }
+      wait_while(timeout, message, &:present?)
     rescue Selenium::WebDriver::Error::StaleElementReferenceError
       # it's not present
     end
 
+    def wait_until(timeout = nil, message = nil)
+      timeout ||= Watir.default_timeout
+      message ||= "Wait until the provided code returns true"
+      Watir::Wait.until(timeout, message) { yield(self) }
+    end
+
+    def wait_while(timeout = nil, message = nil)
+      timeout ||= Watir.default_timeout
+      message ||= "Wait until the provided code returns false"
+      Watir::Wait.while(timeout, message) { yield(self) }
+    end
   end # EventuallyPresent
 end # Watir
