@@ -38,11 +38,11 @@ module Watir
         def locate
           e = by_id and return e # short-circuit if :id is given
 
-          if @selector.size == 1
-            element = find_first_by_one
-          else
-            element = find_first_by_multiple
-          end
+          element = if @selector.size == 1
+                      find_first_by_one
+                    else
+                      find_first_by_multiple
+                    end
 
           # This actually only applies when finding by xpath/css - browser.text_field(:xpath, "//input[@type='radio']")
           # We don't need to validate the element if we built the xpath ourselves.
@@ -64,16 +64,15 @@ module Watir
         private
 
         def by_id
-          return unless id = @selector[:id] and id.is_a? String
-
           selector = @selector.dup
-          selector.delete(:id)
+          id = selector.delete :id
+          return unless id.is_a? String
 
           tag_name = selector.delete(:tag_name)
           return unless selector.empty? # multiple attributes
 
           element = @query_scope.wd.find_element(:id, id)
-          return if tag_name && !element_validator.validate(element, selector)
+          return if tag_name && !element_validator.validate(element, {tag_name: tag_name})
 
           element
         end
