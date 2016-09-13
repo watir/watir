@@ -77,6 +77,10 @@ describe Watir::Element do
       expect(watir_element).to_not exist
     end
 
+    it "returns false when tag name does not match" do
+      watir_element = browser.span(id: "text")
+      expect(watir_element).to_not exist
+    end
   end
 
   describe "#element_call" do
