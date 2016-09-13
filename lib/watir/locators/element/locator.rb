@@ -93,19 +93,27 @@ module Watir
           selector = selector_builder.normalized_selector
 
           idx = selector.delete(:index)
+          visible = selector.delete(:visible)
+
           how, what = selector_builder.build(selector)
 
           if how
             # could build xpath/css for selector
-            if idx
-              @query_scope.wd.find_elements(how, what)[idx]
+            if idx || !visible.nil?
+              idx ||= 0
+              elements = @query_scope.wd.find_elements(how, what)
+              elements = elements.select { |el| visible == el.displayed? } unless visible.nil?
+              elements[idx] unless elements.nil?
             else
               @query_scope.wd.find_element(how, what)
             end
           else
             # can't use xpath, probably a regexp in there
-            if idx
-              wd_find_by_regexp_selector(selector, :select)[idx]
+            if idx || !visible.nil?
+              idx ||= 0
+              elements = wd_find_by_regexp_selector(selector, :select)
+              elements = elements.select { |el| visible == el.displayed? } unless visible.nil?
+              elements[idx] unless elements.nil?
             else
               wd_find_by_regexp_selector(selector, :find)
             end
