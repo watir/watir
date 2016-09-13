@@ -142,7 +142,7 @@ describe Watir::Element do
       browser.goto(WatirSpec.url_for("wait.html"))
       delegator = browser.divs.last.when_present
       message = delegator.instance_variable_get('@message')
-      expect(message).to match /waiting for {:element=>#<Selenium::WebDriver::Element:0x\w+ id=\"[^\"]*\">} to become present/
+      expect(message).to match /waiting for {:element=>#<Selenium::WebDriver::Element:0x\S+ id=\S+>} to become present/
     end
 
     it "displays selector string for nested element" do
