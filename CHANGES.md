@@ -1,5 +1,9 @@
-### Unreleased
+### 6.0.0.beta4 (2016-09-12)
 
+* Deprecate Watir#prefer_css setting
+* Deprecate Watir#always_locate setting
+* Add `Element#stale?`
+* Add `Element#wait_until_stale`
 * Allow locating date/time/etc. input types with `#text_field` (#295)
 
 ### 6.0.0.beta3 (2016-08-07)
