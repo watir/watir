@@ -215,7 +215,7 @@ not_compliant_on :safari do
 
     describe "#wait_until_stale" do
       it "waits until the element disappears" do
-        stale_element = browser.a(id: 'foo')
+        stale_element = browser.div(id: 'foo')
         stale_element.exists?
         browser.refresh
         expect { stale_element.wait_until_stale(1) }.to_not raise_exception
