@@ -43,7 +43,8 @@ module Watir
     def initialize(browser = :chrome, *args)
       case browser
       when ::Symbol, String
-        @driver = Selenium::WebDriver.for browser.to_sym, *args
+        opts = process_capabilities(browser.to_sym, *args)
+        @driver = Selenium::WebDriver.for browser.to_sym, opts
       when Selenium::WebDriver::Driver
         @driver = browser
       else
@@ -51,7 +52,7 @@ module Watir
       end
 
       @after_hooks = AfterHooks.new(self)
-      @current_frame  = nil
+      @current_frame = nil
       @closed = false
     end
 
@@ -331,7 +332,7 @@ module Watir
       when Array
         obj.map { |e| wrap_elements_in(e) }
       when Hash
-        obj.each { |k,v| obj[k] = wrap_elements_in(v) }
+        obj.each { |k, v| obj[k] = wrap_elements_in(v) }
 
         obj
       else
@@ -341,6 +342,82 @@ module Watir
 
     def wrap_element(element)
       Watir.element_class_for(element.tag_name.downcase).new(self, element: element)
+    end
+
+    def process_capabilities(browser, watir_opts={})
+      url = watir_opts.delete(:url)
+      client_timeout = watir_opts.delete(:client_timeout)
+      http_client = watir_opts.delete(:http_client)
+      warn 'You can now pass :client_timeout value directly into Watir::Browser opt without needing to use :http_client' if http_client
+
+      if client_timeout
+        http_client ||= Selenium::WebDriver::Remote::Http::Default.new
+        http_client.timeout = client_timeout
+      end
+
+      set_driver_path(browser, watir_opts.delete(:driver_path)) if watir_opts.key?(:driver_path)
+      set_path(browser, watir_opts.delete(:path)) if watir_opts.key?(:path)
+
+      selenium_opts = {}
+      selenium_opts[:url] = url if url
+      selenium_opts[:http_client] = http_client if http_client
+      selenium_opts[:service_args] = watir_opts.delete(:service_args) if watir_opts.key?(:service_args)
+      selenium_opts[:port] = watir_opts.delete(:port) if watir_opts.key?(:port)
+      selenium_opts[:firefox_options] = watir_opts.delete(:firefox_options) if watir_opts.key?(:firefox_options)
+      selenium_opts[:chrome_options] = watir_opts.delete(:chrome_options) if watir_opts.key?(:chrome_options)
+
+
+      browser = watir_opts.delete(:browser) if browser == :remote
+      return selenium_opts if browser.nil?
+
+      caps = watir_opts.delete(:desired_capabilities)
+      if caps
+        warn 'You can now pass values directly into Watir::Browser opt without needing to use :desired_capabilities'
+        selenium_opts.merge!(watir_opts)
+      else
+        caps = Selenium::WebDriver::Remote::Capabilities.send browser, watir_opts
+      end
+
+      selenium_opts[:desired_capabilities] = caps
+      selenium_opts
+    end
+
+    def set_driver_path(browser, driver_path)
+      case browser
+      when :firefox, :ff
+        if opts[:marionette] == false
+          raise Watir::Exception::Error, ":driver_path is not an acceptable argument if :marionette is false"
+        else
+          Selenium::WebDriver::Firefox.driver_path = driver_path
+        end
+      when :remote
+        raise Watir::Exception::Error, ":driver_path is not an acceptable argument for :remote"
+      when :ie, :internet_explorer
+        Selenium::WebDriver::IE.driver_path = driver_path
+      when :chrome
+        Selenium::WebDriver::Chrome.driver_path = driver_path
+      when :edge
+        Selenium::WebDriver::Edge.driver_path = driver_path
+      when :phantomjs
+        Selenium::WebDriver::PhantomJS.path = driver_path
+      when :safari
+        Selenium::WebDriver::Safari.driver_path = driver_path
+      else
+        raise Watir::Exception::Error, "browser type #{browser} is not recognized"
+      end
+    end
+
+    def set_path (browser, path)
+      case browser
+      when :firefox, :ff
+        Selenium::WebDriver::Firefox::Binary.path = path
+      when :chrome
+        Selenium::WebDriver::Firefox::Chrome.path = path
+      when :phantomjs
+        Selenium::WebDriver::PhantomJS.path = path
+      else
+        raise Watir::Exception::Error, "browser type #{browser} does not accept a :path parameter"
+      end
     end
 
   end # Browser
