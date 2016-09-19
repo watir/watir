@@ -311,11 +311,6 @@ module Watir
         true
       end
     end
-    alias_method :ensure_not_stale, :assert_exists
-
-    def reset!
-      # no-op
-    end
 
     def browser
       self

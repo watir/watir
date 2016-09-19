@@ -8,10 +8,10 @@ module Watir
   end # Row
 
   class RowCollection < TableRowCollection
-    def elements
+    def to_a
       # we do this craziness since the xpath used will find direct child rows
       # before any rows inside thead/tbody/tfoot...
-      super.sort_by { |e| e.attribute(:rowIndex).to_i }
+      super.sort_by { |e| e.attribute_value(:rowIndex).to_i }
     end
   end
 end # Watir

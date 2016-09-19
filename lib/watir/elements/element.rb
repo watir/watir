@@ -24,12 +24,13 @@ module Watir
 
     def initialize(query_scope, selector)
       @query_scope = query_scope
-      @selector = selector
-      @element = nil
 
-      unless @selector.kind_of? Hash
+      unless selector.kind_of? Hash
         raise ArgumentError, "invalid argument: #{selector.inspect}"
       end
+
+      @element = selector.delete(:element)
+      @selector = selector
     end
 
     #
@@ -47,7 +48,7 @@ module Watir
     alias_method :exist?, :exists?
 
     def inspect
-      if @selector.key?(:element)
+      if @selector.empty?
         '#<%s:0x%x located=%s selector=%s>' % [self.class, hash*2, !!@element, '{element: (selenium element)}']
       else
         '#<%s:0x%x located=%s selector=%s>' % [self.class, hash*2, !!@element, selector_string]
@@ -513,24 +514,15 @@ module Watir
 
     # Ensure that the element exists, making sure that it is not stale and located if necessary
     def assert_exists
-      @element ||= @selector[:element]
-
-      if @element
-        ensure_not_stale # ensure not stale
+      if @element && @selector.empty?
+        ensure_context
+        @element = nil if stale?
+      elsif @element && !stale?
+        return
       else
         @element = locate
       end
 
-      assert_element_found
-    end
-
-    # Ensure that the element isn't stale, by relocating if it is
-    def ensure_not_stale
-      ensure_context
-
-      # Performance shortcut; only need recursive call to ensure context if stale in current context
-      return unless stale?
-      @element = @selector.key?(:element) ? nil : locate
       assert_element_found
     end
 
@@ -540,11 +532,8 @@ module Watir
       end
     end
 
-    def reset!
-      @element = nil
-    end
-
     def locate
+      return if @selector.empty?
       ensure_context
 
       element_validator = element_validator_class.new
@@ -628,7 +617,7 @@ module Watir
     def element_call
       yield
     rescue Selenium::WebDriver::Error::StaleElementReferenceError
-      @element = @selector.key?(:element) ? nil : locate
+      @element = locate
       assert_element_found
       retry
     end

@@ -49,32 +49,18 @@ describe Watir::Element do
     end
   end
 
-  describe "#reset!" do
-    it "successfully relocates collection elements after a reset!" do
-      browser.goto(WatirSpec.url_for("wait.html"))
-      element = browser.div(id: 'foo')
-      expect(element).to exist
-      browser.refresh
-      browser.div(id: 'foo').wait_until_present
-
-      expect(element.exist?).to be false unless Watir.always_locate?
-      element.send :reset!
-      expect(element).to exist
-    end
-  end
-
   describe "#exists?" do
     before do
       browser.goto WatirSpec.url_for('removed_element.html')
     end
 
-    it "returns false when an element from a collection becomes stale" do
+    it "relocates element from a collection when it becomes stale" do
       watir_element = browser.divs(id: "text").first
       expect(watir_element).to exist
 
       browser.refresh
 
-      expect(watir_element).to_not exist
+      expect(watir_element).to exist
     end
 
     it "returns false when tag name does not match id" do
@@ -146,7 +132,7 @@ describe Watir::Element do
       browser.goto(WatirSpec.url_for("wait.html"))
       delegator = browser.divs.last.when_present
       message = delegator.instance_variable_get('@message')
-      expect(message).to match /waiting for {:element=>#<Selenium::WebDriver::Element:0x\S+ id=\S+>} to become present/
+      expect(message).to match /waiting for {:tag_name=>\"div\", :index=>3} to become present/
     end
 
     it "displays selector string for nested element" do

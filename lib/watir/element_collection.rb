@@ -81,7 +81,9 @@ module Watir
 
     def to_a
       # TODO: optimize - lazy element_class instance?
-      @to_a ||= elements.map { |e| element_class.new(@query_scope, element: e) }
+      @to_a ||= elements.map.with_index do |e, idx|
+        element_class.new(@query_scope, @selector.merge(element: e, index: idx))
+      end
     end
 
     private

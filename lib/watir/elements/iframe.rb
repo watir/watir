@@ -2,6 +2,7 @@ module Watir
   class IFrame < HTMLElement
 
     def locate
+      return if @selector.empty?
       @query_scope.assert_exists
 
       selector = @selector.merge(tag_name: frame_tag)
@@ -13,6 +14,11 @@ module Watir
       element or raise UnknownFrameException, "unable to locate #{@selector[:tag_name]} using #{selector_string}"
 
       FramedDriver.new(element, driver)
+    end
+
+    def ==(other)
+      return false unless other.is_a?(self.class)
+      wd == other.wd.is_a?(FramedDriver) ? other.wd.send(:wd) : other.wd
     end
 
     def switch_to!
@@ -62,28 +68,6 @@ module Watir
 
 
   class IFrameCollection < ElementCollection
-
-    def to_a
-      # In case `#all_elements` returns empty array, but `#elements`
-      # returns non-empty array (i.e. any frame has loaded between these two calls),
-      # index will return nil. That's why `#all_elements` should always
-      # be called after `#elements.`
-      element_indexes = elements.map { |el| all_elements.index(el) }
-      element_indexes.map { |idx| element_class.new(@query_scope, tag_name: @selector[:tag_name], index: idx) }
-    end
-
-    private
-
-    def all_elements
-      selector = { tag_name: @selector[:tag_name] }
-
-      element_validator = element_validator_class.new
-      selector_builder = selector_builder_class.new(@query_scope, selector, element_class.attribute_list)
-      locator = locator_class.new(@query_scope, selector, selector_builder, element_validator)
-
-      locator.locate_all
-    end
-
   end # IFrameCollection
 
 
