@@ -5,14 +5,12 @@ Bundler::GemHelper.install_tasks
 
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec) do |spec|
-  spec.ruby_opts = "-I lib:spec"
   spec.rspec_opts = %w[--color --require fuubar --format Fuubar]
   spec.pattern = 'spec/**/*_spec.rb'
 end
 
 namespace :spec do
   RSpec::Core::RakeTask.new(:html) do |spec|
-    spec.ruby_opts = "-I lib:spec"
     spec.rspec_opts = "--format html --out #{ENV["SPEC_REPORT"] || "specs.html"}"
     spec.pattern = 'spec/**/*_spec.rb'
   end

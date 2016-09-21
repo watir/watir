@@ -1,4 +1,4 @@
-require File.expand_path('watirspec/spec_helper', File.dirname(__FILE__))
+require 'watirspec_helper'
 
 describe Watir::Element do
 

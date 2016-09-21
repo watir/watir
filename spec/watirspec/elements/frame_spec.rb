@@ -57,7 +57,7 @@ describe "Frame" do
 
           browser.frame(id: "two").frame(id: "three").link(id: "four").click
 
-          Wait.until{ browser.title == "definition_lists" }
+          Watir::Wait.until { browser.title == "definition_lists" }
         end
       end
     end
