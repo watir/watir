@@ -24,6 +24,8 @@ module Watir
     #
 
     def strings
+      wait_for_exists
+
       rows.inject [] do |res, row|
         res << row.cells.map(&:text)
       end

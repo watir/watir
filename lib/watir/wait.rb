@@ -96,6 +96,8 @@ module Watir
 
   class BaseDecorator
 
+    ELEMENT_ACTIONS = [:set, :append, :clear, :click, :double_click, :right_click, :send_keys, :focus, :focused?, :submit]
+
     def initialize(element, timeout, message = nil)
       @element = element
       @timeout = timeout
@@ -127,6 +129,11 @@ module Watir
       Watir::Wait.until(@timeout, @message) { wait_until }
       true
     rescue Watir::Wait::TimeoutError
+
+      if @timeout >= Watir.default_timeout && @timeout != 0 && ELEMENT_ACTIONS.include?(m)
+        warn "#when_present might be unnecessary for #{@element.send :selector_string}; elements now automatically wait when taking action - #{m}"
+      end
+
       false
     end
 

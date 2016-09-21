@@ -189,7 +189,7 @@ module Watir
     #
 
     def use(&blk)
-      assert_exists
+      wait_for_exists
       @driver.switch_to.window(handle, &blk)
       self
     end
@@ -238,6 +238,14 @@ module Watir
     rescue Selenium::WebDriver::Error::NoSuchWindowError, Selenium::WebDriver::Error::NoSuchDriverError
       # the window may disappear while we're iterating.
       false
+    end
+
+    def wait_for_exists
+      begin
+        Watir::Wait.until { exists? }
+      rescue Watir::Wait::TimeoutError
+        raise Exception::NoMatchingWindowFoundException, @selector.inspect
+      end
     end
 
   end # Window

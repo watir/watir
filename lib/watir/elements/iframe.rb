@@ -11,7 +11,7 @@ module Watir
       locator = locator_class.new(@query_scope, selector, selector_builder, element_validator)
 
       element = locator.locate
-      element or raise UnknownFrameException, "unable to locate #{@selector[:tag_name]} using #{selector_string}"
+      element or raise unknown_exception, "unable to locate #{@selector[:tag_name]} using #{selector_string}"
 
       FramedDriver.new(element, driver)
     end
@@ -50,6 +50,7 @@ module Watir
     #
 
     def html
+      wait_for_exists
       wd.page_source
     end
 
@@ -61,6 +62,10 @@ module Watir
 
     def frame_tag
       'iframe'
+    end
+
+    def unknown_exception
+      Watir::Exception::UnknownFrameException
     end
 
   end # IFrame
