@@ -311,6 +311,12 @@ module Watir
         true
       end
     end
+    alias_method :wait_for_exists, :assert_exists
+    alias_method :wait_for_present, :assert_exists
+
+    def reset!
+      # no-op
+    end
 
     def browser
       self
