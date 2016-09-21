@@ -1,5 +1,5 @@
 require 'watirspec'
-require File.expand_path("../spec_helper", __FILE__)
+require 'spec_helper'
 
 class ImplementationConfig
   def initialize(imp)
@@ -19,7 +19,6 @@ class ImplementationConfig
     start_remote_server if remote? && !ENV["REMOTE_SERVER_URL"]
     set_browser_args
     set_guard_proc
-    add_html_routes
 
     WatirSpec.always_use_server = ie? || safari? || phantomjs? || remote?
   end
@@ -185,13 +184,6 @@ class ImplementationConfig
 
     caps = Selenium::WebDriver::Remote::Capabilities.send(remote_browser, opts)
     {url: url, desired_capabilities: caps}
-  end
-
-  def add_html_routes
-    glob = File.expand_path("../html/*.html", __FILE__)
-    Dir[glob].each do |path|
-      WatirSpec::Server.get("/#{File.basename path}") { File.read(path) }
-    end
   end
 
   class SelectorListener < Selenium::WebDriver::Support::AbstractEventListener

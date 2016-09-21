@@ -1,8 +1,9 @@
-require "sinatra/base"
 require "socket"
+require 'rack'
+require 'watirspec/server/app'
 
 module WatirSpec
-  class Server < Sinatra::Base
+  class Server
     class << self
       attr_accessor :autorun
 
@@ -35,8 +36,37 @@ module WatirSpec
       end
 
       def run!
-        handler = detect_rack_handler
-        handler.run(self, Host: bind, Port: port, AccessLog: [], Logger: SilentLogger.new) { @running = true }
+        handler = Rack::Handler::WEBrick
+        handler.run(app, Host: bind, Port: port, AccessLog: [], Logger: SilentLogger.new) { @running = true }
+      end
+
+      def app
+        files = html_files
+
+        Rack::Builder.app do
+          use Rack::ShowExceptions
+          use Rack::Static, urls: files, root: WatirSpec.html
+
+          run App.new
+        end
+      end
+
+      def html_files
+        Dir["#{WatirSpec.html}/*.html"].map do |file|
+          file.sub(WatirSpec.html, '')
+        end
+      end
+
+      def port
+        @port ||= pick_port_above(8180)
+      end
+
+      def bind
+        if WatirSpec.platform == :windows
+          "127.0.0.1"
+        else
+          'localhost'
+        end
       end
 
       def listening?
@@ -89,105 +119,7 @@ module WatirSpec
       rescue SocketError, Errno::EADDRINUSE
         false
       end
-
     end # class << Server
-
-    set :public_folder, WatirSpec.html
-    set :static,        true
-    set :run,           false
-    set :environment,   :production
-    set :bind,          "127.0.0.1" if WatirSpec.platform == :windows
-    set :port,          pick_port_above(8180)
-    set :server,        "webrick"
-
-    get '/' do
-      self.class.name
-    end
-
-    class BigContent
-      def each(&blk)
-        yield "<html><head><title>Big Content</title></head><body>"
-
-        string = "hello"*205
-
-        300.times do
-          yield string
-        end
-
-        yield "</body></html>"
-      end
-    end
-
-    get '/big' do
-      BigContent.new
-    end
-
-    post '/post_to_me' do
-      "You posted the following content:\n#{ env['rack.input'].read }"
-    end
-
-    get '/plain_text' do
-      content_type 'text/plain'
-      'This is text/plain'
-    end
-
-    get '/ajax' do
-      sleep 10
-      "A slooow ajax response"
-    end
-
-    get '/charset_mismatch' do
-      content_type 'text/html; charset=UTF-8'
-      %{
-        <html>
-          <head>
-            <meta http-equiv="Content-type" content="text/html; charset=iso-8859-1" />
-          </head>
-          <body>
-            <h1>ø</h1>
-          </body>
-        </html>
-      }
-    end
-
-    get '/octet_stream' do
-      content_type 'application/octet-stream'
-      'This is application/octet-stream'
-    end
-
-    get '/set_cookie' do
-      content_type 'text/html'
-      headers 'Set-Cookie' => "monster=1"
-
-      "<html>C is for cookie, it's good enough for me</html>"
-    end
-
-    get '/set_cookie/index.html' do
-      content_type 'text/html'
-      headers 'Set-Cookie' => "monster=1"
-
-      "<html>C is for cookie, it's good enough for me</html>"
-    end
-
-    get '/header_echo' do
-      content_type 'text/plain'
-      env.inspect
-    end
-
-    get '/authentication' do
-      auth = Rack::Auth::Basic::Request.new(env)
-
-      unless auth.provided? && auth.credentials == %w[foo bar]
-        headers 'WWW-Authenticate' => %(Basic realm="localhost")
-        halt 401, 'Authorization Required'
-      end
-
-      "ok"
-    end
-
-    get '/encodable_<stuff>' do
-      'page with characters in URI that need encoding'
-    end
 
   end # Server
 end # WatirSpec
