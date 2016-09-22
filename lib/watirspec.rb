@@ -1,12 +1,12 @@
 require "tmpdir"
+require 'watirspec/guards'
+require 'watirspec/implementation'
+require 'watirspec/runner'
+require 'watirspec/server'
 
 module WatirSpec
   class << self
-    attr_accessor :browser_args, :persistent_browser, :unguarded, :implementation, :always_use_server
-
-    def root
-      @root ||= Dir.pwd
-    end
+    attr_accessor :browser_args, :unguarded, :implementation, :always_use_server
 
     def html
       @html ||= File.expand_path("../../spec/watirspec/html", __FILE__)
@@ -17,15 +17,7 @@ module WatirSpec
     end
 
     def url_for(str, opts = {})
-      if opts[:needs_server] || always_use_server
-        File.join(host, str)
-      else
-        File.join(files, str)
-      end
-    end
-
-    def files
-      @files ||= "file://#{html}"
+      File.join(host, str)
     end
 
     def host
@@ -116,9 +108,3 @@ module WatirSpec
 
   end # class << WatirSpec
 end # WatirSpec
-
-require 'watirspec/guards'
-require 'watirspec/implementation'
-require 'watirspec/runner'
-require 'watirspec/server'
-require 'watirspec/silent_logger'

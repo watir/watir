@@ -24,32 +24,10 @@ module WatirSpec
 
     def matching_guards_in(guards)
       result = []
-      guards.each { |args, data| data.each {|d| result << d } if matches_guard?(args) }
+      guards.each { |args, data| data.each { |d| result << d } if matches_guard?(args) }
 
       result
     end
 
   end # Implementation
 end # WatirSpec
-
-if __FILE__ == $0
-  require "rubygems"
-  require 'rspec/autorun'
-
-  describe WatirSpec::Implementation do
-    before { @impl = WatirSpec::Implementation.new }
-
-    it "finds matching guards" do
-      guards = {
-        [:watir_classic] => [
-          {name: :not_compliant, data: {file: "./spec/watirspec/div_spec.rb:108"}},
-          {name: :deviates,      data: {file: "./spec/watirspec/div_spec.rb:114"}},
-          {name: :not_compliant, data: {file: "./spec/watirspec/div_spec.rb:200"}},
-          {name: :bug,           data: {file: "./spec/watirspec/div_spec.rb:228", key: "WTR-350"}}
-        ]
-      }
-      @impl.name = :watir_classic
-      @impl.matching_guards_in(guards).should == [{name: :deviates, data: {file: "./spec/watirspec/div_spec.rb:114"}}]
-    end
-  end
-end

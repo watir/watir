@@ -19,8 +19,6 @@ class ImplementationConfig
     start_remote_server if remote? && !ENV["REMOTE_SERVER_URL"]
     set_browser_args
     set_guard_proc
-
-    WatirSpec.always_use_server = ie? || safari? || phantomjs? || remote?
   end
 
   private

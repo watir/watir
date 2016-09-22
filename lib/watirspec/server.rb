@@ -1,12 +1,11 @@
 require "socket"
 require 'rack'
 require 'watirspec/server/app'
+require 'watirspec/server/silent_logger'
 
 module WatirSpec
   class Server
     class << self
-      attr_accessor :autorun
-
       def run_async
         if WatirSpec.platform == :java
           Thread.new { run! }
@@ -41,7 +40,7 @@ module WatirSpec
       end
 
       def app
-        files = html_files
+        files = static_files
 
         Rack::Builder.app do
           use Rack::ShowExceptions
@@ -51,8 +50,8 @@ module WatirSpec
         end
       end
 
-      def html_files
-        Dir["#{WatirSpec.html}/*.html"].map do |file|
+      def static_files
+        Dir["#{WatirSpec.html}/*"].map do |file|
           file.sub(WatirSpec.html, '')
         end
       end
@@ -78,12 +77,8 @@ module WatirSpec
         false
       end
 
-      def autorun
-        @autorun ||= true
-      end
-
       def should_run?
-        autorun && !running?
+        !running?
       end
 
       def running?
