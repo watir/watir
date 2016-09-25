@@ -10,6 +10,7 @@ module Watir
     include Exception
     include Container
     include EventuallyPresent
+    include Waitable
 
     #
     # temporarily add :id and :class_name manually since they're no longer specified in the HTML spec.
@@ -302,9 +303,7 @@ module Watir
     #
 
     def send_keys(*args)
-      element_call(:wait_for_writable) do
-        @element.send_keys(*args)
-      end
+      element_call(:wait_for_writable) { @element.send_keys(*args) }
     end
 
     #
@@ -499,13 +498,13 @@ module Watir
 
       begin
         @query_scope.wait_for_exists
-        Watir::Wait.until { exists? }
+        Watir::Wait.until(element: self, &:exists?)
       rescue Watir::Wait::TimeoutError
         unless Watir.default_timeout == 0
           warn "This test has slept for the duration of the default timeout. "\
-                  "If your test is passing, consider using Element#exists? instead of rescuing this error)"
+                  "If your test is passing, consider using Element#exists? instead of rescuing this error"
         end
-        raise unknown_exception, "timed out after #{Watir.default_timeout} seconds "\
+        raise unknown_exception, "timed out after #{Watir.default_timeout} seconds, "\
                                          "waiting for #{selector_string} to be located"
       end
     end
@@ -515,24 +514,25 @@ module Watir
 
       wait_for_exists
       begin
+        @query_scope.wait_for_present
         wait_until_present
       rescue Watir::Wait::TimeoutError => ex
         unless Watir.default_timeout == 0
           warn "This test has slept for the duration of the default timeout. "\
-                  "If your test is passing, consider using Element#present? instead of rescuing this error)"
+                  "If your test is passing, consider using Element#present? instead of rescuing this error"
         end
-        raise unknown_exception, "element located, but timed out after #{Watir.default_timeout} seconds #{ex.msg}"
+        raise unknown_exception, "element located, but #{ex.message}"
       end
     end
 
     def wait_for_enabled
-      return assert_enabled if Watir.relaxed_locate?
+      return assert_enabled unless Watir.relaxed_locate?
 
       wait_for_present
       begin
         Watir::Wait.until { @element.enabled? }
       rescue Watir::Wait::TimeoutError
-        message = "element present, but timed out after #{Watir.default_timeout} seconds waiting for #{selector_string} to be enabled"
+        message = "element present, but timed out after #{Watir.default_timeout} seconds, waiting for #{selector_string} to be enabled"
         raise ObjectDisabledException, message
       end
     end
@@ -544,7 +544,7 @@ module Watir
       begin
         Watir::Wait.until { !respond_to?(:readonly?) || !readonly? }
       rescue Watir::Wait::TimeoutError
-        message = "element present and enabled, but timed out after #{Watir.default_timeout} seconds waiting for #{selector_string} to not be readonly"
+        message = "element present and enabled, but timed out after #{Watir.default_timeout} seconds, waiting for #{selector_string} to not be readonly"
         raise ObjectReadOnlyException, message
       end
     end
