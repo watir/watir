@@ -1,3 +1,9 @@
+### 6.0.0.beta5 (2016-09-25)
+
+* Elements in collections can now be relocated after going stale
+* Added visible locator to filter out matching elements that are hidden 
+* Element not found error messages now include selector information from parent elements
+
 ### 6.0.0.beta4 (2016-09-12)
 
 * Deprecate Watir#prefer_css setting
