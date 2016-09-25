@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>jQuery UI Droppable - Default Demo</title>
+    <link type="text/css" href="css/jquery-ui-1.8.17.custom.css" rel="stylesheet" />
+    <script type="text/javascript" src="javascript/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="javascript/jquery-ui-1.8.17.custom.min.js"></script>
+    <style type="text/css">
+    #draggable { position: relative; width: 100px; height: 100px; padding: 0.5em; float: left; margin: 10px 10px 10px 0; }
+    #droppable { position: relative; width: 150px; height: 150px; padding: 0.5em; float: left; margin: 10px; }
+    </style>
+
+  <script type="text/javascript">
+    $(function() {
+      $("#repositionDraggable").click(function() {
+        $("#draggable").css("top", "2500px");
+      });
+
+      $("#repositionDroppable").click(function() {
+        $("#droppable").css("top", "2500px");
+      });
+
+      $("#draggable").draggable();
+      $("#droppable").droppable({
+        drop: function(event, ui) {
+          $(this).addClass('ui-state-highlight').find('p').html('Dropped!');
+          $('body').off();
+        }
+      });
+
+      var report_event = function(report_text) {
+        var reportElement = $("#drop_reports");
+        var origText = reportElement.text();
+        reportElement.text(origText + " " + report_text);
+      }
+
+      $('body').on('mousedown', function() {
+          report_event('down');
+      });
+
+      $('body').on('mousemove', function() {
+          report_event('move');
+      });
+
+      $('body').on('mouseup', function() {
+          report_event('up');
+      });
+
+      $('body').on('dragstart', function() {
+          report_event('dragstart');
+      });
+
+      $('body').on('drag', function() {
+          report_event('drag');
+      });
+
+      $('body').on('dragenter', function() {
+          report_event('dragenter');
+      });
+
+      $('body').on('dragover', function() {
+          report_event('dragover');
+      });
+
+      $('body').on('dragleave', function() {
+          report_event('dragleave');
+      });
+
+      $('body').on('dragend', function() {
+          report_event('dragend');
+      });
+
+      $('body').on('drop', function() {
+          report_event('drop');
+      });
+  });
+  </script>
+</head>
+<body>
+
+<input id="repositionDraggable" type="button" value="repositionDraggable"/>
+<input id="repositionDroppable" type="button" value="repositionDroppable"/>
+<div class="demo">
+
+<div id="draggable" class="ui-widget-content">
+  <p>Drag me to my target</p>
+</div>
+
+<div id="droppable" class="ui-widget-header">
+  <p>Drop here</p>
+</div>
+
+<div class="test-data">
+  <p id="drop_reports">start</p>
+</div>
+
+</div><!-- End demo -->
+
+<div class="demo-description">
+
+<p>Taken from the JQuery demo.</p>
+
+</div><!-- End demo-description -->
+</body>
+</html>

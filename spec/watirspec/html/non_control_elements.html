@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>Non-control elements</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="javascript/helpers.js" type="text/javascript" charset="utf-8"></script>
+  </head>
+  <body>
+    <div></div>
+    <div id="outer_container">
+        <div id="header" title="Header and primary navigation" class="profile">
+            <h1 id="first_header" class="primary">Header 1</h1>
+            <ul id="navbar" class="navigation">
+                <li><a></a></li>
+                <li><a id="link_2" title="link_title_2" href="non_control_elements.html" class="external">Link 2</a></li>
+                <li><a id="link_3" title="link_title_3" href="forms_with_input_elements.html" name="bad_attribute" value="bad_attribute" class="external">Link 3</a></li>
+                <li></li>
+                <li id="non_link_1" class="nonlink" title="This is not a link!">Non-link 1</li>
+                <li id="non_link_2">Non-link 2</li>
+                <li>Non-link 3</li>
+            </ul>
+        </div>
+        <div id="promo" name="invalid_attribute" value="invalid_attribute">
+            <h2 id="promo_header">Promo</h2>
+            <span id="lead" class="lead" title="Lorem ipsum">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Curabitur eu pede. Ut justo. Praesent feugiat, elit in feugiat iaculis, sem risus rutrum justo, eget fermentum dolor arcu non nunc.</span>
+            <span name="invalid_attribute" value="invalid_attribute">Sed pretium metus et quam. Nullam odio dolor, vestibulum non, tempor ut, vehicula sed, sapien. Vestibulum placerat ligula at quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</span>
+            <span>Suspendisse at ipsum a turpis viverra venenatis. Praesent ut nibh. Nullam eu odio. Donec tempor, elit ut lacinia porttitor, augue neque vehicula diam, in elementum ligula nisi a tellus. Aliquam vestibulum ultricies tortor. </span>
+            <span><strong id="descartes" class="descartes">Dubito, <em class="important-class" id="important-id" title="ergo cogito">ergo cogito</em>, ergo sum.</strong></span>
+            <span></span>
+            <h3>Chemical compounds</h3>
+            <ul>
+                <li>Abietic acid, <strong>C20H30O2</strong></li>
+                <li>Acenaphthene, C12H10</li>
+                <li>Acenaphthoquinone, C12H6O2</li>
+                <li>Acenaphthylene, C12H8</li>
+                <li>Acetaldehyde (ethanal), CH3CHO</li>
+            </ul>
+            <ol id="favorite_compounds" class="chemistry">
+                <li>Propanol, CH3CH2CH2OH</li>
+                <li>Ethane, C2H6</li>
+                <li>Hexene, C6H12</li>
+                <li>Acetone, CH3COCH3</li>
+                <li>Ethanol, CH3CH2OH</li>
+            </ol>
+            <ol>
+                <li></li>
+            </ol>
+        </div>
+        <div id="content">
+            <h2>Content</h2>
+            <p id="lead" class="lead" title="Lorem ipsum">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Curabitur eu pede. Ut justo. Praesent feugiat, elit in feugiat iaculis, sem risus rutrum justo, eget fermentum dolor arcu non nunc.</p>
+            <p name="invalid_attribute" value="invalid_attribute">Sed pretium metus et quam. Nullam odio dolor, vestibulum non, tempor ut, vehicula sed, sapien. Vestibulum placerat ligula at quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+            <p>Suspendisse at ipsum a turpis viverra venenatis. Praesent ut nibh. Nullam eu odio. Donec tempor, elit ut lacinia porttitor, augue neque vehicula diam, in elementum ligula nisi a tellus. Aliquam vestibulum ultricies tortor. </p>
+            <p>Dubito, ergo cogito, ergo sum.</p>
+            <p></p>
+            <pre></pre>
+            <div id="best_language" onclick="this.innerHTML = 'Ruby!'" style="color: red; text-decoration: underline; cursor: pointer;">What's the best programming language?</div>
+            <h2>Ruby RSpec example</h2>
+            <pre class="ruby" id="rspec">
+                browser.pre(id: "rspec").should exist
+            </pre>
+            <h2>PHP Hello World</h2>
+            <pre class="php">
+                &lt;?php
+                    echo "Hello, World!\n";
+                ?&gt;
+            </pre>
+            <h2>Ruby Hello World</h2>
+            <pre class="ruby">
+                puts "Hello, World!"
+            </pre>
+            <h2>C++ Hello World</h2>
+            <pre class="c-plus-plus">
+                main() {
+                    cout << "Hello World!\n";
+                    return 0;
+                }
+            </pre>
+            <h2>Haskell</h2>
+            <pre class="haskell">main = putStrLn "Hello World"</pre>
+            <h2>Brainfuck</h2>
+            <pre class="brainfuck" title="The brainfuck language is an esoteric programming language noted for its extreme minimalism">
+                ++++++++++
+                [>+++++++>++++++++++>+++>+<<<<-] The initial loop to set up useful values in the array
+                >++.                             Print 'H'
+                >+.                              Print 'e'
+                +++++++.                         Print 'l'
+                .                                Print 'l'
+                +++.                             Print 'o'
+                >++.                             Print ' '
+                <<+++++++++++++++.               Print 'W'
+                >.                               Print 'o'
+                +++.                             Print 'r'
+                ------.                          Print 'l'
+                --------.                        Print 'd'
+                >+.                              Print '!'
+                >.                               Print newline
+            </pre>
+        </div>
+        <div id="html_test" class=some_class title="This is a title" ondblclick="WatirSpec.addMessage('double clicked')">
+            <h1 id="header1">Header 1</h1>
+            <h2 id="header2">Header 2</h2>
+            <h3 id="header3">Header 3</h3>
+            <h4 id="header4">Header 4</h4>
+            <h5 id="header5">Header 5</h5>
+            <h6 id="header6">Header 6</h6>
+            <h6 id="empty_header"></h6>
+        </div>
+        <div id="footer" title="Closing remarks" class="profile">
+            <span class="footer" onclick="this.innerHTML = 'This is a footer with text set by Javascript.'">This is a footer.</span>
+        </div>
+        <a href="strip_space ">Space should be stripped from href</a>
+        <div id="hidden" style="display: none;">Not shown</div>
+    </div>
+
+    <div id="messages"></div>
+
+    <div id="ins_tag_test">
+      <ins id="lead" class="lead" title='Lorem ipsum'>This is an inserted text tag 1</ins>
+      <ins value="invalid_attribute">This is an inserted text tag 2</ins>
+      <ins>This is an inserted text tag 3</ins>
+      <ins></ins>
+      <ins class="footer" onclick="this.innerHTML = 'This is an ins with text set by Javascript.'">This is an ins.</ins>
+    </div>
+
+    <div id="del_tag_test">
+      <del id="lead" class="lead" title='Lorem ipsum'>This is a deleted text tag 1</del>
+      <del value="invalid_attribute">This is a deleted text tag 2</del>
+      <del>This is a deleted text tag 3</del>
+      <del></del>
+      <del class="footer" onclick="this.innerHTML = 'This is a del with text set by Javascript.'">This is a del.</del>
+    </div>
+
+  </body>
+</html>
