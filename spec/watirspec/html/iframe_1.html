@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <title>IFrame 1</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    </head>
+    <body onload="document.senderForm.senderElement.focus()">
+        <h1>Frame 1</h1>
+        <p>Nam accumsan. Donec nisi pede, interdum eget, ultrices ac, vulputate vitae, nunc. Nulla lorem. Duis cursus pharetra dolor. Nulla accumsan hendrerit leo. Vivamus commodo. Nullam dignissim adipiscing est. Aliquam vitae orci in risus lobortis luctus. Ut luctus fermentum ligula. Nullam ipsum. Suspendisse sit amet nisi.</p>
+        <form action="" method="post" name="senderForm">
+            <fieldset>
+                <select id="select-list">
+                  <option value="value1">value1</option>
+                  <option value="value2">value2</option>
+                </select>
+                <input type="text" name="senderElement" id="senderElement" value="send_this_value" />
+                <input type="button" id="send" onclick="parent.iframe2.document.recieverForm.recieverElement.value = document.senderForm.senderElement.value" value="Send!" />
+            </fieldset>
+        </form>
+        <div id="set_by_js" />
+    </body>
+</html>
