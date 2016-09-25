@@ -71,13 +71,9 @@ module Watir
       end
 
       def run_with_timer(timeout, &block)
-        if timeout == 0
+        timer.wait(timeout) do
           block.call
-        else
-          timer.wait(timeout) do
-            block.call
-            sleep INTERVAL
-          end
+          sleep INTERVAL
         end
       end
 
@@ -228,8 +224,12 @@ module Watir
     #
 
     def wait_until_present(timeout = nil)
+      return if present? # shortcut
       timeout ||= Watir.default_timeout
+      raise TimeoutError, "#{selector_string} is not present" if timeout == 0
+
       message = "waiting for #{selector_string} to become present"
+      @query_scope.wait_until_present(remaining_time(timeout).first) unless @query_scope.is_a? Browser
       Watir::Wait.until(timeout, message) { present? }
     end
 
@@ -246,7 +246,10 @@ module Watir
     #
 
     def wait_while_present(timeout = nil)
+      return unless present? # shortcut
       timeout ||= Watir.default_timeout
+      raise TimeoutError, "#{selector_string} is not present" if timeout == 0
+
       message = "waiting for #{selector_string} to disappear"
       Watir::Wait.while(timeout, message) { present? }
     end

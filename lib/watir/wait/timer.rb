@@ -2,6 +2,10 @@ module Watir
   module Wait
     class Timer
 
+      def initialize(end_time = nil)
+        @end_time = end_time
+      end
+
       #
       # Executes given block until it returns true or exceeds timeout.
       # @param [Fixnum] timeout
@@ -10,8 +14,19 @@ module Watir
       #
 
       def wait(timeout, &block)
-        end_time = current_time + timeout
-        yield(block) until current_time > end_time
+        end_time = @end_time || current_time + timeout
+        loop do
+          yield(block)
+          break if current_time > end_time
+        end
+      end
+
+      def reset!
+        @end_time = nil
+      end
+
+      def locked?
+        !@end_time.nil?
       end
 
       private

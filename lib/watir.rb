@@ -14,8 +14,20 @@ require 'watir/screenshot'
 require 'watir/after_hooks'
 
 module Watir
+  @relaxed_locate = true
+
+  attr_writer :relaxed_locate, :always_locate, :default_timeout, :prefer_css, :locator_namespace
 
   class << self
+    #
+    # Whether or not Watir should wait for an element to be found or present
+    # before taking an action.
+    # Defaults to true.
+    #
+
+    def relaxed_locate?
+      @relaxed_locate
+    end
 
     #
     # Whether or not Watir should re-locate a stale Element on use.
@@ -58,6 +70,10 @@ as Selenium locators will be translated to XPath. To continue using CSS Selector
 require the watir_css gem - https://github.com/watir/watir_css
       EOS
     end
+
+    #
+    # Default wait time for wait methods.
+    #
 
     def default_timeout
       @default_timeout ||= 30
