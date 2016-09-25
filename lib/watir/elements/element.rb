@@ -110,9 +110,7 @@ module Watir
     #
 
     def click(*modifiers)
-      element_call(:wait_for_present) do
-        assert_enabled
-
+      element_call(:wait_for_enabled) do
         if modifiers.any?
           assert_has_input_devices_for "click(#{modifiers.join ', '})"
 
@@ -304,8 +302,7 @@ module Watir
     #
 
     def send_keys(*args)
-      element_call(:wait_for_present) do
-        assert_writable
+      element_call(:wait_for_writable) do
         @element.send_keys(*args)
       end
     end
@@ -496,47 +493,59 @@ module Watir
 
     protected
 
-    def wait_for_exists(timeout = nil)
+    def wait_for_exists
       return assert_exists unless Watir.relaxed_locate?
       return if exists? # Performance shortcut
 
-      timeout ||= Watir.default_timeout
-      timeout_off = timeout <= 0
-      end_time = Time.now + timeout
-
       begin
-        remaining_time = timeout_off ? 0 : end_time - Time.now
-        Watir::Wait.until(remaining_time) { exists? }
+        @query_scope.wait_for_exists
+        Watir::Wait.until { exists? }
       rescue Watir::Wait::TimeoutError
-        unless timeout_off
+        unless Watir.default_timeout == 0
           warn "This test has slept for the duration of the default timeout. "\
                   "If your test is passing, consider using Element#exists? instead of rescuing this error)"
         end
-        raise unknown_exception, "unable to locate element, using #{selector_string} "\
-                                         "after waiting #{timeout} seconds)"
+        raise unknown_exception, "timed out after #{Watir.default_timeout} seconds "\
+                                         "waiting for #{selector_string} to be located"
       end
     end
 
-    def wait_for_present(timeout = nil)
+    def wait_for_present
       return assert_exists unless Watir.relaxed_locate?
-      return if present? # Performance shortcut
 
-      timeout ||= Watir.default_timeout
-      timeout_off = timeout <= 0
-      end_time = Time.now + timeout
-
+      wait_for_exists
       begin
-        remaining_time = timeout_off ? 0 : end_time - Time.now
-        wait_for_exists(remaining_time)
-        remaining_time = timeout_off ? 0 : end_time - Time.now
-        Watir::Wait.until(remaining_time) { present? }
-      rescue Watir::Wait::TimeoutError
-        unless timeout_off
+        wait_until_present
+      rescue Watir::Wait::TimeoutError => ex
+        unless Watir.default_timeout == 0
           warn "This test has slept for the duration of the default timeout. "\
                   "If your test is passing, consider using Element#present? instead of rescuing this error)"
         end
-        raise unknown_exception, "element located but not visible, using #{selector_string} "\
-                                         "after waiting #{timeout} seconds)"
+        raise unknown_exception, "element located, but timed out after #{Watir.default_timeout} seconds #{ex.msg}"
+      end
+    end
+
+    def wait_for_enabled
+      return assert_enabled if Watir.relaxed_locate?
+
+      wait_for_present
+      begin
+        Watir::Wait.until { @element.enabled? }
+      rescue Watir::Wait::TimeoutError
+        message = "element present, but timed out after #{Watir.default_timeout} seconds waiting for #{selector_string} to be enabled"
+        raise ObjectDisabledException, message
+      end
+    end
+
+    def wait_for_writable
+      return assert_writable unless Watir.relaxed_locate?
+
+      wait_for_enabled
+      begin
+        Watir::Wait.until { !respond_to?(:readonly?) || !readonly? }
+      rescue Watir::Wait::TimeoutError
+        message = "element present and enabled, but timed out after #{Watir.default_timeout} seconds waiting for #{selector_string} to not be readonly"
+        raise ObjectReadOnlyException, message
       end
     end
 
@@ -647,12 +656,14 @@ module Watir
     end
 
     def element_call(exist_check = :wait_for_exists)
+      already_locked = Wait.timer.locked?
+      Wait.timer = Wait::Timer.new(::Time.now + Watir.default_timeout) unless already_locked
       send exist_check
       yield
     rescue Selenium::WebDriver::Error::StaleElementReferenceError
-      @element = locate
-      assert_element_found
       retry
+    ensure
+      Wait.timer.reset! unless already_locked
     end
 
     def method_missing(meth, *args, &blk)

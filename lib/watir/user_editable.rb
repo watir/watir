@@ -8,8 +8,7 @@ module Watir
     #
 
     def set(*args)
-      element_call(:wait_for_present) do
-        assert_writable
+      element_call(:wait_for_writable) do
         @element.clear
         @element.send_keys(*args)
       end
@@ -32,8 +31,7 @@ module Watir
     #
 
     def clear
-      element_call(:wait_for_present) do
-        assert_writable
+      element_call(:wait_for_writable) do
         @element.clear
       end
     end
