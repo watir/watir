@@ -35,10 +35,14 @@ module Watir
       # @raise [TimeoutError] if timeout is exceeded
       #
 
-      def until(timeout = nil, message = nil)
-        timeout ||= Watir.default_timeout
+      def until(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, element: nil)
+        if deprecated_message || deprecated_timeout
+          warn "Instead of passing arguments into Wait#until method, use keywords"
+        end
+        timeout ||= deprecated_timeout || Watir.default_timeout
+        message ||= deprecated_message
         run_with_timer(timeout) do
-          result = yield(self)
+          result = yield(element)
           return result if result
         end
         raise TimeoutError, message_for(timeout, message)
@@ -55,9 +59,13 @@ module Watir
       # @raise [TimeoutError] if timeout is exceeded
       #
 
-      def while(timeout = nil, message = nil)
-        timeout ||= Watir.default_timeout
-        run_with_timer(timeout) { return unless yield(self) }
+      def while(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, element: nil)
+        if deprecated_message || deprecated_timeout
+          warn "Instead of passing arguments into Wait#while method, use keywords"
+        end
+        timeout ||= deprecated_timeout || Watir.default_timeout
+        message ||= deprecated_message
+        run_with_timer(timeout) { return unless yield(element) }
         raise TimeoutError, message_for(timeout, message)
       end
 
@@ -80,7 +88,7 @@ module Watir
     end # self
   end # Wait
 
-  module Waitable
+  module BrowserWaitable
     def wait_until(*args, &blk)
       Wait.until(*args, &blk)
     end
@@ -90,125 +98,46 @@ module Watir
     end
   end
 
-  class BaseDecorator
+  module Waitable
 
-    ELEMENT_ACTIONS = [:set, :append, :clear, :click, :double_click, :right_click, :send_keys, :focus, :focused?, :submit]
-
-    def initialize(element, timeout, message = nil)
-      @element = element
-      @timeout = timeout
-      @message = message
-    end
-
-    def respond_to?(*args)
-      @element.respond_to?(*args)
-    end
-
-    def method_missing(m, *args, &block)
-      unless @element.respond_to?(m)
-        raise NoMethodError, "undefined method `#{m}' for #{@element.inspect}:#{@element.class}"
-      end
-
-      Watir::Wait.until(@timeout, @message) { wait_until }
-
-      @element.__send__(m, *args, &block)
-    end
-  end
-
-  #
-  # Wraps an Element so that any subsequent method calls are
-  # put on hold until the element is present (exists and is visible) on the page.
-  #
-
-  class WhenPresentDecorator < BaseDecorator
-    def present?
-      Watir::Wait.until(@timeout, @message) { wait_until }
-      true
-    rescue Watir::Wait::TimeoutError
-
-      if @timeout >= Watir.default_timeout && @timeout != 0 && ELEMENT_ACTIONS.include?(m)
-        warn "#when_present might be unnecessary for #{@element.send :selector_string}; elements now automatically wait when taking action - #{m}"
-      end
-
-      false
-    end
-
-    private
-
-    def wait_until
-      @element.present?
-    end
-  end # WhenPresentDecorator
-
-  #
-  # Wraps an Element so that any subsequent method calls are
-  # put on hold until the element is enabled (exists and is enabled) on the page.
-  #
-
-  class WhenEnabledDecorator < BaseDecorator
-
-    private
-
-    def wait_until
-      @element.enabled?
-    end
-  end # WhenEnabledDecorator
-
-  #
-  # Convenience methods for things that eventually become present.
-  #
-  # Includers should implement a public #present? and a (possibly private) #selector_string method.
-  #
-
-  module EventuallyPresent
-    #
-    # Waits until the element is present.
+    # Waits until the condition is true.
     #
     # @example
-    #   browser.text_field(name: "new_user_first_name").when_present.click
-    #   browser.text_field(name: "new_user_first_name").when_present { |field| field.set "Watir" }
-    #   browser.text_field(name: "new_user_first_name").when_present(60).text
+    #   browser.text_field(name: "new_user_first_name").wait_until(&:present?).click
+    #   browser.text_field(name: "new_user_first_name").wait_until(message: 'foo') { |field| field.present? }
+    #   browser.text_field(name: "new_user_first_name").wait_until(timeout: 60, &:present?)
     #
     # @param [Fixnum] timeout seconds to wait before timing out
+    # @param [String] error message for when times out
     #
     # @see Watir::Wait
-    # @see Watir::Element#present?
+    #
     #
 
-    def when_present(timeout = nil)
+    def wait_until(timeout: nil, message: nil, &blk)
+      return self if yield(self) # performance shortcut
       timeout ||= Watir.default_timeout
-      message = "waiting for #{selector_string} to become present"
+      raise TimeoutError, "required condition for #{selector_string} is not met" if timeout == 0
 
-      if block_given?
-        Watir::Wait.until(timeout, message) { present? }
-        yield self
-      else
-        WhenPresentDecorator.new(self, timeout, message)
-      end
+      message ||= "waiting for true condition on #{selector_string}"
+      Wait.until(timeout: timeout, message: message, element: self, &blk)
+      self
     end
 
-    #
-    # Waits until the element is enabled.
-    #
-    # @example
-    #   browser.button(name: "new_user_button_2").when_enabled.click
-    #
-    # @param [Fixnum] timeout seconds to wait before timing out
-    #
-    # @see Watir::Wait
-    # @see Watir::Element#enabled?
-    #
+    # Waits until the condition is false.
+    #   browser.text_field(name: "new_user_first_name").wait_while(&:visible?).attribute_value('class')
+    #   browser.text_field(name: "new_user_first_name").wait_while(message: 'foo') { |field| field.present? }
+    #   browser.text_field(name: "new_user_first_name").wait_while(timeout: 60, &:present?)
+    # @param [String] error message for when times out
 
-    def when_enabled(timeout = nil)
+    def wait_while(timeout: nil, message: nil, &blk)
+      return self unless yield(self) # performance shortcut
       timeout ||= Watir.default_timeout
-      message = "waiting for #{selector_string} to become enabled"
+      raise TimeoutError, "required condition for #{selector_string} is not met" if timeout == 0
 
-      if block_given?
-        Watir::Wait.until(timeout, message) { enabled? }
-        yield self
-      else
-        WhenEnabledDecorator.new(self, timeout, message)
-      end
+      message ||= "waiting for false condition on #{selector_string}"
+      Wait.while(timeout: timeout, message: message, element: self, &blk)
+      self
     end
 
     #
@@ -223,14 +152,12 @@ module Watir
     # @see Watir::Element#present?
     #
 
-    def wait_until_present(timeout = nil)
-      return if present? # shortcut
-      timeout ||= Watir.default_timeout
-      raise TimeoutError, "#{selector_string} is not present" if timeout == 0
-
-      message = "waiting for #{selector_string} to become present"
-      @query_scope.wait_until_present(remaining_time(timeout).first) unless @query_scope.is_a? Browser
-      Watir::Wait.until(timeout, message) { present? }
+    def wait_until_present(deprecated_timeout = nil, timeout: nil)
+      if deprecated_timeout
+        warn "Instead of passing arguments into #wait_until_present method, use keywords"
+      end
+      timeout ||= deprecated_timeout
+      wait_until(timeout: timeout, &:present?)
     end
 
     #
@@ -245,13 +172,12 @@ module Watir
     # @see Watir::Element#present?
     #
 
-    def wait_while_present(timeout = nil)
-      return unless present? # shortcut
-      timeout ||= Watir.default_timeout
-      raise TimeoutError, "#{selector_string} is not present" if timeout == 0
-
-      message = "waiting for #{selector_string} to disappear"
-      Watir::Wait.while(timeout, message) { present? }
+    def wait_while_present(deprecated_timeout = nil, timeout: nil)
+      if deprecated_timeout
+        warn "Instead of passing arguments into #wait_while_present method, use keywords"
+      end
+      timeout ||= deprecated_timeout
+      wait_while(timeout: timeout, &:present?)
     end
 
     #
@@ -269,11 +195,12 @@ module Watir
     # @see Watir::Element#stale?
     #
 
-    def wait_until_stale(timeout = nil)
-      timeout ||= Watir.default_timeout
-      message = "waiting for #{selector_string} to become stale"
-      Watir::Wait.until(timeout, message) { stale? }
+    def wait_until_stale(deprecated_timeout = nil, timeout: nil)
+      if deprecated_timeout
+        warn "Instead of passing arguments into #wait_until_stale method, use keywords"
+      end
+      wait_until(timeout: timeout, &:stale?)
     end
 
-  end # EventuallyPresent
+  end # Waitable
 end # Watir

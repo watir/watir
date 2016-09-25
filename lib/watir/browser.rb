@@ -7,7 +7,7 @@ module Watir
   class Browser
     include Container
     include HasWindow
-    include Waitable
+    include BrowserWaitable
 
     attr_reader :driver
     attr_reader :after_hooks
@@ -211,7 +211,7 @@ module Watir
     #
 
     def wait(timeout = 5)
-      wait_until(timeout, "waiting for document.readyState == 'complete'") do
+      wait_until(timeout: timeout, message: "waiting for document.readyState == 'complete'") do
         ready_state == "complete"
       end
     end
@@ -313,10 +313,6 @@ module Watir
     end
     alias_method :wait_for_exists, :assert_exists
     alias_method :wait_for_present, :assert_exists
-
-    def reset!
-      # no-op
-    end
 
     def browser
       self

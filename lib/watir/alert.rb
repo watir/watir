@@ -1,7 +1,7 @@
 module Watir
   class Alert
-
     include EventuallyPresent
+    include Waitable
 
     def initialize(browser)
       @browser = browser
@@ -101,12 +101,14 @@ module Watir
     end
 
     def wait_for_exists
+      return assert_exists unless Watir.relaxed_locate?
+
       begin
-        Watir::Wait.until { exists? }
+        wait_until(&:exists?)
       rescue Watir::Wait::TimeoutError
         unless Watir.default_timeout == 0
           warn "This test has slept for the duration of the default timeout. "\
-                "If your test is passing, consider using Alert#exists? instead of rescuing this error)"
+                "If your test is passing, consider using Alert#exists? instead of rescuing this error"
         end
         raise Exception::UnknownObjectException, 'unable to locate alert'
       end

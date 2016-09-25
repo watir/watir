@@ -24,6 +24,9 @@ before_script:
 script: bundle exec rake $RAKE_TASK
 env:
   - RAKE_TASK=spec:firefox
+  - RAKE_TASK=spec:firefox RELAXED_LOCATE=false
   - RAKE_TASK=spec:chrome
+  - RAKE_TASK=spec:chrome RELAXED_LOCATE=false
   - RAKE_TASK=spec:phantomjs
+  - RAKE_TASK=spec:phantomjs RELAXED_LOCATE=false
   - RAKE_TASK=yard:doctest

@@ -1,5 +1,6 @@
 require 'selenium-webdriver'
 
+require 'watir/legacy_wait'
 require 'watir/wait'
 require 'watir/exception'
 require 'watir/xpath_support'
@@ -14,9 +15,10 @@ require 'watir/screenshot'
 require 'watir/after_hooks'
 
 module Watir
-  @relaxed_locate = true
 
   attr_writer :relaxed_locate, :always_locate, :default_timeout, :prefer_css, :locator_namespace
+
+  @relaxed_locate = true
 
   class << self
     #
@@ -38,10 +40,6 @@ module Watir
       true
     end
 
-    def always_locate=(_bool)
-      always_locate_message
-    end
-
     def always_locate_message
       warn <<-EOS
 Watir#always_locate is deprecated; elements are always cached and will always
@@ -57,10 +55,6 @@ Use Element#stale? or Element#wait_until_stale if needed for flow control.
     def prefer_css?
       prefer_css_message
       false
-    end
-
-    def prefer_css=(_bool)
-      prefer_css_message
     end
 
     def prefer_css_message
@@ -80,24 +74,12 @@ require the watir_css gem - https://github.com/watir/watir_css
     end
 
     #
-    # Default wait time for wait methods.
-    #
-
-    def default_timeout=(value)
-      @default_timeout = value
-    end
-
-    def locator_namespace
-      @locator_namespace ||= Watir::Locators
-    end
-
-    #
     # Whether the locators should be used from a different namespace.
     # Defaults to Watir::Locators.
     #
 
-    def locator_namespace=(mod)
-      @locator_namespace = mod
+    def locator_namespace
+      @locator_namespace ||= Watir::Locators
     end
 
     #

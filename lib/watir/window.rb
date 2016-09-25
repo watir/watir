@@ -1,6 +1,7 @@
 module Watir
   class Window
     include EventuallyPresent
+    include Waitable
 
     def initialize(driver, selector)
       @driver = driver
@@ -241,9 +242,10 @@ module Watir
     end
 
     def wait_for_exists
+      return assert_exists unless Watir.relaxed_locate?
       begin
-        Watir::Wait.until { exists? }
-      rescue Watir::Wait::TimeoutError
+        wait_until(&:exists?)
+      rescue TimeoutError
         raise Exception::NoMatchingWindowFoundException, @selector.inspect
       end
     end
