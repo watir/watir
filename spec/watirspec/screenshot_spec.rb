@@ -2,12 +2,7 @@ require "base64"
 require "watirspec_helper"
 
 describe "Watir::Screenshot" do
-
-  let(:png_header) do
-    str = "\211PNG"
-
-    str
-  end
+  let(:png_header) { "\211PNG".force_encoding('ASCII-8BIT') }
 
   describe '#png' do
     it 'gets png representation of screenshot' do
@@ -28,7 +23,7 @@ describe "Watir::Screenshot" do
       expect(File).to_not exist(path)
       browser.screenshot.save(path)
       expect(File).to exist(path)
-      expect(File.open(path, "rb") {|io| io.read}[0..3]).to eq png_header
+      expect(File.open(path, "rb") { |io| io.read }[0..3]).to eq png_header
     end
   end
 end
