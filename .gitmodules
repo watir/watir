@@ -1,3 +1,0 @@
-[submodule "spec/watirspec"]
-	path = spec/watirspec
-	url = git://github.com/watir/watirspec.git
