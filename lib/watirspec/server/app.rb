@@ -1,10 +1,8 @@
 module WatirSpec
   class Server
     class App
-      def call(env)
-        req = Rack::Request.new(env)
-
-        case req.path_info
+      def response(path, data = nil)
+        case path
         when '/'
           respond(self.class.name)
         when '/big'
@@ -13,7 +11,7 @@ module WatirSpec
           html << '</body></html>'
           respond(html)
         when '/post_to_me'
-          respond("You posted the following content:\n#{env['rack.input'].read}")
+          respond("You posted the following content:\n#{data}")
         when '/plain_text'
           respond('This is text/plain', 'Content-Type' => 'text/plain')
         when '/ajax'
@@ -33,27 +31,31 @@ module WatirSpec
           respond(html, 'Content-Type' => 'text/html; charset=UTF-8')
         when '/octet_stream'
           respond('This is application/octet-stream', 'Content-Type' => 'application/octet-stream')
-        when '/set_cookie', '/set_cookie/index.html'
+        when %r{/set_cookie}
           respond("<html>C is for cookie, it's good enough for me</html>", 'Content-Type' => 'text/html', 'Set-Cookie' => 'monster=1')
-        when '/header_echo'
-          respond(env.inspect, 'Content-Type' => 'text/plain')
         when %r{/encodable_}
           respond('page with characters in URI that need encoding')
-        when '/authentication'
-          auth = Rack::Auth::Basic::Request.new(env)
-
-          unless auth.provided? && auth.credentials == %w[foo bar]
-            respond('Authorization Required', {'WWW-Authenticate' => 'Basic realm="localhost"'}, 401)
-          end
-
-          respond('ok')
+        when static_file?
+          respond(File.read("#{WatirSpec.html}/#{path}"))
+        else
+          respond('')
         end
       end
 
       private
 
-      def respond(body, headers = {}, status = 200)
-        [status, headers, [body]]
+      def respond(body, headers = {}, status = '200 OK')
+        [status, headers, body]
+      end
+
+      def static_file?
+        proc { |path| static_files.include?(path) }
+      end
+
+      def static_files
+        Dir["#{WatirSpec.html}/**/*"].map do |file|
+          file.sub(WatirSpec.html, '')
+        end
       end
     end
   end

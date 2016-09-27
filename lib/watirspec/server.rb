@@ -1,7 +1,5 @@
 require "socket"
-require 'rack'
 require 'watirspec/server/app'
-require 'watirspec/server/silent_logger'
 
 module WatirSpec
   class Server
@@ -9,14 +7,14 @@ module WatirSpec
       def run_async
         if WatirSpec.platform == :java
           Thread.new { run! }
-          sleep 0.1 until WatirSpec::Server.running?
+          sleep 0.1 until running?
         elsif WatirSpec.platform == :windows
           # FIXME: this makes use lose implementation-specific routes!
           run_in_child_process
-          sleep 0.5 until listening?
+          connect_until_stable
         else
           pid = fork { run! }
-          sleep 0.5 until listening?
+          connect_until_stable
         end
 
         if pid
@@ -35,25 +33,52 @@ module WatirSpec
       end
 
       def run!
-        handler = Rack::Handler::WEBrick
-        handler.run(app, Host: bind, Port: port, AccessLog: [], Logger: SilentLogger.new) { @running = true }
+        server = TCPServer.new(bind, port)
+        @running = true
+        loop do
+          Thread.start(server.accept) do |client|
+            if header = client.gets
+              method, path = header.split
+
+              headers = {}
+              while line = client.gets.split(' ', 2)
+                break if line[0] == ''
+                headers[line[0].chop] = line[1].strip
+              end
+
+              data = nil
+              if method == 'POST'
+                data = client.read(Integer(headers['Content-Length']))
+              end
+
+              status, headers, body = app.response(path, data)
+
+              default_headers = {
+                'Cache-Control' => 'no-cache',
+                'Connection' => 'close',
+                'Content-Type' => 'text/html; charset=UTF-8',
+                'Content-Length' => body.size.to_s,
+                'Server' => 'watirspec'
+              }
+              headers = default_headers.merge(headers)
+              headers = headers.to_a.map { |array| array.join(': ') }
+
+              response = ["HTTP/1.1 #{status}"] + headers
+              response = response.join("\r\n")
+
+              client.write(response)
+              client.write("\r\n\r\n")
+              client.write(body)
+              client.write("\r\n")
+            end
+
+            client.close
+          end
+        end
       end
 
       def app
-        files = static_files
-
-        Rack::Builder.app do
-          use Rack::ShowExceptions
-          use Rack::Static, urls: files, root: WatirSpec.html
-
-          run App.new
-        end
-      end
-
-      def static_files
-        Dir["#{WatirSpec.html}/*"].map do |file|
-          file.sub(WatirSpec.html, '')
-        end
+        @app ||= App.new
       end
 
       def port
@@ -62,19 +87,10 @@ module WatirSpec
 
       def bind
         if WatirSpec.platform == :windows
-          "127.0.0.1"
+          '127.0.0.1'
         else
-          'localhost'
+          '0.0.0.0'
         end
-      end
-
-      def listening?
-        $stderr.puts "trying #{bind}:#{port}..."
-
-        TCPSocket.new(bind, port).close
-        true
-      rescue
-        false
       end
 
       def should_run?
@@ -101,6 +117,12 @@ module WatirSpec
         process.start
 
         at_exit { process.stop }
+      end
+
+      def connect_until_stable
+        socket_poller = Selenium::WebDriver::SocketPoller.new(bind, port, 10)
+        return if socket_poller.connected?
+        raise 'Cannot start WatirSpec server.'
       end
 
       def pick_port_above(port)
