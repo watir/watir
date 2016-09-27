@@ -136,7 +136,7 @@ bug "https://github.com/ariya/phantomjs/issues/13115", :phantomjs do
 
     def set_cookie_url
       # add timestamp to url to avoid caching in IE8
-      WatirSpec.url_for('set_cookie/index.html', needs_server: true) + "?t=#{Time.now.to_i + Time.now.usec}"
+      WatirSpec.url_for('set_cookie/index.html') + "?t=#{Time.now.to_i + Time.now.usec}"
     end
 
     def verify_cookies_count expected_size

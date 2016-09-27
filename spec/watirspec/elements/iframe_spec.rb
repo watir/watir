@@ -12,7 +12,7 @@ describe "IFrame" do
 
   bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1255906", :firefox do
     it "handles crossframe javascript" do
-      browser.goto WatirSpec.url_for("iframes.html", needs_server: true)
+      browser.goto WatirSpec.url_for("iframes.html")
 
       expect(browser.iframe(id: "iframe_1").text_field(name: 'senderElement').value).to eq 'send_this_value'
       expect(browser.iframe(id: "iframe_2").text_field(name: 'recieverElement').value).to eq 'old_value'

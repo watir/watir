@@ -16,7 +16,7 @@ module WatirSpec
       WatirSpec::Runner.execute_if_necessary
     end
 
-    def url_for(str, opts = {})
+    def url_for(str)
       File.join(host, str)
     end
 
