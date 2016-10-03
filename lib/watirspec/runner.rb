@@ -29,6 +29,7 @@ module WatirSpec
 
     def configure
       Thread.abort_on_exception = true
+      return unless defined?(RSpec)
 
       RSpec.configure do |config|
         config.include(BrowserHelper)

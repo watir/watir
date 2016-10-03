@@ -1,5 +1,5 @@
 require 'watir'
-require 'spec/watirspec/lib/watirspec'
+require 'watirspec'
 
 #
 # 1. If example does not start browser, start new one, reuse until example
@@ -62,6 +62,10 @@ YARD::Doctest.configure do |doctest|
       browser.goto WatirSpec.url_for('window_switching.html')
       browser.a(id: 'open').click
     end
+  end
+
+  doctest.before do
+    WatirSpec.run!
   end
 
   doctest.after do
