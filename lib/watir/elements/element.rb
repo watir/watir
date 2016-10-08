@@ -467,17 +467,17 @@ module Watir
 
       if tag_name == "input"
         klass = case elem.attribute(:type)
-          when *Button::VALID_TYPES
-            Button
-          when 'checkbox'
-            CheckBox
-          when 'radio'
-            Radio
-          when 'file'
-            FileField
-          else
-            TextField
-          end
+                when *Button::VALID_TYPES
+                  Button
+                when 'checkbox'
+                  CheckBox
+                when 'radio'
+                  Radio
+                when 'file'
+                  FileField
+                else
+                  TextField
+                end
       else
         klass = Watir.element_class_for(tag_name)
       end
@@ -540,7 +540,9 @@ module Watir
       selector_builder = selector_builder_class.new(@query_scope, @selector, self.class.attribute_list)
       locator = locator_class.new(@query_scope, @selector, selector_builder, element_validator)
 
-      locator.locate
+      located = locator.locate
+
+      @selector.key?(:text) ? locate_nested_text_node(located) : located
     end
 
     protected
@@ -556,6 +558,12 @@ module Watir
     end
 
     private
+
+    def locate_nested_text_node(located_parent)
+      return nil unless located_parent
+      sub_parent = self.class.new(@parent, element: located_parent)
+      self.class.new(sub_parent, @selector).locate || located_parent
+    end
 
     def locator_class
       Kernel.const_get("#{Watir.locator_namespace}::#{element_class_name}::Locator")
