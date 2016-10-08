@@ -201,7 +201,7 @@ module Watir
       message = "waiting for #{selector_string} to become enabled"
 
       if block_given?
-        Watir::Wait.until(timeout, message) { enabled? }
+        Watir::Wait.until(timeout, message) { present? && enabled? }
         yield self
       else
         WhenEnabledDecorator.new(self, timeout, message)
