@@ -37,10 +37,16 @@ class ImplementationConfig
   end
 
   def remote_server_jar
+    if ENV['LOCAL_SELENIUM']
+      local = File.expand_path('../selenium/buck-out/gen/java/server/src/org/openqa/grid/selenium/selenium.jar')
+    end
+
     if File.exist?(ENV['REMOTE_SERVER_BINARY'] || '')
       ENV['REMOTE_SERVER_BINARY']
-    elsif !Dir.glob('selenium-server-standalone*.jar').empty?
-      Dir.glob('selenium-server-standalone*.jar').first
+    elsif ENV['LOCAL_SELENIUM'] && File.exists?(local)
+      local
+    elsif !Dir.glob('*selenium*.jar').empty?
+      Dir.glob('*selenium*.jar').first
     else
       Selenium::Server.download :latest
     end
