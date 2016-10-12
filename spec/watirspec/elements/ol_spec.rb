@@ -61,7 +61,7 @@ describe "Ol" do
     end
 
     it "raises UnknownObjectException if the ol doesn't exist" do
-      expect { browser.ol(id: 'no_such_id').class_name }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.ol(id: 'no_such_id').class_name }.to raise_unknown_object_exception
     end
   end
 
@@ -75,8 +75,8 @@ describe "Ol" do
     end
 
     it "raises UnknownObjectException if the ol doesn't exist" do
-      expect { browser.ol(id: "no_such_id").id }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.ol(index: 1337).id }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.ol(id: "no_such_id").id }.to raise_unknown_object_exception
+      expect { browser.ol(index: 1337).id }.to raise_unknown_object_exception
     end
   end
 

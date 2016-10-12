@@ -81,15 +81,15 @@ not_compliant_on :safari do
       end
 
       it "raises a NoMatchingWindowFoundException error if no window matches the selector" do
-        expect { browser.window(title: "noop").use }.to raise_error(Watir::Exception::NoMatchingWindowFoundException)
+        expect { browser.window(title: "noop").use }.to raise_no_matching_window_exception
       end
 
       it "raises a NoMatchingWindowFoundException error if there's no window at the given index" do
-        expect { browser.window(index: 100).use }.to raise_error(Watir::Exception::NoMatchingWindowFoundException)
+        expect { browser.window(index: 100).use }.to raise_no_matching_window_exception
       end
 
       it "raises NoMatchingWindowFoundException error when attempting to use a window with an incorrect handle" do
-        expect { browser.window(handle: 'bar').use }.to raise_error(Watir::Exception::NoMatchingWindowFoundException)
+        expect { browser.window(handle: 'bar').use }.to raise_no_matching_window_exception
       end
     end
   end
@@ -263,7 +263,7 @@ not_compliant_on :safari do
             original_window = browser.window
             browser.window(index: 1).use
             original_window.close
-            expect { original_window.use }.to raise_error(Watir::Exception::NoMatchingWindowFoundException)
+            expect { original_window.use }.to raise_no_matching_window_exception
           end
 
           bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1223277", :firefox do
@@ -271,7 +271,7 @@ not_compliant_on :safari do
               browser.window(title: "closeable window").use
               browser.a(id: "close").click
               Watir::Wait.until { browser.windows.size == 1 }
-              expect { browser.window.use }.to raise_error(Watir::Exception::NoMatchingWindowFoundException)
+              expect { browser.window.use }.to raise_no_matching_window_exception
             end
           end
         end

@@ -61,8 +61,8 @@ describe "Area" do
     end
 
     it "raises UnknownObjectException if the area doesn't exist" do
-      expect { browser.area(id: "no_such_id").id }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.area(index: 1337).id }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.area(id: "no_such_id").id }.to raise_unknown_object_exception
+      expect { browser.area(index: 1337).id }.to raise_unknown_object_exception
     end
 
   end

@@ -50,7 +50,7 @@ describe "Ul" do
     end
 
     it "raises UnknownObjectException if the ul doesn't exist" do
-      expect { browser.ul(id: 'no_such_id').class_name }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.ul(id: 'no_such_id').class_name }.to raise_unknown_object_exception
     end
   end
 
@@ -64,8 +64,8 @@ describe "Ul" do
     end
 
     it "raises UnknownObjectException if the ul doesn't exist" do
-      expect { browser.ul(id: "no_such_id").id }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.ul(index: 1337).id }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.ul(id: "no_such_id").id }.to raise_unknown_object_exception
+      expect { browser.ul(index: 1337).id }.to raise_unknown_object_exception
     end
   end
 

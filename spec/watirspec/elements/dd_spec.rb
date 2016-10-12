@@ -43,10 +43,10 @@ describe "Dd" do
     end
 
     it "raises UnknownObjectException if the element does not exist" do
-      expect { browser.dd(id: "no_such_id").class_name }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.dd(title: "no_such_title").class_name }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.dd(index: 1337).class_name }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.dd(xpath: "//dd[@id='no_such_id']").class_name }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.dd(id: "no_such_id").class_name }.to raise_unknown_object_exception
+      expect { browser.dd(title: "no_such_title").class_name }.to raise_unknown_object_exception
+      expect { browser.dd(index: 1337).class_name }.to raise_unknown_object_exception
+      expect { browser.dd(xpath: "//dd[@id='no_such_id']").class_name }.to raise_unknown_object_exception
     end
   end
 
@@ -60,9 +60,9 @@ describe "Dd" do
     end
 
     it "raises UnknownObjectException if the element does not exist" do
-      expect {browser.dd(id: "no_such_id").id }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect {browser.dd(title: "no_such_id").id }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect {browser.dd(index: 1337).id }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect {browser.dd(id: "no_such_id").id }.to raise_unknown_object_exception
+      expect {browser.dd(title: "no_such_id").id }.to raise_unknown_object_exception
+      expect {browser.dd(index: 1337).id }.to raise_unknown_object_exception
     end
   end
 
@@ -82,10 +82,10 @@ describe "Dd" do
     end
 
     it "raises UnknownObjectException if the element does not exist" do
-      expect { browser.dd(id: "no_such_id").text }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.dd(title: "no_such_title").text }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.dd(index: 1337).text }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.dd(xpath: "//dd[@id='no_such_id']").text }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.dd(id: "no_such_id").text }.to raise_unknown_object_exception
+      expect { browser.dd(title: "no_such_title").text }.to raise_unknown_object_exception
+      expect { browser.dd(index: 1337).text }.to raise_unknown_object_exception
+      expect { browser.dd(xpath: "//dd[@id='no_such_id']").text }.to raise_unknown_object_exception
     end
   end
 
@@ -108,10 +108,10 @@ describe "Dd" do
     end
 
     it "raises UnknownObjectException if the element does not exist" do
-      expect { browser.dd(id: "no_such_id").click }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.dd(title: "no_such_title").click }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.dd(index: 1337).click }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.dd(xpath: "//dd[@id='no_such_id']").click }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.dd(id: "no_such_id").click }.to raise_unknown_object_exception
+      expect { browser.dd(title: "no_such_title").click }.to raise_unknown_object_exception
+      expect { browser.dd(index: 1337).click }.to raise_unknown_object_exception
+      expect { browser.dd(xpath: "//dd[@id='no_such_id']").click }.to raise_unknown_object_exception
     end
   end
 

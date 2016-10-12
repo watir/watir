@@ -285,7 +285,7 @@ describe "Browser" do
 
   it "raises UnknownObjectException when trying to access DOM elements on plain/text-page" do
     browser.goto(WatirSpec.url_for("plain_text"))
-    expect { browser.div(id: 'foo').id }.to raise_error(Watir::Exception::UnknownObjectException)
+    expect { browser.div(id: 'foo').id }.to raise_unknown_object_exception
   end
 
 end

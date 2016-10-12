@@ -54,7 +54,7 @@ describe "Del" do
     end
 
     it "raises UnknownObjectException if the del doesn't exist" do
-      expect { browser.del(id: 'no_such_id').class_name }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.del(id: 'no_such_id').class_name }.to raise_unknown_object_exception
     end
   end
 
@@ -68,8 +68,8 @@ describe "Del" do
     end
 
     it "raises UnknownObjectException if the del doesn't exist" do
-      expect { browser.del(id: "no_such_id").id }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.del(index: 1337).id }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.del(id: "no_such_id").id }.to raise_unknown_object_exception
+      expect { browser.del(index: 1337).id }.to raise_unknown_object_exception
     end
   end
 
@@ -83,8 +83,8 @@ describe "Del" do
     end
 
     it "raises UnknownObjectException if the del doesn't exist" do
-      expect { browser.del(id: 'no_such_id').title }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.del(xpath: "//del[@id='no_such_id']").title }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.del(id: 'no_such_id').title }.to raise_unknown_object_exception
+      expect { browser.del(xpath: "//del[@id='no_such_id']").title }.to raise_unknown_object_exception
     end
   end
 
@@ -98,8 +98,8 @@ describe "Del" do
     end
 
     it "raises UnknownObjectException if the del doesn't exist" do
-      expect { browser.del(id: 'no_such_id').text }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.del(:xpath , "//del[@id='no_such_id']").text }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.del(id: 'no_such_id').text }.to raise_unknown_object_exception
+      expect { browser.del(:xpath , "//del[@id='no_such_id']").text }.to raise_unknown_object_exception
     end
   end
 
@@ -121,8 +121,8 @@ describe "Del" do
     end
 
     it "raises UnknownObjectException if the del doesn't exist" do
-      expect { browser.del(id: "no_such_id").click }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.del(title: "no_such_title").click }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.del(id: "no_such_id").click }.to raise_unknown_object_exception
+      expect { browser.del(title: "no_such_title").click }.to raise_unknown_object_exception
     end
   end
 end

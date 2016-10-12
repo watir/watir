@@ -122,19 +122,19 @@ describe "IFrame" do
   end
 
   it "raises UnknownFrameException when accessing elements inside non-existing iframe" do
-    expect { browser.iframe(name: "no_such_name").p(index: 0).id }.to raise_error(Watir::Exception::UnknownFrameException)
+    expect { browser.iframe(name: "no_such_name").p(index: 0).id }.to raise_unknown_frame_exception
   end
 
   it "raises UnknownFrameException when accessing a non-existing iframe" do
-    expect { browser.iframe(name: "no_such_name").id }.to raise_error(Watir::Exception::UnknownFrameException)
+    expect { browser.iframe(name: "no_such_name").id }.to raise_unknown_frame_exception
   end
 
   it "raises UnknownFrameException when accessing a non-existing subframe" do
-    expect { browser.iframe(name: "iframe1").iframe(name: "no_such_name").id }.to raise_error(Watir::Exception::UnknownFrameException)
+    expect { browser.iframe(name: "iframe1").iframe(name: "no_such_name").id }.to raise_unknown_frame_exception
   end
 
   it "raises UnknownObjectException when accessing a non-existing element inside an existing iframe" do
-    expect { browser.iframe(index: 0).p(index: 1337).id }.to raise_error(Watir::Exception::UnknownObjectException)
+    expect { browser.iframe(index: 0).p(index: 1337).id }.to raise_unknown_object_exception
   end
 
   it "raises NoMethodError when trying to access attributes it doesn't have" do
