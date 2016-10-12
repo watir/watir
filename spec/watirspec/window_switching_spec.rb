@@ -397,13 +397,17 @@ not_compliant_on :safari do
       compliant_on :window_manager do
         it "should maximize the window" do
           initial_size = browser.window.size
+          browser.window.resize_to(
+              initial_size.width,
+              initial_size.height - 20
+          )
 
           browser.window.maximize
           browser.wait_until { browser.window.size != initial_size }
 
           new_size = browser.window.size
-          expect(new_size.width).to be > initial_size.width
-          expect(new_size.height).to be > initial_size.height
+          expect(new_size.width).to be >= initial_size.width
+          expect(new_size.height).to be > (initial_size.height - 20)
         end
       end
     end
