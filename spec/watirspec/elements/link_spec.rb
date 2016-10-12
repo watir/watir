@@ -64,7 +64,7 @@ describe "Link" do
     end
 
     it "raises an UnknownObjectException if the link doesn't exist" do
-      expect { browser.link(index: 1337).class_name }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.link(index: 1337).class_name }.to raise_unknown_object_exception
     end
   end
 
@@ -78,7 +78,7 @@ describe "Link" do
     end
 
     it "raises an UnknownObjectException if the link doesn't exist" do
-      expect { browser.link(index: 1337).href }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.link(index: 1337).href }.to raise_unknown_object_exception
     end
   end
 
@@ -98,7 +98,7 @@ describe "Link" do
     end
 
     it "raises an UnknownObjectException if the link doesn't exist" do
-      expect { browser.link(index: 1337).id }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.link(index: 1337).id }.to raise_unknown_object_exception
     end
   end
 
@@ -112,7 +112,7 @@ describe "Link" do
     end
 
     it "raises an UnknownObjectException if the link doesn't exist" do
-      expect { browser.link(index: 1337).text }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.link(index: 1337).text }.to raise_unknown_object_exception
     end
   end
 
@@ -126,7 +126,7 @@ describe "Link" do
     end
 
     it "raises an UnknownObjectException if the link doesn't exist" do
-      expect { browser.link(index: 1337).title }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.link(index: 1337).title }.to raise_unknown_object_exception
     end
   end
 
@@ -159,7 +159,7 @@ describe "Link" do
     end
 
     it "raises an UnknownObjectException if the link doesn't exist" do
-      expect { browser.link(index: 1337).click }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.link(index: 1337).click }.to raise_unknown_object_exception
     end
 
     it "clicks a link with no text content but an img child" do

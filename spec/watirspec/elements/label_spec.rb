@@ -55,7 +55,7 @@ describe "Label" do
     end
 
     it "raises UnknownObjectException if the label doesn't exist" do
-      expect { browser.label(index: 1337).id }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.label(index: 1337).id }.to raise_unknown_object_exception
     end
   end
 
@@ -65,7 +65,7 @@ describe "Label" do
     end
 
     it "raises UnknownObjectException if the label doesn't exist" do
-      expect { browser.label(index: 1337).for }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.label(index: 1337).for }.to raise_unknown_object_exception
     end
   end
 

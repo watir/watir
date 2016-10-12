@@ -104,7 +104,7 @@ describe "Button" do
     end
 
     it "raises UnknownObjectException if button does not exist" do
-      expect { browser.button(index: 1337).id }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.button(index: 1337).id }.to raise_unknown_object_exception
     end
   end
 
@@ -116,7 +116,7 @@ describe "Button" do
     end
 
     it "raises UnknownObjectException if the button does not exist" do
-      expect { browser.button(name: "no_such_name").name }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.button(name: "no_such_name").name }.to raise_unknown_object_exception
     end
   end
 
@@ -127,7 +127,7 @@ describe "Button" do
     end
 
     it "raises UnknownObjectException if the button does not exist" do
-      expect { browser.button(name: "no_such_name").src }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.button(name: "no_such_name").src }.to raise_unknown_object_exception
     end
   end
 
@@ -149,7 +149,7 @@ describe "Button" do
     end
 
     it "raises UnknownObjectException if the button does not exist" do
-      expect { browser.button(name: "no_such_name").style }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.button(name: "no_such_name").style }.to raise_unknown_object_exception
     end
   end
 
@@ -171,7 +171,7 @@ describe "Button" do
     end
 
     it "raises UnknownObjectException if button does not exist" do
-      expect { browser.button(name: "no_such_name").type }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.button(name: "no_such_name").type }.to raise_unknown_object_exception
     end
   end
 
@@ -183,7 +183,7 @@ describe "Button" do
     end
 
     it "raises UnknownObjectException if button does not exist" do
-      expect { browser.button(name: "no_such_name").value }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.button(name: "no_such_name").value }.to raise_unknown_object_exception
     end
   end
 
@@ -196,7 +196,7 @@ describe "Button" do
     end
 
     it "raises UnknownObjectException if the element does not exist" do
-      expect { browser.button(id: "no_such_id").text }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.button(id: "no_such_id").text }.to raise_unknown_object_exception
     end
   end
 
@@ -224,7 +224,7 @@ describe "Button" do
     end
 
     it "raises UnknownObjectException if the button doesn't exist" do
-      expect { browser.button(name: "no_such_name").enabled? }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.button(name: "no_such_name").enabled? }.to raise_unknown_object_exception
     end
   end
 
@@ -238,7 +238,7 @@ describe "Button" do
     end
 
     it "raises UnknownObjectException if button does not exist" do
-      expect { browser.button(name: "no_such_name").disabled? }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.button(name: "no_such_name").disabled? }.to raise_unknown_object_exception
     end
   end
 
@@ -257,12 +257,12 @@ describe "Button" do
     end
 
     it "raises UnknownObjectException when clicking a button that doesn't exist" do
-      expect { browser.button(value: "no_such_value").click }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.button(id: "no_such_id").click }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.button(value: "no_such_value").click }.to raise_unknown_object_exception
+      expect { browser.button(id: "no_such_id").click }.to raise_unknown_object_exception
     end
 
     it "raises ObjectDisabledException when clicking a disabled button" do
-      expect { browser.button(value: "Disabled").click }.to raise_error(Watir::Exception::ObjectDisabledException)
+      expect { browser.button(value: "Disabled").click }.to raise_object_disabled_exception
     end
   end
 

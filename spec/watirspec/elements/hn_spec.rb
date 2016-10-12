@@ -51,7 +51,7 @@ describe ["H1", "H2", "H3", "H4", "H5", "H6"] do
     end
 
     it "raises UnknownObjectException if the p doesn't exist" do
-      expect { browser.h2(id: 'no_such_id').class_name }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.h2(id: 'no_such_id').class_name }.to raise_unknown_object_exception
     end
   end
 
@@ -65,8 +65,8 @@ describe ["H1", "H2", "H3", "H4", "H5", "H6"] do
     end
 
     it "raises UnknownObjectException if the p doesn't exist" do
-      expect { browser.h1(id: "no_such_id").id }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.h1(index: 1337).id }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.h1(id: "no_such_id").id }.to raise_unknown_object_exception
+      expect { browser.h1(index: 1337).id }.to raise_unknown_object_exception
     end
   end
 
@@ -80,8 +80,8 @@ describe ["H1", "H2", "H3", "H4", "H5", "H6"] do
     end
 
     it "raises UnknownObjectException if the p doesn't exist" do
-      expect { browser.h1(id: 'no_such_id').text }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.h1(:xpath , "//h1[@id='no_such_id']").text }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.h1(id: 'no_such_id').text }.to raise_unknown_object_exception
+      expect { browser.h1(:xpath , "//h1[@id='no_such_id']").text }.to raise_unknown_object_exception
     end
   end
 

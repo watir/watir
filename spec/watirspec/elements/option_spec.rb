@@ -113,13 +113,13 @@ describe "Option" do
     end
 
     it "raises UnknownObjectException if the option does not exist (page context)" do
-      expect { browser.option(text: "no_such_text").select }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.option(text: /missing/).select }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.option(text: "no_such_text").select }.to raise_unknown_object_exception
+      expect { browser.option(text: /missing/).select }.to raise_unknown_object_exception
     end
 
     it "raises UnknownObjectException if the option does not exist (select_list context)" do
-      expect { browser.select_list(name: "new_user_country").option(text: "no_such_text").select }.to raise_error(Watir::Exception::UnknownObjectException)
-      expect { browser.select_list(name: "new_user_country").option(text: /missing/).select }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.select_list(name: "new_user_country").option(text: "no_such_text").select }.to raise_unknown_object_exception
+      expect { browser.select_list(name: "new_user_country").option(text: /missing/).select }.to raise_unknown_object_exception
     end
 
     it "raises MissingWayOfFindingObjectException when given a bad 'how' (page context)" do
