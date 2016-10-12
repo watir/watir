@@ -42,24 +42,26 @@ describe 'Alert API' do
           describe '#close' do
             it 'closes alert' do
               browser.button(id: 'alert').click
-              browser.alert.when_present.close
+              browser.alert.close
               expect(browser.alert).to_not exist
             end
           end
         end
 
-        describe 'when_present' do
-          it 'waits until alert is present and goes on' do
-            browser.button(id: 'timeout-alert').click
-            browser.alert.when_present.ok
+        not_compliant_on :relaxed_locate do
+          describe 'when_present' do
+            it 'waits until alert is present and goes on' do
+              browser.button(id: 'timeout-alert').click
+              browser.alert.ok
 
-            expect(browser.alert).to_not exist
-          end
+              expect(browser.alert).to_not exist
+            end
 
-          it 'raises error if alert is not present after timeout' do
-            expect {
-              browser.alert.when_present(0.1).ok
-            }.to raise_error(Watir::Wait::TimeoutError)
+            it 'raises error if alert is not present after timeout' do
+              expect {
+                browser.alert.ok
+              }.to raise_error(Watir::Wait::TimeoutError)
+            end
           end
         end
       end
@@ -76,7 +78,7 @@ describe 'Alert API' do
         describe '#close' do
           it 'cancels confirm' do
             browser.button(id: 'confirm').click
-            browser.alert.when_present.close
+            browser.alert.close
             expect(browser.button(id: 'confirm').value).to eq "false"
           end
         end

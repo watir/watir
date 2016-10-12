@@ -121,6 +121,8 @@ class ImplementationConfig
 
     matching_guards << matching_browser
     matching_guards << [matching_browser, Selenium::WebDriver::Platform.os]
+    matching_guards << :relaxed_locate if Watir.relaxed_locate?
+    matching_guards << :not_relaxed_locate unless Watir.relaxed_locate?
 
     if !Selenium::WebDriver::Platform.linux? || ENV['DESKTOP_SESSION']
       # some specs (i.e. Window#maximize) needs a window manager on linux
