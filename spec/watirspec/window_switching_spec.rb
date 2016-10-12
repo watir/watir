@@ -186,21 +186,23 @@ not_compliant_on :safari do
         end
       end
 
-      describe "#when_present" do
-        it "waits until the window is present" do
-          # TODO: improve this spec.
-          did_yield = false
-          browser.window(title: "closeable window").when_present do
-            did_yield = true
+      not_compliant_on :relaxed_locate do
+        describe "#when_present" do
+          it "waits until the window is present" do
+            # TODO: improve this spec.
+            did_yield = false
+            browser.window(title: "closeable window").when_present do
+              did_yield = true
+            end
+
+            expect(did_yield).to be true
           end
 
-          expect(did_yield).to be true
-        end
-
-        it "times out waiting for a non-present window" do
-          expect {
-            browser.window(title: "noop").wait_until_present(0.5)
-          }.to raise_error(Watir::Wait::TimeoutError)
+          it "times out waiting for a non-present window" do
+            expect {
+              browser.window(title: "noop").wait_until_present(0.5)
+            }.to raise_error(Watir::Wait::TimeoutError)
+          end
         end
       end
     end

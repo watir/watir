@@ -81,108 +81,111 @@ not_compliant_on :safari do
       browser.goto WatirSpec.url_for("wait.html")
     end
 
-    describe "#when_present" do
-      it "yields when the element becomes present" do
-        called = false
+    not_compliant_on :relaxed_locate do
+      describe "#when_present" do
+        it "yields when the element becomes present" do
+          called = false
 
-        browser.a(id: 'show_bar').click
-        browser.div(id: 'bar').when_present(2) { called = true }
+          browser.a(id: 'show_bar').click
+          browser.div(id: 'bar').when_present(2) { called = true }
 
-        expect(called).to be true
-      end
-
-      it "invokes subsequent method calls when the element becomes present" do
-        browser.a(id: 'show_bar').click
-
-        bar = browser.div(id: 'bar')
-        bar.when_present(2).click
-        expect(bar.text).to eq "changed"
-      end
-
-      it "times out when given a block" do
-        expect { browser.div(id: 'bar').when_present(1) {}}.to raise_error(Watir::Wait::TimeoutError)
-      end
-
-      it "times out when not given a block" do
-        expect { browser.div(id: 'bar').when_present(1).click }.to raise_error(Watir::Wait::TimeoutError,
-          /^timed out after 1 seconds, waiting for (\{:id=>"bar", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"bar"\}) to become present$/
-        )
-      end
-
-      it "responds to Element methods" do
-        decorator = browser.div.when_present
-
-        expect(decorator).to respond_to(:exist?)
-        expect(decorator).to respond_to(:present?)
-        expect(decorator).to respond_to(:click)
-      end
-
-      it "delegates present? to element" do
-        Object.class_eval do
-          def present?
-            false
-          end
+          expect(called).to be true
         end
-        element = browser.a(id: "show_bar").when_present(1)
-        expect(element).to be_present
-      end
 
-      it "processes before calling present?" do
-        browser.a(id: 'show_bar').click
-        expect(browser.div(id: 'bar').when_present.present?).to be true
-      end
+        it "invokes subsequent method calls when the element becomes present" do
+          browser.a(id: 'show_bar').click
 
+          bar = browser.div(id: 'bar')
+          bar.when_present(2).click
+          expect(bar.text).to eq "changed"
+        end
+
+        it "times out when given a block" do
+          expect { browser.div(id: 'bar').when_present(1) {}}.to raise_error(Watir::Wait::TimeoutError)
+        end
+
+        it "times out when not given a block" do
+          expect { browser.div(id: 'bar').when_present(1).click }.to raise_error(Watir::Wait::TimeoutError,
+            /^timed out after 1 seconds, waiting for (\{:id=>"bar", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"bar"\}) to become present$/
+          )
+        end
+
+        it "responds to Element methods" do
+          decorator = browser.div.when_present
+
+          expect(decorator).to respond_to(:exist?)
+          expect(decorator).to respond_to(:present?)
+          expect(decorator).to respond_to(:click)
+        end
+
+        it "delegates present? to element" do
+          Object.class_eval do
+            def present?
+              false
+            end
+          end
+          element = browser.a(id: "show_bar").when_present(1)
+          expect(element).to be_present
+        end
+
+        it "processes before calling present?" do
+          browser.a(id: 'show_bar').click
+          expect(browser.div(id: 'bar').when_present.present?).to be true
+        end
+      end
     end
 
-    describe "#when_enabled" do
-      it "yields when the element becomes enabled" do
-        called = false
+    not_compliant_on :relaxed_locate do
+      describe "#when_enabled" do
+        it "yields when the element becomes enabled" do
+          called = false
 
-        browser.a(id: 'enable_btn').click
-        browser.button(id: 'btn').when_enabled(2) { called = true }
+          browser.a(id: 'enable_btn').click
+          browser.button(id: 'btn').when_enabled(2) { called = true }
 
-        expect(called).to be true
-      end
+          expect(called).to be true
+        end
 
-      it "invokes subsequent method calls when the element becomes enabled" do
-        browser.a(id: 'enable_btn').click
+        it "invokes subsequent method calls when the element becomes enabled" do
+          browser.a(id: 'enable_btn').click
 
-        btn = browser.button(id: 'btn')
-        btn.when_enabled(2).click
-        Watir::Wait.while { btn.enabled? }
-        expect(btn.disabled?).to be true
-      end
+          btn = browser.button(id: 'btn')
+          btn.when_enabled(2).click
+          Watir::Wait.while { btn.enabled? }
+          expect(btn.disabled?).to be true
+        end
 
-      it "times out when given a block" do
-        expect { browser.button(id: 'btn').when_enabled(1) {}}.to raise_error(Watir::Wait::TimeoutError)
-      end
+        it "times out when given a block" do
+          expect { browser.button(id: 'btn').when_enabled(1) {}}.to raise_error(Watir::Wait::TimeoutError)
+        end
 
-      it "times out when not given a block" do
-        expect { browser.button(id: 'btn').when_enabled(1).click }.to raise_error(Watir::Wait::TimeoutError,
-          /^timed out after 1 seconds, waiting for (\{:id=>"btn", :tag_name=>"button"\}|\{:tag_name=>"button", :id=>"btn"\}) to become enabled$/
-        )
-      end
+        it "times out when not given a block" do
+          expect { browser.button(id: 'btn').when_enabled(1).click }.to raise_error(Watir::Wait::TimeoutError,
+            /^timed out after 1 seconds, waiting for (\{:id=>"btn", :tag_name=>"button"\}|\{:tag_name=>"button", :id=>"btn"\}) to become enabled$/
+          )
+        end
 
-      it "times out when not given a block" do
-        expect { browser.button(id: 'btn').when_enabled(1).click }.to raise_error(Watir::Wait::TimeoutError,
-          /timed out after 1 seconds, waiting for {:id=>"btn", :tag_name=>"button"} to become enabled$/
-        )
-      end
+        it "times out when not given a block" do
+          expect { browser.button(id: 'btn').when_enabled(1).click }.to raise_error(Watir::Wait::TimeoutError,
+            /timed out after 1 seconds, waiting for {:id=>"btn", :tag_name=>"button"} to become enabled$/
+          )
+        end
 
-      it "responds to Element methods" do
-        decorator = browser.button.when_enabled
+        it "responds to Element methods" do
+          decorator = browser.button.when_enabled
 
-        expect(decorator).to respond_to(:exist?)
-        expect(decorator).to respond_to(:present?)
-        expect(decorator).to respond_to(:click)
-      end
+          expect(decorator).to respond_to(:exist?)
+          expect(decorator).to respond_to(:present?)
+          expect(decorator).to respond_to(:click)
+        end
 
-      it "can be chained with #when_present" do
-        browser.a(id: 'show_and_enable_btn').click
-        browser.button(id: 'btn2').when_present(5).when_enabled(5).click
+        it "can be chained with #when_present" do
+          browser.a(id: 'show_and_enable_btn').click
+          browser.button(id: 'btn2').when_present(5).when_enabled(5).click
 
-        expect(browser.button(id: 'btn2')).to exist
-        expect(browser.button(id: 'btn2')).to be_enabled
+          expect(browser.button(id: 'btn2')).to exist
+          expect(browser.button(id: 'btn2')).to be_enabled
+        end
       end
     end
 
@@ -257,10 +260,12 @@ not_compliant_on :safari do
         }.to raise_error(Watir::Wait::TimeoutError)
       end
 
-      it "is used by Element#when_present" do
-        expect {
-          browser.div(id: 'bar').when_present.click
-        }.to raise_error(Watir::Wait::TimeoutError)
+      not_compliant_on :relaxed_locate do
+        it "is used by Element#when_present" do
+          expect {
+            browser.div(id: 'bar').when_present.click
+          }.to raise_error(Watir::Wait::TimeoutError)
+        end
       end
 
       it "is used by Element#wait_until_present" do
