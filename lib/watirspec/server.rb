@@ -4,35 +4,48 @@ require 'watirspec/server/app'
 module WatirSpec
   class Server
     class << self
-      def run_async
-        if WatirSpec.platform == :java
-          Thread.new { run! }
-          sleep 0.1 until running?
-        elsif WatirSpec.platform == :windows
-          # FIXME: this makes use lose implementation-specific routes!
-          run_in_child_process
-          connect_until_stable
+      def run!
+        return if running?
+
+        if Selenium::WebDriver::Platform.jruby? || Selenium::WebDriver::Platform.windows?
+          run_in_thread
         else
-          pid = fork { run! }
-          connect_until_stable
+          run_in_process
         end
+        connect_until_stable
+      end
 
-        if pid
-          # is this really necessary?
-          at_exit {
-            begin
-              Process.kill 0, pid
-              alive = true
-            rescue Errno::ESRCH
-              alive = false
-            end
+      def port
+        @port ||= pick_port_above(8180)
+      end
 
-            Process.kill(9, pid) if alive
-          }
+      def bind
+        @bind ||= Selenium::WebDriver::Platform.windows? ? '127.0.0.1' : '0.0.0.0'
+      end
+
+      private
+
+      def run_in_thread
+        Thread.new { run }
+      end
+
+      def run_in_process
+        pid = fork { run }
+
+        # is this really necessary?
+        at_exit do
+          begin
+            Process.kill 0, pid
+            alive = true
+          rescue Errno::ESRCH
+            alive = false
+          end
+
+          Process.kill(9, pid) if alive
         end
       end
 
-      def run!
+      def run
         server = TCPServer.new(bind, port)
         @running = true
         loop do
@@ -81,43 +94,11 @@ module WatirSpec
         @app ||= App.new
       end
 
-      def port
-        @port ||= pick_port_above(8180)
-      end
-
-      def bind
-        if WatirSpec.platform == :windows
-          '127.0.0.1'
-        else
-          '0.0.0.0'
-        end
-      end
-
-      def should_run?
-        !running?
-      end
-
       def running?
         defined?(@running) && @running
       end
 
       private
-
-      def run_in_child_process
-        begin
-          require "childprocess"
-        rescue LoadError => ex
-          raise "please run `gem install childprocess` for WatirSpec on Windows + MRI\n\t(caught: #{ex.message})"
-        end
-
-        path = File.expand_path("../../spec_helper.rb", __FILE__)
-
-        process = ChildProcess.build(WatirSpec.ruby, path)
-        process.io.inherit! if $DEBUG
-        process.start
-
-        at_exit { process.stop }
-      end
 
       def connect_until_stable
         socket_poller = Selenium::WebDriver::SocketPoller.new(bind, port, 10)

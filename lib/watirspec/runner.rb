@@ -41,11 +41,7 @@ module WatirSpec
     end
 
     def start_server
-      if WatirSpec::Server.should_run?
-        WatirSpec::Server.run_async
-      else
-        $stderr.puts "not running WatirSpec::Server"
-      end
+      WatirSpec::Server.run!
     end
 
     def add_guard_hook

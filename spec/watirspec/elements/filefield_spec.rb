@@ -157,7 +157,7 @@ describe "FileField" do
                 browser.file_field.value = path
 
                 expected = path
-                expected.gsub!("/", "\\") if WatirSpec.platform == :windows
+                expected.gsub!("/", "\\") if Selenium::WebDriver::Platform.windows?
 
                 expect(browser.file_field.value).to include(File.basename(expected)) # only some browser will return the full path
               end

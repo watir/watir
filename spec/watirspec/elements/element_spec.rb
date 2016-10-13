@@ -284,7 +284,7 @@ describe "Element" do
     describe '#send_keys' do
       before(:each) do
         phantom = browser.driver.capabilities.browser_name == 'phantomjs'
-        @c = RUBY_PLATFORM =~ /darwin/ && !phantom ? :command : :control
+        @c = Selenium::WebDriver::Platform.mac? && !phantom ? :command : :control
         browser.goto(WatirSpec.url_for('keylogger.html'))
       end
 

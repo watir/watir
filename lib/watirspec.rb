@@ -28,21 +28,6 @@ module WatirSpec
       @unguarded ||= false
     end
 
-    def platform
-      @platform ||= case RUBY_PLATFORM
-                    when /java/
-                      :java
-                    when /mswin|msys|mingw32/
-                      :windows
-                    when /darwin/
-                      :macosx
-                    when /linux/
-                      :linux
-                    else
-                      RUBY_PLATFORM
-                    end
-    end
-
     def implementation
       @implementation ||= (
         imp = WatirSpec::Implementation.new
@@ -68,20 +53,6 @@ module WatirSpec
       print_browser_info_once(instance)
 
       instance
-    end
-
-    def ruby
-      @ruby ||= (
-        if defined?(Gem)
-          Gem.ruby
-        else
-          require "rbconfig"
-          rb = File.join(RbConfig::CONFIG.values_at('BINDIR', 'RUBY_INSTALL_NAME').compact)
-          ext = RbConfig::CONFIG['EXEEXT']
-
-          "#{rb}#{ext}"
-        end
-      )
     end
 
     private
