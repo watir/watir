@@ -498,11 +498,13 @@ module Watir
 
       begin
         @query_scope.wait_for_exists
-        Watir::Wait.until(element: self, &:exists?)
+        wait_until(&:exists?)
       rescue Watir::Wait::TimeoutError
         unless Watir.default_timeout == 0
-          warn "This test has slept for the duration of the default timeout. "\
-                  "If your test is passing, consider using Element#exists? instead of rescuing this error"
+          message = "This code has slept for the duration of the default timeout "
+          message << "waiting for an Element to exist. If the test is still passing, "
+          message << "consider using Element#exists? instead of rescuing UnknownObjectException"
+          warn message
         end
         raise unknown_exception, "timed out after #{Watir.default_timeout} seconds, "\
                                          "waiting for #{selector_string} to be located"
@@ -518,8 +520,10 @@ module Watir
         wait_until_present
       rescue Watir::Wait::TimeoutError => ex
         unless Watir.default_timeout == 0
-          warn "This test has slept for the duration of the default timeout. "\
-                  "If your test is passing, consider using Element#present? instead of rescuing this error"
+          message = "This code has slept for the duration of the default timeout "
+          message << "waiting for an Element to be present. If the test is still passing, "
+          message << "consider using Element#exists? instead of rescuing UnknownObjectException"
+          warn message
         end
         raise unknown_exception, "element located, but #{ex.message}"
       end
@@ -530,7 +534,7 @@ module Watir
 
       wait_for_present
       begin
-        Watir::Wait.until { @element.enabled? }
+        wait_until(&:enabled?)
       rescue Watir::Wait::TimeoutError
         message = "element present, but timed out after #{Watir.default_timeout} seconds, waiting for #{selector_string} to be enabled"
         raise ObjectDisabledException, message
@@ -542,7 +546,7 @@ module Watir
 
       wait_for_enabled
       begin
-        Watir::Wait.until { !respond_to?(:readonly?) || !readonly? }
+        wait_until { !respond_to?(:readonly?) || !readonly? }
       rescue Watir::Wait::TimeoutError
         message = "element present and enabled, but timed out after #{Watir.default_timeout} seconds, waiting for #{selector_string} to not be readonly"
         raise ObjectReadOnlyException, message

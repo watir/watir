@@ -45,7 +45,7 @@ module Watir
       warn <<-EOS
 Watir#always_locate is deprecated; elements are always cached and will always
 be re-located if they go stale before use.
-Use Element#stale? or Element#wait_until_stale if needed for flow control.
+Use Element#stale? or Element#wait_until(&:stale?) if needed for flow control.
       EOS
     end
 

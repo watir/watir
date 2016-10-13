@@ -366,17 +366,19 @@ not_compliant_on :safari do
         end
       end
 
-      it "should resize the window" do
-        initial_size = browser.window.size
-        browser.window.resize_to(
-          initial_size.width - 20,
-          initial_size.height - 20
-        )
+      bug "https://github.com/SeleniumHQ/selenium/issues/2856", %i(remote firefox) do
+        it "should resize the window" do
+          initial_size = browser.window.size
+          browser.window.resize_to(
+            initial_size.width - 20,
+            initial_size.height - 20
+          )
 
-        new_size = browser.window.size
+          new_size = browser.window.size
 
-        expect(new_size.width).to eq initial_size.width - 20
-        expect(new_size.height).to eq initial_size.height - 20
+          expect(new_size.width).to eq initial_size.width - 20
+          expect(new_size.height).to eq initial_size.height - 20
+        end
       end
 
       not_compliant_on :firefox do
@@ -397,19 +399,21 @@ not_compliant_on :safari do
       end
 
       compliant_on :window_manager do
-        it "should maximize the window" do
-          initial_size = browser.window.size
-          browser.window.resize_to(
-              initial_size.width,
-              initial_size.height - 20
-          )
+        bug "https://github.com/SeleniumHQ/selenium/issues/2856", %i(remote firefox) do
+          it "should maximize the window" do
+            initial_size = browser.window.size
+            browser.window.resize_to(
+                initial_size.width,
+                initial_size.height - 20
+            )
 
-          browser.window.maximize
-          browser.wait_until { browser.window.size != initial_size }
+            browser.window.maximize
+            browser.wait_until { browser.window.size != initial_size }
 
-          new_size = browser.window.size
-          expect(new_size.width).to be >= initial_size.width
-          expect(new_size.height).to be > (initial_size.height - 20)
+            new_size = browser.window.size
+            expect(new_size.width).to be >= initial_size.width
+            expect(new_size.height).to be > (initial_size.height - 20)
+          end
         end
       end
     end

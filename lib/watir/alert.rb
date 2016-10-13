@@ -105,10 +105,12 @@ module Watir
 
       begin
         wait_until(&:exists?)
-      rescue Watir::Wait::TimeoutError
+      rescue Wait::TimeoutError
         unless Watir.default_timeout == 0
-          warn "This test has slept for the duration of the default timeout. "\
-                "If your test is passing, consider using Alert#exists? instead of rescuing this error"
+          message = "This code has slept for the duration of the default timeout "
+          message << "waiting for an Alert to exist. If the test is still passing, "
+          message << "consider using Alert#exists? instead of rescuing UnknownObjectException"
+          warn message
         end
         raise Exception::UnknownObjectException, 'unable to locate alert'
       end

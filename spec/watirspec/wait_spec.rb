@@ -92,18 +92,10 @@ not_compliant_on :safari do
       describe "#when_present" do
         context 'warnings' do
           it 'received for using #when_present' do
-            message = /when_present has been deprecated and is unlikely to be needed; use #wait_until_present if a wait is still needed/
+            message = /when_present has been deprecated and is unlikely to be needed; replace this with #wait_until_present if a wait is still needed/
             browser.a(id: 'show_bar').click
             expect do
               browser.div(id: 'bar').when_present.click
-            end.to output(message).to_stderr
-          end
-
-          it 'received for passing block to #when_present' do
-            message = /do not pass a block to take actions after a wait/
-            browser.a(id: 'show_bar').click
-            expect do
-              browser.div(id: 'bar').when_present {}
             end.to output(message).to_stderr
           end
         end
@@ -237,22 +229,6 @@ not_compliant_on :safari do
             browser.a(id: 'hide_foo').click
             message = /Instead of passing arguments into #wait_while_present method, use keywords/
             expect { browser.div(id: 'foo').wait_while_present(5) }.to output(message).to_stderr
-          end
-        end
-
-        describe "#wait_until_stale" do
-          it "waits until the element disappears" do
-            stale_element = browser.div(id: 'foo')
-            stale_element.exists?
-            browser.refresh
-            expect { stale_element.wait_until_stale(timeout: 1) }.to_not raise_exception
-          end
-
-          it "times out if the element doesn't go stale" do
-            message = /^timed out after 1 seconds, waiting for true condition on (\{:id=>"foo", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"foo"\})$/
-            element = browser.div(id: 'foo')
-            element.exists?
-            expect { element.wait_until_stale(timeout: 1) }.to raise_error(Wait::TimeoutError, message)
           end
         end
 

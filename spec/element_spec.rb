@@ -110,23 +110,23 @@ module Watir
     describe "#selector_string" do
       it "displays selector string for regular element" do
         browser.goto(WatirSpec.url_for("wait.html"))
-        delegator = browser.div(:id, 'foo').when_present
-        message = delegator.instance_variable_get('@message')
-        expect(message).to eq 'waiting for {:id=>"foo", :tag_name=>"div"} to become present'
+        element = browser.div(:id, 'not_present')
+        error = 'required condition for {:id=>"not_present", :tag_name=>"div"} is not met'
+        expect { element.wait_until_present(timeout: 0) }.to raise_exception(Wait::TimeoutError, error)
       end
 
       it "displays selector string for element from colection" do
         browser.goto(WatirSpec.url_for("wait.html"))
         element = browser.divs.last
         error = 'required condition for {:tag_name=>"div", :index=>4} is not met'
-        expect {element.wait_until_present(timeout: 0)}.to raise_exception(TimeoutError, error)
+        expect {element.wait_until_present(timeout: 0)}.to raise_exception(Wait::TimeoutError, error)
       end
 
       it "displays selector string for nested element" do
         browser.goto(WatirSpec.url_for("wait.html"))
         element = browser.div(index: -1).div(:id, 'foo')
         error = 'required condition for {:index=>-1, :tag_name=>"div"} --> {:id=>"foo", :tag_name=>"div"} is not met'
-        expect {element.wait_until_present(timeout: 0)}.to raise_exception(TimeoutError, error)
+        expect {element.wait_until_present(timeout: 0)}.to raise_exception(Wait::TimeoutError, error)
       end
 
       it "displays selector string for nested element under frame" do
@@ -134,7 +134,6 @@ module Watir
         element = browser.iframe(id: 'one').iframe(:id, 'three')
         error = 'unable to locate iframe using {:id=>"one", :tag_name=>"iframe"} --> {:id=>"three", :tag_name=>"iframe"}'
         expect {element.wait_until_present(timeout: 0)}.to raise_exception(Exception::UnknownFrameException, error)
-      end
       end
     end
   end

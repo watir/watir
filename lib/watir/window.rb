@@ -245,7 +245,7 @@ module Watir
       return assert_exists unless Watir.relaxed_locate?
       begin
         wait_until(&:exists?)
-      rescue TimeoutError
+      rescue Wait::TimeoutError
         raise Exception::NoMatchingWindowFoundException, @selector.inspect
       end
     end
