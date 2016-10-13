@@ -23,7 +23,7 @@ module Watir
     #
 
     def width
-      Watir.relaxed_locate? ? wait_for_exists : assert_exists
+      wait_for_exists
       driver.execute_script "return arguments[0].width", @element
     end
 

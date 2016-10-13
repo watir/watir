@@ -96,7 +96,7 @@ module Watir
     def wait_while(*args, &blk)
       Wait.while(*args, &blk)
     end
-  end
+  end # BrowserWaitable
 
   module Waitable
 
@@ -117,7 +117,7 @@ module Watir
     def wait_until(timeout: nil, message: nil, &blk)
       return self if yield(self) # performance shortcut
       timeout ||= Watir.default_timeout
-      raise TimeoutError, "required condition for #{selector_string} is not met" if timeout == 0
+      raise Wait::TimeoutError, "required condition for #{selector_string} is not met" if timeout == 0
 
       message ||= "waiting for true condition on #{selector_string}"
       Wait.until(timeout: timeout, message: message, element: self, &blk)
@@ -133,7 +133,7 @@ module Watir
     def wait_while(timeout: nil, message: nil, &blk)
       return self unless yield(self) # performance shortcut
       timeout ||= Watir.default_timeout
-      raise TimeoutError, "required condition for #{selector_string} is not met" if timeout == 0
+      raise Wait::TimeoutError, "required condition for #{selector_string} is not met" if timeout == 0
 
       message ||= "waiting for false condition on #{selector_string}"
       Wait.while(timeout: timeout, message: message, element: self, &blk)
@@ -178,25 +178,6 @@ module Watir
       end
       timeout ||= deprecated_timeout
       wait_while(timeout: timeout, &:present?)
-    end
-
-    #
-    # Waits until the element is stale.
-    #
-    # @example
-    #   browser.text_field(name: "abrakadbra").wait_until_stale
-    #
-    # @param [Fixnum] timeout seconds to wait before timing out
-    #
-    # @see Watir::Wait
-    # @see Watir::Element#stale?
-    #
-
-    def wait_until_stale(deprecated_timeout = nil, timeout: nil)
-      if deprecated_timeout
-        warn "Instead of passing arguments into #wait_until_stale method, use keywords"
-      end
-      wait_until(timeout: timeout, &:stale?)
     end
 
   end # Waitable
