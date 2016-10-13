@@ -26,7 +26,7 @@ describe 'Alert API' do
 
           it 'returns true if alert is present' do
             browser.button(id: 'alert').click
-            browser.wait_until(10) { browser.alert.exists? }
+            browser.wait_until(timeout: 10) { browser.alert.exists? }
           end
         end
 

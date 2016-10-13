@@ -104,7 +104,7 @@ describe "Element" do
     end
 
     it "finds several elements from an element's subtree" do
-      expect(browser.fieldset.elements(xpath: ".//label").length).to eq 20
+      expect(browser.fieldset.elements(xpath: ".//label").length).to eq 21
     end
   end
 
