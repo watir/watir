@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>definition_lists</title>
+  </head>
+
+  <body id="definition_list">
+    <dl id="experience-list" class="list" title="experience"> 
+      <dt id="experience" class="industry" title="experience">Experience</dt> 
+      <dd>11 years</dd> 
+      
+      <dt id="education" onclick="this.innerHTML='changed'">Education</dt> 
+      <dd title="education" onclick="this.innerHTML='changed'">Master</dd> 
+      
+      <dt class="current-industry">Current industry</dt> 
+      <dd class="industry">Architecture</dd> 
+      
+      <dt>Previous industry experience</dt> 
+      <dd class="industry">Architecture</dd> 
+    </dl>
+    
+    <dl class="personalia"> 
+      <dt id="name" title="name" onclick="this.innerHTML = 'changed!'"><div>Name</div></dt>
+      <dd id="someone" class="name" title="someone">John Doe</dd>
+
+      <dt>Address</dt>
+      <dd class="address">John Doe</dd>
+
+      <dt>City</dt>
+      <dd id="city">New York</dd>
+
+      <dt>Country</dt>
+      <dd>USA</dd>
+
+      <dt>Gender</dt>
+      <dd>Male</dd>
+
+      <dt>Age</dt>
+      <dd>35</dd>
+    </dl>
+    
+    <dl id="noop">
+      <dt class="noop"></dt>  <!-- empty node -->
+      <dd class="noop"></dt>  <!-- empty node -->
+    </dl>
+      
+  </body>
+</html>

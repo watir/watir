@@ -5,14 +5,12 @@ Bundler::GemHelper.install_tasks
 
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec) do |spec|
-  spec.ruby_opts = "-I lib:spec"
   spec.rspec_opts = %w[--color --require fuubar --format Fuubar]
   spec.pattern = 'spec/**/*_spec.rb'
 end
 
 namespace :spec do
   RSpec::Core::RakeTask.new(:html) do |spec|
-    spec.ruby_opts = "-I lib:spec"
     spec.rspec_opts = "--format html --out #{ENV["SPEC_REPORT"] || "specs.html"}"
     spec.pattern = 'spec/**/*_spec.rb'
   end
@@ -116,8 +114,6 @@ namespace :changes do
   end
 end
 
-load "spec/watirspec/watirspec.rake" if File.exist?("spec/watirspec/watirspec.rake")
-
 task default: [:spec, 'yard:doctest']
 
 namespace :spec do
@@ -131,18 +127,18 @@ namespace :spec do
                   :firefox,
                   :ff_legacy,
                   :phantomjs,
-                  (:safari if Selenium::WebDriver::Platform.os == :macosx),
-                  (:ie if Selenium::WebDriver::Platform.os == :windows),
-                  (:edge if Selenium::WebDriver::Platform.os == :windows)].compact
+                  (:safari if Selenium::WebDriver::Platform.mac?),
+                  (:ie if Selenium::WebDriver::Platform.windows?),
+                  (:edge if Selenium::WebDriver::Platform.windows?)].compact
 
   desc 'Run specs remotely for all browsers'
   task remote_browsers: [:remote_chrome,
                          :remote_firefox,
                          :remote_ff_legacy,
                          :remote_phantomjs,
-                         (:remote_safari if Selenium::WebDriver::Platform.os == :macosx),
-                         (:remote_ie if Selenium::WebDriver::Platform.os == :windows),
-                         (:remote_edge if Selenium::WebDriver::Platform.os == :windows)].compact
+                         (:remote_safari if Selenium::WebDriver::Platform.mac?),
+                         (:remote_ie if Selenium::WebDriver::Platform.windows?),
+                         (:remote_edge if Selenium::WebDriver::Platform.windows?)].compact
 
   %w(firefox ff_legacy chrome safari phantomjs ie edge).each do |browser|
     desc "Run specs in #{browser}"

@@ -4,7 +4,6 @@ set -e
 set -x
 
 sh -e /etc/init.d/xvfb start
-git submodule update --init
 
 if [[ "$RAKE_TASK" = "yard:doctest" ]]; then
   mkdir ~/.yard

@@ -1,4 +1,4 @@
-require File.expand_path('watirspec/spec_helper', File.dirname(__FILE__))
+require 'watirspec_helper'
 
 describe Watir::Browser do
 
@@ -77,7 +77,7 @@ describe Watir::Browser do
 
   describe "#wait_while" do
     it "delegates to the Wait module" do
-      expect(Wait).to receive(:while).with(3, "foo").and_yield
+      expect(Watir::Wait).to receive(:while).with(3, "foo").and_yield
 
       called = false
       browser.wait_while(3, "foo") { called = true }
@@ -88,7 +88,7 @@ describe Watir::Browser do
 
   describe "#wait_until" do
     it "delegates to the Wait module" do
-      expect(Wait).to receive(:until).with(3, "foo").and_yield
+      expect(Watir::Wait).to receive(:until).with(3, "foo").and_yield
 
       called = false
       browser.wait_until(3, "foo") { called = true }

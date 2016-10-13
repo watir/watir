@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <title>Tables</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script src="javascript/helpers.js" type="text/javascript" charset="utf-8"></script>
+    </head>
+    <body>
+        <div id="messages"></div>
+        <h1>Tables</h1>
+        <h2>Semantic table</h2>
+        <table cellspacing="0" cellpadding="5" rules="groups" frame="box" border="1" id="axis_example" summary="Hugh Laurie made more money than Gregory House in both March and April of 2008.">
+            <caption>Income tax information for Gregory House and Hugh Laurie</caption>
+            <colgroup width="25%" align="left"></colgroup>
+            <colgroup width="25%" span="3" align="right"></colgroup>
+            <thead id="tax_headers">
+                <tr style="border-bottom: 1px solid black;" class="dark" id="thead_row_1">
+                    <th></th>
+                    <th id="before_tax" axis="cash" abbr="Before tax">Before income tax</th>
+                    <th id="tax" axis="cash" abbr="Tax">Income tax</th>
+                    <th id="after_tax" axis="cash" abbr="After tax">After income tax</th>
+                </tr>
+            </thead>
+            <tfoot id="tax_totals">
+                <tr class="dark" id="tfoot_row_1">
+                    <th axis="sum">Sum</th>
+                    <td headers="before_tax">24 349</td>
+                    <td headers="tax">5 577</td>
+                    <td headers="after_tax">18 722</td>
+                </tr>
+            </tfoot>
+            <tbody id="first">
+                <tr id="march">
+                    <th id="d1" axis="date" scope="rowgroup">March 2008</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <tr id="gregory">
+                    <td id="p1" abbr="Dr. House">Gregory House</td>
+                    <td headers="before_tax p1 d1">5 934</td>
+                    <td headers="tax p1 d1">1 347</td>
+                    <td headers="after_tax p1 d1">4 587</td>
+                </tr>
+                <tr id="hugh">
+                    <td id="p2" abbr="Laurie">Hugh Laurie</td>
+                    <td headers="before_tax p2 d1">6 300</td>
+                    <td headers="tax p2 d1">1 479</td>
+                    <td headers="after_tax p2 d1">4 821</td>
+                </tr>
+            </tbody>
+            <tbody name="second" id="second">
+                <tr>
+                    <th id="d2" axis="date" scope="rowgroup">April 2008</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <tr>
+                     <td id="p3" abbr="Dr. House">Gregory House</td>
+                     <td headers="before_tax p3 d2">5 863</td>
+                     <td headers="tax p3 d2">1 331</td>
+                     <td headers="after_tax p3 d2">4 532</td>
+                </tr>
+                <tr>
+                    <td id="p4" abbr="Laurie">Hugh Laurie</td>
+                    <td headers="before_tax p4 d2">6 252</td>
+                    <td headers="tax p4 d2">1 420</td>
+                    <td headers="after_tax p4 d2">4 <span id="cell-child">832</span></td>
+                </tr>
+            </tbody>
+        </table>
+        <h2>Table inside a table</h2>
+        <table border="1" id="outer">
+            <tr id="outer_first">
+                <td>
+                    Table 1, Row 1, Cell 1
+                </td>
+                <td>
+                    Table 1, Row 1, Cell 2
+                </td>
+            </tr>
+            <tr id="outer_second">
+                <td id="t1_r2_c1">
+                    Table 1, Row 2, Cell 1
+                </td>
+                <td id="t1_r2_c2">
+                    Table 1, Row 2, Cell 2
+                    <table border="1" id="inner" onclick="WatirSpec.addMessage('table')">
+                        <tr id="inner_first" onclick="WatirSpec.addMessage('tr')">
+                            <td id="t2_r1_c1" onclick="WatirSpec.addMessage('td')">
+                                Table 2, Row 1, Cell 1
+                            </td>
+                            <td>
+                                Table 2, Row 1, Cell 2
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr id="outer_last">
+                <td>
+                    Table 1, Row 3, Cell 1
+                </td>
+                <td>
+                    Table 1, Row 3, Cell 2
+                </td>
+            </tr>
+        </table>
+        <h2>Colspan</h2>
+        <table border="1" id="colspan">
+            <tr>
+                <td colspan="2" id="colspan_2">Colspan 2</td>
+            </tr>
+            <tr>
+                <td id="no_colspan">No colspan attribute</td>
+                <td>No colspan attribute</td>
+            </tr>
+        </table>
+    </body>
+</html>
