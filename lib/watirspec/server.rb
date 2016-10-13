@@ -78,11 +78,9 @@ module WatirSpec
 
               response = ["HTTP/1.1 #{status}"] + headers
               response = response.join("\r\n")
+              response << "\r\n\r\n#{body}\r\n"
 
               client.write(response)
-              client.write("\r\n\r\n")
-              client.write(body)
-              client.write("\r\n")
             end
 
             client.close
