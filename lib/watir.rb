@@ -16,11 +16,12 @@ require 'watir/after_hooks'
 
 module Watir
 
-  attr_writer :relaxed_locate, :always_locate, :default_timeout, :prefer_css, :locator_namespace
-
   @relaxed_locate = true
 
   class << self
+
+    attr_writer :relaxed_locate, :always_locate, :default_timeout, :prefer_css, :locator_namespace
+
     #
     # Whether or not Watir should wait for an element to be found or present
     # before taking an action.
