@@ -7,14 +7,11 @@ module Watir
 
           selectors.delete(:tag_name)
 
-          textarea_attr_exp = xpath_builder.attribute_expression(:textarea, selectors)
           input_attr_exp = xpath_builder.attribute_expression(:input, selectors)
 
           xpath = ".//input[(not(@type) or (#{negative_type_expr}))"
           xpath << " and #{input_attr_exp}" unless input_attr_exp.empty?
-          xpath << "] "
-          xpath << "| .//textarea"
-          xpath << "[#{textarea_attr_exp}]" unless textarea_attr_exp.empty?
+          xpath << "]"
 
           p build_wd_selector: xpath if $DEBUG
 

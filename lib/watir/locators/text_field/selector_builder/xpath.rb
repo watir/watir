@@ -6,8 +6,6 @@ module Watir
           def lhs_for(building, key)
             if building == :input && key == :text
               "@value"
-            elsif building == :textarea && key == :value
-              "text()"
             else
               super
             end
