@@ -51,7 +51,9 @@ describe "Browser::AfterHooks" do
 
     it "runs after_hooks after Browser#refresh" do
       browser.goto WatirSpec.url_for("font.html")
-      @page_after_hook = Proc.new { @yield = browser.title == "The font element" }
+      @page_after_hook = Proc.new do
+        @yield = browser.title == "The font element"
+      end
       browser.after_hooks.add @page_after_hook
       browser.refresh
       expect(@yield).to be true
@@ -60,11 +62,10 @@ describe "Browser::AfterHooks" do
     it "runs after_hooks after Element#click" do
       browser.goto(WatirSpec.url_for("non_control_elements.html"))
       @page_after_hook = Proc.new do
-        Watir::Wait.while { browser.title.empty? }
-        @yield = browser.title == "Non-control elements"
+        @yield = browser.title == "Forms with input elements"
       end
       browser.after_hooks.add @page_after_hook
-      browser.link(index: 1).click
+      browser.link(index: 2).click
       expect(@yield).to be true
     end
 

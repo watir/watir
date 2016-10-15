@@ -89,204 +89,175 @@ not_compliant_on :safari do
         browser.goto WatirSpec.url_for("wait.html")
       end
 
-      describe "#when_present" do
-        context 'warnings' do
-          it 'received for using #when_present' do
-            message = /when_present has been deprecated and is unlikely to be needed; replace this with #wait_until_present if a wait is still needed/
+      # TODO: This is deprecated; remove in future version
+      not_compliant_on :relaxed_locate do
+        describe "#when_present" do
+          it "invokes subsequent method calls when the element becomes present" do
             browser.a(id: 'show_bar').click
-            expect do
-              browser.div(id: 'bar').when_present.click
-            end.to output(message).to_stderr
+
+            bar = browser.div(id: 'bar')
+            bar.when_present(2).click
+            expect(bar.text).to eq "changed"
           end
-        end
 
-        not_compliant_on :relaxed_locate do
-          context 'deprecated' do
-            it "invokes subsequent method calls when the element becomes present" do
-              browser.a(id: 'show_bar').click
+          it "times out when given a block" do
+            expect { browser.div(id: 'bar').when_present(1) {} }.to raise_error(Wait::TimeoutError)
+          end
 
-              bar = browser.div(id: 'bar')
-              bar.when_present(2).click
-              expect(bar.text).to eq "changed"
-            end
+          it "times out when not given a block" do
+            message = /^timed out after 1 seconds, waiting for (\{:id=>"bar", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"bar"\}) to become present$/
+            expect { browser.div(id: 'bar').when_present(1).click }.to raise_error(Wait::TimeoutError, message)
+          end
 
-            it "times out when given a block" do
-              expect { browser.div(id: 'bar').when_present(1) {} }.to raise_error(Wait::TimeoutError)
-            end
+          it "responds to Element methods" do
+            decorator = browser.div.when_present
 
-            it "times out when not given a block" do
-              message = /^timed out after 1 seconds, waiting for (\{:id=>"bar", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"bar"\}) to become present$/
-              expect { browser.div(id: 'bar').when_present(1).click }.to raise_error(Wait::TimeoutError, message)
-            end
+            expect(decorator).to respond_to(:exist?)
+            expect(decorator).to respond_to(:present?)
+            expect(decorator).to respond_to(:click)
+          end
 
-            it "responds to Element methods" do
-              decorator = browser.div.when_present
-
-              expect(decorator).to respond_to(:exist?)
-              expect(decorator).to respond_to(:present?)
-              expect(decorator).to respond_to(:click)
-            end
-
-            it "delegates present? to element" do
-              Object.class_eval do
-                def present?
-                  false
-                end
+          it "delegates present? to element" do
+            Object.class_eval do
+              def present?
+                false
               end
-              element = browser.a(id: "show_bar").when_present(1)
-              expect(element).to be_present
             end
-
-            it "processes before calling present?" do
-              browser.a(id: 'show_bar').click
-              expect(browser.div(id: 'bar').when_present.present?).to be true
-            end
+            element = browser.a(id: "show_bar").when_present(1)
+            expect(element).to be_present
           end
-        end
 
-        not_compliant_on :relaxed_locate do
-          describe "#when_enabled" do
-            it "yields when the element becomes enabled" do
-              called = false
-
-              browser.a(id: 'enable_btn').click
-              browser.button(id: 'btn').when_enabled(2) { called = true }
-
-              expect(called).to be true
-            end
-
-            it "invokes subsequent method calls when the element becomes enabled" do
-              browser.a(id: 'enable_btn').click
-
-              btn = browser.button(id: 'btn')
-              btn.when_enabled(2).click
-              Wait.while { btn.enabled? }
-              expect(btn.disabled?).to be true
-            end
-
-            it "times out when given a block" do
-              expect { browser.button(id: 'btn').when_enabled(1) {} }.to raise_error(Wait::TimeoutError)
-            end
-
-            it "times out when not given a block" do
-              message = /^timed out after 1 seconds, waiting for (\{:id=>"btn", :tag_name=>"button"\}|\{:tag_name=>"button", :id=>"btn"\}) to become enabled$/
-              expect { browser.button(id: 'btn').when_enabled(1).click }.to raise_error(Wait::TimeoutError, message)
-            end
-
-            it "times out when not given a block" do
-              message = /timed out after 1 seconds, waiting for {:id=>"btn", :tag_name=>"button"} to become enabled$/
-              expect { browser.button(id: 'btn').when_enabled(1).click }.to raise_error(Wait::TimeoutError, message)
-            end
-
-            it "responds to Element methods" do
-              decorator = browser.button.when_enabled
-
-              expect(decorator).to respond_to(:exist?)
-              expect(decorator).to respond_to(:present?)
-              expect(decorator).to respond_to(:click)
-            end
-
-            it "can be chained with #when_present" do
-              browser.a(id: 'show_and_enable_btn').click
-              browser.button(id: 'btn2').when_present(5).when_enabled(5).click
-
-              expect(browser.button(id: 'btn2')).to exist
-              expect(browser.button(id: 'btn2')).to be_enabled
-            end
-          end
-        end
-
-        describe "#wait_until_present" do
-          it "it waits until the element appears" do
+          it "processes before calling present?" do
             browser.a(id: 'show_bar').click
-            expect { browser.div(id: 'bar').wait_until_present(timeout: 5) }.to_not raise_exception
-          end
-
-          it "times out if the element doesn't appear" do
-            message = /^timed out after 1 seconds, waiting for true condition on (\{:id=>"bar", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"bar"\})$/
-            expect { browser.div(id: 'bar').wait_until_present(timeout: 1) }.to raise_error(Wait::TimeoutError, message)
-          end
-
-          it "ordered pairs are deprecated" do
-            browser.a(id: 'show_bar').click
-            message = /Instead of passing arguments into #wait_until_present method, use keywords/
-            expect { browser.div(id: 'bar').wait_until_present(5) }.to output(message).to_stderr
+            expect(browser.div(id: 'bar').when_present.present?).to be true
           end
         end
+      end
 
-        describe "#wait_while_present" do
-          it "waits until the element disappears" do
-            browser.a(id: 'hide_foo').click
-            expect { browser.div(id: 'foo').wait_while_present(timeout: 1) }.to_not raise_exception
+      not_compliant_on :relaxed_locate do
+        describe "#wait_until &:enabled?" do
+          it "invokes subsequent method calls when the element becomes enabled" do
+            browser.a(id: 'enable_btn').click
+
+            btn = browser.button(id: 'btn')
+            btn.wait_until(timeout: 2, &:enabled?).click
+            Wait.while { btn.enabled? }
+            expect(btn.disabled?).to be true
           end
 
-          it "times out if the element doesn't disappear" do
-            message = /^timed out after 1 seconds, waiting for false condition on (\{:id=>"foo", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"foo"\})$/
-            expect { browser.div(id: 'foo').wait_while_present(timeout: 1) }.to raise_error(Wait::TimeoutError, message)
+          it "times out" do
+            message = /^timed out after 1 seconds, waiting for true condition on (\{:id=>"btn", :tag_name=>"button"\}|\{:tag_name=>"button", :id=>"btn"\})$/
+            expect { browser.button(id: 'btn').wait_until(timeout: 1, &:enabled?).click }.to raise_error(Wait::TimeoutError, message)
           end
 
-          it "ordered pairs are deprecated" do
-            browser.a(id: 'hide_foo').click
-            message = /Instead of passing arguments into #wait_while_present method, use keywords/
-            expect { browser.div(id: 'foo').wait_while_present(5) }.to output(message).to_stderr
-          end
-        end
+          it "responds to Element methods" do
+            element = browser.button.wait_until { true }
 
-        describe "#wait_until" do
-          it "returns element for additional actions" do
-            element = browser.div(id: 'foo')
-            expect(element.wait_until(&:exist?)).to eq element
+            expect(element).to respond_to(:exist?)
+            expect(element).to respond_to(:present?)
+            expect(element).to respond_to(:click)
           end
 
-          it "accepts self in block" do
-            element = browser.div(id: 'bar')
-            browser.a(id: 'show_bar').click
-            expect { element.wait_until { |el| el.text == 'bar' } }.to_not raise_exception
-          end
+          it "can be chained with #wait_until &:present?" do
+            browser.a(id: 'show_and_enable_btn').click
+            browser.button(id: 'btn2').wait_until(&:present?).wait_until(&:enabled?).click
 
-          it "accepts any values in block" do
-            element = browser.div(id: 'bar')
-            expect { element.wait_until { true } }.to_not raise_exception
-          end
-
-          it "accepts just a timeout parameter" do
-            element = browser.div(id: 'bar')
-            expect { element.wait_until(timeout: 0) { true } }.to_not raise_exception
-          end
-
-          it "accepts just a message parameter" do
-            element = browser.div(id: 'bar')
-            expect { element.wait_until(message: 'no') { true } }.to_not raise_exception
+            expect(browser.button(id: 'btn2')).to exist
+            expect(browser.button(id: 'btn2')).to be_enabled
           end
         end
+      end
 
-        describe "#wait_while" do
-          it "returns element for additional actions" do
-            element = browser.div(id: 'foo')
-            browser.a(id: 'hide_foo').click
-            expect(element.wait_while(&:present?)).to eq element
-          end
+      describe "#wait_until_present" do
+        it "it waits until the element appears" do
+          browser.a(id: 'show_bar').click
+          expect { browser.div(id: 'bar').wait_until_present(timeout: 5) }.to_not raise_exception
+        end
 
-          it "accepts self in block" do
-            element = browser.div(id: 'foo')
-            browser.a(id: 'hide_foo').click
-            expect { element.wait_while { |el| el.text == 'foo' } }.to_not raise_exception
-          end
+        it "times out if the element doesn't appear" do
+          message = /^timed out after 1 seconds, waiting for true condition on (\{:id=>"bar", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"bar"\})$/
+          expect { browser.div(id: 'bar').wait_until_present(timeout: 1) }.to raise_error(Wait::TimeoutError, message)
+        end
 
-          it "accepts any values in block" do
-            element = browser.div(id: 'foo')
-            expect { element.wait_while { false } }.to_not raise_exception
-          end
+        it "ordered pairs are deprecated" do
+          browser.a(id: 'show_bar').click
+          message = /Instead of passing arguments into #wait_until_present method, use keywords/
+          expect { browser.div(id: 'bar').wait_until_present(5) }.to output(message).to_stderr
+        end
+      end
 
-          it "accepts just a timeout parameter" do
-            element = browser.div(id: 'foo')
-            expect { element.wait_while(timeout: 0) { false } }.to_not raise_exception
-          end
+      describe "#wait_while_present" do
+        it "waits until the element disappears" do
+          browser.a(id: 'hide_foo').click
+          expect { browser.div(id: 'foo').wait_while_present(timeout: 1) }.to_not raise_exception
+        end
 
-          it "accepts just a message parameter" do
-            element = browser.div(id: 'foo')
-            expect { element.wait_while(message: 'no') { false } }.to_not raise_exception
-          end
+        it "times out if the element doesn't disappear" do
+          message = /^timed out after 1 seconds, waiting for false condition on (\{:id=>"foo", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"foo"\})$/
+          expect { browser.div(id: 'foo').wait_while_present(timeout: 1) }.to raise_error(Wait::TimeoutError, message)
+        end
+
+        it "ordered pairs are deprecated" do
+          browser.a(id: 'hide_foo').click
+          message = /Instead of passing arguments into #wait_while_present method, use keywords/
+          expect { browser.div(id: 'foo').wait_while_present(5) }.to output(message).to_stderr
+        end
+      end
+
+      describe "#wait_until" do
+        it "returns element for additional actions" do
+          element = browser.div(id: 'foo')
+          expect(element.wait_until(&:exist?)).to eq element
+        end
+
+        it "accepts self in block" do
+          element = browser.div(id: 'bar')
+          browser.a(id: 'show_bar').click
+          expect { element.wait_until { |el| el.text == 'bar' } }.to_not raise_exception
+        end
+
+        it "accepts any values in block" do
+          element = browser.div(id: 'bar')
+          expect { element.wait_until { true } }.to_not raise_exception
+        end
+
+        it "accepts just a timeout parameter" do
+          element = browser.div(id: 'bar')
+          expect { element.wait_until(timeout: 0) { true } }.to_not raise_exception
+        end
+
+        it "accepts just a message parameter" do
+          element = browser.div(id: 'bar')
+          expect { element.wait_until(message: 'no') { true } }.to_not raise_exception
+        end
+      end
+
+      describe "#wait_while" do
+        it "returns element for additional actions" do
+          element = browser.div(id: 'foo')
+          browser.a(id: 'hide_foo').click
+          expect(element.wait_while(&:present?)).to eq element
+        end
+
+        it "accepts self in block" do
+          element = browser.div(id: 'foo')
+          browser.a(id: 'hide_foo').click
+          expect { element.wait_while { |el| el.text == 'foo' } }.to_not raise_exception
+        end
+
+        it "accepts any values in block" do
+          element = browser.div(id: 'foo')
+          expect { element.wait_while { false } }.to_not raise_exception
+        end
+
+        it "accepts just a timeout parameter" do
+          element = browser.div(id: 'foo')
+          expect { element.wait_while(timeout: 0) { false } }.to_not raise_exception
+        end
+
+        it "accepts just a message parameter" do
+          element = browser.div(id: 'foo')
+          expect { element.wait_while(message: 'no') { false } }.to_not raise_exception
         end
       end
     end
