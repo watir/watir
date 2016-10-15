@@ -49,17 +49,17 @@ describe 'Alert API' do
         end
 
         not_compliant_on :relaxed_locate do
-          describe 'when_present' do
+          describe 'wait_until_present' do
             it 'waits until alert is present and goes on' do
               browser.button(id: 'timeout-alert').click
-              browser.alert.when_present.ok
+              browser.alert.wait_until_present.ok
 
               expect(browser.alert).to_not exist
             end
 
             it 'raises error if alert is not present after timeout' do
               expect {
-                browser.alert.when_present.ok
+                browser.alert.wait_until_present.ok
               }.to raise_error(Watir::Wait::TimeoutError)
             end
           end
