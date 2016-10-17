@@ -1,7 +1,7 @@
 sudo: false
 rvm:
-  - 2.1
-  - 2.2
+  - 2.1.9
+  - 2.2.5
   - 2.3.1
 addons:
   firefox: latest
