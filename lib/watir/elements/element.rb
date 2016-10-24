@@ -662,12 +662,14 @@ module Watir
     def element_call(exist_check = :wait_for_exists)
       already_locked = Wait.timer.locked?
       Wait.timer = Wait::Timer.new(::Time.now + Watir.default_timeout) unless already_locked
-      send exist_check
-      yield
-    rescue Selenium::WebDriver::Error::StaleElementReferenceError
-      retry
-    ensure
-      Wait.timer.reset! unless already_locked
+      begin
+        send exist_check
+        yield
+      rescue Selenium::WebDriver::Error::StaleElementReferenceError
+        retry
+      ensure
+        Wait.timer.reset! unless already_locked
+      end
     end
 
     def method_missing(meth, *args, &blk)
