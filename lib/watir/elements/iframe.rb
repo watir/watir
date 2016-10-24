@@ -50,7 +50,6 @@ module Watir
     #
 
     def html
-      assert_exists
       wd.page_source
     end
 

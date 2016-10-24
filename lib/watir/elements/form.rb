@@ -8,7 +8,6 @@ module Watir
     #
 
     def submit
-      assert_exists
       element_call { @element.submit }
       browser.after_hooks.run
     end
