@@ -79,7 +79,6 @@ module Watir
     #
 
     def text
-      assert_exists
       element_call { @element.text }
     end
 
@@ -90,7 +89,6 @@ module Watir
     #
 
     def tag_name
-      assert_exists
       element_call { @element.tag_name.downcase }
     end
 
@@ -112,10 +110,9 @@ module Watir
     #
 
     def click(*modifiers)
-      assert_exists
-      assert_enabled
-
       element_call do
+        assert_enabled
+
         if modifiers.any?
           assert_has_input_devices_for "click(#{modifiers.join ', '})"
 
@@ -142,7 +139,6 @@ module Watir
     #
 
     def double_click
-      assert_exists
       assert_has_input_devices_for :double_click
 
       element_call { driver.action.double_click(@element).perform }
@@ -158,7 +154,6 @@ module Watir
     #
 
     def right_click
-      assert_exists
       assert_has_input_devices_for :right_click
 
       element_call { driver.action.context_click(@element).perform }
@@ -174,7 +169,6 @@ module Watir
     #
 
     def hover
-      assert_exists
       assert_has_input_devices_for :hover
 
       element_call { driver.action.move_to(@element).perform }
@@ -192,7 +186,6 @@ module Watir
 
     def drag_and_drop_on(other)
       assert_is_element other
-      assert_exists
       assert_has_input_devices_for :drag_and_drop_on
 
       element_call do
@@ -214,7 +207,6 @@ module Watir
     #
 
     def drag_and_drop_by(right_by, down_by)
-      assert_exists
       assert_has_input_devices_for :drag_and_drop_by
 
       element_call do
@@ -269,7 +261,6 @@ module Watir
     #
 
     def attribute_value(attribute_name)
-      assert_exists
       element_call { @element.attribute attribute_name }
     end
 
@@ -284,7 +275,6 @@ module Watir
     #
 
     def outer_html
-      assert_exists
       element_call { execute_atom(:getOuterHtml, @element) }.strip
     end
 
@@ -301,7 +291,6 @@ module Watir
     #
 
     def inner_html
-      assert_exists
       element_call { execute_atom(:getInnerHtml, @element) }.strip
     end
 
@@ -315,9 +304,10 @@ module Watir
     #
 
     def send_keys(*args)
-      assert_exists
-      assert_writable
-      element_call { @element.send_keys(*args) }
+      element_call do
+        assert_writable
+        @element.send_keys(*args)
+      end
     end
 
     #
@@ -328,7 +318,6 @@ module Watir
     #
 
     def focus
-      assert_exists
       element_call { driver.execute_script "return arguments[0].focus()", @element }
     end
 
@@ -339,7 +328,6 @@ module Watir
     #
 
     def focused?
-      assert_exists
       element_call { @element == driver.switch_to.active_element }
     end
 
@@ -356,7 +344,6 @@ module Watir
     #
 
     def fire_event(event_name)
-      assert_exists
       event_name = event_name.to_s.sub(/^on/, '').downcase
 
       element_call { execute_atom :fireEvent, @element, event_name }
@@ -367,8 +354,6 @@ module Watir
     #
 
     def parent
-      assert_exists
-
       e = element_call { execute_atom :getParentElement, @element }
 
       if e.kind_of?(Selenium::WebDriver::Element)
@@ -400,7 +385,6 @@ module Watir
     #
 
     def visible?
-      assert_exists
       element_call { @element.displayed? }
     end
 
@@ -412,7 +396,6 @@ module Watir
     #
 
     def enabled?
-      assert_exists
       element_call { @element.enabled? }
     end
 
@@ -424,10 +407,8 @@ module Watir
     #
 
     def present?
-      exists? && visible?
-    rescue Selenium::WebDriver::Error::StaleElementReferenceError, UnknownObjectException
-      # if the element disappears between the exists? and visible? calls,
-      # consider it not present.
+      visible?
+    rescue UnknownObjectException
       false
     end
 
@@ -444,7 +425,6 @@ module Watir
 
     def style(property = nil)
       if property
-        assert_exists
         element_call { @element.style property }
       else
         attribute_value("style").to_s.strip
@@ -615,6 +595,7 @@ module Watir
     end
 
     def element_call
+      assert_exists
       yield
     rescue Selenium::WebDriver::Error::StaleElementReferenceError
       @element = locate
