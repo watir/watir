@@ -151,13 +151,11 @@ module Watir
 
         it 'ensures that the same timeout is used for all of the calls' do
           begin
-            Watir.default_timeout = 2
-            start_time = ::Time.now
-            browser.a(id: 'show_bar').click
-            expect { browser.div(id: 'bar').div(id: 'not_there').click }.to raise_exception
-            finish_time = ::Time.now - start_time
-            expect(finish_time).to be > Watir.default_timeout
-            expect(finish_time).to be < 2 * Watir.default_timeout
+            Watir.default_timeout = 1.1
+            browser.a(id: 'add_foobar').click
+            # Element created after 1 second, and displays after 2 seconds
+            # Click will only raise this exception if the timer is not reset between #wait_for_exists and #wait_for_present
+            expect { browser.div(id: 'foobar').click }.to raise_exception Watir::Exception::UnknownObjectException
           ensure
             Watir.default_timeout = 30
           end
