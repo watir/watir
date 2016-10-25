@@ -72,6 +72,10 @@ describe "Element" do
   end
 
   describe "finding with unknown tag name" do
+    it "finds an element without arguments" do
+      expect(browser.element).to exist
+    end
+
     it "finds an element by xpath" do
       expect(browser.element(xpath: "//*[@for='new_user_first_name']")).to exist
     end

@@ -533,7 +533,6 @@ module Watir
     end
 
     def locate
-      return if @selector.empty?
       ensure_context
 
       element_validator = element_validator_class.new
