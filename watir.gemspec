@@ -32,5 +32,5 @@ It facilitates the writing of automated tests by mimicing the behavior of a user
   s.add_development_dependency 'activesupport', '~> 3.0' # for pluralization during code generation
   s.add_development_dependency 'pry'
   s.add_development_dependency 'coveralls'
-  s.add_development_dependency 'yard-doctest', '>= 0.1.7'
+  s.add_development_dependency 'yard-doctest', '>= 0.1.8'
 end
