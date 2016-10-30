@@ -7,7 +7,7 @@ module Watir
   class Browser
     include Container
     include HasWindow
-    include BrowserWaitable
+    include Waitable
 
     attr_reader :driver
     attr_reader :after_hooks
@@ -60,6 +60,7 @@ module Watir
     rescue
       '#<%s:0x%x closed=%s>' % [self.class, hash*2, @closed.to_s]
     end
+    alias selector_string inspect
 
     #
     # Goes to the given URL.
@@ -205,6 +206,9 @@ module Watir
 
     #
     # Waits until readyState of document is complete.
+    #
+    # @example
+    #   browser.wait
     #
     # @param [Fixnum] timeout
     # @raise [Watir::Wait::TimeoutError] if timeout is exceeded
