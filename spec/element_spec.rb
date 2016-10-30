@@ -110,29 +110,29 @@ describe Watir::Element do
     it "displays selector string for regular element" do
       browser.goto(WatirSpec.url_for("wait.html"))
       element = browser.div(:id, 'not_present')
-      error = 'required condition for {:id=>"not_present", :tag_name=>"div"} is not met'
+      error = 'timed out after 0 seconds, waiting for true condition on {:id=>"not_present", :tag_name=>"div"}'
       expect { element.wait_until_present(timeout: 0) }.to raise_exception(Watir::Wait::TimeoutError, error)
     end
 
     it "displays selector string for element from colection" do
       browser.goto(WatirSpec.url_for("wait.html"))
       element = browser.divs.last
-      error = 'required condition for {:tag_name=>"div", :index=>4} is not met'
-      expect {element.wait_until_present(timeout: 0)}.to raise_exception(Watir::Wait::TimeoutError, error)
+      error = 'timed out after 0 seconds, waiting for true condition on {:tag_name=>"div", :index=>4}'
+      expect { element.wait_until_present(timeout: 0) }.to raise_exception(Watir::Wait::TimeoutError, error)
     end
 
     it "displays selector string for nested element" do
       browser.goto(WatirSpec.url_for("wait.html"))
       element = browser.div(index: -1).div(:id, 'foo')
-      error = 'required condition for {:index=>-1, :tag_name=>"div"} --> {:id=>"foo", :tag_name=>"div"} is not met'
-      expect {element.wait_until_present(timeout: 0)}.to raise_exception(Watir::Wait::TimeoutError, error)
+      error = 'timed out after 0 seconds, waiting for true condition on {:index=>-1, :tag_name=>"div"} --> {:id=>"foo", :tag_name=>"div"}'
+      expect { element.wait_until_present(timeout: 0) }.to raise_exception(Watir::Wait::TimeoutError, error)
     end
 
     it "displays selector string for nested element under frame" do
       browser.goto(WatirSpec.url_for("nested_iframes.html"))
       element = browser.iframe(id: 'one').iframe(:id, 'three')
       error = 'unable to locate iframe using {:id=>"one", :tag_name=>"iframe"} --> {:id=>"three", :tag_name=>"iframe"}'
-      expect {element.wait_until_present(timeout: 0)}.to raise_exception(Exception::UnknownFrameException, error)
+      expect { element.wait_until_present(timeout: 0) }.to raise_exception(Watir::Exception::UnknownFrameException, error)
     end
   end
 end

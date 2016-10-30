@@ -583,16 +583,9 @@ module Watir
       locator.locate
     end
 
-    protected
-
     def selector_string
       return @selector.inspect if @query_scope.is_a?(Browser)
-      query_scope = if @query_scope.is_a?(IFrame)
-                      @query_scope.element.instance_variable_get("@query_scope")
-                    else
-                      @query_scope
-                    end
-      "#{query_scope.selector_string} --> #{@selector.inspect}"
+      "#{@query_scope.selector_string} --> #{@selector.inspect}"
     end
 
     private
