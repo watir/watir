@@ -3,7 +3,8 @@
 Watir Powered By Selenium!
 
 [![Gem Version](https://badge.fury.io/rb/watir.svg)](http://badge.fury.io/rb/watir)
-[![Build Status](https://travis-ci.org/watir/watir.svg?branch=master)](https://travis-ci.org/watir/watir)
+[![Travis Status](https://travis-ci.org/watir/watir.svg?branch=master)](https://travis-ci.org/watir/watir)
+[![AppVeyor status](https://ci.appveyor.com/api/projects/status/9vbb7pp5p4uyoott/branch/master?svg=true)](https://ci.appveyor.com/project/p0deje/watir)
 [![Code Climate](https://codeclimate.com/github/watir/watir.svg)](https://codeclimate.com/github/watir/watir)
 [![Dependency Status](https://gemnasium.com/watir/watir.svg)](https://gemnasium.com/watir/watir)
 [![Coverage Status](https://coveralls.io/repos/watir/watir/badge.svg?branch=master)](https://coveralls.io/r/watir/watir)
