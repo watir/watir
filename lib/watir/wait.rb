@@ -248,7 +248,10 @@ module Watir
     # Waits until the element is stale.
     #
     # @example
-    #   browser.text_field(name: "abrakadbra").wait_until_stale
+    #   text_field = browser.text_field(name: "new_user_first_name")
+    #   text_field.present?
+    #   browser.refresh # any action that makes element stale
+    #   text_field.wait_until_stale
     #
     # @param [Fixnum] timeout seconds to wait before timing out
     #
