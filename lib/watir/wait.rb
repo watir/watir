@@ -1,4 +1,3 @@
-require 'forwardable'
 require 'watir/wait/timer'
 
 module Watir
@@ -32,17 +31,19 @@ module Watir
       #
       # @param [Fixnum] timeout How long to wait in seconds
       # @param [String] message Message to raise if timeout is exceeded
+      # @param [Object, NilClass] object Object to evaluate block against
       # @raise [TimeoutError] if timeout is exceeded
       #
 
-      def until(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, element: nil)
+      def until(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, object: nil)
         if deprecated_message || deprecated_timeout
           warn "Instead of passing arguments into Wait#until method, use keywords"
+          timeout = deprecated_timeout
+          message = deprecated_message
         end
-        timeout ||= deprecated_timeout || Watir.default_timeout
-        message ||= deprecated_message
+        timeout ||= Watir.default_timeout
         run_with_timer(timeout) do
-          result = yield(element)
+          result = yield(object)
           return result if result
         end
         raise TimeoutError, message_for(timeout, message)
@@ -56,16 +57,18 @@ module Watir
       #
       # @param [Fixnum] timeout How long to wait in seconds
       # @param [String] message Message to raise if timeout is exceeded
+      # @param [Object, NilClass] object Object to evaluate block against
       # @raise [TimeoutError] if timeout is exceeded
       #
 
-      def while(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, element: nil)
+      def while(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, object: nil)
         if deprecated_message || deprecated_timeout
           warn "Instead of passing arguments into Wait#while method, use keywords"
+          timeout = deprecated_timeout
+          message = deprecated_message
         end
-        timeout ||= deprecated_timeout || Watir.default_timeout
-        message ||= deprecated_message
-        run_with_timer(timeout) { return unless yield(element) }
+        timeout ||= Watir.default_timeout
+        run_with_timer(timeout) { return unless yield(object) }
         raise TimeoutError, message_for(timeout, message)
       end
 
@@ -79,28 +82,29 @@ module Watir
       end
 
       def run_with_timer(timeout, &block)
-        timer.wait(timeout) do
+        if timeout.zero?
           block.call
-          sleep INTERVAL
+        else
+          timer.wait(timeout) do
+            block.call
+            sleep INTERVAL
+          end
         end
       end
 
     end # self
   end # Wait
 
-  module BrowserWaitable
-    def wait_until(*args, &blk)
-      Wait.until(*args, &blk)
-    end
-
-    def wait_while(*args, &blk)
-      Wait.while(*args, &blk)
-    end
-  end # BrowserWaitable
 
   module Waitable
 
+    #
     # Waits until the condition is true.
+    #
+    # @example
+    #   browser.wait_until(timeout: 2) do |browser|
+    #     browser.windows.size == 1
+    #   end
     #
     # @example
     #   browser.text_field(name: "new_user_first_name").wait_until(&:present?).click
@@ -108,35 +112,34 @@ module Watir
     #   browser.text_field(name: "new_user_first_name").wait_until(timeout: 60, &:present?)
     #
     # @param [Fixnum] timeout seconds to wait before timing out
-    # @param [String] error message for when times out
-    #
-    # @see Watir::Wait
-    #
+    # @param [String] message error message for when times out
     #
 
     def wait_until(timeout: nil, message: nil, &blk)
-      return self if yield(self) # performance shortcut
-      timeout ||= Watir.default_timeout
-      raise Wait::TimeoutError, "required condition for #{selector_string} is not met" if timeout == 0
-
       message ||= "waiting for true condition on #{selector_string}"
-      Wait.until(timeout: timeout, message: message, element: self, &blk)
+      Wait.until(timeout: timeout, message: message, object: self, &blk)
+
       self
     end
 
-    # Waits until the condition is false.
-    #   browser.text_field(name: "new_user_first_name").wait_while(&:visible?).attribute_value('class')
-    #   browser.text_field(name: "new_user_first_name").wait_while(message: 'foo') { |field| field.present? }
-    #   browser.text_field(name: "new_user_first_name").wait_while(timeout: 60, &:present?)
-    # @param [String] error message for when times out
+    #
+    # Waits while the condition is true.
+    #
+    # @example
+    #   browser.wait_while(timeout: 2) do |browser|
+    #     !browser.exists?
+    #   end
+    #
+    # @todo add element example
+    #
+    # @param [Fixnum] timeout seconds to wait before timing out
+    # @param [String] message error message for when times out
+    #
 
     def wait_while(timeout: nil, message: nil, &blk)
-      return self unless yield(self) # performance shortcut
-      timeout ||= Watir.default_timeout
-      raise Wait::TimeoutError, "required condition for #{selector_string} is not met" if timeout == 0
-
       message ||= "waiting for false condition on #{selector_string}"
-      Wait.while(timeout: timeout, message: message, element: self, &blk)
+      Wait.while(timeout: timeout, message: message, object: self, &blk)
+
       self
     end
 
@@ -155,8 +158,8 @@ module Watir
     def wait_until_present(deprecated_timeout = nil, timeout: nil)
       if deprecated_timeout
         warn "Instead of passing arguments into #wait_until_present method, use keywords"
+        timeout = deprecated_timeout
       end
-      timeout ||= deprecated_timeout
       wait_until(timeout: timeout, &:present?)
     end
 
@@ -175,8 +178,8 @@ module Watir
     def wait_while_present(deprecated_timeout = nil, timeout: nil)
       if deprecated_timeout
         warn "Instead of passing arguments into #wait_while_present method, use keywords"
+        timeout = deprecated_timeout
       end
-      timeout ||= deprecated_timeout
       wait_while(timeout: timeout, &:present?)
     end
 
