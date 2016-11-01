@@ -10,8 +10,20 @@ module Watir
       #
 
       def wait(timeout, &block)
-        end_time = ::Time.now + timeout
-        yield(block) until ::Time.now > end_time
+        end_time = current_time + timeout
+        yield(block) until current_time > end_time
+      end
+
+      private
+
+      if defined?(Process::CLOCK_MONOTONIC)
+        def current_time
+          Process.clock_gettime(Process::CLOCK_MONOTONIC)
+        end
+      else
+        def current_time
+          Time.now.to_f
+        end
       end
 
     end # Timer

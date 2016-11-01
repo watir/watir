@@ -1,6 +1,7 @@
 ### Unreleased
 
 * `Element#text_field` no longer locates textareas - use `Element#textarea` instead.
+* Use `Process.clock_gettime` when available for waiting (#486)
 
 ### 6.0.0.beta5 (2016-09-25)
 
