@@ -653,7 +653,7 @@ module Watir
 
     def element_call(exist_check = :wait_for_exists)
       already_locked = Wait.timer.locked?
-      Wait.timer = Wait::Timer.new(::Time.now + Watir.default_timeout) unless already_locked
+      Wait.timer = Wait::Timer.new(timeout: Watir.default_timeout) unless already_locked
       begin
         send exist_check
         yield
