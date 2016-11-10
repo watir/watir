@@ -1,3 +1,7 @@
+### 6.0.1 (2016-11-09)
+
+* Fix bug for `Browser#wait_until` and `wait_while` to allow ordered arguments
+
 ### 6.0.0 (2016-11-08)
 
 * Add `#Watir#relaxed_locate` to enable automatic waiting for elements to be ready for a specified action
