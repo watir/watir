@@ -484,6 +484,10 @@ module Watir
       true
     end
 
+    def reset!
+      @element = nil
+    end
+
     protected
 
     def wait_for_exists
@@ -551,7 +555,7 @@ module Watir
     def assert_exists
       if @element && @selector.empty?
         ensure_context
-        @element = nil if stale?
+        @element.reset! if stale?
       elsif @element && !stale?
         return
       else

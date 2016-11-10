@@ -231,7 +231,7 @@ not_compliant_on :safari do
           expect { select_list.select('No') }.to raise_error Watir::Exception::NoValueFoundException
           expect(::Time.now - start_time).to be > 1
         ensure
-          Watir.default_timeout = 1
+          Watir.default_timeout = 30
         end
       end
     end
@@ -275,6 +275,17 @@ not_compliant_on :safari do
         expect { element.wait_while_present(timeout: 1) }.to_not raise_exception
       end
 
+      it "waits until the selector no longer matches" do
+        Watir.default_timeout = 1
+        element = browser.link(name: 'add_select').wait_until(&:exists?)
+        begin
+          start_time = ::Time.now
+          browser.link(id: 'change_select').click
+          expect { element.wait_while_present }.not_to raise_error
+        ensure
+          Watir.default_timeout = 30
+        end
+      end
     end
 
     describe "#wait_until" do

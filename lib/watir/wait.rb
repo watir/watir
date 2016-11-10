@@ -190,7 +190,10 @@ module Watir
         warn "Instead of passing arguments into #wait_while_present method, use keywords"
         timeout = deprecated_timeout
       end
-      wait_while(timeout: timeout, &:present?)
+      wait_while(timeout: timeout) do
+        self.reset! if self.is_a? Watir::Element
+        self.present?
+      end
     end
 
   end # Waitable

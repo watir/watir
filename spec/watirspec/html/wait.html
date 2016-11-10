@@ -40,6 +40,10 @@
           document.getElementById(id).disabled = disabled;
         }, timeout);
       }
+
+      function changeName(id) {
+          document.getElementById(id).name = 'different';
+      }
     </script>
   </head>
 
@@ -59,7 +63,8 @@
       </a>
     </div>
     <div>
-      <a id="add_select" href="#" onclick="setTimeoutDisplay('languages', 'block', 500);">show select list</a>
+      <a id="change_select" href="#" onclick="changeName('add_select');">change select list</a>
+      <a id="add_select" name="add_select" href="#" onclick="setTimeoutDisplay('languages', 'block', 500);">show select list</a>
     </div>
     <form>
       <fieldset>
