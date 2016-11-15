@@ -1,3 +1,7 @@
+### 6.0.2 (2016-11-15)
+
+* Fix bug for `Timer#current_time` calling the wrong `Time`
+
 ### 6.0.1 (2016-11-09)
 
 * Fix bug for `Browser#wait_until` and `wait_while` to allow ordered arguments
