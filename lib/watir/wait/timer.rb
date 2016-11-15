@@ -37,7 +37,7 @@ module Watir
         end
       else
         def current_time
-          Time.now.to_f
+          ::Time.now.to_f
         end
       end
 
