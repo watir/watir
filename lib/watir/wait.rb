@@ -35,14 +35,14 @@ module Watir
       # @raise [TimeoutError] if timeout is exceeded
       #
 
-      def until(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, object: nil)
+      def until(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, interval: nil, object: nil)
         if deprecated_message || deprecated_timeout
           warn "Instead of passing arguments into Wait#until method, use keywords"
           timeout = deprecated_timeout
           message = deprecated_message
         end
         timeout ||= Watir.default_timeout
-        run_with_timer(timeout) do
+        run_with_timer(timeout, interval) do
           result = yield(object)
           return result if result
         end
@@ -61,14 +61,14 @@ module Watir
       # @raise [TimeoutError] if timeout is exceeded
       #
 
-      def while(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, object: nil)
+      def while(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, interval: nil, object: nil)
         if deprecated_message || deprecated_timeout
           warn "Instead of passing arguments into Wait#while method, use keywords"
           timeout = deprecated_timeout
           message = deprecated_message
         end
         timeout ||= Watir.default_timeout
-        run_with_timer(timeout) { return unless yield(object) }
+        run_with_timer(timeout, interval) { return unless yield(object) }
         raise TimeoutError, message_for(timeout, message)
       end
 
@@ -81,13 +81,13 @@ module Watir
         err
       end
 
-      def run_with_timer(timeout, &block)
+      def run_with_timer(timeout, interval, &block)
         if timeout.zero?
           block.call
         else
           timer.wait(timeout) do
             block.call
-            sleep INTERVAL
+            sleep interval || INTERVAL
           end
         end
       end
@@ -115,14 +115,14 @@ module Watir
     # @param [String] message error message for when times out
     #
 
-    def wait_until(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, &blk)
+    def wait_until(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, interval: interval, &blk)
       if deprecated_message || deprecated_timeout
         warn "Instead of passing arguments into #wait_until, use keywords"
         timeout = deprecated_timeout
         message = deprecated_message
       end
       message ||= "waiting for true condition on #{selector_string}"
-      Wait.until(timeout: timeout, message: message, object: self, &blk)
+      Wait.until(timeout: timeout, message: message, interval: interval, object: self, &blk)
 
       self
     end
@@ -141,14 +141,14 @@ module Watir
     # @param [String] message error message for when times out
     #
 
-    def wait_while(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, &blk)
+    def wait_while(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, interval: interval, &blk)
       if deprecated_message || deprecated_timeout
         warn "Instead of passing arguments into #wait_while method, use keywords"
         timeout = deprecated_timeout
         message = deprecated_message
       end
       message ||= "waiting for false condition on #{selector_string}"
-      Wait.while(timeout: timeout, message: message, object: self, &blk)
+      Wait.while(timeout: timeout, message: message, interval: interval, object: self, &blk)
 
       self
     end
@@ -165,12 +165,12 @@ module Watir
     # @see Watir::Element#present?
     #
 
-    def wait_until_present(deprecated_timeout = nil, timeout: nil)
+    def wait_until_present(deprecated_timeout = nil, timeout: nil, interval: nil)
       if deprecated_timeout
         warn "Instead of passing arguments into #wait_until_present method, use keywords"
         timeout = deprecated_timeout
       end
-      wait_until(timeout: timeout, &:present?)
+      wait_until(timeout: timeout, interval: interval, &:present?)
     end
 
     #

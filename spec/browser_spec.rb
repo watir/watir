@@ -77,10 +77,10 @@ describe Watir::Browser do
 
   describe "#wait_while" do
     it "delegates to the Wait module" do
-      expect(Watir::Wait).to receive(:while).with(timeout: 3, message: "foo", object: browser).and_yield
+      expect(Watir::Wait).to receive(:while).with(timeout: 3, message: "foo", interval: 0.2, object: browser).and_yield
 
       called = false
-      browser.wait_while(timeout: 3, message: "foo") { called = true }
+      browser.wait_while(timeout: 3, message: "foo", interval: 0.2) { called = true }
 
       expect(called).to be true
     end
@@ -88,10 +88,10 @@ describe Watir::Browser do
 
   describe "#wait_until" do
     it "delegates to the Wait module" do
-      expect(Watir::Wait).to receive(:until).with(timeout: 3, message: "foo", object: browser).and_yield
+      expect(Watir::Wait).to receive(:until).with(timeout: 3, message: "foo", interval: 0.2, object: browser).and_yield
 
       called = false
-      browser.wait_until(timeout: 3, message: "foo") { called = true }
+      browser.wait_until(timeout: 3, message: "foo", interval: 0.2) { called = true }
 
       expect(called).to be true
     end

@@ -23,6 +23,17 @@ not_compliant_on :safari do
         }.to raise_error(Watir::Wait::TimeoutError, "timed out after 0.5 seconds, oops")
       end
 
+      it "uses provided interval" do
+        begin
+          Watir::Wait.until(timeout: 0.4, interval: 0.2) do
+            @result = @result.nil? ? 1 : @result + 1
+            false
+          end
+        rescue Watir::Wait::TimeoutError
+        end
+        expect(@result).to eq 2
+      end
+
       it "uses timer for waiting" do
         timer = Watir::Wait.timer
         expect(timer).to receive(:wait).with(0.5).and_call_original
@@ -52,6 +63,17 @@ not_compliant_on :safari do
         expect {
           Watir::Wait.while(timeout: 0.5, message: "oops") { true }
         }.to raise_error(Watir::Wait::TimeoutError, "timed out after 0.5 seconds, oops")
+      end
+
+      it "uses provided interval" do
+        begin
+          Watir::Wait.while(timeout: 0.4, interval: 0.2) do
+            @result = @result.nil? ? 1 : @result + 1
+            true
+          end
+        rescue Watir::Wait::TimeoutError
+        end
+        expect(@result).to eq 2
       end
 
       it "uses timer for waiting" do
@@ -178,6 +200,16 @@ not_compliant_on :safari do
         expect { browser.div(id: 'bar').wait_until_present(timeout: 1) }.to raise_error(Watir::Wait::TimeoutError, message)
       end
 
+      it "uses provided interval" do
+        element = browser.div(id: 'bar')
+        expect(element).to receive(:present?).twice
+
+        begin
+          element.wait_until_present(timeout: 0.4, interval: 0.2)
+        rescue Watir::Wait::TimeoutError
+        end
+      end
+
       it "ordered pairs are deprecated" do
         browser.a(id: 'show_bar').click
         message = /Instead of passing arguments into #wait_until_present method, use keywords/
@@ -194,6 +226,16 @@ not_compliant_on :safari do
       it "times out if the element doesn't disappear" do
         message = /^timed out after 1 seconds, waiting for false condition on (\{:id=>"foo", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"foo"\})$/
         expect { browser.div(id: 'foo').wait_while_present(timeout: 1) }.to raise_error(Watir::Wait::TimeoutError, message)
+      end
+
+      it "uses provided interval" do
+        element = browser.div(id: 'foo')
+        expect(element).to receive(:present?).twice
+
+        begin
+          element.wait_until_present(timeout: 0.4, interval: 0.2)
+        rescue Watir::Wait::TimeoutError
+        end
       end
 
       it "ordered pairs are deprecated" do
@@ -229,6 +271,11 @@ not_compliant_on :safari do
         element = browser.div(id: 'bar')
         expect { element.wait_until(message: 'no') { true } }.to_not raise_exception
       end
+
+      it "accepts just an interval parameter" do
+        element = browser.div(id: 'bar')
+        expect { element.wait_until(interval: 0.1) { true } }.to_not raise_exception
+      end
     end
 
     describe "#wait_while" do
@@ -257,6 +304,11 @@ not_compliant_on :safari do
       it "accepts just a message parameter" do
         element = browser.div(id: 'foo')
         expect { element.wait_while(message: 'no') { false } }.to_not raise_exception
+      end
+
+      it "accepts just an interval parameter" do
+        element = browser.div(id: 'foo')
+        expect { element.wait_while(interval: 0.1) { false } }.to_not raise_exception
       end
     end
   end
