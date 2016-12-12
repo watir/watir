@@ -13,6 +13,7 @@ module WatirSpec
     end
 
     def run!
+      load_support
       WatirSpec::Runner.execute_if_necessary
     end
 
@@ -26,6 +27,13 @@ module WatirSpec
 
     def unguarded?
       @unguarded ||= false
+    end
+
+    def load_support
+      root = File.expand_path("../../spec/watirspec", __FILE__)
+      Dir.glob("#{root}/support/**/*.rb").each do |file|
+        require file
+      end
     end
 
     def implementation
