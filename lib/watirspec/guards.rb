@@ -15,7 +15,7 @@ module WatirSpec
         print "\n\nWatirSpec guards for this implementation: "
 
         if gs.empty?
-         puts "none."
+          puts "none."
         else
           puts
           gs.each do |guard|
@@ -48,7 +48,7 @@ module WatirSpec
     def bug(key, *impls)
       Guards.record :bug, impls, file: caller.first, key: key
       return yield if WatirSpec.unguarded?
-      yield unless WatirSpec.implementation.matches_guard?(impls)
+      yield if impls.any? && !WatirSpec.implementation.matches_guard?(impls)
     end
   end
 end

@@ -24,7 +24,7 @@ module WatirSpec
 
     def matching_guards_in(guards)
       result = []
-      guards.each { |args, data| data.each { |d| result << d } if matches_guard?(args) }
+      guards.each { |args, data| data.each { |d| result << d } if args.empty? || matches_guard?(args) }
 
       result
     end
