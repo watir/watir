@@ -1,3 +1,7 @@
+### 6.0.3 (2016-12-22)
+
+* No notable changes, only includes fixes for WatirSpec
+
 ### 6.0.2 (2016-11-15)
 
 * Fix bug for `Timer#current_time` calling the wrong `Time`
