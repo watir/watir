@@ -5,7 +5,7 @@ module Watir
     #
     # Returns table section row with given index.
     #
-    # @param [Fixnum] idx
+    # @param [Integer] idx
     #
 
     def [](idx)

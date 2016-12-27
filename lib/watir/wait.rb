@@ -29,7 +29,7 @@ module Watir
       # @example
       #   Watir::Wait.until { browser.text_field(name: "new_user_first_name").visible? }
       #
-      # @param [Fixnum] timeout How long to wait in seconds
+      # @param [Integer] timeout How long to wait in seconds
       # @param [String] message Message to raise if timeout is exceeded
       # @param [Object, NilClass] object Object to evaluate block against
       # @raise [TimeoutError] if timeout is exceeded
@@ -55,7 +55,7 @@ module Watir
       # @example
       #   Watir::Wait.while { browser.text_field(name: "abrakadbra").present? }
       #
-      # @param [Fixnum] timeout How long to wait in seconds
+      # @param [Integer] timeout How long to wait in seconds
       # @param [String] message Message to raise if timeout is exceeded
       # @param [Object, NilClass] object Object to evaluate block against
       # @raise [TimeoutError] if timeout is exceeded
@@ -111,7 +111,7 @@ module Watir
     #   browser.text_field(name: "new_user_first_name").wait_until(message: 'foo') { |field| field.present? }
     #   browser.text_field(name: "new_user_first_name").wait_until(timeout: 60, &:present?)
     #
-    # @param [Fixnum] timeout seconds to wait before timing out
+    # @param [Integer] timeout seconds to wait before timing out
     # @param [String] message error message for when times out
     #
 
@@ -137,7 +137,7 @@ module Watir
     #
     # @todo add element example
     #
-    # @param [Fixnum] timeout seconds to wait before timing out
+    # @param [Integer] timeout seconds to wait before timing out
     # @param [String] message error message for when times out
     #
 
@@ -159,7 +159,7 @@ module Watir
     # @example
     #   browser.text_field(name: "new_user_first_name").wait_until_present
     #
-    # @param [Fixnum] timeout seconds to wait before timing out
+    # @param [Integer] timeout seconds to wait before timing out
     #
     # @see Watir::Wait
     # @see Watir::Element#present?
@@ -179,7 +179,7 @@ module Watir
     # @example
     #   browser.text_field(name: "abrakadbra").wait_while_present
     #
-    # @param [Fixnum] timeout seconds to wait before timing out
+    # @param [Integer] timeout seconds to wait before timing out
     #
     # @see Watir::Wait
     # @see Watir::Element#present?

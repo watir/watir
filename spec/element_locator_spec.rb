@@ -283,14 +283,15 @@ describe Watir::Locators::Element::Locator do
     end
 
     describe "errors" do
-      it "raises a TypeError if :index is not a Fixnum" do
+      it "raises a TypeError if :index is not a Integer" do
         expect { locate_one(tag_name: "div", index: "bar") }.to \
-        raise_error(TypeError, %[expected Fixnum, got "bar":String])
+        raise_error(TypeError, %[expected Integer, got "bar":String])
       end
 
       it "raises a TypeError if selector value is not a String or Regexp" do
-        expect { locate_one(tag_name: 123) }.to \
-        raise_error(TypeError, %[expected one of [String, Regexp], got 123:Fixnum])
+         num_type = RUBY_VERSION[/^\d+\.(\d+)/, 1].to_i >= 4 ? 'Integer' : 'Fixnum'
+          expect { locate_one(tag_name: 123) }.to \
+ +        raise_error(TypeError, %[expected one of [String, Regexp], got 123:#{num_type}])
       end
 
       it "raises a MissingWayOfFindingObjectException if the attribute is not valid" do

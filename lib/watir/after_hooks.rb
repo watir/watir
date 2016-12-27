@@ -109,7 +109,7 @@ module Watir
     #   browser.after_hooks.length
     #   #=> 1
     #
-    # @return [Fixnum]
+    # @return [Integer]
     #
 
     def length
@@ -120,7 +120,7 @@ module Watir
     #
     # Gets the after hook at the given index.
     #
-    # @param [Fixnum] index
+    # @param [Integer] index
     # @return [#call]
     #
 

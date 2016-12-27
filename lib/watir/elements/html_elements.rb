@@ -14,7 +14,7 @@ module Watir
     attribute(String, :properties, :properties)
     attribute(String, :item_value, :itemValue)
     attribute("Boolean", :hidden?, :hidden)
-    attribute(Fixnum, :tab_index, :tabIndex)
+    attribute(Integer, :tab_index, :tabIndex)
     attribute(String, :access_key, :accessKey)
     attribute(String, :access_key_label, :accessKeyLabel)
     attribute("Boolean", :draggable?, :draggable)
@@ -134,12 +134,12 @@ module Watir
     attribute(String, :bg_color, :bgColor)
     attribute(String, :direction, :direction)
     attribute(String, :height, :height)
-    attribute(Fixnum, :hspace, :hspace)
-    attribute(Fixnum, :loop, :loop)
-    attribute(Fixnum, :scroll_amount, :scrollAmount)
-    attribute(Fixnum, :scroll_delay, :scrollDelay)
+    attribute(Integer, :hspace, :hspace)
+    attribute(Integer, :loop, :loop)
+    attribute(Integer, :scroll_amount, :scrollAmount)
+    attribute(Integer, :scroll_delay, :scrollDelay)
     attribute("Boolean", :true_speed?, :trueSpeed)
-    attribute(Fixnum, :vspace, :vspace)
+    attribute(Integer, :vspace, :vspace)
     attribute(String, :width, :width)
     attribute(String, :onbounce, :onbounce)
     attribute(String, :onfinish, :onfinish)
@@ -155,18 +155,18 @@ module Watir
     attribute(String, :code, :code)
     attribute(String, :code_base, :codeBase)
     attribute(String, :height, :height)
-    attribute(Fixnum, :hspace, :hspace)
+    attribute(Integer, :hspace, :hspace)
     attribute(String, :name, :name)
     attribute(String, :object, :object)
-    attribute(Fixnum, :vspace, :vspace)
+    attribute(Integer, :vspace, :vspace)
     attribute(String, :width, :width)
   end
   class AppletCollection < ElementCollection
   end
 
   class Canvas < HTMLElement
-    attribute(Fixnum, :width, :width)
-    attribute(Fixnum, :height, :height)
+    attribute(Integer, :width, :width)
+    attribute(Integer, :height, :height)
   end
   class CanvasCollection < ElementCollection
   end
@@ -298,13 +298,13 @@ module Watir
   class TextArea < HTMLElement
     attribute(String, :autocomplete, :autocomplete)
     attribute("Boolean", :autofocus?, :autofocus)
-    attribute(Fixnum, :cols, :cols)
+    attribute(Integer, :cols, :cols)
     attribute(String, :dir_name, :dirName)
     attribute("Boolean", :disabled?, :disabled)
     attribute(String, :form, :form)
     attribute(String, :input_mode, :inputMode)
-    attribute(Fixnum, :max_length, :maxLength)
-    attribute(Fixnum, :min_length, :minLength)
+    attribute(Integer, :max_length, :maxLength)
+    attribute(Integer, :min_length, :minLength)
     attribute(String, :name, :name)
     attribute(String, :placeholder, :placeholder)
     attribute("Boolean", :read_only?, :readOnly)
@@ -313,13 +313,13 @@ module Watir
     attribute(String, :type, :type)
     attribute(String, :default_value, :defaultValue)
     attribute(String, :value, :value)
-    attribute(Fixnum, :text_length, :textLength)
+    attribute(Integer, :text_length, :textLength)
     attribute("Boolean", :will_validate?, :willValidate)
     attribute(String, :validity, :validity)
     attribute(String, :validation_message, :validationMessage)
     attribute(String, :labels, :labels)
-    attribute(Fixnum, :selection_start, :selectionStart)
-    attribute(Fixnum, :selection_end, :selectionEnd)
+    attribute(Integer, :selection_start, :selectionStart)
+    attribute(Integer, :selection_end, :selectionEnd)
     attribute(String, :selection_direction, :selectionDirection)
   end
   class TextAreaCollection < ElementCollection
@@ -332,7 +332,7 @@ module Watir
     attribute("Boolean", :default_selected?, :defaultSelected)
     attribute("Boolean", :selected?, :selected)
     attribute(String, :value, :value)
-    attribute(Fixnum, :index, :index)
+    attribute(Integer, :index, :index)
   end
   class OptionCollection < ElementCollection
   end
@@ -358,12 +358,12 @@ module Watir
     attribute("Boolean", :multiple?, :multiple)
     attribute(String, :name, :name)
     attribute("Boolean", :required?, :required)
-    attribute(Fixnum, :size, :size)
+    attribute(Integer, :size, :size)
     attribute(String, :type, :type)
     attribute(String, :options, :options)
-    attribute(Fixnum, :length, :length)
+    attribute(Integer, :length, :length)
     attribute(String, :selected_options, :selectedOptions)
-    attribute(Fixnum, :selected_index, :selectedIndex)
+    attribute(Integer, :selected_index, :selectedIndex)
     attribute(String, :value, :value)
     attribute("Boolean", :will_validate?, :willValidate)
     attribute(String, :validity, :validity)
@@ -410,21 +410,21 @@ module Watir
     attribute(String, :form_method, :formMethod)
     attribute("Boolean", :form_no_validate?, :formNoValidate)
     attribute(String, :form_target, :formTarget)
-    attribute(Fixnum, :height, :height)
+    attribute(Integer, :height, :height)
     attribute("Boolean", :indeterminate?, :indeterminate)
     attribute(String, :input_mode, :inputMode)
     attribute(String, :list, :list)
     attribute(String, :max, :max)
-    attribute(Fixnum, :max_length, :maxLength)
+    attribute(Integer, :max_length, :maxLength)
     attribute(String, :min, :min)
-    attribute(Fixnum, :min_length, :minLength)
+    attribute(Integer, :min_length, :minLength)
     attribute("Boolean", :multiple?, :multiple)
     attribute(String, :name, :name)
     attribute(String, :pattern, :pattern)
     attribute(String, :placeholder, :placeholder)
     attribute("Boolean", :read_only?, :readOnly)
     attribute("Boolean", :required?, :required)
-    attribute(Fixnum, :size, :size)
+    attribute(Integer, :size, :size)
     attribute(String, :src, :src)
     attribute(String, :step, :step)
     attribute(String, :type, :type)
@@ -434,13 +434,13 @@ module Watir
     attribute(Float, :value_as_number, :valueAsNumber)
     attribute(Float, :value_low, :valueLow)
     attribute(Float, :value_high, :valueHigh)
-    attribute(Fixnum, :width, :width)
+    attribute(Integer, :width, :width)
     attribute("Boolean", :will_validate?, :willValidate)
     attribute(String, :validity, :validity)
     attribute(String, :validation_message, :validationMessage)
     attribute(String, :labels, :labels)
-    attribute(Fixnum, :selection_start, :selectionStart)
-    attribute(Fixnum, :selection_end, :selectionEnd)
+    attribute(Integer, :selection_start, :selectionStart)
+    attribute(Integer, :selection_end, :selectionEnd)
     attribute(String, :selection_direction, :selectionDirection)
     attribute(String, :align, :align)
     attribute(String, :use_map, :useMap)
@@ -466,16 +466,16 @@ module Watir
     attribute(String, :name, :name)
     attribute("Boolean", :no_validate?, :noValidate)
     attribute(String, :target, :target)
-    attribute(Fixnum, :length, :length)
+    attribute(Integer, :length, :length)
   end
   class FormCollection < ElementCollection
   end
 
   class TableCell < HTMLElement
-    attribute(Fixnum, :col_span, :colSpan)
-    attribute(Fixnum, :row_span, :rowSpan)
+    attribute(Integer, :col_span, :colSpan)
+    attribute(Integer, :row_span, :rowSpan)
     attribute(String, :headers, :headers)
-    attribute(Fixnum, :cell_index, :cellIndex)
+    attribute(Integer, :cell_index, :cellIndex)
     attribute(String, :align, :align)
     attribute(String, :axis, :axis)
     attribute(String, :height, :height)
@@ -504,8 +504,8 @@ module Watir
   end
 
   class TableRow < HTMLElement
-    attribute(Fixnum, :row_index, :rowIndex)
-    attribute(Fixnum, :section_row_index, :sectionRowIndex)
+    attribute(Integer, :row_index, :rowIndex)
+    attribute(Integer, :section_row_index, :sectionRowIndex)
     attribute(String, :align, :align)
     attribute(String, :ch, :ch)
     attribute(String, :ch_off, :chOff)
@@ -589,10 +589,10 @@ module Watir
     attribute(String, :src_object, :srcObject)
     attribute(String, :current_src, :currentSrc)
     attribute(String, :cross_origin, :crossOrigin)
-    attribute(Fixnum, :network_state, :networkState)
+    attribute(Integer, :network_state, :networkState)
     attribute(String, :preload, :preload)
     attribute(String, :buffered, :buffered)
-    attribute(Fixnum, :ready_state, :readyState)
+    attribute(Integer, :ready_state, :readyState)
     attribute("Boolean", :seeking?, :seeking)
     attribute(Float, :current_time, :currentTime)
     attribute(Float, :duration, :duration)
@@ -623,10 +623,10 @@ module Watir
   end
 
   class Video < Media
-    attribute(Fixnum, :width, :width)
-    attribute(Fixnum, :height, :height)
-    attribute(Fixnum, :video_width, :videoWidth)
-    attribute(Fixnum, :video_height, :videoHeight)
+    attribute(Integer, :width, :width)
+    attribute(Integer, :height, :height)
+    attribute(Integer, :video_width, :videoWidth)
+    attribute(Integer, :video_height, :videoHeight)
     attribute(String, :poster, :poster)
   end
   class VideoCollection < ElementCollection
@@ -638,7 +638,7 @@ module Watir
     attribute(String, :srclang, :srclang)
     attribute(String, :label, :label)
     attribute("Boolean", :default?, :default)
-    attribute(Fixnum, :ready_state, :readyState)
+    attribute(Integer, :ready_state, :readyState)
     attribute(String, :track, :track)
   end
   class TrackCollection < ElementCollection
@@ -671,9 +671,9 @@ module Watir
     attribute(String, :archive, :archive)
     attribute(String, :code, :code)
     attribute("Boolean", :declare?, :declare)
-    attribute(Fixnum, :hspace, :hspace)
+    attribute(Integer, :hspace, :hspace)
     attribute(String, :standby, :standby)
-    attribute(Fixnum, :vspace, :vspace)
+    attribute(Integer, :vspace, :vspace)
     attribute(String, :code_base, :codeBase)
     attribute(String, :code_type, :codeType)
     attribute(String, :border, :border)
@@ -721,17 +721,17 @@ module Watir
     attribute(String, :cross_origin, :crossOrigin)
     attribute(String, :use_map, :useMap)
     attribute("Boolean", :map?, :isMap)
-    attribute(Fixnum, :width, :width)
-    attribute(Fixnum, :height, :height)
-    attribute(Fixnum, :natural_width, :naturalWidth)
-    attribute(Fixnum, :natural_height, :naturalHeight)
+    attribute(Integer, :width, :width)
+    attribute(Integer, :height, :height)
+    attribute(Integer, :natural_width, :naturalWidth)
+    attribute(Integer, :natural_height, :naturalHeight)
     attribute("Boolean", :complete?, :complete)
     attribute(String, :current_src, :currentSrc)
     attribute(String, :name, :name)
     attribute(String, :lowsrc, :lowsrc)
     attribute(String, :align, :align)
-    attribute(Fixnum, :hspace, :hspace)
-    attribute(Fixnum, :vspace, :vspace)
+    attribute(Integer, :hspace, :hspace)
+    attribute(Integer, :vspace, :vspace)
     attribute(String, :long_desc, :longDesc)
     attribute(String, :border, :border)
   end
@@ -813,7 +813,7 @@ module Watir
   end
 
   class LI < HTMLElement
-    attribute(Fixnum, :value, :value)
+    attribute(Integer, :value, :value)
     attribute(String, :type, :type)
   end
   class LICollection < ElementCollection
@@ -828,7 +828,7 @@ module Watir
 
   class OList < HTMLElement
     attribute("Boolean", :reversed?, :reversed)
-    attribute(Fixnum, :start, :start)
+    attribute(Integer, :start, :start)
     attribute(String, :type, :type)
     attribute("Boolean", :compact?, :compact)
   end
@@ -842,7 +842,7 @@ module Watir
   end
 
   class Pre < HTMLElement
-    attribute(Fixnum, :width, :width)
+    attribute(Integer, :width, :width)
   end
   class PreCollection < ElementCollection
   end
