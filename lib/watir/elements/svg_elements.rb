@@ -5,7 +5,7 @@ module Watir
     attribute(String, :style, :style)
     attribute(String, :ownersvg_element, :ownerSVGElement)
     attribute(String, :viewport_element, :viewportElement)
-    attribute(Fixnum, :tab_index, :tabIndex)
+    attribute(Interger, :tab_index, :tabIndex)
   end
   class SVGElementCollection < ElementCollection
   end
@@ -52,14 +52,14 @@ module Watir
     attribute(String, :view_target, :viewTarget)
     attribute(String, :view_box, :viewBox)
     attribute(String, :preserve_aspect_ratio, :preserveAspectRatio)
-    attribute(Fixnum, :zoom_and_pan, :zoomAndPan)
+    attribute(Interger, :zoom_and_pan, :zoomAndPan)
   end
   class ViewCollection < ElementCollection
   end
 
   class Cursor < SVGElement
-    attribute(Fixnum, :x, :x)
-    attribute(Fixnum, :y, :y)
+    attribute(Interger, :x, :x)
+    attribute(Interger, :y, :y)
     attribute(String, :href, :href)
   end
   class CursorCollection < ElementCollection
@@ -69,10 +69,10 @@ module Watir
     attribute(String, :pattern_units, :patternUnits)
     attribute(String, :pattern_content_units, :patternContentUnits)
     attribute(String, :pattern_transform, :patternTransform)
-    attribute(Fixnum, :x, :x)
-    attribute(Fixnum, :y, :y)
-    attribute(Fixnum, :width, :width)
-    attribute(Fixnum, :height, :height)
+    attribute(Interger, :x, :x)
+    attribute(Interger, :y, :y)
+    attribute(Interger, :width, :width)
+    attribute(Interger, :height, :height)
     attribute(String, :view_box, :viewBox)
     attribute(String, :preserve_aspect_ratio, :preserveAspectRatio)
     attribute(String, :href, :href)
@@ -106,38 +106,38 @@ module Watir
   end
 
   class MeshGradient < Gradient
-    attribute(Fixnum, :x, :x)
-    attribute(Fixnum, :y, :y)
+    attribute(Interger, :x, :x)
+    attribute(Interger, :y, :y)
   end
   class MeshGradientCollection < ElementCollection
   end
 
   class RadialGradient < Gradient
-    attribute(Fixnum, :cx, :cx)
-    attribute(Fixnum, :cy, :cy)
-    attribute(Fixnum, :r, :r)
-    attribute(Fixnum, :fx, :fx)
-    attribute(Fixnum, :fy, :fy)
-    attribute(Fixnum, :fr, :fr)
+    attribute(Interger, :cx, :cx)
+    attribute(Interger, :cy, :cy)
+    attribute(Interger, :r, :r)
+    attribute(Interger, :fx, :fx)
+    attribute(Interger, :fy, :fy)
+    attribute(Interger, :fr, :fr)
   end
   class RadialGradientCollection < ElementCollection
   end
 
   class LinearGradient < Gradient
-    attribute(Fixnum, :x1, :x1)
-    attribute(Fixnum, :y1, :y1)
-    attribute(Fixnum, :x2, :x2)
-    attribute(Fixnum, :y2, :y2)
+    attribute(Interger, :x1, :x1)
+    attribute(Interger, :y1, :y1)
+    attribute(Interger, :x2, :x2)
+    attribute(Interger, :y2, :y2)
   end
   class LinearGradientCollection < ElementCollection
   end
 
   class Marker < SVGElement
-    attribute(Fixnum, :refx, :refX)
-    attribute(Fixnum, :refy, :refY)
+    attribute(Interger, :refx, :refX)
+    attribute(Interger, :refy, :refY)
     attribute(String, :marker_units, :markerUnits)
-    attribute(Fixnum, :marker_width, :markerWidth)
-    attribute(Fixnum, :marker_height, :markerHeight)
+    attribute(Interger, :marker_width, :markerWidth)
+    attribute(Interger, :marker_height, :markerHeight)
     attribute(String, :orient_type, :orientType)
     attribute(String, :orient_angle, :orientAngle)
     attribute(String, :orient, :orient)
@@ -174,23 +174,23 @@ module Watir
   end
 
   class ForeignObject < Graphics
-    attribute(Fixnum, :x, :x)
-    attribute(Fixnum, :y, :y)
-    attribute(Fixnum, :width, :width)
-    attribute(Fixnum, :height, :height)
+    attribute(Interger, :x, :x)
+    attribute(Interger, :y, :y)
+    attribute(Interger, :width, :width)
+    attribute(Interger, :height, :height)
   end
   class ForeignObjectCollection < ElementCollection
   end
 
   class TextContent < Graphics
-    attribute(Fixnum, :text_length, :textLength)
+    attribute(Interger, :text_length, :textLength)
     attribute(String, :length_adjust, :lengthAdjust)
   end
   class TextContentCollection < ElementCollection
   end
 
   class TextPath < TextContent
-    attribute(Fixnum, :start_offset, :startOffset)
+    attribute(Interger, :start_offset, :startOffset)
     attribute(String, :method, :method)
     attribute(String, :spacing, :spacing)
     attribute(String, :href, :href)
@@ -221,10 +221,10 @@ module Watir
   end
 
   class Use < Graphics
-    attribute(Fixnum, :x, :x)
-    attribute(Fixnum, :y, :y)
-    attribute(Fixnum, :width, :width)
-    attribute(Fixnum, :height, :height)
+    attribute(Interger, :x, :x)
+    attribute(Interger, :y, :y)
+    attribute(Interger, :width, :width)
+    attribute(Interger, :height, :height)
     attribute(String, :href, :href)
   end
   class UseCollection < ElementCollection
@@ -241,10 +241,10 @@ module Watir
   end
 
   class SVG < Graphics
-    attribute(Fixnum, :x, :x)
-    attribute(Fixnum, :y, :y)
-    attribute(Fixnum, :width, :width)
-    attribute(Fixnum, :height, :height)
+    attribute(Interger, :x, :x)
+    attribute(Interger, :y, :y)
+    attribute(Interger, :width, :width)
+    attribute(Interger, :height, :height)
     attribute(String, :viewport, :viewport)
     attribute("Boolean", :use_current_view?, :useCurrentView)
     attribute(String, :current_view, :currentView)
@@ -252,7 +252,7 @@ module Watir
     attribute(String, :current_translate, :currentTranslate)
     attribute(String, :view_box, :viewBox)
     attribute(String, :preserve_aspect_ratio, :preserveAspectRatio)
-    attribute(Fixnum, :zoom_and_pan, :zoomAndPan)
+    attribute(Interger, :zoom_and_pan, :zoomAndPan)
   end
   class SVGCollection < ElementCollection
   end
@@ -277,38 +277,38 @@ module Watir
   end
 
   class Line < Geometry
-    attribute(Fixnum, :x1, :x1)
-    attribute(Fixnum, :y1, :y1)
-    attribute(Fixnum, :x2, :x2)
-    attribute(Fixnum, :y2, :y2)
+    attribute(Interger, :x1, :x1)
+    attribute(Interger, :y1, :y1)
+    attribute(Interger, :x2, :x2)
+    attribute(Interger, :y2, :y2)
   end
   class LineCollection < ElementCollection
   end
 
   class Ellipse < Geometry
-    attribute(Fixnum, :cx, :cx)
-    attribute(Fixnum, :cy, :cy)
-    attribute(Fixnum, :rx, :rx)
-    attribute(Fixnum, :ry, :ry)
+    attribute(Interger, :cx, :cx)
+    attribute(Interger, :cy, :cy)
+    attribute(Interger, :rx, :rx)
+    attribute(Interger, :ry, :ry)
   end
   class EllipseCollection < ElementCollection
   end
 
   class Circle < Geometry
-    attribute(Fixnum, :cx, :cx)
-    attribute(Fixnum, :cy, :cy)
-    attribute(Fixnum, :r, :r)
+    attribute(Interger, :cx, :cx)
+    attribute(Interger, :cy, :cy)
+    attribute(Interger, :r, :r)
   end
   class CircleCollection < ElementCollection
   end
 
   class Rect < Geometry
-    attribute(Fixnum, :x, :x)
-    attribute(Fixnum, :y, :y)
-    attribute(Fixnum, :width, :width)
-    attribute(Fixnum, :height, :height)
-    attribute(Fixnum, :rx, :rx)
-    attribute(Fixnum, :ry, :ry)
+    attribute(Interger, :x, :x)
+    attribute(Interger, :y, :y)
+    attribute(Interger, :width, :width)
+    attribute(Interger, :height, :height)
+    attribute(Interger, :rx, :rx)
+    attribute(Interger, :ry, :ry)
   end
   class RectCollection < ElementCollection
   end

@@ -30,7 +30,7 @@ module Watir
     #
     # Returns row of this table with given index.
     #
-    # @param [Fixnum] idx
+    # @param [Interger] idx
     # @return Watir::Row
     #
 

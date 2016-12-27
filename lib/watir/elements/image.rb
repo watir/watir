@@ -19,7 +19,7 @@ module Watir
     #
     # Returns the image's width in pixels.
     #
-    # @return [Fixnum] width
+    # @return [Interger] width
     #
 
     def width
