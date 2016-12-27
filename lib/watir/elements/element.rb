@@ -201,8 +201,8 @@ module Watir
     # @example
     #   browser.div(id: "draggable").drag_and_drop_by 100, -200
     #
-    # @param [Interger] right_by
-    # @param [Interger] down_by
+    # @param [Integer] right_by
+    # @param [Integer] down_by
     #
 
     def drag_and_drop_by(right_by, down_by)
