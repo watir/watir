@@ -57,7 +57,7 @@ module Watir
         define_string_attribute(name, attr)
       when 'Boolean'
         define_boolean_attribute(name, attr)
-      when 'Fixnum'
+      when 'Integer'
         define_int_attribute(name, attr)
       when 'Float'
         define_float_attribute(name, attr)
