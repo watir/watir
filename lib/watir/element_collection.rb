@@ -31,7 +31,7 @@ module Watir
     #
     # Returns number of elements in collection.
     #
-    # @return [Fixnum]
+    # @return [Integer]
     #
 
     def length
@@ -45,7 +45,7 @@ module Watir
     # Also note that because of Watir's lazy loading, this will return an Element
     # instance even if the index is out of bounds.
     #
-    # @param [Fixnum] idx Index of wanted element, 0-indexed
+    # @param [Integer] idx Index of wanted element, 0-indexed
     # @return [Watir::Element] Returns an instance of a Watir::Element subclass
     #
 

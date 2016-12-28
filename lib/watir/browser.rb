@@ -210,7 +210,7 @@ module Watir
     # @example
     #   browser.wait
     #
-    # @param [Fixnum] timeout
+    # @param [Integer] timeout
     # @raise [Watir::Wait::TimeoutError] if timeout is exceeded
     #
 
