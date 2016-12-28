@@ -289,8 +289,9 @@ describe Watir::Locators::Element::Locator do
       end
 
       it "raises a TypeError if selector value is not a String or Regexp" do
-        expect { locate_one(tag_name: 123) }.to \
-        raise_error(TypeError, %[expected one of [String, Regexp], got 123:Integer])
+         num_type = RUBY_VERSION[/^\d+\.(\d+)/, 1].to_i >= 4 ? 'Integer' : 'Fixnum'
+          expect { locate_one(tag_name: 123) }.to \
+ +        raise_error(TypeError, %[expected one of [String, Regexp], got 123:#{num_type}])
       end
 
       it "raises a MissingWayOfFindingObjectException if the attribute is not valid" do
