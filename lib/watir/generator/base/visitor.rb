@@ -133,7 +133,7 @@ module Watir
           String
         when 'UnsignedLong', 'Long', 'Integer', 'Short', 'UnsignedShort',
              'SVGAnimatedLength'
-          Fixnum
+          Integer
         when 'Float', /.*Double$/
           Float
         when 'Boolean'
