@@ -27,8 +27,8 @@ module Watir
         def check_type(how, what)
           case how
           when :index
-            unless what.is_a?(Fixnum)
-              raise TypeError, "expected Fixnum, got #{what.inspect}:#{what.class}"
+            unless what.is_a?(Integer)
+              raise TypeError, "expected Integer, got #{what.inspect}:#{what.class}"
             end
           when :visible
             unless what.is_a?(TrueClass) || what.is_a?(FalseClass)
