@@ -161,6 +161,15 @@ describe "Element" do
     end
   end
 
+  describe "#select_text" do
+    it "selects text in an element" do
+      text = 'confirmation'
+      browser.form(id: 'new_user').select_text(text)
+
+      expect(browser.selected_text).to eq text
+    end
+  end
+
   bug "https://github.com/SeleniumHQ/selenium/issues/2555", %i(remote firefox) do
     bug "https://github.com/SeleniumHQ/selenium/issues/1795", %i(remote edge) do
       describe "#focused?" do
