@@ -382,8 +382,7 @@ module Watir
     #
 
     def visible?
-      assert_exists
-      @element.displayed?
+      element_call(:assert_exists) { @element.displayed? }
     end
 
     #
@@ -394,8 +393,7 @@ module Watir
     #
 
     def enabled?
-      assert_exists
-      @element.enabled?
+      element_call(:assert_exists) { @element.enabled? }
     end
 
     #

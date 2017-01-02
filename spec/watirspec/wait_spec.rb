@@ -256,6 +256,17 @@ not_compliant_on :safari do
         message = /Instead of passing arguments into #wait_while_present method, use keywords/
         expect { browser.div(id: 'foo').wait_while_present(5) }.to output(message).to_stderr
       end
+
+      it "does not error when element goes stale" do
+        element = browser.div(id: 'foo')
+
+        allow(element).to receive(:stale?).and_return(false, true)
+        allow(element.wd).to receive(:displayed?).and_raise(Selenium::WebDriver::Error::StaleElementReferenceError)
+
+        browser.a(id: 'hide_foo').click
+        expect { element.wait_while_present(timeout: 1) }.to_not raise_exception
+      end
+
     end
 
     describe "#wait_until" do
