@@ -182,23 +182,13 @@ describe "Element" do
     end
   end
 
-  describe "#parent" do
-    it "gets the parent of this element" do
-      expect(browser.text_field(id: "new_user_email").parent).to be_instance_of(Watir::FieldSet)
-    end
-
-    it "returns nil if the element has no parent" do
-      expect(browser.body.parent.parent).to be_nil
-    end
-  end
-
   describe "#visible?" do
     it "returns true if the element is visible" do
       expect(browser.text_field(id: "new_user_email")).to be_visible
     end
 
     it "raises UnknownObjectException exception if the element does not exist" do
-      expect {browser.text_field(id: "no_such_id").visible?}.to raise_unknown_object_exception
+      expect { browser.text_field(id: "no_such_id").visible? }.to raise_unknown_object_exception
     end
 
     it "raises UnknownObjectException exception if the element is stale" do
