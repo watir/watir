@@ -12,6 +12,7 @@ module Watir
     load :getInnerHtml
     load :getParentElement
     load :selectText
+    load :selectedText
 
     private
 
