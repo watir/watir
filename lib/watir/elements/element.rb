@@ -11,6 +11,7 @@ module Watir
     include Container
     include EventuallyPresent
     include Waitable
+    include Adjacent
 
     #
     # temporarily add :id and :class_name manually since they're no longer specified in the HTML spec.
@@ -343,18 +344,6 @@ module Watir
       event_name = event_name.to_s.sub(/^on/, '').downcase
 
       element_call { execute_atom :fireEvent, @element, event_name }
-    end
-
-    #
-    # Returns parent element of current element.
-    #
-
-    def parent
-      e = element_call { execute_atom :getParentElement, @element }
-
-      if e.kind_of?(Selenium::WebDriver::Element)
-        Watir.element_class_for(e.tag_name.downcase).new(@query_scope, element: e)
-      end
     end
 
     #
