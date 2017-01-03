@@ -72,15 +72,12 @@ module WatirSpec
       info = []
       info << instance.class.name
 
-      if instance.respond_to?(:driver) && instance.driver.class.name == "Selenium::WebDriver::Driver"
-        info << "(webdriver)"
-        caps = instance.driver.capabilities
+      caps = instance.driver.capabilities
 
-        info << "#{caps.browser_name}"
-        info << "#{caps.version}"
-      end
+      info << "#{caps.browser_name}"
+      info << "#{caps.version}"
 
-      $stderr.puts "running watirspec against #{info.join ' '} using args #{WatirSpec.implementation.browser_args.inspect}"
+      $stderr.puts "running watirspec against #{info.join ' '} using:\n#{WatirSpec.implementation.inspect_args}"
     rescue
       # ignored
     end

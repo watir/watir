@@ -115,7 +115,7 @@ module Watir
     # @param [String] message error message for when times out
     #
 
-    def wait_until(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, interval: interval, &blk)
+    def wait_until(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, interval: nil, &blk)
       if deprecated_message || deprecated_timeout
         warn "Instead of passing arguments into #wait_until, use keywords"
         timeout = deprecated_timeout
@@ -141,7 +141,7 @@ module Watir
     # @param [String] message error message for when times out
     #
 
-    def wait_while(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, interval: interval, &blk)
+    def wait_while(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, interval: nil, &blk)
       if deprecated_message || deprecated_timeout
         warn "Instead of passing arguments into #wait_while method, use keywords"
         timeout = deprecated_timeout

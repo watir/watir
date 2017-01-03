@@ -29,5 +29,13 @@ module WatirSpec
       result
     end
 
+    def inspect_args
+      caps = browser_args.last.delete(:desired_capabilities).send(:capabilities)
+      string = "driver: #{browser_args.first}\n"
+      browser_args.last.each { |arg| string << "#{arg.inspect}\n" }
+      string << "capabilities:\n"
+      caps.each { |k, v| string << "\t#{k}: #{v}\n"}
+      string
+    end
   end # Implementation
 end # WatirSpec

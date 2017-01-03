@@ -19,7 +19,9 @@ module WatirSpec
         else
           puts
           gs.each do |guard|
-            puts "\t#{guard[:name].to_s.ljust(20)}: #{guard[:data].inspect}"
+            guard[:data][:file] = guard[:data][:file][/\/spec\/(.*):/, 1]
+            guard_name = "#{guard[:name]}:".ljust(15)
+            puts " #{guard_name} #{guard[:data].inspect}"
           end
         end
       end

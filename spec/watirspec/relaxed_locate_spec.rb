@@ -14,6 +14,7 @@ describe 'Watir#relaxed_locate?' do
             Watir.default_timeout = time_out
             element = browser.link(id: 'not_there')
             start_time = ::Time.now
+            allow($stderr).to receive(:write).twice
             expect { element.click }.to raise_exception(Watir::Exception::UnknownObjectException)
             expect(::Time.now - start_time).to be > time_out
           ensure
@@ -83,6 +84,7 @@ describe 'Watir#relaxed_locate?' do
             element = browser.div(id: 'also_hidden').div(id: 'hidden_child')
             error = Watir::Exception::UnknownObjectException
             message = "element located, but timed out after #{Watir.default_timeout} seconds, waiting for true condition on #{selector}"
+            allow($stderr).to receive(:write).twice
             expect { element.click }.to raise_exception(error, message)
           ensure
             Watir.default_timeout = 30
@@ -96,6 +98,7 @@ describe 'Watir#relaxed_locate?' do
             element = browser.div(id: 'buttons').button(id: 'btn2')
             error = Watir::Exception::UnknownObjectException
             message = "element located, but timed out after #{Watir.default_timeout} seconds, waiting for true condition on #{selector}"
+            allow($stderr).to receive(:write).twice
             expect { element.click }.to raise_exception(error, message)
           ensure
             Watir.default_timeout = 30
@@ -162,6 +165,7 @@ describe 'Watir#relaxed_locate?' do
         begin
           Watir.default_timeout = 1.1
           browser.a(id: 'add_foobar').click
+          allow($stderr).to receive(:write).twice
           # Element created after 1 second, and displays after 2 seconds
           # Click will only raise this exception if the timer is not reset between #wait_for_exists and #wait_for_present
           expect { browser.div(id: 'foobar').click }.to raise_exception Watir::Exception::UnknownObjectException
