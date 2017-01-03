@@ -132,17 +132,20 @@ module Watir
 
         def find_all_by_multiple
           selector = selector_builder.normalized_selector
+          visible = selector.delete(:visible)
 
           if selector.key? :index
             raise ArgumentError, "can't locate all elements by :index"
           end
 
           how, what = selector_builder.build(selector)
-          if how
-            @query_scope.wd.find_elements(how, what)
-          else
-            wd_find_by_regexp_selector(selector, :select)
-          end
+          found = if how
+                    @query_scope.wd.find_elements(how, what)
+                  else
+                    wd_find_by_regexp_selector(selector, :select)
+                  end
+          found.select! { |el| el.displayed? == visible } unless visible.nil?
+          found
         end
 
         def wd_find_all_by(how, what)

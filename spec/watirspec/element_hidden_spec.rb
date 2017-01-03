@@ -14,7 +14,7 @@ describe Watir::Locators::Element::Locator do
       end
 
       it "handles tag_name and index" do
-        element =  browser.div(visible: true, index: 1)
+        element = browser.div(visible: true, index: 1)
         expect(element.id).to eq 'buttons'
       end
 
@@ -31,6 +31,11 @@ describe Watir::Locators::Element::Locator do
       it "handles :css" do
         element = browser.element(visible: true, css: 'div#foo')
         expect(element.id).to eq 'foo'
+      end
+
+      it "handles in collections" do
+        elements = browser.divs(visible: true)
+        expect(elements.size).to eq 2
       end
     end
 
@@ -58,6 +63,11 @@ describe Watir::Locators::Element::Locator do
       it "handles :css" do
         element = browser.element(visible: false, css: 'div#bar')
         expect(element.id).to eq 'bar'
+      end
+
+      it "handles in collections" do
+        elements = browser.divs(visible: false)
+        expect(elements.size).to eq 3
       end
     end
   end
