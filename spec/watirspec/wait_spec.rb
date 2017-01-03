@@ -190,7 +190,7 @@ not_compliant_on :safari do
     end
 
     describe "#wait_until_present" do
-      it "it waits until the element appears" do
+      it "waits until the element appears" do
         browser.a(id: 'show_bar').click
         expect { browser.div(id: 'bar').wait_until_present(timeout: 5) }.to_not raise_exception
       end
@@ -214,6 +214,19 @@ not_compliant_on :safari do
         browser.a(id: 'show_bar').click
         message = /Instead of passing arguments into #wait_until_present method, use keywords/
         expect { browser.div(id: 'bar').wait_until_present(5) }.to output(message).to_stderr
+      end
+
+      it 'waits to select an option' do
+        browser.a(id: 'add_select').click
+        select_list = browser.select_list(id: 'languages')
+        Watir.default_timeout = 1
+        begin
+          start_time = ::Time.now
+          expect { select_list.select('No') }.to raise_error Watir::Exception::NoValueFoundException
+          expect(::Time.now - start_time).to be > 1
+        ensure
+          Watir.default_timeout = 1
+        end
       end
     end
 

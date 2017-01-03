@@ -58,6 +58,20 @@
         show and enable btn
       </a>
     </div>
+    <div>
+      <a id="add_select" href="#" onclick="setTimeoutDisplay('languages', 'block', 500);">show select list</a>
+    </div>
+    <form>
+      <fieldset>
+        <select name="languages" id="languages", style="display: none">
+          <option id="danish" value="1">Danish</option>
+          <option selected="selected" value="2">English</option>
+          <option selected="selected" value="3">Norwegian</option>
+          <option value="4" disabled>Russian</option>
+          <option>Swedish</option>
+        </select> <br />
+      </fieldset>
+    </form>
     <div id="also_hidden" style="display:none;">
       <div id="hidden_child">Nothing to see here</div>
     </div>

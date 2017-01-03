@@ -341,8 +341,8 @@ describe "SelectList" do
     end
 
     it "raises NoValueFoundException if the option doesn't exist" do
-      expect { browser.select_list(name: "new_user_country").select("missing_option") }.to raise_error(Watir::Exception::NoValueFoundException)
-      expect { browser.select_list(name: "new_user_country").select(/missing_option/) }.to raise_error(Watir::Exception::NoValueFoundException)
+      expect { browser.select_list(name: "new_user_country").select("missing_option") }.to raise_no_value_found_exception
+      expect { browser.select_list(name: "new_user_country").select(/missing_option/) }.to raise_no_value_found_exception
     end
 
     it "raises ObjectDisabledException if the option is disabled" do
@@ -371,8 +371,8 @@ describe "SelectList" do
     end
 
     it "raises NoValueFoundException if the option doesn't exist" do
-      expect { browser.select_list(name: "new_user_languages").select_value("no_such_option") }.to raise_error(Watir::Exception::NoValueFoundException)
-      expect { browser.select_list(name: "new_user_languages").select_value(/no_such_option/) }.to raise_error(Watir::Exception::NoValueFoundException)
+      expect { browser.select_list(name: "new_user_languages").select_value("no_such_option") }.to raise_no_value_found_exception
+      expect { browser.select_list(name: "new_user_languages").select_value(/no_such_option/) }.to raise_no_value_found_exception
     end
   end
 

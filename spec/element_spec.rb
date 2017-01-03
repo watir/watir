@@ -117,7 +117,7 @@ describe Watir::Element do
     it "displays selector string for element from colection" do
       browser.goto(WatirSpec.url_for("wait.html"))
       element = browser.divs.last
-      error = 'timed out after 0 seconds, waiting for true condition on {:tag_name=>"div", :index=>4}'
+      error = 'timed out after 0 seconds, waiting for true condition on {:tag_name=>"div", :index=>5}'
       expect { element.wait_until_present(timeout: 0) }.to raise_exception(Watir::Wait::TimeoutError, error)
     end
 

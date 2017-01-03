@@ -20,9 +20,8 @@ module Watir
     # @return [Watir::OptionCollection]
     #
 
-    def options
-      wait_for_exists
-      super
+    def options(*)
+      element_call(:wait_for_exists) { super }
     end
 
     #
@@ -119,85 +118,36 @@ module Watir
     private
 
     def select_by(how, str_or_rx)
-      case str_or_rx
-      when String, Numeric
-        select_by_string(how, str_or_rx.to_s)
-      when Regexp
-        select_by_regexp(how, str_or_rx)
-      else
-        raise TypeError, "expected String or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
+      found = nil
+      begin
+        Wait.until do
+          case str_or_rx
+          when String, Numeric, Regexp
+            found = options(how => str_or_rx)
+            found = options(label: str_or_rx) if found.to_a.empty?
+          else
+            raise TypeError, "expected String or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
+           end
+          !found.to_a.empty?
+        end
+      rescue Wait::TimeoutError
+        no_value_found(str_or_rx)
       end
+      select_matching(found)
     end
 
-    def select_by_string(how, string)
-      xpath = option_xpath_for(how, string)
-
-      if multiple?
-        elements = element_call do
-          @element.find_elements(:xpath, xpath)
-        end
-        no_value_found(string) if elements.empty?
-
-        elements.each { |e| click_option(e) unless e.selected? }
-        elements.first.text
-      else
-        begin
-          e = element_call do
-            @element.find_element(:xpath, xpath)
-          end
-        rescue Selenium::WebDriver::Error::NoSuchElementError
-          no_value_found(string)
-        end
-
-        click_option(e) unless e.selected?
-        safe_text(e)
-      end
-    end
-
-    def select_by_regexp(how, exp)
-      elements = element_call do
-        @element.find_elements(:tag_name, 'option')
-      end
-      no_value_found(nil, "no options in select list") if elements.empty?
-
-      if multiple?
-        found = elements.select do |e|
-          next unless matches_regexp?(how, e, exp)
-          click_option(e) unless e.selected?
-          true
-        end
-
-        no_value_found(exp) if found.empty?
-
-        found.first.text
-      else
-        element = elements.find { |e| matches_regexp?(how, e, exp) }
-        no_value_found(exp) unless element
-
-        click_option(element) unless element.selected?
-        safe_text(element)
-      end
-    end
-
-    def option_xpath_for(how, string)
-      string = XpathSupport.escape string
-
-      case how
-      when :text
-        ".//option[normalize-space()=#{string} or @label=#{string}]"
-      when :value
-        ".//option[@value=#{string}]"
-      else
-        raise Error, "unknown how: #{how.inspect}"
-      end
+    def select_matching(elements)
+      elements = [elements.first] unless multiple?
+      elements.each { |e| click_option(e) unless e.selected? }
+      elements.first.exist? ? elements.first.text : ''
     end
 
     def matches_regexp?(how, element, exp)
       case how
       when :text
-        element.text =~ exp || element.attribute(:label) =~ exp
+        element.text =~ exp || element.label =~ exp
       when :value
-        element.attribute(:value) =~ exp
+        element.value =~ exp
       else
         raise Error, "unknown how: #{how.inspect}"
       end
@@ -206,13 +156,6 @@ module Watir
     def click_option(element)
       element = Option.new(self, element: element) unless element.is_a?(Option)
       element.click
-    end
-
-    def safe_text(element)
-      element.text
-    rescue Selenium::WebDriver::Error::StaleElementReferenceError, Selenium::WebDriver::Error::UnhandledAlertError
-      # guard for scenario where selecting the element changes the page, making our element obsolete
-      ''
     end
 
     def no_value_found(arg, msg = nil)
