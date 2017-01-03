@@ -4,7 +4,8 @@ if defined?(RSpec)
     raise_no_matching_window_exception: Watir::Exception::NoMatchingWindowFoundException,
     raise_unknown_frame_exception: Watir::Exception::UnknownFrameException,
     raise_object_disabled_exception: Watir::Exception::ObjectDisabledException,
-    raise_object_read_only_exception: Watir::Exception::ObjectReadOnlyException
+    raise_object_read_only_exception: Watir::Exception::ObjectReadOnlyException,
+    raise_no_value_found_exception: Watir::Exception::NoValueFoundException
   }.freeze
 
   TIMING_EXCEPTIONS.each do |matcher, exception|
