@@ -1,3 +1,11 @@
+### 6.1.0 (2017-01-04)
+
+* Add Ruby 2.4.0 support (thanks Robert MacCracken)
+* Implement polling interval parameter for wait methods
+* Implement visible locator for element collections
+* Implement automatic waiting for selecting options in a select list
+* Fix bug allowing `StaleElementReferenceError` in `#wait_while_present` calls
+
 ### 6.0.3 (2016-12-22)
 
 * No notable changes, only includes fixes for WatirSpec

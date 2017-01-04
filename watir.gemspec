@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name        = 'watir'
-  s.version     = '6.0.3'
+  s.version     = '6.1.0'
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['Alex Rodionov', 'Titus Fortner']
   s.email       = ['p0deje@gmail.com', 'titusfortner@gmail.com']
@@ -21,7 +21,7 @@ It facilitates the writing of automated tests by mimicing the behavior of a user
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ['lib']
 
-  s.add_dependency "selenium-webdriver", "~> 3.0"
+  s.add_dependency 'selenium-webdriver', '~> 3.0'
 
   s.add_development_dependency 'rspec', '~> 3.0'
   s.add_development_dependency 'yard', '> 0.8.2.1'
