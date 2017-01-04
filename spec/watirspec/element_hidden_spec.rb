@@ -35,7 +35,7 @@ describe Watir::Locators::Element::Locator do
 
       it "handles in collections" do
         elements = browser.divs(visible: true)
-        expect(elements.size).to eq 2
+        expect(elements.size).to eq 3
       end
     end
 
