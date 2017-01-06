@@ -8,12 +8,12 @@ describe "Adjacent Elements" do
   describe "#parent" do
     it "gets immediate parent of an element by default" do
       expect(browser.div(id: "first_sibling").parent.id).to eq 'parent'
-      expect(browser.div(id: "first_sibling").parent).to be_a Watir::Div
+      expect(browser.div(id: "first_sibling").parent).to be_a Watir::HTMLElement
     end
 
     it "accepts index argument" do
       expect(browser.div(id: "first_sibling").parent(index: 2).id).to eq 'grandparent'
-      expect(browser.div(id: "first_sibling").parent(index: 2)).to be_a Watir::Div
+      expect(browser.div(id: "first_sibling").parent(index: 2)).to be_a Watir::HTMLElement
     end
 
     it "accepts tag_name argument" do
@@ -38,12 +38,12 @@ describe "Adjacent Elements" do
   describe "#following_sibling" do
     it "gets immediate following sibling of an element by default" do
       expect(browser.div(id: "first_sibling").following_sibling.id).to eq 'between_siblings1'
-      expect(browser.div(id: "first_sibling").following_sibling).to be_a Watir::Span
+      expect(browser.div(id: "first_sibling").following_sibling).to be_a Watir::HTMLElement
     end
 
     it "accepts index argument" do
       expect(browser.div(id: "first_sibling").following_sibling(index: 2).id).to eq 'between_siblings2'
-      expect(browser.div(id: "first_sibling").following_sibling(index: 2)).to be_a Watir::Span
+      expect(browser.div(id: "first_sibling").following_sibling(index: 2)).to be_a Watir::HTMLElement
     end
 
     it "accepts tag_name argument" do
@@ -66,8 +66,8 @@ describe "Adjacent Elements" do
   end
 
   describe "#following_siblings" do
-    it "gets array of subsequent siblings of an element by default" do
-      expect(browser.div(id: "second_sibling").following_siblings).to be_a Array
+    it "gets collection of subsequent siblings of an element by default" do
+      expect(browser.div(id: "second_sibling").following_siblings).to be_a Watir::HTMLElementCollection
       expect(browser.div(id: "second_sibling").following_siblings.size).to eq 2
     end
 
@@ -80,12 +80,12 @@ describe "Adjacent Elements" do
   describe "#previous_sibling" do
     it "gets immediate preceeding sibling of an element by default" do
       expect(browser.div(id: "third_sibling").previous_sibling.id).to eq 'between_siblings2'
-      expect(browser.div(id: "third_sibling").previous_sibling).to be_a Watir::Span
+      expect(browser.div(id: "third_sibling").previous_sibling).to be_a Watir::HTMLElement
     end
 
     it "accepts index argument" do
       expect(browser.div(id: "third_sibling").previous_sibling(index: 2).id).to eq 'between_siblings1'
-      expect(browser.div(id: "third_sibling").previous_sibling(index: 2)).to be_a Watir::Span
+      expect(browser.div(id: "third_sibling").previous_sibling(index: 2)).to be_a Watir::HTMLElement
     end
 
     it "accepts tag_name argument" do
@@ -108,8 +108,8 @@ describe "Adjacent Elements" do
   end
 
   describe "#previous_siblings" do
-    it "gets array of previous siblings of an element by default" do
-      expect(browser.div(id: "second_sibling").previous_siblings).to be_a Array
+    it "gets collection of previous siblings of an element by default" do
+      expect(browser.div(id: "second_sibling").previous_siblings).to be_a Watir::HTMLElementCollection
       expect(browser.div(id: "second_sibling").previous_siblings.size).to eq 2
     end
 
@@ -134,12 +134,12 @@ describe "Adjacent Elements" do
   describe "#child" do
     it "gets immediate child of an element by default" do
       expect(browser.div(id: "parent").child.id).to eq 'first_sibling'
-      expect(browser.div(id: "parent").child).to be_a Watir::Div
+      expect(browser.div(id: "parent").child).to be_a Watir::HTMLElement
     end
 
     it "accepts index argument" do
       expect(browser.div(id: "parent").child(index: 2).id).to eq 'second_sibling'
-      expect(browser.div(id: "parent").child(index: 2)).to be_a Watir::Div
+      expect(browser.div(id: "parent").child(index: 2)).to be_a Watir::HTMLElement
     end
 
     it "accepts tag_name argument" do
@@ -162,8 +162,8 @@ describe "Adjacent Elements" do
   end
 
   describe "#children" do
-    it "gets array of children of an element by default" do
-      expect(browser.div(id: "parent").children).to be_a Array
+    it "gets collection of children of an element by default" do
+      expect(browser.div(id: "parent").children).to be_a Watir::HTMLElementCollection
       expect(browser.div(id: "parent").children.size).to eq 5
     end
 

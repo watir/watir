@@ -92,18 +92,30 @@ module Watir
     #   browser.select_list(name: "new_user_languages").options == browser.select_list(id: "new_user_languages").options
     #   #=> true
     #
+    # @example
+    #   browser.select_list(name: "new_user_role").options == browser.select_list(id: "new_user_languages").options
+    #   #=> false
+    #
 
     def ==(other)
       to_a == other.to_a
     end
     alias_method :eql?, :==
 
+    #
+    # Creates a Collection containing elements of two collections.
+    #
+    # @example
+    #   (browser.select_list(name: "new_user_languages").options + browser.select_list(id: "new_user_role").options).size
+    #   #=> 8
+    #
+
     def +(other)
       case
       when to_a.empty?
-        return other
+        other
       when other.to_a.empty?
-        return self
+        self
       when to_a.class != other.to_a.class
         raise  Watir::Exception::Error, "Unable to combine collection of #{to_a.class} and #{other.to_a.class}"
       else
