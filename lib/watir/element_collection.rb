@@ -116,6 +116,8 @@ module Watir
         other
       when other.to_a.empty?
         self
+      when other.is_a?(Watir::MixedElementCollection)
+        other + self
       when to_a.class != other.to_a.class
         raise  Watir::Exception::Error, "Unable to combine collection of #{to_a.class} and #{other.to_a.class}"
       else
@@ -124,7 +126,7 @@ module Watir
       end
     end
 
-    private
+    protected
 
     def elements
       @query_scope.is_a?(IFrame) ? @query_scope.switch_to! : @query_scope.send(:assert_exists)

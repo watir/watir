@@ -123,9 +123,14 @@ module Watir
       end
 
       xpath = "./#{direction}#{tag_name || '*'}"
-      tag_name ||= 'element'
-      return self.send(tag_name.to_s.pluralize, {xpath: xpath}) unless index
-      self.send(tag_name, {xpath: "#{xpath}[#{index + 1}]"})
+
+      if index
+        tag_name ||= 'element'
+        self.send(tag_name, {xpath: "#{xpath}[#{index + 1}]"})
+      else
+        return self.send(tag_name.to_s.pluralize, {xpath: xpath}) if tag_name
+        MixedElementCollection.new(self, {xpath: xpath})
+      end
     end
 
   end # Adjacent

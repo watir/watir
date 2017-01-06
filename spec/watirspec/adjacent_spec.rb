@@ -67,7 +67,7 @@ describe "Adjacent Elements" do
 
   describe "#following_siblings" do
     it "gets collection of subsequent siblings of an element by default" do
-      expect(browser.div(id: "second_sibling").following_siblings).to be_a Watir::HTMLElementCollection
+      expect(browser.div(id: "second_sibling").following_siblings).to be_a Watir::MixedElementCollection
       expect(browser.div(id: "second_sibling").following_siblings.size).to eq 2
     end
 
@@ -109,7 +109,7 @@ describe "Adjacent Elements" do
 
   describe "#previous_siblings" do
     it "gets collection of previous siblings of an element by default" do
-      expect(browser.div(id: "second_sibling").previous_siblings).to be_a Watir::HTMLElementCollection
+      expect(browser.div(id: "second_sibling").previous_siblings).to be_a Watir::MixedElementCollection
       expect(browser.div(id: "second_sibling").previous_siblings.size).to eq 2
     end
 
@@ -163,7 +163,7 @@ describe "Adjacent Elements" do
 
   describe "#children" do
     it "gets collection of children of an element by default" do
-      expect(browser.div(id: "parent").children).to be_a Watir::HTMLElementCollection
+      expect(browser.div(id: "parent").children).to be_a Watir::MixedElementCollection
       expect(browser.div(id: "parent").children.size).to eq 5
     end
 

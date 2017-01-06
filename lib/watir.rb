@@ -108,6 +108,7 @@ require 'watir/row_container'
 require 'watir/cell_container'
 require 'watir/user_editable'
 require 'watir/element_collection'
+require 'watir/mixed_element_collection'
 require 'watir/elements/element'
 
 require 'watir/elements/html_elements'
