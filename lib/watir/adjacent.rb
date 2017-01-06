@@ -1,3 +1,5 @@
+require "active_support/inflector"
+
 module Watir
   module Adjacent
 
@@ -115,16 +117,15 @@ module Watir
       opt = opt.dup
       index = opt.delete :index
       tag_name = opt.delete :tag_name
-      caller = caller_locations(1,1)[0].label
       unless opt.empty?
+        caller = caller_locations(1, 1)[0].label
         raise ArgumentError, "unsupported locators: #{opt.inspect} for ##{caller} method"
       end
 
       xpath = "./#{direction}#{tag_name || '*'}"
-      return elements(xpath: xpath).map(&:to_subtype) unless index
-
-      e = element(xpath: "#{xpath}[#{index + 1}]")
-      e.exists? ? e.to_subtype : e
+      tag_name ||= 'element'
+      return self.send(tag_name.to_s.pluralize, {xpath: xpath}) unless index
+      self.send(tag_name, {xpath: "#{xpath}[#{index + 1}]"})
     end
 
   end # Adjacent
