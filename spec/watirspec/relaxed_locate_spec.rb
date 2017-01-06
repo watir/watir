@@ -54,10 +54,10 @@ describe 'Watir#relaxed_locate?' do
         it 'fails first for parent not existing' do
           begin
             Watir.default_timeout = 0
-            selector = "{:id=>\"no_parent\", :tag_name=>\"div\"}"
+            inspected = '#<Watir::Div: located: false; {:id=>"no_parent", :tag_name=>"div"}>'
             element = browser.div(id: 'no_parent').div(id: 'no_child')
             error = Watir::Exception::UnknownObjectException
-            message = "timed out after #{Watir.default_timeout} seconds, waiting for #{selector} to be located"
+            message = "timed out after #{Watir.default_timeout} seconds, waiting for #{inspected} to be located"
             expect { element.click }.to raise_exception(error, message)
           ensure
             Watir.default_timeout = 30
@@ -67,10 +67,10 @@ describe 'Watir#relaxed_locate?' do
         it 'fails for child not existing if parent exists' do
           begin
             Watir.default_timeout = 0
-            selector = "{:id=>\"buttons\", :tag_name=>\"div\"} --> {:id=>\"no_child\", :tag_name=>\"div\"}"
+            inspected = '#<Watir::Div: located: false; {:id=>"buttons", :tag_name=>"div"} --> {:id=>"no_child", :tag_name=>"div"}>'
             element = browser.div(id: 'buttons').div(id: 'no_child')
             error = Watir::Exception::UnknownObjectException
-            message = "timed out after #{Watir.default_timeout} seconds, waiting for #{selector} to be located"
+            message = "timed out after #{Watir.default_timeout} seconds, waiting for #{inspected} to be located"
             expect { element.click }.to raise_exception(error, message)
           ensure
             Watir.default_timeout = 30
@@ -80,10 +80,10 @@ describe 'Watir#relaxed_locate?' do
         it 'fails for parent not present if child exists' do
           begin
             Watir.default_timeout = 0.5
-            selector = "{:id=>\"also_hidden\", :tag_name=>\"div\"}"
+            inspected = '#<Watir::Div: located: true; {:id=>"also_hidden", :tag_name=>"div"}>'
             element = browser.div(id: 'also_hidden').div(id: 'hidden_child')
             error = Watir::Exception::UnknownObjectException
-            message = "element located, but timed out after #{Watir.default_timeout} seconds, waiting for true condition on #{selector}"
+            message = "element located, but timed out after #{Watir.default_timeout} seconds, waiting for true condition on #{inspected}"
             allow($stderr).to receive(:write).twice
             expect { element.click }.to raise_exception(error, message)
           ensure
@@ -94,10 +94,10 @@ describe 'Watir#relaxed_locate?' do
         it 'fails for child not present if parent is present' do
           begin
             Watir.default_timeout = 0.5
-            selector = "{:id=>\"buttons\", :tag_name=>\"div\"} --> {:id=>\"btn2\", :tag_name=>\"button\"}"
+            inspected = '#<Watir::Button: located: true; {:id=>"buttons", :tag_name=>"div"} --> {:id=>"btn2", :tag_name=>"button"}>'
             element = browser.div(id: 'buttons').button(id: 'btn2')
             error = Watir::Exception::UnknownObjectException
-            message = "element located, but timed out after #{Watir.default_timeout} seconds, waiting for true condition on #{selector}"
+            message = "element located, but timed out after #{Watir.default_timeout} seconds, waiting for true condition on #{inspected}"
             allow($stderr).to receive(:write).twice
             expect { element.click }.to raise_exception(error, message)
           ensure
@@ -109,10 +109,10 @@ describe 'Watir#relaxed_locate?' do
           browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
           begin
             Watir.default_timeout = 0.5
-            selector = "{:id=>\"new_user\", :tag_name=>\"form\"} --> {:id=>\"good_luck\", :tag_name=>\"input or textarea\", :type=>\"(any text type)\"}"
+            inspected = '#<Watir::TextField: located: true; {:id=>"new_user", :tag_name=>"form"} --> {:id=>"good_luck", :tag_name=>"input or textarea", :type=>"(any text type)"}>'
             element = browser.form(id: 'new_user').text_field(id: 'good_luck')
             error = Watir::Exception::ObjectDisabledException
-            message = "element present, but timed out after #{Watir.default_timeout} seconds, waiting for #{selector} to be enabled"
+            message = "element present, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspected} to be enabled"
             expect { element.set('foo') }.to raise_exception(error, message)
           ensure
             Watir.default_timeout = 30
@@ -123,10 +123,10 @@ describe 'Watir#relaxed_locate?' do
           browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
           begin
             Watir.default_timeout = 0.5
-            selector = "{:id=>\"new_user\", :tag_name=>\"form\"} --> {:id=>\"new_user_code\", :tag_name=>\"input or textarea\", :type=>\"(any text type)\"}"
+            inspected = '#<Watir::TextField: located: true; {:id=>"new_user", :tag_name=>"form"} --> {:id=>"new_user_code", :tag_name=>"input or textarea", :type=>"(any text type)"}>'
             element = browser.form(id: 'new_user').text_field(id: 'new_user_code')
             error = Watir::Exception::ObjectReadOnlyException
-            message = "element present and enabled, but timed out after #{Watir.default_timeout} seconds, waiting for #{selector} to not be readonly"
+            message = "element present and enabled, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspected} to not be readonly"
             expect { element.set('foo') }.to raise_exception(error, message)
           ensure
             Watir.default_timeout = 30

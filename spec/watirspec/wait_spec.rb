@@ -167,8 +167,11 @@ not_compliant_on :safari do
         end
 
         it "times out" do
-          message = /^timed out after 1 seconds, waiting for true condition on (\{:id=>"btn", :tag_name=>"button"\}|\{:tag_name=>"button", :id=>"btn"\})$/
-          expect { browser.button(id: 'btn').wait_until(timeout: 1, &:enabled?).click }.to raise_error(Watir::Wait::TimeoutError, message)
+          error = Watir::Wait::TimeoutError
+          inspected = '#<Watir::Button: located: false; {:id=>"btn", :tag_name=>"button"}>'
+          message = "timed out after 1 seconds, waiting for true condition on #{inspected}"
+          element = browser.button(id: 'btn')
+          expect { element.wait_until(timeout: 1, &:enabled?).click }.to raise_error(error, message)
         end
 
         it "responds to Element methods" do
@@ -196,8 +199,11 @@ not_compliant_on :safari do
       end
 
       it "times out if the element doesn't appear" do
-        message = /^timed out after 1 seconds, waiting for true condition on (\{:id=>"bar", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"bar"\})$/
-        expect { browser.div(id: 'bar').wait_until_present(timeout: 1) }.to raise_error(Watir::Wait::TimeoutError, message)
+        inspected = '#<Watir::Div: located: false; {:id=>"bar", :tag_name=>"div"}>'
+        error = Watir::Wait::TimeoutError
+        message = "timed out after 1 seconds, waiting for true condition on #{inspected}"
+
+        expect { browser.div(id: 'bar').wait_until_present(timeout: 1) }.to raise_error(error, message)
       end
 
       it "uses provided interval" do
@@ -237,8 +243,10 @@ not_compliant_on :safari do
       end
 
       it "times out if the element doesn't disappear" do
-        message = /^timed out after 1 seconds, waiting for false condition on (\{:id=>"foo", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"foo"\})$/
-        expect { browser.div(id: 'foo').wait_while_present(timeout: 1) }.to raise_error(Watir::Wait::TimeoutError, message)
+        error = Watir::Wait::TimeoutError
+        inspected = '#<Watir::Div: located: false; {:id=>"foo", :tag_name=>"div"}>'
+        message = "timed out after 1 seconds, waiting for false condition on #{inspected}"
+        expect { browser.div(id: 'foo').wait_while_present(timeout: 1) }.to raise_error(error, message)
       end
 
       it "uses provided interval" do

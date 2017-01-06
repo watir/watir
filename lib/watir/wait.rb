@@ -121,7 +121,7 @@ module Watir
         timeout = deprecated_timeout
         message = deprecated_message
       end
-      message ||= "waiting for true condition on #{selector_string}"
+      message ||= "waiting for true condition on #{inspect}"
       Wait.until(timeout: timeout, message: message, interval: interval, object: self, &blk)
 
       self
@@ -147,7 +147,7 @@ module Watir
         timeout = deprecated_timeout
         message = deprecated_message
       end
-      message ||= "waiting for false condition on #{selector_string}"
+      message ||= "waiting for false condition on #{inspect}"
       Wait.while(timeout: timeout, message: message, interval: interval, object: self, &blk)
 
       self

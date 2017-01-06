@@ -9,14 +9,15 @@ if defined?(RSpec)
   }.freeze
 
   TIMING_EXCEPTIONS.each do |matcher, exception|
-    RSpec::Matchers.define matcher do |_expected|
+    RSpec::Matchers.define matcher do |message|
       match do |actual|
         original_timeout = Watir.default_timeout
         Watir.default_timeout = 0
         begin
           actual.call
           false
-        rescue exception
+        rescue exception => ex
+          raise exception, "expected '#{message}' to be included in: '#{ex.message}'" unless message.nil? || ex.message.include?(message)
           true
         ensure
           Watir.default_timeout = original_timeout

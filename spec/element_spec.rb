@@ -76,7 +76,7 @@ describe Watir::Element do
 
       watir_element = browser.div(id: "text")
 
-        # simulate element going stale after assert_exists and before action taken, but not when block retried
+      # simulate element going stale after assert_exists and before action taken, but not when block retried
       allow(watir_element).to receive(:text) do
         watir_element.send(:element_call) do
           @already_stale ||= false
@@ -106,33 +106,54 @@ describe Watir::Element do
     end
   end
 
-  describe "#selector_string" do
-    it "displays selector string for regular element" do
-      browser.goto(WatirSpec.url_for("wait.html"))
+  describe "#inspect" do
+    before(:each) { browser.goto(WatirSpec.url_for("nested_iframes.html")) }
+
+    it "does displays specified element type" do
+      expect(browser.div.inspect).to include('Watir::Div')
+    end
+
+    it "does not display element type if not specified" do
+      element = browser.element(index: 4)
+      expect(element.inspect).to include('Watir::HTMLElement')
+    end
+
+    it "displays keyword if specified" do
+      element = browser.h3
+      element.keyword = 'foo'
+      expect(element.inspect).to include('keyword: foo')
+    end
+
+    it "does not display keyword if not specified" do
+      element = browser.h3
+      expect(element.inspect).to_not include('keyword')
+    end
+
+    it "locate is false when not located" do
       element = browser.div(:id, 'not_present')
-      error = 'timed out after 0 seconds, waiting for true condition on {:id=>"not_present", :tag_name=>"div"}'
-      expect { element.wait_until_present(timeout: 0) }.to raise_exception(Watir::Wait::TimeoutError, error)
+      expect(element.inspect).to include('located: false')
+    end
+
+    it "locate is true when located" do
+      element = browser.h3
+      element.exists?
+      expect(element.inspect).to include('located: true')
     end
 
     it "displays selector string for element from colection" do
-      browser.goto(WatirSpec.url_for("wait.html"))
-      element = browser.divs.last
-      error = 'timed out after 0 seconds, waiting for true condition on {:tag_name=>"div", :index=>5}'
-      expect { element.wait_until_present(timeout: 0) }.to raise_exception(Watir::Wait::TimeoutError, error)
+      elements = browser.frames
+      expect(elements.last.inspect).to include '{:tag_name=>"frame", :index=>-1}'
     end
 
     it "displays selector string for nested element" do
       browser.goto(WatirSpec.url_for("wait.html"))
-      element = browser.div(index: -1).div(:id, 'foo')
-      error = 'timed out after 0 seconds, waiting for true condition on {:index=>-1, :tag_name=>"div"} --> {:id=>"foo", :tag_name=>"div"}'
-      expect { element.wait_until_present(timeout: 0) }.to raise_exception(Watir::Wait::TimeoutError, error)
+      element = browser.div(index: 1).div(id: 'div2')
+      expect(element.inspect).to include '{:index=>1, :tag_name=>"div"} --> {:id=>"div2", :tag_name=>"div"}'
     end
 
     it "displays selector string for nested element under frame" do
-      browser.goto(WatirSpec.url_for("nested_iframes.html"))
-      element = browser.iframe(id: 'one').iframe(:id, 'three')
-      error = 'unable to locate iframe using {:id=>"one", :tag_name=>"iframe"} --> {:id=>"three", :tag_name=>"iframe"}'
-      expect { element.wait_until_present(timeout: 0) }.to raise_exception(Watir::Exception::UnknownFrameException, error)
+      element = browser.iframe(id: 'one').iframe(id: 'three')
+      expect(element.inspect).to include '{:id=>"one", :tag_name=>"iframe"} --> {:id=>"three", :tag_name=>"iframe"}'
     end
   end
 end

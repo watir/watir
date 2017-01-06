@@ -12,6 +12,8 @@ module Watir
     include EventuallyPresent
     include Waitable
 
+    attr_accessor :keyword
+
     #
     # temporarily add :id and :class_name manually since they're no longer specified in the HTML spec.
     #
@@ -49,11 +51,16 @@ module Watir
     alias_method :exist?, :exists?
 
     def inspect
+      string = "#<#{self.class}: "
+      string << "keyword: #{keyword} " if keyword
+      string << "located: #{!!@element}; "
       if @selector.empty?
-        '#<%s:0x%x located=%s selector=%s>' % [self.class, hash*2, !!@element, '{element: (selenium element)}']
+        string << '{element: (selenium element)}'
       else
-        '#<%s:0x%x located=%s selector=%s>' % [self.class, hash*2, !!@element, selector_string]
+        string << selector_string
       end
+      string << '>'
+      string
     end
 
     #
@@ -505,7 +512,7 @@ module Watir
           warn message
         end
         raise unknown_exception, "timed out after #{Watir.default_timeout} seconds, "\
-                                         "waiting for #{selector_string} to be located"
+                                         "waiting for #{inspect} to be located"
       end
     end
 
@@ -534,7 +541,7 @@ module Watir
       begin
         wait_until(&:enabled?)
       rescue Watir::Wait::TimeoutError
-        message = "element present, but timed out after #{Watir.default_timeout} seconds, waiting for #{selector_string} to be enabled"
+        message = "element present, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to be enabled"
         raise ObjectDisabledException, message
       end
     end
@@ -546,7 +553,7 @@ module Watir
       begin
         wait_until { !respond_to?(:readonly?) || !readonly? }
       rescue Watir::Wait::TimeoutError
-        message = "element present and enabled, but timed out after #{Watir.default_timeout} seconds, waiting for #{selector_string} to not be readonly"
+        message = "element present and enabled, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to not be readonly"
         raise ObjectReadOnlyException, message
       end
     end
@@ -567,7 +574,7 @@ module Watir
 
     def assert_element_found
       unless @element
-        raise unknown_exception, "unable to locate element, using #{selector_string}"
+        raise unknown_exception, "unable to locate element: #{inspect}"
       end
     end
 
@@ -625,7 +632,7 @@ module Watir
 
     def assert_enabled
       unless element_call { @element.enabled? }
-        raise ObjectDisabledException, "object is disabled #{selector_string}"
+        raise ObjectDisabledException, "object is disabled #{inspect}"
       end
     end
 
@@ -633,7 +640,7 @@ module Watir
       assert_enabled
 
       if respond_to?(:readonly?) && readonly?
-        raise ObjectReadOnlyException, "object is read only #{selector_string}"
+        raise ObjectReadOnlyException, "object is read only #{inspect}"
       end
     end
 
