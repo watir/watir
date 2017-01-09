@@ -10,7 +10,6 @@ module Watir
     load :fireEvent
     load :getOuterHtml
     load :getInnerHtml
-    load :getParentElement
     load :selectText
     load :selectedText
 
