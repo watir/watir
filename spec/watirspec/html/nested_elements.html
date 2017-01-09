@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Nested Elements</title>
+</head>
+
+<body>
+<span id="grandparent_span">
+        <div id="grandparent">
+            <span id="parent_span">
+                <div id="parent">
+                    <div id="first_sibling">
+                        <span id="child_span">
+                            <div id="oldest_child">
+                                <span id="grandson_span">
+                                    <div id="first_grandson"></div>
+                                    <div id="second_grandson"></div>
+                                </span>
+                            </div>
+                            <div id="middle_child"></div>
+                            <div id="youngest_child"></div>
+                        </span>
+                    </div>
+                    <span id="between_siblings1"></span>
+                    <div id="second_sibling"></div>
+                    <span id="between_siblings2"></span>
+                    <div id="third_sibling"></div>
+                </div>
+            </span>
+        </div>
+    </span>
+</body>
+</html>

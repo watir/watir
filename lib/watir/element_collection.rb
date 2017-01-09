@@ -35,7 +35,7 @@ module Watir
     #
 
     def length
-      elements.length
+      to_a.length
     end
     alias_method :size, :length
 
@@ -80,9 +80,47 @@ module Watir
     #
 
     def to_a
-      # TODO: optimize - lazy element_class instance?
       @to_a ||= elements.map.with_index do |e, idx|
         element_class.new(@query_scope, @selector.merge(element: e, index: idx))
+      end
+    end
+
+    #
+    # Returns true if two element collections are equal.
+    #
+    # @example
+    #   browser.select_list(name: "new_user_languages").options == browser.select_list(id: "new_user_languages").options
+    #   #=> true
+    #
+    # @example
+    #   browser.select_list(name: "new_user_role").options == browser.select_list(id: "new_user_languages").options
+    #   #=> false
+    #
+
+    def ==(other)
+      to_a == other.to_a
+    end
+    alias_method :eql?, :==
+
+    #
+    # Creates a Collection containing elements of two collections.
+    #
+    # @example
+    #   (browser.select_list(name: "new_user_languages").options + browser.select_list(id: "new_user_role").options).size
+    #   #=> 8
+    #
+
+    def +(other)
+      case
+      when to_a.empty?
+        other
+      when other.to_a.empty?
+        self
+      when to_a.class != other.to_a.class
+        raise  Watir::Exception::Error, "Unable to combine collection of #{to_a.class} and #{other.to_a.class}"
+      else
+        @to_a = to_a + other.to_a
+        self
       end
     end
 
