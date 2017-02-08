@@ -81,7 +81,8 @@ module Watir
 
     def to_a
       @to_a ||= elements.map.with_index do |e, idx|
-        element_class.new(@query_scope, @selector.merge(element: e, index: idx))
+        element = element_class.new(@query_scope, @selector.merge(element: e, index: idx))
+        element_class == Watir::HTMLElement ? element.to_subtype : element
       end
     end
 
