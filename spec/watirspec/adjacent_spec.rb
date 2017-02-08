@@ -119,18 +119,6 @@ describe "Adjacent Elements" do
     end
   end
 
-  describe "#siblings" do
-    it "gets collection of siblings of an element" do
-      expect(browser.div(id: "first_sibling").siblings.size).to eq 4
-    end
-
-    it "gets collection of siblings of an element by tag" do
-      siblings = browser.div(id: "first_sibling").siblings(tag_name: :div)
-      expect(siblings.size).to eq 2
-      expect(siblings.all? { |sib| sib.is_a? Watir::Div }).to eq true
-    end
-  end
-
   describe "#child" do
     it "gets immediate child of an element by default" do
       expect(browser.div(id: "parent").child.id).to eq 'first_sibling'

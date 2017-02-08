@@ -1,5 +1,3 @@
-require "active_support/inflector"
-
 module Watir
   module Adjacent
 
@@ -73,19 +71,6 @@ module Watir
     alias_method :next_siblings, :following_siblings
 
     #
-    # Returns collection of all sibling elements of current element.
-    #
-    # @example
-    #   browser.text_field(name: "new_user_first_name").following_siblings.size
-    #   #=> 52
-    #
-
-    def siblings(opt = {})
-      raise ArgumentError, "#siblings can not take an index value" if opt[:index]
-      preceding_siblings(opt) + following_siblings(opt)
-    end
-
-    #
     # Returns element of direct child of current element.
     #
     # @example
@@ -122,10 +107,14 @@ module Watir
         raise ArgumentError, "unsupported locators: #{opt.inspect} for ##{caller} method"
       end
 
-      xpath = "./#{direction}#{tag_name || '*'}"
-      tag_name ||= 'element'
-      return self.send(tag_name.to_s.pluralize, {xpath: xpath}) unless index
-      self.send(tag_name, {xpath: "#{xpath}[#{index + 1}]"})
+      klass = self.send(tag_name).class if tag_name
+      if index
+        klass ||= HTMLElement
+        klass.new(self, xpath: "./#{direction}#{tag_name || '*'}[#{index + 1}]")
+      else
+        klass = tag_name ? Object.const_get("#{klass}Collection") : HTMLElementCollection
+        klass.new(self, xpath: "./#{direction}#{tag_name || '*'}")
+      end
     end
 
   end # Adjacent

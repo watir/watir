@@ -110,20 +110,6 @@ module Watir
     #   #=> 8
     #
 
-    def +(other)
-      case
-      when to_a.empty?
-        other
-      when other.to_a.empty?
-        self
-      when to_a.class != other.to_a.class
-        raise  Watir::Exception::Error, "Unable to combine collection of #{to_a.class} and #{other.to_a.class}"
-      else
-        @to_a = to_a + other.to_a
-        self
-      end
-    end
-
     private
 
     def elements
