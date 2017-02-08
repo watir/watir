@@ -107,12 +107,11 @@ module Watir
         raise ArgumentError, "unsupported locators: #{opt.inspect} for ##{caller} method"
       end
 
-      klass = self.send(tag_name).class if tag_name
       if index
-        klass ||= HTMLElement
+        klass = tag_name ? self.send(tag_name).class : HTMLElement
         klass.new(self, xpath: "./#{direction}#{tag_name || '*'}[#{index + 1}]")
       else
-        klass = tag_name ? Object.const_get("#{klass}Collection") : HTMLElementCollection
+        klass = tag_name ? Object.const_get("#{self.send(tag_name).class}Collection") : HTMLElementCollection
         klass.new(self, xpath: "./#{direction}#{tag_name || '*'}")
       end
     end
