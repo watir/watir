@@ -121,8 +121,6 @@ module Watir
     def click(*modifiers)
       element_call(:wait_for_enabled) do
         if modifiers.any?
-          assert_has_input_devices_for "click(#{modifiers.join ', '})"
-
           action = driver.action
           modifiers.each { |mod| action.key_down mod }
           action.click @element
@@ -146,8 +144,6 @@ module Watir
     #
 
     def double_click
-      assert_has_input_devices_for :double_click
-
       element_call(:wait_for_present) { driver.action.double_click(@element).perform }
       browser.after_hooks.run
     end
@@ -161,8 +157,6 @@ module Watir
     #
 
     def right_click
-      assert_has_input_devices_for :right_click
-
       element_call(:wait_for_present) { driver.action.context_click(@element).perform }
       browser.after_hooks.run
     end
@@ -176,8 +170,6 @@ module Watir
     #
 
     def hover
-      assert_has_input_devices_for :hover
-
       element_call(:wait_for_present) { driver.action.move_to(@element).perform }
     end
 
@@ -193,7 +185,6 @@ module Watir
 
     def drag_and_drop_on(other)
       assert_is_element other
-      assert_has_input_devices_for :drag_and_drop_on
 
       element_call(:wait_for_present) do
         driver.action.
@@ -214,8 +205,6 @@ module Watir
     #
 
     def drag_and_drop_by(right_by, down_by)
-      assert_has_input_devices_for :drag_and_drop_by
-
       element_call(:wait_for_present) do
         driver.action.
                drag_and_drop_by(@element, right_by, down_by).
@@ -634,12 +623,6 @@ module Watir
 
       if respond_to?(:readonly?) && readonly?
         raise ObjectReadOnlyException, "object is read only #{inspect}"
-      end
-    end
-
-    def assert_has_input_devices_for(name)
-      unless driver.kind_of? Selenium::WebDriver::DriverExtensions::HasInputDevices
-        raise NotImplementedError, "#{self.class}##{name} is not supported by this driver"
       end
     end
 
