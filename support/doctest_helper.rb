@@ -74,9 +74,4 @@ YARD::Doctest.configure do |doctest|
   end
 end
 
-if ENV['TRAVIS']
-  ENV['DISPLAY'] = ':99.0'
-
-  Selenium::WebDriver::Chrome.path = File.expand_path 'chrome-linux/chrome'
-  Selenium::WebDriver::Chrome.driver_path = File.expand_path 'chrome-linux/chromedriver'
-end
+ENV['DISPLAY'] = ':99.0' if ENV['TRAVIS']
