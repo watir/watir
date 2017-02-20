@@ -1,3 +1,11 @@
+### 6.2.0 (2017-02-20)
+
+* `Element#wait_while_present` exits when locator no longer matches
+* Element Collections store specific element types rather than just `HTMLElement`
+* Implement adjacent element location for parent, siblings and children
+* Add support for assigning keywords to `Element` for better error messaging
+* Update actions implementation to work with selenium-webdriver > 3.0.5
+
 ### 6.1.0 (2017-01-04)
 
 * Add Ruby 2.4.0 support (thanks Robert MacCracken)
