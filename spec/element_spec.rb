@@ -103,8 +103,9 @@ describe Watir::Element do
       watir_element = browser.button(id: 'covered_button')
       Watir.default_timeout = 2
 
-      skip 'currently producing endless loop'
-      expect { watir_element.click }.to raise_error
+      expect do
+        Timeout::timeout(5) { watir_element.click }
+      end.to raise_error Selenium::WebDriver::Error::UnknownError
     end
   end
 
