@@ -641,9 +641,9 @@ module Watir
       rescue Selenium::WebDriver::Error::StaleElementReferenceError
         retry
       rescue Selenium::WebDriver::Error::UnknownError => ex
-          # Chromedriver and Legacy Firefox Driver throw UnknownError when element not clickable
-          raise unless ex.message =~ /Element is not clickable at point/
-          retry
+        # Chromedriver and Legacy Firefox Driver throw UnknownError when element cannot be clicked
+        raise unless ex.message =~ /Other element would receive the click/
+        retry
       ensure
         Wait.timer.reset! unless already_locked
       end

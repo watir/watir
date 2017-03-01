@@ -89,6 +89,22 @@ describe Watir::Element do
       expect { watir_element.text }.to_not raise_error
     end
 
+    it 'retries when element is covered by an overlay' do
+      browser.goto WatirSpec.url_for('overlay_on_elements.html')
+
+      watir_element = browser.button(id: 'temporarily_covered_button')
+
+      expect { watir_element.click }.to_not raise_error
+    end
+
+    it 'times out when element is covered by an overlay that never disappears' do
+      browser.goto WatirSpec.url_for('overlay_on_elements.html')
+
+      watir_element = browser.button(id: 'covered_button')
+      Watir.default_timeout = 2
+
+      expect { watir_element.click }.to raise_error
+    end
   end
 
   bug "Actions Endpoint Not Yet Implemented", :firefox do
