@@ -540,6 +540,29 @@ module Watir
       end
     end
 
+    def click_while_waiting_on_overlay
+      # Currently supports no modifier keys
+      timeout = Watir.default_timeout
+      original_message = nil
+      begin
+        Timeout::timeout(timeout) do
+          still_covered = true
+          while still_covered
+            still_covered = false
+            begin
+              @element.click
+            rescue Selenium::WebDriver::Error::UnknownError => ex
+              original_message = ex.message # Because we want to try to display the original error as well
+              still_covered = (ex.message =~ /Other element would receive the click/)
+            end
+            sleep(0.1)
+          end
+        end
+      rescue Timeout::Error
+        raise Selenium::WebDriver::Error::UnknownError, "timed out after #{timeout} seconds, waiting for #{inspect} to not be covered. Original message: #{original_message}"
+      end
+    end
+
     # Ensure that the element exists, making sure that it is not stale and located if necessary
     def assert_exists
       if @element && @selector.empty?
@@ -628,7 +651,7 @@ module Watir
 
     def assert_is_element(obj)
       unless obj.kind_of? Watir::Element
-        raise TypeError, "execpted Watir::Element, got #{obj.inspect}:#{obj.class}"
+        raise TypeError, "expected Watir::Element, got #{obj.inspect}:#{obj.class}"
       end
     end
 
@@ -641,9 +664,12 @@ module Watir
       rescue Selenium::WebDriver::Error::StaleElementReferenceError
         retry
       rescue Selenium::WebDriver::Error::UnknownError => ex
-        # Chromedriver and Legacy Firefox Driver throw UnknownError when element cannot be clicked
-        raise unless ex.message =~ /Other element would receive the click/
-        retry
+        if ex.message =~ /Other element would receive the click/
+          # Chromedriver and Legacy Firefox Driver throw UnknownError when element cannot be clicked
+          click_while_waiting_on_overlay
+        else
+          raise
+        end
       ensure
         Wait.timer.reset! unless already_locked
       end

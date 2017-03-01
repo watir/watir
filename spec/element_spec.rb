@@ -94,6 +94,7 @@ describe Watir::Element do
 
       watir_element = browser.button(id: 'temporarily_covered_button')
 
+      Watir.default_timeout = 2
       expect { watir_element.click }.to_not raise_error
     end
 
@@ -105,7 +106,7 @@ describe Watir::Element do
 
       expect do
         Timeout::timeout(5) { watir_element.click }
-      end.to raise_error Selenium::WebDriver::Error::UnknownError
+      end.to raise_error(Selenium::WebDriver::Error::UnknownError, /Other element would receive the click/)
     end
   end
 
