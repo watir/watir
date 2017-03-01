@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-      <title>overlay on element test</title>
+    <title>overlay on element test</title>
   </head>
 
   <body>
@@ -10,15 +10,15 @@
     </div>
     <div id="overlay" style="display:block;width:1920px;height:100px;background: gray;opacity: 0.8;position: absolute;left: 0;top: 0;"></div>
     <div id="button_container_2" style="position: absolute; top: 110px;">
-        <button id="temporarily_covered_button">Temporarily covered button</button>
+      <button id="temporarily_covered_button">Temporarily covered button</button>
     </div>
     <div id="temporary_overlay" style="display:block;width:1920px;height:100px;background: gray;opacity: 0.6;position: absolute;left: 0;top: 100px;"></div>
 
     <script>
-        var hide_temporary_overlay = function() {
-            document.getElementById('temporary_overlay').style.display = 'none';
-        };
-        setTimeout(hide_temporary_overlay, 1000);
+      var hide_temporary_overlay = function() {
+          document.getElementById('temporary_overlay').style.display = 'none';
+      };
+      setTimeout(hide_temporary_overlay, 1000);
     </script>
   </body>
 </html>
