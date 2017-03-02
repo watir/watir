@@ -540,29 +540,6 @@ module Watir
       end
     end
 
-    def click_while_waiting_on_overlay
-      # Currently supports no modifier keys
-      timeout = Watir.default_timeout
-      original_message = nil
-      begin
-        Timeout::timeout(timeout) do
-          still_covered = true
-          while still_covered
-            still_covered = false
-            begin
-              @element.click
-            rescue Selenium::WebDriver::Error::UnknownError => ex
-              original_message = ex.message # Because we want to try to display the original error as well
-              still_covered = (ex.message =~ /Other element would receive the click/)
-            end
-            sleep(0.1)
-          end
-        end
-      rescue Timeout::Error
-        raise Selenium::WebDriver::Error::UnknownError, "timed out after #{timeout} seconds, waiting for #{inspect} to not be covered. Original message: #{original_message}"
-      end
-    end
-
     # Ensure that the element exists, making sure that it is not stale and located if necessary
     def assert_exists
       if @element && @selector.empty?
@@ -659,6 +636,7 @@ module Watir
       already_locked = Wait.timer.locked?
       Wait.timer = Wait::Timer.new(timeout: Watir.default_timeout) unless already_locked
       begin
+        retries ||= 0
         send exist_check
         yield
       rescue Selenium::WebDriver::Error::StaleElementReferenceError
@@ -666,7 +644,14 @@ module Watir
       rescue Selenium::WebDriver::Error::UnknownError => ex
         if ex.message =~ /Other element would receive the click/
           # Chromedriver and Legacy Firefox Driver throw UnknownError when element cannot be clicked
-          click_while_waiting_on_overlay
+          if (retries += 1) < 120
+            retry
+            sleep(0.25)
+          else
+            raise Selenium::WebDriver::Error::UnknownError,
+              "timed out after #{(0.25 * retries).to_i} seconds, waiting for #{inspect} to not be covered. " \
+              "Original message: #{ex.message}"
+          end
         else
           raise
         end
