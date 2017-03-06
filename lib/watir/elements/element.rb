@@ -544,7 +544,7 @@ module Watir
     def assert_exists
       if @element && @selector.empty?
         ensure_context
-        @element.reset! if stale?
+        reset! if stale?
       elsif @element && !stale?
         return
       else
