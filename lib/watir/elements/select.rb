@@ -112,7 +112,7 @@ module Watir
     #
 
     def selected_options
-      options.select { |e| e.selected? }
+      browser.execute_script("return arguments[0].selectedOptions;", self)
     end
 
     private
