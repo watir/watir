@@ -100,8 +100,8 @@ module Watir
     #
 
     def value
-      o = options.find { |e| e.selected? } || return
-      o.value
+      option = selected_options.first
+      option && option.value
     end
 
 
