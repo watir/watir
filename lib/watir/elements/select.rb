@@ -112,7 +112,16 @@ module Watir
     #
 
     def selected_options
-      options.select { |e| e.selected? }
+      script = <<-SCRIPT
+        var result = [];
+        var options = arguments[0].options;
+        for (i = 0; i < options.length; i++) {
+          opt = options[i];
+          if (opt.selected) { result.push(opt) }
+        }
+        return result;
+      SCRIPT
+      browser.execute_script(script, self)
     end
 
     private
