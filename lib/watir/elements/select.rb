@@ -100,8 +100,8 @@ module Watir
     #
 
     def value
-      o = options.find { |e| e.selected? } || return
-      o.value
+      option = selected_options.first
+      option && option.value
     end
 
     #
@@ -122,7 +122,18 @@ module Watir
     #
 
     def selected_options
-      options.select { |e| e.selected? }
+      element_call do
+        script = <<-SCRIPT
+          var result = [];
+          var options = arguments[0].options;
+          for (var i = 0; i < options.length; i++) {
+            var option = options[i];
+            if (option.selected) { result.push(option) }
+          }
+          return result;
+        SCRIPT
+        browser.execute_script(script, self)
+      end
     end
 
     private
