@@ -112,10 +112,11 @@ module Watir
     #
 
     def selected_options
+      wait_for_exists
       script = <<-SCRIPT
         var result = [];
         var options = arguments[0].options;
-        for (i = 0; i < options.length; i++) {
+        for (var i = 0; i < options.length; i++) {
           opt = options[i];
           if (opt.selected) { result.push(opt) }
         }
