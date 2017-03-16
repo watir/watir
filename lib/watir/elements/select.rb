@@ -9,8 +9,8 @@ module Watir
     def clear
       raise Error, "you can only clear multi-selects" unless multiple?
 
-      options.each do |o|
-        click_option(o) if o.selected?
+      selected_options.each do |o|
+        click_option(o)
       end
     end
 
