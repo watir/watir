@@ -9,15 +9,7 @@ require 'watirspec'
 #
 
 def browser
-  @browser ||= begin
-    opts = {}
-    opts[:args] = ['--no-sandbox'] if ENV['TRAVIS']
-
-    browser = Watir::Browser.new(:chrome, opts)
-    browser.goto WatirSpec.url_for('forms_with_input_elements.html')
-
-    browser
-  end
+  $browser ||= Watir::Browser.new(:chrome)
 end
 
 YARD::Doctest.configure do |doctest|
@@ -29,6 +21,17 @@ YARD::Doctest.configure do |doctest|
   doctest.skip 'Watir::Window#size'
   doctest.skip 'Watir::Window#position'
 
+  doctest.before do
+    WatirSpec.run!
+    sleep 1 # give Chrome some time to breathe in
+    browser.goto WatirSpec.url_for('forms_with_input_elements.html')
+  end
+
+  doctest.after do
+    sleep 1 # give Chrome some time to breathe out
+    browser.windows.drop(1).each(&:close)
+  end
+
   %w[text ok close exists? present?].each do |name|
     doctest.before("Watir::Alert##{name}") do
       browser.goto WatirSpec.url_for('alerts.html')
@@ -39,6 +42,12 @@ YARD::Doctest.configure do |doctest|
   doctest.before('Watir::Alert#set') do
     browser.goto WatirSpec.url_for('alerts.html')
     browser.button(id: 'prompt').click
+  end
+
+  %w[text exists? present?].each do |name|
+    doctest.after("Watir::Alert##{name}") do
+      browser.alert.close
+    end
   end
 
   %w[Watir::Browser#execute_script Watir::Element#drag_and_drop].each do |name|
@@ -64,13 +73,10 @@ YARD::Doctest.configure do |doctest|
     end
   end
 
-  doctest.before do
-    WatirSpec.run!
-  end
-
-  doctest.after do
-    browser.quit
-    @browser = nil
+  doctest.after('Watir::AfterHooks') do
+    browser.after_hooks.each do |hook|
+      browser.after_hooks.delete(hook)
+    end
   end
 end
 

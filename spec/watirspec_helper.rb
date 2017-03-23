@@ -163,10 +163,6 @@ class ImplementationConfig
       Selenium::WebDriver::Chrome.path = path
     end
 
-    if ENV['TRAVIS']
-      opts[:args] << "--no-sandbox" # https://github.com/travis-ci/travis-ci/issues/938
-    end
-
     opts
   end
 

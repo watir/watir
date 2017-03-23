@@ -1,5 +1,8 @@
+# Please note that we should not be using container-based infrastructure
+# because Chrome requires a lot of shared memory and Travis does not allow
+# use host's /dev/shm.
+sudo: required
 dist: trusty
-sudo: require
 rvm:
   - 2.2.7
   - 2.3.4
