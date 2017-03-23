@@ -104,7 +104,7 @@ module Watir
       return assert_exists unless Watir.relaxed_locate?
 
       begin
-        wait_until(&:exists?)
+        wait_until(message: "waiting for alert", &:exists?)
       rescue Wait::TimeoutError
         unless Watir.default_timeout == 0
           message = "This code has slept for the duration of the default timeout "
