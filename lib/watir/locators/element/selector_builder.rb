@@ -2,7 +2,7 @@ module Watir
   module Locators
     class Element
       class SelectorBuilder
-        VALID_WHATS = [String, Regexp]
+        VALID_WHATS = [String, Regexp, TrueClass, FalseClass].freeze
         WILDCARD_ATTRIBUTE = /^(aria|data)_(.+)$/
 
         def initialize(query_scope, selector, valid_attributes)

@@ -47,6 +47,18 @@ describe Watir::Locators::Element::Locator do
         locate_one [:dir,   "foo",
                     :title, "bar"]
       end
+
+      it "handles selector with attribute presence" do
+        expect_one :xpath, ".//*[@data-view]"
+
+        locate_one [:data_view, true]
+      end
+
+      it "handles selector with attribute absence" do
+        expect_one :xpath, ".//*[not(@data-view)]"
+
+        locate_one [:data_view, false]
+      end
     end
 
     describe "with special cased selectors" do
@@ -288,10 +300,10 @@ describe Watir::Locators::Element::Locator do
         raise_error(TypeError, %[expected Integer, got "bar":String])
       end
 
-      it "raises a TypeError if selector value is not a String or Regexp" do
+      it "raises a TypeError if selector value is not a String, Regexp or Boolean" do
         num_type = RUBY_VERSION[/^\d+\.(\d+)/, 1].to_i >= 4 ? 'Integer' : 'Fixnum'
         expect { locate_one(tag_name: 123) }.to \
-        raise_error(TypeError, %[expected one of [String, Regexp], got 123:#{num_type}])
+        raise_error(TypeError, %[expected one of [String, Regexp, TrueClass, FalseClass], got 123:#{num_type}])
       end
 
       it "raises a MissingWayOfFindingObjectException if the attribute is not valid" do

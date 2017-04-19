@@ -1,3 +1,7 @@
+### 6.2.2 (Unreleased)
+
+* Allow locating elements by attribute presence/absence (#345)
+
 ### 6.2.1 (2017-03-22)
 
 * Allow sending text to FileField without checking element is #visible?

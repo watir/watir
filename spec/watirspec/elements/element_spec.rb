@@ -249,6 +249,20 @@ describe "Element" do
       end
     end
 
+    context "attribute presence" do
+      before { browser.goto WatirSpec.url_for("data_attributes.html") }
+
+      it "finds element by attribute presence" do
+        expect(browser.p(data_type: true)).to exist
+        expect(browser.p(class: true)).not_to exist
+      end
+
+      it "finds element by attribute absence" do
+        expect(browser.p(data_type: false)).not_to exist
+        expect(browser.p(class: false)).to exist
+      end
+    end
+
     it "doesn't raise when called on nested elements" do
       expect(browser.div(id: 'no_such_div').link(id: 'no_such_id')).to_not exist
     end
