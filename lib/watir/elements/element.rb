@@ -213,26 +213,31 @@ module Watir
     end
 
     #
-    # Flashes (change background color far a moment) element.
+    # Flashes (change background color to a new color and back a few times) element.
     #
     # @example
     #   browser.text_field(name: "new_user_first_name").flash
+    #   browser.text_field(name: "new_user_first_name").flash("green",3,0.05)
+    #   browser.text_field(name: "new_user_first_name").flash(color:"red")
+    #   browser.text_field(name: "new_user_first_name").flash(flashes:4)
+    #   browser.text_field(name: "new_user_first_name").flash(delay:0.1
     #
 
-    def flash
+    def flash(color: 'yellow', flashes: 10, delay: 0)
       background_color = style("backgroundColor")
       element_color = driver.execute_script("arguments[0].style.backgroundColor", @element)
 
-      10.times do |n|
-        color = (n % 2 == 0) ? "red" : background_color
-        driver.execute_script("arguments[0].style.backgroundColor = '#{color}'", @element)
+      flashes.times do |n|
+        nextcolor = (n % 2 == 0) ? color : background_color
+        driver.execute_script("arguments[0].style.backgroundColor = '#{nextcolor}'", @element)
+        sleep(delay)
       end
 
       driver.execute_script("arguments[0].style.backgroundColor = arguments[1]", @element, element_color)
 
       self
     end
-
+ 
     #
     # Returns value of the element.
     #
