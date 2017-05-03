@@ -215,12 +215,15 @@ module Watir
     #
     # Flashes (change background color to a new color and back a few times) element.
     #
-    # @examples
+    # @example
     #   browser.text_field(name: "new_user_first_name").flash
     #   browser.text_field(name: "new_user_first_name").flash("green",3,0.05)
+    #   browser.text_field(name: "new_user_first_name").flash(color:"red")
+    #   browser.text_field(name: "new_user_first_name").flash(flashes:4)
+    #   browser.text_field(name: "new_user_first_name").flash(delay:0.1
     #
 
-    def flash(color="yellow",flashes=5,delay=0.1)
+    def flash(color: 'yellow', flashes: 10, delay: 0)
       background_color = style("backgroundColor")
       element_color = driver.execute_script("arguments[0].style.backgroundColor", @element)
 
