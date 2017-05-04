@@ -637,7 +637,7 @@ module Watir
 
     def assert_is_element(obj)
       unless obj.kind_of? Watir::Element
-        raise TypeError, "execpted Watir::Element, got #{obj.inspect}:#{obj.class}"
+        raise TypeError, "expected Watir::Element, got #{obj.inspect}:#{obj.class}"
       end
     end
 
@@ -645,10 +645,25 @@ module Watir
       already_locked = Wait.timer.locked?
       Wait.timer = Wait::Timer.new(timeout: Watir.default_timeout) unless already_locked
       begin
+        retries ||= 0
         send exist_check
         yield
       rescue Selenium::WebDriver::Error::StaleElementReferenceError
         retry
+      rescue Selenium::WebDriver::Error::UnknownError => ex
+        if ex.message =~ /Other element would receive the click/
+          # Chromedriver and Legacy Firefox Driver throw UnknownError when element cannot be clicked
+          if (retries += 1) < 120
+            retry
+            sleep(0.25)
+          else
+            raise Selenium::WebDriver::Error::UnknownError,
+              "timed out after #{(0.25 * retries).to_i} seconds, waiting for #{inspect} to not be covered. " \
+              "Original message: #{ex.message}"
+          end
+        else
+          raise
+        end
       ensure
         Wait.timer.reset! unless already_locked
       end

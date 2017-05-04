@@ -89,6 +89,25 @@ describe Watir::Element do
       expect { watir_element.text }.to_not raise_error
     end
 
+    it 'retries when element is covered by an overlay' do
+      browser.goto WatirSpec.url_for('overlay_on_elements.html')
+
+      watir_element = browser.button(id: 'temporarily_covered_button')
+
+      Watir.default_timeout = 2
+      expect { watir_element.click }.to_not raise_error
+    end
+
+    it 'times out when element is covered by an overlay that never disappears' do
+      browser.goto WatirSpec.url_for('overlay_on_elements.html')
+
+      watir_element = browser.button(id: 'covered_button')
+      Watir.default_timeout = 2
+
+      expect do
+        Timeout::timeout(5) { watir_element.click }
+      end.to raise_error(Selenium::WebDriver::Error::UnknownError, /Other element would receive the click/)
+    end
   end
 
   bug "Actions Endpoint Not Yet Implemented", :firefox do
