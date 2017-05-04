@@ -2,20 +2,61 @@ require 'watirspec_helper'
 
 describe Watir::Browser do
 
-  describe ".new" do
-    it "passes the args to Selenium" do
-      expect(Selenium::WebDriver).to receive(:for).with(:firefox, :foo).and_return(nil)
-      Watir::Browser.new(:firefox, :foo)
-    end
+  not_compliant_on :remote do
+    describe ".new" do
+      before(:all) { ImplementationConfig.new(nil).start_remote_server(4544) }
 
-    it "takes a Driver instance as argument" do
-      mock_driver = double(Selenium::WebDriver::Driver)
-      expect(Selenium::WebDriver::Driver).to receive(:===).with(mock_driver).and_return(true)
-      expect { Watir::Browser.new(mock_driver) }.to_not raise_error
-    end
+      it "sets client timeout" do
+        new_browser = Watir::Browser.new(:chrome, client_timeout: 47)
+        expect(new_browser.driver.instance_variable_get('@bridge').http.timeout).to eq 47
+        new_browser.close
+      end
 
-    it "raises ArgumentError for invalid args" do
-      expect { Watir::Browser.new(Object.new) }.to raise_error(ArgumentError)
+      it "accepts http_client" do
+        timeout = 42
+        http_client = Selenium::WebDriver::Remote::Http::Default.new
+        http_client.timeout = timeout
+        new_browser = Watir::Browser.new(:chrome, http_client: http_client)
+        expect(new_browser.driver.instance_variable_get('@bridge').http.timeout).to eq 42
+        new_browser.close
+      end
+
+      it "uses default remote implementation" do
+        new_browser = Watir::Browser.new(:remote, port: 4544)
+        expect(new_browser.name).to eq :firefox
+        new_browser.close
+      end
+
+      it "accepts remote browser" do
+        new_browser = Watir::Browser.new(:remote, browser: :chrome, port: 4544)
+        expect(new_browser.name).to eq :chrome
+        new_browser.close
+      end
+
+      it "accepts url" do
+        url = "http://localhost:4544/wd/hub"
+        new_browser = Watir::Browser.new(:remote, url: url)
+        port = new_browser.driver.instance_variable_get('@bridge').http.instance_variable_get('@server_url').port
+        expect(port).to eq 4544
+        new_browser.close
+      end
+
+      it "accepts desired_capability" do
+        caps = Selenium::WebDriver::Remote::Capabilities.chrome
+        new_browser = Watir::Browser.new(:remote, desired_capabilities: caps, port: 4544)
+        expect(new_browser.name).to eq :firefox
+        new_browser.close
+      end
+
+      it "takes a driver instance as argument" do
+        mock_driver = double(Selenium::WebDriver::Driver)
+        expect(Selenium::WebDriver::Driver).to receive(:===).with(mock_driver).and_return(true)
+        expect { Watir::Browser.new(mock_driver) }.to_not raise_error
+      end
+
+      it "raises ArgumentError for invalid args" do
+        expect { Watir::Browser.new(Object.new) }.to raise_error(ArgumentError)
+      end
     end
   end
 

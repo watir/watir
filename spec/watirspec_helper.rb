@@ -21,13 +21,11 @@ class ImplementationConfig
     set_guard_proc
   end
 
-  private
-
-  def start_remote_server
+  def start_remote_server(port = 4444)
     require 'selenium/server'
 
     @server ||= Selenium::Server.new(remote_server_jar,
-                                     port: Selenium::WebDriver::PortProber.above(4444),
+                                     port: Selenium::WebDriver::PortProber.above(port),
                                      log: !!$DEBUG,
                                      background: true,
                                      timeout: 60)
@@ -35,6 +33,8 @@ class ImplementationConfig
     @server.start
     at_exit { @server.stop }
   end
+
+  private
 
   def remote_server_jar
     if ENV['LOCAL_SELENIUM']
@@ -139,44 +139,30 @@ class ImplementationConfig
   def firefox_args
     path = ENV['FIREFOX_BINARY']
     Selenium::WebDriver::Firefox::Binary.path = path if path
-    {desired_capabilities: Selenium::WebDriver::Remote::Capabilities.firefox}
+    {firefox_options: {binary: ENV['FIREFOX_BINARY']}, browser: :firefox}
   end
 
   def ff_legacy_args
     @browser = :firefox
     @ff_legacy = true
-    caps = Selenium::WebDriver::Remote::Capabilities.firefox(marionette: false)
-    path = ENV['FF_LEGACY_BINARY']
-    Selenium::WebDriver::Firefox::Binary.path = path if path
-    {desired_capabilities: caps}
+    {marionette: false, firefox_path: ENV['FF_LEGACY_BINARY'], browser: :firefox}
   end
 
   def chrome_args
-    opts = {args: ["--disable-translate"],
-            desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome}
+    args = ["--disable-translate"]
+    # https://github.com/travis-ci/travis-ci/issues/938
+    args << "--no-sandbox" if ENV['TRAVIS']
 
-    if url = ENV['WATIR_CHROME_SERVER']
-      opts[:url] = url
-    end
-
-    if driver = ENV['WATIR_CHROME_DRIVER']
-      Selenium::WebDriver::Chrome.driver_path = driver
-    end
-
-    if path = ENV['WATIR_CHROME_BINARY']
-      Selenium::WebDriver::Chrome.path = path
-    end
-
-    if ENV['TRAVIS']
-      opts[:args] << "--no-sandbox" # https://github.com/travis-ci/travis-ci/issues/938
-    end
-
+    opts = {chrome_args: {args: args}, browser: :chrome}
+    opts[:url] = ENV['WATIR_CHROME_SERVER'] if ENV['WATIR_CHROME_SERVER']
+    opts[:driver_path] = ENV['WATIR_CHROME_DRIVER'] if ENV['WATIR_CHROME_DRIVER']
+    opts[:path] = ENV['WATIR_CHROME_BINARY'] if ENV['WATIR_CHROME_BINARY']
     opts
   end
 
   def remote_args
-    url = ENV["REMOTE_SERVER_URL"] || "http://127.0.0.1:#{@server.port}/wd/hub"
-    opts = {}
+    opts = {browser: remote_browser}
+    opts[:url] = ENV["REMOTE_SERVER_URL"] || "http://127.0.0.1:#{@server.port}/wd/hub"
     if remote_browser == :ff_legacy
       path = ENV['FF_LEGACY_BINARY']
       opts[:firefox_binary] = path if path
@@ -188,8 +174,7 @@ class ImplementationConfig
       opts[:firefox_binary] = path if path
     end
 
-    caps = Selenium::WebDriver::Remote::Capabilities.send(remote_browser, opts)
-    {url: url, desired_capabilities: caps}
+    opts
   end
 
   class SelectorListener < Selenium::WebDriver::Support::AbstractEventListener
