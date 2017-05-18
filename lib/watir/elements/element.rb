@@ -132,7 +132,7 @@ module Watir
         end
       end
 
-      browser.after_hooks.run
+      browser.after_hooks.run unless browser.after_hooks.length == 0
     end
 
     #
