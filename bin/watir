@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+require 'watir/cli/cli'
+Watir::Cli::Cli.new
