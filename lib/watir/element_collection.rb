@@ -74,6 +74,28 @@ module Watir
     end
 
     #
+    # List of block calls on each element in this collection
+    #
+    # @param [Block]
+    # @return [Proc]
+    #
+
+    def map &block
+      raise ArgumentError, "#map requires a block as an argument" unless block_given?
+      to_a.map { |a| block.call(a) }
+    end
+
+    #
+    # List of text values of each element in this collection
+    #
+    # @return [String]
+    #
+
+    def text
+      map(&:text)
+    end
+
+    #
     # This collection as an Array.
     #
     # @return [Array<Watir::Element>]

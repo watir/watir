@@ -33,4 +33,12 @@ describe "Elements" do
     end
   end
 
+  describe "#text" do
+    it "returns an array of text for each item in the collection" do
+      array = ['Denmark', 'Norway', 'Sweden', 'United Kingdom', 'USA', 'Germany']
+      opts = browser.select(id: 'new_user_country').options
+      expect(opts.text).to eq array
+    end
+  end
+
 end
