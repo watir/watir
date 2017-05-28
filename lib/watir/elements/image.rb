@@ -23,8 +23,9 @@ module Watir
     #
 
     def width
-      wait_for_exists
-      driver.execute_script "return arguments[0].width", @element
+      element_call do
+        driver.execute_script "return arguments[0].width", @element
+      end
     end
 
   end # Image
