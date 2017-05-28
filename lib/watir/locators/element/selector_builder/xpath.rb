@@ -28,6 +28,10 @@ module Watir
             f = selectors.map do |key, val|
               if val.is_a?(Array)
                 "(" + val.map { |v| equal_pair(building, key, v) }.join(" or ") + ")"
+              elsif val == true
+                attribute_presence(key)
+              elsif val == false
+                attribute_absence(key)
               else
                 equal_pair(building, key, val)
               end
@@ -64,6 +68,16 @@ module Watir
             else
               "@#{key.to_s.tr("_", "-")}"
             end
+          end
+
+          private
+
+          def attribute_presence(attribute)
+            lhs_for(nil, attribute)
+          end
+
+          def attribute_absence(attribute)
+            "not(#{lhs_for(nil, attribute)})"
           end
         end
       end

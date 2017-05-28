@@ -1,3 +1,13 @@
+### 6.2.2 (Unreleased)
+
+* Allow locating elements by attribute presence/absence (#345)
+
+### 6.2.1 (2017-03-22)
+
+* Allow sending text to FileField without checking element is #visible?
+* Fix bug waiting for Alerts
+* Fix bug from resetting stale element (thanks DJCecil2)
+
 ### 6.2.0 (2017-02-20)
 
 * `Element#wait_while_present` exits when locator no longer matches
