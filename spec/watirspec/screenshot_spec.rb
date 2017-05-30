@@ -41,9 +41,12 @@ describe "Watir::Screenshot" do
 
     it 'raises an ArgumentError if extension of provided file is not png' do
       path = "#{Dir.tmpdir}/test#{SecureRandom.urlsafe_base64}.jpg"
+      message = "#save will save an image in PNG format because Webdriver supports only PNG screenshots\n"
       expect do
-        browser.screenshot.save(path)
-      end.to raise_error(ArgumentError)
+        assert_saves_png_file(path) do
+          browser.screenshot.save(path)
+        end
+      end.to output(message).to_stderr
     end
 
     def assert_saves_png_file(path)

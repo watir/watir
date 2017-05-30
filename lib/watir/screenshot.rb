@@ -20,7 +20,7 @@ module Watir
     def save(path)
       extension = File.extname(path).downcase
       if !extension.empty? && !PNG_EXTENSIONS.include?(extension)
-        raise ArgumentError, "#save can only save PNG files so paths with non-PNG extensions are not supported"
+        warn "#save will save an image in PNG format because Webdriver supports only PNG screenshots"
       end
       @driver.save_screenshot(path)
     end
