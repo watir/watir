@@ -1,6 +1,8 @@
 module Watir
   class Screenshot
 
+    PNG_EXTENSIONS = ['.png']
+
     def initialize(driver)
       @driver = driver
     end
@@ -12,9 +14,14 @@ module Watir
     #   browser.screenshot.save "screenshot.png"
     #
     # @param [String] path
+    # @raise [ArgumentError] if path has a non-png extension
     #
 
     def save(path)
+      extension = File.extname(path).downcase
+      if !extension.empty? && !PNG_EXTENSIONS.include?(extension)
+        warn "#save will save an image in PNG format because Webdriver supports only PNG screenshots"
+      end
       @driver.save_screenshot(path)
     end
 
