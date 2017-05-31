@@ -115,6 +115,17 @@ module Watir
       options.select { |e| e.selected? }
     end
 
+
+    # Returns an array of currently selected options.
+    #
+    # @return [Array<Watir::Option>]
+    #
+
+    def selected_option
+      options.find { |e| e.selected? }
+    end
+
+
     private
 
     def select_by(how, str_or_rx)
