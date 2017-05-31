@@ -102,6 +102,18 @@ describe "SelectList" do
       expect { browser.select_list(index: 1337).value }.to raise_unknown_object_exception
     end
   end
+  
+  describe "#text" do
+    it "returns the text of the selected option" do
+      expect(browser.select_list(index: 0).text).to eq "Norway"
+      browser.select_list(index: 0).select(/Sweden/)
+      expect(browser.select_list(index: 0).text).to eq "Sweden"
+    end
+    
+    it "raises UnknownObjectException if the select list doesn't exist" do
+      expect { browser.select_list(index: 1337).text }.to raise_unknown_object_exception
+    end
+  end
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
