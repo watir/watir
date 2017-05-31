@@ -104,25 +104,25 @@ module Watir
       o.value
     end
 
-
     #
-    # Returns a single selected option.
+    # Returns the text of the first selected option in the select list.
+    # Returns nil if no option is selected.
+    #
+    # @return [String, nil]
+    #
+
+    def text
+      o = options.find { |e| e.selected? } || return
+      o.text
+    end
+    
+    # Returns an array of currently selected options.
     #
     # @return [Array<Watir::Option>]
     #
 
     def selected_options
       options.select { |e| e.selected? }
-    end
-
-
-    # Returns an array of currently selected options.
-    #
-    # @return [Array<Watir::Option>]
-    #
-
-    def selected_option
-      options.find { |e| e.selected? }
     end
 
 
