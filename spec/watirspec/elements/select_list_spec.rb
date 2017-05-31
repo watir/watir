@@ -167,6 +167,16 @@ describe "SelectList" do
       expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["English", "Norwegian"]
     end
   end
+  
+  describe "#selected_option" do
+    it "should raise UnknownObjectException if the select list doesn't exist" do
+      expect(browser.select_list(name: 'no_such_name').selected_option).to raise_unknown_object_exception
+    end
+    
+    it "gets the only currently selected item" do
+      expect(browser.select_list(id: "new_user_country").selected_option.text).to eq "Norway"
+    end
+  end
 
   describe "#clear" do
     bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1255957", :firefox do
