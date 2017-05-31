@@ -106,7 +106,7 @@ module Watir
 
 
     #
-    # Returns an array of currently selected options.
+    # Returns a single selected option.
     #
     # @return [Array<Watir::Option>]
     #
