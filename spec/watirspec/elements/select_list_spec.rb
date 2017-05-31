@@ -102,6 +102,18 @@ describe "SelectList" do
       expect { browser.select_list(index: 1337).value }.to raise_unknown_object_exception
     end
   end
+  
+  describe "#text" do
+    it "returns the text of the selected option" do
+      expect(browser.select_list(index: 0).text).to eq "Norway"
+      browser.select_list(index: 0).select(/Sweden/)
+      expect(browser.select_list(index: 0).text).to eq "Sweden"
+    end
+    
+    it "raises UnknownObjectException if the select list doesn't exist" do
+      expect { browser.select_list(index: 1337).text }.to raise_unknown_object_exception
+    end
+  end
 
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
@@ -165,16 +177,6 @@ describe "SelectList" do
     it "gets the currently selected item(s)" do
       expect(browser.select_list(name: "new_user_country").selected_options.map(&:text)).to eq ["Norway"]
       expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["English", "Norwegian"]
-    end
-  end
-  
-  describe "#selected_option" do
-    it "should raise UnknownObjectException if the select list doesn't exist" do
-      expect(browser.select_list(name: 'no_such_name').selected_option).to raise_unknown_object_exception
-    end
-    
-    it "gets the only currently selected item" do
-      expect(browser.select_list(id: "new_user_country").selected_option.text).to eq "Norway"
     end
   end
 
