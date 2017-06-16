@@ -641,19 +641,14 @@ module Watir
       already_locked = Wait.timer.locked?
       Wait.timer = Wait::Timer.new(timeout: Watir.default_timeout) unless already_locked
       begin
-        case exist_check
-        when :wait_for_exists
-          wait_for_exists
-        when :wait_for_enabled
+        if exist_check == :wait_for_enabled
           if self.is_a?(Input) || self.is_a?(Button) || self.is_a?(Select) || self.is_a?(Option)
             wait_for_enabled
           else
             wait_for_exists
           end
-        when :wait_for_writable
-          wait_for_writable
         else
-          assert_exists
+          send(exist_check)
         end
 
         yield
