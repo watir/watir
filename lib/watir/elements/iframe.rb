@@ -13,7 +13,7 @@ module Watir
       element = locator.locate
       element or raise unknown_exception, "unable to locate #{@selector[:tag_name]} using #{selector_string}"
 
-      FramedDriver.new(element, driver)
+      @element = FramedDriver.new(element, driver)
     end
 
     def ==(other)

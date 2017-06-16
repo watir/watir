@@ -439,17 +439,17 @@ module Watir
 
       if tag_name == "input"
         klass = case elem.attribute(:type)
-          when *Button::VALID_TYPES
-            Button
-          when 'checkbox'
-            CheckBox
-          when 'radio'
-            Radio
-          when 'file'
-            FileField
-          else
-            TextField
-          end
+                when *Button::VALID_TYPES
+                  Button
+                when 'checkbox'
+                  CheckBox
+                when 'radio'
+                  Radio
+                when 'file'
+                  FileField
+                else
+                  TextField
+                end
       else
         klass = Watir.element_class_for(tag_name)
       end
@@ -496,39 +496,27 @@ module Watir
         @query_scope.wait_for_exists
         wait_until(&:exists?)
       rescue Watir::Wait::TimeoutError
-        unless Watir.default_timeout == 0
-          message = "This code has slept for the duration of the default timeout "
-          message << "waiting for an Element to exist. If the test is still passing, "
-          message << "consider using Element#exists? instead of rescuing UnknownObjectException"
-          warn message
-        end
-        raise unknown_exception, "timed out after #{Watir.default_timeout} seconds, "\
-                                         "waiting for #{inspect} to be located"
+        msg = "timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to be located"
+        raise unknown_exception, msg
       end
     end
 
     def wait_for_present
-      return assert_exists unless Watir.relaxed_locate?
+      return visible? unless Watir.relaxed_locate?
+      return if present?
 
-      wait_for_exists
       begin
         @query_scope.wait_for_present
         wait_until_present
-      rescue Watir::Wait::TimeoutError => ex
-        unless Watir.default_timeout == 0
-          message = "This code has slept for the duration of the default timeout "
-          message << "waiting for an Element to be present. If the test is still passing, "
-          message << "consider using Element#exists? instead of rescuing UnknownObjectException"
-          warn message
-        end
-        raise unknown_exception, "element located, but #{ex.message}"
+      rescue Watir::Wait::TimeoutError
+        msg = "element located, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to be present"
+        raise unknown_exception, msg
       end
     end
 
     def wait_for_enabled
       return assert_enabled unless Watir.relaxed_locate?
 
-      wait_for_present
       begin
         wait_until(&:enabled?)
       rescue Watir::Wait::TimeoutError
@@ -538,9 +526,11 @@ module Watir
     end
 
     def wait_for_writable
-      return assert_writable unless Watir.relaxed_locate?
-
       wait_for_enabled
+      unless Watir.relaxed_locate?
+        raise_writable unless !respond_to?(:readonly?) || !readonly?
+      end
+
       begin
         wait_until { !respond_to?(:readonly?) || !readonly? }
       rescue Watir::Wait::TimeoutError
@@ -576,7 +566,7 @@ module Watir
       selector_builder = selector_builder_class.new(@query_scope, @selector, self.class.attribute_list)
       locator = locator_class.new(@query_scope, @selector, selector_builder, element_validator)
 
-      locator.locate
+      @element = locator.locate
     end
 
     def selector_string
@@ -588,6 +578,20 @@ module Watir
 
     def unknown_exception
       Watir::Exception::UnknownObjectException
+    end
+
+    def raise_writable
+      message = "element present and enabled, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to not be readonly"
+      raise ObjectReadOnlyException, message
+    end
+
+    def raise_disabled
+      message = "element present and enabled, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to not be disabled"
+      raise ObjectDisabledException, message
+    end
+
+    def raise_present
+      raise unknown_exception, "element located, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to be present"
     end
 
     def locator_class
@@ -627,14 +631,6 @@ module Watir
       end
     end
 
-    def assert_writable
-      assert_enabled
-
-      if respond_to?(:readonly?) && readonly?
-        raise ObjectReadOnlyException, "object is read only #{inspect}"
-      end
-    end
-
     def assert_is_element(obj)
       unless obj.kind_of? Watir::Element
         raise TypeError, "execpted Watir::Element, got #{obj.inspect}:#{obj.class}"
@@ -645,9 +641,32 @@ module Watir
       already_locked = Wait.timer.locked?
       Wait.timer = Wait::Timer.new(timeout: Watir.default_timeout) unless already_locked
       begin
-        send exist_check
+        case exist_check
+        when :wait_for_exists
+          wait_for_exists
+        when :wait_for_enabled
+          if self.is_a?(Input) || self.is_a?(Button) || self.is_a?(Select) || self.is_a?(Option)
+            wait_for_enabled
+          else
+            wait_for_exists
+          end
+        when :wait_for_writable
+          wait_for_writable
+        else
+          assert_exists
+        end
+
         yield
       rescue Selenium::WebDriver::Error::StaleElementReferenceError
+        retry
+      rescue Selenium::WebDriver::Error::ElementNotVisibleError
+        raise_present if Wait.timer.remaining_time < 0
+        raise_present unless exist_check == :wait_for_present || exist_check == :wait_for_enabled
+        retry
+      rescue Selenium::WebDriver::Error::InvalidElementStateError => ex
+        raise_disabled unless Wait.timer.remaining_time > 0
+        raise_disabled unless exist_check == :wait_for_writable || exist_check == :wait_for_enabled
+        raise_disabled unless ex.message.include?('user-editable')
         retry
       ensure
         Wait.timer.reset! unless already_locked
