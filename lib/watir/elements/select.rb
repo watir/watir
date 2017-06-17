@@ -125,6 +125,7 @@ module Watir
       options.select { |e| e.selected? }
     end
 
+
     private
 
     def select_by(how, str_or_rx)
