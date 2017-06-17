@@ -114,7 +114,7 @@ module Watir
     private
 
     def elements
-      @query_scope.is_a?(IFrame) ? @query_scope.switch_to! : @query_scope.send(:assert_exists)
+      @query_scope.send :ensure_context
 
       element_validator = element_validator_class.new
       selector_builder = selector_builder_class.new(@query_scope, @selector, element_class.attribute_list)
