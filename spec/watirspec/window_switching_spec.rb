@@ -372,19 +372,17 @@ not_compliant_on :safari do
       end
 
       not_compliant_on :firefox do
-        bug "https://github.com/detro/ghostdriver/issues/466", :phantomjs do
-          it "should move the window" do
-            initial_pos = browser.window.position
+        it "should move the window" do
+          initial_pos = browser.window.position
 
-            browser.window.move_to(
+          browser.window.move_to(
               initial_pos.x + 2,
               initial_pos.y + 2
-            )
+          )
 
-            new_pos = browser.window.position
-            expect(new_pos.x).to eq initial_pos.x + 2
-            expect(new_pos.y).to eq initial_pos.y + 2
-          end
+          new_pos = browser.window.position
+          expect(new_pos.x).to eq initial_pos.x + 2
+          expect(new_pos.y).to eq initial_pos.y + 2
         end
       end
 

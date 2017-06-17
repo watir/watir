@@ -126,7 +126,6 @@ namespace :spec do
   task browsers: [:chrome,
                   :firefox,
                   :ff_legacy,
-                  :phantomjs,
                   (:safari if Selenium::WebDriver::Platform.mac?),
                   (:ie if Selenium::WebDriver::Platform.windows?),
                   (:edge if Selenium::WebDriver::Platform.windows?)].compact
@@ -135,12 +134,11 @@ namespace :spec do
   task remote_browsers: [:remote_chrome,
                          :remote_firefox,
                          :remote_ff_legacy,
-                         :remote_phantomjs,
                          (:remote_safari if Selenium::WebDriver::Platform.mac?),
                          (:remote_ie if Selenium::WebDriver::Platform.windows?),
                          (:remote_edge if Selenium::WebDriver::Platform.windows?)].compact
 
-  %w(firefox ff_legacy chrome safari phantomjs ie edge).each do |browser|
+  %w(firefox ff_legacy chrome safari ie edge).each do |browser|
     desc "Run specs in #{browser}"
     task browser do
       ENV['WATIR_BROWSER'] = browser

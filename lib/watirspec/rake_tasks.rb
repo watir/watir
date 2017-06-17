@@ -83,9 +83,9 @@ WatirSpec.implementation do |watirspec|
   #
   # watirspec.name = :watizzle
   # watirspec.browser_class = Watir::Browser
-  # watirspec.browser_args = [:phantomjs, {}]
+  # watirspec.browser_args = [:firefox, {}]
   # watirspec.guard_proc = lambda do |args|
-  #   args.include?(:phantomjs)
+  #   args.include?(:firefox)
   # end
 end
 

@@ -91,10 +91,6 @@ class ImplementationConfig
     browser == :safari
   end
 
-  def phantomjs?
-    browser == :phantomjs
-  end
-
   def remote?
     browser == :remote
   end

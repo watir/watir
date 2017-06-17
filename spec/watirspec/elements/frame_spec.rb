@@ -50,15 +50,13 @@ describe "Frame" do
       expect(browser.frame(xpath: "//frame[@id='no_such_id']")).to_not exist
     end
 
-    bug "https://github.com/detro/ghostdriver/issues/159", :phantomjs do
-      bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1255946", :firefox do
-        it "handles nested frames" do
-          browser.goto(WatirSpec.url_for("nested_frames.html"))
+    bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1255946", :firefox do
+      it "handles nested frames" do
+        browser.goto(WatirSpec.url_for("nested_frames.html"))
 
-          browser.frame(id: "two").frame(id: "three").link(id: "four").click
+        browser.frame(id: "two").frame(id: "three").link(id: "four").click
 
-          Watir::Wait.until { browser.title == "definition_lists" }
-        end
+        Watir::Wait.until { browser.title == "definition_lists" }
       end
     end
 
