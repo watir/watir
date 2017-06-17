@@ -3,7 +3,7 @@ module Watir
 
     def locate
       return if @selector.empty?
-      @query_scope.assert_exists
+      @query_scope.ensure_context
 
       selector = @selector.merge(tag_name: frame_tag)
       element_validator = element_validator_class.new
@@ -13,7 +13,7 @@ module Watir
       element = locator.locate
       element or raise unknown_exception, "unable to locate #{@selector[:tag_name]} using #{selector_string}"
 
-      @element = FramedDriver.new(element, driver)
+      @element = FramedDriver.new(element, browser)
     end
 
     def ==(other)
@@ -51,11 +51,15 @@ module Watir
 
     def html
       wait_for_exists
-      wd.page_source
+      @element.page_source
     end
 
     def execute_script(*args)
       browser.execute_script(*args)
+    end
+
+    def ensure_context
+      switch_to!
     end
 
     private
@@ -109,9 +113,10 @@ module Watir
   #
 
   class FramedDriver
-    def initialize(element, driver)
+    def initialize(element, browser)
       @element = element
-      @driver = driver
+      @browser = browser
+      @driver = browser.driver
     end
 
     def ==(other)
@@ -143,6 +148,7 @@ module Watir
 
     def switch!
       @driver.switch_to.frame @element
+      @browser.default_context = false
     rescue Selenium::WebDriver::Error::NoSuchFrameError => e
       raise Exception::UnknownFrameException, e.message
     end

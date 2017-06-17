@@ -9,6 +9,7 @@ module Watir
     include HasWindow
     include Waitable
 
+    attr_writer :default_context
     attr_reader :driver
     attr_reader :after_hooks
     alias_method :wd, :driver # ensures duck typing with Watir::Element
@@ -51,8 +52,8 @@ module Watir
       end
 
       @after_hooks = AfterHooks.new(self)
-      @current_frame  = nil
       @closed = false
+      @default_context = true
     end
 
     def inspect
@@ -292,10 +293,7 @@ module Watir
     #
 
     def exist?
-      assert_exists
-      true
-    rescue Exception::NoMatchingWindowFoundException, Exception::Error
-      false
+      !@closed && window.present?
     end
     alias_method :exists?, :exist?
 
@@ -306,17 +304,16 @@ module Watir
     #
 
     def assert_exists
-      if @closed
-        raise Exception::Error, "browser was closed"
-      elsif !window.present?
-        raise Exception::NoMatchingWindowFoundException, "browser window was closed"
-      else
-        driver.switch_to.default_content
-        true
-      end
+      ensure_context
+      return if window.present?
+      raise Exception::NoMatchingWindowFoundException, "browser window was closed"
     end
-    alias_method :wait_for_exists, :assert_exists
-    alias_method :wait_for_present, :assert_exists
+
+    def ensure_context
+      raise Exception::Error, "browser was closed" if @closed
+      driver.switch_to.default_content unless @default_context
+      @default_context = true
+    end
 
     def browser
       self

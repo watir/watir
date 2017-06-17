@@ -364,7 +364,8 @@ module Watir
     #
 
     def wd
-      assert_exists
+      return driver if @element.is_a? FramedDriver
+      assert_exists if @element.nil?
       @element
     end
 
@@ -493,7 +494,7 @@ module Watir
       return if exists? # Performance shortcut
 
       begin
-        @query_scope.wait_for_exists
+        @query_scope.wait_for_exists unless @query_scope.is_a? Browser
         wait_until(&:exists?)
       rescue Watir::Wait::TimeoutError
         msg = "timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to be located"
@@ -526,6 +527,7 @@ module Watir
     end
 
     def wait_for_writable
+      wait_for_exists
       wait_for_enabled
       unless Watir.relaxed_locate?
         raise_writable unless !respond_to?(:readonly?) || !readonly?
@@ -542,7 +544,7 @@ module Watir
     # Ensure that the element exists, making sure that it is not stale and located if necessary
     def assert_exists
       if @element && @selector.empty?
-        ensure_context
+        @query_scope.ensure_context
         reset! if stale?
       elsif @element && !stale?
         return
@@ -560,7 +562,7 @@ module Watir
     end
 
     def locate
-      ensure_context
+      @query_scope.ensure_context
 
       element_validator = element_validator_class.new
       selector_builder = selector_builder_class.new(@query_scope, @selector, self.class.attribute_list)
@@ -572,6 +574,11 @@ module Watir
     def selector_string
       return @selector.inspect if @query_scope.is_a?(Browser)
       "#{@query_scope.selector_string} --> #{@selector.inspect}"
+    end
+
+    # Ensure the driver is in the desired browser context
+    def ensure_context
+      assert_exists
     end
 
     private
@@ -616,11 +623,6 @@ module Watir
       self.class.name.split('::').last
     end
 
-    # Ensure the driver is in the desired browser context
-    def ensure_context
-      @query_scope.is_a?(IFrame) ? @query_scope.switch_to! : @query_scope.assert_exists
-    end
-
     def attribute?(attribute_name)
       !attribute_value(attribute_name).nil?
     end
@@ -663,6 +665,8 @@ module Watir
         raise_disabled unless exist_check == :wait_for_writable || exist_check == :wait_for_enabled
         raise_disabled unless ex.message.include?('user-editable')
         retry
+      rescue Selenium::WebDriver::Error::NoSuchWindowError
+        raise Exception::NoMatchingWindowFoundException, "browser window was closed"
       ensure
         Wait.timer.reset! unless already_locked
       end
