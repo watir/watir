@@ -201,12 +201,10 @@ describe "SelectList" do
     end
 
     not_compliant_on :safari do
-      bug "Not firing events", :phantomjs do
-        bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1255957", :firefox do
-          it "fires onchange event" do
-            browser.select_list(name: "new_user_languages").clear
-            expect(messages.size).to eq 2
-          end
+      bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1255957", :firefox do
+        it "fires onchange event" do
+          browser.select_list(name: "new_user_languages").clear
+          expect(messages.size).to eq 2
         end
       end
 
@@ -317,23 +315,19 @@ describe "SelectList" do
     end
 
     not_compliant_on :safari do
-      bug "Not firing events", :phantomjs do
-        it "fires onchange event when selecting an item" do
-          browser.select_list(id: "new_user_languages").select("Danish")
-          expect(messages).to eq ['changed language']
-        end
+      it "fires onchange event when selecting an item" do
+        browser.select_list(id: "new_user_languages").select("Danish")
+        expect(messages).to eq ['changed language']
       end
 
-      bug "Not firing events", :phantomjs do
-        bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1255957", :firefox do
-          it "doesn't fire onchange event when selecting an already selected item" do
-            browser.select_list(id: "new_user_languages").clear # removes the two pre-selected options
-            browser.select_list(id: "new_user_languages").select("English")
-            expect(messages.size).to eq 3
+      bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1255957", :firefox do
+        it "doesn't fire onchange event when selecting an already selected item" do
+          browser.select_list(id: "new_user_languages").clear # removes the two pre-selected options
+          browser.select_list(id: "new_user_languages").select("English")
+          expect(messages.size).to eq 3
 
-            browser.select_list(id: "new_user_languages").select("English")
-            expect(messages.size).to eq 3
-          end
+          browser.select_list(id: "new_user_languages").select("English")
+          expect(messages.size).to eq 3
         end
       end
     end

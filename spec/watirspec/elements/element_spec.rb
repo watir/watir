@@ -291,8 +291,7 @@ describe "Element" do
   bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1255906", :firefox do
     describe '#send_keys' do
       before(:each) do
-        phantom = browser.driver.capabilities.browser_name == 'phantomjs'
-        @c = Selenium::WebDriver::Platform.mac? && !phantom ? :command : :control
+        @c = Selenium::WebDriver::Platform.mac? ? :command : :control
         browser.goto(WatirSpec.url_for('keylogger.html'))
       end
 
