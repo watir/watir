@@ -1,6 +1,11 @@
 ### 6.2.2 (Unreleased)
 
 * Allow locating elements by attribute presence/absence (#345)
+* Element#flash configurable by color, number, and delay (thanks Paul3816547290)
+* Implement Select#text like Select#value (thanks Arik Jones)
+* Optimize Select#selected_options, Select#value, and Select#text with javascript (thanks Andrei Botalov)
+* Support #execute_script from inside frame context
+* Deprecate PhantomJS Support
 
 ### 6.2.1 (2017-03-22)
 

@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name        = 'watir'
-  s.version     = '6.2.1'
+  s.version     = '6.2.2'
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['Alex Rodionov', 'Titus Fortner']
   s.email       = ['p0deje@gmail.com', 'titusfortner@gmail.com']
@@ -33,4 +33,5 @@ It facilitates the writing of automated tests by mimicing the behavior of a user
   s.add_development_dependency 'pry'
   s.add_development_dependency 'coveralls'
   s.add_development_dependency 'yard-doctest', '>= 0.1.8'
+  s.add_development_dependency 'webdrivers'
 end

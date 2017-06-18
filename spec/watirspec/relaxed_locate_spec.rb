@@ -201,7 +201,14 @@ describe 'Watir#relaxed_locate?' do
         it 'raises exception immediately' do
           start_time = ::Time.now
           browser.a(id: 'show_bar').click
-          expect { browser.div(id: 'bar').click }.to raise_exception(Selenium::WebDriver::Error::ElementNotVisibleError)
+
+          compliant_on :firefox do
+            expect { browser.div(id: 'bar').click }.to raise_exception(Selenium::WebDriver::Error::ElementNotInteractableError)
+          end
+          not_compliant_on :firefox do
+            expect { browser.div(id: 'bar').click }.to raise_exception(Selenium::WebDriver::Error::ElementNotVisibleError)
+          end
+
           expect(::Time.now - start_time).to be < 1
         end
       end
