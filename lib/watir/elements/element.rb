@@ -352,6 +352,14 @@ module Watir
     end
 
     #
+    # Selects the text of the given element
+    #
+
+    def select_text(str)
+      element_call { execute_atom :selectText, @element, str }
+    end
+
+    #
     # @api private
     #
 

@@ -10,6 +10,8 @@ module Watir
     load :fireEvent
     load :getOuterHtml
     load :getInnerHtml
+    load :selectText
+    load :selectedText
 
     private
 

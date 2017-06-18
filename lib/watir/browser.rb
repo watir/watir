@@ -286,6 +286,14 @@ module Watir
     end
 
     #
+    # Selects the text of the given element
+    #
+
+    def selected_text
+      execute_atom :selectedText
+    end
+
+    #
     # Returns true if browser is not closed and false otherwise.
     #
     # @return [Boolean]
