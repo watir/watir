@@ -239,7 +239,7 @@ not_compliant_on :safari do
     describe "#wait_while_present" do
       it "waits until the element disappears" do
         browser.a(id: 'hide_foo').click
-        expect { browser.div(id: 'foo').wait_while_present(timeout: 1) }.to_not raise_exception
+        expect { browser.div(id: 'foo').wait_while_present(timeout: 2) }.to_not raise_exception
       end
 
       it "times out if the element doesn't disappear" do

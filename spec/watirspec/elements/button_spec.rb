@@ -226,6 +226,10 @@ describe "Button" do
     it "raises UnknownObjectException if the button doesn't exist" do
       expect { browser.button(name: "no_such_name").enabled? }.to raise_unknown_object_exception
     end
+
+    it "raises ObjectDisabledException if disabled button is clicked" do
+      expect { browser.button(name: "new_user_submit_disabled").click }.to raise_object_disabled_exception
+    end
   end
 
   describe "#disabled?" do
