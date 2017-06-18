@@ -132,7 +132,7 @@ module Watir
           }
           return result;
         SCRIPT
-        browser.execute_script(script, self)
+        @query_scope.execute_script(script, self)
       end
     end
 

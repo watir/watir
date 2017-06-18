@@ -54,8 +54,17 @@ module Watir
       wd.page_source
     end
 
-    def execute_script(*args)
-      browser.execute_script(*args)
+    #
+    # Executes JavaScript snippet in context of frame.
+    #
+    # @see Watir::Browser#execute_script
+    #
+
+    def execute_script(script, *args)
+      args.map! { |e| e.kind_of?(Watir::Element) ? e.wd : e }
+      returned = driver.execute_script(script, *args)
+
+      browser.send :wrap_elements_in, self, returned
     end
 
     private

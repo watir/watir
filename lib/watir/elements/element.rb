@@ -468,6 +468,13 @@ module Watir
     end
 
     #
+    # Delegates script execution to Browser or IFrame.
+    #
+    def execute_script(script, *args)
+      @query_scope.execute_script(script, *args)
+    end
+
+    #
     # Returns true if a previously located element is no longer attached to DOM.
     #
     # @return [Boolean]
