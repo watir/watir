@@ -112,8 +112,8 @@ module Watir
     #
 
     def text
-      o = options.find { |e| e.selected? } || return
-      o.text
+      option = selected_options.first
+      option && option.text
     end
     
     # Returns an array of currently selected options.
