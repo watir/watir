@@ -258,7 +258,7 @@ module Watir
       args.map! { |e| e.kind_of?(Watir::Element) ? e.wd : e }
       returned = @driver.execute_script(script, *args)
 
-      wrap_elements_in(returned)
+      wrap_elements_in(self, returned)
     end
 
     #
@@ -324,14 +324,14 @@ module Watir
 
     private
 
-    def wrap_elements_in(obj)
+    def wrap_elements_in(scope, obj)
       case obj
       when Selenium::WebDriver::Element
-        wrap_element(obj)
+        wrap_element(scope, obj)
       when Array
-        obj.map { |e| wrap_elements_in(e) }
+        obj.map { |e| wrap_elements_in(scope, e) }
       when Hash
-        obj.each { |k,v| obj[k] = wrap_elements_in(v) }
+        obj.each { |k,v| obj[k] = wrap_elements_in(scope, v) }
 
         obj
       else
@@ -339,8 +339,8 @@ module Watir
       end
     end
 
-    def wrap_element(element)
-      Watir.element_class_for(element.tag_name.downcase).new(self, element: element)
+    def wrap_element(scope, element)
+      Watir.element_class_for(element.tag_name.downcase).new(scope, element: element)
     end
 
   end # Browser
