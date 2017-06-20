@@ -1,4 +1,4 @@
-### 6.2.2 (2017-06-20)
+### 6.3.0 (2017-06-20)
 
 * Allow locating elements by attribute presence/absence (#345)
 * Element#flash configurable by color, number, and delay (thanks Paul3816547290)

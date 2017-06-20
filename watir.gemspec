@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name        = 'watir'
-  s.version     = '6.2.2'
+  s.version     = '6.3.0'
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['Alex Rodionov', 'Titus Fortner']
   s.email       = ['p0deje@gmail.com', 'titusfortner@gmail.com']
