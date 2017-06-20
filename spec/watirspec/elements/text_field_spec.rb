@@ -197,6 +197,10 @@ describe "TextField" do
     it "raises UnknownObjectException if the text field doesn't exist" do
       expect { browser.text_field(id: 'no_such_id').readonly? }.to raise_unknown_object_exception
     end
+
+    it "raises UnknownReadOnlyException if sending keys to readonly element" do
+      expect { browser.text_field(id: 'new_user_code').set 'foo' }.to raise_object_read_only_exception
+    end
   end
 
   # Manipulation methods
