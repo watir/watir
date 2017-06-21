@@ -1,3 +1,7 @@
+### 6.4.0.rc1 (2017-06-21)
+
+* Significant performance updates
+
 ### 6.3.0 (2017-06-20)
 
 * Allow locating elements by attribute presence/absence (#345)
