@@ -523,6 +523,13 @@ module Watir
     end
 
     def wait_for_enabled
+      case self
+      when Input, Button, Select, Option
+        # noop
+      else
+        wait_for_exists && return
+      end
+
       return assert_enabled unless Watir.relaxed_locate?
 
       begin
@@ -647,26 +654,10 @@ module Watir
     end
 
     def element_call(exist_check = :wait_for_exists)
-      # Support for Selenium < 3.4.1 with latest Geckodriver
-      interact_error = if defined?(Selenium::WebDriver::Error::ElementNotInteractable)
-                         Selenium::WebDriver::Error::ElementNotInteractable
-                       else
-                         Selenium::WebDriver::Error::ElementNotInteractableError
-                       end
-
       already_locked = Wait.timer.locked?
       Wait.timer = Wait::Timer.new(timeout: Watir.default_timeout) unless already_locked
       begin
-        if exist_check == :wait_for_enabled
-          if self.is_a?(Input) || self.is_a?(Button) || self.is_a?(Select) || self.is_a?(Option)
-            wait_for_enabled
-          else
-            wait_for_exists
-          end
-        else
-          send(exist_check)
-        end
-
+        send exist_check
         yield
       rescue Selenium::WebDriver::Error::StaleElementReferenceError
         retry
@@ -685,6 +676,17 @@ module Watir
         Wait.timer.reset! unless already_locked
       end
     end
+
+
+    # Support for Selenium < 3.4.1 with latest Geckodriver
+    def interact_error
+      if defined?(Selenium::WebDriver::Error::ElementNotInteractable)
+        Selenium::WebDriver::Error::ElementNotInteractable
+      else
+        Selenium::WebDriver::Error::ElementNotInteractableError
+      end
+    end
+
 
     def method_missing(meth, *args, &blk)
       method = meth.to_s
