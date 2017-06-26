@@ -647,6 +647,13 @@ module Watir
     end
 
     def element_call(exist_check = :wait_for_exists)
+      # Support for Selenium < 3.4.1 with latest Geckodriver
+      interact_error = if defined?(Selenium::WebDriver::Error::ElementNotInteractable)
+                         Selenium::WebDriver::Error::ElementNotInteractable
+                       else
+                         Selenium::WebDriver::Error::ElementNotInteractableError
+                       end
+
       already_locked = Wait.timer.locked?
       Wait.timer = Wait::Timer.new(timeout: Watir.default_timeout) unless already_locked
       begin
@@ -663,7 +670,7 @@ module Watir
         yield
       rescue Selenium::WebDriver::Error::StaleElementReferenceError
         retry
-      rescue Selenium::WebDriver::Error::ElementNotVisibleError, Selenium::WebDriver::Error::ElementNotInteractableError
+      rescue Selenium::WebDriver::Error::ElementNotVisibleError, interact_error
         raise_present unless Wait.timer.remaining_time > 0
         raise_present unless exist_check == :wait_for_present || exist_check == :wait_for_enabled
         retry
