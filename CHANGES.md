@@ -1,4 +1,4 @@
-### 6.4.0.rc1 (2017-06-21)
+### 6.4.0 (unreleased)
 
 * Significant performance updates
 
