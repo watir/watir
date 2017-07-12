@@ -24,4 +24,12 @@ describe "Collections" do
     expect(collection.any? { |el| el.is_a? Watir::Span}).to eq true
     expect(collection.any? { |el| el.is_a? Watir::Div}).to eq true
   end
+
+  it "relocates the same element" do
+    browser.goto(WatirSpec.url_for("nested_elements.html"))
+    collection = browser.div(id: "parent").children
+    tag = collection[3].tag_name
+    browser.refresh
+    expect(collection[3].tag_name).to eq tag
+  end
 end
