@@ -433,13 +433,9 @@ module Watir
     #
 
     def to_subtype
-      elem = wd()
-      tag_name = elem.tag_name.downcase
-
-      klass = nil
-
-      if tag_name == "input"
-        klass = case elem.attribute(:type)
+      tag = tag_name()
+      klass = if tag == "input"
+                case attribute_value(:type)
                 when *Button::VALID_TYPES
                   Button
                 when 'checkbox'
@@ -451,11 +447,11 @@ module Watir
                 else
                   TextField
                 end
-      else
-        klass = Watir.element_class_for(tag_name)
-      end
+              else
+                Watir.element_class_for(tag)
+              end
 
-      klass.new(@query_scope, element: elem)
+      klass.new(@query_scope, element: wd)
     end
 
     #
@@ -570,9 +566,8 @@ module Watir
     end
 
     def assert_element_found
-      unless @element
-        raise unknown_exception, "unable to locate element: #{inspect}"
-      end
+      return if @element
+      raise unknown_exception, "unable to locate element: #{inspect}"
     end
 
     def locate
