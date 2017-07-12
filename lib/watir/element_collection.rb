@@ -80,10 +80,21 @@ module Watir
     #
 
     def to_a
-      @to_a ||= elements.map.with_index do |e, idx|
-        element = element_class.new(@query_scope, @selector.merge(element: e, index: idx))
-        element_class == Watir::HTMLElement ? element.to_subtype : element
-      end
+      hash = {}
+      @to_a ||=
+          elements.map.with_index do |e, idx|
+            element = element_class.new(@query_scope, @selector.merge(element: e, index: idx))
+            if [Watir::HTMLElement, Watir::Input].include? element.class
+              element = element.to_subtype
+              hash[element.class] ||= []
+              hash[element.class] << element
+              element.class.new(@query_scope, @selector.merge(element: e,
+                                                              tag_name: element.tag_name,
+                                                              index: hash[element.class].size - 1))
+            else
+              element
+            end
+          end
     end
 
     #
