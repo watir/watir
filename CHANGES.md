@@ -1,3 +1,7 @@
+### 6.4.1 (2017-07-13)
+
+* Fix bug with stale element errors from ElementCollection (#571) 
+
 ### 6.4.0 (2017-07-11)
 
 * Significant performance updates
