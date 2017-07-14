@@ -108,13 +108,6 @@ class ImplementationConfig
     end
 
     matching_guards << :ff_legacy if @ff_legacy
-
-    browser_instance = WatirSpec.new_browser
-    browser_version = browser_instance.driver.capabilities.version
-
-    matching_browser_with_version = "#{browser}#{browser_version}".to_sym
-    matching_guards << matching_browser_with_version if browser_version
-
     matching_guards << matching_browser
     matching_guards << [matching_browser, Selenium::WebDriver::Platform.os]
     matching_guards << :relaxed_locate if Watir.relaxed_locate?
@@ -128,8 +121,6 @@ class ImplementationConfig
     @imp.guard_proc = lambda { |args|
       args.any? { |arg| matching_guards.include?(arg) }
     }
-  ensure
-    browser_instance.close if browser_instance
   end
 
   def firefox_args
