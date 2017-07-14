@@ -1,3 +1,7 @@
+### 6.4.2 (2017-07-14)
+
+* Fix bug with element relocation from ElementCollection (#571) 
+
 ### 6.4.1 (2017-07-13)
 
 * Fix bug with stale element errors from ElementCollection (#571) 
