@@ -237,15 +237,41 @@ describe "Element" do
       it "matches when the element has several classes" do
         e = browser.div(class: "b")
         expect(e).to exist
-        expect(e.class_name).to eq "a b"
+        expect(e.class_name).to eq "a b c"
       end
 
       it "does not match only part of the class name" do
-        expect(browser.div(class: "c")).to_not exist
+        expect(browser.div(class: "bc")).to_not exist
       end
 
       it "matches part of the class name when given a regexp" do
         expect(browser.div(class: /c/)).to exist
+      end
+
+      context "with multiple classes" do
+        it "matches when the element has a single class" do
+          e = browser.div(class: ["a"])
+          expect(e).to exist
+          expect(e.class_name).to eq "a"
+        end
+
+        it "matches a non-ordered subset" do
+          e = browser.div(class: ["c", "a"])
+          expect(e).to exist
+          expect(e.class_name).to eq "a b c"
+        end
+
+        it "matches one with a negation" do
+          e = browser.div(class: ["!a"])
+          expect(e).to exist
+          expect(e.class_name).to eq "abc"
+        end
+
+        it "matches multiple with a negation" do
+          e = browser.div(class: ["a", "!c", "b"])
+          expect(e).to exist
+          expect(e.class_name).to eq "a b"
+        end
       end
     end
 

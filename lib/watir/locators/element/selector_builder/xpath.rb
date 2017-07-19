@@ -26,7 +26,9 @@ module Watir
           # @todo Get rid of building
           def attribute_expression(building, selectors)
             f = selectors.map do |key, val|
-              if val.is_a?(Array)
+              if val.is_a?(Array) && key == :class
+                "(" + val.map { |v| build_class_match(v) }.join(" and ") + ")"
+              elsif val.is_a?(Array)
                 "(" + val.map { |v| equal_pair(building, key, v) }.join(" or ") + ")"
               elsif val == true
                 attribute_presence(key)
@@ -42,8 +44,10 @@ module Watir
           # @todo Get rid of building
           def equal_pair(building, key, value)
             if key == :class
-              klass = XpathSupport.escape " #{value} "
-              "contains(concat(' ', @class, ' '), #{klass})"
+              if value.strip.include?(' ')
+                warn 'Using the :class locator to locate multiple classes with a String value is deprecated; use an Array instead'
+              end
+              build_class_match(value)
             elsif key == :label && @should_use_label_element
               # we assume :label means a corresponding label element, not the attribute
               text = "normalize-space()=#{XpathSupport.escape value}"
@@ -71,6 +75,16 @@ module Watir
           end
 
           private
+
+          def build_class_match(value)
+            if value.match(/^!/)
+              klass = XpathSupport.escape " #{value[1..-1]} "
+              "not(contains(concat(' ', @class, ' '), #{klass}))"
+            else
+              klass = XpathSupport.escape " #{value} "
+              "contains(concat(' ', @class, ' '), #{klass})"
+            end
+          end
 
           def attribute_presence(attribute)
             lhs_for(nil, attribute)

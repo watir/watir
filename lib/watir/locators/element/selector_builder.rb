@@ -2,7 +2,7 @@ module Watir
   module Locators
     class Element
       class SelectorBuilder
-        VALID_WHATS = [String, Regexp, TrueClass, FalseClass].freeze
+        VALID_WHATS = [Array, String, Regexp, TrueClass, FalseClass].freeze
         WILDCARD_ATTRIBUTE = /^(aria|data)_(.+)$/
 
         def initialize(query_scope, selector, valid_attributes)
@@ -35,6 +35,9 @@ module Watir
               raise TypeError, "expected TrueClass or FalseClass, got #{what.inspect}:#{what.class}"
             end
           else
+            if what.is_a?(Array) && how != :class
+              raise TypeError, "Only :class locator can have a value of an Array"
+            end
             unless VALID_WHATS.any? { |t| what.is_a? t }
               raise TypeError, "expected one of #{VALID_WHATS.inspect}, got #{what.inspect}:#{what.class}"
             end
