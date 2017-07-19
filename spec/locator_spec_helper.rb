@@ -1,5 +1,3 @@
-require 'active_support/ordered_hash'
-
 module LocatorSpecHelper
   def browser
     @browser ||= double(Watir::Browser, wd: driver)
@@ -48,7 +46,7 @@ module LocatorSpecHelper
     when Hash
       selector
     when Array
-      ActiveSupport::OrderedHash[*selector]
+      Hash[*selector]
     else
       raise ArgumentError, "couldn't create hash for #{selector.inspect}"
     end
