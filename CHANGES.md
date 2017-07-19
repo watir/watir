@@ -1,6 +1,10 @@
+### 6.4.3 (2017-07-19)
+
+* Fix bug with element relocation from ElementCollection 
+
 ### 6.4.2 (2017-07-14)
 
-* Fix bug with element relocation from ElementCollection (#571) 
+* No changes 
 
 ### 6.4.1 (2017-07-13)
 
