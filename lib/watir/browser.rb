@@ -102,9 +102,9 @@ module Watir
     # Returns URL of current page.
     #
     # @example
-    #   browser.goto "watir.github.io"
+    #   browser.goto "watir.com"
     #   browser.url
-    #   #=> "http://watir.github.io/"
+    #   #=> "http://watir.com/"
     #
     # @return [String]
     #
