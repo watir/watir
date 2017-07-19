@@ -9,11 +9,7 @@ rvm:
   - 2.4.1
 addons:
   firefox: latest
-  apt:
-    packages:
-      - unzip
-      - libxss1
-      - google-chrome-stable
+  chrome: stable
 cache: bundler
 notifications:
   recipients:
