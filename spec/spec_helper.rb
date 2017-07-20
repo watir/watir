@@ -1,8 +1,10 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
-require 'coveralls'
-Coveralls.wear!
+unless ENV['USE_SAUCE']
+  require 'coveralls'
+  Coveralls.wear!
+end
 
 require 'watir'
 require 'locator_spec_helper'

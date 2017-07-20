@@ -35,8 +35,18 @@ module WatirSpec
         config.include(BrowserHelper)
         config.include(MessagesHelper)
 
-        $browser = WatirSpec.new_browser
-        at_exit { $browser.close }
+        if WatirSpec.implementation.name == :sauce
+          config.before(:each) do
+            $browser = WatirSpec.new_browser
+          end
+
+          config.after(:each) do
+            $browser.close
+          end
+        else
+          $browser = WatirSpec.new_browser
+          at_exit { $browser.close }
+        end
       end
     end
 
@@ -46,7 +56,7 @@ module WatirSpec
 
     def add_guard_hook
       return if WatirSpec.unguarded?
-      at_exit { WatirSpec::Guards.report }
+      at_exit { WatirSpec::Guards.report } unless ENV['USE_SAUCE']
     end
 
   end # SpecHelper

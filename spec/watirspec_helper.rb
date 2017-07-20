@@ -1,7 +1,7 @@
 require 'watirspec'
-require 'spec_helper'
+require_relative 'spec_helper'
 
-class ImplementationConfig
+class LocalConfig
   def initialize(imp)
     @imp = imp
   end
@@ -195,5 +195,37 @@ class ImplementationConfig
   end
 end
 
-ImplementationConfig.new(WatirSpec.implementation).configure
+class SauceConfig < LocalConfig
+  def initialize(imp)
+    require 'saucer'
+    super
+  end
+
+  def configure
+    @imp.name          = :sauce
+    @imp.browser_class = Saucer::Driver
+
+    set_browser_args
+    set_guard_proc
+  end
+
+  def set_browser_args
+    browser = ENV['BROWSER_NAME']
+    opts = {browser_name: browser,
+            platform: ENV['PLATFORM']}
+    opts[:version] ||= ENV['VERSION']
+
+    caps = Selenium::WebDriver::Remote::Capabilities.send(browser.downcase.to_sym, opts)
+
+    @imp.browser_args = [browser.downcase.to_sym, {desired_capabilities: caps}]
+  end
+
+end
+
+if ENV['USE_SAUCE'] == 'true'
+  SauceConfig.new(WatirSpec.implementation).configure
+else
+  LocalConfig.new(WatirSpec.implementation).configure
+end
+
 WatirSpec.run!
