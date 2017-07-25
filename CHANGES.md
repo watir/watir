@@ -1,3 +1,7 @@
+### 6.5.0 (2017-07-25)
+
+* Add support for locating multiple classes using :class parameter 
+
 ### 6.4.3 (2017-07-19)
 
 * Fix bug with element relocation from ElementCollection 
