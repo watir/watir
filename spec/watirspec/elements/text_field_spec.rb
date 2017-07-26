@@ -204,27 +204,29 @@ describe "TextField" do
   end
 
   # Manipulation methods
-  describe "#append" do
-    it "appends the text to the text field" do
-      browser.text_field(name: "new_user_occupation").append(" Append This")
-      expect(browser.text_field(name: "new_user_occupation").value).to eq "Developer Append This"
-    end
+  not_compliant_on :safari do
+    describe "#append" do
+      it "appends the text to the text field" do
+        browser.text_field(name: "new_user_occupation").append(" Append This")
+        expect(browser.text_field(name: "new_user_occupation").value).to eq "Developer Append This"
+      end
 
-    it "appends multi-byte characters" do
-      browser.text_field(name: "new_user_occupation").append(" ĳĳ")
-      expect(browser.text_field(name: "new_user_occupation").value).to eq "Developer ĳĳ"
-    end
+      it "appends multi-byte characters" do
+        browser.text_field(name: "new_user_occupation").append(" ĳĳ")
+        expect(browser.text_field(name: "new_user_occupation").value).to eq "Developer ĳĳ"
+      end
 
-    it "raises ObjectReadOnlyException if the object is read only" do
-      expect { browser.text_field(id: "new_user_code").append("Append This") }.to raise_object_read_only_exception
-    end
+      it "raises ObjectReadOnlyException if the object is read only" do
+        expect { browser.text_field(id: "new_user_code").append("Append This") }.to raise_object_read_only_exception
+      end
 
-    it "raises ObjectDisabledException if the object is disabled" do
-      expect { browser.text_field(name: "new_user_species").append("Append This") }.to raise_object_disabled_exception
-    end
+      it "raises ObjectDisabledException if the object is disabled" do
+        expect { browser.text_field(name: "new_user_species").append("Append This") }.to raise_object_disabled_exception
+      end
 
-    it "raises UnknownObjectException if the object doesn't exist" do
-      expect { browser.text_field(name: "no_such_name").append("Append This") }.to raise_unknown_object_exception
+      it "raises UnknownObjectException if the object doesn't exist" do
+        expect { browser.text_field(name: "no_such_name").append("Append This") }.to raise_unknown_object_exception
+      end
     end
   end
 

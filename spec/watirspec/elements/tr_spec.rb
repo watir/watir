@@ -43,12 +43,14 @@ describe "TableRow" do
     end
   end
 
-  describe "#[]" do
-    let(:table) { browser.table(id: 'outer') }
+  bug "Safari does not strip text", :safari do
+    describe "#[]" do
+      let(:table) { browser.table(id: 'outer') }
 
-    it "returns the nth cell of the row" do
-      expect(table[0][0].text).to eq "Table 1, Row 1, Cell 1"
-      expect(table[2][0].text).to eq "Table 1, Row 3, Cell 1"
+      it "returns the nth cell of the row" do
+        expect(table[0][0].text).to eq "Table 1, Row 1, Cell 1"
+        expect(table[2][0].text).to eq "Table 1, Row 3, Cell 1"
+      end
     end
   end
 

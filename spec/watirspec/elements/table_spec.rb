@@ -41,17 +41,19 @@ describe "Table" do
   end
 
   # Other
-  describe "#strings" do
-    it "returns a two-dimensional array representation of the table" do
-      expect(browser.table(id: 'inner').strings).to eq [
-        ["Table 2, Row 1, Cell 1",
-         "Table 2, Row 1, Cell 2"]
-      ]
-      expect(browser.table(id: 'outer').strings).to eq [
-        ["Table 1, Row 1, Cell 1", "Table 1, Row 1, Cell 2"],
-        ["Table 1, Row 2, Cell 1", "Table 1, Row 2, Cell 2\nTable 2, Row 1, Cell 1 Table 2, Row 1, Cell 2"],
-        ["Table 1, Row 3, Cell 1", "Table 1, Row 3, Cell 2"]
-     ]
+  bug "Safari does not strip text", :safari do
+    describe "#strings" do
+      it "returns a two-dimensional array representation of the table" do
+        expect(browser.table(id: 'inner').strings).to eq [
+          ["Table 2, Row 1, Cell 1",
+           "Table 2, Row 1, Cell 2"]
+        ]
+        expect(browser.table(id: 'outer').strings).to eq [
+          ["Table 1, Row 1, Cell 1", "Table 1, Row 1, Cell 2"],
+          ["Table 1, Row 2, Cell 1", "Table 1, Row 2, Cell 2\nTable 2, Row 1, Cell 1 Table 2, Row 1, Cell 2"],
+          ["Table 1, Row 3, Cell 1", "Table 1, Row 3, Cell 2"]
+       ]
+      end
     end
   end
 

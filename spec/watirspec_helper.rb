@@ -68,6 +68,8 @@ class ImplementationConfig
              ff_legacy_args
            when :chrome
              chrome_args
+           when :safari
+             safari_args
            when :remote
              remote_args
            else
@@ -155,6 +157,11 @@ class ImplementationConfig
     end
 
     opts
+  end
+
+  def safari_args
+    Selenium::WebDriver::Safari.technology_preview!
+    {desired_capabilities: Selenium::WebDriver::Remote::Capabilities.safari}
   end
 
   def remote_args

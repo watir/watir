@@ -114,8 +114,10 @@ describe "Div" do
       expect(browser.div(index: 0).text.strip).to eq ""
     end
 
-    it "returns an empty string if the div is hidden" do
-      expect(browser.div(id: 'hidden').text).to eq ""
+    not_compliant_on :safari do
+      it "returns an empty string if the div is hidden" do
+        expect(browser.div(id: 'hidden').text).to eq ""
+      end
     end
 
     it "raises UnknownObjectException if the element does not exist" do

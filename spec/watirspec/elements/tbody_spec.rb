@@ -50,17 +50,19 @@ describe "TableBody" do
     end
   end
 
-  describe "#[]" do
-    it "returns the row at the given index (page context)" do
-      expect(browser.tbody(id: 'first')[0].text).to eq 'March 2008'
-      expect(browser.tbody(id: 'first')[1][0].text).to eq 'Gregory House'
-      expect(browser.tbody(id: 'first')[2][0].text).to eq 'Hugh Laurie'
-    end
+  bug "Safari does not strip text", :safari do
+    describe "#[]" do
+      it "returns the row at the given index (page context)" do
+        expect(browser.tbody(id: 'first')[0].text).to eq 'March 2008'
+        expect(browser.tbody(id: 'first')[1][0].text).to eq 'Gregory House'
+        expect(browser.tbody(id: 'first')[2][0].text).to eq 'Hugh Laurie'
+      end
 
-    it "returns the row at the given index (table context)" do
-      expect(browser.table(index: 0).tbody(id: 'first')[0].text).to eq 'March 2008'
-      expect(browser.table(index: 0).tbody(id: 'first')[1][0].text).to eq 'Gregory House'
-      expect(browser.table(index: 0).tbody(id: 'first')[2][0].text).to eq 'Hugh Laurie'
+      it "returns the row at the given index (table context)" do
+        expect(browser.table(index: 0).tbody(id: 'first')[0].text).to eq 'March 2008'
+        expect(browser.table(index: 0).tbody(id: 'first')[1][0].text).to eq 'Gregory House'
+        expect(browser.table(index: 0).tbody(id: 'first')[2][0].text).to eq 'Hugh Laurie'
+      end
     end
   end
 

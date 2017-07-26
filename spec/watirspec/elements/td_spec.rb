@@ -47,10 +47,12 @@ describe "TableCell" do
   end
 
   # Attribute methods
-  describe "#text" do
-    it "returns the text inside the table cell" do
-      expect(browser.td(id: 't1_r2_c1').text).to eq 'Table 1, Row 2, Cell 1'
-      expect(browser.td(id: 't2_r1_c1').text).to eq 'Table 2, Row 1, Cell 1'
+  bug "Safari does not strip text", :safari do
+    describe "#text" do
+      it "returns the text inside the table cell" do
+        expect(browser.td(id: 't1_r2_c1').text).to eq 'Table 1, Row 2, Cell 1'
+        expect(browser.td(id: 't2_r1_c1').text).to eq 'Table 2, Row 1, Cell 1'
+      end
     end
   end
 

@@ -10,13 +10,15 @@ describe "Frame" do
     browser.goto(WatirSpec.url_for("frames.html"))
   end
 
-  it "handles crossframe javascript" do
-    browser.goto WatirSpec.url_for("frames.html")
+  not_compliant_on :safari do
+    it "handles crossframe javascript" do
+      browser.goto WatirSpec.url_for("frames.html")
 
-    expect(browser.frame(id: "frame_1").text_field(name: 'senderElement').value).to eq 'send_this_value'
-    expect(browser.frame(id: "frame_2").text_field(name: 'recieverElement').value).to eq 'old_value'
-    browser.frame(id: "frame_1").button(id: 'send').click
-    expect(browser.frame(id: "frame_2").text_field(name: 'recieverElement').value).to eq 'send_this_value'
+      expect(browser.frame(id: "frame_1").text_field(name: 'senderElement').value).to eq 'send_this_value'
+      expect(browser.frame(id: "frame_2").text_field(name: 'recieverElement').value).to eq 'old_value'
+      browser.frame(id: "frame_1").button(id: 'send').click
+      expect(browser.frame(id: "frame_2").text_field(name: 'recieverElement').value).to eq 'send_this_value'
+    end
   end
 
   describe "#exist?" do
@@ -51,12 +53,14 @@ describe "Frame" do
     end
 
     bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1255946", :firefox do
-      it "handles nested frames" do
-        browser.goto(WatirSpec.url_for("nested_frames.html"))
+      not_compliant_on :safari do
+        it "handles nested frames" do
+          browser.goto(WatirSpec.url_for("nested_frames.html"))
 
-        browser.frame(id: "two").frame(id: "three").link(id: "four").click
+          browser.frame(id: "two").frame(id: "three").link(id: "four").click
 
-        Watir::Wait.until { browser.title == "definition_lists" }
+          Watir::Wait.until { browser.title == "definition_lists" }
+        end
       end
     end
 
@@ -94,18 +98,22 @@ describe "Frame" do
     expect(browser.frame(index: 0).text_field(name: 'senderElement').value).to eq "new value"
   end
 
-  it "can access the frame's parent element after use" do
-    el = browser.frameset
-    el.frame.text_field.value
-    expect(el.attribute_value("cols")).to be_kind_of(String)
+  bug "Safari does not strip text", :safari do
+    it "can access the frame's parent element after use" do
+      el = browser.frameset
+      el.frame.text_field.value
+      expect(el.attribute_value("cols")).to be_kind_of(String)
+    end
   end
 
   describe "#execute_script" do
-    it "executes the given javascript in the specified frame" do
-      frame = browser.frame(index: 0)
-      expect(frame.div(id: 'set_by_js').text).to eq ""
-      frame.execute_script(%Q{document.getElementById('set_by_js').innerHTML = 'Art consists of limitation. The most beautiful part of every picture is the frame.'})
-      expect(frame.div(id: 'set_by_js').text).to eq "Art consists of limitation. The most beautiful part of every picture is the frame."
+    bug "Safari does not strip text", :safari do
+      it "executes the given javascript in the specified frame" do
+        frame = browser.frame(index: 0)
+        expect(frame.div(id: 'set_by_js').text).to eq ""
+        frame.execute_script(%Q{document.getElementById('set_by_js').innerHTML = 'Art consists of limitation. The most beautiful part of every picture is the frame.'})
+        expect(frame.div(id: 'set_by_js').text).to eq "Art consists of limitation. The most beautiful part of every picture is the frame."
+      end
     end
   end
 

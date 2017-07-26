@@ -67,11 +67,11 @@ describe Watir::Browser do
 
   bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1290814", :firefox do
     it "raises an error when trying to interact with a closed browser" do
-      b = WatirSpec.new_browser
-      b.goto WatirSpec.url_for "definition_lists.html"
-      b.close
+      browser.goto WatirSpec.url_for "definition_lists.html"
+      browser.close
 
-      expect { b.dl(id: "experience-list").id }.to raise_error(Watir::Exception::Error, "browser was closed")
+      expect { browser.dl(id: "experience-list").id }.to raise_error(Watir::Exception::Error, "browser was closed")
+      $browser = WatirSpec.new_browser
     end
   end
 

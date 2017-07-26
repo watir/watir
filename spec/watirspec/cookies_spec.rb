@@ -48,11 +48,6 @@ describe "Browser#cookies" do
 
       browser.cookies.add 'foo', 'bar'
       verify_cookies_count 2
-
-      compliant_on :safari do
-        $browser.close
-        $browser = WatirSpec.new_browser
-      end
     end
   end
 

@@ -57,12 +57,14 @@ describe "Form" do
         expect(browser.text).to include("Semantic table")
       end
 
-      it "triggers onsubmit event and takes its result into account" do
-        form = browser.form(name: "user_new")
-        form.submit
-        expect(form).to exist
-        expect(messages.size).to eq 1
-        expect(messages[0]).to eq "submit"
+      not_compliant_on :safari do
+        it "triggers onsubmit event and takes its result into account" do
+          form = browser.form(name: "user_new")
+          form.submit
+          expect(form).to exist
+          expect(messages.size).to eq 1
+          expect(messages[0]).to eq "submit"
+        end
       end
     end
   end

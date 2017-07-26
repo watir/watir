@@ -27,9 +27,9 @@ describe "Browser" do
 
     bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1290814", :firefox do
       it "returns false after Browser#close" do
-        b = WatirSpec.new_browser
-        b.close
-        expect(b).to_not exist
+        browser.close
+        expect(browser).to_not exist
+        $browser = WatirSpec.new_browser
       end
     end
   end
@@ -95,10 +95,12 @@ describe "Browser" do
       expect(browser.text.strip).to eq 'This is text/plain'
     end
 
-    it "returns text of top most browsing context" do
-      browser.goto(WatirSpec.url_for("nested_iframes.html"))
-      browser.iframe(id: 'two').h3.exists?
-      expect(browser.text).to eq 'Top Layer'
+    bug "Safari does not strip text", :safari do
+      it "returns text of top most browsing context" do
+        browser.goto(WatirSpec.url_for("nested_iframes.html"))
+        browser.iframe(id: 'two').h3.exists?
+        expect(browser.text).to eq 'Top Layer'
+      end
     end
   end
 
@@ -132,12 +134,14 @@ describe "Browser" do
   describe ".start" do
     bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1290814", :firefox do
       it "goes to the given URL and return an instance of itself" do
-        driver, args = WatirSpec.implementation.browser_args
-        browser = Watir::Browser.start(WatirSpec.url_for("non_control_elements.html"), driver, args)
-
-        expect(browser).to be_instance_of(Watir::Browser)
-        expect(browser.title).to eq "Non-control elements"
         browser.close
+        driver, args = WatirSpec.implementation.browser_args
+        b = Watir::Browser.start(WatirSpec.url_for("non_control_elements.html"), driver, args.dup)
+
+        expect(b).to be_instance_of(Watir::Browser)
+        expect(b.title).to eq "Non-control elements"
+        b.close
+        $browser = WatirSpec.new_browser
       end
     end
   end
@@ -160,7 +164,7 @@ describe "Browser" do
       expect { browser.goto("about:blank") }.to_not raise_error
     end
 
-    not_compliant_on :internet_explorer, :safari do
+    not_compliant_on :internet_explorer do
       it "goes to a data URL scheme address without raising errors" do
         expect { browser.goto("data:text/html;content-type=utf-8,foobar") }.to_not raise_error
       end
@@ -240,46 +244,44 @@ describe "Browser" do
     end
   end
 
-  not_compliant_on :safari do
-    describe "#back and #forward" do
-      it "goes to the previous page" do
-        browser.goto WatirSpec.url_for("non_control_elements.html")
-        orig_url = browser.url
-        browser.goto WatirSpec.url_for("tables.html")
-        new_url = browser.url
-        expect(orig_url).to_not eq new_url
-        browser.back
-        expect(orig_url).to eq browser.url
+  describe "#back and #forward" do
+    it "goes to the previous page" do
+      browser.goto WatirSpec.url_for("non_control_elements.html")
+      orig_url = browser.url
+      browser.goto WatirSpec.url_for("tables.html")
+      new_url = browser.url
+      expect(orig_url).to_not eq new_url
+      browser.back
+      expect(orig_url).to eq browser.url
+    end
+
+    it "goes to the next page" do
+      urls = []
+      browser.goto WatirSpec.url_for("non_control_elements.html")
+      urls << browser.url
+      browser.goto WatirSpec.url_for("tables.html")
+      urls << browser.url
+
+      browser.back
+      expect(browser.url).to eq urls.first
+      browser.forward
+      expect(browser.url).to eq urls.last
+    end
+
+    it "navigates between several history items" do
+      urls = ["non_control_elements.html",
+              "tables.html",
+              "forms_with_input_elements.html",
+              "definition_lists.html"
+      ].map do |page|
+        browser.goto WatirSpec.url_for(page)
+        browser.url
       end
 
-      it "goes to the next page" do
-        urls = []
-        browser.goto WatirSpec.url_for("non_control_elements.html")
-        urls << browser.url
-        browser.goto WatirSpec.url_for("tables.html")
-        urls << browser.url
-
-        browser.back
-        expect(browser.url).to eq urls.first
-        browser.forward
-        expect(browser.url).to eq urls.last
-      end
-
-      it "navigates between several history items" do
-        urls = ["non_control_elements.html",
-                "tables.html",
-                "forms_with_input_elements.html",
-                "definition_lists.html"
-        ].map do |page|
-          browser.goto WatirSpec.url_for(page)
-          browser.url
-        end
-
-        3.times { browser.back }
-        expect(browser.url).to eq urls.first
-        2.times { browser.forward }
-        expect(browser.url).to eq urls[2]
-      end
+      3.times { browser.back }
+      expect(browser.url).to eq urls.first
+      2.times { browser.forward }
+      expect(browser.url).to eq urls[2]
     end
   end
 

@@ -11,13 +11,15 @@ describe "IFrame" do
   end
 
   bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1255906", :firefox do
-    it "handles crossframe javascript" do
-      browser.goto WatirSpec.url_for("iframes.html")
+    not_compliant_on :safari do
+      it "handles crossframe javascript" do
+        browser.goto WatirSpec.url_for("iframes.html")
 
-      expect(browser.iframe(id: "iframe_1").text_field(name: 'senderElement').value).to eq 'send_this_value'
-      expect(browser.iframe(id: "iframe_2").text_field(name: 'recieverElement').value).to eq 'old_value'
-      browser.iframe(id: "iframe_1").button(id: 'send').click
-      expect(browser.iframe(id: "iframe_2").text_field(name: 'recieverElement').value).to eq 'send_this_value'
+        expect(browser.iframe(id: "iframe_1").text_field(name: 'senderElement').value).to eq 'send_this_value'
+        expect(browser.iframe(id: "iframe_2").text_field(name: 'recieverElement').value).to eq 'old_value'
+        browser.iframe(id: "iframe_1").button(id: 'send').click
+        expect(browser.iframe(id: "iframe_2").text_field(name: 'recieverElement').value).to eq 'send_this_value'
+      end
     end
   end
 
@@ -83,12 +85,14 @@ describe "IFrame" do
 
 
     bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1255946", :firefox do
-      it "handles nested iframes" do
-        browser.goto(WatirSpec.url_for("nested_iframes.html"))
+      not_compliant_on :safari do
+        it "handles nested iframes" do
+          browser.goto(WatirSpec.url_for("nested_iframes.html"))
 
-        browser.iframe(id: "two").iframe(id: "three").link(id: "four").click
+          browser.iframe(id: "two").iframe(id: "three").link(id: "four").click
 
-        Watir::Wait.until { browser.title == "definition_lists" }
+          Watir::Wait.until { browser.title == "definition_lists" }
+        end
       end
     end
 
@@ -147,11 +151,13 @@ describe "IFrame" do
   end
 
   describe "#execute_script" do
-    it "executes the given javascript in the specified frame" do
-      frame = browser.iframe(index: 0)
-      expect(frame.div(id: 'set_by_js').text).to eq ""
-      frame.execute_script(%Q{document.getElementById('set_by_js').innerHTML = 'Art consists of limitation. The most beautiful part of every picture is the frame.'})
-      expect(frame.div(id: 'set_by_js').text).to eq "Art consists of limitation. The most beautiful part of every picture is the frame."
+    bug "Safari does not strip text", :safari do
+      it "executes the given javascript in the specified frame" do
+        frame = browser.iframe(index: 0)
+        expect(frame.div(id: 'set_by_js').text).to eq ""
+        frame.execute_script(%Q{document.getElementById('set_by_js').innerHTML = 'Art consists of limitation. The most beautiful part of every picture is the frame.'})
+        expect(frame.div(id: 'set_by_js').text).to eq "Art consists of limitation. The most beautiful part of every picture is the frame."
+      end
     end
   end
 

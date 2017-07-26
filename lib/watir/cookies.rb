@@ -56,12 +56,11 @@ module Watir
     def add(name, value, opts = {})
       cookie = {
         name: name,
-        value: value,
-        secure: opts[:secure],
-        path: opts[:path],
-        expires: opts[:expires],
-        domain: opts[:domain]
-      }
+        value: value}
+      cookie[:secure] = opts[:secure] if opts.key?(:secure)
+      cookie[:path] = opts[:path] if opts.key?(:path)
+      cookie[:expires] = opts[:expires] if opts.key?(:expires)
+      cookie[:domain] = opts[:domain] if opts.key?(:domain)
 
       @control.add_cookie cookie
     end
