@@ -152,4 +152,27 @@ namespace :spec do
       Rake::Task[:spec].execute
     end
   end
+
+  desc "Run on Saucelabs"
+  task :sauce do
+    require 'saucer'
+    ENV['USE_SAUCE'] ||= 'true'
+
+    # Note - This needs to be cleaned up
+    ENV['WATIR_BROWSER'] ||= 'remote'
+    ENV['PLATFORM'] ||= 'macOS 10.12'
+    ENV['BROWSER_NAME'] ||= 'Chrome'
+    ENV['VERSION'] ||= '59'
+    ENV['BUILD_TAG'] ||= "LOCAL #{Time.now.to_f}"
+
+    # Note - This code isn't necessary if executed in a CI w/ plugin
+    @sc = ChildProcess.build("sc")
+    @sc.start
+    at_exit { @sc.stop }
+    sleep 30
+
+    Saucer::Parallel.new(number: 30,
+                         output: 'saucer').run
+
+  end
 end

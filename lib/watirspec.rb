@@ -58,7 +58,12 @@ module WatirSpec
       args = Array(WatirSpec.implementation.browser_args).map { |e| Hash === e ? e.dup : e }
 
       instance = klass.new(*args)
-      print_browser_info_once(instance)
+
+      if instance.is_a?(Selenium::WebDriver::Driver)
+        instance = Watir::Browser.new(instance)
+      end
+
+      print_browser_info_once(instance) unless ENV['USE_SAUCE']
 
       instance
     end

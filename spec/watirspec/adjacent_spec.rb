@@ -1,7 +1,7 @@
 require "watirspec_helper"
 
 describe "Adjacent Elements" do
-  before(:all) do
+  before(:each) do
     browser.goto(WatirSpec.url_for("nested_elements.html"))
   end
 
