@@ -145,8 +145,8 @@ namespace :spec do
 
     desc "Run specs in Remote #{browser}"
     task "remote_#{browser}" do
-      ENV['WATIR_BROWSER'] = 'remote'
-      ENV['REMOTE_BROWSER'] = browser
+      ENV['WATIR_BROWSER'] = browser
+      ENV["USE_REMOTE"] = 'true'
       Rake::Task[:spec].execute
     end
   end

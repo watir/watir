@@ -1,7 +1,7 @@
 require 'watirspec'
 require 'spec_helper'
 
-class ImplementationConfig
+class LocalConfig
   def initialize(imp)
     @imp = imp
   end
@@ -10,50 +10,13 @@ class ImplementationConfig
     @browser ||= (ENV['WATIR_BROWSER'] || :chrome).to_sym
   end
 
-  def remote_browser
-    @remote_browser ||= (ENV['REMOTE_BROWSER'] || :chrome).to_sym
-  end
-
   def configure
     set_webdriver
-    start_remote_server if remote? && !ENV["REMOTE_SERVER_URL"]
     set_browser_args
     set_guard_proc
   end
 
   private
-
-  def start_remote_server
-    require 'selenium/server'
-
-    @server ||= Selenium::Server.new(remote_server_jar,
-                                     port: Selenium::WebDriver::PortProber.above(4444),
-                                     log: !!$DEBUG,
-                                     background: true,
-                                     timeout: 60)
-
-    @server.start
-    at_exit { @server.stop }
-  end
-
-  def remote_server_jar
-    if ENV['LOCAL_SELENIUM']
-      local = File.expand_path('../selenium/buck-out/gen/java/server/src/org/openqa/grid/selenium/selenium.jar')
-    end
-
-    if File.exist?(ENV['REMOTE_SERVER_BINARY'] || '')
-      ENV['REMOTE_SERVER_BINARY']
-    elsif ENV['LOCAL_SELENIUM'] && File.exists?(local)
-      local
-    elsif !Dir.glob('*selenium*.jar').empty?
-      Dir.glob('*selenium*.jar').first
-    else
-      Selenium::Server.download :latest
-    end
-  rescue SocketError
-    # not connected to internet
-    raise Watir::Exception::Error, "unable to find or download selenium-server-standalone jar"
-  end
 
   def set_webdriver
     @imp.name          = :webdriver
@@ -61,15 +24,14 @@ class ImplementationConfig
   end
 
   def set_browser_args
-    args = case browser
-           when :firefox
-             firefox_args
-           when :chrome
-             chrome_args
-           when :safari
-             safari_args
-           when :remote
-             remote_args
+    args = create_args
+    @imp.browser_args = [browser, args]
+  end
+
+  def create_args
+    method = "#{browser}_args".to_sym
+    args = if private_methods.include?(method)
+             send method
            else
              {desired_capabilities: Selenium::WebDriver::Remote::Capabilities.send(browser)}
            end
@@ -80,34 +42,22 @@ class ImplementationConfig
       at_exit { listener.report }
     end
 
-    @imp.browser_args = [browser, args]
-  end
-
-  def ie?
-    [:internet_explorer].include? browser
-  end
-
-  def safari?
-    browser == :safari
-  end
-
-  def remote?
-    browser == :remote
+    args
   end
 
   def set_guard_proc
+    matching_guards = add_guards
+
+    @imp.guard_proc = lambda { |args|
+      args.any? { |arg| matching_guards.include?(arg) }
+    }
+  end
+
+  def add_guards
     matching_guards = [:webdriver]
 
-    if remote?
-      matching_browser = remote_browser
-      matching_guards << :remote
-      matching_guards << [:remote, matching_browser]
-    else
-      matching_browser = browser
-    end
-
-    matching_guards << matching_browser
-    matching_guards << [matching_browser, Selenium::WebDriver::Platform.os]
+    matching_guards << browser
+    matching_guards << [browser, Selenium::WebDriver::Platform.os]
     matching_guards << :relaxed_locate if Watir.relaxed_locate?
     matching_guards << :not_relaxed_locate unless Watir.relaxed_locate?
 
@@ -115,35 +65,12 @@ class ImplementationConfig
       # some specs (i.e. Window#maximize) needs a window manager on linux
       matching_guards << :window_manager
     end
-
-    @imp.guard_proc = lambda { |args|
-      args.any? { |arg| matching_guards.include?(arg) }
-    }
+    matching_guards
   end
 
   def firefox_args
-    path = ENV['FIREFOX_BINARY']
-    Selenium::WebDriver::Firefox::Binary.path = path if path
+    Selenium::WebDriver::Firefox::Binary.path = ENV['FIREFOX_BINARY'] if ENV['FIREFOX_BINARY']
     {desired_capabilities: Selenium::WebDriver::Remote::Capabilities.firefox}
-  end
-
-  def chrome_args
-    opts = {args: ["--disable-translate"],
-            desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome}
-
-    if url = ENV['WATIR_CHROME_SERVER']
-      opts[:url] = url
-    end
-
-    if driver = ENV['WATIR_CHROME_DRIVER']
-      Selenium::WebDriver::Chrome.driver_path = driver
-    end
-
-    if path = ENV['WATIR_CHROME_BINARY']
-      Selenium::WebDriver::Chrome.path = path
-    end
-
-    opts
   end
 
   def safari_args
@@ -151,18 +78,10 @@ class ImplementationConfig
     {desired_capabilities: Selenium::WebDriver::Remote::Capabilities.safari}
   end
 
-  def remote_args
-    url = ENV["REMOTE_SERVER_URL"] || "http://127.0.0.1:#{@server.port}/wd/hub"
-    opts = {}
-    if remote_browser == :firefox
-      path = ENV['FIREFOX_BINARY']
-      opts[:firefox_binary] = path if path
-    elsif remote_browser == :safari
-      opts["safari.options"] = {'technologyPreview' => true}
-    end
-
-    caps = Selenium::WebDriver::Remote::Capabilities.send(remote_browser, opts)
-    {url: url, desired_capabilities: caps}
+  def chrome_args
+    Selenium::WebDriver::Chrome.path = ENV['CHROME_BINARY'] if ENV['CHROME_BINARY']
+    opts = {args: ["--disable-translate"]}
+    {desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(opts)}
   end
 
   class SelectorListener < Selenium::WebDriver::Support::AbstractEventListener
@@ -170,7 +89,7 @@ class ImplementationConfig
       @counts = Hash.new(0)
     end
 
-    def before_find(how, what, driver)
+    def before_find(how, _what, _driver)
       @counts[how] += 1
     end
 
@@ -185,5 +104,59 @@ class ImplementationConfig
   end
 end
 
-ImplementationConfig.new(WatirSpec.implementation).configure
+class RemoteConfig < LocalConfig
+  def configure
+    @url = ENV["REMOTE_SERVER_URL"] || begin
+      require 'watirspec/remote_server'
+
+      remote_server = WatirSpec::RemoteServer.new
+      remote_server.start
+      remote_server.server.webdriver_url
+    end
+    super
+  end
+
+  private
+
+  def add_guards
+    matching_guards = super
+    matching_guards << :remote
+    matching_guards << [:remote, browser]
+    matching_guards
+  end
+
+  def set_browser_args
+    args = create_args
+    @imp.browser_args = [:remote, args]
+  end
+
+  def create_args
+    super.merge(url: @url)
+  end
+
+  def firefox_args
+    opts = {desired_capabilities: Selenium::WebDriver::Remote::Capabilities.firefox}
+    opts[:firefox_options] = {binary: ENV['FIREFOX_BINARY']} if ENV['FIREFOX_BINARY']
+    opts
+  end
+
+  def safari_args
+    opts = {"safari.options" => {'technologyPreview' => true}}
+    {desired_capabilities: Selenium::WebDriver::Remote::Capabilities.safari(opts)}
+  end
+
+  def chrome_args
+    opts = {args: ["--disable-translate"]}
+    opts['chromeOptions'] = {'binary' => ENV['CHROME_BINARY']} if ENV['CHROME_BINARY']
+    {desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(opts)}
+  end
+
+end
+
+if ENV["REMOTE_SERVER_URL"] || ENV["USE_REMOTE"]
+  RemoteConfig.new(WatirSpec.implementation).configure
+else
+  LocalConfig.new(WatirSpec.implementation).configure
+end
+
 WatirSpec.run!
