@@ -3,31 +3,65 @@
 # use host's /dev/shm.
 sudo: required
 dist: trusty
-rvm:
-  - 2.2.7
-  - 2.3.4
-  - 2.4.1
-addons:
-  firefox: latest
-  apt:
-    packages:
-      - unzip
-      - libxss1
-      - google-chrome-stable
 cache: bundler
 notifications:
-  recipients:
-    - p0deje@gmail.com
-    - jarmo.p@gmail.com
-    - titusfortner@gmail.com
   slack:
     secure: BLsBCm33R32VNRccrLx9F0P24X6BVpVHj1OWaN4Kyn6g9qXteIwC2VKVMnKNbifpojfMkrn0OeFQFK1O1DSOsC3mgzn/udoB+DnUGcSemFUn04xhbYF5SI+3zGPKPo0JLvjjdEKSSma84YwKdrj88pGUK34p01gL8hiaqjFzWdk=
 before_script:
   - support/travis.sh
 script: bundle exec rake $RAKE_TASK
-env:
-  - RAKE_TASK=spec:firefox
-  - RAKE_TASK=spec:firefox RELAXED_LOCATE=false
-  - RAKE_TASK=spec:chrome
-  - RAKE_TASK=spec:chrome RELAXED_LOCATE=false
-  - RAKE_TASK=yard:doctest
+
+_version:
+  two: &two
+    language: ruby
+    rvm: 2.2.7
+  three: &three
+    language: ruby
+    rvm: 2.3.4
+  four: &four
+    language: ruby
+    rvm: 2.4.1
+
+_browsers:
+  firefox: &firefox-latest
+    addons:
+      firefox: latest
+  chrome: &chrome
+     addons:
+       chrome: stable
+
+matrix:
+  include:
+      - env: RAKE_TASK=yard:doctest
+        <<: *four
+        <<: *chrome
+      - env: RAKE_TASK=spec:chrome
+        <<: *two
+        <<: *chrome
+      - env: RAKE_TASK=spec:chrome
+        <<: *three
+        <<: *chrome
+      - env: RAKE_TASK=spec:chrome
+        <<: *four
+        <<: *chrome
+      - env: RAKE_TASK=spec:chrome RELAXED_LOCATE=false
+        <<: *four
+        <<: *chrome
+      - env: RAKE_TASK=spec:firefox
+        <<: *two
+        <<: *firefox-latest
+      - env: RAKE_TASK=spec:firefox
+        <<: *three
+        <<: *firefox-latest
+      - env: RAKE_TASK=spec:firefox
+        <<: *four
+        <<: *firefox-latest
+      - env: RAKE_TASK=spec:firefox RELAXED_LOCATE=false
+        <<: *four
+        <<: *firefox-latest
+      - env: RAKE_TASK=spec:remote_chrome
+        <<: *four
+        <<: *chrome
+      - env: RAKE_TASK=spec:remote_firefox
+        <<: *four
+        <<: *firefox-latest
