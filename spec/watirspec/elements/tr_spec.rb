@@ -36,9 +36,11 @@ describe "TableRow" do
 
   describe "#click" do
     bug "http://github.com/watir/watir/issues/issue/32", :internet_explorer, :chrome do
-      it "fires the row's onclick event" do
-        browser.tr(id: 'inner_first').click
-        expect(messages).to include('tr')
+      not_compliant_on :firefox do
+        it "fires the row's onclick event" do
+          browser.tr(id: 'inner_first').click
+          expect(messages).to include('tr')
+        end
       end
     end
   end

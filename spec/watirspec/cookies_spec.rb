@@ -113,17 +113,19 @@ describe "Browser#cookies" do
     end
 
     describe '#load' do
-      it 'loads cookies from file' do
-        browser.cookies.clear
-        browser.cookies.load file
-        expected = browser.cookies.to_a
-        actual = YAML.load(IO.read(file))
+      bug "invalid expiration issue", :firefox do
+        it 'loads cookies from file' do
+          browser.cookies.clear
+          browser.cookies.load file
+          expected = browser.cookies.to_a
+          actual = YAML.load(IO.read(file))
 
-        # https://code.google.com/p/selenium/issues/detail?id=6834
-        expected.each { |cookie| cookie.delete(:expires) }
-        actual.each { |cookie| cookie.delete(:expires) }
+          # https://code.google.com/p/selenium/issues/detail?id=6834
+          expected.each { |cookie| cookie.delete(:expires) }
+          actual.each { |cookie| cookie.delete(:expires) }
 
-        expect(actual).to eq(expected)
+          expect(actual).to eq(expected)
+        end
       end
     end
   end

@@ -37,15 +37,17 @@ describe 'Watir#relaxed_locate?' do
       end
 
       context 'when acting on an element that eventually becomes present' do
-        it 'waits until present and then takes action' do
-          begin
-            Watir.default_timeout = 3
-            start_time = ::Time.now
-            browser.a(id: 'show_bar').click
-            expect { browser.div(id: 'bar').click }.to_not raise_exception
-            expect(::Time.now - start_time).to be < 3
-          ensure
-            Watir.default_timeout = 30
+        bug "https://github.com/SeleniumHQ/selenium/issues/4380", %i{remote firefox} do
+          it 'waits until present and then takes action' do
+            begin
+              Watir.default_timeout = 3
+              start_time = ::Time.now
+              browser.a(id: 'show_bar').click
+              expect { browser.div(id: 'bar').click }.to_not raise_exception
+              expect(::Time.now - start_time).to be < 3
+            ensure
+              Watir.default_timeout = 30
+            end
           end
         end
       end

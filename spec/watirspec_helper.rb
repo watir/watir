@@ -157,6 +157,8 @@ class ImplementationConfig
     if remote_browser == :firefox
       path = ENV['FIREFOX_BINARY']
       opts[:firefox_binary] = path if path
+    elsif remote_browser == :safari
+      opts["safari.options"] = {'technologyPreview' => true}
     end
 
     caps = Selenium::WebDriver::Remote::Capabilities.send(remote_browser, opts)
