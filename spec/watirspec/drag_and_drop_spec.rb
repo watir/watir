@@ -15,16 +15,14 @@ describe "Element" do
           expect(droppable.text).to eq 'Dropped!'
         end
 
-        bug "http://code.google.com/p/selenium/issues/detail?id=3075", :ff_legacy do
-          it "can drag and drop an element onto another when draggable is out of viewport" do
-            reposition "draggable"
-            perform_drag_and_drop_on_droppable
-          end
+        it "can drag and drop an element onto another when draggable is out of viewport" do
+          reposition "draggable"
+          perform_drag_and_drop_on_droppable
+        end
 
-          it "can drag and drop an element onto another when droppable is out of viewport" do
-            reposition "droppable"
-            perform_drag_and_drop_on_droppable
-          end
+        it "can drag and drop an element onto another when droppable is out of viewport" do
+          reposition "droppable"
+          perform_drag_and_drop_on_droppable
         end
 
         it "can drag an element by the given offset" do

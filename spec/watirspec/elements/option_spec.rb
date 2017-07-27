@@ -93,24 +93,6 @@ describe "Option" do
           browser.select_list(name: 'new_user_country').option(text: 'Sweden').select
           expect(browser.select_list(name: 'new_user_country').option(text: 'Sweden')).to be_selected
         end
-
-        # there's no onclick event for Option in IE / WebKit
-        # http://msdn.microsoft.com/en-us/library/ms535877(VS.85).aspx
-        compliant_on :ff_legacy do
-          it "fires the onclick event (page context)" do
-            browser.option(text: "Username 3").select
-            expect(browser.textarea(id: 'delete_user_comment').value).to eq 'Don\'t do it!'
-          end
-        end
-      end
-    end
-
-    # there's no onclick event for Option in IE / WebKit
-    # http://msdn.microsoft.com/en-us/library/ms535877(VS.85).aspx
-    compliant_on :ff_legacy do
-      it "fires onclick event (select_list context)" do
-        browser.select_list(id: 'delete_user_username').option(text: "Username 3").select
-        expect(browser.textarea(id: 'delete_user_comment').value).to eq 'Don\'t do it!'
       end
     end
 

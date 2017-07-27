@@ -64,8 +64,6 @@ class ImplementationConfig
     args = case browser
            when :firefox
              firefox_args
-           when :ff_legacy
-             ff_legacy_args
            when :chrome
              chrome_args
            when :safari
@@ -104,12 +102,10 @@ class ImplementationConfig
       matching_browser = remote_browser
       matching_guards << :remote
       matching_guards << [:remote, matching_browser]
-      matching_guards << [:remote, :ff_legacy] if @ff_legacy
     else
       matching_browser = browser
     end
 
-    matching_guards << :ff_legacy if @ff_legacy
     matching_guards << matching_browser
     matching_guards << [matching_browser, Selenium::WebDriver::Platform.os]
     matching_guards << :relaxed_locate if Watir.relaxed_locate?
@@ -129,15 +125,6 @@ class ImplementationConfig
     path = ENV['FIREFOX_BINARY']
     Selenium::WebDriver::Firefox::Binary.path = path if path
     {desired_capabilities: Selenium::WebDriver::Remote::Capabilities.firefox}
-  end
-
-  def ff_legacy_args
-    @browser = :firefox
-    @ff_legacy = true
-    caps = Selenium::WebDriver::Remote::Capabilities.firefox(marionette: false)
-    path = ENV['FF_LEGACY_BINARY']
-    Selenium::WebDriver::Firefox::Binary.path = path if path
-    {desired_capabilities: caps}
   end
 
   def chrome_args
@@ -167,13 +154,7 @@ class ImplementationConfig
   def remote_args
     url = ENV["REMOTE_SERVER_URL"] || "http://127.0.0.1:#{@server.port}/wd/hub"
     opts = {}
-    if remote_browser == :ff_legacy
-      path = ENV['FF_LEGACY_BINARY']
-      opts[:firefox_binary] = path if path
-      @remote_browser = :firefox
-      @ff_legacy = true
-      opts[:marionette] = false
-    elsif remote_browser == :firefox
+    if remote_browser == :firefox
       path = ENV['FIREFOX_BINARY']
       opts[:firefox_binary] = path if path
     end

@@ -170,18 +170,6 @@ describe "Browser" do
       end
     end
 
-    compliant_on :ff_legacy do
-      it "goes to internal Firefox URL 'about:mozilla' without raising errors" do
-        expect { browser.goto("about:mozilla") }.to_not raise_error
-      end
-    end
-
-    compliant_on :opera do
-      it "goes to internal Opera URL 'opera:config' without raising errors" do
-        expect { browser.goto("opera:config") }.to_not raise_error
-      end
-    end
-
     compliant_on :chrome do
       it "goes to internal Chrome URL 'chrome://settings/browser' without raising errors" do
         expect { browser.goto("chrome://settings/browser") }.to_not raise_error

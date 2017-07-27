@@ -343,7 +343,7 @@ describe "Window" do
       browser.goto WatirSpec.url_for("window_switching.html")
     end
 
-    compliant_on :ff_legacy, :chrome do
+    compliant_on :chrome do
       it "should get the size of the current window" do
         size = browser.window.size
 
