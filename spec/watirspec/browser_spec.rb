@@ -78,13 +78,7 @@ describe "Browser" do
   bug "Capitalization bug fixed in upcoming release", %i(remote firefox) do
     describe "#name" do
       it "returns browser name" do
-        not_compliant_on :remote do
-          expect(browser.name).to eq(WatirSpec.implementation.browser_args.first)
-        end
-
-        deviates_on :remote do
-          expect(browser.name).to eq WatirSpec.implementation.browser_args[1][:desired_capabilities].browser_name.to_sym
-        end
+        expect(browser.name).to eq(WatirSpec.implementation.browser_args.first)
       end
     end
   end

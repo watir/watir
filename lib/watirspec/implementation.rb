@@ -8,6 +8,11 @@ module WatirSpec
       @guard_proc = nil
     end
 
+    def initialize_copy(orig)
+      super
+      @browser_args = Marshal.load( Marshal.dump(@browser_args))
+    end
+
     def browser_class
       @browser_class || raise("browser_class not set")
     end

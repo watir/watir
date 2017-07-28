@@ -73,6 +73,10 @@ YARD::Doctest.configure do |doctest|
     end
   end
 
+  doctest.after('Watir::Logger') do
+    Watir.logger = :info
+  end
+
   doctest.after('Watir::AfterHooks') do
     browser.after_hooks.each do |hook|
       browser.after_hooks.delete(hook)

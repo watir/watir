@@ -33,7 +33,7 @@ class LocalConfig
     args = if private_methods.include?(method)
              send method
            else
-             {desired_capabilities: Selenium::WebDriver::Remote::Capabilities.send(browser)}
+             {}
            end
 
     if ENV['SELECTOR_STATS']
@@ -69,19 +69,17 @@ class LocalConfig
   end
 
   def firefox_args
-    Selenium::WebDriver::Firefox::Binary.path = ENV['FIREFOX_BINARY'] if ENV['FIREFOX_BINARY']
-    {desired_capabilities: Selenium::WebDriver::Remote::Capabilities.firefox}
+    ENV['FIREFOX_BINARY'] ? {options: {binary: ENV['FIREFOX_BINARY']}} : {}
   end
 
   def safari_args
-    Selenium::WebDriver::Safari.technology_preview!
-    {desired_capabilities: Selenium::WebDriver::Remote::Capabilities.safari}
+    {technology_preview: true}
   end
 
   def chrome_args
-    Selenium::WebDriver::Chrome.path = ENV['CHROME_BINARY'] if ENV['CHROME_BINARY']
     opts = {args: ["--disable-translate"]}
-    {desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(opts)}
+    opts[:options] = {binary: ENV['CHROME_BINARY']} if ENV['CHROME_BINARY']
+    opts
   end
 
   class SelectorListener < Selenium::WebDriver::Support::AbstractEventListener
@@ -101,7 +99,6 @@ class LocalConfig
       end
       Watir.logger.warn str
     end
-
   end
 end
 
@@ -126,32 +123,9 @@ class RemoteConfig < LocalConfig
     matching_guards
   end
 
-  def set_browser_args
-    args = create_args
-    @imp.browser_args = [:remote, args]
-  end
-
   def create_args
     super.merge(url: @url)
   end
-
-  def firefox_args
-    opts = {desired_capabilities: Selenium::WebDriver::Remote::Capabilities.firefox}
-    opts[:firefox_options] = {binary: ENV['FIREFOX_BINARY']} if ENV['FIREFOX_BINARY']
-    opts
-  end
-
-  def safari_args
-    opts = {"safari.options" => {'technologyPreview' => true}}
-    {desired_capabilities: Selenium::WebDriver::Remote::Capabilities.safari(opts)}
-  end
-
-  def chrome_args
-    opts = {args: ["--disable-translate"]}
-    opts['chromeOptions'] = {'binary' => ENV['CHROME_BINARY']} if ENV['CHROME_BINARY']
-    {desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(opts)}
-  end
-
 end
 
 if ENV["REMOTE_SERVER_URL"] || ENV["USE_REMOTE"]

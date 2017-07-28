@@ -3,19 +3,103 @@ require 'watirspec_helper'
 describe Watir::Browser do
 
   describe ".new" do
-    it "passes the args to Selenium" do
-      expect(Selenium::WebDriver).to receive(:for).with(:firefox, :foo).and_return(nil)
-      Watir::Browser.new(:firefox, :foo)
-    end
+    not_compliant_on :remote do
+      context "with parameters" do
+        let(:url) {"http://localhost:4544/wd/hub/"}
 
-    it "takes a Driver instance as argument" do
-      mock_driver = double(Selenium::WebDriver::Driver)
-      expect(Selenium::WebDriver::Driver).to receive(:===).with(mock_driver).and_return(true)
-      expect { Watir::Browser.new(mock_driver) }.to_not raise_error
-    end
+        before(:all) do
+          @original = WatirSpec.implementation.clone
 
-    it "raises ArgumentError for invalid args" do
-      expect { Watir::Browser.new(Object.new) }.to raise_error(ArgumentError)
+          require 'watirspec/remote_server'
+          WatirSpec::RemoteServer.new.start(4544)
+          browser.close
+        end
+
+        before(:each) do
+          @opts = WatirSpec.implementation.browser_args.last
+        end
+
+        after(:each) do
+          WatirSpec.implementation = @original.clone
+        end
+
+        after(:all) do
+          $browser = WatirSpec.new_browser
+        end
+
+        it "uses remote client based on provided url" do
+          @opts.merge!(url: url)
+          new_browser = WatirSpec.new_browser
+
+          server_url = new_browser.driver.instance_variable_get('@bridge').http.instance_variable_get('@server_url')
+          expect(server_url).to eq URI.parse(url)
+          new_browser.close
+        end
+
+        it "sets client timeout" do
+          @opts.merge!(url: url, open_timeout: 44, read_timeout: 47)
+          new_browser = WatirSpec.new_browser
+
+          http = new_browser.driver.instance_variable_get('@bridge').http
+
+          expect(http.open_timeout).to eq 44
+          expect(http.read_timeout).to eq 47
+          new_browser.close
+        end
+
+        it "accepts http_client" do
+          http_client = Selenium::WebDriver::Remote::Http::Default.new
+          @opts.merge!(url: url, http_client: http_client)
+          new_browser = WatirSpec.new_browser
+
+          expect(new_browser.driver.instance_variable_get('@bridge').http).to eq http_client
+          new_browser.close
+        end
+
+        compliant_on :firefox do
+          it "accepts Remote::Capabilities instance as :desired_capabilities" do
+            caps = Selenium::WebDriver::Remote::Capabilities.firefox(accept_insecure_certs: true)
+            @opts.merge!(url: url, desired_capabilities: caps)
+
+            expect { @new_browser = WatirSpec.new_browser }.to output.to_stderr
+
+            expect(@new_browser.driver.capabilities['acceptInsecureCerts']).to eq true
+            @new_browser.close
+          end
+        end
+
+        compliant_on :firefox do
+          it "accepts individual driver capabilities" do
+            @opts.merge!(accept_insecure_certs: true)
+            new_browser = WatirSpec.new_browser
+
+            expect(new_browser.driver.capabilities[:accept_insecure_certs]).to eq true
+            new_browser.close
+          end
+        end
+
+        compliant_on :chrome do
+          it "accepts browser options" do
+            @opts.merge!(options: {emulation: {userAgent: 'foo;bar'}})
+
+            new_browser = WatirSpec.new_browser
+
+            ua = new_browser.execute_script 'return window.navigator.userAgent'
+            expect(ua).to eq('foo;bar')
+            new_browser.close
+          end
+        end
+      end
+
+      it "takes a driver instance as argument" do
+        mock_driver = double(Selenium::WebDriver::Driver)
+        expect(Selenium::WebDriver::Driver).to receive(:===).with(mock_driver).and_return(true)
+        expect { Watir::Browser.new(mock_driver) }.to_not raise_error
+      end
+
+      it "raises ArgumentError for invalid args" do
+        expect { Watir::Browser.new(Object.new) }.to raise_error(ArgumentError)
+      end
     end
   end
 
