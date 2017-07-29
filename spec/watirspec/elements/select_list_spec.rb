@@ -304,6 +304,51 @@ describe "SelectList" do
       end
     end
 
+    describe "#select!" do
+      bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1255957", :firefox do
+        context "when interacting with options" do
+          it "selects the given item when given a String" do
+            browser.select_list(name: "new_user_country").select!("Denmark")
+            expect(browser.select_list(name: "new_user_country").selected_options.map(&:text)).to eq ["Denmark"]
+          end
+
+          it "selects the given item when given a Regexp" do
+            browser.select_list(name: "new_user_country").select!(/Denmark/)
+            expect(browser.select_list(name: "new_user_country").selected_options.map(&:text)).to eq ["Denmark"]
+          end
+
+          it "selects the given item when given an Xpath" do
+            browser.select_list(xpath: "//select[@name='new_user_country']").select!("Denmark")
+            expect(browser.select_list(xpath: "//select[@name='new_user_country']").selected_options.map(&:text)).to eq ["Denmark"]
+          end
+
+          it "selects multiple items using :name and a String" do
+            browser.select_list(name: "new_user_languages").clear
+            browser.select_list(name: "new_user_languages").select!("Danish")
+            browser.select_list(name: "new_user_languages").select!("Swedish")
+            expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["Danish", "Swedish"]
+          end
+
+          it "selects multiple items using :name and a Regexp" do
+            browser.select_list(name: "new_user_languages").clear
+            browser.select_list(name: "new_user_languages").select_all!(/ish/)
+            expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["Danish", "English", "Swedish"]
+          end
+
+          it "selects multiple items using :xpath" do
+            browser.select_list(xpath: "//select[@name='new_user_languages']").clear
+            browser.select_list(xpath: "//select[@name='new_user_languages']").select_all!(/ish/)
+            expect(browser.select_list(xpath: "//select[@name='new_user_languages']").selected_options.map(&:text)).to eq ["Danish", "English", "Swedish"]
+          end
+
+          it "selects empty options" do
+            browser.select_list(id: "delete_user_username").select!("")
+            expect(browser.select_list(id: "delete_user_username").selected_options.map(&:text)).to eq [""]
+          end
+        end
+      end
+    end
+
     it "returns the value selected" do
       expect(browser.select_list(name: "new_user_languages").select("Danish")).to eq "Danish"
     end
@@ -390,6 +435,18 @@ describe "SelectList" do
       it "raises NoValueFoundException if the option doesn't exist" do
         expect { browser.select_list(name: "new_user_languages").select_value("no_such_option") }.to raise_no_value_found_exception
         expect { browser.select_list(name: "new_user_languages").select_value(/no_such_option/) }.to raise_no_value_found_exception
+      end
+    end
+
+    describe "#select_value!" do
+      it "selects the item by value string" do
+        browser.select_list(name: "new_user_languages").clear
+        browser.select_list(name: "new_user_languages").select_value!("2")
+        expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq %w[English]
+      end
+
+      it "raises NoValueFoundException if the option doesn't exist" do
+        expect { browser.select_list(name: "new_user_languages").select_value!("no_such_option") }.to raise_no_value_found_exception
       end
     end
   end

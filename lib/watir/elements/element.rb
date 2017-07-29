@@ -137,6 +137,18 @@ module Watir
     end
 
     #
+    # Simulates JavaScript click event on element.
+    #
+    # @example Click an element
+    #   browser.element(name: "new_user_button").click!
+    #
+
+    def click!
+      fire_event :click
+      browser.after_hooks.run
+    end
+
+    #
     # Double clicks the element.
     # Note that browser support may vary.
     #
@@ -148,6 +160,19 @@ module Watir
       element_call(:wait_for_present) { driver.action.double_click(@element).perform }
       browser.after_hooks.run
     end
+
+    #
+    # Simulates JavaScript double click event on element.
+    #
+    # @example
+    #   browser.element(name: "new_user_button").double_click!
+    #
+
+    def double_click!
+      fire_event :dblclick
+      browser.after_hooks.run
+    end
+
 
     #
     # Right clicks the element.

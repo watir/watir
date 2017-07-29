@@ -58,6 +58,28 @@ module Watir
     end
 
     #
+    # Uses JavaScript to select the option whose text matches the given string.
+    #
+    # @param [String, Regexp] str_or_rx
+    # @raise [Watir::Exception::NoValueFoundException] if the value does not exist.
+    #
+
+    def select!(str_or_rx)
+      select_by!(:text, str_or_rx, 'single')
+    end
+
+    #
+    # Uses JavaScript to select all options whose text matches the given string.
+    #
+    # @param [String, Regexp] str_or_rx
+    # @raise [Watir::Exception::NoValueFoundException] if the value does not exist.
+    #
+
+    def select_all!(str_or_rx)
+      select_by!(:text, str_or_rx, 'multiple')
+    end
+
+    #
     # Selects the option(s) whose value attribute matches the given string.
     #
     # @see +select+
@@ -70,6 +92,19 @@ module Watir
     def select_value(str_or_rx)
       Watir.logger.deprecate '#select_value', "#select"
       select_by str_or_rx
+    end
+
+    #
+    # Uses JavaScript to select the option whose value attribute matches the given string.
+    #
+    # @see +select+
+    #
+    # @param [String, Regexp] str_or_rx
+    # @raise [Watir::Exception::NoValueFoundException] if the value does not exist.
+    #
+
+    def select_value!(str_or_rx)
+      select_by!(:value, str_or_rx, 'single')
     end
 
     #
@@ -147,6 +182,22 @@ module Watir
       return select_matching(found) if found && found.any?
       raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
     end
+    def select_by!(how, str_or_rx, number)
+      script = how == :text ? text_script : value_script
+
+      if str_or_rx.is_a? Regexp
+        js_rx = str_or_rx.inspect.sub('\\A','^').sub('\\Z','$').sub('\\z','$').sub(/^\//,'').sub(/\/[a-z]*$/,'').gsub(/\(\?#.+\)/, '').gsub(/\(\?-\w+:/,'(')
+      else
+        js_rx = str_or_rx
+      end
+
+      element_call do
+        @query_scope.execute_script(script, self, js_rx, number)
+      end
+
+      return if selected_options.map(&how).any? { |v| str_or_rx.is_a?(String) ?  v == str_or_rx : v =~ str_or_rx }
+      raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
+    end
 
     def select_all_by(str_or_rx)
       raise Error, "you can only use #select_all on multi-selects" unless multiple?
@@ -190,6 +241,33 @@ module Watir
         raise Error, "unknown how: #{how.inspect}"
       end
     end
+
+    def text_script
+      <<SCRIPT
+      for(var i=0; i<arguments[0].options.length; i++) {
+        if ( arguments[0].options[i].text.match(arguments[1]) ) {
+          arguments[0].options[i].selected = true;
+          if ( arguments[2] == 'single' ) {
+            break;
+          }
+        }
+      }
+SCRIPT
+    end
+
+    def value_script
+      <<SCRIPT
+      for(var i=0; i<arguments[0].options.length; i++) {
+        if ( arguments[0].options[i].value.match(arguments[1]) ) {
+          arguments[0].options[i].selected = true;
+          if ( arguments[2] == 'single' ) {
+            break;
+          }
+        }
+      }
+SCRIPT
+    end
+
   end # Select
 
   module Container

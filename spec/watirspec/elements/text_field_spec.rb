@@ -301,4 +301,40 @@ describe "TextField" do
       expect { browser.text_field(id: "no_such_id").set('secret') }.to raise_unknown_object_exception
     end
   end
+
+  describe "#set!" do
+    it "sets the value of the element" do
+      browser.text_field(id: 'new_user_email').set!('Bye Cruel World')
+      expect(browser.text_field(id: "new_user_email").value).to eq 'Bye Cruel World'
+    end
+
+    it "sets the value of a textarea element" do
+      browser.textarea(id: 'delete_user_comment').set!('Hello Cruel World')
+      expect(browser.textarea(id: "delete_user_comment").value).to eq 'Hello Cruel World'
+    end
+
+    it "fires events" do
+      browser.text_field(id: "new_user_username").set!("Hello World")
+      expect(browser.span(id: "current_length").text).to eq "11"
+    end
+
+    it "sets the value of a password field" do
+      browser.text_field(name: 'new_user_password').set!('secret')
+      expect(browser.text_field(name: 'new_user_password').value).to eq 'secret'
+    end
+
+    it "sets the value when accessed through the enclosing Form" do
+      browser.form(id: 'new_user').text_field(name: 'new_user_password').set!('secret')
+      expect(browser.form(id: 'new_user').text_field(name: 'new_user_password').value).to eq 'secret'
+    end
+
+    it "is able to set multi-byte characters" do
+      browser.text_field(name: "new_user_occupation").set!("ĳĳ")
+      expect(browser.text_field(name: "new_user_occupation").value).to eq "ĳĳ"
+    end
+
+    it "raises UnknownObjectException if the text field doesn't exist" do
+      expect { browser.text_field(id: "no_such_id").set!('secret') }.to raise_unknown_object_exception
+    end
+  end
 end

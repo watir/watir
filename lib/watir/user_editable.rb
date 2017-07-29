@@ -16,6 +16,20 @@ module Watir
     alias_method :value=, :set
 
     #
+    # Uses JavaScript to enter most of the given value.
+    # Selenium is used to enter the first and last characters
+    #
+    # @param [String, Symbol] *args
+    #
+
+    def set!(val)
+      set val[0]
+      execute_script("arguments[0].value=arguments[1]", self, val[0..-2])
+      append(val[-1])
+      raise Watir::Exception::Error, "#set! value does not match expected input" unless value == val
+    end
+
+    #
     # Appends the given value to the text in the text field.
     #
     # @param [String, Symbol] *args

@@ -153,6 +153,21 @@ describe "Div" do
         expect { browser.div(xpath: "//div[@id='no_such_id']").click }.to raise_unknown_object_exception
       end
     end
+
+    describe "#click!" do
+      it "fires events when clicked" do
+        expect(browser.div(id: 'best_language').text).to_not eq 'Ruby!'
+        browser.div(id: 'best_language').click!
+        expect(browser.div(id: 'best_language').text).to eq 'Ruby!'
+      end
+
+      it "raises UnknownObjectException if the element does not exist" do
+        expect { browser.div(id: "no_such_id").click! }.to raise_unknown_object_exception
+        expect { browser.div(title: "no_such_title").click! }.to raise_unknown_object_exception
+        expect { browser.div(index: 1337).click! }.to raise_unknown_object_exception
+        expect { browser.div(xpath: "//div[@id='no_such_id']").click! }.to raise_unknown_object_exception
+      end
+    end
   end
 
   not_compliant_on :safari do
@@ -160,6 +175,13 @@ describe "Div" do
       describe "#double_click" do
         it "fires the ondblclick event" do
           browser.div(id: 'html_test').double_click
+          expect(messages).to include('double clicked')
+        end
+      end
+
+      describe "#double_click!" do
+        it "fires the ondblclick event" do
+          browser.div(id: 'html_test').double_click!
           expect(messages).to include('double clicked')
         end
       end
