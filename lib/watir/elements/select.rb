@@ -10,7 +10,7 @@ module Watir
       raise Error, "you can only clear multi-selects" unless multiple?
 
       options.each do |o|
-        click_option(o) if o.selected?
+        o.click if o.selected?
       end
     end
 
@@ -21,7 +21,7 @@ module Watir
     #
 
     def options(*)
-      element_call(:wait_for_exists) { super }
+      super
     end
 
     #
@@ -32,11 +32,7 @@ module Watir
     #
 
     def include?(str_or_rx)
-      element_call do
-        @element.find_elements(:tag_name, 'option').any? do |e|
-          str_or_rx === e.text || str_or_rx === e.attribute(:label)
-        end
-      end
+      option(text: str_or_rx).exist? || option(label: str_or_rx).exist?
     end
 
     #
@@ -75,21 +71,15 @@ module Watir
     #
 
     def selected?(str_or_rx)
-      match_found = false
+      by_text = options(text: str_or_rx)
+      return true if by_text.find { |e| e.selected? }
 
-      element_call do
-        @element.find_elements(:tag_name, 'option').each do |e|
-          matched = str_or_rx === e.text || str_or_rx === e.attribute(:label)
-          if matched
-            return true if e.selected?
-            match_found = true
-          end
-        end
-      end
+      by_label = options(label: str_or_rx)
+      return true if by_label.find { |e| e.selected? }
 
-      raise(UnknownObjectException, "Unable to locate option matching #{str_or_rx.inspect}") unless match_found
+      return false unless by_text.size + by_label.size == 0
 
-      false
+      raise(UnknownObjectException, "Unable to locate option matching #{str_or_rx.inspect}")
     end
 
     #
@@ -148,18 +138,18 @@ module Watir
             found = options(label: str_or_rx) if found.to_a.empty?
           else
             raise TypeError, "expected String or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
-           end
+          end
           !found.to_a.empty?
         end
       rescue Wait::TimeoutError
-        no_value_found(str_or_rx)
+        raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
       end
       select_matching(found)
     end
 
     def select_matching(elements)
       elements = [elements.first] unless multiple?
-      elements.each { |e| click_option(e) unless e.selected? }
+      elements.each { |e| e.click unless e.selected? }
       elements.first.exist? ? elements.first.text : ''
     end
 
@@ -173,19 +163,10 @@ module Watir
         raise Error, "unknown how: #{how.inspect}"
       end
     end
-
-    def click_option(element)
-      element = Option.new(self, element: element) unless element.is_a?(Option)
-      element.click
-    end
-
-    def no_value_found(arg, msg = nil)
-      raise NoValueFoundException, msg || "#{arg.inspect} not found in select list"
-    end
   end # Select
 
   module Container
-    alias_method :select_list,  :select
+    alias_method :select_list, :select
     alias_method :select_lists, :selects
 
     Watir.tag_to_class[:select_list] = Select
