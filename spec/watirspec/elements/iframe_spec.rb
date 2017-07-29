@@ -118,7 +118,7 @@ describe "IFrame" do
 
   it 'switches back to top level browsing context' do
     # Point driver to browsing context of first iframe
-    browser.iframes.first.ps.to_a
+    browser.iframes.first.ps.locate
 
     expect(browser.h1s.first.text).to be == 'Iframes'
   end
