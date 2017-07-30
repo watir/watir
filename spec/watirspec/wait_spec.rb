@@ -38,11 +38,6 @@ describe Watir::Wait do
       expect(timer).to receive(:wait).with(0.5).and_call_original
       Watir::Wait.until(timeout: 0.5) { true }
     end
-
-    it "ordered pairs are deprecated" do
-      message = /Instead of passing arguments into Wait#until method, use keywords/
-      expect { Watir::Wait.until(0) { true } }.to output(message).to_stderr
-    end
   end
 
   describe "#while" do
@@ -79,11 +74,6 @@ describe Watir::Wait do
       timer = Watir::Wait.timer
       expect(timer).to receive(:wait).with(0.5).and_call_original
       Watir::Wait.while(timeout: 0.5) { false }
-    end
-
-    it "ordered pairs are deprecated" do
-      message = /Instead of passing arguments into Wait#while method, use keywords/
-      expect { Watir::Wait.while(0) { false } }.to output(message).to_stderr
     end
   end
 
@@ -215,12 +205,6 @@ describe Watir::Element do
       end
     end
 
-    it "ordered pairs are deprecated" do
-      browser.a(id: 'show_bar').click
-      message = /Instead of passing arguments into #wait_until_present method, use keywords/
-      expect { browser.div(id: 'bar').wait_until_present(5) }.to output(message).to_stderr
-    end
-
     it 'waits to select an option' do
       browser.a(id: 'add_select').click
       select_list = browser.select_list(id: 'languages')
@@ -256,12 +240,6 @@ describe Watir::Element do
         element.wait_until_present(timeout: 0.4, interval: 0.2)
       rescue Watir::Wait::TimeoutError
       end
-    end
-
-    it "ordered pairs are deprecated" do
-      browser.a(id: 'hide_foo').click
-      message = /Instead of passing arguments into #wait_while_present method, use keywords/
-      expect { browser.div(id: 'foo').wait_while_present(5) }.to output(message).to_stderr
     end
 
     it "does not error when element goes stale" do

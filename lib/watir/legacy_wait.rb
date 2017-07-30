@@ -83,7 +83,7 @@ module Watir
     def when_present(timeout = nil)
       warning = '#when_present has been deprecated and is unlikely to be needed; '
       warning << 'replace this with #wait_until_present if a wait is still needed'
-      warn warning
+      Watir.logger.warn warning
 
       timeout ||= Watir.default_timeout
       message = "waiting for #{selector_string} to become present"
@@ -109,7 +109,7 @@ module Watir
     #
 
     def when_enabled(timeout = nil)
-      warn '#when_enabled has been deprecated and is unlikely to be needed'
+      Watir.logger.warn '#when_enabled has been deprecated and is unlikely to be needed'
 
       timeout ||= Watir.default_timeout
       message = "waiting for #{selector_string} to become enabled"

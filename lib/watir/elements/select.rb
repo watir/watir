@@ -151,7 +151,7 @@ module Watir
             raise TypeError, "expected String or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
           end
           if found.size > 1
-            warn "Selecting Multiple Options with #select is deprecated, please use #select_all"
+            Watir.logger.deprecate "Selecting Multiple Options with #select", "#select_all"
           end
           !found.empty?
         end

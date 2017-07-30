@@ -45,7 +45,7 @@ module Watir
           def equal_pair(building, key, value)
             if key == :class
               if value.strip.include?(' ')
-                warn 'Using the :class locator to locate multiple classes with a String value is deprecated; use an Array instead'
+                Watir.logger.deprecate "Using the :class locator to locate multiple classes with a String value", "Array"
               end
               build_class_match(value)
             elsif key == :label && @should_use_label_element
