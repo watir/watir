@@ -36,8 +36,7 @@ module Watir
     end
 
     #
-    # Select the option(s) whose text or label matches the given string.
-    # If this is a multi-select and several options match the value given, all will be selected.
+    # Select the option whose text or label matches the given string.
     #
     # @param [String, Regexp] str_or_rx
     # @raise [Watir::Exception::NoValueFoundException] if the value does not exist.
@@ -46,6 +45,18 @@ module Watir
 
     def select(str_or_rx)
       select_by :text, str_or_rx
+    end
+
+    #
+    # Select all options whose text or label matches the given string.
+    #
+    # @param [String, Regexp] str_or_rx
+    # @raise [Watir::Exception::NoValueFoundException] if the value does not exist.
+    # @return [String] The text of the first option selected.
+    #
+
+    def select_all(str_or_rx)
+      select_all_by :text, str_or_rx
     end
 
     #
@@ -135,11 +146,35 @@ module Watir
           case str_or_rx
           when String, Numeric, Regexp
             found = options(how => str_or_rx)
-            found = options(label: str_or_rx) if found.to_a.empty?
+            found = options(label: str_or_rx) if found.empty?
           else
             raise TypeError, "expected String or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
           end
-          !found.to_a.empty?
+          if found.size > 1
+            warn "Selecting Multiple Options with #select is deprecated, please use #select_all"
+          end
+          !found.empty?
+        end
+      rescue Wait::TimeoutError
+        raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
+      end
+      select_matching(found)
+    end
+
+    def select_all_by(how, str_or_rx)
+      raise Error, "you can only use #select_all on multi-selects" unless multiple?
+
+      found = nil
+      begin
+        Wait.until do
+          case str_or_rx
+          when String, Numeric, Regexp
+            found = options(how => str_or_rx)
+            found = options(label: str_or_rx) if found.empty?
+          else
+            raise TypeError, "expected String or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
+          end
+          !found.empty?
         end
       rescue Wait::TimeoutError
         raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"

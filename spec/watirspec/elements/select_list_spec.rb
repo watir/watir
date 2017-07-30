@@ -298,13 +298,13 @@ describe "SelectList" do
 
           it "selects multiple items using :name and a Regexp" do
             browser.select_list(name: "new_user_languages").clear
-            browser.select_list(name: "new_user_languages").select(/ish/)
+            browser.select_list(name: "new_user_languages").select_all(/ish/)
             expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["Danish", "English", "Swedish"]
           end
 
           it "selects multiple items using :xpath" do
             browser.select_list(xpath: "//select[@name='new_user_languages']").clear
-            browser.select_list(xpath: "//select[@name='new_user_languages']").select(/ish/)
+            browser.select_list(xpath: "//select[@name='new_user_languages']").select_all(/ish/)
             expect(browser.select_list(xpath: "//select[@name='new_user_languages']").selected_options.map(&:text)).to eq ["Danish", "English", "Swedish"]
           end
 
@@ -321,7 +321,7 @@ describe "SelectList" do
     end
 
     it "returns the first matching value if there are multiple matches" do
-      expect(browser.select_list(name: "new_user_languages").select(/ish/)).to eq "Danish"
+      expect(browser.select_list(name: "new_user_languages").select_all(/ish/)).to eq "Danish"
     end
 
     not_compliant_on :safari do
