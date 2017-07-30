@@ -95,10 +95,11 @@ class LocalConfig
 
     def report
       total = @counts.values.inject(0) { |mem, var| mem + var }
-      puts "\nSelenium selector stats: "
+      str = "Selenium selector stats: \n"
       @counts.each do |how, count|
-        puts "\t#{how.to_s.ljust(20)}: #{count * 100 / total} (#{count})"
+        str << "\t#{how.to_s.ljust(20)}: #{count * 100 / total} (#{count})\n"
       end
+      Watir.logger.warn str
     end
 
   end

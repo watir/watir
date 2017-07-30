@@ -33,10 +33,10 @@ module WatirSpec
       hash = browser_args.last
       desired_capabilities = hash.delete(:desired_capabilities)
       caps = desired_capabilities.send(:capabilities)
-      string = "driver: #{browser_args.first}\n"
+      string = "\tdriver: #{browser_args.first}\n"
       hash.each { |arg| string << "#{arg.inspect}\n" }
-      string << "capabilities:\n"
-      caps.each { |k, v| string << "\t#{k}: #{v}\n"}
+      string << "\tcapabilities:\n"
+      caps.each { |k, v| string << "\t\t#{k}: #{v}\n"}
       hash[:desired_capabilities] = desired_capabilities
       string
     end

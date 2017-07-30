@@ -62,7 +62,7 @@ module Watir
       when 'Float'
         define_float_attribute(name, attr)
       else
-        # $stderr.puts "treating #{type.inspect} as string for now"
+        Watir.logger.debug "treating #{type.inspect} as string for now"
       end
     end
 

@@ -12,17 +12,17 @@ module WatirSpec
 
       def report
         gs = WatirSpec.implementation.matching_guards_in(guards)
-        print "\n\nWatirSpec guards for this implementation: "
+        str= "WatirSpec guards for this implementation: \n"
 
         if gs.empty?
-          puts "none."
+          "\tnone."
         else
-          puts
           gs.each do |guard|
             guard[:data][:file] = guard[:data][:file][/\/spec\/(.*):/, 1]
             guard_name = "#{guard[:name]}:".ljust(15)
-            puts " #{guard_name} #{guard[:data].inspect}"
+            str << " \t#{guard_name} #{guard[:data].inspect}"
           end
+          Watir.logger.warn str
         end
       end
     end # class << self
