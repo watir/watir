@@ -3,6 +3,8 @@ module Watir
     include EventuallyPresent
     include Waitable
 
+    attr_reader :browser
+
     def initialize(browser)
       @browser = browser
       @alert = nil
@@ -19,8 +21,7 @@ module Watir
     #
 
     def text
-      wait_for_exists
-      @alert.text
+      Watir.executor.go(self) { @alert.text }
     end
 
     #
@@ -33,9 +34,7 @@ module Watir
     #
 
     def ok
-      wait_for_exists
-      @alert.accept
-      @browser.after_hooks.run
+      Watir.executor.go(self) { @alert.accept }
     end
 
     #
@@ -48,9 +47,7 @@ module Watir
     #
 
     def close
-      wait_for_exists
-      @alert.dismiss
-      @browser.after_hooks.run
+      Watir.executor.go(self) { @alert.dismiss }
     end
 
     #
@@ -64,8 +61,7 @@ module Watir
     #
 
     def set(value)
-      wait_for_exists
-      @alert.send_keys(value)
+      Watir.executor.go(self) { @alert.send_keys(value) }
     end
 
     #
@@ -100,20 +96,8 @@ module Watir
       raise Exception::UnknownObjectException, 'unable to locate alert'
     end
 
-    def wait_for_exists
-      return assert_exists unless Watir.relaxed_locate?
-
-      begin
-        wait_until(message: "waiting for alert", &:exists?)
-      rescue Wait::TimeoutError
-        unless Watir.default_timeout == 0
-          message = "This code has slept for the duration of the default timeout "
-          message << "waiting for an Alert to exist. If the test is still passing, "
-          message << "consider using Alert#exists? instead of rescuing UnknownObjectException"
-          warn message
-        end
-        raise Exception::UnknownObjectException, 'unable to locate alert'
-      end
+    def unknown_exception
+      Watir::Exception::UnknownObjectException
     end
 
   end # Alert

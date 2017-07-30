@@ -106,7 +106,7 @@ module Watir
     def exists?
       assert_exists
       true
-    rescue Exception::NoMatchingWindowFoundException
+    rescue unknown_exception
       false
     end
 
@@ -190,8 +190,7 @@ module Watir
     #
 
     def use(&blk)
-      wait_for_exists
-      @driver.switch_to.window(handle, &blk)
+      Watir.executor.go(self) { @driver.switch_to.window(handle, &blk) }
       self
     end
 
@@ -219,7 +218,7 @@ module Watir
     end
 
     def assert_exists
-      raise(Exception::NoMatchingWindowFoundException, @selector.inspect) unless @driver.window_handles.include?(handle)
+      raise(unknown_exception, @selector.inspect) unless @driver.window_handles.include?(handle)
     end
 
     # return a handle to the currently active window if it is still open; otherwise nil
@@ -241,13 +240,8 @@ module Watir
       false
     end
 
-    def wait_for_exists
-      return assert_exists unless Watir.relaxed_locate?
-      begin
-        wait_until(&:exists?)
-      rescue Wait::TimeoutError
-        raise Exception::NoMatchingWindowFoundException, @selector.inspect
-      end
+    def unknown_exception
+      Exception::NoMatchingWindowFoundException
     end
 
   end # Window

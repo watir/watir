@@ -42,7 +42,7 @@ module Watir
     #
 
     def selected?
-      element_call { @element.selected? }
+      Watir.executor.go(self) { @element.selected? }
     end
 
     #

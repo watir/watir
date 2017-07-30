@@ -23,7 +23,7 @@ module Watir
     #
 
     def width
-      element_call do
+      Watir.executor.go(self) do
         driver.execute_script "return arguments[0].width", @element
       end
     end

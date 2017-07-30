@@ -10,9 +10,9 @@ require 'rspec'
 
 SELENIUM_SELECTORS = %i(class class_name css id tag_name xpath)
 
-if ENV['RELAXED_LOCATE'] == "false"
+#if ENV['RELAXED_LOCATE'] == "false"
   Watir.relaxed_locate = false
-end
+#end
 
 ENV['DISPLAY'] = ':99.0' if ENV['TRAVIS']
 

@@ -8,7 +8,7 @@ module Watir
     #
 
     def set(*args)
-      element_call(:wait_for_writable) do
+      Watir.executor.go(self) do
         @element.clear
         @element.send_keys(*args)
       end
@@ -31,9 +31,7 @@ module Watir
     #
 
     def clear
-      element_call(:wait_for_writable) do
-        @element.clear
-      end
+      Watir.executor.go(self) { @element.clear }
     end
 
   end # UserEditable

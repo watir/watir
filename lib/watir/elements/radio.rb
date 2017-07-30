@@ -16,7 +16,7 @@ module Watir
     #
 
     def set?
-      element_call { @element.selected? }
+      Watir.executor.go(self) { @element.selected? }
     end
 
   end # Radio

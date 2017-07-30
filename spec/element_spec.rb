@@ -69,28 +69,6 @@ describe Watir::Element do
     end
   end
 
-  describe "#element_call" do
-
-    it 'handles exceptions when taking an action on an element that goes stale during execution' do
-      browser.goto WatirSpec.url_for('removed_element.html')
-
-      watir_element = browser.div(id: "text")
-
-      # simulate element going stale after assert_exists and before action taken, but not when block retried
-      allow(watir_element).to receive(:text) do
-        watir_element.send(:element_call) do
-          @already_stale ||= false
-          browser.refresh unless @already_stale
-          @already_stale = true
-          watir_element.instance_variable_get('@element').text
-        end
-      end
-
-      expect { watir_element.text }.to_not raise_error
-    end
-
-  end
-
   bug "Actions Endpoint Not Yet Implemented", :firefox do
     describe "#hover" do
       not_compliant_on :internet_explorer, :safari do

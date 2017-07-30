@@ -8,8 +8,7 @@ module Watir
     #
 
     def submit
-      element_call(:wait_for_present) { @element.submit }
-      browser.after_hooks.run
+      Watir.executor.go(self) { @element.submit }
     end
 
   end # Form

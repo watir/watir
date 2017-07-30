@@ -14,6 +14,7 @@ require 'watir/cookies'
 require 'watir/browser'
 require 'watir/screenshot'
 require 'watir/after_hooks'
+require 'watir/executor'
 
 module Watir
 
@@ -21,7 +22,7 @@ module Watir
 
   class << self
 
-    attr_writer :relaxed_locate, :always_locate, :default_timeout, :prefer_css, :locator_namespace
+    attr_writer :always_locate, :default_timeout, :prefer_css, :locator_namespace
 
     #
     # Whether or not Watir should wait for an element to be found or present
@@ -31,6 +32,11 @@ module Watir
 
     def relaxed_locate?
       @relaxed_locate
+    end
+
+    def relaxed_locate=(val)
+      warn "`Watir#relaxed_locate=` is deprecated, use `Watir#executor#no_wait!` instead"
+      executor.no_waits! if val
     end
 
     #
@@ -82,6 +88,14 @@ require the watir_css gem - https://github.com/watir/watir_css
 
     def locator_namespace
       @locator_namespace ||= Watir::Locators
+    end
+
+    #
+    # Stores the Watir executor
+    #
+
+    def executor
+      @executor ||= Watir::Executor.new
     end
 
     #

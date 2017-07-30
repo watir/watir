@@ -14,6 +14,7 @@ module Watir
     include Adjacent
 
     attr_accessor :keyword
+    attr_reader :query_scope
 
     #
     # temporarily add :id and :class_name manually since they're no longer specified in the HTML spec.
@@ -88,7 +89,7 @@ module Watir
     #
 
     def text
-      element_call { @element.text }
+      Watir.executor.go(self) { @element.text }
     end
 
     #
@@ -98,7 +99,7 @@ module Watir
     #
 
     def tag_name
-      element_call { @element.tag_name.downcase }
+      Watir.executor.go(self) { @element.tag_name.downcase }
     end
 
     #
@@ -119,7 +120,7 @@ module Watir
     #
 
     def click(*modifiers)
-      element_call(:wait_for_enabled) do
+      Watir.executor.go self do
         if modifiers.any?
           action = driver.action
           modifiers.each { |mod| action.key_down mod }
@@ -131,8 +132,6 @@ module Watir
           @element.click
         end
       end
-
-      browser.after_hooks.run
     end
 
     #
@@ -144,8 +143,7 @@ module Watir
     #
 
     def double_click
-      element_call(:wait_for_present) { driver.action.double_click(@element).perform }
-      browser.after_hooks.run
+      Watir.executor.go(self) { driver.action.double_click(@element).perform }
     end
 
     #
@@ -157,8 +155,7 @@ module Watir
     #
 
     def right_click
-      element_call(:wait_for_present) { driver.action.context_click(@element).perform }
-      browser.after_hooks.run
+      Watir.executor.go(self) { driver.action.context_click(@element).perform }
     end
 
     #
@@ -170,7 +167,7 @@ module Watir
     #
 
     def hover
-      element_call(:wait_for_present) { driver.action.move_to(@element).perform }
+      Watir.executor.go(self) { driver.action.move_to(@element).perform }
     end
 
     #
@@ -186,7 +183,7 @@ module Watir
     def drag_and_drop_on(other)
       assert_is_element other
 
-      element_call(:wait_for_present) do
+      Watir.executor.go(self) do
         driver.action.
                drag_and_drop(@element, other.wd).
                perform
@@ -205,7 +202,7 @@ module Watir
     #
 
     def drag_and_drop_by(right_by, down_by)
-      element_call(:wait_for_present) do
+      Watir.executor.go(self) do
         driver.action.
                drag_and_drop_by(@element, right_by, down_by).
                perform
@@ -266,7 +263,7 @@ module Watir
     #
 
     def attribute_value(attribute_name)
-      element_call { @element.attribute attribute_name }
+      Watir.executor.go(self) { @element.attribute attribute_name }
     end
 
     #
@@ -280,7 +277,7 @@ module Watir
     #
 
     def outer_html
-      element_call { execute_atom(:getOuterHtml, @element) }.strip
+      Watir.executor.go(self) { execute_atom(:getOuterHtml, @element) }.strip
     end
 
     alias_method :html, :outer_html
@@ -296,7 +293,7 @@ module Watir
     #
 
     def inner_html
-      element_call { execute_atom(:getInnerHtml, @element) }.strip
+      Watir.executor.go(self) { execute_atom(:getInnerHtml, @element) }.strip
     end
 
     #
@@ -309,7 +306,7 @@ module Watir
     #
 
     def send_keys(*args)
-      element_call(:wait_for_writable) { @element.send_keys(*args) }
+      Watir.executor.go(self) { @element.send_keys(*args) }
     end
 
     #
@@ -320,7 +317,7 @@ module Watir
     #
 
     def focus
-      element_call { driver.execute_script "return arguments[0].focus()", @element }
+      Watir.executor.go(self) { driver.execute_script "return arguments[0].focus()", @element }
     end
 
     #
@@ -330,7 +327,7 @@ module Watir
     #
 
     def focused?
-      element_call { @element == driver.switch_to.active_element }
+      Watir.executor.go(self) { @element == driver.switch_to.active_element }
     end
 
     #
@@ -348,7 +345,7 @@ module Watir
     def fire_event(event_name)
       event_name = event_name.to_s.sub(/^on/, '').downcase
 
-      element_call { execute_atom :fireEvent, @element, event_name }
+      Watir.executor.go(self) { execute_atom :fireEvent, @element, event_name }
     end
 
     #
@@ -377,7 +374,7 @@ module Watir
     #
 
     def visible?
-      element_call(:assert_exists) { @element.displayed? }
+      Watir.executor.go(self) { @element.displayed? }
     end
 
     #
@@ -388,7 +385,7 @@ module Watir
     #
 
     def enabled?
-      element_call(:assert_exists) { @element.enabled? }
+      Watir.executor.go(self) { @element.enabled? }
     end
 
     #
@@ -418,7 +415,7 @@ module Watir
 
     def style(property = nil)
       if property
-        element_call { @element.style property }
+        Watir.executor.go(self) { @element.style property }
       else
         attribute_value("style").to_s.strip
       end
@@ -492,65 +489,6 @@ module Watir
 
     protected
 
-    def wait_for_exists
-      return assert_exists unless Watir.relaxed_locate?
-      return if exists? # Performance shortcut
-
-      begin
-        @query_scope.wait_for_exists unless @query_scope.is_a? Browser
-        wait_until(&:exists?)
-      rescue Watir::Wait::TimeoutError
-        msg = "timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to be located"
-        raise unknown_exception, msg
-      end
-    end
-
-    def wait_for_present
-      return visible? unless Watir.relaxed_locate?
-      return if present?
-
-      begin
-        @query_scope.wait_for_present
-        wait_until_present
-      rescue Watir::Wait::TimeoutError
-        msg = "element located, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to be present"
-        raise unknown_exception, msg
-      end
-    end
-
-    def wait_for_enabled
-      case self
-      when Input, Button, Select, Option
-        # noop
-      else
-        wait_for_exists && return
-      end
-
-      return assert_enabled unless Watir.relaxed_locate?
-
-      begin
-        wait_until(&:enabled?)
-      rescue Watir::Wait::TimeoutError
-        message = "element present, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to be enabled"
-        raise ObjectDisabledException, message
-      end
-    end
-
-    def wait_for_writable
-      wait_for_exists
-      wait_for_enabled
-      unless Watir.relaxed_locate?
-        raise_writable unless !respond_to?(:readonly?) || !readonly?
-      end
-
-      begin
-        wait_until { !respond_to?(:readonly?) || !readonly? }
-      rescue Watir::Wait::TimeoutError
-        message = "element present and enabled, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to not be readonly"
-        raise ObjectReadOnlyException, message
-      end
-    end
-
     # Ensure that the element exists, making sure that it is not stale and located if necessary
     def assert_exists
       if @element && @selector.empty?
@@ -596,20 +534,6 @@ module Watir
       Watir::Exception::UnknownObjectException
     end
 
-    def raise_writable
-      message = "element present and enabled, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to not be readonly"
-      raise ObjectReadOnlyException, message
-    end
-
-    def raise_disabled
-      message = "element present and enabled, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to not be disabled"
-      raise ObjectDisabledException, message
-    end
-
-    def raise_present
-      raise unknown_exception, "element located, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to be present"
-    end
-
     def locator_class
       Kernel.const_get("#{Watir.locator_namespace}::#{element_class_name}::Locator")
     rescue NameError
@@ -637,9 +561,8 @@ module Watir
     end
 
     def assert_enabled
-      unless element_call { @element.enabled? }
-        raise ObjectDisabledException, "object is disabled #{inspect}"
-      end
+      return if enabled?
+      raise ObjectDisabledException, "object is disabled #{inspect}"
     end
 
     def assert_is_element(obj)
@@ -647,41 +570,6 @@ module Watir
         raise TypeError, "execpted Watir::Element, got #{obj.inspect}:#{obj.class}"
       end
     end
-
-    def element_call(exist_check = :wait_for_exists)
-      already_locked = Wait.timer.locked?
-      Wait.timer = Wait::Timer.new(timeout: Watir.default_timeout) unless already_locked
-      begin
-        send exist_check
-        yield
-      rescue Selenium::WebDriver::Error::StaleElementReferenceError
-        retry
-      rescue Selenium::WebDriver::Error::ElementNotVisibleError, interact_error
-        raise_present unless Wait.timer.remaining_time > 0
-        raise_present unless exist_check == :wait_for_present || exist_check == :wait_for_enabled
-        retry
-      rescue Selenium::WebDriver::Error::InvalidElementStateError => ex
-        raise_disabled unless Wait.timer.remaining_time > 0
-        raise_disabled unless exist_check == :wait_for_writable || exist_check == :wait_for_enabled
-        raise_disabled unless ex.message.include?('user-editable')
-        retry
-      rescue Selenium::WebDriver::Error::NoSuchWindowError
-        raise Exception::NoMatchingWindowFoundException, "browser window was closed"
-      ensure
-        Wait.timer.reset! unless already_locked
-      end
-    end
-
-
-    # Support for Selenium < 3.4.1 with latest Geckodriver
-    def interact_error
-      if defined?(Selenium::WebDriver::Error::ElementNotInteractable)
-        Selenium::WebDriver::Error::ElementNotInteractable
-      else
-        Selenium::WebDriver::Error::ElementNotInteractableError
-      end
-    end
-
 
     def method_missing(meth, *args, &blk)
       method = meth.to_s

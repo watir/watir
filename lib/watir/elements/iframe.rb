@@ -50,8 +50,7 @@ module Watir
     #
 
     def html
-      wait_for_exists
-      @element.page_source
+      Watir.executor.go(self) { @element.page_source }
     end
 
     #

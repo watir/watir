@@ -123,7 +123,7 @@ module Watir
     #
 
     def selected_options
-      element_call do
+      Watir.executor.go(self) do
         script = <<-SCRIPT
           var result = [];
           var options = arguments[0].options;
