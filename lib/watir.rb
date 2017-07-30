@@ -14,6 +14,7 @@ require 'watir/cookies'
 require 'watir/browser'
 require 'watir/screenshot'
 require 'watir/after_hooks'
+require 'watir/logger'
 
 module Watir
 
@@ -99,6 +100,16 @@ require the watir_css gem - https://github.com/watir/watir_css
     def element_class_for(tag_name)
       tag_to_class[tag_name.to_sym] || HTMLElement
     end
+  end
+
+  #
+  # Returns logger instance that can be used across the whole Selenium.
+  #
+  # @return [Logger]
+  #
+
+  def self.logger
+    @logger ||= Watir::Logger.new
   end
 
 end
