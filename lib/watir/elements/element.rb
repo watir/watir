@@ -650,7 +650,14 @@ module Watir
 
     def element_call(exist_check = :wait_for_exists)
       already_locked = Wait.timer.locked?
-      Wait.timer = Wait::Timer.new(timeout: Watir.default_timeout) unless already_locked
+      caller = caller_locations(1,1)[0].label
+      if already_locked
+        Watir.logger.info "-> `#{inspect}##{caller}` after `##{exist_check}` (as a prerequisite for a previously specified execution)"
+      else
+        Watir.logger.info "-> `#{inspect}##{caller}` after `##{exist_check}`"
+        Wait.timer = Wait::Timer.new(timeout: Watir.default_timeout)
+      end
+
       begin
         send exist_check
         yield
@@ -668,6 +675,7 @@ module Watir
       rescue Selenium::WebDriver::Error::NoSuchWindowError
         raise Exception::NoMatchingWindowFoundException, "browser window was closed"
       ensure
+        Watir.logger.info "<- `#{inspect}##{caller}` has been completed"
         Wait.timer.reset! unless already_locked
       end
     end
