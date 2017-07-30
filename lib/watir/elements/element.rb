@@ -582,7 +582,7 @@ module Watir
 
     def selector_string
       return @selector.inspect if @query_scope.is_a?(Browser)
-      "#{@query_scope.selector_string} --> #{@selector.inspect}"
+      "#{@query_scope.send :selector_string} --> #{@selector.inspect}"
     end
 
     # Ensure the driver is in the desired browser context

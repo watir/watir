@@ -94,14 +94,6 @@ describe 'Watir#relaxed_locate?' do
           expect(::Time.now - start_time).to be < 1
         end
       end
-
-      it 'receives a warning for using #when_present' do
-        message = /#when_present has been deprecated and is unlikely to be needed; replace this with #wait_until_present if a wait is still needed/
-        browser.a(id: 'show_bar').click
-        expect do
-          browser.div(id: 'bar').when_present.click
-        end.to output(message).to_stderr
-      end
     end
   end
 end
