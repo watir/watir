@@ -74,7 +74,7 @@ YARD::Doctest.configure do |doctest|
   end
 
   doctest.after('Watir::Logger') do
-    Watir.logger = :info
+    Watir.logger.level = :info
   end
 
   doctest.after('Watir::AfterHooks') do
