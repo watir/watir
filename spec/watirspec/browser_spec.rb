@@ -14,14 +14,16 @@ describe "Browser" do
     end
 
     bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1223277", :firefox do
-      it "returns false if window is closed" do
-        browser.goto WatirSpec.url_for("window_switching.html")
-        browser.a(id: "open").click
-        Watir::Wait.until { browser.windows.size == 2 }
-        browser.window(title: "closeable window").use
-        browser.a(id: "close").click
-        Watir::Wait.until { browser.windows.size == 1 }
-        expect(browser.exists?).to be false
+      not_compliant_on :headless do
+        it "returns false if window is closed" do
+          browser.goto WatirSpec.url_for("window_switching.html")
+          browser.a(id: "open").click
+          Watir::Wait.until { browser.windows.size == 2 }
+          browser.window(title: "closeable window").use
+          browser.a(id: "close").click
+          Watir::Wait.until { browser.windows.size == 1 }
+          expect(browser.exists?).to be false
+        end
       end
     end
 
@@ -183,14 +185,16 @@ describe "Browser" do
     end
   end
 
-  describe "#refresh" do
-    it "refreshes the page" do
-      browser.goto(WatirSpec.url_for("non_control_elements.html"))
-      browser.span(class: 'footer').click
-      expect(browser.span(class: 'footer').text).to include('Javascript')
-      browser.refresh
-      browser.span(class: 'footer').wait_until_present
-      expect(browser.span(class: 'footer').text).to_not include('Javascript')
+  not_compliant_on :headless do
+    describe "#refresh" do
+      it "refreshes the page" do
+        browser.goto(WatirSpec.url_for("non_control_elements.html"))
+        browser.span(class: 'footer').click
+        expect(browser.span(class: 'footer').text).to include('Javascript')
+        browser.refresh
+        browser.span(class: 'footer').wait_until_present
+        expect(browser.span(class: 'footer').text).to_not include('Javascript')
+      end
     end
   end
 

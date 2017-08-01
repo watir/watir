@@ -32,36 +32,39 @@ _browsers:
 
 matrix:
   include:
-      - env: RAKE_TASK=yard:doctest
-        <<: *four
-        <<: *chrome
-      - env: RAKE_TASK=spec:chrome
-        <<: *two
-        <<: *chrome
-      - env: RAKE_TASK=spec:chrome
-        <<: *three
-        <<: *chrome
-      - env: RAKE_TASK=spec:chrome
-        <<: *four
-        <<: *chrome
-      - env: RAKE_TASK=spec:chrome RELAXED_LOCATE=false
-        <<: *four
-        <<: *chrome
-      - env: RAKE_TASK=spec:firefox
-        <<: *two
-        <<: *firefox-latest
-      - env: RAKE_TASK=spec:firefox
-        <<: *three
-        <<: *firefox-latest
-      - env: RAKE_TASK=spec:firefox
-        <<: *four
-        <<: *firefox-latest
-      - env: RAKE_TASK=spec:firefox RELAXED_LOCATE=false
+      - env: RAKE_TASK=spec:remote_firefox
         <<: *four
         <<: *firefox-latest
       - env: RAKE_TASK=spec:remote_chrome
         <<: *four
         <<: *chrome
-      - env: RAKE_TASK=spec:remote_firefox
+      - env: RAKE_TASK=spec:firefox RELAXED_LOCATE=false
         <<: *four
         <<: *firefox-latest
+      - env: RAKE_TASK=spec:firefox
+        <<: *four
+        <<: *firefox-latest
+      - env: RAKE_TASK=spec:firefox
+        <<: *three
+        <<: *firefox-latest
+      - env: RAKE_TASK=spec:firefox
+        <<: *two
+        <<: *firefox-latest
+      - env: RAKE_TASK=spec:chrome
+        <<: *four
+        <<: *chrome
+      - env: RAKE_TASK=spec:chrome
+        <<: *three
+        <<: *chrome
+      - env: RAKE_TASK=spec:chrome
+        <<: *two
+        <<: *chrome
+      - env: RAKE_TASK=spec:chrome RELAXED_LOCATE=false
+        <<: *four
+        <<: *chrome
+      - env: RAKE_TASK=spec:chrome HEADLESS=true
+        <<: *four
+        <<: *chrome
+      - env: RAKE_TASK=yard:doctest
+        <<: *four
+        <<: *chrome

@@ -113,16 +113,18 @@ describe "Ins" do
   end
 
   # Other
-  describe "#click" do
-    it "fires events" do
-      expect(browser.ins(class: 'footer').text).to_not include('Javascript')
-      browser.ins(class: 'footer').click
-      expect(browser.ins(class: 'footer').text).to include('Javascript')
-    end
+  not_compliant_on :headless do
+    describe "#click" do
+      it "fires events" do
+        expect(browser.ins(class: 'footer').text).to_not include('Javascript')
+        browser.ins(class: 'footer').click
+        expect(browser.ins(class: 'footer').text).to include('Javascript')
+      end
 
-    it "raises UnknownObjectException if the ins doesn't exist" do
-      expect { browser.ins(id: "no_such_id").click }.to raise_unknown_object_exception
-      expect { browser.ins(title: "no_such_title").click }.to raise_unknown_object_exception
+      it "raises UnknownObjectException if the ins doesn't exist" do
+        expect { browser.ins(id: "no_such_id").click }.to raise_unknown_object_exception
+        expect { browser.ins(title: "no_such_title").click }.to raise_unknown_object_exception
+      end
     end
   end
 

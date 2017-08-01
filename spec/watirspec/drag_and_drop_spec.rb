@@ -15,14 +15,16 @@ describe "Element" do
           expect(droppable.text).to eq 'Dropped!'
         end
 
-        it "can drag and drop an element onto another when draggable is out of viewport" do
-          reposition "draggable"
-          perform_drag_and_drop_on_droppable
-        end
+        not_compliant_on :headless do
+          it "can drag and drop an element onto another when draggable is out of viewport" do
+            reposition "draggable"
+            perform_drag_and_drop_on_droppable
+          end
 
-        it "can drag and drop an element onto another when droppable is out of viewport" do
-          reposition "droppable"
-          perform_drag_and_drop_on_droppable
+          it "can drag and drop an element onto another when droppable is out of viewport" do
+            reposition "droppable"
+            perform_drag_and_drop_on_droppable
+          end
         end
 
         it "can drag an element by the given offset" do
