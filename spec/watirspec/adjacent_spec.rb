@@ -21,6 +21,10 @@ describe "Adjacent Elements" do
       expect(browser.div(id: "first_sibling").parent(tag_name: :div)).to be_a Watir::Div
     end
 
+    it "accepts class_name argument" do
+      expect(browser.div(id: "first_sibling").parent(class_name: 'parent').id).to eq 'parent_span'
+    end
+
     it "accepts index and tag_name arguments" do
       expect(browser.div(id: "first_sibling").parent(tag_name: :div, index: 1).id).to eq 'grandparent'
       expect(browser.div(id: "first_sibling").parent(tag_name: :div, index: 1)).to be_a Watir::Div
@@ -51,9 +55,21 @@ describe "Adjacent Elements" do
       expect(browser.div(id: "first_sibling").following_sibling(tag_name: :div)).to be_a Watir::Div
     end
 
+    it "accepts class_name argument" do
+      expect(browser.div(id: "first_sibling").following_sibling(class_name: 'b').id).to eq 'second_sibling'
+    end
+
     it "accepts index and tag_name arguments" do
       expect(browser.div(id: "first_sibling").following_sibling(tag_name: :div, index: 1).id).to eq 'third_sibling'
       expect(browser.div(id: "first_sibling").following_sibling(tag_name: :div, index: 1)).to be_a Watir::Div
+    end
+
+    it "accepts text as Regexp" do
+      expect(browser.div(id: "first_sibling").following_sibling(text: /t/).id).to eq 'third_sibling'
+    end
+
+    it "accepts text as String" do
+      expect(browser.div(id: "first_sibling").following_sibling(text: 'text').id).to eq 'third_sibling'
     end
 
     it "does not error when no next sibling of an index exists" do
@@ -75,6 +91,16 @@ describe "Adjacent Elements" do
       expect(browser.div(id: "second_sibling").following_siblings(tag_name: :div).size).to eq 1
       expect(browser.div(id: "second_sibling").following_siblings(tag_name: :div).first).to be_a Watir::Div
     end
+
+    it "accepts class_name argument" do
+      expect(browser.div(id: "second_sibling").following_siblings(class_name: 'b').size).to eq 1
+      expect(browser.div(id: "second_sibling").following_siblings(class_name: 'b').first).to be_a Watir::Div
+    end
+
+    it "accepts class_name argument for multiple classes" do
+      expect(browser.div(id: "second_sibling").following_siblings(class_name: ['a','b']).size).to eq 1
+      expect(browser.div(id: "second_sibling").following_siblings(class_name: ['a', 'b']).first).to be_a Watir::Div
+    end
   end
 
   describe "#previous_sibling" do
@@ -91,6 +117,10 @@ describe "Adjacent Elements" do
     it "accepts tag_name argument" do
       expect(browser.div(id: "third_sibling").previous_sibling(tag_name: :div).id).to eq 'second_sibling'
       expect(browser.div(id: "third_sibling").previous_sibling(tag_name: :div)).to be_a Watir::Div
+    end
+
+    it "accepts class_name argument" do
+      expect(browser.div(id: "third_sibling").previous_sibling(class_name: 'a').id).to eq 'between_siblings2'
     end
 
     it "accepts index and tag_name arguments" do
@@ -117,6 +147,11 @@ describe "Adjacent Elements" do
       expect(browser.div(id: "second_sibling").previous_siblings(tag_name: :div).size).to eq 1
       expect(browser.div(id: "second_sibling").previous_siblings(tag_name: :div).first).to be_a Watir::Div
     end
+
+    it "accepts class_name argument" do
+      expect(browser.div(id: "second_sibling").previous_siblings(class_name: 'a').size).to eq 1
+      expect(browser.div(id: "second_sibling").previous_siblings(class_name: 'a').first.id).to eq 'between_siblings1'
+    end
   end
 
   describe "#child" do
@@ -133,6 +168,10 @@ describe "Adjacent Elements" do
     it "accepts tag_name argument" do
       expect(browser.div(id: "parent").child(tag_name: :span).id).to eq 'between_siblings1'
       expect(browser.div(id: "parent").child(tag_name: :span)).to be_a Watir::Span
+    end
+
+    it "accepts class_name argument" do
+      expect(browser.div(id: "parent").child(class_name: 'b').id).to eq 'second_sibling'
     end
 
     it "accepts index and tag_name arguments" do
@@ -158,6 +197,12 @@ describe "Adjacent Elements" do
     it "accepts tag_name argument" do
       children = browser.div(id: "parent").children(tag_name: :div)
       expect(children.size).to eq 3
+      expect(children.all? { |child| child.is_a? Watir::Div }).to eq true
+    end
+
+    it "accepts a class_name argument" do
+      children = browser.div(id: "parent").children(class_name: 'b')
+      expect(children.size).to eq 2
       expect(children.all? { |child| child.is_a? Watir::Div }).to eq true
     end
   end

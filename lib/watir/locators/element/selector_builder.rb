@@ -2,7 +2,7 @@ module Watir
   module Locators
     class Element
       class SelectorBuilder
-        VALID_WHATS = [Array, String, Regexp, TrueClass, FalseClass].freeze
+        VALID_WHATS = [Array, String, Regexp, TrueClass, FalseClass, ::Symbol].freeze
         WILDCARD_ATTRIBUTE = /^(aria|data)_(.+)$/
 
         def initialize(query_scope, selector, valid_attributes)
@@ -35,8 +35,11 @@ module Watir
               raise TypeError, "expected TrueClass or FalseClass, got #{what.inspect}:#{what.class}"
             end
           else
-            if what.is_a?(Array) && how != :class
+            if what.is_a?(Array) && how != :class && how != :class_name
               raise TypeError, "Only :class locator can have a value of an Array"
+            end
+            if what.is_a?(Symbol) && how != :adjacent
+              raise TypeError, "Symbol is not a valid value"
             end
             unless VALID_WHATS.any? { |t| what.is_a? t }
               raise TypeError, "expected one of #{VALID_WHATS.inspect}, got #{what.inspect}:#{what.class}"
@@ -63,7 +66,7 @@ module Watir
 
         def normalize_selector(how, what)
           case how
-          when :tag_name, :text, :xpath, :index, :class, :label, :css, :visible
+          when :tag_name, :text, :xpath, :index, :class, :label, :css, :visible, :adjacent
             # include :class since the valid attribute is 'class_name'
             # include :for since the valid attribute is 'html_for'
             [how, what]

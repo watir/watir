@@ -8,15 +8,19 @@ module Watir
           end
 
           def build(selectors)
-            xpath = ".//"
+            adjacent = selectors.delete :adjacent
+            xpath = adjacent ? process_adjacent(adjacent) : ".//"
+
             xpath << (selectors.delete(:tag_name) || '*').to_s
 
-            selectors.delete :index
+            index = selectors.delete(:index)
 
             # the remaining entries should be attributes
             unless selectors.empty?
               xpath << "[" << attribute_expression(nil, selectors) << "]"
             end
+
+            xpath << "[#{index + 1}]" if adjacent && index
 
             p xpath: xpath, selectors: selectors if $DEBUG
 
@@ -75,6 +79,21 @@ module Watir
           end
 
           private
+
+          def process_adjacent(adjacent)
+            xpath = './'
+            xpath << case adjacent
+                     when :ancestor
+                       "ancestor::"
+                     when :preceding
+                       "preceding-sibling::"
+                     when :following
+                       "following-sibling::"
+                     when :child
+                       ""
+                     end
+            xpath
+          end
 
           def build_class_match(value)
             if value.match(/^!/)

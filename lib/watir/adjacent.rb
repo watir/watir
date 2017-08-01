@@ -10,8 +10,7 @@ module Watir
     #
 
     def parent(opt = {})
-      opt[:index] ||= 0
-      xpath_adjacent("ancestor::", opt)
+      xpath_adjacent(opt.merge(adjacent: :ancestor, plural: false))
     end
 
     #
@@ -23,8 +22,7 @@ module Watir
     #
 
     def preceding_sibling(opt = {})
-      opt[:index] ||= 0
-      xpath_adjacent("preceding-sibling::", opt)
+      xpath_adjacent(opt.merge(adjacent: :preceding, plural: false))
     end
     alias_method :previous_sibling, :preceding_sibling
 
@@ -38,7 +36,7 @@ module Watir
 
     def preceding_siblings(opt = {})
       raise ArgumentError, "#previous_siblings can not take an index value" if opt[:index]
-      xpath_adjacent("preceding-sibling::", opt)
+      xpath_adjacent(opt.merge(adjacent: :preceding, plural: true))
     end
     alias_method :previous_siblings, :preceding_siblings
 
@@ -51,8 +49,7 @@ module Watir
     #
 
     def following_sibling(opt = {})
-      opt[:index] ||= 0
-      xpath_adjacent("following-sibling::", opt)
+      xpath_adjacent(opt.merge(adjacent: :following, plural: false))
     end
     alias_method :next_sibling, :following_sibling
 
@@ -66,7 +63,7 @@ module Watir
 
     def following_siblings(opt = {})
       raise ArgumentError, "#next_siblings can not take an index value" if opt[:index]
-      xpath_adjacent("following-sibling::", opt)
+      xpath_adjacent(opt.merge(adjacent: :following, plural: true))
     end
     alias_method :next_siblings, :following_siblings
 
@@ -79,8 +76,7 @@ module Watir
     #
 
     def child(opt = {})
-      opt[:index] ||= 0
-      xpath_adjacent('', opt)
+      xpath_adjacent(opt.merge(adjacent: :child, plural: false))
     end
 
     #
@@ -93,27 +89,24 @@ module Watir
 
     def children(opt = {})
       raise ArgumentError, "#children can not take an index value" if opt[:index]
-      xpath_adjacent('', opt)
+      xpath_adjacent(opt.merge(adjacent: :child, plural: true))
     end
 
     private
 
-    def xpath_adjacent(direction = '', opt = {})
-      opt = opt.dup
-      index = opt.delete :index
-      tag_name = opt.delete :tag_name
-      unless opt.empty?
-        caller = caller_locations(1, 1)[0].label
-        raise ArgumentError, "unsupported locators: #{opt.inspect} for ##{caller} method"
-      end
-
-      if index
-        klass = tag_name ? self.send(tag_name).class : HTMLElement
-        klass.new(self, xpath: "./#{direction}#{tag_name || '*'}[#{index + 1}]")
-      else
-        klass = tag_name ? Object.const_get("#{self.send(tag_name).class}Collection") : HTMLElementCollection
-        klass.new(self, xpath: "./#{direction}#{tag_name || '*'}")
-      end
+    def xpath_adjacent(opt = {})
+      plural = opt.delete(:plural)
+      opt[:index] ||= 0 unless plural || opt.values.any? { |e| e.is_a? Regexp }
+      klass = if !plural && opt[:tag_name]
+                self.send(opt[:tag_name]).class
+              elsif !plural
+                HTMLElement
+              elsif opt[:tag_name]
+                 Object.const_get("#{self.send(opt[:tag_name]).class}Collection")
+              else
+                HTMLElementCollection
+              end
+      klass.new(self, opt)
     end
 
   end # Adjacent

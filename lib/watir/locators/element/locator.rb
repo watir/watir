@@ -64,7 +64,7 @@ module Watir
         def by_id
           selector = @selector.dup
           id = selector.delete(:id)
-          return unless id.is_a? String
+          return if !id.is_a?(String) || selector[:adjacent]
 
           tag_name = selector.delete(:tag_name)
           return unless selector.empty? # multiple attributes
@@ -89,7 +89,7 @@ module Watir
         def find_first_by_multiple
           selector = selector_builder.normalized_selector
 
-          idx = selector.delete(:index)
+          idx = selector.delete(:index) unless selector[:adjacent]
           visible = selector.delete(:visible)
 
           how, what = selector_builder.build(selector)
