@@ -45,7 +45,7 @@ describe Watir::Element do
     end
 
     it "raises UnknownObjectException if the element doesn't exist" do
-      expect { browser.element(name: "no_such_name").enabled? }.to raise_error(Watir::Exception::UnknownObjectException)
+      expect { browser.element(name: "no_such_name").enabled? }.to raise_unknown_object_exception
     end
   end
 

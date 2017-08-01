@@ -451,7 +451,7 @@ module Watir
                 Watir.element_class_for(tag)
               end
 
-      klass.new(@query_scope, element: wd)
+      klass.new(@query_scope, @selector.merge(element: wd))
     end
 
     #
