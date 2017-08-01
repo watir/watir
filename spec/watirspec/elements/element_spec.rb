@@ -272,6 +272,23 @@ describe "Element" do
           expect(e).to exist
           expect(e.class_name).to eq "a b"
         end
+
+        it "matches one with regular expressions" do
+          e = browser.div(class: [/a/, /b/], index: 2)
+          expect(e).to exist
+          expect(e.class_name).to eq "abc"
+        end
+
+        it "matches one with mix of string and regular expressions" do
+          e = browser.div(class: ['a', /b/], index: 1)
+          expect(e).to exist
+          expect(e.class_name).to eq "a b"
+        end
+
+        it "matches multiple with regular expressions" do
+          es = browser.divs(class: [/a/, /b/])
+          expect(es.size).to eq 3
+        end
       end
     end
 

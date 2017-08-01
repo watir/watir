@@ -105,7 +105,9 @@ module Watir
         end
 
         def build_wd_selector(selectors)
-          return if selectors.values.any? { |e| e.is_a? Regexp }
+          return if selectors.values.any? do |e|
+            e.is_a?(Array) ? e.any? { |c| c.is_a?(Regexp) } : e.is_a?(Regexp)
+          end
           build_xpath(selectors)
         end
 

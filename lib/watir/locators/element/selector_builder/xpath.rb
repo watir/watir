@@ -77,7 +77,7 @@ module Watir
           private
 
           def build_class_match(value)
-            if value.match(/^!/)
+            if value.to_s.include?('!')
               klass = XpathSupport.escape " #{value[1..-1]} "
               "not(contains(concat(' ', @class, ' '), #{klass}))"
             else

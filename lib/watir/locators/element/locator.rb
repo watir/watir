@@ -200,7 +200,7 @@ module Watir
 
           if how == :xpath && can_convert_regexp_to_contains?
             rx_selector.each do |key, value|
-              next if key == :tag_name || key == :text
+              next if key == :tag_name || key == :text || value.is_a?(Array)
 
               predicates = regexp_selector_to_predicates(key, value)
               what = "(#{what})[#{predicates.join(' and ')}]" unless predicates.empty?
@@ -215,9 +215,15 @@ module Watir
           rx_selector = {}
 
           selector.dup.each do |how, what|
-            next unless what.is_a?(Regexp)
-            rx_selector[how] = what
-            selector.delete how
+            next unless what.is_a?(Regexp) || (what.is_a?(Array))
+            if what.is_a? Array
+              rx_selector[:class] = what.select { |c| c.is_a?(Regexp) }
+              selector[:class] = what - rx_selector[:class]
+              selector.delete(:class) if selector[:class].empty?
+            else
+              rx_selector[how] = what
+              selector.delete how
+            end
           end
 
           rx_selector
@@ -232,7 +238,11 @@ module Watir
 
         def matches_selector?(element, selector)
           selector.all? do |how, what|
-            what === fetch_value(element, how)
+            if what.is_a?(Array)
+              what.all? { |r| r === fetch_value(element, how) }
+            else
+              what === fetch_value(element, how)
+            end
           end
         end
 
