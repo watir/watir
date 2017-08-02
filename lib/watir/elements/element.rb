@@ -663,7 +663,7 @@ module Watir
         yield
       rescue Selenium::WebDriver::Error::StaleElementReferenceError
         retry
-      rescue Selenium::WebDriver::Error::ElementNotVisibleError, interact_error
+      rescue Selenium::WebDriver::Error::ElementNotVisibleError, Selenium::WebDriver::Error::ElementNotInteractableError
         raise_present unless Wait.timer.remaining_time > 0
         raise_present unless exist_check == :wait_for_present || exist_check == :wait_for_enabled
         retry
@@ -679,17 +679,6 @@ module Watir
         Wait.timer.reset! unless already_locked
       end
     end
-
-
-    # Support for Selenium < 3.4.1 with latest Geckodriver
-    def interact_error
-      if defined?(Selenium::WebDriver::Error::ElementNotInteractable)
-        Selenium::WebDriver::Error::ElementNotInteractable
-      else
-        Selenium::WebDriver::Error::ElementNotInteractableError
-      end
-    end
-
 
     def method_missing(meth, *args, &blk)
       method = meth.to_s

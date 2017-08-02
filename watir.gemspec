@@ -21,7 +21,7 @@ It facilitates the writing of automated tests by mimicing the behavior of a user
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ['lib']
 
-  s.add_dependency 'selenium-webdriver', '~> 3.0'
+  s.add_dependency 'selenium-webdriver', '~> 3.4', '>= 3.4.1'
 
   s.add_development_dependency 'rspec', '~> 3.0'
   s.add_development_dependency 'yard', '> 0.8.2.1'
