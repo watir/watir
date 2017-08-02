@@ -75,6 +75,23 @@ describe "Button" do
       expect(browser.button(xpath: "//input[@type='button']")).to exist
     end
 
+    it "matches the specific type when locating by type" do
+      aggregate_failures do
+        expect(browser.button(type: "button").type).to eq "button"
+        expect(browser.button(type: "reset").type).to eq "reset"
+        expect(browser.button(type: "submit").type).to eq "submit"
+        expect(browser.button(type: "image").type).to eq "image"
+      end
+    end
+    
+    it "matches valid input types when type is boolean" do
+      aggregate_failures do
+        expect(browser.buttons(type: false).map(&:tag_name)).to all eq("button")
+        
+        input_buttons = browser.buttons(type: true).select { |e| e.tag_name == "input" }
+        expect(input_buttons.map(&:type).uniq).to match_array(Watir::Button::VALID_TYPES)
+      end
+    end
 
     it "raises TypeError when 'what' argument is invalid" do
       expect { browser.button(id: 3.14).exists? }.to raise_error(TypeError)
