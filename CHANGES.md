@@ -1,3 +1,14 @@
+### 6.6.0 (2017-08-02)
+
+* Implement `Select#select_all` for selecting multiple options in select list
+* Deprecate `Select#select` for selecting multiple options in a list
+* Implement `ElementCollection#empty?` and `ElementCollection#locate?`
+* Implement `Watir::Logger` class
+* Implement `Watir::Capabilities` class
+* Add support for relocating elements created with `Element#to_subtype`
+* Add support for locating adjacent elements with any Watir locator 
+* Allow locating buttons by type attribute (thanks Justin Ko )
+
 ### 6.5.0 (2017-07-25)
 
 * Add support for locating multiple classes using :class parameter 
