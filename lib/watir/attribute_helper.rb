@@ -38,7 +38,7 @@ module Watir
     #  @return [$1] value of $3 property
     #
     def attribute(type, method, attr)
-      typed_attributes[type] << [method, attr]
+      typed_attributes[type] << [method, attr.downcase]
       define_attribute(type, method, attr)
     end
 
