@@ -4,52 +4,54 @@ module Watir
 
       def generate(spec_url, io = StringIO.new)
         @spec_url, @io = spec_url, io
+        @hash = {}
 
-        extract_spec
-        cleanup_spec
+        get_idls
 
         write_header
         write_class_defs
-        write_container_methods
-        write_footer
+        # write_container_methods
+         write_footer
 
-        io
+         io
       end
 
       private
 
-      def generator
-        @generator ||= WebIDL::Generator.new(visitor)
-      end
+      def get_idls
+        Nokogiri::HTML(File.read(@spec_url)).css('pre.idl').each do |idl|
+          first_span = idl.at_css('span')
+          next if first_span.nil?
 
-      def visitor
-        @visitor ||= visitor_class.new
-      end
+          dfn = idl.at_css('dfn')
+          next if !dfn.nil? && dfn.inner_html == "DocumentReadyState"
 
-      def extractor
-        @extractor ||= extractor_class.new(@spec_url)
-      end
+          constructor = first_span.inner_html == 'HTMLConstructor'
+          partial_interface = idl.inner_html.include?('partial interface') && first_span.inner_html[/HTML(.*)Element/]
+          no_interface = idl.inner_html.include?('NoInterfaceObject') && dfn.inner_html =~ /ElementContentEditable|GlobalEventHandlers/
 
-      def extract_spec
-        @tag2interfaces    = extractor.process
-        @sorted_interfaces = extractor.sorted_interfaces
+          next unless constructor || partial_interface || no_interface
 
-        if extractor.errors.any?
-          raise "error extracting spec: #{extractor.errors.join("\n")}"
-        end
-      end
+          if constructor
+            element = dfn.inner_html[/HTML(.*)Element/, 1]
+            element = 'HTMLElement' if element.empty?
+          elsif partial_interface
+            element = first_span.inner_html[/HTML(.*)Element/, 1]
+          else
+            element = 'HTMLElement'
+          end
+          @hash[element] ||= []
 
-      def cleanup_spec
-        ignored_tags.each do |tag|
-          @tag2interfaces.delete(tag)
-        end
+          spans = {}
+          idl.css('span[data-x]').each do |c|
+            spans[c.inner_html] = ''
+          end
 
-        ignored_interfaces.each do |interface|
-          @sorted_interfaces.reject! { |intf| intf.name == interface }
-        end
-
-        @sorted_interfaces.each do |intf|
-          intf.members.delete_if { |member| ignored_attributes.include?(member.name) }
+          idl.text.split("\n").select {|a| a.include? 'attribute '}.map do |a|
+            attribute = a[/(\S*) (\S*);/, 2]
+            type  = a[/(\S*) (\S*);/, 1]
+            @hash[element] << {attribute => type}
+          end
         end
       end
 
@@ -59,14 +61,32 @@ module Watir
       end
 
       def write_class_defs
-        @sorted_interfaces.each do |interface|
-          interface = generator.generate(interface)
-          unless interface.empty?
-            interface.gsub!(/^\s+\n/, '') # remove empty lines
-            @io.puts indent(interface)
-            @io.puts "\n"
+        @hash.each do |k, v|
+          @io.puts "  class #{k} < Element"
+          v.each do |h|
+            type = h.values.first
+            snake = snake_case(h.keys.first)
+
+            if type == 'boolean'
+              snake = "#{snake}?"
+              type = '"Boolean"'
+            elsif type == 'long'
+              type = 'Integer'
+            elsif type == 'double'
+              type = 'Float'
+            else
+              type = 'String'
+            end
+            @io.puts "    attribute(#{type}, :#{snake}, :#{h.keys.first})\n"
           end
+          @io.puts "  end\n"
+          @io.puts "  class #{k}Collection < ElementCollection\n"
+          @io.puts "  end\n\n"
         end
+      end
+
+      def snake_case(str)
+        str.gsub(/\B[A-Z][^A-Z]/, '_\&').downcase.gsub(' ', '_')
       end
 
       def write_container_methods
