@@ -52,6 +52,8 @@ module Watir
     end
 
     def define_attribute(type, name, attr)
+      define_attribute(type, name.to_s.tr('_', '').to_sym, attr) if name =~ /_/
+
       case type.to_s
       when 'String'
         define_string_attribute(name, attr)

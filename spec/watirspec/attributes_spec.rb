@@ -7,11 +7,11 @@ describe "Attributes" do
   end
 
     it "finds tab index with underscore" do
-      expect(browser.checkbox(tab_index: "6").id).to eq 'new_user_interests_food'
+      expect(browser.checkbox(tab_index: "6").tabindex).to eq 6
     end
 
   it "finds tab index with downcase" do
-    expect(browser.checkbox(tabindex: "4").id).to eq 'new_user_interests_dancing'
+    expect(browser.checkbox(tabindex: "4").tab_index).to eq 4
   end
 
   it "finds element with boolean" do
