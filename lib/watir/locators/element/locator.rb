@@ -69,7 +69,7 @@ module Watir
           tag_name = selector.delete(:tag_name)
           return unless selector.empty? # multiple attributes
 
-          element = @query_scope.wd.find_element(:id, id)
+          element = locate_element(:id, id)
           return if tag_name && !element_validator.validate(element, {tag_name: tag_name})
 
           element
@@ -98,11 +98,11 @@ module Watir
             # could build xpath/css for selector
             if idx || !visible.nil?
               idx ||= 0
-              elements = @query_scope.wd.find_elements(how, what)
+              elements = locate_elements(how, what)
               elements = elements.select { |el| visible == el.displayed? } unless visible.nil?
               elements[idx] unless elements.nil?
             else
-              @query_scope.wd.find_element(how, what)
+              locate_element(how, what)
             end
           else
             # can't use xpath, probably a regexp in there
@@ -138,7 +138,7 @@ module Watir
 
           how, what = selector_builder.build(selector)
           found = if how
-                    @query_scope.wd.find_elements(how, what)
+                    locate_elements(how, what)
                   else
                     wd_find_by_regexp_selector(selector, :select)
                   end
@@ -148,7 +148,7 @@ module Watir
 
         def wd_find_all_by(how, what)
           if what.is_a? String
-            @query_scope.wd.find_elements(how, what)
+            locate_elements(how, what)
           else
             all_elements.select { |element| fetch_value(element, how) =~ what }
           end
@@ -168,19 +168,19 @@ module Watir
         end
 
         def all_elements
-          @query_scope.wd.find_elements(xpath: ".//*")
+          locate_elements(:xpath, ".//*")
         end
 
         def wd_find_first_by(how, what)
           if what.is_a? String
-            @query_scope.wd.find_element(how, what)
+            locate_element(how, what)
           else
             all_elements.find { |element| fetch_value(element, how) =~ what }
           end
         end
 
         def wd_find_by_regexp_selector(selector, method = :find)
-          query_scope = @query_scope.wd
+          query_scope = ensure_scope_context
           rx_selector = delete_regexps_from(selector)
 
           if rx_selector.key?(:label) && selector_builder.should_use_label_element?
@@ -207,7 +207,7 @@ module Watir
             end
           end
 
-          elements = query_scope.find_elements(how, what)
+          elements = locate_elements(how, what, query_scope)
           elements.__send__(method) { |el| matches_selector?(el, rx_selector) }
         end
 
@@ -225,7 +225,7 @@ module Watir
 
         def label_from_text(label_exp)
           # TODO: this won't work correctly if @wd is a sub-element
-          @query_scope.wd.find_elements(:tag_name, 'label').find do |el|
+          locate_elements(:tag_name, 'label').find do |el|
             matches_selector?(el, text: label_exp)
           end
         end
@@ -251,6 +251,19 @@ module Watir
             "contains(#{lhs}, #{XpathSupport.escape(literals)})"
           end
         end
+
+        def ensure_scope_context
+          @query_scope.wd
+        end
+
+        def locate_element(how, what)
+          @query_scope.wd.find_element(how, what)
+        end
+
+        def locate_elements(how, what, scope = @query_scope.wd)
+          scope.find_elements(how, what)
+        end
+
       end
     end
   end
