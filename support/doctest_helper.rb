@@ -20,6 +20,7 @@ YARD::Doctest.configure do |doctest|
   doctest.skip 'Watir::Screenshot'
   doctest.skip 'Watir::Window#size'
   doctest.skip 'Watir::Window#position'
+  doctest.skip 'Watir::Window#maximize'
 
   doctest.before do
     WatirSpec.run!

@@ -20,7 +20,7 @@ module WatirSpec
           gs.each do |guard|
             guard[:data][:file] = guard[:data][:file][/\/spec\/(.*):/, 1]
             guard_name = "#{guard[:name]}:".ljust(15)
-            str << " \t#{guard_name} #{guard[:data].inspect}"
+            str << " \t#{guard_name} #{guard[:data].inspect}\n"
           end
           Watir.logger.warn str
         end
