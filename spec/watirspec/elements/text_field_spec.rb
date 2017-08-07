@@ -183,11 +183,9 @@ describe "TextField" do
   end
 
   describe "#readonly?" do
-    bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1200366", :firefox do
-      it "returns true for read-only text fields" do
-        expect(browser.text_field(name: "new_user_code")).to be_readonly
-        expect(browser.text_field(id: "new_user_code")).to be_readonly
-      end
+    it "returns true for read-only text fields" do
+      expect(browser.text_field(name: "new_user_code")).to be_readonly
+      expect(browser.text_field(id: "new_user_code")).to be_readonly
     end
 
     it "returns false for writable text fields" do
@@ -242,10 +240,8 @@ describe "TextField" do
       expect { browser.text_field(id: "no_such_id").clear }.to raise_unknown_object_exception
     end
 
-    bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1200366", :firefox do
-      it "raises ObjectReadOnlyException if the object is read only" do
-        expect { browser.text_field(id: "new_user_code").clear }.to raise_object_read_only_exception
-      end
+    it "raises ObjectReadOnlyException if the object is read only" do
+      expect { browser.text_field(id: "new_user_code").clear }.to raise_object_read_only_exception
     end
   end
 

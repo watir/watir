@@ -108,26 +108,24 @@ describe "Window" do
       browser.windows[1..-1].each(&:close)
     end
 
-    bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1280517", :firefox do
-      not_compliant_on :safari do
-        describe "#close" do
-          it "closes a window" do
-            browser.a(id: "open").click
-            Watir::Wait.until { browser.windows.size == 3 }
-
-            browser.window(title: "closeable window").close
-            expect(browser.windows.size).to eq 2
-          end
-        end
-
-        it "closes the current window" do
+    not_compliant_on :safari, %i(firefox linux) do
+      describe "#close" do
+        it "closes a window" do
           browser.a(id: "open").click
           Watir::Wait.until { browser.windows.size == 3 }
 
-          window = browser.window(title: "closeable window").use
-          window.close
+          browser.window(title: "closeable window").close
           expect(browser.windows.size).to eq 2
         end
+      end
+
+      it "closes the current window" do
+        browser.a(id: "open").click
+        Watir::Wait.until { browser.windows.size == 3 }
+
+        window = browser.window(title: "closeable window").use
+        window.close
+        expect(browser.windows.size).to eq 2
       end
     end
 
@@ -256,21 +254,19 @@ describe "Window" do
 
     not_compliant_on :headless do
       describe "#use" do
-        bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1223277", :firefox do
-          it "raises NoMatchingWindowFoundException error when attempting to use a referenced window that is closed" do
-            original_window = browser.window
-            browser.window(index: 1).use
-            original_window.close
-            expect { original_window.use }.to raise_no_matching_window_exception
-          end
+        it "raises NoMatchingWindowFoundException error when attempting to use a referenced window that is closed" do
+          original_window = browser.window
+          browser.window(index: 1).use
+          original_window.close
+          expect { original_window.use }.to raise_no_matching_window_exception
+        end
 
-          bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1223277", :firefox do
-            it "raises NoMatchingWindowFoundException error when attempting to use the current window if it is closed" do
-              browser.window(title: "closeable window").use
-              browser.a(id: "close").click
-              Watir::Wait.until { browser.windows.size == 1 }
-              expect { browser.window.use }.to raise_no_matching_window_exception
-            end
+        bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1223277", :firefox do
+          it "raises NoMatchingWindowFoundException error when attempting to use the current window if it is closed" do
+            browser.window(title: "closeable window").use
+            browser.a(id: "close").click
+            Watir::Wait.until { browser.windows.size == 1 }
+            expect { browser.window.use }.to raise_no_matching_window_exception
           end
         end
       end
@@ -351,22 +347,20 @@ describe "Window" do
       browser.goto WatirSpec.url_for("window_switching.html")
     end
 
-    compliant_on :chrome do
-      not_compliant_on :headless do
-        it "should get the size of the current window" do
-          size = browser.window.size
+    not_compliant_on :headless do
+      it "should get the size of the current window" do
+        size = browser.window.size
 
-          expect(size.width).to be > 0
-          expect(size.height).to be > 0
-        end
+        expect(size.width).to be > 0
+        expect(size.height).to be > 0
       end
+    end
 
-      it "should get the position of the current window" do
-        pos = browser.window.position
+    it "should get the position of the current window" do
+      pos = browser.window.position
 
-        expect(pos.x).to be >= 0
-        expect(pos.y).to be >= 0
-      end
+      expect(pos.x).to be >= 0
+      expect(pos.y).to be >= 0
     end
 
     not_compliant_on :headless do
@@ -386,7 +380,7 @@ describe "Window" do
       end
     end
 
-    not_compliant_on :firefox, :headless do
+    not_compliant_on :headless, %i(remote firefox) do
       it "should move the window" do
         initial_pos = browser.window.position
 
@@ -403,7 +397,7 @@ describe "Window" do
 
     not_compliant_on :headless do
       compliant_on :window_manager do
-        bug "https://github.com/SeleniumHQ/selenium/issues/2856", %i(remote firefox) do
+        bug "https://github.com/SeleniumHQ/selenium/issues/2856", :firefox do
           it "should maximize the window" do
             initial_size = browser.window.size
             browser.window.resize_to(

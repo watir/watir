@@ -140,24 +140,22 @@ describe "Image" do
   end
 
   # Other
-  bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1297339", :firefox do
-    describe "#loaded?" do
-      it "returns true if the image has been loaded" do
-        expect(browser.image(title: 'Circle')).to be_loaded
-        expect(browser.image(alt: 'circle')).to be_loaded
-        expect(browser.image(alt: /circle/)).to be_loaded
-      end
+  describe "#loaded?" do
+    it "returns true if the image has been loaded" do
+      expect(browser.image(title: 'Circle')).to be_loaded
+      expect(browser.image(alt: 'circle')).to be_loaded
+      expect(browser.image(alt: /circle/)).to be_loaded
+    end
 
-      it "returns false if the image has not been loaded" do
-        expect(browser.image(id: 'no_such_file')).to_not be_loaded
-      end
+    it "returns false if the image has not been loaded" do
+      expect(browser.image(id: 'no_such_file')).to_not be_loaded
+    end
 
-      it "raises UnknownObjectException if the image doesn't exist" do
-        expect { browser.image(id: 'no_such_image').loaded? }.to raise_unknown_object_exception
-        expect { browser.image(src: 'no_such_image').loaded? }.to raise_unknown_object_exception
-        expect { browser.image(alt: 'no_such_image').loaded? }.to raise_unknown_object_exception
-        expect { browser.image(index: 1337).loaded? }.to raise_unknown_object_exception
-      end
+    it "raises UnknownObjectException if the image doesn't exist" do
+      expect { browser.image(id: 'no_such_image').loaded? }.to raise_unknown_object_exception
+      expect { browser.image(src: 'no_such_image').loaded? }.to raise_unknown_object_exception
+      expect { browser.image(alt: 'no_such_image').loaded? }.to raise_unknown_object_exception
+      expect { browser.image(index: 1337).loaded? }.to raise_unknown_object_exception
     end
   end
 

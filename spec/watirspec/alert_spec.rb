@@ -96,13 +96,11 @@ not_compliant_on :headless do
 
     context 'prompt' do
       describe '#set' do
-        bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1255906", :firefox do
-          it 'enters text to prompt' do
-            browser.button(id: 'prompt').click
-            browser.alert.set 'My Name'
-            browser.alert.ok
-            expect(browser.button(id: 'prompt').value).to eq 'My Name'
-          end
+        it 'enters text to prompt' do
+          browser.button(id: 'prompt').click
+          browser.alert.set 'My Name'
+          browser.alert.ok
+          expect(browser.button(id: 'prompt').value).to eq 'My Name'
         end
       end
     end

@@ -27,12 +27,10 @@ describe "Browser" do
       end
     end
 
-    bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1290814", :firefox do
-      it "returns false after Browser#close" do
-        browser.close
-        expect(browser).to_not exist
-        $browser = WatirSpec.new_browser
-      end
+    it "returns false after Browser#close" do
+      browser.close
+      expect(browser).to_not exist
+      $browser = WatirSpec.new_browser
     end
   end
 
@@ -134,17 +132,15 @@ describe "Browser" do
   end
 
   describe ".start" do
-    bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1290814", :firefox do
-      it "goes to the given URL and return an instance of itself" do
-        browser.close
-        driver, args = WatirSpec.implementation.browser_args
-        b = Watir::Browser.start(WatirSpec.url_for("non_control_elements.html"), driver, args.dup)
+    it "goes to the given URL and return an instance of itself" do
+      browser.close
+      driver, args = WatirSpec.implementation.browser_args
+      b = Watir::Browser.start(WatirSpec.url_for("non_control_elements.html"), driver, args.dup)
 
-        expect(b).to be_instance_of(Watir::Browser)
-        expect(b.title).to eq "Non-control elements"
-        b.close
-        $browser = WatirSpec.new_browser
-      end
+      expect(b).to be_instance_of(Watir::Browser)
+      expect(b.title).to eq "Non-control elements"
+      b.close
+      $browser = WatirSpec.new_browser
     end
   end
 

@@ -151,13 +151,11 @@ describe "Element" do
   end
 
   describe "#focus" do
-    bug "http://code.google.com/p/selenium/issues/detail?id=157", :firefox do
-      it "fires the onfocus event for the given element" do
-        tf = browser.text_field(id: "new_user_occupation")
-        expect(tf.value).to eq "Developer"
-        tf.focus
-        expect(browser.div(id: "onfocus_test").text).to eq "changed by onfocus event"
-      end
+    it "fires the onfocus event for the given element" do
+      tf = browser.text_field(id: "new_user_occupation")
+      expect(tf.value).to eq "Developer"
+      tf.focus
+      expect(browser.div(id: "onfocus_test").text).to eq "changed by onfocus event"
     end
   end
 
@@ -173,12 +171,10 @@ describe "Element" do
   end
 
   describe "#fire_event" do
-    bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1290966", :firefox do
-      it "should fire the given event" do
-        expect(browser.div(id: "onfocus_test").text).to be_empty
-        browser.text_field(id: "new_user_occupation").fire_event('onfocus')
-        expect(browser.div(id: "onfocus_test").text).to eq "changed by onfocus event"
-      end
+    it "should fire the given event" do
+      expect(browser.div(id: "onfocus_test").text).to be_empty
+      browser.text_field(id: "new_user_occupation").fire_event('onfocus')
+      expect(browser.div(id: "onfocus_test").text).to eq "changed by onfocus event"
     end
   end
 
@@ -314,50 +310,48 @@ describe "Element" do
     end
   end
 
-  bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1255906", :firefox do
-    describe '#send_keys' do
-      before(:each) do
-        @c = Selenium::WebDriver::Platform.mac? ? :command : :control
-        browser.goto(WatirSpec.url_for('keylogger.html'))
-      end
+  describe '#send_keys' do
+    before(:each) do
+      @c = Selenium::WebDriver::Platform.mac? ? :command : :control
+      browser.goto(WatirSpec.url_for('keylogger.html'))
+    end
 
-      let(:receiver) { browser.text_field(id: 'receiver') }
-      let(:events)   { browser.element(id: 'output').ps.size }
+    let(:receiver) { browser.text_field(id: 'receiver') }
+    let(:events) { browser.element(id: 'output').ps.size }
 
-      it 'sends keystrokes to the element' do
-        receiver.send_keys 'hello world'
-        expect(receiver.value).to eq 'hello world'
-        expect(events).to eq 11
-      end
+    it 'sends keystrokes to the element' do
+      receiver.send_keys 'hello world'
+      expect(receiver.value).to eq 'hello world'
+      expect(events).to eq 11
+    end
 
-      it 'accepts arbitrary list of arguments' do
-        receiver.send_keys 'hello', 'world'
-        expect(receiver.value).to eq 'helloworld'
-        expect(events).to eq 10
-      end
+    it 'accepts arbitrary list of arguments' do
+      receiver.send_keys 'hello', 'world'
+      expect(receiver.value).to eq 'helloworld'
+      expect(events).to eq 10
+    end
 
-      bug "http://code.google.com/p/chromium/issues/detail?id=93879", :chrome do
-        not_compliant_on :safari do
-          it 'performs key combinations' do
-            receiver.send_keys 'foo'
-            receiver.send_keys [@c, 'a']
-            receiver.send_keys :backspace
-            expect(receiver.value).to be_empty
-            expect(events).to eq 6
-          end
+    bug "http://code.google.com/p/chromium/issues/detail?id=93879", :chrome do
+      not_compliant_on :safari, :firefox do
+        it 'performs key combinations' do
+          receiver.send_keys 'foo'
+          receiver.send_keys [@c, 'a']
+          receiver.send_keys :backspace
+          expect(receiver.value).to be_empty
+          expect(events).to eq 6
+        end
 
-          it 'performs arbitrary list of key combinations' do
-            receiver.send_keys 'foo'
-            receiver.send_keys [@c, 'a'], [@c, 'x']
-            expect(receiver.value).to be_empty
-            expect(events).to eq 7
-          end
+        it 'performs arbitrary list of key combinations' do
+          receiver.send_keys 'foo'
+          receiver.send_keys [@c, 'a'], [@c, 'x']
+          expect(receiver.value).to be_empty
+          expect(events).to eq 7
+        end
 
-          it 'supports combination of strings and arrays' do
-            receiver.send_keys 'foo', [@c, 'a'], :backspace
-            expect(receiver.value).to be_empty
-            expect(events).to eq 6
-          end
+        it 'supports combination of strings and arrays' do
+          receiver.send_keys 'foo', [@c, 'a'], :backspace
+          expect(receiver.value).to be_empty
+          expect(events).to eq 6
         end
       end
     end

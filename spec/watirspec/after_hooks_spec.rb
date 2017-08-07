@@ -70,15 +70,13 @@ describe "Browser::AfterHooks" do
       expect(@yield).to be true
     end
 
-    bug "AutomatedTester: 'known bug with execute script'", :firefox do
-      not_compliant_on :safari do
-        it "runs after_hooks after Element#submit" do
-          browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
-          @page_after_hook = Proc.new { @yield = browser.div(id: 'messages').text == 'submit' }
-          browser.after_hooks.add @page_after_hook
-          browser.form(id: "new_user").submit
-          expect(@yield).to be true
-        end
+    not_compliant_on :safari do
+      it "runs after_hooks after Element#submit" do
+        browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
+        @page_after_hook = Proc.new { @yield = browser.div(id: 'messages').text == 'submit' }
+        browser.after_hooks.add @page_after_hook
+        browser.form(id: "new_user").submit
+        expect(@yield).to be true
       end
     end
 
@@ -92,7 +90,7 @@ describe "Browser::AfterHooks" do
       end
     end
 
-    bug "Actions Endpoint Not Yet Implemented", :firefox do
+    not_compliant_on %i(remote firefox) do
       it "runs after_hooks after Element#right_click" do
         browser.goto(WatirSpec.url_for("right_click.html"))
         @page_after_hook = Proc.new { @yield = browser.title == "Right Click Test" }

@@ -1,7 +1,7 @@
 require "watirspec_helper"
 
 describe "Element" do
-  bug "Actions Endpoint Not Yet Implemented", :firefox do
+  not_compliant_on %i(remote firefox) do
     bug "Safari does not strip text", :safari do
       context "drag and drop" do
         before { browser.goto WatirSpec.url_for("drag_and_drop.html") }
@@ -15,7 +15,7 @@ describe "Element" do
           expect(droppable.text).to eq 'Dropped!'
         end
 
-        not_compliant_on :headless do
+        not_compliant_on :headless, :firefox do
           it "can drag and drop an element onto another when draggable is out of viewport" do
             reposition "draggable"
             perform_drag_and_drop_on_droppable
@@ -43,7 +43,7 @@ describe "Element" do
           expect(droppable.text).to eq 'Dropped!'
         end
       end
-
     end
+
   end
 end

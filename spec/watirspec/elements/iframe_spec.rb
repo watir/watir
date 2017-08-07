@@ -10,16 +10,14 @@ describe "IFrame" do
     browser.goto(WatirSpec.url_for("iframes.html"))
   end
 
-  bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1255906", :firefox do
-    not_compliant_on :safari do
-      it "handles crossframe javascript" do
-        browser.goto WatirSpec.url_for("iframes.html")
+  not_compliant_on :safari do
+    it "handles crossframe javascript" do
+      browser.goto WatirSpec.url_for("iframes.html")
 
-        expect(browser.iframe(id: "iframe_1").text_field(name: 'senderElement').value).to eq 'send_this_value'
-        expect(browser.iframe(id: "iframe_2").text_field(name: 'recieverElement').value).to eq 'old_value'
-        browser.iframe(id: "iframe_1").button(id: 'send').click
-        expect(browser.iframe(id: "iframe_2").text_field(name: 'recieverElement').value).to eq 'send_this_value'
-      end
+      expect(browser.iframe(id: "iframe_1").text_field(name: 'senderElement').value).to eq 'send_this_value'
+      expect(browser.iframe(id: "iframe_2").text_field(name: 'recieverElement').value).to eq 'old_value'
+      browser.iframe(id: "iframe_1").button(id: 'send').click
+      expect(browser.iframe(id: "iframe_2").text_field(name: 'recieverElement').value).to eq 'send_this_value'
     end
   end
 
@@ -148,11 +146,9 @@ describe "IFrame" do
     expect { browser.iframe(index: 0).foo }.to raise_error(NoMethodError)
   end
 
-  bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1255906", :firefox do
-    it "is able to set a field" do
-      browser.iframe(index: 0).text_field(name: 'senderElement').set("new value")
-      expect(browser.iframe(index: 0).text_field(name: 'senderElement').value).to eq "new value"
-    end
+  it "is able to set a field" do
+    browser.iframe(index: 0).text_field(name: 'senderElement').set("new value")
+    expect(browser.iframe(index: 0).text_field(name: 'senderElement').value).to eq "new value"
   end
 
   describe "#execute_script" do

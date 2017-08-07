@@ -156,7 +156,7 @@ describe "Div" do
   end
 
   not_compliant_on :safari do
-    bug "Actions Endpoint Not Yet Implemented", :firefox do
+    bug "MoveTargetOutOfBoundsError", :firefox do
       describe "#double_click" do
         it "fires the ondblclick event" do
           browser.div(id: 'html_test').double_click
@@ -165,7 +165,7 @@ describe "Div" do
       end
     end
 
-    bug "Actions Endpoint Not Yet Implemented", :firefox do
+    not_compliant_on :firefox do
       describe "#right_click" do
         it "fires the oncontextmenu event" do
           browser.goto(WatirSpec.url_for("right_click.html"))
