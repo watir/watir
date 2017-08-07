@@ -1,3 +1,7 @@
+### 6.6.1 (2017-08-07)
+
+* Support initializing browser with Selenium Options class (#606)
+
 ### 6.6.0 (2017-08-02)
 
 * Implement `Select#select_all` for selecting multiple options in select list
