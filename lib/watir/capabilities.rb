@@ -65,9 +65,11 @@ module Watir
           browser_options[:args] << '--headless'
           browser_options[:args] << '--disable-gpu'
         end
-        @selenium_opts[:options] = Selenium::WebDriver::Chrome::Options.new(browser_options) if browser_options
+        @selenium_opts[:options] = browser_options if browser_options.is_a? Selenium::WebDriver::Chrome::Options
+        @selenium_opts[:options] ||= Selenium::WebDriver::Chrome::Options.new(browser_options) if browser_options
       when :firefox
-        @selenium_opts[:options] = Selenium::WebDriver::Firefox::Options.new(options) if browser_options
+        @selenium_opts[:options] = browser_options if browser_options.is_a? Selenium::WebDriver::Firefox::Options
+        @selenium_opts[:options] ||= Selenium::WebDriver::Firefox::Options.new(options) if browser_options
       when :safari
         @selenium_opts["safari.options"] = {'technologyPreview' => true} if @options[:technology_preview]
       when :remote

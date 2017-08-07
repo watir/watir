@@ -88,6 +88,18 @@ describe Watir::Browser do
             expect(ua).to eq('foo;bar')
             new_browser.close
           end
+
+          it "accepts Chrome::Options instance as :options" do
+            chrome_opts = Selenium::WebDriver::Chrome::Options.new(emulation: {userAgent: 'foo;bar'})
+            @opts.delete :args
+            @opts.merge!(options: chrome_opts)
+
+            new_browser = WatirSpec.new_browser
+
+            ua = new_browser.execute_script 'return window.navigator.userAgent'
+            expect(ua).to eq('foo;bar')
+            new_browser.close
+          end
         end
       end
 
