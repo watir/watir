@@ -10,7 +10,8 @@ module WatirSpec
 
     def initialize_copy(orig)
       super
-      @browser_args = browser_args.map(&:dup)
+      # Backward compatibility < Ruby 2.4
+      @browser_args = browser_args.map { |arg| arg.is_a?(Symbol) ? arg : arg.dup }
     end
 
     def browser_class
