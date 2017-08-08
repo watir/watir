@@ -1,3 +1,7 @@
+### 6.6.2 (2017-08-08)
+
+* Fix bug preventing headless operation (#611)
+
 ### 6.6.1 (2017-08-07)
 
 * Support initializing browser with Selenium Options class (#606)
