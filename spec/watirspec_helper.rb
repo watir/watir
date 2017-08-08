@@ -54,6 +54,13 @@ class LocalConfig
   end
 
   def add_guards
+    matching_guards = common_guards
+    matching_guards << :local
+    matching_guards << [:local, browser]
+    matching_guards
+  end
+
+  def common_guards
     matching_guards = [:webdriver]
 
     matching_guards << browser
@@ -121,7 +128,7 @@ class RemoteConfig < LocalConfig
   private
 
   def add_guards
-    matching_guards = super
+    matching_guards = common_guards
     matching_guards << :remote
     matching_guards << [:remote, browser]
     matching_guards

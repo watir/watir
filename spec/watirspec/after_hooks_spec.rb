@@ -80,7 +80,7 @@ describe "Browser::AfterHooks" do
       end
     end
 
-    bug "Actions Endpoint Not Yet Implemented", :firefox do
+    bug "MoveTargetOutOfBoundsError", :firefox do
       it "runs after_hooks after Element#double_click" do
         browser.goto(WatirSpec.url_for("non_control_elements.html"))
         @page_after_hook = Proc.new { @yield = browser.title == "Non-control elements" }
@@ -124,16 +124,22 @@ describe "Browser::AfterHooks" do
       end
     end
 
-    bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1279211", :firefox do
-      not_compliant_on :safari, :headless do
-        it "raises UnhandledAlertError error when running error checks with alert present" do
-          url = WatirSpec.url_for("alerts.html")
-          @page_after_hook = Proc.new { browser.url }
-          browser.after_hooks.add @page_after_hook
-          browser.goto url
+    not_compliant_on :safari, :headless do
+      it "raises UnhandledAlertError error when running error checks with alert present" do
+        url = WatirSpec.url_for("alerts.html")
+        @page_after_hook = Proc.new { browser.url }
+        browser.after_hooks.add @page_after_hook
+        browser.goto url
+
+        not_compliant_on %i(local firefox) do
           expect { browser.button(id: "alert").click }.to raise_error(Selenium::WebDriver::Error::UnhandledAlertError)
-          browser.alert.ok
         end
+
+        deviates_on %i(local firefox) do
+          expect { browser.button(id: "alert").click }.to raise_error(Selenium::WebDriver::Error::UnexpectedAlertOpenError)
+        end
+
+        browser.alert.ok
       end
     end
 

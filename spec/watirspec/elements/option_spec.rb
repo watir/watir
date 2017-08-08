@@ -71,28 +71,26 @@ describe "Option" do
     end
   end
 
-  bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1255957", :firefox do
+  describe "#select" do
     not_compliant_on :safari do
-      describe "#select" do
-        it "selects the chosen option (page context)" do
-          browser.option(text: "Denmark").select
-          expect(browser.select_list(name: "new_user_country").selected_options.map(&:text)).to eq ["Denmark"]
-        end
+      it "selects the chosen option (page context)" do
+        browser.option(text: "Denmark").select
+        expect(browser.select_list(name: "new_user_country").selected_options.map(&:text)).to eq ["Denmark"]
+      end
 
-        it "selects the chosen option (select_list context)" do
-          browser.select_list(name: "new_user_country").option(text: "Denmark").select
-          expect(browser.select_list(name: "new_user_country").selected_options.map(&:text)).to eq ["Denmark"]
-        end
+      it "selects the chosen option (select_list context)" do
+        browser.select_list(name: "new_user_country").option(text: "Denmark").select
+        expect(browser.select_list(name: "new_user_country").selected_options.map(&:text)).to eq ["Denmark"]
+      end
 
-        it "selects the option when found by text (page context)" do
-          browser.option(text: 'Sweden').select
-          expect(browser.option(text: 'Sweden')).to be_selected
-        end
+      it "selects the option when found by text (page context)" do
+        browser.option(text: 'Sweden').select
+        expect(browser.option(text: 'Sweden')).to be_selected
+      end
 
-        it "selects the option when found by text (select_list context)" do
-          browser.select_list(name: 'new_user_country').option(text: 'Sweden').select
-          expect(browser.select_list(name: 'new_user_country').option(text: 'Sweden')).to be_selected
-        end
+      it "selects the option when found by text (select_list context)" do
+        browser.select_list(name: 'new_user_country').option(text: 'Sweden').select
+        expect(browser.select_list(name: 'new_user_country').option(text: 'Sweden')).to be_selected
       end
     end
 
