@@ -17,7 +17,7 @@ namespace :spec do
 end
 
 {
-  html: 'https://www.whatwg.org/specs/web-apps/current-work/',
+  html: 'https://www.w3.org/TR/html/single-page.html',
   svg: 'http://www.w3.org/TR/SVG2/single-page.html'
 }.each do |type, spec_uri|
   namespace type do
