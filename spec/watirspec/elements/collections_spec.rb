@@ -47,6 +47,6 @@ describe "Collections" do
     browser.goto(WatirSpec.url_for("collections.html"))
     spans = browser.span(id: "a_span").spans
     expect(spans).to receive(:elements).and_return([])
-    spans.locate
+    expect(spans.locate).to be_a Watir::SpanCollection
   end
 end

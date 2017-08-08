@@ -75,7 +75,7 @@ describe "Table" do
 
       expect {
         browser.table.hashes
-      }.to raise_error("row at index 0 has 2 cells, expected 3")
+      }.to raise_error("row at index 0 has 2 cells, while header row has 3")
     end
   end
 

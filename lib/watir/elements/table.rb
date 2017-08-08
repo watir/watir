@@ -9,22 +9,16 @@ module Watir
     #
 
     def hashes
-      all_rows   = rows.to_a
-      header_row = all_rows.shift or raise Exception::Error, "no rows in table"
+      all_rows = rows.locate
+      header_row = all_rows.first || raise(Exception::Error, "no rows in table")
 
-      headers = header_row.ths.map { |header_cell| header_cell.text  }
-      result = []
+      header_type = header_row.th.exist? ? 'th' : 'td'
+      headers = header_row.send("#{header_type}s").map(&:text)
 
-      all_rows.each_with_index do |row, idx|
-        cells = row.cells.to_a
-        if cells.length != headers.length
-          raise Exception::Error, "row at index #{idx} has #{cells.length} cells, expected #{headers.length}"
-        end
-
-        result << headers.inject({}) { |res, header| res.merge(header => cells.shift.text) }
+      all_rows.entries[1..-1].map do |row|
+        cell_size_check(header_row, row)
+        Hash[headers.zip(row.cells.map(&:text))]
       end
-
-      result
     end
 
     #
@@ -35,7 +29,21 @@ module Watir
     #
 
     def [](idx)
-      row(:index, idx)
+      row(index: idx)
+    end
+
+    #
+    # @api private
+    #
+
+    def cell_size_check(header_row, cell_row)
+      header_size = header_row.cells.size
+      row_size = cell_row.cells.size
+      return if header_size == row_size
+
+      index = cell_row.selector[:index]
+      row_id = index ? "row at index #{index - 1}" : 'designated row'
+      raise Exception::Error, "#{row_id} has #{row_size} cells, while header row has #{header_size}"
     end
 
   end # Table

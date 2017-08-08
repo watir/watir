@@ -112,7 +112,17 @@ module Watir
             end
           end
     end
-    alias_method :locate, :to_a
+
+    #
+    # Locate all elements and return self.
+    #
+    # @return ElementCollection
+    #
+
+    def locate
+      to_a
+      self
+    end
 
     #
     # Returns true if two element collections are equal.

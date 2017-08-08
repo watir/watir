@@ -14,6 +14,7 @@ module Watir
     include Adjacent
 
     attr_accessor :keyword
+    attr_reader :selector
 
     #
     # temporarily add :id and :class_name manually since they're no longer specified in the HTML spec.

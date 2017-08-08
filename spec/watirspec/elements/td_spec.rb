@@ -70,4 +70,11 @@ describe "TableCell" do
     end
   end
 
+  describe "#column_header" do
+    it "returns the corresponding column header" do
+      td = browser.td(text: '1 331').column_header
+      expect(td.text).to eq 'Income tax'
+    end
+  end
+
 end
