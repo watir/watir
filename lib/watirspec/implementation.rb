@@ -10,7 +10,7 @@ module WatirSpec
 
     def initialize_copy(orig)
       super
-      @browser_args = Marshal.load( Marshal.dump(@browser_args))
+      @browser_args = browser_args.map(&:dup)
     end
 
     def browser_class
@@ -37,9 +37,10 @@ module WatirSpec
     def inspect_args
       hash = browser_args.last
       desired_capabilities = hash.delete(:desired_capabilities)
-      caps = desired_capabilities.send(:capabilities)
-      string = "\tdriver: #{browser_args.first}\n"
+      string = ''
       hash.each { |arg| string << "#{arg.inspect}\n" }
+      return "#{string} default capabilities" unless desired_capabilities
+
       string << "\tcapabilities:\n"
       caps.each { |k, v| string << "\t\t#{k}: #{v}\n"}
       hash[:desired_capabilities] = desired_capabilities

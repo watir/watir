@@ -7,7 +7,7 @@ module Watir
       @browser = browser == :remote ? @options.delete(:browser).to_sym : browser.to_sym
       @selenium_browser = browser == :remote || options[:url] ? :remote : browser
 
-      @options = options
+      @options = options.dup
       @selenium_opts = {}
     end
 
@@ -58,12 +58,12 @@ module Watir
       when :chrome
         if @options.key?(:args)
           browser_options ||= {}
-          browser_options[:args] = @options.delete(:args)
+          browser_options[:args] = @options.delete(:args).dup
         end
         if @options.delete(:headless)
           browser_options ||= {}
-          browser_options[:args] << '--headless'
-          browser_options[:args] << '--disable-gpu'
+          browser_options[:args] ||= []
+          browser_options[:args] += ['--headless', '--disable-gpu']
         end
         @selenium_opts[:options] = browser_options if browser_options.is_a? Selenium::WebDriver::Chrome::Options
         @selenium_opts[:options] ||= Selenium::WebDriver::Chrome::Options.new(browser_options) if browser_options
@@ -71,11 +71,11 @@ module Watir
         @selenium_opts[:options] = browser_options if browser_options.is_a? Selenium::WebDriver::Firefox::Options
         @selenium_opts[:options] ||= Selenium::WebDriver::Firefox::Options.new(options) if browser_options
       when :safari
-        @selenium_opts["safari.options"] = {'technologyPreview' => true} if @options[:technology_preview]
+        @selenium_opts["safari.options"] = {'technologyPreview' => true} if @options.delete(:technology_preview)
       when :remote
         if @browser == :chrome && @options.delete(:headless)
-          @options.delete(:args)
-          @options['chromeOptions'] = {'args' => ['--headless', '--disable-gpu']}
+          args = @options.delete(:args) || []
+          @options['chromeOptions'] = {'args' => args + ['--headless', '--disable-gpu']}
         end
       end
     end
