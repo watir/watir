@@ -89,7 +89,7 @@ module Watir
         members = interface.members
         members += interface.implements.flat_map(&:members)
 
-        members.select { |e| e.kind_of?(WebIDL::Ast::Attribute) }
+        members.select { |e| e.kind_of?(WebIDL::Ast::Attribute) }.uniq(&:name)
       end
 
       def collection_class(name)
@@ -144,7 +144,8 @@ module Watir
              'Document', 'DocumentFragment', 'DOMTokenList', 'DOMSettableTokenList',
              'DOMStringMap', 'HTMLPropertiesCollection', /HTML.*Element/, /HTML.*Collection/,
              'CSSStyleDeclaration',  /.+List$/, 'Date', 'Element', /DOM.+ReadOnly/,
-             /SVGAnimated.+/, /SVG.*Element/, /SVG.*Collection/, 'SVGViewSpec'
+             /SVGAnimated.+/, /SVG.*Element/, /SVG.*Collection/, 'SVGViewSpec',
+             'Object', 'USVString'
           # probably completely wrong.
           String
         else

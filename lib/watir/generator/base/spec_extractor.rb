@@ -2,7 +2,7 @@ module Watir
   module Generator
     class Base::SpecExtractor
 
-      IDL_SELECTOR = "//pre[@class='idl']"
+      IDL_SELECTOR = "//pre[contains(@class, 'idl')]".freeze
 
       class InterfaceNotFound < StandardError; end
 

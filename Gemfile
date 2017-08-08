@@ -6,6 +6,8 @@ end
 
 if ENV['LOCAL_WEBIDL']
   gem 'webidl', path: File.expand_path('../webidl')
+else
+  gem 'webidl', github: 'p0deje/webidl', branch: 'identifierlist-ws-after-comma'
 end
 
 if ENV['LOCAL_SELENIUM']

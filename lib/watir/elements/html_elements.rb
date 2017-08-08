@@ -6,30 +6,14 @@ module Watir
     attribute("Boolean", :translate?, :translate)
     attribute(String, :dir, :dir)
     attribute(String, :dataset, :dataset)
-    attribute("Boolean", :item_scope?, :itemScope)
-    attribute(String, :item_type, :itemType)
-    attribute(String, :item_id, :itemId)
-    attribute(String, :item_ref, :itemRef)
-    attribute(String, :item_prop, :itemProp)
-    attribute(String, :properties, :properties)
-    attribute(String, :item_value, :itemValue)
     attribute("Boolean", :hidden?, :hidden)
     attribute(Integer, :tab_index, :tabIndex)
     attribute(String, :access_key, :accessKey)
-    attribute(String, :access_key_label, :accessKeyLabel)
     attribute("Boolean", :draggable?, :draggable)
     attribute(String, :dropzone, :dropzone)
     attribute(String, :context_menu, :contextMenu)
     attribute("Boolean", :spellcheck?, :spellcheck)
-    attribute(String, :command_type, :commandType)
-    attribute(String, :command_label, :commandLabel)
-    attribute(String, :command_icon, :commandIcon)
-    attribute("Boolean", :command_hidden?, :commandHidden)
-    attribute("Boolean", :command_disabled?, :commandDisabled)
-    attribute("Boolean", :command_checked?, :commandChecked)
     attribute(String, :onabort, :onabort)
-    attribute(String, :onautocomplete, :onautocomplete)
-    attribute(String, :onautocompleteerror, :onautocompleteerror)
     attribute(String, :onblur, :onblur)
     attribute(String, :oncancel, :oncancel)
     attribute(String, :oncanplay, :oncanplay)
@@ -69,7 +53,7 @@ module Watir
     attribute(String, :onmouseout, :onmouseout)
     attribute(String, :onmouseover, :onmouseover)
     attribute(String, :onmouseup, :onmouseup)
-    attribute(String, :onmousewheel, :onmousewheel)
+    attribute(String, :onwheel, :onwheel)
     attribute(String, :onpause, :onpause)
     attribute(String, :onplay, :onplay)
     attribute(String, :onplaying, :onplaying)
@@ -82,7 +66,6 @@ module Watir
     attribute(String, :onseeking, :onseeking)
     attribute(String, :onselect, :onselect)
     attribute(String, :onshow, :onshow)
-    attribute(String, :onsort, :onsort)
     attribute(String, :onstalled, :onstalled)
     attribute(String, :onsubmit, :onsubmit)
     attribute(String, :onsuspend, :onsuspend)
@@ -90,6 +73,9 @@ module Watir
     attribute(String, :ontoggle, :ontoggle)
     attribute(String, :onvolumechange, :onvolumechange)
     attribute(String, :onwaiting, :onwaiting)
+    attribute(String, :oncopy, :oncopy)
+    attribute(String, :oncut, :oncut)
+    attribute(String, :onpaste, :onpaste)
     attribute(String, :content_editable, :contentEditable)
     attribute("Boolean", :content_editable?, :isContentEditable)
   end
@@ -122,8 +108,10 @@ module Watir
     attribute(String, :ononline, :ononline)
     attribute(String, :onpagehide, :onpagehide)
     attribute(String, :onpageshow, :onpageshow)
+    attribute(String, :onrejectionhandled, :onrejectionhandled)
     attribute(String, :onpopstate, :onpopstate)
     attribute(String, :onstorage, :onstorage)
+    attribute(String, :onunhandledrejection, :onunhandledrejection)
     attribute(String, :onunload, :onunload)
   end
   class FrameSetCollection < ElementCollection
@@ -184,17 +172,11 @@ module Watir
     attribute("Boolean", :async?, :async)
     attribute("Boolean", :defer?, :defer)
     attribute(String, :cross_origin, :crossOrigin)
+    attribute(String, :nonce, :nonce)
     attribute(String, :event, :event)
     attribute(String, :for, :htmlFor)
   end
   class ScriptCollection < ElementCollection
-  end
-
-  class Dialog < HTMLElement
-    attribute("Boolean", :open?, :open)
-    attribute(String, :return_value, :returnValue)
-  end
-  class DialogCollection < ElementCollection
   end
 
   class MenuItem < HTMLElement
@@ -205,7 +187,6 @@ module Watir
     attribute("Boolean", :checked?, :checked)
     attribute(String, :radiogroup, :radiogroup)
     attribute("Boolean", :default?, :default)
-    attribute(String, :command, :command)
   end
   class MenuItemCollection < ElementCollection
   end
@@ -432,8 +413,6 @@ module Watir
     attribute(String, :value, :value)
     attribute(String, :value_as_date, :valueAsDate)
     attribute(Float, :value_as_number, :valueAsNumber)
-    attribute(Float, :value_low, :valueLow)
-    attribute(Float, :value_high, :valueHigh)
     attribute(Integer, :width, :width)
     attribute("Boolean", :will_validate?, :willValidate)
     attribute(String, :validity, :validity)
@@ -492,7 +471,6 @@ module Watir
   class TableHeaderCell < TableCell
     attribute(String, :scope, :scope)
     attribute(String, :abbr, :abbr)
-    attribute(String, :sorted, :sorted)
   end
   class TableHeaderCellCollection < ElementCollection
   end
@@ -545,7 +523,6 @@ module Watir
     attribute(String, :t_head, :tHead)
     attribute(String, :t_foot, :tFoot)
     attribute(String, :t_bodies, :tBodies)
-    attribute("Boolean", :sortable?, :sortable)
     attribute(String, :align, :align)
     attribute(String, :border, :border)
     attribute(String, :frame, :frame)
@@ -565,12 +542,21 @@ module Watir
     attribute(String, :shape, :shape)
     attribute(String, :target, :target)
     attribute(String, :download, :download)
-    attribute(String, :ping, :ping)
     attribute(String, :rel, :rel)
     attribute(String, :rel_list, :relList)
     attribute(String, :hreflang, :hreflang)
     attribute(String, :type, :type)
     attribute("Boolean", :no_href?, :noHref)
+    attribute(String, :href, :href)
+    attribute(String, :origin, :origin)
+    attribute(String, :protocol, :protocol)
+    attribute(String, :username, :username)
+    attribute(String, :password, :password)
+    attribute(String, :host, :host)
+    attribute(String, :hostname, :hostname)
+    attribute(String, :port, :port)
+    attribute(String, :pathname, :pathname)
+    attribute(String, :search, :search)
   end
   class AreaCollection < ElementCollection
   end
@@ -604,8 +590,6 @@ module Watir
     attribute("Boolean", :ended?, :ended)
     attribute("Boolean", :autoplay?, :autoplay)
     attribute("Boolean", :loop?, :loop)
-    attribute(String, :media_group, :mediaGroup)
-    attribute(String, :controller, :controller)
     attribute("Boolean", :controls?, :controls)
     attribute(Float, :volume, :volume)
     attribute("Boolean", :muted?, :muted)
@@ -658,7 +642,6 @@ module Watir
     attribute(String, :type, :type)
     attribute("Boolean", :type_must_match?, :typeMustMatch)
     attribute(String, :name, :name)
-    attribute(String, :use_map, :useMap)
     attribute(String, :form, :form)
     attribute(String, :width, :width)
     attribute(String, :height, :height)
@@ -676,6 +659,7 @@ module Watir
     attribute(Integer, :vspace, :vspace)
     attribute(String, :code_base, :codeBase)
     attribute(String, :code_type, :codeType)
+    attribute(String, :use_map, :useMap)
     attribute(String, :border, :border)
   end
   class ObjectCollection < ElementCollection
@@ -697,7 +681,6 @@ module Watir
     attribute(String, :srcdoc, :srcdoc)
     attribute(String, :name, :name)
     attribute(String, :sandbox, :sandbox)
-    attribute("Boolean", :seamless?, :seamless)
     attribute("Boolean", :allow_fullscreen?, :allowFullscreen)
     attribute(String, :width, :width)
     attribute(String, :height, :height)
@@ -706,7 +689,6 @@ module Watir
     attribute(String, :align, :align)
     attribute(String, :scrolling, :scrolling)
     attribute(String, :frame_border, :frameBorder)
-    attribute(String, :long_desc, :longDesc)
     attribute(String, :margin_height, :marginHeight)
     attribute(String, :margin_width, :marginWidth)
   end
@@ -732,7 +714,6 @@ module Watir
     attribute(String, :align, :align)
     attribute(Integer, :hspace, :hspace)
     attribute(Integer, :vspace, :vspace)
-    attribute(String, :long_desc, :longDesc)
     attribute(String, :border, :border)
   end
   class ImageCollection < ElementCollection
@@ -786,16 +767,25 @@ module Watir
   class Anchor < HTMLElement
     attribute(String, :target, :target)
     attribute(String, :download, :download)
-    attribute(String, :ping, :ping)
     attribute(String, :rel, :rel)
+    attribute(String, :rev, :rev)
     attribute(String, :rel_list, :relList)
     attribute(String, :hreflang, :hreflang)
     attribute(String, :type, :type)
     attribute(String, :coords, :coords)
     attribute(String, :charset, :charset)
     attribute(String, :name, :name)
-    attribute(String, :rev, :rev)
     attribute(String, :shape, :shape)
+    attribute(String, :href, :href)
+    attribute(String, :origin, :origin)
+    attribute(String, :protocol, :protocol)
+    attribute(String, :username, :username)
+    attribute(String, :password, :password)
+    attribute(String, :host, :host)
+    attribute(String, :hostname, :hostname)
+    attribute(String, :port, :port)
+    attribute(String, :pathname, :pathname)
+    attribute(String, :search, :search)
   end
   class AnchorCollection < ElementCollection
   end
@@ -885,8 +875,10 @@ module Watir
     attribute(String, :ononline, :ononline)
     attribute(String, :onpagehide, :onpagehide)
     attribute(String, :onpageshow, :onpageshow)
+    attribute(String, :onrejectionhandled, :onrejectionhandled)
     attribute(String, :onpopstate, :onpopstate)
     attribute(String, :onstorage, :onstorage)
+    attribute(String, :onunhandledrejection, :onunhandledrejection)
     attribute(String, :onunload, :onunload)
   end
   class BodyCollection < ElementCollection
@@ -894,8 +886,8 @@ module Watir
 
   class Style < HTMLElement
     attribute(String, :media, :media)
+    attribute(String, :nonce, :nonce)
     attribute(String, :type, :type)
-    attribute("Boolean", :scoped?, :scoped)
   end
   class StyleCollection < ElementCollection
   end
@@ -1210,16 +1202,6 @@ module Watir
     end
     Watir.tag_to_class[:dfn] = HTMLElement
 
-    # @return [Dialog]
-    def dialog(*args)
-      Dialog.new(self, extract_selector(args).merge(tag_name: "dialog"))
-    end
-    # @return [DialogCollection]
-    def dialogs(*args)
-      DialogCollection.new(self, extract_selector(args).merge(tag_name: "dialog"))
-    end
-    Watir.tag_to_class[:dialog] = Dialog
-
     # @return [Div]
     def div(*args)
       Div.new(self, extract_selector(args).merge(tag_name: "div"))
@@ -1409,16 +1391,6 @@ module Watir
       HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "header"))
     end
     Watir.tag_to_class[:header] = HTMLElement
-
-    # @return [HTMLElement]
-    def hgroup(*args)
-      HTMLElement.new(self, extract_selector(args).merge(tag_name: "hgroup"))
-    end
-    # @return [HTMLElementCollection]
-    def hgroups(*args)
-      HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "hgroup"))
-    end
-    Watir.tag_to_class[:hgroup] = HTMLElement
 
     # @return [HR]
     def hr(*args)
@@ -1700,6 +1672,16 @@ module Watir
     end
     Watir.tag_to_class[:param] = Param
 
+    # @return [Picture]
+    def picture(*args)
+      Picture.new(self, extract_selector(args).merge(tag_name: "picture"))
+    end
+    # @return [PictureCollection]
+    def pictures(*args)
+      PictureCollection.new(self, extract_selector(args).merge(tag_name: "picture"))
+    end
+    Watir.tag_to_class[:picture] = Picture
+
     # @return [Pre]
     def pre(*args)
       Pre.new(self, extract_selector(args).merge(tag_name: "pre"))
@@ -1731,6 +1713,16 @@ module Watir
     Watir.tag_to_class[:q] = Quote
 
     # @return [HTMLElement]
+    def rb(*args)
+      HTMLElement.new(self, extract_selector(args).merge(tag_name: "rb"))
+    end
+    # @return [HTMLElementCollection]
+    def rbs(*args)
+      HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "rb"))
+    end
+    Watir.tag_to_class[:rb] = HTMLElement
+
+    # @return [HTMLElement]
     def rp(*args)
       HTMLElement.new(self, extract_selector(args).merge(tag_name: "rp"))
     end
@@ -1749,6 +1741,16 @@ module Watir
       HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "rt"))
     end
     Watir.tag_to_class[:rt] = HTMLElement
+
+    # @return [HTMLElement]
+    def rtc(*args)
+      HTMLElement.new(self, extract_selector(args).merge(tag_name: "rtc"))
+    end
+    # @return [HTMLElementCollection]
+    def rtcs(*args)
+      HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "rtc"))
+    end
+    Watir.tag_to_class[:rtc] = HTMLElement
 
     # @return [HTMLElement]
     def ruby(*args)
