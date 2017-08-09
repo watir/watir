@@ -9,7 +9,7 @@ module Watir
     include HasWindow
     include Waitable
 
-    attr_writer :default_context
+    attr_writer :default_context, :original_window
     attr_reader :driver
     attr_reader :after_hooks
     alias_method :wd, :driver # ensures duck typing with Watir::Element

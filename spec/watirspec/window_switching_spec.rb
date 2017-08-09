@@ -9,8 +9,8 @@ describe "Browser" do
   end
 
   after do
-    browser.window(index: 0).use
-    browser.windows[1..-1].each(&:close)
+    browser.original_window.use
+    browser.windows.reject(&:current?).each(&:close)
   end
 
   describe "#windows" do
@@ -104,8 +104,8 @@ describe "Window" do
     end
 
     after do
-      browser.window(index: 0).use
-      browser.windows[1..-1].each(&:close)
+      browser.original_window.use
+      browser.windows.reject(&:current?).each(&:close)
     end
 
     not_compliant_on :safari, %i(firefox linux) do
@@ -206,8 +206,8 @@ describe "Window" do
     end
 
     after do
-      browser.window(index: 0).use
-      browser.windows[1..-1].each(&:close)
+      browser.original_window.use
+      browser.windows.reject(&:current?).each(&:close)
     end
 
     bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1223277", :firefox do

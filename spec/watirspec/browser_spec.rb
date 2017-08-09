@@ -4,8 +4,8 @@ describe "Browser" do
 
   describe "#exists?" do
     after do
-      browser.window(index: 0).use
-      browser.windows[1..-1].each(&:close)
+      browser.original_window.use
+      browser.windows.reject(&:current?).each(&:close)
     end
 
     it "returns true if we are at a page" do

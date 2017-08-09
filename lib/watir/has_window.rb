@@ -11,7 +11,7 @@ module Watir
     #
 
     def windows(*args)
-      all = @driver.window_handles.map { |handle| Window.new(@driver, handle: handle) }
+      all = @driver.window_handles.map { |handle| Window.new(self, handle: handle) }
 
       if args.empty?
         all
@@ -30,11 +30,26 @@ module Watir
     #
 
     def window(*args, &blk)
-      win = Window.new @driver, extract_selector(args)
+      win = Window.new self, extract_selector(args)
 
       win.use(&blk) if block_given?
 
       win
+    end
+
+    #
+    # Returns original window if defined, current window if not
+    # See Window#use
+    #
+    # @example
+    #   browser.window(title: 'closeable window').use
+    #   browser.original_window.use
+    #
+    # @return [Window]
+    #
+
+    def original_window
+      @original_window ||= window
     end
 
     private

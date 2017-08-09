@@ -3,8 +3,9 @@ module Watir
     include EventuallyPresent
     include Waitable
 
-    def initialize(driver, selector)
-      @driver = driver
+    def initialize(browser, selector)
+      @browser = browser
+      @driver = browser.driver
       @selector = selector
 
       if selector.empty?
@@ -151,6 +152,7 @@ module Watir
     #
 
     def close
+      @browser.original_window = nil if self == @browser.original_window
       use { @driver.close }
     end
 
@@ -190,6 +192,7 @@ module Watir
     #
 
     def use(&blk)
+      @browser.original_window ||= current_window
       wait_for_exists
       @driver.switch_to.window(handle, &blk)
       self

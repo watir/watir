@@ -38,7 +38,7 @@ describe "Browser::AfterHooks" do
 
   describe "#run" do
     after(:each) do
-      browser.window(index: 0).use
+      browser.original_window.use
       browser.after_hooks.delete @page_after_hook
     end
 
@@ -178,7 +178,7 @@ describe "Browser::AfterHooks" do
           window = browser.window(title: "closeable window")
           window.use
           expect { browser.a(id: "close").click }.to_not raise_error
-          browser.window(index: 0).use
+          browser.original_window.use
         end
       end
     end
