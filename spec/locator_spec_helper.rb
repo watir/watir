@@ -32,7 +32,7 @@ module LocatorSpecHelper
 
   def element(opts = {})
     attrs = opts.delete(:attributes)
-    el = double(Watir::Element, opts)
+    el = double(Watir::HTMLElement, opts)
 
     attrs.each do |key, value|
       allow(el).to receive(:attribute).with(key).and_return(value)

@@ -3,6 +3,11 @@ module Watir
     def visible?
       false
     end
+
+    def click
+      raise Watir::Exception::ObjectDisabledException, "click is not available on the hidden field element"
+    end
+
   end
 
   module Container

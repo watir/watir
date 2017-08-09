@@ -18,6 +18,7 @@ module Watir
     def set(bool = true)
       set? == bool ? assert_enabled : click
     end
+    alias_method :check, :set
 
     #
     # Returns true if the element is checked
@@ -27,6 +28,7 @@ module Watir
     def set?
       element_call { @element.selected? }
     end
+    alias_method :checked?, :set?
 
     #
     # Unsets checkbox.
@@ -35,6 +37,7 @@ module Watir
     def clear
       set false
     end
+    alias_method :uncheck, :clear
 
   end # CheckBox
 

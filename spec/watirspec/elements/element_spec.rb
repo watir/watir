@@ -381,4 +381,88 @@ describe "Element" do
       expect(div.outer_html).to eq('<div id="foo"><a href="#">hello</a></div>')
     end
   end
+
+  not_compliant_on %i(remote firefox) do
+    describe '#scroll_into_view' do
+      it 'scrolls element into view' do
+        el = browser.button(name: 'new_user_image')
+        element_center = el.center['y']
+
+        bottom_viewport_script = 'return window.pageYOffset + window.innerHeight'
+        expect(browser.execute_script bottom_viewport_script).to be < element_center
+
+        expect(el.scroll_into_view).to be_a Selenium::WebDriver::Point
+
+        expect(browser.execute_script bottom_viewport_script).to be > element_center
+      end
+    end
+  end
+
+  describe '#location' do
+    it 'returns coordinates for element location' do
+      location = browser.button(name: 'new_user_image').location
+
+      expect(location).to be_a Selenium::WebDriver::Point
+      expect(location['y']).to be > 0
+      expect(location['x']).to be > 0
+
+      not_compliant_on :remote do
+        expect(location['y']).to be_a Float
+        expect(location['x']).to be_a Float
+      end
+
+      deviates_on :remote do
+        expect(location['y']).to be_a Integer
+        expect(location['x']).to be_a Integer
+      end
+    end
+  end
+
+  describe '#size' do
+    it 'returns size of element' do
+      size = browser.button(name: 'new_user_image').size
+
+      expect(size).to be_a Selenium::WebDriver::Dimension
+      expect(size['width']).to eq 104.0
+      expect(size['height']).to eq 70.0
+    end
+  end
+
+  describe '#height' do
+    it 'returns height of element' do
+      height = browser.button(name: 'new_user_image').height
+
+      expect(height).to eq 70.0
+    end
+  end
+
+  describe '#width' do
+    it 'returns width of element' do
+      width = browser.button(name: 'new_user_image').width
+
+      expect(width).to eq 104.0
+    end
+
+  end
+
+  describe '#center' do
+    it 'returns center of element' do
+      center = browser.button(name: 'new_user_image').center
+
+      expect(center).to be_a Selenium::WebDriver::Point
+      expect(center['y']).to be > 0.0
+      expect(center['x']).to be > 0.0
+
+      not_compliant_on :remote do
+        expect(center['y']).to be_a Float
+        expect(center['x']).to be_a Float
+      end
+
+      deviates_on :remote do
+        expect(center['y']).to be_a Integer
+        expect(center['x']).to be_a Integer
+      end
+    end
+  end
+
 end

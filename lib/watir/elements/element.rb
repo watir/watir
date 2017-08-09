@@ -269,6 +269,7 @@ module Watir
     def attribute_value(attribute_name)
       element_call { @element.attribute attribute_name }
     end
+    alias_method :attribute, :attribute_value
 
     #
     # Returns outer (inner + element itself) HTML code of element.
@@ -351,6 +352,87 @@ module Watir
 
       element_call { execute_atom :fireEvent, @element, event_name }
     end
+
+    #
+    # Scroll until the element is in the view screen
+    #
+    # @example
+    #   browser.button(name: "new_user_button").scroll_into_view
+    #
+    # @return [Selenium::WebDriver::Point]
+    #
+
+    def scroll_into_view
+      element_call { @element.location_once_scrolled_into_view }
+    end
+
+    #
+    # location of element (x, y)
+    #
+    # @example
+    #   browser.button(name: "new_user_button").location
+    #
+    # @return [Selenium::WebDriver::Point]
+    #
+
+    def location
+      element_call { @element.location }
+    end
+
+    #
+    # size of element (width, height)
+    #
+    # @example
+    #   browser.button(name: "new_user_button").size
+    #
+    # @return [Selenium::WebDriver::Dimension]
+    #
+
+    def size
+      element_call { @element.size }
+    end
+
+    #
+    # Get height of element
+    #
+    # @example
+    #   browser.button(name: "new_user_button").height
+    #
+    # @return [Selenium::WebDriver::Dimension]
+    #
+
+    def height
+      size['height']
+    end
+
+    #
+    # Get width of element
+    #
+    # @example
+    #   browser.button(name: "new_user_button").width
+    #
+    # @return [Selenium::WebDriver::Dimension]
+    #
+
+    def width
+      size['width']
+    end
+
+    #
+    # Get centre coordinates of element
+    #
+    # @example
+    #   browser.button(name: "new_user_button").centre
+    #
+    # @return [Selenium::WebDriver::Point]
+    #
+
+    def center
+      location = location()
+      Selenium::WebDriver::Point.new(location.x + (height/2),
+                                     location.y + (width/2))
+    end
+    alias_method :centre, :center
 
     #
     # @api private

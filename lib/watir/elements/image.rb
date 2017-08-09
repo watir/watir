@@ -16,18 +16,6 @@ module Watir
       )
     end
 
-    #
-    # Returns the image's width in pixels.
-    #
-    # @return [Integer] width
-    #
-
-    def width
-      element_call do
-        driver.execute_script "return arguments[0].width", @element
-      end
-    end
-
   end # Image
 
   module Container

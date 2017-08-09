@@ -8,6 +8,7 @@ module Watir
     def set
       click unless set?
     end
+    alias_method :select, :set
 
     #
     # Is this radio set?
@@ -18,6 +19,7 @@ module Watir
     def set?
       element_call { @element.selected? }
     end
+    alias_method :selected?, :set?
 
   end # Radio
 

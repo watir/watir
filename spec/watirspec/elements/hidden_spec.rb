@@ -90,6 +90,12 @@ describe "Hidden" do
     end
   end
 
+  describe "#click" do
+    it "raises ObjectDisabledException when attempting to click" do
+      expect { browser.hidden(index: 1337).click }.to raise_object_disabled_exception
+    end
+  end
+
   describe "#respond_to?" do
     it "returns true for all attribute methods" do
       expect(browser.hidden(index: 1)).to respond_to(:id)
