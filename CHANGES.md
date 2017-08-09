@@ -1,3 +1,8 @@
+### 6.6.3 (2017-08-09)
+
+* Fix bug preventing usage of remote driver (#614)
+* HTML Element attribute support updated to HTML 5.1 
+
 ### 6.6.2 (2017-08-08)
 
 * Fix bug preventing headless operation (#611)
