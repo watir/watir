@@ -7,11 +7,11 @@ module Watir
     attribute(String, :dir, :dir)
     attribute(String, :dataset, :dataset)
     attribute("Boolean", :hidden?, :hidden)
-    attribute(Integer, :tab_index, :tabIndex)
-    attribute(String, :access_key, :accessKey)
+    attribute(Integer, :tabindex, :tabIndex)
+    attribute(String, :accesskey, :accessKey)
     attribute("Boolean", :draggable?, :draggable)
     attribute(String, :dropzone, :dropzone)
-    attribute(String, :context_menu, :contextMenu)
+    attribute(String, :contextmenu, :contextMenu)
     attribute("Boolean", :spellcheck?, :spellcheck)
     attribute(String, :onabort, :onabort)
     attribute(String, :onblur, :onblur)
@@ -76,8 +76,8 @@ module Watir
     attribute(String, :oncopy, :oncopy)
     attribute(String, :oncut, :oncut)
     attribute(String, :onpaste, :onpaste)
-    attribute(String, :content_editable, :contentEditable)
-    attribute("Boolean", :content_editable?, :isContentEditable)
+    attribute(String, :contenteditable, :contentEditable)
+    attribute("Boolean", :iscontenteditable?, :isContentEditable)
   end
   class HTMLElementCollection < ElementCollection
   end
@@ -119,14 +119,14 @@ module Watir
 
   class Marquee < HTMLElement
     attribute(String, :behavior, :behavior)
-    attribute(String, :bg_color, :bgColor)
+    attribute(String, :bgcolor, :bgColor)
     attribute(String, :direction, :direction)
     attribute(String, :height, :height)
     attribute(Integer, :hspace, :hspace)
     attribute(Integer, :loop, :loop)
-    attribute(Integer, :scroll_amount, :scrollAmount)
-    attribute(Integer, :scroll_delay, :scrollDelay)
-    attribute("Boolean", :true_speed?, :trueSpeed)
+    attribute(Integer, :scrollamount, :scrollAmount)
+    attribute(Integer, :scrolldelay, :scrollDelay)
+    attribute("Boolean", :truespeed?, :trueSpeed)
     attribute(Integer, :vspace, :vspace)
     attribute(String, :width, :width)
     attribute(String, :onbounce, :onbounce)
@@ -141,7 +141,7 @@ module Watir
     attribute(String, :alt, :alt)
     attribute(String, :archive, :archive)
     attribute(String, :code, :code)
-    attribute(String, :code_base, :codeBase)
+    attribute(String, :codebase, :codeBase)
     attribute(String, :height, :height)
     attribute(Integer, :hspace, :hspace)
     attribute(String, :name, :name)
@@ -171,7 +171,7 @@ module Watir
     attribute(String, :charset, :charset)
     attribute("Boolean", :async?, :async)
     attribute("Boolean", :defer?, :defer)
-    attribute(String, :cross_origin, :crossOrigin)
+    attribute(String, :crossorigin, :crossOrigin)
     attribute(String, :nonce, :nonce)
     attribute(String, :event, :event)
     attribute(String, :for, :htmlFor)
@@ -217,9 +217,9 @@ module Watir
     attribute(String, :form, :form)
     attribute(String, :name, :name)
     attribute(String, :type, :type)
-    attribute("Boolean", :will_validate?, :willValidate)
+    attribute("Boolean", :willvalidate?, :willValidate)
     attribute(String, :validity, :validity)
-    attribute(String, :validation_message, :validationMessage)
+    attribute(String, :validationmessage, :validationMessage)
   end
   class FieldSetCollection < ElementCollection
   end
@@ -250,11 +250,11 @@ module Watir
     attribute(String, :form, :form)
     attribute(String, :name, :name)
     attribute(String, :type, :type)
-    attribute(String, :default_value, :defaultValue)
+    attribute(String, :defaultvalue, :defaultValue)
     attribute(String, :value, :value)
-    attribute("Boolean", :will_validate?, :willValidate)
+    attribute("Boolean", :willvalidate?, :willValidate)
     attribute(String, :validity, :validity)
-    attribute(String, :validation_message, :validationMessage)
+    attribute(String, :validationmessage, :validationMessage)
     attribute(String, :labels, :labels)
   end
   class OutputCollection < ElementCollection
@@ -268,9 +268,9 @@ module Watir
     attribute(String, :keytype, :keytype)
     attribute(String, :name, :name)
     attribute(String, :type, :type)
-    attribute("Boolean", :will_validate?, :willValidate)
+    attribute("Boolean", :willvalidate?, :willValidate)
     attribute(String, :validity, :validity)
-    attribute(String, :validation_message, :validationMessage)
+    attribute(String, :validationmessage, :validationMessage)
     attribute(String, :labels, :labels)
   end
   class KeygenCollection < ElementCollection
@@ -280,28 +280,28 @@ module Watir
     attribute(String, :autocomplete, :autocomplete)
     attribute("Boolean", :autofocus?, :autofocus)
     attribute(Integer, :cols, :cols)
-    attribute(String, :dir_name, :dirName)
+    attribute(String, :dirname, :dirName)
     attribute("Boolean", :disabled?, :disabled)
     attribute(String, :form, :form)
-    attribute(String, :input_mode, :inputMode)
-    attribute(Integer, :max_length, :maxLength)
-    attribute(Integer, :min_length, :minLength)
+    attribute(String, :inputmode, :inputMode)
+    attribute(Integer, :maxlength, :maxLength)
+    attribute(Integer, :minlength, :minLength)
     attribute(String, :name, :name)
     attribute(String, :placeholder, :placeholder)
-    attribute("Boolean", :read_only?, :readOnly)
+    attribute("Boolean", :readonly?, :readOnly)
     attribute("Boolean", :required?, :required)
     attribute(String, :wrap, :wrap)
     attribute(String, :type, :type)
-    attribute(String, :default_value, :defaultValue)
+    attribute(String, :defaultvalue, :defaultValue)
     attribute(String, :value, :value)
-    attribute(Integer, :text_length, :textLength)
-    attribute("Boolean", :will_validate?, :willValidate)
+    attribute(Integer, :textlength, :textLength)
+    attribute("Boolean", :willvalidate?, :willValidate)
     attribute(String, :validity, :validity)
-    attribute(String, :validation_message, :validationMessage)
+    attribute(String, :validationmessage, :validationMessage)
     attribute(String, :labels, :labels)
-    attribute(Integer, :selection_start, :selectionStart)
-    attribute(Integer, :selection_end, :selectionEnd)
-    attribute(String, :selection_direction, :selectionDirection)
+    attribute(Integer, :selectionstart, :selectionStart)
+    attribute(Integer, :selectionend, :selectionEnd)
+    attribute(String, :selectiondirection, :selectionDirection)
   end
   class TextAreaCollection < ElementCollection
   end
@@ -310,7 +310,7 @@ module Watir
     attribute("Boolean", :disabled?, :disabled)
     attribute(String, :form, :form)
     attribute(String, :label, :label)
-    attribute("Boolean", :default_selected?, :defaultSelected)
+    attribute("Boolean", :defaultselected?, :defaultSelected)
     attribute("Boolean", :selected?, :selected)
     attribute(String, :value, :value)
     attribute(Integer, :index, :index)
@@ -343,12 +343,12 @@ module Watir
     attribute(String, :type, :type)
     attribute(String, :options, :options)
     attribute(Integer, :length, :length)
-    attribute(String, :selected_options, :selectedOptions)
-    attribute(Integer, :selected_index, :selectedIndex)
+    attribute(String, :selectedoptions, :selectedOptions)
+    attribute(Integer, :selectedindex, :selectedIndex)
     attribute(String, :value, :value)
-    attribute("Boolean", :will_validate?, :willValidate)
+    attribute("Boolean", :willvalidate?, :willValidate)
     attribute(String, :validity, :validity)
-    attribute(String, :validation_message, :validationMessage)
+    attribute(String, :validationmessage, :validationMessage)
     attribute(String, :labels, :labels)
   end
   class SelectCollection < ElementCollection
@@ -358,18 +358,18 @@ module Watir
     attribute("Boolean", :autofocus?, :autofocus)
     attribute("Boolean", :disabled?, :disabled)
     attribute(String, :form, :form)
-    attribute(String, :form_action, :formAction)
-    attribute(String, :form_enctype, :formEnctype)
-    attribute(String, :form_method, :formMethod)
-    attribute("Boolean", :form_no_validate?, :formNoValidate)
-    attribute(String, :form_target, :formTarget)
+    attribute(String, :formaction, :formAction)
+    attribute(String, :formenctype, :formEnctype)
+    attribute(String, :formmethod, :formMethod)
+    attribute("Boolean", :formnovalidate?, :formNoValidate)
+    attribute(String, :formtarget, :formTarget)
     attribute(String, :name, :name)
     attribute(String, :type, :type)
     attribute(String, :value, :value)
     attribute(String, :menu, :menu)
-    attribute("Boolean", :will_validate?, :willValidate)
+    attribute("Boolean", :willvalidate?, :willValidate)
     attribute(String, :validity, :validity)
-    attribute(String, :validation_message, :validationMessage)
+    attribute(String, :validationmessage, :validationMessage)
     attribute(String, :labels, :labels)
   end
   class ButtonCollection < ElementCollection
@@ -380,49 +380,49 @@ module Watir
     attribute(String, :alt, :alt)
     attribute(String, :autocomplete, :autocomplete)
     attribute("Boolean", :autofocus?, :autofocus)
-    attribute("Boolean", :default_checked?, :defaultChecked)
+    attribute("Boolean", :defaultchecked?, :defaultChecked)
     attribute("Boolean", :checked?, :checked)
-    attribute(String, :dir_name, :dirName)
+    attribute(String, :dirname, :dirName)
     attribute("Boolean", :disabled?, :disabled)
     attribute(String, :form, :form)
     attribute(String, :files, :files)
-    attribute(String, :form_action, :formAction)
-    attribute(String, :form_enctype, :formEnctype)
-    attribute(String, :form_method, :formMethod)
-    attribute("Boolean", :form_no_validate?, :formNoValidate)
-    attribute(String, :form_target, :formTarget)
+    attribute(String, :formaction, :formAction)
+    attribute(String, :formenctype, :formEnctype)
+    attribute(String, :formmethod, :formMethod)
+    attribute("Boolean", :formnovalidate?, :formNoValidate)
+    attribute(String, :formtarget, :formTarget)
     attribute(Integer, :height, :height)
     attribute("Boolean", :indeterminate?, :indeterminate)
-    attribute(String, :input_mode, :inputMode)
+    attribute(String, :inputmode, :inputMode)
     attribute(String, :list, :list)
     attribute(String, :max, :max)
-    attribute(Integer, :max_length, :maxLength)
+    attribute(Integer, :maxlength, :maxLength)
     attribute(String, :min, :min)
-    attribute(Integer, :min_length, :minLength)
+    attribute(Integer, :minlength, :minLength)
     attribute("Boolean", :multiple?, :multiple)
     attribute(String, :name, :name)
     attribute(String, :pattern, :pattern)
     attribute(String, :placeholder, :placeholder)
-    attribute("Boolean", :read_only?, :readOnly)
+    attribute("Boolean", :readonly?, :readOnly)
     attribute("Boolean", :required?, :required)
     attribute(Integer, :size, :size)
     attribute(String, :src, :src)
     attribute(String, :step, :step)
     attribute(String, :type, :type)
-    attribute(String, :default_value, :defaultValue)
+    attribute(String, :defaultvalue, :defaultValue)
     attribute(String, :value, :value)
-    attribute(String, :value_as_date, :valueAsDate)
-    attribute(Float, :value_as_number, :valueAsNumber)
+    attribute(String, :valueasdate, :valueAsDate)
+    attribute(Float, :valueasnumber, :valueAsNumber)
     attribute(Integer, :width, :width)
-    attribute("Boolean", :will_validate?, :willValidate)
+    attribute("Boolean", :willvalidate?, :willValidate)
     attribute(String, :validity, :validity)
-    attribute(String, :validation_message, :validationMessage)
+    attribute(String, :validationmessage, :validationMessage)
     attribute(String, :labels, :labels)
-    attribute(Integer, :selection_start, :selectionStart)
-    attribute(Integer, :selection_end, :selectionEnd)
-    attribute(String, :selection_direction, :selectionDirection)
+    attribute(Integer, :selectionstart, :selectionStart)
+    attribute(Integer, :selectionend, :selectionEnd)
+    attribute(String, :selectiondirection, :selectionDirection)
     attribute(String, :align, :align)
-    attribute(String, :use_map, :useMap)
+    attribute(String, :usemap, :useMap)
   end
   class InputCollection < ElementCollection
   end
@@ -436,14 +436,14 @@ module Watir
   end
 
   class Form < HTMLElement
-    attribute(String, :accept_charset, :acceptCharset)
+    attribute(String, :acceptcharset, :acceptCharset)
     attribute(String, :action, :action)
     attribute(String, :autocomplete, :autocomplete)
     attribute(String, :enctype, :enctype)
     attribute(String, :encoding, :encoding)
     attribute(String, :method, :method)
     attribute(String, :name, :name)
-    attribute("Boolean", :no_validate?, :noValidate)
+    attribute("Boolean", :novalidate?, :noValidate)
     attribute(String, :target, :target)
     attribute(Integer, :length, :length)
   end
@@ -451,19 +451,19 @@ module Watir
   end
 
   class TableCell < HTMLElement
-    attribute(Integer, :col_span, :colSpan)
-    attribute(Integer, :row_span, :rowSpan)
+    attribute(Integer, :colspan, :colSpan)
+    attribute(Integer, :rowspan, :rowSpan)
     attribute(String, :headers, :headers)
-    attribute(Integer, :cell_index, :cellIndex)
+    attribute(Integer, :cellindex, :cellIndex)
     attribute(String, :align, :align)
     attribute(String, :axis, :axis)
     attribute(String, :height, :height)
     attribute(String, :width, :width)
     attribute(String, :ch, :ch)
-    attribute(String, :ch_off, :chOff)
-    attribute("Boolean", :no_wrap?, :noWrap)
-    attribute(String, :v_align, :vAlign)
-    attribute(String, :bg_color, :bgColor)
+    attribute(String, :choff, :chOff)
+    attribute("Boolean", :nowrap?, :noWrap)
+    attribute(String, :valign, :vAlign)
+    attribute(String, :bgcolor, :bgColor)
   end
   class TableCellCollection < ElementCollection
   end
@@ -482,13 +482,13 @@ module Watir
   end
 
   class TableRow < HTMLElement
-    attribute(Integer, :row_index, :rowIndex)
-    attribute(Integer, :section_row_index, :sectionRowIndex)
+    attribute(Integer, :rowindex, :rowIndex)
+    attribute(Integer, :sectionrowindex, :sectionRowIndex)
     attribute(String, :align, :align)
     attribute(String, :ch, :ch)
-    attribute(String, :ch_off, :chOff)
-    attribute(String, :v_align, :vAlign)
-    attribute(String, :bg_color, :bgColor)
+    attribute(String, :choff, :chOff)
+    attribute(String, :valign, :vAlign)
+    attribute(String, :bgcolor, :bgColor)
   end
   class TableRowCollection < ElementCollection
   end
@@ -496,8 +496,8 @@ module Watir
   class TableSection < HTMLElement
     attribute(String, :align, :align)
     attribute(String, :ch, :ch)
-    attribute(String, :ch_off, :chOff)
-    attribute(String, :v_align, :vAlign)
+    attribute(String, :choff, :chOff)
+    attribute(String, :valign, :vAlign)
   end
   class TableSectionCollection < ElementCollection
   end
@@ -505,8 +505,8 @@ module Watir
   class TableCol < HTMLElement
     attribute(String, :align, :align)
     attribute(String, :ch, :ch)
-    attribute(String, :ch_off, :chOff)
-    attribute(String, :v_align, :vAlign)
+    attribute(String, :choff, :chOff)
+    attribute(String, :valign, :vAlign)
     attribute(String, :width, :width)
   end
   class TableColCollection < ElementCollection
@@ -520,18 +520,18 @@ module Watir
 
   class Table < HTMLElement
     attribute(String, :caption, :caption)
-    attribute(String, :t_head, :tHead)
-    attribute(String, :t_foot, :tFoot)
-    attribute(String, :t_bodies, :tBodies)
+    attribute(String, :thead, :tHead)
+    attribute(String, :tfoot, :tFoot)
+    attribute(String, :tbodies, :tBodies)
     attribute(String, :align, :align)
     attribute(String, :border, :border)
     attribute(String, :frame, :frame)
     attribute(String, :rules, :rules)
     attribute(String, :summary, :summary)
     attribute(String, :width, :width)
-    attribute(String, :bg_color, :bgColor)
-    attribute(String, :cell_padding, :cellPadding)
-    attribute(String, :cell_spacing, :cellSpacing)
+    attribute(String, :bgcolor, :bgColor)
+    attribute(String, :cellpadding, :cellPadding)
+    attribute(String, :cellspacing, :cellSpacing)
   end
   class TableCollection < ElementCollection
   end
@@ -543,10 +543,10 @@ module Watir
     attribute(String, :target, :target)
     attribute(String, :download, :download)
     attribute(String, :rel, :rel)
-    attribute(String, :rel_list, :relList)
+    attribute(String, :rellist, :relList)
     attribute(String, :hreflang, :hreflang)
     attribute(String, :type, :type)
-    attribute("Boolean", :no_href?, :noHref)
+    attribute("Boolean", :nohref?, :noHref)
     attribute(String, :href, :href)
     attribute(String, :origin, :origin)
     attribute(String, :protocol, :protocol)
@@ -572,19 +572,19 @@ module Watir
   class Media < HTMLElement
     attribute(String, :error, :error)
     attribute(String, :src, :src)
-    attribute(String, :src_object, :srcObject)
-    attribute(String, :current_src, :currentSrc)
-    attribute(String, :cross_origin, :crossOrigin)
-    attribute(Integer, :network_state, :networkState)
+    attribute(String, :srcobject, :srcObject)
+    attribute(String, :currentsrc, :currentSrc)
+    attribute(String, :crossorigin, :crossOrigin)
+    attribute(Integer, :networkstate, :networkState)
     attribute(String, :preload, :preload)
     attribute(String, :buffered, :buffered)
-    attribute(Integer, :ready_state, :readyState)
+    attribute(Integer, :readystate, :readyState)
     attribute("Boolean", :seeking?, :seeking)
-    attribute(Float, :current_time, :currentTime)
+    attribute(Float, :currenttime, :currentTime)
     attribute(Float, :duration, :duration)
     attribute("Boolean", :paused?, :paused)
-    attribute(Float, :default_playback_rate, :defaultPlaybackRate)
-    attribute(Float, :playback_rate, :playbackRate)
+    attribute(Float, :defaultplaybackrate, :defaultPlaybackRate)
+    attribute(Float, :playbackrate, :playbackRate)
     attribute(String, :played, :played)
     attribute(String, :seekable, :seekable)
     attribute("Boolean", :ended?, :ended)
@@ -593,10 +593,10 @@ module Watir
     attribute("Boolean", :controls?, :controls)
     attribute(Float, :volume, :volume)
     attribute("Boolean", :muted?, :muted)
-    attribute("Boolean", :default_muted?, :defaultMuted)
-    attribute(String, :audio_tracks, :audioTracks)
-    attribute(String, :video_tracks, :videoTracks)
-    attribute(String, :text_tracks, :textTracks)
+    attribute("Boolean", :defaultmuted?, :defaultMuted)
+    attribute(String, :audiotracks, :audioTracks)
+    attribute(String, :videotracks, :videoTracks)
+    attribute(String, :texttracks, :textTracks)
   end
   class MediaCollection < ElementCollection
   end
@@ -609,8 +609,8 @@ module Watir
   class Video < Media
     attribute(Integer, :width, :width)
     attribute(Integer, :height, :height)
-    attribute(Integer, :video_width, :videoWidth)
-    attribute(Integer, :video_height, :videoHeight)
+    attribute(Integer, :videowidth, :videoWidth)
+    attribute(Integer, :videoheight, :videoHeight)
     attribute(String, :poster, :poster)
   end
   class VideoCollection < ElementCollection
@@ -622,7 +622,7 @@ module Watir
     attribute(String, :srclang, :srclang)
     attribute(String, :label, :label)
     attribute("Boolean", :default?, :default)
-    attribute(Integer, :ready_state, :readyState)
+    attribute(Integer, :readystate, :readyState)
     attribute(String, :track, :track)
   end
   class TrackCollection < ElementCollection
@@ -632,7 +632,7 @@ module Watir
     attribute(String, :name, :name)
     attribute(String, :value, :value)
     attribute(String, :type, :type)
-    attribute(String, :value_type, :valueType)
+    attribute(String, :valuetype, :valueType)
   end
   class ParamCollection < ElementCollection
   end
@@ -640,16 +640,16 @@ module Watir
   class Object < HTMLElement
     attribute(String, :data, :data)
     attribute(String, :type, :type)
-    attribute("Boolean", :type_must_match?, :typeMustMatch)
+    attribute("Boolean", :typemustmatch?, :typeMustMatch)
     attribute(String, :name, :name)
     attribute(String, :form, :form)
     attribute(String, :width, :width)
     attribute(String, :height, :height)
-    attribute(String, :content_document, :contentDocument)
-    attribute(String, :content_window, :contentWindow)
-    attribute("Boolean", :will_validate?, :willValidate)
+    attribute(String, :contentdocument, :contentDocument)
+    attribute(String, :contentwindow, :contentWindow)
+    attribute("Boolean", :willvalidate?, :willValidate)
     attribute(String, :validity, :validity)
-    attribute(String, :validation_message, :validationMessage)
+    attribute(String, :validationmessage, :validationMessage)
     attribute(String, :align, :align)
     attribute(String, :archive, :archive)
     attribute(String, :code, :code)
@@ -657,9 +657,9 @@ module Watir
     attribute(Integer, :hspace, :hspace)
     attribute(String, :standby, :standby)
     attribute(Integer, :vspace, :vspace)
-    attribute(String, :code_base, :codeBase)
-    attribute(String, :code_type, :codeType)
-    attribute(String, :use_map, :useMap)
+    attribute(String, :codebase, :codeBase)
+    attribute(String, :codetype, :codeType)
+    attribute(String, :usemap, :useMap)
     attribute(String, :border, :border)
   end
   class ObjectCollection < ElementCollection
@@ -681,16 +681,16 @@ module Watir
     attribute(String, :srcdoc, :srcdoc)
     attribute(String, :name, :name)
     attribute(String, :sandbox, :sandbox)
-    attribute("Boolean", :allow_fullscreen?, :allowFullscreen)
+    attribute("Boolean", :allowfullscreen?, :allowFullscreen)
     attribute(String, :width, :width)
     attribute(String, :height, :height)
-    attribute(String, :content_document, :contentDocument)
-    attribute(String, :content_window, :contentWindow)
+    attribute(String, :contentdocument, :contentDocument)
+    attribute(String, :contentwindow, :contentWindow)
     attribute(String, :align, :align)
     attribute(String, :scrolling, :scrolling)
-    attribute(String, :frame_border, :frameBorder)
-    attribute(String, :margin_height, :marginHeight)
-    attribute(String, :margin_width, :marginWidth)
+    attribute(String, :frameborder, :frameBorder)
+    attribute(String, :marginheight, :marginHeight)
+    attribute(String, :marginwidth, :marginWidth)
   end
   class IFrameCollection < ElementCollection
   end
@@ -700,15 +700,15 @@ module Watir
     attribute(String, :src, :src)
     attribute(String, :srcset, :srcset)
     attribute(String, :sizes, :sizes)
-    attribute(String, :cross_origin, :crossOrigin)
-    attribute(String, :use_map, :useMap)
-    attribute("Boolean", :map?, :isMap)
+    attribute(String, :crossorigin, :crossOrigin)
+    attribute(String, :usemap, :useMap)
+    attribute("Boolean", :ismap?, :isMap)
     attribute(Integer, :width, :width)
     attribute(Integer, :height, :height)
-    attribute(Integer, :natural_width, :naturalWidth)
-    attribute(Integer, :natural_height, :naturalHeight)
+    attribute(Integer, :naturalwidth, :naturalWidth)
+    attribute(Integer, :naturalheight, :naturalHeight)
     attribute("Boolean", :complete?, :complete)
-    attribute(String, :current_src, :currentSrc)
+    attribute(String, :currentsrc, :currentSrc)
     attribute(String, :name, :name)
     attribute(String, :lowsrc, :lowsrc)
     attribute(String, :align, :align)
@@ -736,7 +736,7 @@ module Watir
 
   class Mod < HTMLElement
     attribute(String, :cite, :cite)
-    attribute(String, :date_time, :dateTime)
+    attribute(String, :datetime, :dateTime)
   end
   class ModCollection < ElementCollection
   end
@@ -753,7 +753,7 @@ module Watir
   end
 
   class Time < HTMLElement
-    attribute(String, :date_time, :dateTime)
+    attribute(String, :datetime, :dateTime)
   end
   class TimeCollection < ElementCollection
   end
@@ -769,7 +769,7 @@ module Watir
     attribute(String, :download, :download)
     attribute(String, :rel, :rel)
     attribute(String, :rev, :rev)
-    attribute(String, :rel_list, :relList)
+    attribute(String, :rellist, :relList)
     attribute(String, :hreflang, :hreflang)
     attribute(String, :type, :type)
     attribute(String, :coords, :coords)
@@ -840,7 +840,7 @@ module Watir
   class HR < HTMLElement
     attribute(String, :align, :align)
     attribute(String, :color, :color)
-    attribute("Boolean", :no_shade?, :noShade)
+    attribute("Boolean", :noshade?, :noShade)
     attribute(String, :size, :size)
     attribute(String, :width, :width)
   end
@@ -861,9 +861,9 @@ module Watir
 
   class Body < HTMLElement
     attribute(String, :link, :link)
-    attribute(String, :v_link, :vLink)
-    attribute(String, :a_link, :aLink)
-    attribute(String, :bg_color, :bgColor)
+    attribute(String, :vlink, :vLink)
+    attribute(String, :alink, :aLink)
+    attribute(String, :bgcolor, :bgColor)
     attribute(String, :background, :background)
     attribute(String, :onafterprint, :onafterprint)
     attribute(String, :onbeforeprint, :onbeforeprint)

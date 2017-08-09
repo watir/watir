@@ -115,14 +115,18 @@ module Watir
       end
 
       def ruby_method_name_for(attribute)
-        str = attribute.name.snake_case
+        str = if %w(httpEquiv contentEditable acceptCharset).include? attribute
+          attribute.name.snake_case
+        else
+          attribute.name.downcase
+        end
 
         if attribute.type.name == :Boolean
           str = $1 if str =~ /^is_(.+)/
           str << '?'
         end
 
-        str = 'for' if str == 'html_for'
+        str = 'for' if str == 'htmlfor'
 
         str.to_sym
       end
