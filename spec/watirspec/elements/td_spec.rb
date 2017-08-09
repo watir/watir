@@ -77,4 +77,20 @@ describe "TableCell" do
     end
   end
 
+  describe "#sibling_from_header" do
+    it "returns the corresponding sibling cell by text" do
+      local_td = browser.td(text: '1 331')
+
+      td = local_td.sibling_from_header(text: 'After income tax')
+      expect(td.text).to eq '4 532'
+    end
+
+    it "returns the corresponding sibling cell by index" do
+      local_td = browser.td(text: '1 331')
+
+      td = local_td.sibling_from_header(text: /tax/, index: 2)
+      expect(td.text).to eq '4 532'
+    end
+
+  end
 end
