@@ -89,6 +89,17 @@ describe Watir::Browser do
             new_browser.close
           end
 
+          it "uses remote client when specifying remote" do
+            opts = {desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome,
+                    url: url}
+            WatirSpec.implementation.browser_args = [:remote, opts]
+            new_browser = WatirSpec.new_browser
+            server_url = new_browser.driver.instance_variable_get('@bridge').http.instance_variable_get('@server_url')
+            expect(server_url).to eq URI.parse(url)
+
+            new_browser.close
+          end
+
           not_compliant_on :headless do
             it "accepts Chrome::Options instance as :options" do
               chrome_opts = Selenium::WebDriver::Chrome::Options.new(emulation: {userAgent: 'foo;bar'})

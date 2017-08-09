@@ -4,10 +4,16 @@ module Watir
     attr_reader :options
 
     def initialize(browser, options = {})
-      @browser = browser == :remote ? @options.delete(:browser).to_sym : browser.to_sym
+      @options = options.dup
+      @browser = if browser == :remote && @options.key?(:browser)
+                   @options.delete(:browser)
+                 elsif browser == :remote && @options.key?(:desired_capabilities)
+                   @options[:desired_capabilities].browser_name.to_sym
+                 else
+                   browser.to_sym
+                 end
       @selenium_browser = browser == :remote || options[:url] ? :remote : browser
 
-      @options = options.dup
       @selenium_opts = {}
     end
 
