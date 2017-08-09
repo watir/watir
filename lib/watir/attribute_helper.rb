@@ -38,10 +38,6 @@ module Watir
     #  @return [$1] value of $3 property
     #
     def attribute(type, method, attr)
-      if %i(size selected? clear style width height).include? method
-        Watir.logger.debug "#{self}##{method} will use direct Element method not #attribute_value by default"
-        return
-      end
       typed_attributes[type] << [method, attr]
       define_attribute(type, method, attr)
     end
@@ -72,8 +68,6 @@ module Watir
 
     def define_string_attribute(mname, aname)
       define_method mname do
-        # final w3c likely will not support className
-        aname = :class if mname == :class_name
         attribute_value(aname).to_s
       end
     end

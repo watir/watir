@@ -1,7 +1,5 @@
 module Watir
   class TableCell < HTMLElement
-    alias_method :colspan, :col_span
-    alias_method :rowspan, :row_span
 
     def column_header
       current_row = parent(tag_name: 'tr')
