@@ -74,7 +74,8 @@ module Watir
               # https://github.com/watir/watir/issues/72
               XpathSupport.downcase('@type')
             else
-              "@#{key.to_s.tr("_", "-")}"
+              separator = key.to_s =~ /data|aria|http|accept$/ ? '-' : ''
+              "@#{key.to_s.downcase.tr("_", separator)}"
             end
           end
 
