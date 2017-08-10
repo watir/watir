@@ -593,7 +593,7 @@ module Watir
       return if present?
 
       begin
-        @query_scope.wait_for_present
+        @query_scope.wait_for_present unless @query_scope.is_a? Browser
         wait_until_present
       rescue Watir::Wait::TimeoutError
         msg = "element located, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to be present"

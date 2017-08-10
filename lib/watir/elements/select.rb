@@ -9,9 +9,7 @@ module Watir
     def clear
       raise Error, "you can only clear multi-selects" unless multiple?
 
-      options.each do |o|
-        o.click if o.selected?
-      end
+      selected_options.each(&:click)
     end
 
     #
@@ -21,7 +19,7 @@ module Watir
     #
 
     def options(*)
-      super
+      element_call(:wait_for_present) { super }
     end
 
     #
@@ -140,46 +138,32 @@ module Watir
     private
 
     def select_by(how, str_or_rx)
-      found = nil
-      begin
-        Wait.until do
-          case str_or_rx
-          when String, Numeric, Regexp
-            found = options(how => str_or_rx)
-            found = options(label: str_or_rx) if found.empty?
-          else
-            raise TypeError, "expected String or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
-          end
-          if found.size > 1
-            Watir.logger.deprecate "Selecting Multiple Options with #select", "#select_all"
-          end
-          !found.empty?
-        end
-      rescue Wait::TimeoutError
-        raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
+      found = find_options(how, str_or_rx)
+
+      if found && found.size > 1
+        Watir.logger.deprecate "Selecting Multiple Options with #select", "#select_all"
       end
-      select_matching(found)
+      return select_matching(found) if found
+      raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
     end
 
     def select_all_by(how, str_or_rx)
       raise Error, "you can only use #select_all on multi-selects" unless multiple?
+      found = find_options(how, str_or_rx)
 
-      found = nil
-      begin
-        Wait.until do
-          case str_or_rx
-          when String, Numeric, Regexp
-            found = options(how => str_or_rx)
-            found = options(label: str_or_rx) if found.empty?
-          else
-            raise TypeError, "expected String or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
-          end
-          !found.empty?
-        end
-      rescue Wait::TimeoutError
-        raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
+      return select_matching(found) if found
+      raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
+    end
+
+    def find_options(how, str_or_rx)
+      case str_or_rx
+      when String, Numeric, Regexp
+        found = options(how => str_or_rx)
+        found = options(label: str_or_rx) if found.empty?
+      else
+        raise TypeError, "expected String or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
       end
-      select_matching(found)
+      found
     end
 
     def select_matching(elements)
