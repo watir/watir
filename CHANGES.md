@@ -1,3 +1,16 @@
+### 6.7.0 (unreleased)
+
+* Implement TableCell#column_header
+* Add aliases to access Element methods in more ways
+* Add methods on Element #scroll_into_view #location #size #height #center
+* Fix bug preventing Safari Technology Preview usage
+* Implement Browser#original_window
+* Implement TableCell#sibling_from_header
+* Fix bug preventing usage of switches with Chrome
+* Fix bug of not waiting for SelectList when using options
+* Allow OList, UList, TableRow, Table to be accessed like collections
+* Implement Element#siblings
+
 ### 6.6.3 (2017-08-09)
 
 * Fix bug preventing usage of remote driver (#614)
