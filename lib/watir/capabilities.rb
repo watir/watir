@@ -64,7 +64,7 @@ module Watir
       when :chrome
         if @options.key?(:args) || @options.key?(:switches)
           browser_options ||= {}
-          browser_options[:args] = @options.delete(:args).dup || @options.delete(:switches).dup
+          browser_options[:args] = (@options.delete(:args) || @options.delete(:switches)).dup
         end
         if @options.delete(:headless)
           browser_options ||= {}
