@@ -62,9 +62,9 @@ module Watir
 
       case @selenium_browser
       when :chrome
-        if @options.key?(:args)
+        if @options.key?(:args) || @options.key?(:switches)
           browser_options ||= {}
-          browser_options[:args] = @options.delete(:args).dup
+          browser_options[:args] = @options.delete(:args).dup || @options.delete(:switches).dup
         end
         if @options.delete(:headless)
           browser_options ||= {}
@@ -80,7 +80,7 @@ module Watir
         Selenium::WebDriver::Safari.technology_preview! if @options.delete(:technology_preview)
       when :remote
         if @browser == :chrome && @options.delete(:headless)
-          args = @options.delete(:args) || []
+          args = @options.delete(:args) || @options.delete(:switches) || []
           @options['chromeOptions'] = {'args' => args + ['--headless', '--disable-gpu']}
         end
         if @browser == :safari && @options.delete(:technology_preview)

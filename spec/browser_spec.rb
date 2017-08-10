@@ -20,6 +20,7 @@ describe Watir::Browser do
         end
 
         after(:each) do
+          @new_browser.close
           WatirSpec.implementation = @original.clone
         end
 
@@ -29,31 +30,28 @@ describe Watir::Browser do
 
         it "uses remote client based on provided url" do
           @opts.merge!(url: url)
-          new_browser = WatirSpec.new_browser
+          @new_browser = WatirSpec.new_browser
 
-          server_url = new_browser.driver.instance_variable_get('@bridge').http.instance_variable_get('@server_url')
+          server_url = @new_browser.driver.instance_variable_get('@bridge').http.instance_variable_get('@server_url')
           expect(server_url).to eq URI.parse(url)
-          new_browser.close
         end
 
         it "sets client timeout" do
           @opts.merge!(url: url, open_timeout: 44, read_timeout: 47)
-          new_browser = WatirSpec.new_browser
+          @new_browser = WatirSpec.new_browser
 
-          http = new_browser.driver.instance_variable_get('@bridge').http
+          http = @new_browser.driver.instance_variable_get('@bridge').http
 
           expect(http.open_timeout).to eq 44
           expect(http.read_timeout).to eq 47
-          new_browser.close
         end
 
         it "accepts http_client" do
           http_client = Selenium::WebDriver::Remote::Http::Default.new
           @opts.merge!(url: url, http_client: http_client)
-          new_browser = WatirSpec.new_browser
+          @new_browser = WatirSpec.new_browser
 
-          expect(new_browser.driver.instance_variable_get('@bridge').http).to eq http_client
-          new_browser.close
+          expect(@new_browser.driver.instance_variable_get('@bridge').http).to eq http_client
         end
 
         compliant_on :firefox do
@@ -71,10 +69,9 @@ describe Watir::Browser do
         compliant_on :firefox do
           it "accepts individual driver capabilities" do
             @opts.merge!(accept_insecure_certs: true)
-            new_browser = WatirSpec.new_browser
+            @new_browser = WatirSpec.new_browser
 
-            expect(new_browser.driver.capabilities[:accept_insecure_certs]).to eq true
-            new_browser.close
+            expect(@new_browser.driver.capabilities[:accept_insecure_certs]).to eq true
           end
         end
 
@@ -82,22 +79,29 @@ describe Watir::Browser do
           it "accepts browser options" do
             @opts.merge!(options: {emulation: {userAgent: 'foo;bar'}})
 
-            new_browser = WatirSpec.new_browser
+            @new_browser = WatirSpec.new_browser
 
-            ua = new_browser.execute_script 'return window.navigator.userAgent'
+            ua = @new_browser.execute_script 'return window.navigator.userAgent'
             expect(ua).to eq('foo;bar')
-            new_browser.close
           end
 
           it "uses remote client when specifying remote" do
             opts = {desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome,
                     url: url}
             WatirSpec.implementation.browser_args = [:remote, opts]
-            new_browser = WatirSpec.new_browser
-            server_url = new_browser.driver.instance_variable_get('@bridge').http.instance_variable_get('@server_url')
+            @new_browser = WatirSpec.new_browser
+            server_url = @new_browser.driver.instance_variable_get('@bridge').http.instance_variable_get('@server_url')
             expect(server_url).to eq URI.parse(url)
+          end
 
-            new_browser.close
+          it "accepts switches argument" do
+            @opts.delete :args
+            @opts.merge!(switches: ['--window-size=600,700'])
+
+            @new_browser = WatirSpec.new_browser
+            size = @new_browser.window.size
+            expect(size['height']).to eq 700
+            expect(size['width']).to eq 600
           end
 
           not_compliant_on :headless do
@@ -106,11 +110,10 @@ describe Watir::Browser do
               @opts.delete :args
               @opts.merge!(options: chrome_opts)
 
-              new_browser = WatirSpec.new_browser
+              @new_browser = WatirSpec.new_browser
 
-              ua = new_browser.execute_script 'return window.navigator.userAgent'
+              ua = @new_browser.execute_script 'return window.navigator.userAgent'
               expect(ua).to eq('foo;bar')
-              new_browser.close
             end
           end
         end
