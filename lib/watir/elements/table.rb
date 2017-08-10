@@ -1,6 +1,23 @@
 module Watir
   class Table < HTMLElement
     include RowContainer
+    include Enumerable
+
+    #
+    # Yields each TableRow associated with this table.
+    #
+    # @example
+    #   table = browser.table
+    #   table.each do |row|
+    #     puts row.text
+    #   end
+    #
+    # @yieldparam [Watir::TableRow] element Iterate through the rows for this table.
+    #
+
+    def each(&block)
+      rows.each(&block)
+    end
 
     #
     # Represents table rows as hashes
@@ -12,13 +29,22 @@ module Watir
       all_rows = rows.locate
       header_row = all_rows.first || raise(Exception::Error, "no rows in table")
 
-      header_type = header_row.th.exist? ? 'th' : 'td'
-      headers = header_row.send("#{header_type}s").map(&:text)
-
       all_rows.entries[1..-1].map do |row|
         cell_size_check(header_row, row)
-        Hash[headers.zip(row.cells.map(&:text))]
+        Hash[headers(header_row).map(&:text).zip(row.cells.map(&:text))]
       end
+    end
+
+    #
+    # Returns first row of Table with proper subtype
+    #
+    # @return [TableCellCollection]
+    #
+
+    def headers(row = nil)
+      row ||= rows.first
+      header_type = row.th.exist? ? 'th' : 'td'
+      row.send("#{header_type}s")
     end
 
     #

@@ -90,7 +90,7 @@ module Watir
                      when :following
                        "following-sibling::"
                      when :child
-                       ""
+                       "child::"
                      end
             xpath
           end
