@@ -6,29 +6,29 @@ describe "Ol" do
     browser.goto(WatirSpec.url_for("non_control_elements.html"))
   end
 
-    # Exists method
-    describe "#exist?" do
-      it "returns true if the 'ol' exists" do
-        expect(browser.ol(id: "favorite_compounds")).to exist
-        expect(browser.ol(id: /favorite_compounds/)).to exist
-        expect(browser.ol(index: 0)).to exist
-        expect(browser.ol(xpath: "//ol[@id='favorite_compounds']")).to exist
-      end
+  # Exists method
+  describe "#exist?" do
+    it "returns true if the 'ol' exists" do
+      expect(browser.ol(id: "favorite_compounds")).to exist
+      expect(browser.ol(id: /favorite_compounds/)).to exist
+      expect(browser.ol(index: 0)).to exist
+      expect(browser.ol(xpath: "//ol[@id='favorite_compounds']")).to exist
+    end
 
-      it "returns the first ol if given no args" do
-        expect(browser.ol).to exist
-      end
+    it "returns the first ol if given no args" do
+      expect(browser.ol).to exist
+    end
 
-      it "returns false if the 'ol' doesn't exist" do
-        expect(browser.ol(id: "no_such_id")).to_not exist
-        expect(browser.ol(id: /no_such_id/)).to_not exist
-        expect(browser.ol(text: "no_such_text")).to_not exist
-        expect(browser.ol(text: /no_such_text/)).to_not exist
-        expect(browser.ol(class: "no_such_class")).to_not exist
-        expect(browser.ol(class: /no_such_class/)).to_not exist
-        expect(browser.ol(index: 1337)).to_not exist
-        expect(browser.ol(xpath: "//ol[@id='no_such_id']")).to_not exist
-      end
+    it "returns false if the 'ol' doesn't exist" do
+      expect(browser.ol(id: "no_such_id")).to_not exist
+      expect(browser.ol(id: /no_such_id/)).to_not exist
+      expect(browser.ol(text: "no_such_text")).to_not exist
+      expect(browser.ol(text: /no_such_text/)).to_not exist
+      expect(browser.ol(class: "no_such_class")).to_not exist
+      expect(browser.ol(class: /no_such_class/)).to_not exist
+      expect(browser.ol(index: 1337)).to_not exist
+      expect(browser.ol(xpath: "//ol[@id='no_such_id']")).to_not exist
+    end
 
     it "returns false if the 'ol' doesn't exist" do
       expect(browser.ol(id: "no_such_id")).to_not exist
