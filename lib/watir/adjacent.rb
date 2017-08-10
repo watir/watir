@@ -67,6 +67,19 @@ module Watir
     end
     alias_method :next_siblings, :following_siblings
 
+
+    #
+    # Returns collection of siblings of current element, including current element.
+    #
+    # @example
+    #   browser.text_field(name: "new_user_first_name").siblings.size
+    #   #=> 55
+    #
+
+    def siblings(opt = {})
+      parent.children(opt)
+    end
+
     #
     # Returns element of direct child of current element.
     #

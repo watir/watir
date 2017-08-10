@@ -39,6 +39,25 @@ describe "Adjacent Elements" do
     end
   end
 
+  describe "#siblings" do
+    it "gets collection of all siblings of an element" do
+      expect(browser.div(id: "second_sibling").siblings).to be_a Watir::HTMLElementCollection
+      expect(browser.div(id: "second_sibling").siblings.size).to eq 5
+    end
+
+    it "accepts a tag name argument" do
+      siblings = browser.div(id: "second_sibling").siblings(tag_name: :div)
+      expect(siblings.size).to eq 3
+      expect(siblings.all? { |sib| sib.is_a? Watir::Div }).to eq true
+    end
+
+    it "accepts a class_name argument" do
+      siblings = browser.div(id: "second_sibling").siblings(class_name: 'b')
+      expect(siblings.size).to eq 2
+      expect(siblings.all? { |sib| sib.is_a? Watir::Div }).to eq true
+    end
+  end
+
   describe "#following_sibling" do
     it "gets immediate following sibling of an element by default" do
       expect(browser.div(id: "first_sibling").following_sibling.id).to eq 'between_siblings1'

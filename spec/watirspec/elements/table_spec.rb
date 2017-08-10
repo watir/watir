@@ -57,6 +57,14 @@ describe "Table" do
     end
   end
 
+  describe "#headers" do
+    it "returns the first row of a table as the header row" do
+      headers = browser.table(id: "axis_example").headers
+      expect(headers).to be_a Watir::TableHeaderCellCollection
+      expect(headers.size).to eq 4
+    end
+  end
+
   describe "#hashes" do
     it "returns an Array of Hashes for the common table usage" do
       expect(browser.table(id: "axis_example").hashes).to eq [

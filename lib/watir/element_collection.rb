@@ -28,32 +28,10 @@ module Watir
       to_a.each(&blk)
     end
 
-    #
-    # Returns number of elements in collection.
-    #
-    # @return [Integer]
-    #
+    alias_method :length, :count
+    alias_method :size, :count
 
-    def length
-      to_a.length
-    end
-    alias_method :size, :length
-
-    #
-    # Returns true if no elements are found
-    #
-    # @example
-    #   browser.select_list(name: "new_user_languages").options(class: 'not_here').empty?
-    #   #=> true
-    #
-    # @example
-    #   browser.select_list(name: "new_user_languages").options(id: 'danish').empty?
-    #   #=> false
-    #
-
-    def empty?
-      length == 0
-    end
+    alias_method :empty?, :none?
 
     #
     # Get the element at the given index.
@@ -67,16 +45,6 @@ module Watir
 
     def [](idx)
       to_a[idx] || element_class.new(@query_scope, @selector.merge(index: idx))
-    end
-
-    #
-    # First element of this collection
-    #
-    # @return [Watir::Element] Returns an instance of a Watir::Element subclass
-    #
-
-    def first
-      self[0]
     end
 
     #
