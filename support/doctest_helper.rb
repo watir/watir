@@ -57,8 +57,18 @@ YARD::Doctest.configure do |doctest|
     end
   end
 
-  doctest.before('Watir::Element#attribute_value') do
+  %w[attribute_value attribute].each do |name|
+    doctest.before("Watir::Element##{name}") do
+      browser.goto WatirSpec.url_for('non_control_elements.html')
+    end
+  end
+
+  doctest.before('Watir::List') do
     browser.goto WatirSpec.url_for('non_control_elements.html')
+  end
+
+  doctest.before('Watir::Table') do
+    browser.goto WatirSpec.url_for('tables.html')
   end
 
   %w[inner_html outer_html html].each do |name|

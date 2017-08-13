@@ -284,7 +284,6 @@ module Watir
     def outer_html
       element_call { execute_atom(:getOuterHtml, @element) }.strip
     end
-
     alias_method :html, :outer_html
 
     #
@@ -429,8 +428,8 @@ module Watir
 
     def center
       location = location()
-      Selenium::WebDriver::Point.new(location.x + (height/2),
-                                     location.y + (width/2))
+      Selenium::WebDriver::Point.new(location.x + (width/2),
+                                     location.y + (height/2))
     end
     alias_method :centre, :center
 

@@ -342,6 +342,22 @@ describe "SelectList" do
       browser.select_list(id: 'single-quote').select("'foo'")
     end
 
+    compliant_on :relaxed_locate do
+      it 'waits to select an option' do
+        browser.goto WatirSpec.url_for("wait.html")
+        browser.a(id: 'add_select').click
+        select_list = browser.select_list(id: 'languages')
+        Watir.default_timeout = 2
+        begin
+          start_time = ::Time.now
+          expect {select_list.select('No')}.to raise_error Watir::Exception::NoValueFoundException
+          expect(::Time.now - start_time).to be > 2
+        ensure
+          Watir.default_timeout = 30
+        end
+      end
+    end
+
     it "raises NoValueFoundException if the option doesn't exist" do
       expect { browser.select_list(name: "new_user_country").select("missing_option") }.to raise_no_value_found_exception
       expect { browser.select_list(name: "new_user_country").select(/missing_option/) }.to raise_no_value_found_exception
