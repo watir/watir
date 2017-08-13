@@ -61,8 +61,7 @@ describe Watir::Browser do
 
             expect { @new_browser = WatirSpec.new_browser }.to output.to_stderr
 
-            expect(@new_browser.driver.capabilities['acceptInsecureCerts']).to eq true
-            @new_browser.close
+            expect(@new_browser.driver.capabilities.accept_insecure_certs).to eq true
           end
         end
 

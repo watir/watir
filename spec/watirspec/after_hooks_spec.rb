@@ -131,11 +131,11 @@ describe "Browser::AfterHooks" do
         browser.after_hooks.add @page_after_hook
         browser.goto url
 
-        not_compliant_on %i(local firefox) do
+        not_compliant_on :firefox do
           expect { browser.button(id: "alert").click }.to raise_error(Selenium::WebDriver::Error::UnhandledAlertError)
         end
 
-        deviates_on %i(local firefox) do
+        deviates_on :firefox do
           expect { browser.button(id: "alert").click }.to raise_error(Selenium::WebDriver::Error::UnexpectedAlertOpenError)
         end
 

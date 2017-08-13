@@ -204,19 +204,6 @@ describe Watir::Element do
       rescue Watir::Wait::TimeoutError
       end
     end
-
-    it 'waits to select an option' do
-      browser.a(id: 'add_select').click
-      select_list = browser.select_list(id: 'languages')
-      Watir.default_timeout = 1
-      begin
-        start_time = ::Time.now
-        expect { select_list.select('No') }.to raise_error Watir::Exception::NoValueFoundException
-        expect(::Time.now - start_time).to be > 1
-      ensure
-        Watir.default_timeout = 30
-      end
-    end
   end
 
   describe "#wait_while_present" do

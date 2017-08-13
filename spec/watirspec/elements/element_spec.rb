@@ -406,15 +406,8 @@ describe "Element" do
       expect(location['y']).to be > 0
       expect(location['x']).to be > 0
 
-      not_compliant_on :remote do
-        expect(location['y']).to be_a Float
-        expect(location['x']).to be_a Float
-      end
-
-      deviates_on :remote do
-        expect(location['y']).to be_a Integer
-        expect(location['x']).to be_a Integer
-      end
+      expect(location['y']).to be_a Numeric
+      expect(location['x']).to be_a Numeric
     end
   end
 
@@ -453,15 +446,8 @@ describe "Element" do
       expect(center['y']).to be > 0.0
       expect(center['x']).to be > 0.0
 
-      not_compliant_on :remote do
-        expect(center['y']).to be_a Float
-        expect(center['x']).to be_a Float
-      end
-
-      deviates_on :remote do
-        expect(center['y']).to be_a Integer
-        expect(center['x']).to be_a Integer
-      end
+      expect(center['y']).to be_a Numeric
+      expect(center['x']).to be_a Numeric
     end
   end
 
