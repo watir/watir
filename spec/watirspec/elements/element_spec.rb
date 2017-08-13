@@ -405,16 +405,6 @@ describe "Element" do
       expect(location).to be_a Selenium::WebDriver::Point
       expect(location['y']).to be > 0
       expect(location['x']).to be > 0
-
-      not_compliant_on :remote do
-        expect(location['y']).to be_a Float
-        expect(location['x']).to be_a Float
-      end
-
-      deviates_on :remote do
-        expect(location['y']).to be_a Integer
-        expect(location['x']).to be_a Integer
-      end
     end
   end
 
@@ -452,16 +442,6 @@ describe "Element" do
       expect(center).to be_a Selenium::WebDriver::Point
       expect(center['y']).to be > 0.0
       expect(center['x']).to be > 0.0
-
-      not_compliant_on :remote do
-        expect(center['y']).to be_a Float
-        expect(center['x']).to be_a Float
-      end
-
-      deviates_on :remote do
-        expect(center['y']).to be_a Integer
-        expect(center['x']).to be_a Integer
-      end
     end
   end
 

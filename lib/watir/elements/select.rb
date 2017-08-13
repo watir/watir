@@ -114,7 +114,7 @@ module Watir
       option = selected_options.first
       option && option.text
     end
-    
+
     # Returns an array of currently selected options.
     #
     # @return [Array<Watir::Option>]
@@ -143,7 +143,7 @@ module Watir
       if found && found.size > 1
         Watir.logger.deprecate "Selecting Multiple Options with #select", "#select_all"
       end
-      return select_matching(found) if found
+      return select_matching(found) if found && found.any?
       raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
     end
 
@@ -156,14 +156,20 @@ module Watir
     end
 
     def find_options(how, str_or_rx)
-      case str_or_rx
-      when String, Numeric, Regexp
-        found = options(how => str_or_rx)
-        found = options(label: str_or_rx) if found.empty?
-      else
-        raise TypeError, "expected String or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
+      browser.wait_while do
+        case str_or_rx
+        when String, Numeric, Regexp
+          @found = options(how => str_or_rx)
+          @found = options(label: str_or_rx) if @found.empty?
+          @found.empty? && Watir.relaxed_locate?
+        else
+          raise TypeError, "expected String or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
+        end
       end
-      found
+      return @found unless @found.empty?
+      raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
+    rescue Wait::TimeoutError
+      raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
     end
 
     def select_matching(elements)

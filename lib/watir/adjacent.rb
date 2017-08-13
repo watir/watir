@@ -73,7 +73,7 @@ module Watir
     #
     # @example
     #   browser.text_field(name: "new_user_first_name").siblings.size
-    #   #=> 55
+    #   #=> 56
     #
 
     def siblings(opt = {})
