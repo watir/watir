@@ -1,4 +1,4 @@
-### 6.7.0 (unreleased)
+### 6.7.0 (2017-08-14)
 
 * Implement TableCell#column_header
 * Add aliases to access Element methods in more ways
@@ -10,6 +10,7 @@
 * Fix bug of not waiting for SelectList when using options
 * Allow OList, UList, TableRow, Table to be accessed like collections
 * Implement Element#siblings
+* Fix bug preventing locating elements by attribute
 
 ### 6.6.3 (2017-08-09)
 
