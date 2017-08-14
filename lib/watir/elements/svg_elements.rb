@@ -580,15 +580,15 @@ module Watir
     end
     Watir.tag_to_class[:textPath] = TextPath
 
-    # @return [Text]
+    # @return [TSpan]
     def tspan(*args)
-      Text.new(self, extract_selector(args).merge(tag_name: "tspan"))
+      TSpan.new(self, extract_selector(args).merge(tag_name: "tspan"))
     end
-    # @return [TextCollection]
+    # @return [TSpanCollection]
     def tspans(*args)
-      TextCollection.new(self, extract_selector(args).merge(tag_name: "tspan"))
+      TSpanCollection.new(self, extract_selector(args).merge(tag_name: "tspan"))
     end
-    Watir.tag_to_class[:tspan] = Text
+    Watir.tag_to_class[:tspan] = TSpan
 
     # @return [Use]
     def use(*args)
