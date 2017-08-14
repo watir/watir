@@ -25,20 +25,27 @@ module Watir
             tag_name = node.css('a span').inner_text.strip
             id = node.css('a').attr('href').to_s
 
-            # Some interfaces are actually defined in different specs
-            # (for example, clipPath), so we ignore them for now
-            if id =~ /^#.+/
-              interface_css = 'div.element-summary a.idlinterface'
-              interface_name = @doc.css("#{id} #{interface_css}, #{id} ~ #{interface_css}").first.inner_text.strip
+            next if external_interface?(id)
 
-              result[tag_name] = interface_name
-            end
+            interface_css = 'div.element-summary a.idlinterface'
+            interface_definitions = @doc.css("#{id} #{interface_css}, #{id} ~ #{interface_css}")
+
+            # TSpan is defined along with Text so the first IDL definition is SVGTextElement
+            idx = tag_name == 'tspan' ? 1 : 0
+
+            result[tag_name] = interface_definitions[idx].inner_text.strip
           end
         end
       end
 
       def issued_interfaces
         %w(SVGHatchElement SVGHatchPathElement SVGSolidColorElement)
+      end
+
+      # Some interfaces are actually defined in different specs
+      # (for example, clipPath), so we ignore them for now.
+      def external_interface?(id)
+        id !~ /^#.+/
       end
 
     end # SVG::SpecExtractor
