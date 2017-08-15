@@ -15,9 +15,8 @@ describe "Radio" do
       expect(browser.radio(name: /new_user_newsletter/)).to exist
       expect(browser.radio(value: "yes")).to exist
       expect(browser.radio(value: /yes/)).to exist
-      # TODO: figure out what :text means for a radio button
-      # browser.radio(text: "yes").to exist
-      # browser.radio(text: /yes/).to exist
+      expect(browser.radio(text: "Yes")).to exist
+      expect(browser.radio(text: /Yes/)).to exist
       expect(browser.radio(class: "huge")).to exist
       expect(browser.radio(class: /huge/)).to exist
       expect(browser.radio(index: 0)).to exist

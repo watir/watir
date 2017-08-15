@@ -1,6 +1,11 @@
 module Watir
   class Radio < Input
 
+    def initialize(query_scope, selector)
+      super
+      @selector[:label] = @selector.delete(:text) if @selector.key?(:text)
+    end
+
     #
     # Selects this radio button.
     #
@@ -20,6 +25,18 @@ module Watir
       element_call { @element.selected? }
     end
     alias_method :selected?, :set?
+
+    #
+    # Returns the text of the associated label.
+    # Returns empty string if no label is found.
+    #
+    # @return [String]
+    #
+
+    def text
+      l = label()
+      l ? l.text : ''
+    end
 
   end # Radio
 
