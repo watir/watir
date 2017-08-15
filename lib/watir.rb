@@ -149,6 +149,8 @@ require 'watir/elements/table_row'
 require 'watir/elements/table_section'
 require 'watir/elements/text_area'
 require 'watir/elements/text_field'
+require 'watir/elements/input'
+require 'watir/radio_set'
 
 require 'watir/locators'
 require 'watir/aliases'

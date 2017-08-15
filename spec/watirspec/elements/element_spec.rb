@@ -99,7 +99,7 @@ describe "Element" do
     end
 
     it "finds finds several elements by arbitrary attribute" do
-      expect(browser.elements(id: /^new_user/).length).to eq 32
+      expect(browser.elements(id: /^new_user/).length).to eq 33
     end
 
     it "finds an element from an element's subtree" do
