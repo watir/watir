@@ -58,7 +58,7 @@ module Watir
     end
 
     def process_browser_options
-      browser_options = @options.delete(:options)
+      browser_options = @options.delete(:options) || {}
 
       case @selenium_browser
       when :chrome
@@ -72,10 +72,15 @@ module Watir
           browser_options[:args] += ['--headless', '--disable-gpu']
         end
         @selenium_opts[:options] = browser_options if browser_options.is_a? Selenium::WebDriver::Chrome::Options
-        @selenium_opts[:options] ||= Selenium::WebDriver::Chrome::Options.new(browser_options) if browser_options
+        @selenium_opts[:options] ||= Selenium::WebDriver::Chrome::Options.new(browser_options)
       when :firefox
-        @selenium_opts[:options] = browser_options if browser_options.is_a? Selenium::WebDriver::Firefox::Options
-        @selenium_opts[:options] ||= Selenium::WebDriver::Firefox::Options.new(options) if browser_options
+        profile = @options.delete(:profile)
+        if browser_options.is_a? Selenium::WebDriver::Firefox::Options
+          @selenium_opts[:options] = browser_options
+          Watir.logger.deprecate 'Initializing Browser with both :profile and :option', ':profile as a key inside :option' if profile
+        end
+        @selenium_opts[:options] ||= Selenium::WebDriver::Firefox::Options.new(browser_options)
+        @selenium_opts[:options].profile = profile if profile
       when :safari
         Selenium::WebDriver::Safari.technology_preview! if @options.delete(:technology_preview)
       when :remote

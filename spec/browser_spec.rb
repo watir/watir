@@ -74,6 +74,20 @@ describe Watir::Browser do
           end
         end
 
+        compliant_on :firefox do
+          it "accepts profile" do
+            home_page = WatirSpec.url_for("special_chars.html")
+            profile = Selenium::WebDriver::Firefox::Profile.new
+            profile['browser.startup.homepage'] = home_page
+            profile['browser.startup.page'] = 1
+            @opts.merge!(profile: profile)
+
+            @new_browser = WatirSpec.new_browser
+
+            expect(@new_browser.url).to eq home_page
+          end
+        end
+
         compliant_on :chrome do
           it "accepts browser options" do
             @opts.merge!(options: {emulation: {userAgent: 'foo;bar'}})
