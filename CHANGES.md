@@ -1,3 +1,7 @@
+### 6.7.1 (2017-08-16)
+
+* Fix bug preventing use of Firefox profiles (#625)
+
 ### 6.7.0 (2017-08-14)
 
 * Implement TableCell#column_header
