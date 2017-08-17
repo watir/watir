@@ -3,7 +3,7 @@ module Watir
 
     def column_header
       current_row = parent(tag_name: 'tr')
-      header_row(current_row, index: previous_siblings.size)
+      header_row(current_row, index: previous_siblings.size).text
     end
 
     def sibling_from_header(opt)
