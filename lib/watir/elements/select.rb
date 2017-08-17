@@ -42,7 +42,7 @@ module Watir
     #
 
     def select(str_or_rx)
-      select_by :text, str_or_rx
+      select_by str_or_rx
     end
 
     #
@@ -54,7 +54,7 @@ module Watir
     #
 
     def select_all(str_or_rx)
-      select_all_by :text, str_or_rx
+      select_all_by str_or_rx
     end
 
     #
@@ -68,7 +68,8 @@ module Watir
     #
 
     def select_value(str_or_rx)
-      select_by :value, str_or_rx
+      Watir.logger.deprecate '#select_value', "#select"
+      select_by str_or_rx
     end
 
     #
@@ -137,8 +138,8 @@ module Watir
 
     private
 
-    def select_by(how, str_or_rx)
-      found = find_options(how, str_or_rx)
+    def select_by(str_or_rx)
+      found = find_options(:value,str_or_rx)
 
       if found && found.size > 1
         Watir.logger.deprecate "Selecting Multiple Options with #select", "#select_all"
@@ -147,9 +148,9 @@ module Watir
       raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
     end
 
-    def select_all_by(how, str_or_rx)
+    def select_all_by(str_or_rx)
       raise Error, "you can only use #select_all on multi-selects" unless multiple?
-      found = find_options(how, str_or_rx)
+      found = find_options :text, str_or_rx
 
       return select_matching(found) if found
       raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
@@ -159,7 +160,8 @@ module Watir
       browser.wait_while do
         case str_or_rx
         when String, Numeric, Regexp
-          @found = options(how => str_or_rx)
+          @found = how == :value ? options(value: str_or_rx) : []
+          @found = options(text: str_or_rx) if @found.empty?
           @found = options(label: str_or_rx) if @found.empty?
           @found.empty? && Watir.relaxed_locate?
         else
