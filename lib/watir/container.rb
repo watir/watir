@@ -1,7 +1,7 @@
 module Watir
   module Container
     include XpathSupport
-    include Atoms
+    include JSSnippets
 
     #
     # Returns element.

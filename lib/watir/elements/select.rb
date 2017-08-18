@@ -157,18 +157,7 @@ module Watir
     #
 
     def selected_options
-      element_call do
-        script = <<-SCRIPT
-          var result = [];
-          var options = arguments[0].options;
-          for (var i = 0; i < options.length; i++) {
-            var option = options[i];
-            if (option.selected) { result.push(option) }
-          }
-          return result;
-        SCRIPT
-        @query_scope.execute_script(script, self)
-      end
+      element_call { execute_js :selectedOptions, self }
     end
 
     private
@@ -183,16 +172,16 @@ module Watir
       raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
     end
     def select_by!(how, str_or_rx, number)
-      script = how == :text ? text_script : value_script
-
       if str_or_rx.is_a? Regexp
         js_rx = str_or_rx.inspect.sub('\\A','^').sub('\\Z','$').sub('\\z','$').sub(/^\//,'').sub(/\/[a-z]*$/,'').gsub(/\(\?#.+\)/, '').gsub(/\(\?-\w+:/,'(')
       else
         js_rx = str_or_rx
       end
 
-      element_call do
-        @query_scope.execute_script(script, self, js_rx, number)
+      if how == :text
+        execute_js(:selectOptionsText, self, js_rx, number)
+      else
+        execute_js(:selectOptionsValue, self, js_rx, number)
       end
 
       return if selected_options.map(&how).any? { |v| str_or_rx.is_a?(String) ?  v == str_or_rx : v =~ str_or_rx }
@@ -241,33 +230,6 @@ module Watir
         raise Error, "unknown how: #{how.inspect}"
       end
     end
-
-    def text_script
-      <<SCRIPT
-      for(var i=0; i<arguments[0].options.length; i++) {
-        if ( arguments[0].options[i].text.match(arguments[1]) ) {
-          arguments[0].options[i].selected = true;
-          if ( arguments[2] == 'single' ) {
-            break;
-          }
-        }
-      }
-SCRIPT
-    end
-
-    def value_script
-      <<SCRIPT
-      for(var i=0; i<arguments[0].options.length; i++) {
-        if ( arguments[0].options[i].value.match(arguments[1]) ) {
-          arguments[0].options[i].selected = true;
-          if ( arguments[2] == 'single' ) {
-            break;
-          }
-        }
-      }
-SCRIPT
-    end
-
   end # Select
 
   module Container

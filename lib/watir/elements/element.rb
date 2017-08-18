@@ -309,7 +309,7 @@ module Watir
     #
 
     def outer_html
-      element_call { execute_atom(:getOuterHtml, @element) }.strip
+      element_call { execute_js(:getOuterHtml, @element) }.strip
     end
     alias_method :html, :outer_html
 
@@ -324,7 +324,7 @@ module Watir
     #
 
     def inner_html
-      element_call { execute_atom(:getInnerHtml, @element) }.strip
+      element_call { execute_js(:getInnerHtml, @element) }.strip
     end
 
     #
@@ -376,7 +376,7 @@ module Watir
     def fire_event(event_name)
       event_name = event_name.to_s.sub(/^on/, '').downcase
 
-      element_call { execute_atom :fireEvent, @element, event_name }
+      element_call { execute_js :fireEvent, @element, event_name }
     end
 
     #
