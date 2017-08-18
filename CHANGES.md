@@ -1,3 +1,7 @@
+### 6.7.2 (2017-08-18)
+
+* TableCell#column_header returns String not Cell
+
 ### 6.7.1 (2017-08-16)
 
 * Fix bug preventing use of Firefox profiles (#625)
