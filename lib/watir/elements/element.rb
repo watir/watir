@@ -187,11 +187,13 @@ module Watir
     def drag_and_drop_on(other)
       assert_is_element other
 
-      element_call(:wait_for_present) do
+      value = element_call(:wait_for_present) do
         driver.action.
                drag_and_drop(@element, other.wd).
                perform
       end
+      browser.after_hooks.run
+      value
     end
 
     #

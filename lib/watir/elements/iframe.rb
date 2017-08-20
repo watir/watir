@@ -64,7 +64,7 @@ module Watir
       args.map! { |e| e.kind_of?(Watir::Element) ? e.wd : e }
       returned = driver.execute_script(script, *args)
 
-      browser.send :wrap_elements_in, self, returned
+      browser.send(:wrap_elements_in, self, returned).tap { browser.after_hooks.run }
     end
 
     def ensure_context

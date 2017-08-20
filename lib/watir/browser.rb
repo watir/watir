@@ -91,6 +91,7 @@ module Watir
 
     def back
       @driver.navigate.back
+      @after_hooks.run
     end
 
     #
@@ -99,6 +100,7 @@ module Watir
 
     def forward
       @driver.navigate.forward
+      @after_hooks.run
     end
 
     #
@@ -260,7 +262,7 @@ module Watir
 
     def execute_script(script, *args)
       args.map! { |e| e.kind_of?(Watir::Element) ? e.wd : e }
-      returned = @driver.execute_script(script, *args)
+      returned = @driver.execute_script(script, *args).tap { @after_hooks.run }
 
       wrap_elements_in(self, returned)
     end
