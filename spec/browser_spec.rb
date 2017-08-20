@@ -132,6 +132,24 @@ describe Watir::Browser do
         end
       end
 
+      it "takes port and driver_opt as arguments" do
+        @original = WatirSpec.implementation.clone
+        browser.close
+        @opts = WatirSpec.implementation.browser_args.last
+
+        @opts.merge!(port: '2314', driver_opts: {args: ['foo']})
+
+        @new_browser = WatirSpec.new_browser
+
+        service = @new_browser.wd.instance_variable_get("@service")
+        expect(service.instance_variable_get("@extra_args")).to eq ["foo"]
+        expect(service.instance_variable_get("@port")).to eq 2314
+
+        @new_browser.close
+        WatirSpec.implementation = @original.clone
+        $browser = WatirSpec.new_browser
+      end
+
       it "takes a driver instance as argument" do
         mock_driver = double(Selenium::WebDriver::Driver)
         expect(Selenium::WebDriver::Driver).to receive(:===).with(mock_driver).and_return(true)

@@ -35,9 +35,9 @@ module Watir
 
       process_browser_options
       process_capabilities
+      Watir.logger.info "Creating Browser instance with Watir processed options: #{@selenium_opts.inspect}"
 
       @selenium_opts
-      Watir.logger.info "Creating Browser instance with Watir processed options: #{@selenium_opts.inspect}"
     end
 
     def create_http_client
