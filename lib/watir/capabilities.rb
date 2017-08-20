@@ -5,6 +5,7 @@ module Watir
 
     def initialize(browser, options = {})
       @options = options.dup
+      Watir.logger.info "Creating Browser instance of #{browser} with user provided options: #{@options.inspect}"
       @browser = if browser == :remote && @options.key?(:browser)
                    @options.delete(:browser)
                  elsif browser == :remote && @options.key?(:desired_capabilities)
@@ -18,23 +19,25 @@ module Watir
     end
 
     def to_args
-      [@selenium_browser, process_capabilities]
+      [@selenium_browser, process_arguments]
     end
 
     private
 
-    def process_capabilities
+    def process_arguments
       url = @options.delete(:url)
       @selenium_opts[:url] = url if url
 
       create_http_client
 
       @selenium_opts[:port] = @options.delete(:port) if @options.key?(:port)
+      @selenium_opts[:driver_opts] = @options.delete(:driver_opts) if @options.key?(:driver_opts)
 
       process_browser_options
-      process_caps
+      process_capabilities
 
       @selenium_opts
+      Watir.logger.info "Creating Browser instance with Watir processed options: #{@selenium_opts.inspect}"
     end
 
     def create_http_client
@@ -94,7 +97,7 @@ module Watir
       end
     end
 
-    def process_caps
+    def process_capabilities
       caps = @options.delete(:desired_capabilities)
 
       if caps
