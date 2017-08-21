@@ -64,12 +64,14 @@ describe Watir::Locators::Element::Locator do
     describe "with special cased selectors" do
       it "normalizes space for :text" do
         expect_one :xpath, ".//div[normalize-space()='foo']"
+        allow(driver).to receive(:find_elements).and_return([])
         locate_one tag_name: "div",
                    text: "foo"
       end
 
       it "translates :caption to :text" do
         expect_one :xpath, ".//div[normalize-space()='foo']"
+        allow(driver).to receive(:find_elements).and_return([])
 
         locate_one tag_name: "div",
                    caption: "foo"

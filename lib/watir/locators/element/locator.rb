@@ -89,32 +89,52 @@ module Watir
         def find_first_by_multiple
           selector = selector_builder.normalized_selector
 
-          idx = selector.delete(:index) unless selector[:adjacent]
+          idx = selector.delete(:index) unless selector.key?(:adjacent)
           visible = selector.delete(:visible)
+          html = selector.delete(:html)
+          selector[:text] = html if html
 
           how, what = selector_builder.build(selector)
 
           if how
             # could build xpath/css for selector
-            if idx || !visible.nil?
-              idx ||= 0
-              elements = locate_elements(how, what)
-              elements = elements.select { |el| visible == el.displayed? } unless visible.nil?
-              elements[idx] unless elements.nil?
+            if idx && idx != 0 || !visible.nil? || selector[:text] && selector[:text].is_a?(String)
+              find_by_iteration(selector.merge(index: idx, html: html), how, what)
             else
               locate_element(how, what)
             end
           else
             # can't use xpath, probably a regexp in there
-            if idx || !visible.nil?
-              idx ||= 0
+            if idx && idx != 0
               elements = wd_find_by_regexp_selector(selector, :select)
-              elements = elements.select { |el| visible == el.displayed? } unless visible.nil?
               elements[idx] unless elements.nil?
             else
               wd_find_by_regexp_selector(selector, :find)
             end
           end
+        end
+
+        def find_by_iteration(selector, how, what)
+          idx = selector.delete(:index) || 0
+          html = selector.delete(:html)
+          elements = find_all_by_multiple(true)
+          needs_visibility_check = html.nil? && selector[:text] && selector[:text].is_a?(String)
+
+          found = if needs_visibility_check && idx == 0
+                    elements.find { |el| equals_selector?(el, selector[:text]) }
+                  elsif needs_visibility_check
+                    elements.select! { |el| equals_selector?(el, selector[:text]) }
+                    elements.nil? ? nil : elements[idx]
+                  else
+                    elements.nil? ? nil : elements[idx]
+                  end
+
+          return found unless needs_visibility_check
+          without_check = locate_element(how, what)
+          return found if found == without_check
+
+          Watir.logger.deprecate "Locating non-visible text from :text locator", ":html locator"
+          without_check
         end
 
         def find_all_by_one
@@ -128,10 +148,13 @@ module Watir
           end
         end
 
-        def find_all_by_multiple
+        def find_all_by_multiple(ignore_index = false)
           selector = selector_builder.normalized_selector
           visible = selector.delete(:visible)
+          html = selector.delete(:html)
+          selector[:text] = html if html
 
+          selector.delete :index if ignore_index
           if selector.key? :index
             raise ArgumentError, "can't locate all elements by :index"
           end
@@ -234,6 +257,10 @@ module Watir
           selector.all? do |how, what|
             what === fetch_value(element, how)
           end
+        end
+
+        def equals_selector?(element, what)
+          what.strip == fetch_value(element, :text).strip
         end
 
         def can_convert_regexp_to_contains?

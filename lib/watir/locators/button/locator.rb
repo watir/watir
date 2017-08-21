@@ -32,6 +32,12 @@ module Watir
             super
           end
         end
+
+        def equals_slector?(element, what)
+          [:text, :value].any? do |how|
+            what.strip == fetch_value(element, how).strip
+          end
+        end
       end
     end
   end
