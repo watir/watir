@@ -1,3 +1,7 @@
+### 6.7.3 (2017-08-20)
+
+* Fix bug preventing Capabilities from handling :driver_opts (#629)
+
 ### 6.7.2 (2017-08-18)
 
 * TableCell#column_header returns String not Cell
