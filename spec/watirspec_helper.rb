@@ -125,11 +125,14 @@ end
 
 class RemoteConfig < LocalConfig
   def configure
+    load_webdrivers
     @url = ENV["REMOTE_SERVER_URL"] || begin
       require 'watirspec/remote_server'
 
       remote_server = WatirSpec::RemoteServer.new
-      remote_server.start
+      args = ["-Dwebdriver.chrome.driver=#{Webdrivers::Chromedriver.send :binary}",
+              "-Dwebdriver.gecko.driver=#{Webdrivers::Geckodriver.send :binary}"]
+      remote_server.start(args: args)
       remote_server.server.webdriver_url
     end
     super
