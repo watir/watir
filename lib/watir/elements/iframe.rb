@@ -44,6 +44,16 @@ module Watir
     end
 
     #
+    # Uses Nokogiri to return the text of iframe body.
+    #
+    # @return [String]
+    #
+
+    def text!
+      body.text!
+    end
+
+    #
     # Returns HTML code of iframe.
     #
     # @return [String]
@@ -64,7 +74,9 @@ module Watir
       args.map! { |e| e.kind_of?(Watir::Element) ? e.wd : e }
       returned = driver.execute_script(script, *args)
 
-      browser.send :wrap_elements_in, self, returned
+      value = browser.send :wrap_elements_in, self, returned
+      browser.after_hooks.run
+      value
     end
 
     def ensure_context
@@ -157,6 +169,7 @@ module Watir
 
     def switch!
       @driver.switch_to.frame @element
+      @browser.doc = nil
       @browser.default_context = false
     rescue Selenium::WebDriver::Error::NoSuchFrameError => e
       raise Exception::UnknownFrameException, e.message

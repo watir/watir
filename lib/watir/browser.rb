@@ -12,6 +12,7 @@ module Watir
     attr_writer :default_context, :original_window
     attr_reader :driver
     attr_reader :after_hooks
+    attr_accessor :doc
     alias_method :wd, :driver # ensures duck typing with Watir::Element
 
     class << self
@@ -91,6 +92,7 @@ module Watir
 
     def back
       @driver.navigate.back
+      @after_hooks.run
     end
 
     #
@@ -99,6 +101,7 @@ module Watir
 
     def forward
       @driver.navigate.forward
+      @after_hooks.run
     end
 
     #
@@ -176,6 +179,16 @@ module Watir
 
     def text
       body.text
+    end
+
+    #
+    # Uses Nokogiri to return the text of page body.
+    #
+    # @return [String]
+    #
+
+    def text!
+      body.text!
     end
 
     #
@@ -261,6 +274,7 @@ module Watir
     def execute_script(script, *args)
       args.map! { |e| e.kind_of?(Watir::Element) ? e.wd : e }
       returned = @driver.execute_script(script, *args)
+      @after_hooks.run
 
       wrap_elements_in(self, returned)
     end

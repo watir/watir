@@ -93,6 +93,20 @@ module Watir
     end
 
     #
+    # Uses Nokogiri to return the text of the element.
+    #
+    # @return [String]
+    #
+
+    def text!
+      @element = noko_locate
+      assert_element_found
+      found = @element.inner_text.strip
+      reset!
+      found
+    end
+
+    #
     # Returns tag name of the element.
     #
     # @return [String]
@@ -187,11 +201,13 @@ module Watir
     def drag_and_drop_on(other)
       assert_is_element other
 
-      element_call(:wait_for_present) do
+      value = element_call(:wait_for_present) do
         driver.action.
                drag_and_drop(@element, other.wd).
                perform
       end
+      browser.after_hooks.run
+      value
     end
 
     #
@@ -349,7 +365,9 @@ module Watir
     def fire_event(event_name)
       event_name = event_name.to_s.sub(/^on/, '').downcase
 
-      element_call { execute_atom :fireEvent, @element, event_name }
+      value = element_call { execute_atom :fireEvent, @element, event_name }
+      browser.after_hooks.run
+      value
     end
 
     #
@@ -550,7 +568,9 @@ module Watir
     # Delegates script execution to Browser or IFrame.
     #
     def execute_script(script, *args)
-      @query_scope.execute_script(script, *args)
+      value = @query_scope.execute_script(script, *args)
+      browser.after_hooks.run
+      value
     end
 
     #
@@ -708,6 +728,19 @@ module Watir
       Kernel.const_get("#{Watir.locator_namespace}::#{element_class_name}::SelectorBuilder")
     rescue NameError
       Kernel.const_get("#{Watir.locator_namespace}::Element::SelectorBuilder")
+    end
+
+    def noko_locate
+      unless @query_scope.is_a?(Watir::Browser) || @query_scope.is_a?(Watir::IFrame)
+        raise ArgumentError, 'Can not use #text! from a sub-element'
+      end
+      @query_scope.ensure_context
+
+      element_validator = element_validator_class.new
+      selector_builder = selector_builder_class.new(@query_scope, @selector, self.class.attribute_list)
+      locator = NokoLoca::Locators::Element::Locator.new(@query_scope, @selector, selector_builder, element_validator)
+
+      @element = locator.locate
     end
 
     def element_class_name

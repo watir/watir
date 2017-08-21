@@ -21,3 +21,5 @@ require 'watir/locators/text_field/locator'
 require 'watir/locators/text_field/selector_builder'
 require 'watir/locators/text_field/selector_builder/xpath'
 require 'watir/locators/text_field/validator'
+
+require 'watir/locators/nokogiri'
