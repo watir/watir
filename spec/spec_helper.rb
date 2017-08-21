@@ -5,6 +5,7 @@ require 'coveralls'
 Coveralls.wear!
 
 require 'watir'
+require 'webdrivers'
 require 'locator_spec_helper'
 require 'rspec'
 

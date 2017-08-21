@@ -14,9 +14,19 @@ class LocalConfig
     set_webdriver
     set_browser_args
     set_guard_proc
+    load_webdrivers
   end
 
   private
+
+  def load_webdrivers
+    case browser
+    when :chrome
+      Webdrivers::Chromedriver.update
+    when :firefox
+      Webdrivers::Geckodriver.update
+    end
+  end
 
   def set_webdriver
     @imp.name          = :webdriver

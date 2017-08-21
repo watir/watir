@@ -1,5 +1,6 @@
 require 'watir'
 require 'watirspec'
+require 'webdrivers'
 
 #
 # 1. If example does not start browser, start new one, reuse until example
