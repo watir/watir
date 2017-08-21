@@ -65,7 +65,7 @@ module Watir
     #
 
     def select!(str_or_rx)
-      select_by!(:text, str_or_rx, 'single')
+      select_by!(str_or_rx, :single)
     end
 
     #
@@ -76,7 +76,7 @@ module Watir
     #
 
     def select_all!(str_or_rx)
-      select_by!(:text, str_or_rx, 'multiple')
+      select_by!(str_or_rx, :multiple)
     end
 
     #
@@ -92,19 +92,6 @@ module Watir
     def select_value(str_or_rx)
       Watir.logger.deprecate '#select_value', "#select"
       select_by str_or_rx
-    end
-
-    #
-    # Uses JavaScript to select the option whose value attribute matches the given string.
-    #
-    # @see +select+
-    #
-    # @param [String, Regexp] str_or_rx
-    # @raise [Watir::Exception::NoValueFoundException] if the value does not exist.
-    #
-
-    def select_value!(str_or_rx)
-      select_by!(:value, str_or_rx, 'single')
     end
 
     #
@@ -163,7 +150,7 @@ module Watir
     private
 
     def select_by(str_or_rx)
-      found = find_options(:value,str_or_rx)
+      found = find_options(:value, str_or_rx)
 
       if found && found.size > 1
         Watir.logger.deprecate "Selecting Multiple Options with #select", "#select_all"
@@ -171,21 +158,31 @@ module Watir
       return select_matching(found) if found && found.any?
       raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
     end
-    def select_by!(how, str_or_rx, number)
-      if str_or_rx.is_a? Regexp
-        js_rx = str_or_rx.inspect.sub('\\A','^').sub('\\Z','$').sub('\\z','$').sub(/^\//,'').sub(/\/[a-z]*$/,'').gsub(/\(\?#.+\)/, '').gsub(/\(\?-\w+:/,'(')
-      else
-        js_rx = str_or_rx
-      end
 
-      if how == :text
-        execute_js(:selectOptionsText, self, js_rx, number)
-      else
-        execute_js(:selectOptionsValue, self, js_rx, number)
-      end
+    def select_by!(str_or_rx, number)
+      js_rx = if str_or_rx.is_a? Regexp
+                str_or_rx.inspect.sub('\\A', '^').sub('\\Z', '$').sub('\\z', '$').sub(/^\//, '').sub(/\/[a-z]*$/, '')
+                    .gsub(/\(\?#.+\)/, '').gsub(/\(\?-\w+:/, '(')
+              else
+                str_or_rx
+              end
 
-      return if selected_options.map(&how).any? { |v| str_or_rx.is_a?(String) ?  v == str_or_rx : v =~ str_or_rx }
+      execute_js(:selectOptionsValue, self, js_rx, number.to_s)
+      return if matching_option?(:value, str_or_rx)
+
+      execute_js(:selectOptionsText, self, js_rx, number.to_s)
+      return if matching_option?(:text, str_or_rx)
+
+      execute_js(:selectOptionsLabel, self, js_rx, number.to_s)
+      return if matching_option?(:label, str_or_rx)
+
       raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
+    end
+
+    def matching_option?(how, what)
+      selected_options.map(&how).any? do |opt|
+        what.is_a?(String) ? opt == what : opt =~ what
+      end
     end
 
     def select_all_by(str_or_rx)
@@ -216,7 +213,7 @@ module Watir
 
     def select_matching(elements)
       elements = [elements.first] unless multiple?
-      elements.each { |e| e.click unless e.selected? }
+      elements.each {|e| e.click unless e.selected?}
       elements.first.exist? ? elements.first.text : ''
     end
 

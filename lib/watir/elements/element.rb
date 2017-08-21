@@ -328,6 +328,17 @@ module Watir
     end
 
     #
+    # Selects text on page (as if dragging clicked mouse across provided text).
+    #
+    # @example
+    #   browser.div(id: 'foo').select_text('hello')
+    #
+
+    def select_text(str)
+      element_call { execute_js :selectText, @element, str }
+    end
+
+    #
     # Sends sequence of keystrokes to element.
     #
     # @example
