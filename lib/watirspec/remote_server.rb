@@ -2,7 +2,7 @@ module WatirSpec
   class RemoteServer
     attr_reader :server
 
-    def start(port = 4444)
+    def start(port = 4444, args: [])
       require 'selenium/server'
 
       @server ||= Selenium::Server.new(jar,
@@ -10,6 +10,7 @@ module WatirSpec
                                        log: !!$DEBUG,
                                        background: true,
                                        timeout: 60)
+      args.each { |arg| @server << arg }
       @server.start
       at_exit { @server.stop }
     end
