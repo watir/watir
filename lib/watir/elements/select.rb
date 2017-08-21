@@ -160,29 +160,37 @@ module Watir
     end
 
     def select_by!(str_or_rx, number)
-      js_rx = if str_or_rx.is_a? Regexp
+      js_rx = case str_or_rx
+              when String
+                str_or_rx
+              when Regexp
                 str_or_rx.inspect.sub('\\A', '^').sub('\\Z', '$').sub('\\z', '$').sub(/^\//, '').sub(/\/[a-z]*$/, '')
                     .gsub(/\(\?#.+\)/, '').gsub(/\(\?-\w+:/, '(')
               else
-                str_or_rx
+                raise TypeError, "expected String or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
               end
 
-      execute_js(:selectOptionsValue, self, js_rx, number.to_s)
-      return if matching_option?(:value, str_or_rx)
+      element_call { execute_js(:selectOptionsText, self, js_rx, number.to_s) }
+      return selected_options.first.text if matching_option?(:text, str_or_rx)
 
-      execute_js(:selectOptionsText, self, js_rx, number.to_s)
-      return if matching_option?(:text, str_or_rx)
+      element_call { execute_js(:selectOptionsLabel, self, js_rx, number.to_s) }
+      return selected_options.first.text if matching_option?(:label, str_or_rx)
 
-      execute_js(:selectOptionsLabel, self, js_rx, number.to_s)
-      return if matching_option?(:label, str_or_rx)
+      element_call { execute_js(:selectOptionsValue, self, js_rx, number.to_s) }
+      return selected_options.first.text if matching_option?(:value, str_or_rx)
 
       raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
     end
 
     def matching_option?(how, what)
-      selected_options.map(&how).any? do |opt|
-        what.is_a?(String) ? opt == what : opt =~ what
+      selected_options.each do |opt|
+        value = opt.send(how)
+        if what.is_a?(String) ? value == what : value =~ what
+          return true if opt.enabled?
+          raise Watir::Exception::ObjectDisabledException, "option matching #{what} by #{how} on #{inspect} is disabled"
+        end
       end
+      false
     end
 
     def select_all_by(str_or_rx)
@@ -213,7 +221,7 @@ module Watir
 
     def select_matching(elements)
       elements = [elements.first] unless multiple?
-      elements.each {|e| e.click unless e.selected?}
+      elements.each { |e| e.click unless e.selected? }
       elements.first.exist? ? elements.first.text : ''
     end
 
