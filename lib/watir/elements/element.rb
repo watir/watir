@@ -331,7 +331,7 @@ module Watir
     # Selects text on page (as if dragging clicked mouse across provided text).
     #
     # @example
-    #   browser.div(id: 'foo').select_text('hello')
+    #   browser.legend.select_text('information')
     #
 
     def select_text(str)
