@@ -8,7 +8,7 @@ describe "RadioSet" do
 
   # Exists method
   describe "#exists?" do
-    it "returns true if matches any particular radio_set button" do
+    it "returns true if matches any radio_set button" do
       expect(browser.radio_set(id: "new_user_newsletter_yes")).to exist
       expect(browser.radio_set(id: /new_user_newsletter_yes/)).to exist
       expect(browser.radio_set(name: "new_user_newsletter")).to exist
@@ -19,10 +19,6 @@ describe "RadioSet" do
       expect(browser.radio_set(class: /huge/)).to exist
       expect(browser.radio_set(index: 0)).to exist
       expect(browser.radio_set(xpath: "//input[@id='new_user_newsletter_yes']")).to exist
-    end
-
-    it "returns the first radio set if given no args" do
-      expect(browser.radio_set).to exist
     end
 
     it "returns false if no radio button exists" do
@@ -40,12 +36,16 @@ describe "RadioSet" do
       expect(browser.radio_set(xpath: "input[@id='no_such_id']")).to_not exist
     end
 
+    it "returns the first radio set if given no args" do
+      expect(browser.radio_set).to exist
+    end
+
     it "raises TypeError when 'what' argument is invalid" do
-      expect {browser.radio_set(id: 3.14).exists?}.to raise_error(TypeError)
+      expect { browser.radio_set(id: 3.14).exists? }.to raise_error(TypeError)
     end
 
     it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-      expect {browser.radio_set(no_such_how: 'some_value').exists?}.to raise_error(Watir::Exception::MissingWayOfFindingObjectException)
+      expect { browser.radio_set(no_such_how: 'some_value').exists? }.to raise_error(Watir::Exception::MissingWayOfFindingObjectException)
     end
   end
 
@@ -55,12 +55,20 @@ describe "RadioSet" do
       expect(browser.radio_set(id: 'new_user_newsletter_yes').name).to eq "new_user_newsletter"
     end
 
-    it "returns an empty string if the radio exists and the attribute doesn't" do
+    it "returns an empty string if the radio exists and there is not name" do
       expect(browser.radio_set(id: 'new_user_newsletter_absolutely').name).to eq ""
     end
 
     it "raises UnknownObjectException if the radio doesn't exist" do
-      expect {browser.radio_set(index: 1337).name}.to raise_unknown_object_exception
+      expect { browser.radio_set(index: 1337).name }.to raise_unknown_object_exception
+    end
+  end
+
+  context "without name specified" do
+    it "Finds specified radio" do
+      expect(browser.radio_set(id: 'new_user_newsletter_absolutely').count).to eq 1
+      expect(browser.radio_set(id: 'new_user_newsletter_absolutely').radios.size).to eq 1
+      expect(browser.radio_set(id: 'new_user_newsletter_absolutely').radio(value: 'absolutely').exist?).to be true
     end
   end
 
@@ -70,7 +78,7 @@ describe "RadioSet" do
     end
 
     it "raises UnknownObjectException if the radio doesn't exist" do
-      expect {browser.radio_set(index: 1337).type}.to raise_unknown_object_exception
+      expect { browser.radio_set(index: 1337).type }.to raise_unknown_object_exception
     end
   end
 
@@ -80,7 +88,7 @@ describe "RadioSet" do
     end
 
     it "raises UnknownObjectException if the radio doesn't exist" do
-      expect {browser.radio_set(index: 1337).value}.to raise_unknown_object_exception
+      expect { browser.radio_set(index: 1337).value }.to raise_unknown_object_exception
     end
   end
 
@@ -90,7 +98,7 @@ describe "RadioSet" do
     end
 
     it "raises UnknownObjectException if the radio set doesn't exist" do
-      expect {browser.radio_set(index: 1337).text}.to raise_unknown_object_exception
+      expect { browser.radio_set(index: 1337).text }.to raise_unknown_object_exception
     end
   end
 
@@ -120,8 +128,8 @@ describe "RadioSet" do
     end
 
     it "raises UnknownObjectException if the radio button doesn't exist" do
-      expect {browser.radio_set(id: "no_such_id").enabled?}.to raise_unknown_object_exception
-      expect {browser.radio_set(xpath: "//input[@id='no_such_id']").enabled?}.to raise_unknown_object_exception
+      expect { browser.radio_set(id: "no_such_id").enabled? }.to raise_unknown_object_exception
+      expect { browser.radio_set(xpath: "//input[@id='no_such_id']").enabled? }.to raise_unknown_object_exception
     end
   end
 
@@ -137,30 +145,78 @@ describe "RadioSet" do
     end
 
     it "should raise UnknownObjectException when the radio set does not exist" do
-      expect {browser.radio_set(index: 1337).disabled?}.to raise_unknown_object_exception
+      expect { browser.radio_set(index: 1337).disabled? }.to raise_unknown_object_exception
     end
   end
 
   # Other
   describe "#radio" do
-    it "returns an instance of Radio" do
+    it "returns first instance of Radio if no arguments specified" do
+      radio = browser.radio_set(id: 'new_user_newsletter_yes').radio
+      expect(radio).to be_instance_of(Watir::Radio)
+      expect(radio.value).to eq "yes"
+    end
+
+    it "returns provided instance of Radio if element has no name" do
+      radio = browser.radio_set(id: 'new_user_newsletter_absolutely').radio
+      expect(radio).to be_instance_of(Watir::Radio)
+      expect(radio.value).to eq "absolutely"
+    end
+
+    it "returns an instance of Radio matching the provided value" do
       radio = browser.radio_set(id: 'new_user_newsletter_yes').radio(id: 'new_user_newsletter_no')
       expect(radio).to be_instance_of(Watir::Radio)
       expect(radio.value).to eq "no"
     end
-  end
 
-  describe "#radios" do
-    it "returns collection of all radios in the set" do
-      radios = browser.radio_set(id: 'new_user_newsletter_yes').radios
-      values = %w[yes no certainly nah nah]
-      expect(radios.map(&:value)).to match_array values
+    it "does not exist when using bad locator" do
+      radio = browser.radio_set(id: 'new_user_newsletter_yes').radio(id: 'new_user_newsletter_not_there')
+      expect(radio).to_not exist
+    end
+
+    it "raises Unknown Object Exception if it specifies the wrong name" do
+      radio_set = browser.radio_set(id: 'new_user_newsletter_yes')
+      expect { radio_set.radio(name: '') }.to raise_unknown_object_exception
+      expect { radio_set.radio(name: 'foo') }.to raise_unknown_object_exception
     end
   end
 
+  describe "#radios" do
+    it "returns array of all radios in the set if no arguments specified" do
+      radios = browser.radio_set(id: 'new_user_newsletter_yes').radios
+      expect(radios).to be_instance_of(Watir::RadioCollection)
+      values = %w[yes no certainly nah nah]
+      expect(radios.map(&:value)).to match_array values
+    end
+
+    it "returns RadioCollection matching the provided value" do
+      radios = browser.radio_set(id: 'new_user_newsletter_yes').radios(id: /new_user_newsletter_n/)
+      expect(radios).to be_instance_of(Watir::RadioCollection)
+      expect(radios.map(&:value)).to eq %w[no nah]
+    end
+
+    it "returns provided instance of Radio if element has no name" do
+      radios = browser.radio_set(id: 'new_user_newsletter_absolutely').radios
+      expect(radios).to be_instance_of(Watir::RadioCollection)
+      expect(radios.size).to eq 1
+      expect(radios.first.value).to eq "absolutely"
+    end
+
+    it "returns empty collection if specified radio does not exist" do
+      radios = browser.radio_set(id: 'new_user_newsletter_yes').radios(id: 'new_user_newsletter_not_there')
+      expect(radios).to be_empty
+    end
+
+    it "raises empty collection if it specifies the wrong name" do
+      radio_set = browser.radio_set(id: 'new_user_newsletter_yes')
+      expect { radio_set.radios(name: '') }.to raise_unknown_object_exception
+    end
+  end
+
+
   describe "#selected" do
     it "should raise UnknownObjectException if the radio set doesn't exist" do
-      expect {browser.radio_set(name: 'no_such_name').selected}.to raise_unknown_object_exception
+      expect { browser.radio_set(name: 'no_such_name').selected }.to raise_unknown_object_exception
     end
 
     it "gets the currently selected radio" do
@@ -190,7 +246,7 @@ describe "RadioSet" do
     end
 
     it "raises UnknownObjectException if the radio button doesn't exist" do
-      expect {browser.radio_set(id: 'new_user_newsletter_yes').selected?('missing_option')}.to raise_unknown_object_exception
+      expect { browser.radio_set(id: 'new_user_newsletter_yes').selected?('missing_option') }.to raise_unknown_object_exception
     end
   end
 
@@ -249,18 +305,18 @@ describe "RadioSet" do
     end
   end
 
-  describe "eql?" do
+  describe "#eql?" do
     it 'returns true when located by any radio button' do
       rs = browser.radio_set(id: "new_user_newsletter_yes")
-      expect(browser.radio_set(id: /new_user_newsletter_yes/)).to eql rs
-      expect(browser.radio_set(name: "new_user_newsletter")).to eql rs
+      expect(browser.radio_set(id: /new_user_newsletter_no/)).to eql rs
+      expect(browser.radio_set(name: "new_user_newsletter", index: 2)).to eql rs
       expect(browser.radio_set(name: /new_user_newsletter/)).to eql rs
       expect(browser.radio_set(value: "yes")).to eql rs
       expect(browser.radio_set(value: /yes/)).to eql rs
       expect(browser.radio_set(class: "huge")).to eql rs
       expect(browser.radio_set(class: /huge/)).to eql rs
       expect(browser.radio_set(index: 0)).to eql rs
-      expect(browser.radio_set(xpath: "//input[@id='new_user_newsletter_yes']")).to eql rs
+      expect(browser.radio_set(xpath: "//input[@id='new_user_newsletter_probably']")).to eql rs
     end
   end
 
@@ -269,16 +325,16 @@ describe "RadioSet" do
   end
 
   it "raises UnknownObjectException if the radio doesn't exist" do
-    expect {browser.radio_set(id: 'new_user_newsletter_yes').select("missing_option")}.to raise_unknown_object_exception
-    expect {browser.radio_set(id: 'new_user_newsletter_yes').select(/missing_option/)}.to raise_unknown_object_exception
+    expect { browser.radio_set(id: 'new_user_newsletter_yes').select("missing_option") }.to raise_unknown_object_exception
+    expect { browser.radio_set(id: 'new_user_newsletter_yes').select(/missing_option/) }.to raise_unknown_object_exception
   end
 
   it "raises ObjectDisabledException if the option is disabled" do
-    expect {browser.radio_set(id: 'new_user_newsletter_none').select("None")}.to raise_object_disabled_exception
+    expect { browser.radio_set(id: 'new_user_newsletter_none').select("None") }.to raise_object_disabled_exception
   end
 
   it "raises a TypeError if argument is not a String, Regexp or Numeric" do
-    expect {browser.radio_set(id: 'new_user_newsletter_yes').select([])}.to raise_error(TypeError)
+    expect { browser.radio_set(id: 'new_user_newsletter_yes').select([]) }.to raise_error(TypeError)
   end
 
 end

@@ -119,6 +119,7 @@ module Watir
 
         def find_all_by_one
           how, what = @selector.to_a.first
+          return [what] if how == :element
           selector_builder.check_type how, what
 
           if WD_FINDERS.include?(how)
