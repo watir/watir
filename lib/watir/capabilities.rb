@@ -32,6 +32,7 @@ module Watir
 
       @selenium_opts[:port] = @options.delete(:port) if @options.key?(:port)
       @selenium_opts[:driver_opts] = @options.delete(:driver_opts) if @options.key?(:driver_opts)
+      @selenium_opts[:listener] = @options.delete(:listener) if @options.key?(:listener)
 
       process_browser_options
       process_capabilities

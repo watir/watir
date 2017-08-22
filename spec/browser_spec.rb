@@ -140,10 +140,14 @@ describe Watir::Browser do
           browser.close
           @opts = WatirSpec.implementation.browser_args.last
 
-          @opts.merge!(port: '2314', driver_opts: {args: ['foo']})
+          @opts.merge!(port: '2314',
+                       driver_opts: {args: ['foo']},
+                       listener: LocalConfig::SelectorListener.new)
 
           @new_browser = WatirSpec.new_browser
 
+          bridge = @new_browser.wd.instance_variable_get('@bridge')
+          expect(bridge).to be_a Selenium::WebDriver::Support::EventFiringBridge
           service = @new_browser.wd.instance_variable_get("@service")
           expect(service.instance_variable_get("@extra_args")).to eq ["foo"]
           expect(service.instance_variable_get("@port")).to eq 2314
