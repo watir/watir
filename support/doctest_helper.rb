@@ -58,7 +58,7 @@ YARD::Doctest.configure do |doctest|
     end
   end
 
-  %w[attribute_value attribute].each do |name|
+  %w[attribute_value attribute inner_html outer_html text_content inner_text html].each do |name|
     doctest.before("Watir::Element##{name}") do
       browser.goto WatirSpec.url_for('non_control_elements.html')
     end
@@ -70,12 +70,6 @@ YARD::Doctest.configure do |doctest|
 
   doctest.before('Watir::Table') do
     browser.goto WatirSpec.url_for('tables.html')
-  end
-
-  %w[inner_html outer_html html].each do |name|
-    doctest.before("Watir::Element##{name}") do
-      browser.goto WatirSpec.url_for('inner_outer.html')
-    end
   end
 
   %w[Watir::HasWindow Watir::Window#== Watir::Window#use].each do |name|

@@ -302,8 +302,8 @@ module Watir
     # Returns outer (inner + element itself) HTML code of element.
     #
     # @example
-    #   browser.div(id: 'foo').outer_html
-    #   #=> "<div id=\"foo\"><a href=\"#\">hello</a></div>"
+    #   browser.div(id: 'shown').outer_html
+    #   #=> "<div id=\"shown\"><div id=\"hidden\" style=\"display: none;\">Not shown</div><div>Not hidden</div></div>"
     #
     # @return [String]
     #
@@ -317,14 +317,28 @@ module Watir
     # Returns inner HTML code of element.
     #
     # @example
-    #   browser.div(id: 'foo').inner_html
-    #   #=> "<a href=\"#\">hello</a>"
+    #   browser.div(id: 'shown').inner_html
+    #   #=> "<div id=\"hidden\" style=\"display: none;\">Not shown</div><div>Not hidden</div>"
     #
     # @return [String]
     #
 
     def inner_html
       element_call { execute_js(:getInnerHtml, @element) }.strip
+    end
+
+    #
+    # Returns inner Text code of element.
+    #
+    # @example
+    #   browser.div(id: 'shown').inner_text
+    #   #=> "Not hidden"
+    #
+    # @return [String]
+    #
+
+    def inner_text
+      element_call { execute_js(:getInnerText, @element) }.strip
     end
 
     #

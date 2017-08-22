@@ -366,19 +366,29 @@ describe "Element" do
     end
   end
 
+  describe '#inner_text' do
+    it 'returns inner HTML code of element' do
+      browser.goto WatirSpec.url_for('non_control_elements.html')
+      div = browser.div(id: 'shown')
+      expect(div.inner_text).to eq('Not hidden')
+    end
+  end
+
   describe '#inner_html' do
     it 'returns inner HTML code of element' do
-      browser.goto WatirSpec.url_for('inner_outer.html')
-      div = browser.div(id: 'foo')
-      expect(div.inner_html).to eq('<a href="#">hello</a>')
+      browser.goto WatirSpec.url_for('non_control_elements.html')
+      div = browser.div(id: 'shown')
+      expected_text = "<div id=\"hidden\" style=\"display: none;\">Not shown</div><div>Not hidden</div>"
+      expect(div.inner_html).to eq expected_text
     end
   end
 
   describe '#outer_html' do
     it 'returns outer (inner + element itself) HTML code of element' do
-      browser.goto WatirSpec.url_for('inner_outer.html')
-      div = browser.div(id: 'foo')
-      expect(div.outer_html).to eq('<div id="foo"><a href="#">hello</a></div>')
+      browser.goto WatirSpec.url_for('non_control_elements.html')
+      div = browser.div(id: 'shown')
+      expected_text = "<div id=\"shown\"><div id=\"hidden\" style=\"display: none;\">Not shown</div><div>Not hidden</div></div>"
+      expect(div.outer_html).to eq expected_text
     end
   end
 
