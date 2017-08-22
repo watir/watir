@@ -47,18 +47,31 @@ module Watir
     # @return Watir::Radio
     #
 
-    def radio(opt)
-      name_opt = name.empty? ? {} : {name: name}
-      frame.radio(opt.merge name_opt)
+    def radio(opt = {})
+      n = name
+      if !n.empty? && (!opt[:name] || opt[:name] == n)
+        frame.radio(opt.merge name: n)
+      elsif n.empty?
+        return source
+      else
+        raise Watir::Exception::UnknownObjectException, "#{opt[:name]} does not match name of RadioSet: #{n}"
+      end
+
     end
 
     #
     # @return Watir::RadioCollection
     #
 
-    def radios
-      opt = name ? {name: name} : {}
-      element_call(:wait_for_present) { frame.radios(opt) }
+    def radios(opt = {})
+      n = name
+      if !n.empty? && (!opt[:name] || opt[:name] == n)
+        element_call(:wait_for_present) { frame.radios(opt.merge name: n) }
+      elsif n.empty?
+        Watir::RadioCollection.new(frame, element: source.wd)
+      else
+        raise Watir::Exception::UnknownObjectException, "#{opt[:name]} does not match name of RadioSet: #{n}"
+      end
     end
 
     #
