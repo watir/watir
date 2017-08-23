@@ -91,19 +91,20 @@ module Watir
 
           idx = selector.delete(:index) unless selector.key?(:adjacent)
           visible = selector.delete(:visible)
-          html = selector.delete(:html)
-          selector[:text] = html if html
+          text_content = selector.delete(:text_content)
+          selector[:text] = text_content if text_content
 
           how, what = selector_builder.build(selector)
 
           if how
             # could build xpath/css for selector
             if idx && idx != 0 || !visible.nil? || selector[:text] && selector[:text].is_a?(String)
-              find_by_iteration(selector.merge(index: idx, html: html), how, what)
+              find_by_iteration(selector.merge(index: idx, text_content: text_content), how, what)
             else
               locate_element(how, what)
             end
           else
+            selector[:text_content] = selector.delete(:text) if text_content
             # can't use xpath, probably a regexp in there
             if idx && idx != 0
               elements = wd_find_by_regexp_selector(selector, :select)
@@ -116,9 +117,9 @@ module Watir
 
         def find_by_iteration(selector, how, what)
           idx = selector.delete(:index) || 0
-          html = selector.delete(:html)
+          text_content = selector.delete(:text_content)
           elements = find_all_by_multiple(true)
-          needs_visibility_check = html.nil? && selector[:text] && selector[:text].is_a?(String)
+          needs_visibility_check = text_content.nil? && selector[:text] && selector[:text].is_a?(String)
 
           found = if needs_visibility_check && idx == 0
                     elements.find { |el| equals_selector?(el, selector[:text]) }
@@ -133,7 +134,7 @@ module Watir
           without_check = locate_element(how, what)
           return found if found == without_check
 
-          Watir.logger.deprecate "Locating non-visible text from :text locator", ":html locator"
+          Watir.logger.deprecate "Locating non-visible text from :text locator", ":text_content locator"
           without_check
         end
 
@@ -151,8 +152,8 @@ module Watir
         def find_all_by_multiple(ignore_index = false)
           selector = selector_builder.normalized_selector
           visible = selector.delete(:visible)
-          html = selector.delete(:html)
-          selector[:text] = html if html
+          text_content = selector.delete(:text_content)
+          selector[:text] = text_content if text_content
 
           selector.delete :index if ignore_index
           if selector.key? :index
@@ -163,6 +164,7 @@ module Watir
           found = if how
                     locate_elements(how, what)
                   else
+                    selector[:text_content] = selector.delete(:text) if text_content
                     wd_find_by_regexp_selector(selector, :select)
                   end
           found.select! { |el| el.displayed? == visible } unless visible.nil?
@@ -179,6 +181,8 @@ module Watir
 
         def fetch_value(element, how)
           case how
+          when :text_content
+            Watir::Element.new(@query_scope, element: element).text_content
           when :text
             element.text
           when :tag_name
@@ -203,6 +207,9 @@ module Watir
         end
 
         def wd_find_by_regexp_selector(selector, method = :find)
+          text_content = selector.delete(:text_content)
+          selector[:text] = text_content if text_content
+
           query_scope = ensure_scope_context
           rx_selector = delete_regexps_from(selector)
 
@@ -231,6 +238,7 @@ module Watir
           end
 
           elements = locate_elements(how, what, query_scope)
+          rx_selector[:text_content] = rx_selector.delete(:text) if text_content
           elements.__send__(method) { |el| matches_selector?(el, rx_selector) }
         end
 
