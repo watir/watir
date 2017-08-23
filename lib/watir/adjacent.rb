@@ -111,7 +111,7 @@ module Watir
       plural = opt.delete(:plural)
       opt[:index] ||= 0 unless plural || opt.values.any? { |e| e.is_a? Regexp }
       klass = if !plural && opt[:tag_name]
-                self.send(opt[:tag_name]).class
+                Watir.tag_to_class[opt[:tag_name].to_sym]
               elsif !plural
                 HTMLElement
               elsif opt[:tag_name]

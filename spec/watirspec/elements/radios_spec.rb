@@ -14,7 +14,7 @@ describe "Radios" do
 
   describe "#length" do
     it "returns the number of radios" do
-      expect(browser.radios.length).to eq 6
+      expect(browser.radios.length).to eq 7
     end
   end
 

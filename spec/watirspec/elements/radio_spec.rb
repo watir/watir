@@ -15,9 +15,8 @@ describe "Radio" do
       expect(browser.radio(name: /new_user_newsletter/)).to exist
       expect(browser.radio(value: "yes")).to exist
       expect(browser.radio(value: /yes/)).to exist
-      # TODO: figure out what :text means for a radio button
-      # browser.radio(text: "yes").to exist
-      # browser.radio(text: /yes/).to exist
+      expect(browser.radio(text: "Yes")).to exist
+      expect(browser.radio(text: /Yes/)).to exist
       expect(browser.radio(class: "huge")).to exist
       expect(browser.radio(class: /huge/)).to exist
       expect(browser.radio(index: 0)).to exist
@@ -113,6 +112,21 @@ describe "Radio" do
 
     it "raises UnknownObjectException if the radio doesn't exist" do
       expect { browser.radio(index: 1337).name }.to raise_unknown_object_exception
+    end
+  end
+
+  describe "#text" do
+    it "returns the text if the radio exists" do
+      expect(browser.radio(id: 'new_user_newsletter_yes').text).to eq "Yes"
+    end
+
+    it "raises UnknownObjectException if the radio doesn't exist" do
+      expect { browser.radio(index: 1337).text }.to raise_unknown_object_exception
+    end
+
+    it "returns empty string when there is no label" do
+      form = browser.form(id: "new_user")
+      expect(form.radio(index: 2).text).to eq ''
     end
   end
 
