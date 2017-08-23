@@ -115,6 +115,21 @@ describe "Radio" do
     end
   end
 
+  describe "#text" do
+    it "returns the text if the radio exists" do
+      expect(browser.radio(id: 'new_user_newsletter_yes').text).to eq "Yes"
+    end
+
+    it "raises UnknownObjectException if the radio doesn't exist" do
+      expect { browser.radio(index: 1337).text }.to raise_unknown_object_exception
+    end
+
+    it "returns empty string when there is no label" do
+      form = browser.form(id: "new_user")
+      expect(form.radio(index: 2).text).to eq ''
+    end
+  end
+
   describe "#title" do
     it "returns the title attribute if the radio exists" do
       expect(browser.radio(id: "new_user_newsletter_no").title).to eq "Traitor!"
