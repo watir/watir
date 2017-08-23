@@ -2,8 +2,9 @@ module Watir
   class Input < HTMLElement
 
     #
-    # Returns applicable label.
-    # Is not lazy loaded.
+    # Returns label element associated with Input element.
+    #
+    # @return [Watir::Label]
     #
 
     def label

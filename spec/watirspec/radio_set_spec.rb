@@ -213,7 +213,6 @@ describe "RadioSet" do
     end
   end
 
-
   describe "#selected" do
     it "should raise UnknownObjectException if the radio set doesn't exist" do
       expect { browser.radio_set(name: 'no_such_name').selected }.to raise_unknown_object_exception
@@ -305,18 +304,18 @@ describe "RadioSet" do
     end
   end
 
-  describe "eql?" do
+  describe "#eql?" do
     it 'returns true when located by any radio button' do
       rs = browser.radio_set(id: "new_user_newsletter_yes")
-      expect(browser.radio_set(id: /new_user_newsletter_yes/)).to eql rs
-      expect(browser.radio_set(name: "new_user_newsletter")).to eql rs
+      expect(browser.radio_set(id: /new_user_newsletter_no/)).to eql rs
+      expect(browser.radio_set(name: "new_user_newsletter", index: 2)).to eql rs
       expect(browser.radio_set(name: /new_user_newsletter/)).to eql rs
       expect(browser.radio_set(value: "yes")).to eql rs
       expect(browser.radio_set(value: /yes/)).to eql rs
       expect(browser.radio_set(class: "huge")).to eql rs
       expect(browser.radio_set(class: /huge/)).to eql rs
       expect(browser.radio_set(index: 0)).to eql rs
-      expect(browser.radio_set(xpath: "//input[@id='new_user_newsletter_yes']")).to eql rs
+      expect(browser.radio_set(xpath: "//input[@id='new_user_newsletter_probably']")).to eql rs
     end
   end
 

@@ -18,7 +18,7 @@ module Watir
     end
 
     #
-    # Yields each TableCell associated with this row.
+    # Yields each Radio associated with this set.
     #
     # @example
     #   radio_set = browser.radio_set
@@ -95,7 +95,7 @@ module Watir
     end
 
     #
-    # Returns true if all radio buttons in the set are disabled.
+    # Returns the name attribute for the set.
     #
     # @return [String]
     #
@@ -209,7 +209,7 @@ module Watir
 
     def ==(other)
       return false unless other.kind_of?(self.class)
-      frame == other.frame
+      radios == other.radios
     end
     alias_method :eql?, :==
 
