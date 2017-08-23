@@ -366,6 +366,13 @@ describe "Element" do
     end
   end
 
+  describe '#text_content' do
+    it 'returns inner Text code of element' do
+      browser.goto WatirSpec.url_for('non_control_elements.html')
+      expect(browser.div(id: 'shown').text_content).to eq('Not shownNot hidden')
+    end
+  end
+
   describe '#inner_text' do
     it 'returns inner HTML code of element' do
       browser.goto WatirSpec.url_for('non_control_elements.html')

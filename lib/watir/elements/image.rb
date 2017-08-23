@@ -9,11 +9,7 @@ module Watir
 
     def loaded?
       return false unless complete?
-
-      driver.execute_script(
-        'return typeof arguments[0].naturalWidth != "undefined" && arguments[0].naturalWidth > 0',
-        @element
-      )
+      element_call { execute_js(:isImageLoaded, @element) }
     end
 
   end # Image

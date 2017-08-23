@@ -24,7 +24,7 @@ module Watir
 
     def set!(val)
       set val[0]
-      execute_script("arguments[0].value=arguments[1]", self, val[0..-2])
+      element_call { execute_js(:setValue, @element, val[0..-2]) }
       append(val[-1])
       raise Watir::Exception::Error, "#set! value does not match expected input" unless value == val
     end
