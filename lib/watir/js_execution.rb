@@ -30,11 +30,11 @@ module Watir
     # Flashes (change background color to a new color and back a few times) element.
     #
     # @example
-    #   browser.text_field(name: "new_user_first_name").flash
-    #   browser.text_field(name: "new_user_first_name").flash(color: "green", flashes: 3, delay: 0.05)
-    #   browser.text_field(name: "new_user_first_name").flash(color: "yellow")
-    #   browser.text_field(name: "new_user_first_name").flash(flashes: 4)
-    #   browser.text_field(name: "new_user_first_name").flash(delay: 0.1)
+    #   browser.li(id: 'non_link_1').flash
+    #   browser.li(id: 'non_link_1').flash(color: "green", flashes: 3, delay: 0.05)
+    #   browser.li(id: 'non_link_1').flash(color: "yellow")
+    #   browser.li(id: 'non_link_1').flash(flashes: 4)
+    #   browser.li(id: 'non_link_1').flash(delay: 0.1)
     #
     # @param [String] color what color to flash with
     # @param [Integer] flashes number of times element should be flashed
@@ -47,17 +47,13 @@ module Watir
       background_color = style("backgroundColor")
       element_color = element_call { execute_js(:backgroundColor, @element) }.strip
 
-      #driver.execute_script("arguments[0].style.backgroundColor", @element)
-
       flashes.times do |n|
         nextcolor = n.even? ? color : background_color
         element_call { execute_js(:backgroundColor, @element, nextcolor) }
-       # driver.execute_script("arguments[0].style.backgroundColor = arguments[1]", @element, nextcolor)
         sleep(delay)
       end
 
       element_call { execute_js(:backgroundColor, @element, element_color) }
-      #driver.execute_script("arguments[0].style.backgroundColor = arguments[1]", @element, element_color)
 
       self
     end
@@ -71,7 +67,6 @@ module Watir
 
     def focus
       element_call { execute_js(:focus, @element) }
-      #element_call { driver.execute_script "return arguments[0].focus()", @element }
     end
 
     #
@@ -135,7 +130,7 @@ module Watir
     # Selects text on page (as if dragging clicked mouse across provided text).
     #
     # @example
-    #   browser.legend.select_text('information')
+    #   browser.li(id: 'non_link_1').select_text('Non-link')
     #
 
     def select_text(str)

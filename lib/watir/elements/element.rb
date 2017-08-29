@@ -117,7 +117,7 @@ module Watir
     # @example Click an element with several modifier keys pressed
     #   browser.element(name: "new_user_button").click(:shift, :control)
     #
-    # @param [:shift, :alt, :control, :command, :meta] Modifier key(s) to press while clicking.
+    # @param [:shift, :alt, :control, :command, :meta] modifiers to press while clicking.
     #
 
     def click(*modifiers)
@@ -275,7 +275,7 @@ module Watir
     # @example
     #   browser.text_field(name: "new_user_first_name").send_keys "Watir", :return
     #
-    # @param [String, Symbol] *args
+    # @param [String, Symbol] args
     #
 
     def send_keys(*args)

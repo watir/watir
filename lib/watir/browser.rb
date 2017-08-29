@@ -257,7 +257,7 @@ module Watir
     #   #=> true
     #
     # @param [String] script JavaScript snippet to execute
-    # @param *args Arguments will be available in the given script in the 'arguments' pseudo-array
+    # @param args Arguments will be available in the given script in the 'arguments' pseudo-array
     #
 
     def execute_script(script, *args)
@@ -274,7 +274,7 @@ module Watir
     #   browser.goto "www.google.com"
     #   browser.send_keys "Watir", :return
     #
-    # @param [String, Symbol] *args
+    # @param [String, Symbol] args
     #
 
     def send_keys(*args)

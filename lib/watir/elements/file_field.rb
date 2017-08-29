@@ -4,7 +4,7 @@ module Watir
     #
     # Set the file field to the given path
     #
-    # @param [String] a path
+    # @param [String] path
     # @raise [Errno::ENOENT] if the file doesn't exist
     #
 

@@ -4,7 +4,7 @@ module Watir
     #
     # Clear the element, the type in the given value.
     #
-    # @param [String, Symbol] *args
+    # @param [String, Symbol] args
     #
 
     def set(*args)
@@ -19,20 +19,20 @@ module Watir
     # Uses JavaScript to enter most of the given value.
     # Selenium is used to enter the first and last characters
     #
-    # @param [String, Symbol] *args
+    # @param [String] input_value
     #
 
-    def set!(val)
-      set val[0]
-      element_call { execute_js(:setValue, @element, val[0..-2]) }
-      append(val[-1])
-      raise Watir::Exception::Error, "#set! value does not match expected input" unless value == val
+    def set!(input_value)
+      set input_value[0]
+      element_call { execute_js(:setValue, @element, input_value[0..-2]) }
+      append(input_value[-1])
+      raise Watir::Exception::Error, "#set! value does not match expected input" unless value == input_value
     end
 
     #
     # Appends the given value to the text in the text field.
     #
-    # @param [String, Symbol] *args
+    # @param [String, Symbol] args
     #
 
     def append(*args)
