@@ -1,3 +1,14 @@
+### 6.8.0 (2017-08-28)
+
+* Add AfterHook executions to additional methods that can change DOM
+* Deprecate `Select#select_value` in favor of `Select#select`
+* Implement `Element` `#click!`, `#double_click!` & `#set!` with JavaScript
+* Implement `Select#select!` and `Select#select_all!` with JavaScript
+* Implement `Element#inner_text` and `Element#text_content`
+* Implement `RadioSet`
+* Implement `Input#label`
+* Fix bug preventing Capabilities from handling :listener
+
 ### 6.7.3 (2017-08-20)
 
 * Fix bug preventing Capabilities from handling :driver_opts (#629)
