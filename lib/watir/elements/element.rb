@@ -589,8 +589,8 @@ module Watir
       @query_scope.ensure_context
 
       element_validator = element_validator_class.new
-      selector_builder = selector_builder_class.new(@query_scope, @selector, self.class.attribute_list)
-      locator = locator_class.new(@query_scope, @selector, selector_builder, element_validator)
+      selector_builder = selector_builder_class.new(@query_scope, @selector.dup, self.class.attribute_list)
+      locator = locator_class.new(@query_scope, @selector.dup, selector_builder, element_validator)
 
       @element = locator.locate
     end
