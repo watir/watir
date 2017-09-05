@@ -147,26 +147,24 @@ describe "FileField" do
         end
       end
 
-      not_compliant_on :internet_explorer do
-        bug "Raises File not found error - File Bug Report", :firefox do
-          it "does not raise an error if the file does not exist" do
-            path = File.join(Dir.tmpdir, 'unlikely-to-exist')
-            browser.file_field.value = path
+      not_compliant_on :internet_explorer, :firefox, :chrome do
+        it "does not raise an error if the file does not exist" do
+          path = File.join(Dir.tmpdir, 'unlikely-to-exist')
+          browser.file_field.value = path
 
-            expected = path
-            expected.gsub!("/", "\\") if Selenium::WebDriver::Platform.windows?
+          expected = path
+          expected.gsub!("/", "\\") if Selenium::WebDriver::Platform.windows?
 
-            expect(browser.file_field.value).to include(File.basename(expected)) # only some browser will return the full path
-          end
+          expect(browser.file_field.value).to include(File.basename(expected)) # only some browser will return the full path
         end
+      end
 
-        not_compliant_on %i(chrome windows) do
-          bug "Raises File not found error - File Bug Report", :firefox do
-            it "does not alter its argument" do
-              value = '/foo/bar'
-              browser.file_field.value = value
-              expect(value).to eq '/foo/bar'
-            end
+      not_compliant_on :internet_explorer, %i(chrome windows) do
+        bug "Raises InvalidArgumentError: File not found", :firefox do
+          it "does not alter its argument" do
+            value = File.expand_path 'support/travis.sh'
+            browser.file_field.value = value
+            expect(value).to match /support\/travis\.sh$/
           end
         end
       end
