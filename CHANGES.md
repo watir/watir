@@ -1,3 +1,8 @@
+### 6.8.1 (2017-09-05)
+
+* Ignore index locator when value is zero
+* Fix bug with `Select#select!` doing partial string matches
+
 ### 6.8.0 (2017-08-28)
 
 * Add AfterHook executions to additional methods that can change DOM
