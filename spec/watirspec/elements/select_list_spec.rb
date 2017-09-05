@@ -432,6 +432,14 @@ describe "SelectList" do
       browser.select_list(id: 'single-quote').select!("'foo'")
     end
 
+    it "selects exact matches when using String" do
+      browser.select_list(name: "new_user_languages").clear
+      browser.select_list(name: "new_user_languages").select!("Latin")
+      selected_options = browser.select_list(name: "new_user_languages").selected_options.map(&:text)
+      expect(selected_options).not_to include("Azeri - Latin")
+      expect(selected_options).to include("Latin")
+    end
+
     it "raises NoValueFoundException if the option doesn't exist" do
       expect { browser.select_list(id: "new_user_country").select!("missing_option") }.to raise_no_value_found_exception
       expect { browser.select_list(id: "new_user_country").select!(/missing_option/) }.to raise_no_value_found_exception

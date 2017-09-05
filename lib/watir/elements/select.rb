@@ -162,7 +162,7 @@ module Watir
     def select_by!(str_or_rx, number)
       js_rx = case str_or_rx
               when String
-                str_or_rx
+                "^#{str_or_rx}$"
               when Regexp
                 str_or_rx.inspect.sub('\\A', '^').sub('\\Z', '$').sub('\\z', '$').sub(/^\//, '').sub(/\/[a-z]*$/, '')
                     .gsub(/\(\?#.+\)/, '').gsub(/\(\?-\w+:/, '(')
