@@ -66,7 +66,7 @@ module Watir
     #
 
     def run
-      if @after_hooks.any? && @browser.window.present?
+      if @after_hooks.any? && @browser.window.present? && !@browser.alert.exists?
         each { |after_hook| after_hook.call(@browser) }
       end
     end

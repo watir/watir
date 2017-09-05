@@ -125,21 +125,17 @@ describe "Browser::AfterHooks" do
     end
 
     not_compliant_on :safari, :headless do
-      it "raises UnhandledAlertError error when running error checks with alert present" do
-        url = WatirSpec.url_for("alerts.html")
-        @page_after_hook = Proc.new { browser.url }
+      it "does not run error checks with alert present" do
+        browser.goto WatirSpec.url_for("alerts.html")
+
+        @page_after_hook = Proc.new { @yield = browser.title == "Alerts" }
         browser.after_hooks.add @page_after_hook
-        browser.goto url
 
-        not_compliant_on :firefox do
-          expect { browser.button(id: "alert").click }.to raise_error(Selenium::WebDriver::Error::UnhandledAlertError)
-        end
-
-        deviates_on :firefox do
-          expect { browser.button(id: "alert").click }.to raise_error(Selenium::WebDriver::Error::UnexpectedAlertOpenError)
-        end
+        browser.button(id: "alert").click
+        expect(@yield).to be_nil
 
         browser.alert.ok
+        expect(@yield).to eq true
       end
     end
 
