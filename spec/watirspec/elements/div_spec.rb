@@ -15,10 +15,30 @@ describe "Div" do
       expect(browser.div(title: /Header and primary navigation/)).to exist
       expect(browser.div(text: "This is a footer.")).to exist
       expect(browser.div(text: /This is a footer\./)).to exist
+      expect(browser.div(text_content: 'Not shownNot hidden')).to exist
+      expect(browser.div(text_content: /Not shownNot hidden/)).to exist
       expect(browser.div(class: "profile")).to exist
       expect(browser.div(class: /profile/)).to exist
       expect(browser.div(index: 0)).to exist
       expect(browser.div(xpath: "//div[@id='header']")).to exist
+    end
+
+    # TODO - Change implementation so this passes instead of throwing deprecation
+    it "returns false locating by String and not displayed" do
+      message = /Locating non-visible text from :text locator is deprecated\. Use :text_content locator instead\./
+      expect { browser.div(text: "Not shown").exists? }.to output(message).to_stdout_from_any_process
+    end
+
+    it "returns false locating by Regex and not displayed" do
+      expect(browser.div(text: /Not shown/)).to_not exist
+    end
+
+    it "returns true locating by :text_content with String and not displayed" do
+      expect(browser.div(text_content: 'Not shown')).to exist
+    end
+
+    it "returns true locating by :text_content with Regex and not displayed" do
+      expect(browser.div(text_content: /Not shown/)).to exist
     end
 
     it "returns the first div if given no args" do
