@@ -98,8 +98,7 @@ module Watir
             # could build xpath/css for selector
             if idx && idx != 0 || !visible.nil?
               elements = locate_elements(how, what)
-              elements = elements.select { |el| visible == el.displayed? } unless visible.nil?
-              elements[idx || 0] unless elements.nil?
+              filter_elements elements, visible, idx, :single
             else
               locate_element(how, what)
             end
@@ -107,8 +106,7 @@ module Watir
             # can't use xpath, probably a regexp in there
             if idx && idx != 0 || !visible.nil?
               elements = wd_find_by_regexp_selector(selector, :select)
-              elements = elements.select { |el| visible == el.displayed? } unless visible.nil?
-              elements[idx || 0] unless elements.nil?
+              filter_elements elements, visible, idx, :single
             else
               wd_find_by_regexp_selector(selector, :find)
             end
@@ -141,8 +139,7 @@ module Watir
                   else
                     wd_find_by_regexp_selector(selector, :select)
                   end
-          found.select! { |el| el.displayed? == visible } unless visible.nil?
-          found
+          filter_elements found, visible, nil, :multiple
         end
 
         def wd_find_all_by(how, what)
@@ -207,7 +204,16 @@ module Watir
           end
 
           elements = locate_elements(how, what, query_scope)
-          elements.__send__(method) { |el| matches_selector?(el, rx_selector) }
+          filter_elements_by_regex(elements, rx_selector, method)
+        end
+
+        def filter_elements elements, visible, idx, number
+          elements.select! { |el| visible == el.displayed? } unless visible.nil?
+          number == :single ? elements[idx || 0] : elements
+        end
+
+        def filter_elements_by_regex(elements, selector, method)
+          elements.__send__(method) { |el| matches_selector?(el, selector) }
         end
 
         def delete_regexps_from(selector)
