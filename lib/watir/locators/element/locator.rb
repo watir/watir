@@ -96,21 +96,19 @@ module Watir
 
           if how
             # could build xpath/css for selector
-            if idx || !visible.nil?
-              idx ||= 0
+            if idx && idx != 0 || !visible.nil?
               elements = locate_elements(how, what)
               elements = elements.select { |el| visible == el.displayed? } unless visible.nil?
-              elements[idx] unless elements.nil?
+              elements[idx || 0] unless elements.nil?
             else
               locate_element(how, what)
             end
           else
             # can't use xpath, probably a regexp in there
-            if idx || !visible.nil?
-              idx ||= 0
+            if idx && idx != 0 || !visible.nil?
               elements = wd_find_by_regexp_selector(selector, :select)
               elements = elements.select { |el| visible == el.displayed? } unless visible.nil?
-              elements[idx] unless elements.nil?
+              elements[idx || 0] unless elements.nil?
             else
               wd_find_by_regexp_selector(selector, :find)
             end
