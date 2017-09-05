@@ -4,15 +4,12 @@ module Watir
 
     NON_TEXT_TYPES = %w[file radio checkbox submit reset image button hidden range color]
 
-    inherit_attributes_from Watir::TextArea
-    remove_method :type # we want Input#type here, which was overriden by TextArea's attributes
-
     protected
 
     def selector_string
       selector = @selector.dup
       selector[:type] = '(any text type)'
-      selector[:tag_name] = "input or textarea"
+      selector[:tag_name] = "input"
 
       if @query_scope.is_a?(Browser) || @query_scope.is_a?(IFrame)
         super
