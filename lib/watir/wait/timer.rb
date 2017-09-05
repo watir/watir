@@ -2,8 +2,6 @@ module Watir
   module Wait
     class Timer
 
-      attr_reader :remaining_time
-
       def initialize(timeout: nil)
         @end_time = current_time + timeout if timeout
         @remaining_time = @end_time - current_time if @end_time
@@ -23,6 +21,10 @@ module Watir
           @remaining_time = end_time - current_time
           break if @remaining_time < 0
         end
+      end
+
+      def remaining_time
+        @end_time - current_time
       end
 
       def reset!
