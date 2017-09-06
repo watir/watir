@@ -6,6 +6,7 @@ module Watir
 
   class ElementCollection
     include Enumerable
+    include Locators::ClassHelpers
 
     def initialize(query_scope, selector)
       @query_scope = query_scope
@@ -127,28 +128,6 @@ module Watir
       locator = locator_class.new(@query_scope, @selector, selector_builder, element_validator)
 
       @elements ||= locator.locate_all
-    end
-
-    def locator_class
-      Kernel.const_get("#{Watir.locator_namespace}::#{element_class_name}::Locator")
-    rescue NameError
-      Kernel.const_get("#{Watir.locator_namespace}::Element::Locator")
-    end
-
-    def element_validator_class
-      Kernel.const_get("#{Watir.locator_namespace}::#{element_class_name}::Validator")
-    rescue NameError
-      Kernel.const_get("#{Watir.locator_namespace}::Element::Validator")
-    end
-
-    def selector_builder_class
-      Kernel.const_get("#{Watir.locator_namespace}::#{element_class_name}::SelectorBuilder")
-    rescue NameError
-      Kernel.const_get("#{Watir.locator_namespace}::Element::SelectorBuilder")
-    end
-
-    def element_class_name
-      element_class.to_s.split('::').last
     end
 
     def element_class

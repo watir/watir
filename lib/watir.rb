@@ -115,6 +115,7 @@ require the watir_css gem - https://github.com/watir/watir_css
   end
 
 end
+require 'watir/locators'
 
 require 'watir/attribute_helper'
 require 'watir/row_container'
@@ -152,7 +153,6 @@ require 'watir/elements/text_field'
 require 'watir/elements/input'
 require 'watir/radio_set'
 
-require 'watir/locators'
 require 'watir/aliases'
 
 Watir.tag_to_class.freeze

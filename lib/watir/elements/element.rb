@@ -13,6 +13,7 @@ module Watir
     include Waitable
     include Adjacent
     include JSExecution
+    include Locators::ClassHelpers
 
     attr_accessor :keyword
     attr_reader :selector
@@ -625,26 +626,8 @@ module Watir
       raise unknown_exception, "element located, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to be present"
     end
 
-    def locator_class
-      Kernel.const_get("#{Watir.locator_namespace}::#{element_class_name}::Locator")
-    rescue NameError
-      Kernel.const_get("#{Watir.locator_namespace}::Element::Locator")
-    end
-
-    def element_validator_class
-      Kernel.const_get("#{Watir.locator_namespace}::#{element_class_name}::Validator")
-    rescue NameError
-      Kernel.const_get("#{Watir.locator_namespace}::Element::Validator")
-    end
-
-    def selector_builder_class
-      Kernel.const_get("#{Watir.locator_namespace}::#{element_class_name}::SelectorBuilder")
-    rescue NameError
-      Kernel.const_get("#{Watir.locator_namespace}::Element::SelectorBuilder")
-    end
-
-    def element_class_name
-      self.class.name.split('::').last
+    def element_class
+      self.class
     end
 
     def attribute?(attribute_name)
