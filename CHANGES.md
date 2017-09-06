@@ -1,3 +1,8 @@
+### 6.8.2 (2017-09-06)
+
+* Fix bug to prevent after_hooks from running when an alert is present
+* Fix bug with actions not correctly timing out (#636)
+
 ### 6.8.1 (2017-09-05)
 
 * Ignore index locator when value is zero
