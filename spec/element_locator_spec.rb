@@ -249,8 +249,8 @@ describe Watir::Locators::Element::Locator do
 
       it "handles :label => /regexp/ selector" do
         label_elements = [
-          element(tag_name: "label", text: "foo", attributes: { for: "bar"}),
-          element(tag_name: "label", text: "foob", attributes: { for: "baz"})
+          element(tag_name: "label", text: "foo", attributes: { 'for' => "bar"}),
+          element(tag_name: "label", text: "foob", attributes: { 'for' => "baz"})
         ]
         div_elements = [element(tag_name: "div")]
 

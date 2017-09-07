@@ -162,9 +162,9 @@ describe "FileField" do
       not_compliant_on :internet_explorer, %i(chrome windows) do
         bug "Raises InvalidArgumentError: File not found", :firefox do
           it "does not alter its argument" do
-            value = File.expand_path 'support/travis.sh'
+            value = File.expand_path '.travis.yml'
             browser.file_field.value = value
-            expect(value).to match /support\/travis\.sh$/
+            expect(value).to match /\.travis\.yml$/
           end
         end
       end

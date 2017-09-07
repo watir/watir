@@ -19,7 +19,7 @@ module Watir
         ]
 
         # Regular expressions that can be reliably converted to xpath `contains`
-        # expressions in order to optimize the .
+        # expressions in order to optimize the locator.
         CONVERTABLE_REGEXP = %r{
           \A
             ([^\[\]\\^$.|?*+()]*) # leading literal characters
@@ -139,6 +139,7 @@ module Watir
                   else
                     wd_find_by_regexp_selector(selector, :select)
                   end
+          return [] if found.nil?
           filter_elements found, visible, nil, :multiple
         end
 
@@ -181,7 +182,7 @@ module Watir
 
           if rx_selector.key?(:label) && selector_builder.should_use_label_element?
             label = label_from_text(rx_selector.delete(:label)) || return
-            if (id = label.attribute(:for))
+            if (id = label.attribute('for'))
               selector[:id] = id
             else
               query_scope = label

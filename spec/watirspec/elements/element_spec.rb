@@ -98,7 +98,7 @@ describe "Element" do
       expect(browser.elements(xpath: "//a").length).to eq 1
     end
 
-    it "finds finds several elements by arbitrary attribute" do
+    it "finds several elements by arbitrary attribute" do
       expect(browser.elements(id: /^new_user/).length).to eq 33
     end
 
