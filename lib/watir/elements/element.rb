@@ -665,10 +665,9 @@ module Watir
         raise_present unless Wait.timer.remaining_time > 0
         raise_present unless exist_check == :wait_for_present || exist_check == :wait_for_enabled
         retry
-      rescue Selenium::WebDriver::Error::InvalidElementStateError => ex
+      rescue Selenium::WebDriver::Error::InvalidElementStateError
         raise_disabled unless Wait.timer.remaining_time > 0
         raise_disabled unless exist_check == :wait_for_writable || exist_check == :wait_for_enabled
-        raise_disabled unless ex.message.include?('user-editable')
         retry
       rescue Selenium::WebDriver::Error::NoSuchWindowError
         raise Exception::NoMatchingWindowFoundException, "browser window was closed"
