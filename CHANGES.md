@@ -1,3 +1,7 @@
+### 6.8.3 (2017-09-07)
+
+* Fix bug with non-interactable elements not being waited on (#636)
+
 ### 6.8.2 (2017-09-06)
 
 * Fix bug to prevent after_hooks from running when an alert is present
