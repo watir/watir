@@ -535,14 +535,10 @@ module Watir
     end
 
     def wait_for_enabled
-      case self
-      when Input, Button, Select, Option
-        # noop
-      else
-        wait_for_exists && return
-      end
-
       return assert_enabled unless Watir.relaxed_locate?
+
+      wait_for_exists
+      return if [Input, Button, Select, Option].none? { |c| self.is_a? c }
 
       begin
         wait_until(&:enabled?)
