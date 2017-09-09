@@ -1,3 +1,7 @@
+### 6.8.4 (2017-09-08)
+
+* Fix bug with non-visible buttons not being waited on (#648)
+
 ### 6.8.3 (2017-09-07)
 
 * Fix bug with non-interactable elements not being waited on (#636)
