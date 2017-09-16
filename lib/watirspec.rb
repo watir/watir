@@ -8,8 +8,8 @@ module WatirSpec
   class << self
     attr_accessor :browser_args, :unguarded, :implementation
 
-    def html
-      @html ||= File.expand_path("../../spec/watirspec/html", __FILE__)
+    def htmls
+      @htmls ||= [File.expand_path("../../spec/watirspec/html", __FILE__)]
     end
 
     def run!

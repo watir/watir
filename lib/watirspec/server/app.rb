@@ -12,15 +12,15 @@ module WatirSpec
         when %r{/set_cookie}
           respond("<html>C is for cookie, it's good enough for me</html>", 'Content-Type' => 'text/html', 'Set-Cookie' => 'monster=1')
         when css_file?
-          respond(File.read("#{WatirSpec.html}/#{path}"), 'Content-Type' => 'text/css')
+          respond(file_read(path), 'Content-Type' => 'text/css')
         when js_file?
-          respond(File.read("#{WatirSpec.html}/#{path}"), 'Content-Type' => 'application/javascript')
+          respond(file_read(path), 'Content-Type' => 'application/javascript')
         when png_file?
-          respond(File.binread("#{WatirSpec.html}/#{path}"), 'Content-Type' => 'image/png')
+          respond(file_binread(path), 'Content-Type' => 'image/png')
         when gif_file?
-          respond(File.read("#{WatirSpec.html}/#{path}"), 'Content-Type' => 'image/gif')
+          respond(file_read(path), 'Content-Type' => 'image/gif')
         when static_file?
-          respond(File.read("#{WatirSpec.html}/#{path}"))
+          respond(file_read(path))
         else
           respond('')
         end
@@ -33,29 +33,43 @@ module WatirSpec
       end
 
       def css_file?
-        proc { |path| static_files.include?(path) && path.end_with?('.css') }
+        proc { |path| static_file(path) && path.end_with?('.css') }
       end
 
       def js_file?
-        proc { |path| static_files.include?(path) && path.end_with?('.js') }
+        proc { |path| static_file(path) && path.end_with?('.js') }
       end
 
       def png_file?
-        proc { |path| static_files.include?(path) && path.end_with?('.png') }
+        proc { |path| static_file(path) && path.end_with?('.png') }
       end
 
       def gif_file?
-        proc { |path| static_files.include?(path) && path.end_with?('.gif') }
+        proc { |path| static_file(path) && path.end_with?('.gif') }
       end
 
       def static_file?
-        proc { |path| static_files.include?(path) }
+        proc { |path| static_file(path) }
       end
 
       def static_files
-        Dir["#{WatirSpec.html}/**/*"].map do |file|
-          file.sub(WatirSpec.html, '')
+        WatirSpec.htmls.flat_map do |html|
+          Dir["#{html}/**/*"]
         end
+      end
+
+      def static_file(path)
+        static_files.find do |file|
+          file.end_with?(path)
+        end
+      end
+
+      def file_read(path)
+        File.read(static_file(path))
+      end
+
+      def file_binread(path)
+        File.binread(static_file(path))
       end
     end
   end
