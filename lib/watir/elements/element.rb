@@ -519,7 +519,6 @@ module Watir
         msg = "timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to be located"
         if @query_scope.iframes.count > 0
           msg += ". maybe look in an iframe?"
-        else
         end
         raise unknown_exception, msg
       end
