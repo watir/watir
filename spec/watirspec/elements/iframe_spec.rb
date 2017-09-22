@@ -151,6 +151,10 @@ describe "IFrame" do
     expect(browser.iframe(index: 0).text_field(name: 'senderElement').value).to eq "new value"
   end
 
+  it 'will suggest looking in an iframe when iframes exist' do
+    expect {browser.text_field(name: 'senderElement').set('no') }.to raise_unknown_object_exception('maybe look in an iframe?')
+  end
+
   describe "#execute_script" do
     bug "Safari does not strip text", :safari do
       it "executes the given javascript in the specified frame" do
