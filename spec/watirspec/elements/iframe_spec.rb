@@ -152,7 +152,7 @@ describe "IFrame" do
   end
 
   it 'will suggest looking in an iframe when iframes exist' do
-    expect {browser.text_field(name: 'senderElement').set('no') }.to raise_unknown_object_exception('maybe look in an iframe?')
+    expect {browser.text_field(name: 'senderElement').set('no') }.to raise_unknown_object_exception('Maybe look in an iframe?')
   end
 
   describe "#execute_script" do
