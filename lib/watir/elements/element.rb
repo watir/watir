@@ -517,9 +517,6 @@ module Watir
         wait_until(&:exists?)
       rescue Watir::Wait::TimeoutError
         msg = "timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to be located"
-        if @query_scope.iframes.count > 0
-          msg += ". maybe look in an iframe?"
-        end
         raise unknown_exception, msg
       end
     end
@@ -658,6 +655,10 @@ module Watir
       begin
         send exist_check
         yield
+      rescue unknown_exception => ex
+        msg = ex.message
+        msg += ". Maybe look in an iframe?" if @query_scope.iframes.count > 0
+        raise unknown_exception, msg
       rescue Selenium::WebDriver::Error::StaleElementReferenceError
         retry
       rescue Selenium::WebDriver::Error::ElementNotVisibleError, Selenium::WebDriver::Error::ElementNotInteractableError
