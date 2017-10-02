@@ -79,7 +79,7 @@ module Watir
           how, what = @selector.to_a.first
           selector_builder.check_type(how, what)
 
-          if WD_FINDERS.include?(how)
+          if wd_supported?(how, what)
             wd_find_first_by(how, what)
           else
             find_first_by_multiple
@@ -118,7 +118,7 @@ module Watir
           return [what] if how == :element
           selector_builder.check_type how, what
 
-          if WD_FINDERS.include?(how)
+          if wd_supported?(how, what)
             wd_find_all_by(how, what)
           else
             find_all_by_multiple
@@ -270,6 +270,12 @@ module Watir
           scope.find_elements(how, what)
         end
 
+        def wd_supported?(how, what)
+          return false unless WD_FINDERS.include?(how)
+          return false unless what.kind_of?(String) || what.kind_of?(Regexp)
+          return false if [:class, :class_name].include?(how) && what.kind_of?(String) && what.include?(' ')
+          true
+        end
       end
     end
   end

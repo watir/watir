@@ -308,6 +308,11 @@ describe "Element" do
     it "raises ArgumentError error if selector hash with :css has multiple entries" do
       expect { browser.div(css: "div", class: "foo").exists? }.to raise_error(ArgumentError)
     end
+
+    it "finds element by Selenium name locator" do
+      expect(browser.element(name: "new_user_first_name")).to exist
+      expect(browser.element(name: /new_user_first_name/)).to exist
+    end
   end
 
   describe '#send_keys' do

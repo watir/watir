@@ -59,6 +59,24 @@ describe Watir::Locators::Element::Locator do
 
         locate_one [:data_view, false]
       end
+
+      it "handles selector with class attribute presence" do
+        expect_one :xpath, ".//*[@class]"
+
+        locate_one class: true
+      end
+
+      it "handles selector with multiple classes in array" do
+        expect_one :xpath, ".//*[(contains(concat(' ', @class, ' '), ' a ') and contains(concat(' ', @class, ' '), ' b '))]"
+
+        locate_one class: ["a", "b"]
+      end
+
+      it "handles selector with multiple classes in string" do
+        expect_one :xpath, ".//*[contains(concat(' ', @class, ' '), ' a b ')]"
+
+        locate_one class: "a b"
+      end
     end
 
     describe "with special cased selectors" do
@@ -345,6 +363,24 @@ describe Watir::Locators::Element::Locator do
         locate_all [:tag_name, "div",
                     :dir     , "foo",
                     :title   , 'bar']
+      end
+
+      it "handles selector with class attribute presence" do
+        expect_all :xpath, ".//*[@class]"
+
+        locate_all class: true
+      end
+
+      it "handles selector with multiple classes in array" do
+        expect_all :xpath, ".//*[(contains(concat(' ', @class, ' '), ' a ') and contains(concat(' ', @class, ' '), ' b '))]"
+
+        locate_all class: ["a", "b"]
+      end
+
+      it "handles selector with multiple classes in string" do
+        expect_all :xpath, ".//*[contains(concat(' ', @class, ' '), ' a b ')]"
+
+        locate_all class: "a b"
       end
     end
 
