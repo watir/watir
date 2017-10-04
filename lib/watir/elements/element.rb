@@ -16,7 +16,9 @@ module Watir
     include Locators::ClassHelpers
 
     attr_accessor :keyword
-    attr_reader :selector
+    attr_reader :selector, :query_scope
+
+    private :query_scope
 
     #
     # temporarily add :id and :class_name manually since they're no longer specified in the HTML spec.
@@ -382,7 +384,7 @@ module Watir
     #
 
     def driver
-      @query_scope.driver
+      query_scope.driver
     end
 
     #
@@ -483,7 +485,7 @@ module Watir
                 Watir.element_class_for(tag)
               end
 
-      klass.new(@query_scope, @selector.merge(element: wd))
+      klass.new(query_scope, @selector.merge(element: wd))
     end
 
     #
@@ -493,7 +495,7 @@ module Watir
     #
 
     def browser
-      @query_scope.browser
+      query_scope.browser
     end
 
     #
@@ -506,7 +508,7 @@ module Watir
     def stale?
       raise Watir::Exception::Error, "Can not check staleness of unused element" unless @element
       return false unless stale_in_context?
-      @query_scope.ensure_context
+      query_scope.ensure_context
       stale_in_context?
     end
 
@@ -528,7 +530,7 @@ module Watir
       return if exists? # Performance shortcut
 
       begin
-        @query_scope.wait_for_exists unless @query_scope.is_a? Browser
+        query_scope.wait_for_exists unless query_scope.is_a? Browser
         wait_until(&:exists?)
       rescue Watir::Wait::TimeoutError
         msg = "timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to be located"
@@ -541,7 +543,7 @@ module Watir
       return if present?
 
       begin
-        @query_scope.wait_for_present unless @query_scope.is_a? Browser
+        query_scope.wait_for_present unless query_scope.is_a? Browser
         wait_until_present
       rescue Watir::Wait::TimeoutError
         msg = "element located, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to be present"
@@ -590,8 +592,8 @@ module Watir
     end
 
     def selector_string
-      return @selector.inspect if @query_scope.is_a?(Browser)
-      "#{@query_scope.send :selector_string} --> #{@selector.inspect}"
+      return @selector.inspect if query_scope.is_a?(Browser)
+      "#{query_scope.send :selector_string} --> #{@selector.inspect}"
     end
 
     # Ensure the driver is in the desired browser context
@@ -655,12 +657,12 @@ module Watir
           element_call(:wait_for_exists, &block)
         end
         msg = ex.message
-        msg += "; Maybe look in an iframe?" if @query_scope.ensure_context && @query_scope.iframes.count > 0
+        msg += "; Maybe look in an iframe?" if query_scope.ensure_context && query_scope.iframes.count > 0
         custom_attributes = @locator.nil? ? [] : @locator.selector_builder.custom_attributes
         msg += "; Watir treated #{custom_attributes} as a non-HTML compliant attribute, ensure that was intended" unless custom_attributes.empty?
         raise unknown_exception, msg
       rescue Selenium::WebDriver::Error::StaleElementReferenceError
-        @query_scope.ensure_context
+        query_scope.ensure_context
         reset!
         retry
       rescue Selenium::WebDriver::Error::ElementNotVisibleError, Selenium::WebDriver::Error::ElementNotInteractableError
