@@ -24,7 +24,7 @@ module Watir
 
   class << self
 
-    attr_writer :relaxed_locate, :always_locate, :default_timeout, :prefer_css, :locator_namespace
+    attr_writer :relaxed_locate, :always_locate, :default_timeout, :prefer_css
 
     #
     # Whether or not Watir should wait for an element to be found or present
@@ -76,15 +76,6 @@ require the watir_css gem - https://github.com/watir/watir_css
 
     def default_timeout
       @default_timeout ||= 30
-    end
-
-    #
-    # Whether the locators should be used from a different namespace.
-    # Defaults to Watir::Locators.
-    #
-
-    def locator_namespace
-      @locator_namespace ||= Watir::Locators
     end
 
     #

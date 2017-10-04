@@ -9,7 +9,7 @@ module Watir
     include HasWindow
     include Waitable
 
-    attr_writer :default_context, :original_window
+    attr_writer :default_context, :original_window, :locator_namespace
     attr_reader :driver
     attr_reader :after_hooks
     alias_method :wd, :driver # ensures duck typing with Watir::Element
@@ -324,6 +324,15 @@ module Watir
 
     def browser
       self
+    end
+
+    #
+    # Whether the locators should be used from a different namespace.
+    # Defaults to Watir::Locators.
+    #
+
+    def locator_namespace
+      @locator_namespace ||= Watir::Locators
     end
 
     private
