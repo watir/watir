@@ -49,6 +49,18 @@ describe "Browser#cookies" do
       browser.cookies.add 'foo', 'bar'
       verify_cookies_count 2
     end
+
+    it 'adds a cookie with a string expires value' do
+      browser.goto set_cookie_url
+      verify_cookies_count 1
+
+      expire_time = Time.now + 10000
+
+      browser.cookies.add 'foo', 'bar', {expires: expire_time.to_s}
+
+      cookie = browser.cookies[:foo]
+      expect(cookie[:expires]).to be_kind_of(Time)
+    end
   end
 
   # TODO - Split this up into multiple tests or figure out which parts are not compliant
@@ -112,18 +124,20 @@ describe "Browser#cookies" do
       end
     end
 
-    describe '#load' do
-      it 'loads cookies from file' do
-        browser.cookies.clear
-        browser.cookies.load file
-        expected = browser.cookies.to_a
-        actual = YAML.load(IO.read(file))
+    bug "https://github.com/mozilla/geckodriver/issues/1000", :firefox do
+      describe '#load' do
+        it 'loads cookies from file' do
+          browser.cookies.clear
+          browser.cookies.load file
+          expected = browser.cookies.to_a
+          actual = YAML.load(IO.read(file))
 
-        # https://code.google.com/p/selenium/issues/detail?id=6834
-        expected.each { |cookie| cookie.delete(:expires) }
-        actual.each { |cookie| cookie.delete(:expires) }
+          # https://code.google.com/p/selenium/issues/detail?id=6834
+          expected.each { |cookie| cookie.delete(:expires) }
+          actual.each { |cookie| cookie.delete(:expires) }
 
-        expect(actual).to eq(expected)
+          expect(actual).to eq(expected)
+        end
       end
     end
   end
