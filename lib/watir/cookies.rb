@@ -59,7 +59,10 @@ module Watir
         value: value}
       cookie[:secure] = opts[:secure] if opts.key?(:secure)
       cookie[:path] = opts[:path] if opts.key?(:path)
-      cookie[:expires] = opts[:expires] if opts.key?(:expires)
+      expires = opts[:expires]
+      if expires
+        cookie[:expires] = ::Time.parse(expires) if expires.is_a?(String) else expires
+      end
       cookie[:domain] = opts[:domain] if opts.key?(:domain)
 
       @control.add_cookie cookie
