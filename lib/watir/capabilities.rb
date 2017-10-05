@@ -83,6 +83,11 @@ module Watir
           @selenium_opts[:options] = browser_options
           Watir.logger.deprecate 'Initializing Browser with both :profile and :option', ':profile as a key inside :option' if profile
         end
+        if @options.delete(:headless)
+          browser_options ||= {}
+          browser_options[:args] ||= []
+          browser_options[:args] += ['--headless']
+        end
         @selenium_opts[:options] ||= Selenium::WebDriver::Firefox::Options.new(browser_options)
         @selenium_opts[:options].profile = profile if profile
       when :safari
@@ -91,6 +96,10 @@ module Watir
         if @browser == :chrome && @options.delete(:headless)
           args = @options.delete(:args) || @options.delete(:switches) || []
           @options['chromeOptions'] = {'args' => args + ['--headless', '--disable-gpu']}
+        end
+        if @browser == :firefox && @options.delete(:headless)
+          args = @options.delete(:args) || @options.delete(:switches) || []
+          @options[Selenium::WebDriver::Firefox::Options.KEY] = {'args' => args + ['--headless']}
         end
         if @browser == :safari && @options.delete(:technology_preview)
           @options["safari.options"] = {'technologyPreview' => true}
