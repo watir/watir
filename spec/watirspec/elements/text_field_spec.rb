@@ -297,6 +297,16 @@ describe "TextField" do
       expect(browser.text_field(name: "new_user_occupation").value).to eq "ĳĳ"
     end
 
+    it "sets the value to a concatenation of multiple arguments" do
+      browser.text_field(id: 'new_user_email').set('Bye', 'Cruel', 'World')
+      expect(browser.text_field(id: "new_user_email").value).to eq 'ByeCruelWorld'
+    end
+
+    it "sets the value to blank when no arguments are provided" do
+      browser.text_field(id: 'new_user_email').set
+      expect(browser.text_field(id: "new_user_email").value).to eq ''
+    end
+
     it "raises UnknownObjectException if the text field doesn't exist" do
       expect { browser.text_field(id: "no_such_id").set('secret') }.to raise_unknown_object_exception
     end
@@ -331,6 +341,20 @@ describe "TextField" do
     it "is able to set multi-byte characters" do
       browser.text_field(name: "new_user_occupation").set!("ĳĳ")
       expect(browser.text_field(name: "new_user_occupation").value).to eq "ĳĳ"
+    end
+
+    it "sets the value to a concatenation of multiple arguments" do
+      browser.text_field(id: 'new_user_email').set!('Bye', 'Cruel', 'World')
+      expect(browser.text_field(id: "new_user_email").value).to eq 'ByeCruelWorld'
+    end
+
+    it "sets the value to blank when no arguments are provided" do
+      browser.text_field(id: 'new_user_email').set!
+      expect(browser.text_field(id: "new_user_email").value).to eq ''
+    end
+
+    it "raises ArgumentError for special keys" do
+      expect { browser.text_field(id: 'new_user_email').set!('a', :tab) }.to raise_error(ArgumentError)
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
