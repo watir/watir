@@ -303,6 +303,18 @@ describe "SelectList" do
       expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["Danish", "Swedish"]
     end
 
+    it "selects each item in an Array" do
+      browser.select_list(name: "new_user_languages").clear
+      browser.select_list(name: "new_user_languages").select(["Danish", "Swedish"])
+      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["Danish", "Swedish"]
+    end
+
+    it "selects each item in a parameter list" do
+      browser.select_list(name: "new_user_languages").clear
+      browser.select_list(name: "new_user_languages").select("Danish", "Swedish")
+      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["Danish", "Swedish"]
+    end
+
     bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1255957", :firefox do
       it "selects empty options" do
         browser.select_list(id: "delete_user_username").select("")
@@ -364,7 +376,7 @@ describe "SelectList" do
     end
 
     it "raises a TypeError if argument is not a String, Regexp or Numeric" do
-      expect { browser.select_list(id: "new_user_languages").select([]) }.to raise_error(TypeError)
+      expect { browser.select_list(id: "new_user_languages").select({}) }.to raise_error(TypeError)
     end
   end
 
@@ -416,6 +428,18 @@ describe "SelectList" do
       expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["Danish", "Swedish"]
     end
 
+    it "selects each item in an Array" do
+      browser.select_list(name: "new_user_languages").clear
+      browser.select_list(name: "new_user_languages").select!(["Danish", "Swedish"])
+      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["Danish", "Swedish"]
+    end
+
+    it "selects each item in a parameter list" do
+      browser.select_list(name: "new_user_languages").clear
+      browser.select_list(name: "new_user_languages").select!("Danish", "Swedish")
+      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["Danish", "Swedish"]
+    end
+
     bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1255957", :firefox do
       it "selects empty options" do
         browser.select_list(id: "delete_user_username").select!("")
@@ -452,7 +476,7 @@ describe "SelectList" do
 
     it "raises a TypeError if argument is not a String, Regexp or Numeric" do
       browser.select_list(id: "new_user_languages").clear
-      expect { browser.select_list(id: "new_user_languages").select!([]) }.to raise_error(TypeError)
+      expect { browser.select_list(id: "new_user_languages").select!({}) }.to raise_error(TypeError)
     end
   end
 
@@ -467,6 +491,18 @@ describe "SelectList" do
       browser.select_list(name: "new_user_languages").clear
       browser.select_list(name: "new_user_languages").select_all(/NO|EN/)
       expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["EN", "NO"]
+    end
+
+    it "selects all options in an Array" do
+      browser.select_list(name: "new_user_languages").clear
+      browser.select_list(name: "new_user_languages").select_all([/ish/, /Latin/])
+      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["Danish", "EN", "Swedish", "Azeri - Latin", "Latin"]
+    end
+
+    it "selects all options in a parameter list" do
+      browser.select_list(name: "new_user_languages").clear
+      browser.select_list(name: "new_user_languages").select_all(/ish/, /Latin/)
+      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["Danish", "EN", "Swedish", "Azeri - Latin", "Latin"]
     end
 
     it "returns the first matching value if there are multiple matches" do
@@ -491,6 +527,18 @@ describe "SelectList" do
       browser.select_list(name: "new_user_languages").clear
       browser.select_list(name: "new_user_languages").select_all!(/NO|EN/)
       expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["EN", "NO"]
+    end
+
+    it "selects all options in an Array" do
+      browser.select_list(name: "new_user_languages").clear
+      browser.select_list(name: "new_user_languages").select_all!([/ish/, /Latin/])
+      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["Danish", "EN", "Swedish", "Azeri - Latin", "Latin"]
+    end
+
+    it "selects all options in a parameter list" do
+      browser.select_list(name: "new_user_languages").clear
+      browser.select_list(name: "new_user_languages").select_all!(/ish/, /Latin/)
+      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["Danish", "EN", "Swedish", "Azeri - Latin", "Latin"]
     end
 
     it "returns the first matching value if there are multiple matches" do

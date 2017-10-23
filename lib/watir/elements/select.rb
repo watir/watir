@@ -41,8 +41,9 @@ module Watir
     # @return [String] The text of the option selected. If multiple options match, returns the first match.
     #
 
-    def select(str_or_rx)
-      select_by str_or_rx
+    def select(*str_or_rx)
+      results = str_or_rx.flatten.map { |v| select_by v}
+      results.first
     end
 
     #
@@ -53,8 +54,9 @@ module Watir
     # @return [String] The text of the first option selected.
     #
 
-    def select_all(str_or_rx)
-      select_all_by str_or_rx
+    def select_all(*str_or_rx)
+      results = str_or_rx.flatten.map { |v| select_all_by v }
+      results.first
     end
 
     #
@@ -64,8 +66,9 @@ module Watir
     # @raise [Watir::Exception::NoValueFoundException] if the value does not exist.
     #
 
-    def select!(str_or_rx)
-      select_by!(str_or_rx, :single)
+    def select!(*str_or_rx)
+      results = str_or_rx.flatten.map { |v| select_by!(v, :single) }
+      results.first
     end
 
     #
@@ -75,8 +78,9 @@ module Watir
     # @raise [Watir::Exception::NoValueFoundException] if the value does not exist.
     #
 
-    def select_all!(str_or_rx)
-      select_by!(str_or_rx, :multiple)
+    def select_all!(*str_or_rx)
+      results = str_or_rx.flatten.map { |v| select_by!(v, :multiple) }
+      results.first
     end
 
     #
