@@ -18,6 +18,11 @@ describe "Link" do
       not_compliant_on :internet_explorer do
         expect(browser.link(href: 'non_control_elements.html')).to exist
       end
+      expect(browser.link(link_text: "Link 2")).to exist
+      expect(browser.link(link_text: /Link 2/)).to exist
+      expect(browser.link(partial_link_text: "Link")).to exist
+      expect(browser.link(partial_link_text: /Link 2/)).to exist
+
       expect(browser.link(href: /non_control_elements.html/)).to exist
       expect(browser.link(index: 1)).to exist
       expect(browser.link(xpath: "//a[@id='link_2']")).to exist

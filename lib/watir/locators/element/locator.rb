@@ -153,7 +153,7 @@ module Watir
 
         def fetch_value(element, how)
           case how
-          when :text
+          when :text, :link_text, :partial_link_text
             element.text
           when :tag_name
             element.tag_name.downcase
@@ -197,7 +197,7 @@ module Watir
 
           if how == :xpath && can_convert_regexp_to_contains?
             rx_selector.each do |key, value|
-              next if key == :tag_name || key == :text
+              next if %i[tag_name text link_text partial_link_text].include? key
 
               predicates = regexp_selector_to_predicates(key, value)
               what = "(#{what})[#{predicates.join(' and ')}]" unless predicates.empty?
