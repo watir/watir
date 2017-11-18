@@ -1,3 +1,14 @@
+### 6.9.0 (2017-11-18)
+
+* Fix bug in Element#flash
+* Fix bug with w3c alert handling (thanks Lakshya Kapoor)
+* Add support for passing multiple options into #select and #select_all (thanks Justin Ko)
+* Add support for passing multiple parameters into Element#set! (thanks Justin Ko) 
+* Add support for headless Firefox (thanks Lucas Tierney)
+* Add support for setting cookie expiration by String (thanks Lucas Tierney)
+* Add support for new class locators to #element and #elements (thanks Justin Ko)
+* Provide suggestion to look inside IFrame when element not found (thanks Justin Ko)
+
 ### 6.8.4 (2017-09-08)
 
 * Fix bug with non-visible buttons not being waited on (#648)
