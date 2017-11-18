@@ -66,10 +66,6 @@ describe "Radio" do
     it "raises TypeError when 'what' argument is invalid" do
       expect { browser.radio(id: 3.14).exists? }.to raise_error(TypeError)
     end
-
-    it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-      expect { browser.radio(no_such_how: 'some_value').exists? }.to raise_error(Watir::Exception::MissingWayOfFindingObjectException)
-    end
   end
 
   # Attribute methods

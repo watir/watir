@@ -587,9 +587,9 @@ module Watir
 
       element_validator = element_validator_class.new
       selector_builder = selector_builder_class.new(@query_scope, @selector.dup, self.class.attribute_list)
-      locator = locator_class.new(@query_scope, @selector.dup, selector_builder, element_validator)
+      @locator = locator_class.new(@query_scope, @selector.dup, selector_builder, element_validator)
 
-      @element = locator.locate
+      @element = @locator.locate
     end
 
     def selector_string
@@ -657,7 +657,9 @@ module Watir
         yield
       rescue unknown_exception => ex
         msg = ex.message
-        msg += ". Maybe look in an iframe?" if @query_scope.iframes.count > 0
+        msg += "; Maybe look in an iframe?" if @query_scope.iframes.count > 0
+        custom_attributes = @locator.selector_builder.custom_attributes
+        msg += "; Watir treated #{custom_attributes} as a non-HTML compliant attribute, ensure that was intended" unless custom_attributes.empty?
         raise unknown_exception, msg
       rescue Selenium::WebDriver::Error::StaleElementReferenceError
         retry

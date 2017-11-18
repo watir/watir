@@ -84,16 +84,6 @@ describe "Element" do
       expect(browser.element(title: "no title")).to exist
     end
 
-    it "raises MissingWayOfFindingObjectException if the attribute is invalid for the element type" do
-      expect {
-        browser.element(for: "no title").exists?
-      }.to raise_error(Watir::Exception::MissingWayOfFindingObjectException)
-
-      expect {
-        browser.element(value: //).exists?
-      }.to raise_error(Watir::Exception::MissingWayOfFindingObjectException)
-    end
-
     it "finds several elements by xpath" do
       expect(browser.elements(xpath: "//a").length).to eq 1
     end

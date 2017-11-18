@@ -327,14 +327,6 @@ describe Watir::Locators::Element::Locator do
         expect { locate_one(tag_name: 123) }.to \
         raise_error(TypeError, %[expected one of [Array, String, Regexp, TrueClass, FalseClass, Symbol], got 123:#{num_type}])
       end
-
-      it "raises a MissingWayOfFindingObjectException if the attribute is not valid" do
-        bad_selector = {tag_name: "input", href: "foo"}
-        valid_attributes = Watir::Input.attributes
-
-        expect { locate_one(bad_selector, valid_attributes) }.to \
-        raise_error(Watir::Exception::MissingWayOfFindingObjectException, "invalid attribute: :href")
-      end
     end
   end
 

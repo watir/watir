@@ -19,6 +19,8 @@ describe "Div" do
       expect(browser.div(class: /profile/)).to exist
       expect(browser.div(index: 0)).to exist
       expect(browser.div(xpath: "//div[@id='header']")).to exist
+      expect(browser.div(custom_attribute: "custom")).to exist
+      expect(browser.div(custom_attribute: /custom/)).to exist
     end
 
     it "returns the first div if given no args" do
@@ -41,11 +43,6 @@ describe "Div" do
     it "raises TypeError when 'what' argument is invalid" do
       expect { browser.div(id: 3.14).exists? }.to raise_error(TypeError)
     end
-
-    it "raises MissingWayOfFindingObjectException when 'how' argument is invalid" do
-      expect { browser.div(no_such_how: 'some_value').exists? }.to raise_error(Watir::Exception::MissingWayOfFindingObjectException)
-    end
-
   end
 
   # Attribute methods
@@ -151,6 +148,11 @@ describe "Div" do
         expect { browser.div(title: "no_such_title").click }.to raise_unknown_object_exception
         expect { browser.div(index: 1337).click }.to raise_unknown_object_exception
         expect { browser.div(xpath: "//div[@id='no_such_id']").click }.to raise_unknown_object_exception
+      end
+
+      it "includes custom message if element with a custom attribute does not exist" do
+        message = "Watir treated [\"custom_attribute\"] as a non-HTML compliant attribute, ensure that was intended"
+        expect { browser.div(custom_attribute: "not_there").click }.to raise_unknown_object_exception(message)
       end
     end
 

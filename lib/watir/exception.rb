@@ -7,7 +7,6 @@ module Watir
     class ObjectDisabledException < Error; end
     class ObjectReadOnlyException < Error; end
     class NoValueFoundException < Error; end
-    class MissingWayOfFindingObjectException < Error; end
     class UnknownCellException < Error; end
     class NoMatchingWindowFoundException < Error; end
     class UnknownFrameException < Error; end

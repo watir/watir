@@ -2,6 +2,8 @@ module Watir
   module Locators
     class Element
       class SelectorBuilder
+        attr_reader :custom_attributes
+
         VALID_WHATS = [Array, String, Regexp, TrueClass, FalseClass, ::Symbol].freeze
         WILDCARD_ATTRIBUTE = /^(aria|data)_(.+)$/
 
@@ -9,6 +11,7 @@ module Watir
           @query_scope = query_scope # either element or browser
           @selector = selector
           @valid_attributes = valid_attributes
+          @custom_attributes = []
         end
 
         def normalized_selector
@@ -75,14 +78,14 @@ module Watir
           when :caption
             [:text, what]
           else
-            assert_valid_as_attribute how
+            check_custom_attribute how
             [how, what]
           end
         end
 
-        def assert_valid_as_attribute(attribute)
+        def check_custom_attribute(attribute)
           return if valid_attribute?(attribute) || attribute.to_s =~ WILDCARD_ATTRIBUTE
-          raise Exception::MissingWayOfFindingObjectException, "invalid attribute: #{attribute.inspect}"
+          @custom_attributes << attribute.to_s
         end
 
         def given_xpath_or_css(selector)
