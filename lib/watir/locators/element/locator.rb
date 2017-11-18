@@ -154,7 +154,7 @@ module Watir
         def fetch_value(element, how)
           case how
           when :text
-            element.text
+            Watir::Element.new(@query_scope, element: element).send(:execute_js, :getTextContent, element).strip
           when :tag_name
             element.tag_name.downcase
           when :href

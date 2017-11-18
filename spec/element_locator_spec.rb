@@ -274,6 +274,10 @@ describe Watir::Locators::Element::Locator do
 
         expect_all(:tag_name, "label").ordered.and_return(label_elements)
         expect_all(:xpath, ".//div[@id='baz']").ordered.and_return(div_elements)
+
+        allow(browser).to receive(:ensure_context).and_return(nil)
+        allow(browser).to receive(:execute_script).and_return('foo', 'foob')
+
         expect(locate_one(tag_name: "div", label: /oob/)).to eq div_elements.first
       end
 

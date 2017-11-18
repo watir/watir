@@ -37,7 +37,7 @@ module LocatorSpecHelper
     attrs.each do |key, value|
       allow(el).to receive(:attribute).with(key).and_return(value)
     end if attrs
-
+    allow(el).to receive(:enabled?).and_return true
     el
   end
 
