@@ -13,8 +13,8 @@ describe "Div" do
       expect(browser.div(id: /header/)).to exist
       expect(browser.div(title: "Header and primary navigation")).to exist
       expect(browser.div(title: /Header and primary navigation/)).to exist
-      expect(browser.div(text: "This is a footer.")).to exist
-      expect(browser.div(text: /This is a footer\./)).to exist
+      expect(browser.div(text: "Not shownNot hidden")).to exist
+      expect(browser.div(text: /Not shownNot hidden/)).to exist
       expect(browser.div(class: "profile")).to exist
       expect(browser.div(class: /profile/)).to exist
       expect(browser.div(index: 0)).to exist
