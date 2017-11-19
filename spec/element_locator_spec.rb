@@ -313,6 +313,16 @@ describe Watir::Locators::Element::Locator do
     end
 
     describe "errors" do
+      it "raises a TypeError if using link_text with a non-link element" do
+        expect { locate_one(tag_name: "div", link_text: "bar") }.to \
+        raise_error(TypeError, %[:link_text locator can only be used with link elements])
+      end
+
+      it "raises a TypeError if using partial_link_text with a non-link element" do
+        expect { locate_one(tag_name: "div", partial_link_text: "bar") }.to \
+        raise_error(TypeError, %[:partial_link_text locator can only be used with link elements])
+      end
+
       it "raises a TypeError if :index is not a Integer" do
         expect { locate_one(tag_name: "div", index: "bar") }.to \
         raise_error(TypeError, %[expected Integer, got "bar":String])

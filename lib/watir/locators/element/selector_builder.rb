@@ -35,6 +35,9 @@ module Watir
               raise TypeError, "expected TrueClass or FalseClass, got #{what.inspect}:#{what.class}"
             end
           else
+            if %i[link_text partial_link_text].include?(how) && @selector.key?(:tag_name) && @selector[:tag_name] != 'a'
+              raise TypeError, ":#{how} locator can only be used with link elements"
+            end
             if what.is_a?(Array) && how != :class && how != :class_name
               raise TypeError, "Only :class locator can have a value of an Array"
             end
@@ -66,7 +69,7 @@ module Watir
 
         def normalize_selector(how, what)
           case how
-          when :tag_name, :text, :xpath, :index, :class, :label, :css, :visible, :adjacent
+          when :tag_name, :text, :xpath, :index, :class, :label, :css, :visible, :adjacent, :link_text, :partial_link_text
             # include :class since the valid attribute is 'class_name'
             # include :for since the valid attribute is 'html_for'
             [how, what]
