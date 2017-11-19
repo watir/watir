@@ -91,22 +91,23 @@ module Watir
 
           idx = selector.delete(:index) unless selector[:adjacent]
           visible = selector.delete(:visible)
+          visible_text = selector.delete(:visible_text)
 
           how, what = selector_builder.build(selector)
 
           if how
             # could build xpath/css for selector
-            if idx && idx != 0 || !visible.nil?
+            if idx && idx != 0 || !visible.nil? || !visible_text.nil?
               elements = locate_elements(how, what)
-              filter_elements elements, visible, idx, :single
+              filter_elements elements, visible, visible_text, idx, :single
             else
               locate_element(how, what)
             end
           else
             # can't use xpath, probably a regexp in there
-            if idx && idx != 0 || !visible.nil?
+            if idx && idx != 0 || !visible.nil? || !visible_text.nil?
               elements = wd_find_by_regexp_selector(selector, :select)
-              filter_elements elements, visible, idx, :single
+              filter_elements elements, visible, visible_text, idx, :single
             else
               wd_find_by_regexp_selector(selector, :find)
             end
@@ -128,6 +129,7 @@ module Watir
         def find_all_by_multiple
           selector = selector_builder.normalized_selector
           visible = selector.delete(:visible)
+          visible_text = selector.delete(:visible_text)
 
           if selector.key? :index
             raise ArgumentError, "can't locate all elements by :index"
@@ -140,7 +142,7 @@ module Watir
                     wd_find_by_regexp_selector(selector, :select)
                   end
           return [] if found.nil?
-          filter_elements found, visible, nil, :multiple
+          filter_elements found, visible, visible_text, nil, :multiple
         end
 
         def wd_find_all_by(how, what)
@@ -155,6 +157,8 @@ module Watir
           case how
           when :text
             Watir::Element.new(@query_scope, element: element).send(:execute_js, :getTextContent, element).strip
+          when :visible_text
+            element.text
           when :tag_name
             element.tag_name.downcase
           when :href
@@ -208,8 +212,9 @@ module Watir
           filter_elements_by_regex(elements, rx_selector, method)
         end
 
-        def filter_elements elements, visible, idx, number
+        def filter_elements elements, visible, visible_text, idx, number
           elements.select! { |el| visible == el.displayed? } unless visible.nil?
+          elements.select! { |el| visible_text === el.text } unless visible_text.nil?
           number == :single ? elements[idx || 0] : elements
         end
 
