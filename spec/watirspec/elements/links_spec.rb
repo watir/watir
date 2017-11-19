@@ -14,7 +14,7 @@ describe "Links" do
 
   describe "#length" do
     it "returns the number of links" do
-      expect(browser.links.length).to eq 4
+      expect(browser.links.length).to eq 7
     end
   end
 

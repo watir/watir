@@ -14,7 +14,7 @@ describe "Divs" do
 
   describe "#length" do
     it "returns the number of divs" do
-      expect(browser.divs.length).to eq 14
+      expect(browser.divs.length).to eq 15
     end
   end
 

@@ -33,4 +33,15 @@ describe "Elements" do
     end
   end
 
+  describe "visible text" do
+    it 'finds elements by visible text' do
+      browser.goto WatirSpec.url_for('non_control_elements.html')
+      expect(browser.links(visible_text: 'all visible').count).to eq(1)
+      expect(browser.links(visible_text: /all visible/).count).to eq(1)
+      expect(browser.links(visible_text: 'some visible').count).to eq(1)
+      expect(browser.links(visible_text: /some visible/).count).to eq(1)
+      expect(browser.links(visible_text: 'none visible').count).to eq(0)
+      expect(browser.links(visible_text: /none visible/).count).to eq(0)
+    end
+  end
 end
