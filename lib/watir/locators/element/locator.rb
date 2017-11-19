@@ -36,7 +36,7 @@ module Watir
         end
 
         def locate
-          e = by_id and return e # short-circuit if :id is given
+          e = by_se_locator and return e # short-circuit if selenium locator is given
 
           element = if @selector.size == 1
                       find_first_by_one
@@ -61,18 +61,23 @@ module Watir
 
         private
 
-        def by_id
+        def by_se_locator
           selector = @selector.dup
-          id = selector.delete(:id)
-          return if !id.is_a?(String) || selector[:adjacent]
-
+          return if selector[:adjacent]
           tag_name = selector.delete(:tag_name)
-          return unless selector.empty? # multiple attributes
 
-          element = locate_element(:id, id)
-          return if tag_name && !element_validator.validate(element, {tag_name: tag_name})
+          %i[id link_text partial_link_text].each do |sel|
+            value = selector.delete(sel)
+            next unless value
+            return unless value.is_a?(String)
+            return if value && !selector.empty? # multiple attributes
+            @element = locate_element(sel, value)
+            break if @element
+          end
+          return unless @element
+          return if tag_name && !element_validator.validate(@element, {tag_name: tag_name})
 
-          element
+          @element
         end
 
         def find_first_by_one

@@ -20,8 +20,12 @@ describe "Link" do
       end
       expect(browser.link(link_text: "Link 2")).to exist
       expect(browser.link(link_text: /Link 2/)).to exist
+      expect(browser.link(link_text: "Link 2", class: 'external')).to exist
+      expect(browser.link(link_text: /Link 2/, class: 'external')).to exist
       expect(browser.link(partial_link_text: "Link")).to exist
       expect(browser.link(partial_link_text: /Link 2/)).to exist
+      expect(browser.link(partial_link_text: "Link", class: 'external', index: 1)).to exist
+      expect(browser.link(partial_link_text: /Link 2/), class: 'external').to exist
 
       expect(browser.link(href: /non_control_elements.html/)).to exist
       expect(browser.link(index: 1)).to exist
