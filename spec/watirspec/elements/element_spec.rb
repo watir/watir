@@ -71,6 +71,27 @@ describe "Element" do
     end
   end
 
+  describe "visible text" do
+    it "finds elements by visible text" do
+      browser.goto WatirSpec.url_for('non_control_elements.html')
+
+      expect(browser.link(visible_text: "all visible")).to exist
+      expect(browser.link(visible_text: /all visible/)).to exist
+      expect(browser.link(visible_text: "some visible")).to exist
+      expect(browser.link(visible_text: /some visible/)).to exist
+      expect(browser.link(visible_text: "none visible")).not_to exist
+      expect(browser.link(visible_text: /none visible/)).not_to exist
+
+      expect(browser.link(visible_text: "Link 2", class: "external")).to exist
+      expect(browser.link(visible_text: /Link 2/, class: "external")).to exist
+
+      expect(browser.element(visible_text: "all visible")).to exist
+      expect(browser.element(visible_text: /all visible/)).to exist
+      expect(browser.element(visible_text: "some visible")).to exist
+      expect(browser.element(visible_text: /some visible/)).to exist
+    end
+  end
+
   describe "finding with unknown tag name" do
     it "finds an element without arguments" do
       expect(browser.element).to exist
