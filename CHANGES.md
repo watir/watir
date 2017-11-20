@@ -1,3 +1,7 @@
+### 6.9.1 (2017-11-20)
+
+* Fix bug preventing the use of `#exectue_script` in `AfterHook` (#684)
+
 ### 6.9.0 (2017-11-18)
 
 * Fix bug in Element#flash
