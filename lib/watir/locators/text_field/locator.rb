@@ -2,15 +2,11 @@ module Watir
   module Locators
     class TextField
       class Locator < Element::Locator
-        def locate_all
-          find_all_by_multiple
-        end
 
         private
 
-        def wd_find_first_by(how, what)
-          how, what = selector_builder.build_wd_selector(how => what) if how == :tag_name
-          super
+        def using_selenium(*)
+          # force Watir usage
         end
 
         def matches_selector?(element, rx_selector)
@@ -28,13 +24,6 @@ module Watir
           super
         end
 
-        def by_id
-          element = super
-
-          if element && !Watir::TextField::NON_TEXT_TYPES.include?(element.attribute(:type))
-            element
-          end
-        end
       end
     end
   end

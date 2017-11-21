@@ -36,121 +36,70 @@ module Watir
         end
 
         def locate
-          e = by_id and return e # short-circuit if :id is given
-
-          element = if @selector.size == 1
-                      find_first_by_one
-                    else
-                      find_first_by_multiple
-                    end
-
-          # Validation not necessary if Watir builds the xpath
-          return element unless @selector.key?(:xpath) || @selector.key?(:css)
-          element_validator.validate(element, @selector) if element
+          using_selenium(:first) || using_watir(:first)
         rescue Selenium::WebDriver::Error::NoSuchElementError, Selenium::WebDriver::Error::StaleElementReferenceError
           nil
         end
 
         def locate_all
-          if @selector.size == 1
-            find_all_by_one
-          else
-            find_all_by_multiple
-          end
+          return [@selector[:element]] if @selector.key?(:element)
+          using_selenium(:all) || using_watir(:all)
         end
 
         private
 
-        def by_id
+        def using_selenium(filter = :first)
           selector = @selector.dup
-          id = selector.delete(:id)
-          return if !id.is_a?(String) || selector[:adjacent]
+          tag_name = selector[:tag_name].is_a?(::Symbol) ? selector[:tag_name].to_s : selector[:tag_name]
+          selector.delete(:tag_name) if selector.size > 1
 
-          tag_name = selector.delete(:tag_name)
-          return unless selector.empty? # multiple attributes
-
-          element = locate_element(:id, id)
-          return if tag_name && !element_validator.validate(element, {tag_name: tag_name})
-
-          element
-        end
-
-        def find_first_by_one
-          how, what = @selector.to_a.first
-          selector_builder.check_type(how, what)
-
-          if wd_supported?(how, what)
-            wd_find_first_by(how, what)
-          else
-            find_first_by_multiple
-          end
-        end
-
-        def find_first_by_multiple
-          selector = selector_builder.normalized_selector
-
-          idx = selector.delete(:index) unless selector[:adjacent]
-          visible = selector.delete(:visible)
-          visible_text = selector.delete(:visible_text)
-
-          how, what = selector_builder.build(selector)
-
-          if how
-            # could build xpath/css for selector
-            if idx && idx != 0 || !visible.nil? || !visible_text.nil?
-              elements = locate_elements(how, what)
-              filter_elements elements, visible, visible_text, idx, :single
+          WD_FINDERS.each do |sel|
+            next unless (value = selector.delete(sel))
+            return unless selector.empty? && wd_supported?(sel, value)
+            if filter == :all
+              found = locate_elements(sel, value)
+              return filter_elements_by_locator(found, tag_name: tag_name, filter: filter).compact
             else
-              locate_element(how, what)
-            end
-          else
-            # can't use xpath, probably a regexp in there
-            if idx && idx != 0 || !visible.nil? || !visible_text.nil?
-              elements = wd_find_by_regexp_selector(selector, :select)
-              filter_elements elements, visible, visible_text, idx, :single
-            else
-              wd_find_by_regexp_selector(selector, :find)
+              found = locate_element(sel, value)
+              return sel != :tag_name && tag_name && !validate([found], tag_name) ? nil : found
             end
           end
+          nil
         end
 
-        def find_all_by_one
-          how, what = @selector.to_a.first
-          return [what] if how == :element
-          selector_builder.check_type how, what
-
-          if wd_supported?(how, what)
-            wd_find_all_by(how, what)
-          else
-            find_all_by_multiple
-          end
-        end
-
-        def find_all_by_multiple
+        def using_watir(filter = :first)
           selector = selector_builder.normalized_selector
           visible = selector.delete(:visible)
           visible_text = selector.delete(:visible_text)
+          tag_name = selector[:tag_name].is_a?(::Symbol) ? selector[:tag_name].to_s : selector[:tag_name]
+          validation_required = (selector.key?(:css) || selector.key?(:xpath)) && tag_name
 
-          if selector.key? :index
+          if selector.key?(:index) && filter == :all
             raise ArgumentError, "can't locate all elements by :index"
           end
+          idx = selector.delete(:index) unless selector[:adjacent]
 
           how, what = selector_builder.build(selector)
-          found = if how
-                    locate_elements(how, what)
-                  else
-                    wd_find_by_regexp_selector(selector, :select)
-                  end
-          return [] if found.nil?
-          filter_elements found, visible, visible_text, nil, :multiple
+
+          needs_filtering = idx && idx != 0 || !visible.nil? || !visible_text.nil? || validation_required || filter == :all
+
+          if needs_filtering
+            matching = matching_elements(how, what, selector)
+            return filter_elements_by_locator(matching, visible, visible_text, idx, tag_name: tag_name, filter: filter)
+          elsif how
+            locate_element(how, what)
+          else
+            wd_find_by_regexp_selector(selector, :first)
+          end
         end
 
-        def wd_find_all_by(how, what)
-          if what.is_a? String
-            locate_elements(how, what)
-          else
-            all_elements.select { |element| fetch_value(element, how) =~ what }
-          end
+        def validate(elements, tag_name)
+          elements.compact.all? { |element| element_validator.validate(element, {tag_name: tag_name}) }
+        end
+
+        def matching_elements(how, what, selector = nil)
+          found = how ? locate_elements(how, what) : wd_find_by_regexp_selector(selector, :all)
+          found || []
         end
 
         def fetch_value(element, how)
@@ -172,15 +121,7 @@ module Watir
           locate_elements(:xpath, ".//*")
         end
 
-        def wd_find_first_by(how, what)
-          if what.is_a? String
-            locate_element(how, what)
-          else
-            all_elements.find { |element| fetch_value(element, how) =~ what }
-          end
-        end
-
-        def wd_find_by_regexp_selector(selector, method = :find)
+        def wd_find_by_regexp_selector(selector, filter)
           query_scope = ensure_scope_context
           rx_selector = delete_regexps_from(selector)
 
@@ -209,16 +150,18 @@ module Watir
           end
 
           elements = locate_elements(how, what, query_scope)
-          filter_elements_by_regex(elements, rx_selector, method)
+          filter_elements_by_regex(elements, rx_selector, filter)
         end
 
-        def filter_elements elements, visible, visible_text, idx, number
+        def filter_elements_by_locator(elements, visible = nil, visible_text = nil, idx = nil, tag_name: nil, filter: :first)
           elements.select! { |el| visible == el.displayed? } unless visible.nil?
           elements.select! { |el| visible_text === el.text } unless visible_text.nil?
-          number == :single ? elements[idx || 0] : elements
+          elements.select! { |el| element_validator.validate(el, {tag_name: tag_name}) } unless tag_name.nil?
+          filter == :first ? elements[idx || 0] : elements
         end
 
-        def filter_elements_by_regex(elements, selector, method)
+        def filter_elements_by_regex(elements, selector, filter)
+          method = filter == :first ? :find : :select
           elements.__send__(method) { |el| matches_selector?(el, selector) }
         end
 
@@ -267,8 +210,8 @@ module Watir
           @query_scope.wd
         end
 
-        def locate_element(how, what)
-          @query_scope.wd.find_element(how, what)
+        def locate_element(how, what, scope = @query_scope.wd)
+          scope.find_element(how, what)
         end
 
         def locate_elements(how, what, scope = @query_scope.wd)
@@ -276,9 +219,12 @@ module Watir
         end
 
         def wd_supported?(how, what)
-          return false unless WD_FINDERS.include?(how)
-          return false unless what.kind_of?(String) || what.kind_of?(Regexp)
-          return false if [:class, :class_name].include?(how) && what.kind_of?(String) && what.include?(' ')
+          return false unless what.kind_of?(String)
+          return false if [:class, :class_name].include?(how) && what.include?(' ')
+          %i[partial_link_text link_text link].each do |loc|
+            next unless how == loc
+            Watir.logger.deprecate(loc, :visible_text)
+          end
           true
         end
       end

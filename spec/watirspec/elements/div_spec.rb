@@ -82,6 +82,11 @@ describe "Div" do
       browser.goto WatirSpec.url_for "multiple_ids.html"
       expect(browser.div(id: "multiple", class: "bar").class_name).to eq "bar"
     end
+
+    it "should find the id with the correct tag name" do
+      browser.goto WatirSpec.url_for "multiple_ids.html"
+      expect(browser.span(id: "multiple").class_name).to eq "foobar"
+    end
   end
 
   describe "#style" do
@@ -122,6 +127,12 @@ describe "Div" do
       expect { browser.div(title: "no_such_title").text }.to raise_unknown_object_exception
       expect { browser.div(index: 1337).text }.to raise_unknown_object_exception
       expect { browser.div(xpath: "//div[@id='no_such_id']").text }.to raise_unknown_object_exception
+    end
+  end
+
+  describe "custom methods" do
+    it "returns the custom attribute if the element exists" do
+      expect(browser.div(custom_attribute: "custom").attribute_value("custom-attribute")).to eq "custom"
     end
   end
 
