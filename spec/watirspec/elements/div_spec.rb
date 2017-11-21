@@ -82,6 +82,11 @@ describe "Div" do
       browser.goto WatirSpec.url_for "multiple_ids.html"
       expect(browser.div(id: "multiple", class: "bar").class_name).to eq "bar"
     end
+
+    it "should find the id with the correct tag name" do
+      browser.goto WatirSpec.url_for "multiple_ids.html"
+      expect(browser.span(id: "multiple").class_name).to eq "foobar"
+    end
   end
 
   describe "#style" do

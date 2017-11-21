@@ -202,10 +202,12 @@ describe "Element" do
       wd_element = browser.text_field(id: "new_user_email").wd
 
       # simulate element going stale during lookup
-      allow(browser.driver).to receive(:find_element).with(:id, 'new_user_email') { wd_element }
+      allow(browser.driver).to receive(:find_element).with(:css, '#new_user_email') { wd_element }
+      allow(browser.driver).to receive(:find_elements).with(:css, '#new_user_email') { [wd_element] }
+      allow(browser.driver).to receive(:find_elements).with(:tag_name, 'iframe') { [] }
       browser.refresh
 
-      expect { browser.text_field(id: 'new_user_email').visible? }.to raise_unknown_object_exception
+      expect { browser.text_field(css: '#new_user_email').visible? }.to raise_unknown_object_exception
     end
 
     it "returns true if the element has style='visibility: visible' even if parent has style='visibility: hidden'" do

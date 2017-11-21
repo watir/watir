@@ -2,19 +2,12 @@ module Watir
   module Locators
     class Button
       class Locator < Element::Locator
-        def locate_all
-          find_all_by_multiple
-        end
+
 
         private
 
-        def wd_find_first_by(how, what)
-          if how == :tag_name
-            how  = :xpath
-            what = ".//button | .//input[#{selector_builder.xpath_builder.attribute_expression(:input, type: Watir::Button::VALID_TYPES)}]"
-          end
-
-          super
+        def using_selenium(*)
+          # force watir usage
         end
 
         def can_convert_regexp_to_contains?

@@ -77,6 +77,24 @@ describe Watir::Locators::Element::Locator do
 
         locate_one class: "a b"
       end
+
+      it "handles selector with tag_name and xpath" do
+          elements = [
+              element(tag_name: "div", attributes: { class: "foo" }),
+              element(tag_name: "span", attributes: { class: "foo" }),
+              element(tag_name: "div", attributes: { class: "foo" })
+          ]
+
+          expect_one(:xpath, './/*[@class="foo"]').and_return(elements.first)
+          expect_all(:xpath, './/*[@class="foo"]').and_return(elements)
+
+          selector = {
+              xpath: './/*[@class="foo"]',
+              tag_name: 'span'
+          }
+
+          expect(locate_one(selector).tag_name).to eq 'span'
+      end
     end
 
     describe "with special cased selectors" do
@@ -91,13 +109,6 @@ describe Watir::Locators::Element::Locator do
 
         locate_one tag_name: "div",
                    caption: "foo"
-      end
-
-      it "translates :class_name to :class" do
-        expect_one :xpath, ".//div[contains(concat(' ', @class, ' '), ' foo ')]"
-
-        locate_one tag_name: "div",
-                   class_name: "foo"
       end
 
       it "handles data-* attributes" do
@@ -307,6 +318,7 @@ describe Watir::Locators::Element::Locator do
 
     it "returns nil if found element didn't match the selector tag_name" do
       expect_one(:xpath, "//div").and_return(element(tag_name: "div"))
+      expect_all(:xpath, "//div").and_return([element(tag_name: "div")])
 
       selector = {
         tag_name: "input",
