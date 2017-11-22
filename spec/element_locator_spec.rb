@@ -8,7 +8,9 @@ describe Watir::Locators::Element::Locator do
       SELENIUM_SELECTORS.each do |loc|
         it "delegates to Selenium's #{loc} locator" do
           expect_one(loc, "bar").and_return(element(tag_name: "div"))
-          locate_one loc => "bar"
+          match = %i[link link_text partial_link_text].include?(loc) ? :to : :to_not
+          msg = /:#{loc} locator is deprecated\. Use :visible_text instead/
+          expect { locate_one loc => "bar" }.send(match, output(msg).to_stdout_from_any_process)
         end
       end
     end
@@ -75,7 +77,8 @@ describe Watir::Locators::Element::Locator do
       it "handles selector with multiple classes in string" do
         expect_one :xpath, ".//*[contains(concat(' ', @class, ' '), ' a b ')]"
 
-        locate_one class: "a b"
+        msg = /:class locator to locate multiple classes with a String value is deprecated\. Use Array instead/
+        expect { locate_one class: "a b" }.to output(msg).to_stdout_from_any_process
       end
 
       it "handles selector with tag_name and xpath" do
@@ -364,7 +367,9 @@ describe Watir::Locators::Element::Locator do
       SELENIUM_SELECTORS.each do |loc|
         it "delegates to Selenium's #{loc} locator" do
           expect_all(loc, "bar").and_return([element(tag_name: "div")])
-          locate_all(loc => "bar")
+          match = %i[link link_text partial_link_text].include?(loc) ? :to : :to_not
+          msg = /:#{loc} locator is deprecated\. Use :visible_text instead/
+          expect { locate_all loc => "bar" }.send(match, output(msg).to_stdout_from_any_process)
         end
       end
     end
@@ -405,7 +410,8 @@ describe Watir::Locators::Element::Locator do
       it "handles selector with multiple classes in string" do
         expect_all :xpath, ".//*[contains(concat(' ', @class, ' '), ' a b ')]"
 
-        locate_all class: "a b"
+        msg = /Using the :class locator to locate multiple classes with a String value is deprecated\. Use Array instead/
+        expect { locate_all class: "a b" }.to output(msg).to_stdout_from_any_process
       end
     end
 

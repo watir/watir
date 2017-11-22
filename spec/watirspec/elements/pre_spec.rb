@@ -12,7 +12,8 @@ describe "Pre" do
       expect(browser.pre(id: "rspec")).to exist
       expect(browser.pre(id: /rspec/)).to exist
       expect(browser.pre(text: 'browser.pre(id: "rspec").should exist')).to exist
-      expect(browser.pre(text: /browser\.pre/)).to exist
+      msg = /:text locator with RegExp values to find elements based on only visible text is deprecated. Use :visible_text instead./
+      expect { expect(browser.pre(text: /browser\.pre/)).to exist }.to output(msg).to_stdout_from_any_process
       expect(browser.pre(class: "ruby")).to exist
       expect(browser.pre(class: /ruby/)).to exist
       expect(browser.pre(index: 0)).to exist
@@ -27,7 +28,8 @@ describe "Pre" do
       expect(browser.pre(id: "no_such_id")).to_not exist
       expect(browser.pre(id: /no_such_id/)).to_not exist
       expect(browser.pre(text: "no_such_text")).to_not exist
-      expect(browser.pre(text: /no_such_text/)).to_not exist
+      msg = /:text locator with RegExp values to find elements based on only visible text is deprecated. Use :visible_text instead./
+      expect { expect(browser.pre(text: /no_such_text/)).to_not exist }.to output(msg).to_stdout_from_any_process
       expect(browser.pre(class: "no_such_class")).to_not exist
       expect(browser.pre(class: /no_such_class/)).to_not exist
       expect(browser.pre(index: 1337)).to_not exist

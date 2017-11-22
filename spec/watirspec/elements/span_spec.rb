@@ -27,7 +27,8 @@ describe "Span" do
       expect(browser.span(id: "no_such_id")).to_not exist
       expect(browser.span(id: /no_such_id/)).to_not exist
       expect(browser.span(text: "no_such_text")).to_not exist
-      expect(browser.span(text: /no_such_text/)).to_not exist
+      msg = /:text locator with RegExp values to find elements based on only visible text is deprecated. Use :visible_text instead./
+      expect { expect(browser.span(text: /no_such_text/)).to_not exist }.to output(msg).to_stdout_from_any_process
       expect(browser.span(class: "no_such_class")).to_not exist
       expect(browser.span(class: /no_such_class/)).to_not exist
       expect(browser.span(index: 1337)).to_not exist

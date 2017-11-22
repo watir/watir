@@ -104,7 +104,8 @@ describe Watir::Browser do
             opts = {desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome,
                     url: url}
             WatirSpec.implementation.browser_args = [:remote, opts]
-            @new_browser = WatirSpec.new_browser
+            msg = /You can now pass values directly into Watir::Browser opt without needing to use :desired_capabilities/
+            expect { @new_browser = WatirSpec.new_browser }.to output(msg).to_stdout_from_any_process
             server_url = @new_browser.driver.instance_variable_get('@bridge').http.instance_variable_get('@server_url')
             expect(server_url).to eq URI.parse(url)
           end

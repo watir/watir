@@ -23,7 +23,8 @@ describe "Ul" do
       expect(browser.ul(id: "no_such_id")).to_not exist
       expect(browser.ul(id: /no_such_id/)).to_not exist
       expect(browser.ul(text: "no_such_text")).to_not exist
-      expect(browser.ul(text: /no_such_text/)).to_not exist
+      msg = /:text locator with RegExp values to find elements based on only visible text is deprecated\. Use :visible_text instead/
+      expect { expect(browser.ul(text: /no_such_text/)).to_not exist }.to output(msg).to_stdout_from_any_process
       expect(browser.ul(class: "no_such_class")).to_not exist
       expect(browser.ul(class: /no_such_class/)).to_not exist
       expect(browser.ul(index: 1337)).to_not exist

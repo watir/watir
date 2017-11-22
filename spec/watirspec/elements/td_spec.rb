@@ -25,7 +25,8 @@ describe "TableCell" do
       expect(browser.td(id: 'no_such_id')).to_not exist
       expect(browser.td(id: /no_such_id/)).to_not exist
       expect(browser.td(text: 'no_such_text')).to_not exist
-      expect(browser.td(text: /no_such_text/)).to_not exist
+      msg = /:text locator with RegExp values to find elements based on only visible text is deprecated. Use :visible_text instead./
+      expect { expect(browser.td(text: /no_such_text/)).to_not exist }.to output(msg).to_stdout_from_any_process
       expect(browser.td(index: 1337)).to_not exist
       expect(browser.td(xpath: "//td[@id='no_such_id']")).to_not exist
     end

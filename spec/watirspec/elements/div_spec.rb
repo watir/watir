@@ -14,7 +14,8 @@ describe "Div" do
       expect(browser.div(title: "Header and primary navigation")).to exist
       expect(browser.div(title: /Header and primary navigation/)).to exist
       expect(browser.div(text: "Not shownNot hidden")).to exist
-      expect(browser.div(text: /Not hidden/)).to exist
+      msg =  /text locator with RegExp values to find elements based on only visible text is deprecated\. Use :visible_text instead/
+      expect { expect(browser.div(text: /Not hidden/)).to exist }.to output(msg).to_stdout_from_any_process
       expect(browser.div(class: "profile")).to exist
       expect(browser.div(class: /profile/)).to exist
       expect(browser.div(index: 0)).to exist
@@ -33,7 +34,8 @@ describe "Div" do
       expect(browser.div(title: "no_such_title")).to_not exist
       expect(browser.div(title: /no_such_title/)).to_not exist
       expect(browser.div(text: "no_such_text")).to_not exist
-      expect(browser.div(text: /no_such_text/)).to_not exist
+      msg = /:text locator with RegExp values to find elements based on only visible text is deprecated\. Use :visible_text instead/
+      expect { expect(browser.div(text: /no_such_text/)).to_not exist }.to output(msg).to_stdout_from_any_process
       expect(browser.div(class: "no_such_class")).to_not exist
       expect(browser.div(class: /no_such_class/)).to_not exist
       expect(browser.div(index: 1337)).to_not exist
