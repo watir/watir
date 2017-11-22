@@ -228,7 +228,7 @@ module Watir
           return false if [:class, :class_name].include?(how) && what.include?(' ')
           %i[partial_link_text link_text link].each do |loc|
             next unless how == loc
-            Watir.logger.deprecate(loc, :visible_text)
+            Watir.logger.deprecate(":#{loc} locator", ':visible_text')
           end
           true
         end
