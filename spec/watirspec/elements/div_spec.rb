@@ -14,7 +14,7 @@ describe "Div" do
       expect(browser.div(title: "Header and primary navigation")).to exist
       expect(browser.div(title: /Header and primary navigation/)).to exist
       expect(browser.div(text: "Not shownNot hidden")).to exist
-      expect(browser.div(text: /Not shownNot hidden/)).to exist
+      expect(browser.div(text: /Not hidden/)).to exist
       expect(browser.div(class: "profile")).to exist
       expect(browser.div(class: /profile/)).to exist
       expect(browser.div(index: 0)).to exist
@@ -142,6 +142,13 @@ describe "Div" do
       expect(browser.div(index: 0)).to respond_to(:id)
       expect(browser.div(index: 0)).to respond_to(:style)
       expect(browser.div(index: 0)).to respond_to(:text)
+    end
+  end
+
+  describe "Deprecation Warnings" do
+    it "throws deprecation when for text and RegExp" do
+      msg =  /text locator with RegExp values to find elements based on only visible text is deprecated\. Use :visible_text instead/
+      expect { browser.div(text: /Not hidden/).exists? }.to output(msg).to_stdout_from_any_process
     end
   end
 

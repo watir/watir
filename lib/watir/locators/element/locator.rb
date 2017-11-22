@@ -105,7 +105,12 @@ module Watir
         def fetch_value(element, how)
           case how
           when :text
-            Watir::Element.new(@query_scope, element: element).send(:execute_js, :getTextContent, element).strip
+            vis = element.text
+            all = Watir::Element.new(@query_scope, element: element).send(:execute_js, :getTextContent, element).strip
+            unless all == vis
+              Watir.logger.deprecate(':text locator with RegExp values to find elements based on only visible text', ":visible_text")
+            end
+            vis
           when :visible_text
             element.text
           when :tag_name
