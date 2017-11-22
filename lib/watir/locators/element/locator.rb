@@ -107,7 +107,7 @@ module Watir
           when :text
             vis = element.text
             all = Watir::Element.new(@query_scope, element: element).send(:execute_js, :getTextContent, element).strip
-            unless all == vis
+            unless all == vis.strip
               Watir.logger.deprecate(':text locator with RegExp values to find elements based on only visible text', ":visible_text")
             end
             vis

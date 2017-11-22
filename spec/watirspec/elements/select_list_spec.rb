@@ -90,8 +90,7 @@ describe "SelectList" do
     not_compliant_on :safari do
       it "returns the value of the selected option" do
         expect(browser.select_list(index: 0).value).to eq "2"
-        msg = /:text locator with RegExp values to find elements based on only visible text is deprecated. Use :visible_text instead./
-        expect { browser.select_list(index: 0).select(/Sweden/) }.to output(msg).to_stdout_from_any_process
+        browser.select_list(index: 0).select(/Sweden/)
         expect(browser.select_list(index: 0).value).to eq "3"
       end
     end
@@ -105,8 +104,7 @@ describe "SelectList" do
     not_compliant_on :safari do
       it "returns the text of the selected option" do
         expect(browser.select_list(index: 0).text).to eq "Norway"
-        msg = /:text locator with RegExp values to find elements based on only visible text is deprecated. Use :visible_text instead./
-        expect { browser.select_list(index: 0).select(/Sweden/) }.to output(msg).to_stdout_from_any_process
+        browser.select_list(index: 0).select(/Sweden/)
         expect(browser.select_list(index: 0).text).to eq "Sweden"
       end
 
@@ -277,10 +275,7 @@ describe "SelectList" do
       end
 
       it "selects an option with a Regexp" do
-        msg = /:text locator with RegExp values to find elements based on only visible text is deprecated. Use :visible_text instead./
-        expect do
-          browser.select_list(name: "new_user_country").select(/Denmark/)
-        end.to output(msg).to_stdout_from_any_process
+        browser.select_list(name: "new_user_country").select(/Denmark/)
         expect(browser.select_list(name: "new_user_country").selected_options.map(&:text)).to eq ["Denmark"]
       end
     end
@@ -371,10 +366,7 @@ describe "SelectList" do
 
     it "raises NoValueFoundException if the option doesn't exist" do
       expect { browser.select_list(name: "new_user_country").select("missing_option") }.to raise_no_value_found_exception
-      msg = /:text locator with RegExp values to find elements based on only visible text is deprecated. Use :visible_text instead./
-      expect do
-        expect { browser.select_list(name: "new_user_country").select(/missing_option/) }.to raise_no_value_found_exception
-      end.to output(msg).to_stdout_from_any_process
+      expect { browser.select_list(name: "new_user_country").select(/missing_option/) }.to raise_no_value_found_exception
     end
 
     it "raises ObjectDisabledException if the option is disabled" do

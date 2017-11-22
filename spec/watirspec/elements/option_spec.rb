@@ -42,8 +42,7 @@ describe "Option" do
       expect(browser.option(value: "no_such_value")).to_not exist
       expect(browser.option(value: /no_such_value/)).to_not exist
       expect(browser.option(text: "no_such_text")).to_not exist
-      msg = /:text locator with RegExp values to find elements based on only visible text is deprecated. Use :visible_text instead./
-      expect { expect(browser.option(text: /no_such_text/i)).to_not exist }.to output(msg).to_stdout_from_any_process
+      expect(browser.option(text: /no_such_text/)).to_not exist
       expect(browser.option(class: "no_such_class")).to_not exist
       expect(browser.option(index: 1337)).to_not exist
       expect(browser.option(xpath: "//option[@id='no_such_id']")).to_not exist
@@ -55,8 +54,7 @@ describe "Option" do
       expect(browser.select_list(name: "new_user_country").option(value: "no_such_value")).to_not exist
       expect(browser.select_list(name: "new_user_country").option(value: /no_such_value/)).to_not exist
       expect(browser.select_list(name: "new_user_country").option(text: "no_such_text")).to_not exist
-      msg = /:text locator with RegExp values to find elements based on only visible text is deprecated. Use :visible_text instead./
-      expect { expect(browser.select_list(text: /no_such_text/i)).to_not exist }.to output(msg).to_stdout_from_any_process
+      expect(browser.select_list(name: "new_user_country").option(text: /no_such_text/)).to_not exist
       expect(browser.select_list(name: "new_user_country").option(class: "no_such_class")).to_not exist
       expect(browser.select_list(name: "new_user_country").option(index: 1337)).to_not exist
       expect(browser.select_list(name: "new_user_country").option(xpath: "//option[@id='no_such_id']")).to_not exist
@@ -93,18 +91,12 @@ describe "Option" do
 
     it "raises UnknownObjectException if the option does not exist (page context)" do
       expect { browser.option(text: "no_such_text").select }.to raise_unknown_object_exception
-      msg = /:text locator with RegExp values to find elements based on only visible text is deprecated. Use :visible_text instead./
-      expect do
-        expect { browser.option(text: /missing/).select }.to raise_unknown_object_exception
-      end.to output(msg).to_stdout_from_any_process
+      expect { browser.option(text: /missing/).select }.to raise_unknown_object_exception
     end
 
     it "raises UnknownObjectException if the option does not exist (select_list context)" do
       expect { browser.select_list(name: "new_user_country").option(text: "no_such_text").select }.to raise_unknown_object_exception
-      msg = /:text locator with RegExp values to find elements based on only visible text is deprecated. Use :visible_text instead./
-      expect do
-        expect { browser.select_list(name: "new_user_country").option(text: /missing/).select }.to raise_unknown_object_exception
-      end.to output(msg).to_stdout_from_any_process
+      expect { browser.select_list(name: "new_user_country").option(text: /missing/).select }.to raise_unknown_object_exception
     end
   end
 
