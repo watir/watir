@@ -1,3 +1,11 @@
+### 6.10.0 (2017-11-23)
+
+* Add support for locating elements with custom attributes
+* Add new `:visible_text` locator (thanks Justin Ko)
+* Deprecate Selenium locators `:link`, `:link_text` and `:partial_link_text` in favor of `:visible_text`
+* Deprecate finding only visible text for `RegExp` values on `:text` locator (#342)
+* Improve support for finding elements with `:tag_name` along with `:xpath` or `:css` locators
+
 ### 6.9.1 (2017-11-20)
 
 * Fix bug preventing the use of `#exectue_script` in `AfterHook` (#684)
