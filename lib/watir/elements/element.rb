@@ -368,9 +368,10 @@ module Watir
     #
 
     def center
-      location = location()
-      Selenium::WebDriver::Point.new(location.x + (width/2),
-                                     location.y + (height/2))
+      point = location
+      dimensions = size
+      Selenium::WebDriver::Point.new(point.x + (dimensions['width']/2),
+                                     point.y + (dimensions['height']/2))
     end
     alias_method :centre, :center
 
