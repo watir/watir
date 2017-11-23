@@ -61,8 +61,8 @@ describe Watir::Browser do
             caps = Selenium::WebDriver::Remote::Capabilities.firefox(accept_insecure_certs: true)
             @opts.merge!(url: url, desired_capabilities: caps)
 
-            expect { @new_browser = WatirSpec.new_browser }.to output.to_stderr
-
+            msg = /You can now pass values directly into Watir::Browser opt without needing to use :desired_capabilities/
+            expect { @new_browser = WatirSpec.new_browser }.to output(msg).to_stdout_from_any_process
             expect(@new_browser.driver.capabilities.accept_insecure_certs).to eq true
           end
         end
