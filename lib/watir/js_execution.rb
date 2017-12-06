@@ -43,7 +43,7 @@ module Watir
     # @return [Watir::Element]
     #
 
-    def flash(color: 'red', flashes: 5, delay: 0.2)
+    def flash(color: 'red', flashes: 5, delay: 0.01)
       background_color = style("backgroundColor")
       background_color = 'white' if background_color.empty?
       element_color = element_call { execute_js(:backgroundColor, @element) }.strip
