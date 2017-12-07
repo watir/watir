@@ -45,8 +45,6 @@ module Watir
 
     def flash(color: 'red', flashes: 5, delay: 0.1)
       background_color = style("backgroundColor")
-      background_color = 'white' if background_color.empty?
-      element_color = element_call { execute_js(:backgroundColor, @element) }.strip
 
       (flashes * 2).times do |n|
         nextcolor = n.even? ? color : background_color
@@ -54,7 +52,7 @@ module Watir
         sleep(delay)
       end
 
-      element_call { execute_js(:backgroundColor, @element, element_color) }
+      element_call { execute_js(:backgroundColor, @element, background_color) }
 
       self
     end
