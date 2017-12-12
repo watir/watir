@@ -58,6 +58,7 @@ module Watir
             return unless selector.empty? && wd_supported?(sel, value)
             if filter == :all
               found = locate_elements(sel, value)
+              return found if sel == :tag_name
               return filter_elements_by_locator(found, tag_name: tag_name, filter: filter).compact
             else
               found = locate_element(sel, value)
