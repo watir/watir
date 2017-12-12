@@ -49,7 +49,7 @@ module Watir
     def exists?
       assert_exists
       true
-    rescue UnknownObjectException, UnknownFrameException
+    rescue unknown_exception
       false
     end
     alias_method :exist?, :exists?
@@ -424,7 +424,7 @@ module Watir
 
     def present?
       visible?
-    rescue UnknownObjectException, UnknownFrameException
+    rescue unknown_exception
       false
     end
 
