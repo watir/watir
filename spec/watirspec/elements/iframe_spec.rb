@@ -103,6 +103,16 @@ describe "IFrame" do
     expect(browser.iframe(index: 0).div(id: 'invalid')).to_not exist
   end
 
+  describe "#present?" do
+    it "returns true if the iframe present" do
+      expect(browser.iframe(id: "iframe_1")).to be_present
+    end
+    
+    it "returns false if the iframe is not present" do
+      expect(browser.iframe(id: "no_such_id")).not_to be_present
+    end
+  end
+
   it 'switches between iframe and parent when needed' do
     browser.iframe(id: "iframe_1").elements.each do |element|
       element.text

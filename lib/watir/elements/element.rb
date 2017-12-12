@@ -424,7 +424,7 @@ module Watir
 
     def present?
       visible?
-    rescue UnknownObjectException
+    rescue UnknownObjectException, UnknownFrameException
       false
     end
 
