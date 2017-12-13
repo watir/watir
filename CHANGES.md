@@ -1,3 +1,7 @@
+### 6.10.2 (2017-12-13)
+
+* Fix bug in `#exists?` for elements nested in IFrames
+
 ### 6.10.1 (2017-12-12)
 
 * Fix bug in IFrame#present?
