@@ -1,3 +1,8 @@
+### 6.10.1 (2017-12-12)
+
+* Fix bug in IFrame#present?
+* Improve performance for Element#center (thanks Lucas Tierney)
+
 ### 6.10.0 (2017-11-23)
 
 * Add support for locating elements with custom attributes
