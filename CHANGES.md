@@ -2,6 +2,7 @@
 
 * Fix bug in IFrame#present?
 * Improve performance for Element#center (thanks Lucas Tierney)
+* Skip tag name filter when locating by tag name
 
 ### 6.10.0 (2017-11-23)
 
