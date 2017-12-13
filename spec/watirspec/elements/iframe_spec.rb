@@ -81,6 +81,9 @@ describe "IFrame" do
       expect(nested_element).to exist
     end
 
+    it "returns false for sub-element of a non-existing iframe" do
+      expect(browser.iframe(id: 'no_such_id').element).to_not exist
+    end
 
     bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1255946", :firefox do
       not_compliant_on :safari do
