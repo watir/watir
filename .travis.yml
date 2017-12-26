@@ -16,13 +16,16 @@ script: bundle exec rake $RAKE_TASK
 _version:
   two: &two
     language: ruby
-    rvm: 2.2.7
+    rvm: 2.2.9
   three: &three
     language: ruby
-    rvm: 2.3.4
+    rvm: 2.3.6
   four: &four
     language: ruby
-    rvm: 2.4.1
+    rvm: 2.4.3
+  five: &five
+    language: ruby
+    rvm: 2.5.0
 
 _browsers:
   firefox: &firefox-latest
@@ -57,6 +60,9 @@ matrix:
         <<: *chrome
       - env: RAKE_TASK=spec:chrome
         <<: *three
+        <<: *chrome
+      - env: RAKE_TASK=spec:chrome
+        <<: *five
         <<: *chrome
       - env: RAKE_TASK=spec:chrome
         <<: *two
