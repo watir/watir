@@ -2,7 +2,7 @@ module Watir
   module UserEditable
 
     #
-    # Clear the element, the type in the given value.
+    # Clear the element, then type in the given value.
     #
     # @param [String, Symbol] args
     #

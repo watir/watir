@@ -2,7 +2,7 @@ module Watir
   class TextField < Input
     include UserEditable
 
-    NON_TEXT_TYPES = %w[file radio checkbox submit reset image button hidden range color]
+    NON_TEXT_TYPES = %w[file radio checkbox submit reset image button hidden range color date datetime-local]
 
     protected
 
