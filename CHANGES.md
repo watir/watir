@@ -1,3 +1,7 @@
+### 6.10.3 (2018-01-26)
+
+* Add special handling for `date_field` and `date_time_field` input types
+
 ### 6.10.2 (2017-12-13)
 
 * Fix bug in `#exists?` for elements nested in IFrames
