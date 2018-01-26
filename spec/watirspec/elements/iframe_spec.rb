@@ -11,13 +11,15 @@ describe "IFrame" do
   end
 
   not_compliant_on :safari do
-    it "handles crossframe javascript" do
-      browser.goto WatirSpec.url_for("iframes.html")
+    bug "Firefox 58 broke this, apperas to be working in Nightly", %i(firefox linux) do
+      it "handles crossframe javascript" do
+        browser.goto WatirSpec.url_for("iframes.html")
 
-      expect(browser.iframe(id: "iframe_1").text_field(name: 'senderElement').value).to eq 'send_this_value'
-      expect(browser.iframe(id: "iframe_2").text_field(name: 'recieverElement').value).to eq 'old_value'
-      browser.iframe(id: "iframe_1").button(id: 'send').click
-      expect(browser.iframe(id: "iframe_2").text_field(name: 'recieverElement').value).to eq 'send_this_value'
+        expect(browser.iframe(id: "iframe_1").text_field(name: 'senderElement').value).to eq 'send_this_value'
+        expect(browser.iframe(id: "iframe_2").text_field(name: 'recieverElement').value).to eq 'old_value'
+        browser.iframe(id: "iframe_1").button(id: 'send').click
+        expect(browser.iframe(id: "iframe_2").text_field(name: 'recieverElement').value).to eq 'send_this_value'
+      end
     end
   end
 
@@ -110,7 +112,7 @@ describe "IFrame" do
     it "returns true if the iframe present" do
       expect(browser.iframe(id: "iframe_1")).to be_present
     end
-    
+
     it "returns false if the iframe is not present" do
       expect(browser.iframe(id: "no_such_id")).not_to be_present
     end
@@ -161,7 +163,7 @@ describe "IFrame" do
   end
 
   it 'will suggest looking in an iframe when iframes exist' do
-    expect {browser.text_field(name: 'senderElement').set('no') }.to raise_unknown_object_exception('Maybe look in an iframe?')
+    expect { browser.text_field(name: 'senderElement').set('no') }.to raise_unknown_object_exception('Maybe look in an iframe?')
   end
 
   describe "#execute_script" do
