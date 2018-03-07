@@ -99,7 +99,7 @@ module Watir
         end
         if @browser == :firefox && @options.delete(:headless)
           args = @options.delete(:args) || @options.delete(:switches) || []
-          @options[Selenium::WebDriver::Firefox::Options.KEY] = {'args' => args + ['--headless']}
+          @options[Selenium::WebDriver::Firefox::Options::KEY] = {'args' => args + ['--headless']}
         end
         if @browser == :safari && @options.delete(:technology_preview)
           @options["safari.options"] = {'technologyPreview' => true}
