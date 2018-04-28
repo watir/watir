@@ -47,6 +47,7 @@ module Watir
     #
 
     def exists?
+      return false if @element && stale?
       assert_exists
       true
     rescue UnknownObjectException, UnknownFrameException
@@ -401,7 +402,10 @@ module Watir
     #
 
     def visible?
-      element_call(:assert_exists) { @element.displayed? }
+      assert_exists
+      @element.displayed?
+    rescue Selenium::WebDriver::Error::StaleElementReferenceError
+      raise unknown_exception
     end
 
     #
@@ -497,6 +501,12 @@ module Watir
 
     def stale?
       raise Watir::Exception::Error, "Can not check staleness of unused element" unless @element
+      return false unless stale_in_context?
+      @query_scope.ensure_context
+      stale_in_context?
+    end
+
+    def stale_in_context?
       @element.enabled? # any wire call will check for staleness
       false
     rescue Selenium::WebDriver::Error::ObsoleteElementError
@@ -566,15 +576,7 @@ module Watir
 
     # Ensure that the element exists, making sure that it is not stale and located if necessary
     def assert_exists
-      if @element && @selector.empty?
-        @query_scope.ensure_context
-        reset! if stale?
-      elsif @element && !stale?
-        return
-      else
-        @element = locate
-      end
-
+      locate unless @element
       assert_element_found
     end
 
@@ -600,7 +602,7 @@ module Watir
 
     # Ensure the driver is in the desired browser context
     def ensure_context
-      assert_exists
+      locate unless exists?
     end
 
     private
@@ -643,9 +645,9 @@ module Watir
       end
     end
 
-    def element_call(exist_check = :wait_for_exists)
+    def element_call(exist_check = nil, &block)
       already_locked = Wait.timer.locked?
-      caller = caller_locations(1,1)[0].label
+      caller = caller_locations(1, 1)[0].label
       if already_locked
         Watir.logger.info "-> `#{inspect}##{caller}` after `##{exist_check}` (as a prerequisite for a previously specified execution)"
       else
@@ -654,15 +656,20 @@ module Watir
       end
 
       begin
-        send exist_check
+        exist_check.nil? ? assert_exists : send(exist_check)
         yield
       rescue unknown_exception => ex
+        if exist_check.nil?
+          element_call(:wait_for_exists, &block)
+        end
         msg = ex.message
-        msg += "; Maybe look in an iframe?" if @query_scope.iframes.count > 0
+        msg += "; Maybe look in an iframe?" if @query_scope.ensure_context && @query_scope.iframes.count > 0
         custom_attributes = @locator.selector_builder.custom_attributes
         msg += "; Watir treated #{custom_attributes} as a non-HTML compliant attribute, ensure that was intended" unless custom_attributes.empty?
         raise unknown_exception, msg
       rescue Selenium::WebDriver::Error::StaleElementReferenceError
+        @query_scope.ensure_context
+        reset!
         retry
       rescue Selenium::WebDriver::Error::ElementNotVisibleError, Selenium::WebDriver::Error::ElementNotInteractableError
         raise_present unless Wait.timer.remaining_time > 0

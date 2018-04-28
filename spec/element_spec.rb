@@ -20,13 +20,12 @@ describe Watir::Element do
     end
 
     it "returns false if the element is stale" do
-      wd_element = browser.div(id: "foo").wd
+      element = browser.div(id: "foo").tap(&:exists?)
 
-      # simulate element going stale during lookup
-      allow(browser.driver).to receive(:find_element).with(:id, 'foo') { wd_element }
       browser.refresh
 
-      expect(browser.div(:id, 'foo')).to_not be_present
+      expect(element).to be_stale
+      expect(element).to_not be_present
     end
 
   end
@@ -54,13 +53,13 @@ describe Watir::Element do
       browser.goto WatirSpec.url_for('removed_element.html')
     end
 
-    it "relocates element from a collection when it becomes stale" do
-      watir_element = browser.divs(id: "text").first
-      expect(watir_element).to exist
+    it "element from a collection returns false when it becomes stale" do
+      element = browser.divs(id: "text").first.tap(&:exists?)
 
       browser.refresh
 
-      expect(watir_element).to exist
+      expect(element).to be_stale
+      expect(element).to_not exist
     end
 
     it "returns false when tag name does not match id" do
@@ -71,22 +70,15 @@ describe Watir::Element do
 
   describe "#element_call" do
 
-    it 'handles exceptions when taking an action on an element that goes stale during execution' do
+    it 'handles exceptions when taking an action on a stale element' do
       browser.goto WatirSpec.url_for('removed_element.html')
 
-      watir_element = browser.div(id: "text")
+      element = browser.div(id: "text").tap(&:exists?)
 
-      # simulate element going stale after assert_exists and before action taken, but not when block retried
-      allow(watir_element).to receive(:text) do
-        watir_element.send(:element_call) do
-          @already_stale ||= false
-          browser.refresh unless @already_stale
-          @already_stale = true
-          watir_element.instance_variable_get('@element').text
-        end
-      end
+      browser.refresh
 
-      expect { watir_element.text }.to_not raise_error
+      expect(element).to be_stale
+      expect { element.text }.to_not raise_error
     end
 
   end
