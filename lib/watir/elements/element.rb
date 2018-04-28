@@ -47,6 +47,7 @@ module Watir
     #
 
     def exists?
+      return false if @element && stale?
       assert_exists
       true
     rescue UnknownObjectException, UnknownFrameException
@@ -401,7 +402,10 @@ module Watir
     #
 
     def visible?
-      element_call(:assert_exists) { @element.displayed? }
+      assert_exists
+      @element.displayed?
+    rescue Selenium::WebDriver::Error::StaleElementReferenceError
+      raise unknown_exception
     end
 
     #
@@ -497,6 +501,12 @@ module Watir
 
     def stale?
       raise Watir::Exception::Error, "Can not check staleness of unused element" unless @element
+      return false unless stale_in_context?
+      @query_scope.ensure_context
+      stale_in_context?
+    end
+
+    def stale_in_context?
       @element.enabled? # any wire call will check for staleness
       false
     rescue Selenium::WebDriver::Error::ObsoleteElementError
@@ -566,15 +576,7 @@ module Watir
 
     # Ensure that the element exists, making sure that it is not stale and located if necessary
     def assert_exists
-      if @element && @selector.empty?
-        @query_scope.ensure_context
-        reset! if stale?
-      elsif @element && !stale?
-        return
-      else
-        @element = locate
-      end
-
+      locate unless @element
       assert_element_found
     end
 
@@ -600,7 +602,7 @@ module Watir
 
     # Ensure the driver is in the desired browser context
     def ensure_context
-      assert_exists
+      locate unless exists?
     end
 
     private
@@ -643,40 +645,55 @@ module Watir
       end
     end
 
-    def element_call(exist_check = :wait_for_exists)
+    def element_call(precondition = nil, &block)
+      caller = caller_locations(1, 1)[0].label
       already_locked = Wait.timer.locked?
-      caller = caller_locations(1,1)[0].label
-      if already_locked
-        Watir.logger.info "-> `#{inspect}##{caller}` after `##{exist_check}` (as a prerequisite for a previously specified execution)"
-      else
-        Watir.logger.info "-> `#{inspect}##{caller}` after `##{exist_check}`"
+      unless already_locked
         Wait.timer = Wait::Timer.new(timeout: Watir.default_timeout)
       end
 
       begin
-        send exist_check
+        check_condition(precondition)
+        Watir.logger.info "-> `Executing #{inspect}##{caller}`"
         yield
       rescue unknown_exception => ex
+        if precondition.nil?
+          element_call(:wait_for_exists, &block)
+        end
         msg = ex.message
-        msg += "; Maybe look in an iframe?" if @query_scope.iframes.count > 0
+        msg += "; Maybe look in an iframe?" if @query_scope.ensure_context && @query_scope.iframes.count > 0
         custom_attributes = @locator.selector_builder.custom_attributes
         msg += "; Watir treated #{custom_attributes} as a non-HTML compliant attribute, ensure that was intended" unless custom_attributes.empty?
         raise unknown_exception, msg
       rescue Selenium::WebDriver::Error::StaleElementReferenceError
+        @query_scope.ensure_context
+        reset!
         retry
       rescue Selenium::WebDriver::Error::ElementNotVisibleError, Selenium::WebDriver::Error::ElementNotInteractableError
         raise_present unless Wait.timer.remaining_time > 0
-        raise_present unless exist_check == :wait_for_present || exist_check == :wait_for_enabled
+        raise_present unless precondition == :wait_for_present || precondition == :wait_for_enabled
         retry
       rescue Selenium::WebDriver::Error::InvalidElementStateError
         raise_disabled unless Wait.timer.remaining_time > 0
-        raise_disabled unless exist_check == :wait_for_writable || exist_check == :wait_for_enabled
+        raise_disabled unless precondition == :wait_for_writable || precondition == :wait_for_enabled
         retry
       rescue Selenium::WebDriver::Error::NoSuchWindowError
         raise Exception::NoMatchingWindowFoundException, "browser window was closed"
       ensure
-        Watir.logger.info "<- `#{inspect}##{caller}` has been completed"
+        Watir.logger.info "<- `Completed #{inspect}##{caller}`"
         Wait.timer.reset! unless already_locked
+      end
+    end
+
+    def check_condition(condition)
+      Watir.logger.info "<- `Verifying precondition #{inspect}##{condition}`"
+      begin
+        condition.nil? ? assert_exists : send(condition)
+        Watir.logger.info "<- `Verified precondition #{inspect}##{condition || 'assert_exists'}`"
+      rescue unknown_exception
+        raise unless condition.nil?
+        Watir.logger.info "<- `Unable to satisfy precondition #{inspect}##{condition}`"
+        check_condition(:wait_for_exists)
       end
     end
 

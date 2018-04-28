@@ -247,10 +247,9 @@ describe Watir::Element do
     end
 
     it "does not error when element goes stale" do
-      element = browser.div(id: 'foo')
+      element = browser.div(id: 'foo').tap(&:exists?)
 
       allow(element).to receive(:stale?).and_return(false, true)
-      allow(element.wd).to receive(:displayed?).and_raise(Selenium::WebDriver::Error::StaleElementReferenceError)
 
       browser.a(id: 'hide_foo').click
       expect { element.wait_while_present(timeout: 1) }.to_not raise_exception
