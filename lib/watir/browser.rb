@@ -58,11 +58,13 @@ module Watir
     end
 
     def inspect
-      '#<%s:0x%x url=%s title=%s>' % [self.class, hash*2, url.inspect, title.inspect]
+      if alert.exists?
+        '#<%s:0x%x alert=true>' % [self.class, hash*2]
+      else
+        '#<%s:0x%x url=%s title=%s>' % [self.class, hash * 2, url.inspect, title.inspect]
+      end
     rescue Errno::ECONNREFUSED
       '#<%s:0x%x closed=true>' % [self.class, hash*2]
-    rescue Selenium::WebDriver::Error::UnhandledAlertError, Selenium::WebDriver::Error::UnexpectedAlertOpenError
-      '#<%s:0x%x alert=true>' % [self.class, hash*2]
     end
     alias selector_string inspect
 
