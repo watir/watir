@@ -6,8 +6,9 @@ module Watir
           return if selectors.values.any? { |e| e.kind_of? Regexp }
           selectors.delete(:tag_name) || raise("internal error: no tag_name?!")
 
+          tag_name = @query_scope.tag_name.downcase
           expressions = %w[./tr]
-          unless %w[tbody tfoot thead].include?(@query_scope.tag_name.downcase)
+          unless %w[tbody tfoot thead].include?(tag_name)
             expressions += %w[./tbody/tr ./thead/tr ./tfoot/tr]
           end
 
