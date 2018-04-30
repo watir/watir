@@ -17,18 +17,15 @@ before_script:
 script: bundle exec rake $RAKE_TASK
 
 _version:
-  two: &two
-    language: ruby
-    rvm: 2.2.9
   three: &three
     language: ruby
-    rvm: 2.3.6
+    rvm: 2.3.7
   four: &four
     language: ruby
-    rvm: 2.4.3
+    rvm: 2.4.4
   five: &five
     language: ruby
-    rvm: 2.5.0
+    rvm: 2.5.1
 
 _browsers:
   firefox: &firefox-latest
@@ -41,13 +38,16 @@ _browsers:
 matrix:
   include:
       - env: RAKE_TASK=spec:remote_firefox
-        <<: *four
+        <<: *five
         <<: *firefox-latest
       - env: RAKE_TASK=spec:remote_chrome
-        <<: *four
+        <<: *five
         <<: *chrome
       - env: RAKE_TASK=spec:firefox RELAXED_LOCATE=false
-        <<: *four
+        <<: *five
+        <<: *firefox-latest
+      - env: RAKE_TASK=spec:firefox
+        <<: *five
         <<: *firefox-latest
       - env: RAKE_TASK=spec:firefox
         <<: *four
@@ -55,27 +55,21 @@ matrix:
       - env: RAKE_TASK=spec:firefox
         <<: *three
         <<: *firefox-latest
-      - env: RAKE_TASK=spec:firefox
-        <<: *two
-        <<: *firefox-latest
-      - env: RAKE_TASK=spec:chrome
-        <<: *four
-        <<: *chrome
-      - env: RAKE_TASK=spec:chrome
-        <<: *three
-        <<: *chrome
       - env: RAKE_TASK=spec:chrome
         <<: *five
         <<: *chrome
       - env: RAKE_TASK=spec:chrome
-        <<: *two
+        <<: *four
+        <<: *chrome
+      - env: RAKE_TASK=spec:chrome
+        <<: *three
         <<: *chrome
       - env: RAKE_TASK=spec:chrome RELAXED_LOCATE=false
-        <<: *four
+        <<: *five
         <<: *chrome
       - env: RAKE_TASK=spec:chrome HEADLESS=true
-        <<: *four
+        <<: *five
         <<: *chrome
       - env: RAKE_TASK=yard:doctest
-        <<: *four
+        <<: *five
         <<: *chrome
