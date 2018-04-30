@@ -70,12 +70,12 @@ module Watir
           elements.map.with_index do |e, idx|
             element = element_class.new(@query_scope, @selector.merge(element: e, index: idx))
             if [Watir::HTMLElement, Watir::Input].include? element.class
-              element = element.to_subtype
-              hash[element.class] ||= []
-              hash[element.class] << element
-              element.class.new(@query_scope, @selector.merge(element: e,
-                                                              tag_name: element.tag_name,
-                                                              index: hash[element.class].size - 1))
+              tag_name = element.tag_name.to_sym
+              hash[tag_name] ||= 0
+              hash[tag_name] += 1
+              Watir.tag_to_class[tag_name].new(@query_scope, @selector.merge(element: e,
+                                                                             tag_name: tag_name,
+                                                                             index: hash[tag_name] - 1))
             else
               element
             end
