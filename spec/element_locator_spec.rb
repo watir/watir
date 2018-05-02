@@ -304,7 +304,7 @@ describe Watir::Locators::Element::Locator do
         div_elements = [element(tag_name: "div")]
 
         expect_all(:tag_name, "label").ordered.and_return(label_elements)
-        expect_all(:xpath, ".//div[@id='baz']").ordered.and_return(div_elements)
+        expect_one(:xpath, ".//div[@id='baz']").ordered.and_return(div_elements.first)
 
         allow(browser).to receive(:ensure_context).and_return(nil)
         allow(browser).to receive(:execute_script).and_return('foo', 'foob')
