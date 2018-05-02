@@ -59,7 +59,8 @@ module Watir
             if filter == :all
               found = locate_elements(sel, value)
               return found if sel == :tag_name
-              return filter_elements_by_locator(found, tag_name: tag_name, filter: filter).compact
+              filter_selector = tag_name ? {tag_name: tag_name} : {}
+              return filter_elements(found, filter_selector, filter: filter).compact
             else
               found = locate_element(sel, value)
               return sel != :tag_name && tag_name && !validate([found], tag_name) ? nil : found
@@ -69,38 +70,37 @@ module Watir
         end
 
         def using_watir(filter = :first)
+          query_scope = ensure_scope_context
           selector = selector_builder.normalized_selector
-          visible = selector.delete(:visible)
-          visible_text = selector.delete(:visible_text)
-          tag_name = selector[:tag_name].is_a?(::Symbol) ? selector[:tag_name].to_s : selector[:tag_name]
-          validation_required = (selector.key?(:css) || selector.key?(:xpath)) && tag_name
+
+          if selector[:label]
+            query_scope = convert_label_to_scope_or_selector(query_scope, selector)
+            return unless query_scope # stop, label not found
+          end
 
           if selector.key?(:index) && filter == :all
             raise ArgumentError, "can't locate all elements by :index"
           end
-          idx = selector.delete(:index) unless selector[:adjacent]
+
+          filter_selector = delete_filters_from(selector)
 
           how, what = selector_builder.build(selector)
+          unless how
+            raise Error, "internal error: unable to build Selenium selector from #{selector.inspect}"
+          end
+          what = add_regexp_predicates(what, filter_selector) if how == :xpath
 
-          needs_filtering = idx && idx != 0 || !visible.nil? || !visible_text.nil? || validation_required || filter == :all
-
+          needs_filtering = filter == :all || !filter_selector.empty?
           if needs_filtering
-            matching = matching_elements(how, what, selector)
-            return filter_elements_by_locator(matching, visible, visible_text, idx, tag_name: tag_name, filter: filter)
-          elsif how
-            locate_element(how, what)
+            elements = locate_elements(how, what, query_scope) || []
+            filter_elements(elements, filter_selector, filter: filter)
           else
-            wd_find_by_regexp_selector(selector, :first)
+            locate_element(how, what, query_scope)
           end
         end
 
         def validate(elements, tag_name)
           elements.compact.all? { |element| element_validator.validate(element, {tag_name: tag_name}) }
-        end
-
-        def matching_elements(how, what, selector = nil)
-          found = how ? locate_elements(how, what) : wd_find_by_regexp_selector(selector, :all)
-          found || []
         end
 
         def fetch_value(element, how)
@@ -112,6 +112,8 @@ module Watir
               Watir.logger.deprecate(':text locator with RegExp values to find elements based on only visible text', ":visible_text")
             end
             vis
+          when :visible
+            element.displayed?
           when :visible_text
             element.text
           when :tag_name
@@ -123,64 +125,67 @@ module Watir
           end
         end
 
-        def all_elements
-          locate_elements(:xpath, ".//*")
-        end
-
-        def wd_find_by_regexp_selector(selector, filter)
-          query_scope = ensure_scope_context
-          rx_selector = delete_regexps_from(selector)
-
-          if rx_selector.key?(:label) && selector_builder.should_use_label_element?
-            label = label_from_text(rx_selector.delete(:label)) || return
-            if (id = label.attribute('for'))
-              selector[:id] = id
-            else
-              query_scope = label
+        def filter_elements(elements, selector, filter: :first)
+          if filter == :first
+            idx = selector.delete(:index) || 0
+            if idx < 0
+              elements.reverse!
+              idx = idx.abs - 1
             end
+
+            # Lazy evaluation to avoid fetching values for elements that will be discarded
+            matches = elements.lazy.select { |el| matches_selector?(el, selector) }
+            matches.take(idx + 1).to_a[idx]
+          else
+            elements.select { |el| matches_selector?(el, selector) }
           end
-
-          how, what = selector_builder.build(selector)
-
-          unless how
-            raise Error, "internal error: unable to build Selenium selector from #{selector.inspect}"
-          end
-
-          if how == :xpath && can_convert_regexp_to_contains?
-            rx_selector.each do |key, value|
-              next if key == :tag_name || key == :text
-
-              predicates = regexp_selector_to_predicates(key, value)
-              what = "(#{what})[#{predicates.join(' and ')}]" unless predicates.empty?
-            end
-          end
-
-          elements = locate_elements(how, what, query_scope)
-          filter_elements_by_regex(elements, rx_selector, filter)
         end
 
-        def filter_elements_by_locator(elements, visible = nil, visible_text = nil, idx = nil, tag_name: nil, filter: :first)
-          elements.select! { |el| visible == el.displayed? } unless visible.nil?
-          elements.select! { |el| visible_text === el.text } unless visible_text.nil?
-          elements.select! { |el| element_validator.validate(el, {tag_name: tag_name}) } unless tag_name.nil?
-          filter == :first ? elements[idx || 0] : elements
-        end
+        def delete_filters_from(selector)
+          filter_selector = {}
 
-        def filter_elements_by_regex(elements, selector, filter)
-          method = filter == :first ? :find : :select
-          elements.__send__(method) { |el| matches_selector?(el, selector) }
-        end
+          # Remove selectors that can never be used in XPath builder
+          [:visible, :visible_text].each do |how|
+            next unless selector.key?(how)
+            filter_selector[how] = selector.delete(how)
+          end
 
-        def delete_regexps_from(selector)
-          rx_selector = {}
+          if tag_validation_required?(selector)
+            tag_name = selector[:tag_name].is_a?(::Symbol) ? selector[:tag_name].to_s : selector[:tag_name]
+            filter_selector[:tag_name] = tag_name
+          end
 
+          # Regexp locators currently need to be validated even if they are included in the XPath builder
+          # TODO: Identify Regexp that can have an exact equivalent using XPath contains (ie would not require
+          #  filtering) vs approximations (ie would still requiring filtering)
           selector.dup.each do |how, what|
             next unless what.is_a?(Regexp)
-            rx_selector[how] = what
-            selector.delete how
+            filter_selector[how] = selector.delete(how)
           end
 
-          rx_selector
+          if selector[:index] && !selector[:adjacent]
+            idx = selector.delete(:index)
+
+            # Do not add {index: 0} filter if the only filter. This will allow using #find_element instead of #find_elements.
+            implicit_idx_filter = filter_selector.empty? && idx == 0
+            filter_selector[:index] = idx unless implicit_idx_filter
+          end
+
+          filter_selector
+        end
+
+        def convert_label_to_scope_or_selector(query_scope, selector)
+          return query_scope unless selector[:label].kind_of?(Regexp) && selector_builder.should_use_label_element?
+
+          label = label_from_text(selector.delete(:label))
+          return unless label # label not found, stop looking for element
+
+          if (id = label.attribute('for'))
+            selector[:id] = id
+            query_scope
+          else
+            label
+          end
         end
 
         def label_from_text(label_exp)
@@ -192,12 +197,30 @@ module Watir
 
         def matches_selector?(element, selector)
           selector.all? do |how, what|
-            what === fetch_value(element, how)
+            if how == :tag_name && what.is_a?(String)
+              element_validator.validate(element, {tag_name: what})
+            else
+              what === fetch_value(element, how)
+            end
           end
         end
 
         def can_convert_regexp_to_contains?
           true
+        end
+
+        def add_regexp_predicates(what, filter_selector)
+          return what unless can_convert_regexp_to_contains?
+
+          filter_selector.each do |key, value|
+            next if [:tag_name, :text, :visible_text, :visible, :index].include?(key)
+
+            predicates = regexp_selector_to_predicates(key, value)
+            unless predicates.empty?
+              what = "(#{what})[#{predicates.join(' and ')}]"
+            end
+          end
+          what
         end
 
         def regexp_selector_to_predicates(key, re)
@@ -210,6 +233,10 @@ module Watir
           match.captures.reject(&:empty?).map do |literals|
             "contains(#{lhs}, #{XpathSupport.escape(literals)})"
           end
+        end
+
+        def tag_validation_required?(selector)
+          (selector.key?(:css) || selector.key?(:xpath)) && selector.key?(:tag_name)
         end
 
         def ensure_scope_context

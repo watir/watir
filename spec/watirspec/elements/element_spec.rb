@@ -298,6 +298,22 @@ describe "Element" do
       end
     end
 
+    context ":index locator" do
+      before { browser.goto WatirSpec.url_for("data_attributes.html") }
+
+      it "finds the first element by index: 0" do
+        expect(browser.element(index: 0).tag_name).to eq "html"
+      end
+
+      it "finds the second element by index: 1" do
+        expect(browser.element(index: 1).tag_name).to eq "head"
+      end
+
+      it "finds the last element by index: -1" do
+        expect(browser.element(index: -1).tag_name).to eq "p"
+      end
+    end
+
     it "doesn't raise when called on nested elements" do
       expect(browser.div(id: 'no_such_div').link(id: 'no_such_id')).to_not exist
     end
