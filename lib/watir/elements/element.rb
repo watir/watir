@@ -662,7 +662,7 @@ module Watir
         end
         msg = ex.message
         msg += "; Maybe look in an iframe?" if @query_scope.ensure_context && @query_scope.iframes.count > 0
-        custom_attributes = @locator.selector_builder.custom_attributes
+        custom_attributes = @locator.nil? ? [] : @locator.selector_builder.custom_attributes
         msg += "; Watir treated #{custom_attributes} as a non-HTML compliant attribute, ensure that was intended" unless custom_attributes.empty?
         raise unknown_exception, msg
       rescue Selenium::WebDriver::Error::StaleElementReferenceError
