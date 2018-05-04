@@ -1,3 +1,7 @@
+### 6.11.0.beta1 (2018-05-04)
+
+* Significant performance updates
+
 ### 6.10.3 (2018-01-26)
 
 * Add special handling for `date_field` and `date_time_field` input types
