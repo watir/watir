@@ -23,6 +23,38 @@ describe 'Watir#relaxed_locate?' do
         end
       end
 
+      context 'when acting on an element whose parent is never present' do
+        it 'raises exception after timing out' do
+          begin
+            time_out = 2
+            Watir.default_timeout = time_out
+            element = browser.link(id: 'not_there')
+            start_time = ::Time.now
+            allow($stderr).to receive(:write).twice
+            expect { element.element.click }.to raise_exception(Watir::Exception::UnknownObjectException)
+            expect(::Time.now - start_time).to be > time_out
+          ensure
+            Watir.default_timeout = 30
+          end
+        end
+      end
+
+      context 'when acting on an element from a collection whose parent is never present' do
+        it 'raises exception after timing out' do
+          begin
+            time_out = 2
+            Watir.default_timeout = time_out
+            element = browser.link(id: 'not_there')
+            start_time = ::Time.now
+            allow($stderr).to receive(:write).twice
+            expect { element.elements[2].click }.to raise_exception(Watir::Exception::UnknownObjectException)
+            expect(::Time.now - start_time).to be > time_out
+          ensure
+            Watir.default_timeout = 30
+          end
+        end
+      end
+
       context 'when acting on an element that is already present' do
         it 'does not wait' do
           begin

@@ -45,7 +45,7 @@ module Watir
     #
 
     def [](idx)
-      to_a[idx] || element_class.new(@query_scope, @selector.merge(index: idx))
+      element_class.new(@query_scope, @selector.merge(index: idx))
     end
 
     #
@@ -121,13 +121,8 @@ module Watir
     private
 
     def elements
-      @query_scope.send :ensure_context
-
-      element_validator = element_validator_class.new
-      selector_builder = selector_builder_class.new(@query_scope, @selector, element_class.attribute_list)
-      locator = locator_class.new(@query_scope, @selector, selector_builder, element_validator)
-
-      @elements ||= locator.locate_all
+      @locator ||= build_locator
+      @elements ||= @locator.locate_all
     end
 
     def element_class
