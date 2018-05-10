@@ -9,7 +9,7 @@ require 'webdrivers'
 require 'locator_spec_helper'
 require 'rspec'
 
-SELENIUM_SELECTORS = %i(class class_name css id tag_name xpath link_text partial_link_text link)
+SELENIUM_SELECTORS = %i(css tag_name xpath link_text partial_link_text link)
 
 if ENV['RELAXED_LOCATE'] == "false"
   Watir.relaxed_locate = false

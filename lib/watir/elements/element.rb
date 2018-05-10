@@ -389,8 +389,8 @@ module Watir
     #
 
     def wd
-      return driver if @element.is_a? FramedDriver
       assert_exists if @element.nil?
+      return driver if @element.is_a? FramedDriver
       @element
     end
 
@@ -577,21 +577,12 @@ module Watir
     # Ensure that the element exists, making sure that it is not stale and located if necessary
     def assert_exists
       locate unless @element
-      assert_element_found
-    end
-
-    def assert_element_found
       return if @element
       raise unknown_exception, "unable to locate element: #{inspect}"
     end
 
     def locate
-      @query_scope.ensure_context
-
-      element_validator = element_validator_class.new
-      selector_builder = selector_builder_class.new(@query_scope, @selector.dup, self.class.attribute_list)
-      @locator = locator_class.new(@query_scope, @selector.dup, selector_builder, element_validator)
-
+      @locator = build_locator
       @element = @locator.locate
     end
 

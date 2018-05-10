@@ -5,14 +5,10 @@ module Watir
         attr_reader :selector_builder
         attr_reader :element_validator
 
-        WD_FINDERS = [
-          :class,
-          :class_name,
+        W3C_FINDERS = [
           :css,
-          :id,
           :link,
           :link_text,
-          :name,
           :partial_link_text,
           :tag_name,
           :xpath
@@ -49,53 +45,34 @@ module Watir
         private
 
         def using_selenium(filter = :first)
-          selector = @selector.dup
-          tag_name = selector[:tag_name].is_a?(::Symbol) ? selector[:tag_name].to_s : selector[:tag_name]
-          selector.delete(:tag_name) if selector.size > 1
+          tag = @selector[:tag_name].is_a?(::Symbol) ? @selector.delete(:tag_name).to_s : @selector.delete(:tag_name)
+          return if @selector.size > 1
 
-          WD_FINDERS.each do |sel|
-            next unless (value = selector.delete(sel))
-            return unless selector.empty? && wd_supported?(sel, value)
-            if filter == :all
-              found = locate_elements(sel, value)
-              return found if sel == :tag_name
-              filter_selector = tag_name ? {tag_name: tag_name} : {}
-              return filter_elements(found, filter_selector, filter: filter).compact
-            else
-              found = locate_element(sel, value)
-              return sel != :tag_name && tag_name && !validate([found], tag_name) ? nil : found
-            end
-          end
-          nil
+          how = @selector.keys.first || :tag_name
+          what = @selector.values.first || tag
+
+          return unless wd_supported?(how, what, tag)
+
+          filter == :all ? locate_elements(how, what) : locate_element(how, what)
         end
 
         def using_watir(filter = :first)
-          query_scope = ensure_scope_context
-          selector = selector_builder.normalized_selector
+          create_normalized_selector(filter)
+          return unless @normalized_selector
 
-          if selector[:label]
-            query_scope = convert_label_to_scope_or_selector(query_scope, selector)
-            return unless query_scope # stop, label not found
-          end
+          create_filter_selector
 
-          if selector.key?(:index) && filter == :all
-            raise ArgumentError, "can't locate all elements by :index"
-          end
-
-          filter_selector = delete_filters_from(selector)
-
-          how, what = selector_builder.build(selector)
+          how, what = selector_builder.build(@normalized_selector.dup)
           unless how
-            raise Error, "internal error: unable to build Selenium selector from #{selector.inspect}"
+            raise Error, "internal error: unable to build Selenium selector from #{@normalized_selector.inspect}"
           end
-          what = add_regexp_predicates(what, filter_selector) if how == :xpath
+          what = add_regexp_predicates(what) if how == :xpath
 
-          needs_filtering = filter == :all || !filter_selector.empty?
-          if needs_filtering
-            elements = locate_elements(how, what, query_scope) || []
-            filter_elements(elements, filter_selector, filter: filter)
+          if filter == :all || !@filter_selector.empty?
+            elements = locate_elements(how, what, @driver_scope) || []
+            filter_elements(elements, filter: filter)
           else
-            locate_element(how, what, query_scope)
+            locate_element(how, what, @driver_scope)
           end
         end
 
@@ -125,7 +102,8 @@ module Watir
           end
         end
 
-        def filter_elements(elements, selector, filter: :first)
+        def filter_elements(elements, filter: :first)
+          selector = @filter_selector.dup
           if filter == :first
             idx = selector.delete(:index) || 0
             if idx < 0
@@ -141,57 +119,79 @@ module Watir
           end
         end
 
-        def delete_filters_from(selector)
-          filter_selector = {}
+        def create_normalized_selector(filter)
+          return @normalized_selector if @normalized_selector
+          @driver_scope = ensure_scope_context
+
+          @normalized_selector = selector_builder.normalized_selector
+
+          if @normalized_selector[:label]
+            process_label
+            return if @normalized_selector.nil?
+          end
+
+          if @normalized_selector.key?(:index) && filter == :all
+            raise ArgumentError, "can't locate all elements by :index"
+          end
+          @normalized_selector
+        end
+
+        def create_filter_selector
+          return @filter_selector if @filter_selector
+          @filter_selector = {}
 
           # Remove selectors that can never be used in XPath builder
           [:visible, :visible_text].each do |how|
-            next unless selector.key?(how)
-            filter_selector[how] = selector.delete(how)
+            next unless @normalized_selector.key?(how)
+            @filter_selector[how] = @normalized_selector.delete(how)
           end
 
-          if tag_validation_required?(selector)
-            tag_name = selector[:tag_name].is_a?(::Symbol) ? selector[:tag_name].to_s : selector[:tag_name]
-            filter_selector[:tag_name] = tag_name
+          if tag_validation_required?(@normalized_selector)
+            tag_name = @normalized_selector[:tag_name].is_a?(::Symbol) ? @normalized_selector[:tag_name].to_s : @normalized_selector[:tag_name]
+            @filter_selector[:tag_name] = tag_name
           end
 
           # Regexp locators currently need to be validated even if they are included in the XPath builder
           # TODO: Identify Regexp that can have an exact equivalent using XPath contains (ie would not require
           #  filtering) vs approximations (ie would still requiring filtering)
-          selector.dup.each do |how, what|
+          @normalized_selector.each do |how, what|
             next unless what.is_a?(Regexp)
-            filter_selector[how] = selector.delete(how)
+            @filter_selector[how] = @normalized_selector.delete(how)
           end
 
-          if selector[:index] && !selector[:adjacent]
-            idx = selector.delete(:index)
+          if @normalized_selector[:index] && !@normalized_selector[:adjacent]
+            idx = @normalized_selector.delete(:index)
 
             # Do not add {index: 0} filter if the only filter. This will allow using #find_element instead of #find_elements.
-            implicit_idx_filter = filter_selector.empty? && idx == 0
-            filter_selector[:index] = idx unless implicit_idx_filter
+            implicit_idx_filter = @filter_selector.empty? && idx == 0
+            @filter_selector[:index] = idx unless implicit_idx_filter
           end
 
-          filter_selector
+          @filter_selector
         end
 
-        def convert_label_to_scope_or_selector(query_scope, selector)
-          return query_scope unless selector[:label].kind_of?(Regexp) && selector_builder.should_use_label_element?
+        def process_label
+          return unless @normalized_selector[:label].kind_of?(Regexp) && selector_builder.should_use_label_element?
 
-          label = label_from_text(selector.delete(:label))
-          return unless label # label not found, stop looking for element
+          label = label_from_text
+          unless label # label not found, stop looking for element
+            @normalized_selector = nil
+            return
+          end
 
           if (id = label.attribute('for'))
-            selector[:id] = id
-            query_scope
+            @normalized_selector[:id] = id
           else
-            label
+            @driver_scope = label
           end
         end
 
-        def label_from_text(label_exp)
-          # TODO: this won't work correctly if @wd is a sub-element
-          locate_elements(:tag_name, 'label').find do |el|
-            matches_selector?(el, text: label_exp)
+        def label_from_text
+          # TODO: this won't work correctly if @wd is a sub-element, write spec
+          # TODO: Figure out how to do this with find_element
+          label_text = @normalized_selector.delete(:label)
+          locate_elements(:tag_name, 'label', @driver_scope).find do |el|
+            matches_selector?(el, text: label_text)
           end
         end
 
@@ -209,10 +209,10 @@ module Watir
           true
         end
 
-        def add_regexp_predicates(what, filter_selector)
+        def add_regexp_predicates(what)
           return what unless can_convert_regexp_to_contains?
 
-          filter_selector.each do |key, value|
+          @filter_selector.each do |key, value|
             next if [:tag_name, :text, :visible_text, :visible, :index].include?(key)
 
             predicates = regexp_selector_to_predicates(key, value)
@@ -251,12 +251,17 @@ module Watir
           scope.find_elements(how, what)
         end
 
-        def wd_supported?(how, what)
+        def wd_supported?(how, what, tag)
+          return false unless W3C_FINDERS.include? how
           return false unless what.kind_of?(String)
-          return false if [:class, :class_name].include?(how) && what.include?(' ')
-          %i[partial_link_text link_text link].each do |loc|
-            next unless how == loc
-            Watir.logger.deprecate(":#{loc} locator", ':visible_text')
+          if %i[partial_link_text link_text link].include?(how)
+            Watir.logger.deprecate(":#{how} locator", ':visible_text')
+            return true if [:a, :link, nil].include?(tag)
+            raise StandardError, "Can not use #{how} locator to find a #{what} element"
+          elsif how == :tag_name
+            return true
+          else
+            return false unless tag.nil?
           end
           true
         end

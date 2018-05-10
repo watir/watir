@@ -88,7 +88,6 @@ describe Watir::Locators::Element::Locator do
               element(tag_name: "div", attributes: { class: "foo" })
           ]
 
-          expect_one(:xpath, './/*[@class="foo"]').and_return(elements.first)
           expect_all(:xpath, './/*[@class="foo"]').and_return(elements)
 
           selector = {
@@ -337,7 +336,6 @@ describe Watir::Locators::Element::Locator do
     end
 
     it "returns nil if found element didn't match the selector tag_name" do
-      expect_one(:xpath, "//div").and_return(element(tag_name: "div"))
       expect_all(:xpath, "//div").and_return([element(tag_name: "div")])
 
       selector = {
