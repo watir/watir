@@ -1,3 +1,8 @@
+### 6.11.0.beta2 (2018-05-10)
+
+* Additional performance updates
+* Fix bug with error message of unlocated parent element (#706)
+
 ### 6.11.0.beta1 (2018-05-04)
 
 * Significant performance updates
