@@ -37,16 +37,16 @@ module Watir
     #
     # Get the element at the given index.
     #
-    # HTMLElementCollection and InputCollection will not be lazy loaded in order
-    # to load them as the desired type
+    # Any call to an ElementCollection including an adjacent selector
+    # can not be lazy loaded because it must store correct type
     #
     # @param [Integer] idx Index of wanted element, 0-indexed
     # @return [Watir::Element] Returns an instance of a Watir::Element subclass
     #
 
     def [](idx)
-      if [Watir::HTMLElement, Watir::Input].include? element_class
-        to_a[idx]
+      if @selector.key? :adjacent
+        to_a[idx] || element_class.new(@query_scope, {invalid_locator: true})
       else
         element_class.new(@query_scope, @selector.merge(index: idx))
       end

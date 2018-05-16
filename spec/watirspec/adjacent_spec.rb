@@ -53,6 +53,8 @@ describe "Adjacent Elements" do
 
     it "accepts a class_name argument" do
       siblings = browser.div(id: "second_sibling").siblings(class_name: 'b')
+      expect(siblings.first).to be_a Watir::Div
+      expect(siblings[0]).to be_a Watir::Div
       expect(siblings.size).to eq 2
       expect(siblings.all? { |sib| sib.is_a? Watir::Div }).to eq true
     end
@@ -111,7 +113,7 @@ describe "Adjacent Elements" do
       expect(browser.div(id: "second_sibling").following_siblings(tag_name: :div).first).to be_a Watir::Div
     end
 
-    it "accepts class_name argument" do
+    it "accepts class_name argument for single class" do
       expect(browser.div(id: "second_sibling").following_siblings(class_name: 'b').size).to eq 1
       expect(browser.div(id: "second_sibling").following_siblings(class_name: 'b').first).to be_a Watir::Div
     end
