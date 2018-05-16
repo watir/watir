@@ -206,7 +206,7 @@ module Watir
     end
 
     def find_options(how, str_or_rx)
-      browser.wait_while do
+      wait_while do
         case str_or_rx
         when String, Numeric, Regexp
           @found = how == :value ? options(value: str_or_rx) : []
