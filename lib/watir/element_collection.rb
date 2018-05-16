@@ -37,15 +37,29 @@ module Watir
     #
     # Get the element at the given index.
     #
-    # Also note that because of Watir's lazy loading, this will return an Element
-    # instance even if the index is out of bounds.
+    # HTMLElementCollection and InputCollection will not be lazy loaded in order
+    # to load them as the desired type
     #
     # @param [Integer] idx Index of wanted element, 0-indexed
     # @return [Watir::Element] Returns an instance of a Watir::Element subclass
     #
 
     def [](idx)
-      element_class.new(@query_scope, @selector.merge(index: idx))
+      if [Watir::HTMLElement, Watir::Input].include? element_class
+        to_a[idx]
+      else
+        element_class.new(@query_scope, @selector.merge(index: idx))
+      end
+    end
+
+    #
+    # First element of the collection
+    #
+    # @return [Watir::Element] Returns an instance of a Watir::Element subclass
+    #
+
+    def first
+      self[0]
     end
 
     #
