@@ -405,6 +405,7 @@ module Watir
       assert_exists
       @element.displayed?
     rescue Selenium::WebDriver::Error::StaleElementReferenceError
+      reset!
       raise unknown_exception
     end
 

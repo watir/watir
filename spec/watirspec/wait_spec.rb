@@ -204,6 +204,11 @@ describe Watir::Element do
       expect { browser.div(id: 'bar').wait_until_present(timeout: 5) }.to_not raise_exception
     end
 
+    it "waits until the element re-appears" do
+      browser.link(id: 'readd_bar').click
+      expect { browser.div(id: 'bar').wait_until_present }.to_not raise_exception
+    end
+
     it "times out if the element doesn't appear" do
       inspected = '#<Watir::Div: located: false; {:id=>"bar", :tag_name=>"div"}>'
       error = Watir::Wait::TimeoutError
@@ -259,7 +264,6 @@ describe Watir::Element do
       Watir.default_timeout = 1
       element = browser.link(name: 'add_select').wait_until(&:exists?)
       begin
-        start_time = ::Time.now
         browser.link(id: 'change_select').click
         expect { element.wait_while_present }.not_to raise_error
       ensure
