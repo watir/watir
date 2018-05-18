@@ -405,6 +405,7 @@ module Watir
       assert_exists
       @element.displayed?
     rescue Selenium::WebDriver::Error::StaleElementReferenceError
+      Watir.logger.deprecate "Checking `#present? == false` to determine a StaleElement", "``#stale? == true``"
       reset!
       raise unknown_exception
     end

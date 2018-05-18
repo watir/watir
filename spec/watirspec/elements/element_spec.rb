@@ -278,6 +278,7 @@ describe "Element" do
       expect(browser.div(:id, 'should-not-exist')).to_not be_present
     end
 
+    # TODO Refactor so that this returns true
     it "returns false if the element is stale" do
       element = browser.div(id: "foo").tap(&:exists?)
 
@@ -285,6 +286,17 @@ describe "Element" do
 
       expect(element).to be_stale
       expect(element).to_not be_present
+    end
+
+    # TODO Documents Current Behavior, but needs to be refactored/removed
+    it "returns true the second time if the element is stale" do
+      element = browser.div(id: "foo").tap(&:exists?)
+
+      browser.refresh
+
+      expect(element).to be_stale
+      expect(element).to_not be_present
+      expect(element).to be_present
     end
 
   end
