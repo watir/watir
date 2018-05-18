@@ -1,3 +1,8 @@
+### 6.11.0 (2018-05-18)
+
+* Improve lazy loading of element collections
+* Fix regressions (#726, #730)
+
 ### 6.11.0.beta2 (2018-05-10)
 
 * Additional performance updates
