@@ -402,6 +402,7 @@ module Watir
     #
 
     def visible?
+      Watir.logger.deprecate "#visible?", "#present?"
       assert_exists
       @element.displayed?
     rescue Selenium::WebDriver::Error::StaleElementReferenceError
