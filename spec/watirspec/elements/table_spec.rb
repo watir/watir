@@ -103,16 +103,12 @@ describe "Table" do
 
     it "finds rows belonging to this table" do
       expect(table.row(id: "outer_last")).to exist
-      msg = /:text locator with RegExp values to find elements based on only visible text is deprecated. Use :visible_text instead./
-      expect { expect(table.row(text: /Table 1, Row 1, Cell 1/)).to exist }.to output(msg).to_stdout_from_any_process
+      expect(table.row(text: /Table 1, Row 1, Cell 1/)).to exist
     end
 
     it "does not find rows from a nested table" do
       expect(table.row(id: "inner_first")).to_not exist
-      msg = /:text locator with RegExp values to find elements based on only visible text is deprecated. Use :visible_text instead./
-      expect do
-        expect(table.row(text: /\ATable 2, Row 1, Cell 1 Table 2, Row 1, Cell 2\z/)).to_not exist
-      end.to output(msg).to_stdout_from_any_process
+      expect(table.row(text: /\ATable 2, Row 1, Cell 1 Table 2, Row 1, Cell 2\z/)).to_not exist
     end
   end
 

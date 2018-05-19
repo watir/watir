@@ -83,12 +83,7 @@ module Watir
         def fetch_value(element, how)
           case how
           when :text
-            vis = element.text
-            all = Watir::Element.new(@query_scope, element: element).send(:execute_js, :getTextContent, element).strip
-            unless all == vis.strip
-              Watir.logger.deprecate(':text locator with RegExp values to find elements based on only visible text', ":visible_text")
-            end
-            vis
+            element.text
           when :visible
             element.displayed?
           when :visible_text
@@ -196,13 +191,23 @@ module Watir
         end
 
         def matches_selector?(element, selector)
-          selector.all? do |how, what|
+          matches = selector.all? do |how, what|
             if how == :tag_name && what.is_a?(String)
               element_validator.validate(element, {tag_name: what})
             else
               what === fetch_value(element, how)
             end
           end
+
+          if selector[:text]
+            text_content = Watir::Element.new(@query_scope, element: element).send(:execute_js, :getTextContent, element).strip
+            text_content_matches = selector[:text] === text_content
+            unless matches == text_content_matches
+              Watir.logger.deprecate(":text locator with RegExp: #{@selector[:text].inspect} matched an element with hidden text", ":visible_text")
+            end
+          end
+
+          matches
         end
 
         def can_convert_regexp_to_contains?

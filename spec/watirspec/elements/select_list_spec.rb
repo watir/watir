@@ -31,8 +31,7 @@ describe "SelectList" do
       expect(browser.select_list(value: 'no_such_value')).to_not exist
       expect(browser.select_list(value: /no_such_value/)).to_not exist
       expect(browser.select_list(text: 'no_such_text')).to_not exist
-      msg = /:text locator with RegExp values to find elements based on only visible text is deprecated. Use :visible_text instead./
-      expect { expect(browser.select_list(text: /no_such_text/)).to_not exist }.to output(msg).to_stdout_from_any_process
+      expect(browser.select_list(text: /no_such_text/)).to_not exist
       expect(browser.select_list(class: 'no_such_class')).to_not exist
       expect(browser.select_list(class: /no_such_class/)).to_not exist
       expect(browser.select_list(index: 1337)).to_not exist
