@@ -37,8 +37,7 @@ describe "Link" do
       expect(browser.link(title: "no_such_title")).to_not exist
       expect(browser.link(title: /no_such_title/)).to_not exist
       expect(browser.link(text: "no_such_text")).to_not exist
-      msg = /:text locator with RegExp values to find elements based on only visible text is deprecated. Use :visible_text instead./
-      expect { expect(browser.link(text: /no_such_text/i)).to_not exist }.to output(msg).to_stdout_from_any_process
+      expect(browser.link(text: /no_such_text/i)).to_not exist
       expect(browser.link(href: 'no_such_href')).to_not exist
       expect(browser.link(href: /no_such_href/)).to_not exist
       expect(browser.link(index: 1337)).to_not exist

@@ -23,8 +23,7 @@ describe "Ol" do
       expect(browser.ol(id: "no_such_id")).to_not exist
       expect(browser.ol(id: /no_such_id/)).to_not exist
       expect(browser.ol(text: "no_such_text")).to_not exist
-      msg = /:text locator with RegExp values to find elements based on only visible text is deprecated. Use :visible_text instead./
-      expect { expect(browser.ol(text: /no_such_text/)).to_not exist }.to output(msg).to_stdout_from_any_process
+      expect(browser.ol(text: /no_such_text/)).to_not exist
       expect(browser.ol(class: "no_such_class")).to_not exist
       expect(browser.ol(class: /no_such_class/)).to_not exist
       expect(browser.ol(index: 1337)).to_not exist
@@ -35,8 +34,7 @@ describe "Ol" do
       expect(browser.ol(id: "no_such_id")).to_not exist
       expect(browser.ol(id: /no_such_id/)).to_not exist
       expect(browser.ol(text: "no_such_text")).to_not exist
-      msg = /:text locator with RegExp values to find elements based on only visible text is deprecated. Use :visible_text instead./
-      expect { expect(browser.ol(text: /no_such_text/)).to_not exist }.to output(msg).to_stdout_from_any_process
+      expect(browser.ol(text: /no_such_text/)).to_not exist
       expect(browser.ol(class: "no_such_class")).to_not exist
       expect(browser.ol(class: /no_such_class/)).to_not exist
       expect(browser.ol(index: 1337)).to_not exist
