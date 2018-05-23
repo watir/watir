@@ -148,7 +148,7 @@ describe "Div" do
   describe "Deprecation Warnings" do
     describe "text locator with RegExp values" do
       it "does not throw deprecation when still matched by text content" do
-        expect { browser.div(text: /some visible/).exists? }.not_to output.to_stdout_from_any_process
+        expect { browser.div(text: /some visible/).exists? }.not_to output(/visible_text/).to_stdout_from_any_process
       end
 
       it "throws deprecation when no longer matched by text content" do
@@ -162,7 +162,7 @@ describe "Div" do
       end
 
       it "does not throw deprecation when still not matched by text content" do
-        expect { browser.div(text: /does not exist/).exists? }.not_to output.to_stdout_from_any_process
+        expect { browser.div(text: /does not exist/).exists? }.not_to output(/visible_text/).to_stdout_from_any_process
       end
     end
   end
