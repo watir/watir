@@ -66,6 +66,8 @@ module Watir
             case key
             when :text, 'text'
               'normalize-space()'
+            when String
+              "@#{key}"
             when :href
               # TODO: change this behaviour?
               'normalize-space(@href)'

@@ -123,6 +123,12 @@ describe Watir::Locators::Element::Locator do
                    text: "foo"
       end
 
+      it "handles 'text' key when it's a string" do
+        expect_one :xpath, ".//div[normalize-space()='foo']"
+        locate_one tag_name: "div",
+                   "text" => "foo"
+      end
+
       it "translates :caption to :text" do
         expect_one :xpath, ".//div[normalize-space()='foo']"
 
@@ -142,6 +148,13 @@ describe Watir::Locators::Element::Locator do
 
         locate_one tag_name: "div",
                    aria_label: "foo"
+      end
+
+      it "doesn't modify attribute name when the attribute key is a string" do
+        expect_one :xpath, ".//div[@_ngcontent-c24]"
+
+        locate_one tag_name: "div",
+                   "_ngcontent-c24" => true
       end
 
       it "normalizes space for the :href attribute" do
