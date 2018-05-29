@@ -156,5 +156,3 @@ require 'watir/elements/input'
 require 'watir/radio_set'
 
 require 'watir/aliases'
-
-Watir.tag_to_class.freeze
