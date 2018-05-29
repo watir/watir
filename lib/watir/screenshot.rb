@@ -1,8 +1,14 @@
 module Watir
   class Screenshot
 
-    def initialize(driver)
-      @driver = driver
+    def initialize(browser)
+      if browser.is_a? Selenium::WebDriver::Driver
+        Watir.logger.deprecate "Initializing `Watir::Screenshot` with a `Selenium::Driver` instance", "a `Watir::Browser` instance"
+        @driver = browser
+      else
+        @browser = browser
+        @driver = browser.wd
+      end
     end
 
     #

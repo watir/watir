@@ -290,7 +290,7 @@ module Watir
     #
 
     def screenshot
-      Screenshot.new driver
+      Screenshot.new self
     end
 
     #
