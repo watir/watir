@@ -35,20 +35,24 @@ module Watir
     alias_method :empty?, :none?
 
     #
-    # Get the element at the given index.
+    # Get the element at the given index or range.
     #
     # Any call to an ElementCollection including an adjacent selector
     # can not be lazy loaded because it must store correct type
     #
-    # @param [Integer] idx Index of wanted element, 0-indexed
-    # @return [Watir::Element] Returns an instance of a Watir::Element subclass
+    # Ranges can not be lazy loaded
+    #
+    # @param [Integer, Range] value Index (0-based) or Range of desired element(s)
+    # @return [Watir::Element, Watir::ElementCollection] Returns an instance of a Watir::Element subclass
     #
 
-    def [](idx)
-      if @selector.key? :adjacent
-        to_a[idx] || element_class.new(@query_scope, {invalid_locator: true})
+    def [](value)
+      if value.is_a?(Range)
+        to_a[value]
+      elsif @selector.key? :adjacent
+        to_a[value] || element_class.new(@query_scope, {invalid_locator: true})
       else
-        element_class.new(@query_scope, @selector.merge(index: idx))
+        element_class.new(@query_scope, @selector.merge(index: value))
       end
     end
 
