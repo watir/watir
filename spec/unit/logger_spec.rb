@@ -1,4 +1,4 @@
-require 'watirspec_helper'
+require_relative 'unit_helper'
 
 module Watir
   describe Logger do

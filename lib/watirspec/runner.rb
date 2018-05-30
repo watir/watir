@@ -15,6 +15,12 @@ module WatirSpec
 
     module_function
 
+    @execute = true
+
+    def execute=(bool)
+      @execute = bool
+    end
+
     def execute
       start_server
       configure
@@ -24,7 +30,7 @@ module WatirSpec
     end
 
     def execute_if_necessary
-      execute unless @executed
+      execute if !@executed && @execute
     end
 
     def configure
@@ -49,5 +55,5 @@ module WatirSpec
       at_exit { WatirSpec::Guards.report }
     end
 
-  end # SpecHelper
+  end # Runner
 end # WatirSpec

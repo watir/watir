@@ -1,4 +1,4 @@
-require 'spec_helper'
+require_relative 'unit_helper'
 
 describe Watir::Locators::Element::Locator do
   include LocatorSpecHelper

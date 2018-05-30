@@ -1,4 +1,4 @@
-require 'watirspec_helper'
+require_relative 'unit_helper'
 
 describe Watir::Container do
   before { @container = Object.new.extend(Watir::Container) }
