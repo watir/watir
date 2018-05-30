@@ -33,4 +33,19 @@ if defined?(RSpec)
       end
     end
   end
+
+  RSpec::Matchers.define :exist do |_message|
+    match do |actual|
+      actual.exist?
+    end
+
+    failure_message do |obj|
+      "expected #{obj.inspect} to exist"
+    end
+
+    failure_message_when_negated do |obj|
+      "expected #{obj.inspect} to not exist"
+    end
+  end
+
 end
