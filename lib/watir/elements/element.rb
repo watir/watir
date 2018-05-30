@@ -555,8 +555,7 @@ module Watir
       begin
         wait_until(&:enabled?)
       rescue Watir::Wait::TimeoutError
-        message = "element present, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to be enabled"
-        raise ObjectDisabledException, message
+        raise_disabled
       end
     end
 
@@ -609,7 +608,7 @@ module Watir
     end
 
     def raise_disabled
-      message = "element present and enabled, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to not be disabled"
+      message = "element present, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to be enabled"
       raise ObjectDisabledException, message
     end
 
