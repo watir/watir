@@ -25,6 +25,10 @@ describe "TextField" do
       expect(browser.text_field(label: /(Last|First) name/)).to exist
       expect(browser.text_field(label: 'Without for')).to exist
       expect(browser.text_field(label: /Without for/)).to exist
+      expect(browser.text_field(label: 'With hidden text')).to exist
+      expect(browser.text_field(label: 'With text')).not_to exist
+      expect(browser.text_field(visible_label: /With text/)).to exist
+      expect(browser.text_field(visible_label: /With hidden text/)).not_to exist
     end
 
     it "returns the first text field if given no args" do
