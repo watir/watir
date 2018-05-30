@@ -120,8 +120,14 @@ module Watir
 
           @normalized_selector = selector_builder.normalized_selector
 
-          if @normalized_selector[:label]
-            process_label
+          if @normalized_selector.key?(:label)
+            label_key = :label
+          elsif @normalized_selector.key?(:visible_label)
+            label_key = :visible_label
+          end
+
+          if label_key
+            process_label(label_key)
             return if @normalized_selector.nil?
           end
 
@@ -165,10 +171,10 @@ module Watir
           @filter_selector
         end
 
-        def process_label
-          return unless @normalized_selector[:label].kind_of?(Regexp) && selector_builder.should_use_label_element?
+        def process_label(label_key)
+          return unless @normalized_selector[label_key].kind_of?(Regexp) && selector_builder.should_use_label_element?
 
-          label = label_from_text
+          label = label_from_text(label_key)
           unless label # label not found, stop looking for element
             @normalized_selector = nil
             return
@@ -181,12 +187,13 @@ module Watir
           end
         end
 
-        def label_from_text
+        def label_from_text(label_key)
           # TODO: this won't work correctly if @wd is a sub-element, write spec
           # TODO: Figure out how to do this with find_element
-          label_text = @normalized_selector.delete(:label)
+          label_text = @normalized_selector.delete(label_key)
+          locator_key = label_key.to_s.gsub('label', 'text').to_sym
           locate_elements(:tag_name, 'label', @driver_scope).find do |el|
-            matches_selector?(el, text: label_text)
+            matches_selector?(el, locator_key => label_text)
           end
         end
 
@@ -203,7 +210,8 @@ module Watir
             text_content = Watir::Element.new(@query_scope, element: element).send(:execute_js, :getTextContent, element).strip
             text_content_matches = selector[:text] === text_content
             unless matches == text_content_matches
-              Watir.logger.deprecate(":text locator with RegExp: #{@selector[:text].inspect} matched an element with hidden text", ":visible_text")
+              key = @selector.key?(:text) ? "text" : "label"
+              Watir.logger.deprecate("Using :#{key} locator with RegExp (#{selector[:text].inspect}) to match an element that includes hidden text", ":visible_#{key}")
             end
           end
 
