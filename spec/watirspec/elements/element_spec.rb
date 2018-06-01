@@ -485,10 +485,8 @@ describe "Element" do
   end
 
   describe "#flash" do
-
     let(:h2) { browser.h2(text: 'Add user') }
     let(:h1) { browser.h1(text: 'User administration') }
-
 
     it 'returns the element on which it was called' do
       expect(h2.flash).to eq h2
@@ -498,7 +496,6 @@ describe "Element" do
       expect(h2.style('background-color')).to eq h2.flash.style('background-color')
       expect(h1.style('background-color')).to eq h1.flash.style('background-color')
     end
-
   end
 
   describe "#hover" do
