@@ -25,7 +25,7 @@ module Watir
     end
 
     it 'outputs to stdout by default' do
-      expect { Watir.logger.warn('message') }.to output(/WARN Watir message/).to_stdout
+      expect { Watir.logger.warn('message') }.to output(/WARN Watir message/).to_stdout_from_any_process
     end
 
     it 'allows to output to file' do
@@ -40,7 +40,33 @@ module Watir
 
     it 'allows to deprecate functionality' do
       message = /WARN Watir \[DEPRECATION\] #old is deprecated\. Use #new instead\./
-      expect { Watir.logger.deprecate('#old', '#new') }.to output(message).to_stdout
+      expect { Watir.logger.deprecate('#old', '#new') }.to output(message).to_stdout_from_any_process
     end
+
+    it 'allows to selectively ignore deprecations with Strings' do
+      Watir.logger.ignore("old deprecated")
+      expect { Watir.logger.deprecate('#old', '#new', ids: ['old deprecated']) }.to_not output.to_stdout_from_any_process
+    end
+
+    it 'allows to selectively ignore deprecations with Symbols' do
+      Watir.logger.ignore(:foo)
+      expect { Watir.logger.deprecate('#old', '#new', ids: [:foo]) }.to_not output.to_stdout_from_any_process
+    end
+
+    it 'allows to selectively ignore warnings with Strings' do
+      Watir.logger.ignore(:foo)
+      expect { Watir.logger.warn('warning', ids: ['foo']) }.to_not output.to_stdout_from_any_process
+    end
+
+    it 'allows to selectively ignore warnings with Symbols' do
+      Watir.logger.ignore(:foo)
+      expect { Watir.logger.warn('warning', ids: [:foo]) }.to_not output.to_stdout_from_any_process
+    end
+
+    it 'allows to ignore all deprecation notices' do
+      Watir.logger.ignore(:deprecations)
+      expect { Watir.logger.deprecate('#old', '#new') }.to_not output.to_stdout_from_any_process
+    end
+
   end
 end

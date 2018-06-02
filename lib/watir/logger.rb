@@ -22,26 +22,36 @@ module Watir
 
     def_delegators :@logger, :debug, :debug?,
                    :info, :info?,
-                   :warn, :warn?,
+                   :warn?,
                    :error, :error?,
                    :fatal, :fatal?,
                    :level
 
-    def initialize
+    def initialize(progname="Watir")
       @logger = create_logger($stdout)
+      @logger.progname = progname
+      @ignored = []
+    end
+
+    def ignore(id)
+      @ignored << id.to_s
     end
 
     def output=(io)
-      # `Logger#reopen` was added in Ruby 2.3
-      if @logger.respond_to?(:reopen)
-        @logger.reopen(io)
-      else
-        @logger = create_logger(io)
-      end
+      @logger.reopen(io)
     end
 
     #
-    # For Ruby < 2.3 compatibility
+    # Only log a warn message if it is not set to be ignored.
+    #
+    def warn(message, ids: [], &block)
+      msg = ids.empty? ? "" : "[#{ids.map!(&:to_s).map(&:inspect).join(", ")}] "
+      msg += message
+      @logger.warn(msg, &block) unless (@ignored & ids).any?
+    end
+
+    #
+    # For Ruby < 2.4 compatibility
     # Based on https://github.com/ruby/ruby/blob/ruby_2_3/lib/logger.rb#L250
     #
 
@@ -89,8 +99,10 @@ module Watir
     # @param [String] old
     # @param [String] new
     #
-    def deprecate(old, new)
-      warn "[DEPRECATION] #{old} is deprecated. Use #{new} instead."
+    def deprecate(old, new, ids: [])
+      return if @ignored.include?('deprecations') || (@ignored & ids.map!(&:to_s)).any?
+      msg = ids.empty? ? "" : "[#{ids.map(&:inspect).join(", ")}] "
+      warn "[DEPRECATION] #{msg}#{old} is deprecated. Use #{new} instead."
     end
 
     private
