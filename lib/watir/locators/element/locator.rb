@@ -172,7 +172,8 @@ module Watir
         end
 
         def process_label(label_key)
-          return unless @normalized_selector[label_key].kind_of?(Regexp) && selector_builder.should_use_label_element?
+          regexp = @normalized_selector[label_key].kind_of?(Regexp)
+          return unless (regexp || label_key == :visible_label)  && selector_builder.should_use_label_element?
 
           label = label_from_text(label_key)
           unless label # label not found, stop looking for element
