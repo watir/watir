@@ -493,9 +493,17 @@ describe "Element" do
     end
 
     it 'should keep the element background color after flashing' do
-      expect(h2.style('background-color')).to eq h2.flash.style('background-color')
+      expect(h2.style('background-color')).to eq h2.flash(:rainbow).style('background-color')
       expect(h1.style('background-color')).to eq h1.flash.style('background-color')
     end
+
+    it 'should respond to preset symbols like :fast and :slow' do
+      expect(h1.flash(:rainbow)).to eq h1
+      expect(h2.flash(:slow)).to eq h2
+      expect(h1.flash(:fast)).to eq h1
+      expect(h2.flash(:long)).to eq h2
+    end
+
   end
 
   describe "#hover" do
