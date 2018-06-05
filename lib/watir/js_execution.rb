@@ -33,22 +33,38 @@ module Watir
     #   browser.li(id: 'non_link_1').flash
     #   browser.li(id: 'non_link_1').flash(color: "green", flashes: 3, delay: 0.05)
     #   browser.li(id: 'non_link_1').flash(color: "yellow")
+    #   browser.li(id: 'non_link_1').flash(color: ["yellow", "green"])
     #   browser.li(id: 'non_link_1').flash(flashes: 4)
     #   browser.li(id: 'non_link_1').flash(delay: 0.1)
+    #   browser.li(id: 'non_link_1').flash(:fast)
+    #   browser.li(id: 'non_link_1').flash(:slow)
+    #   browser.li(id: 'non_link_1').flash(:rainbow)
     #
-    # @param [String] color what color to flash with
+    # @param [Symbol] preset :fast, :slow, :long or :rainbow for pre-set values
+    # @param [String/Array] color what color or colors to flash with
     # @param [Integer] flashes number of times element should be flashed
     # @param [Integer, Float] delay how long to wait between flashes
     #
     # @return [Watir::Element]
     #
 
-    def flash(color: 'red', flashes: 10, delay: 0.05)
+    def flash(preset = :default, color: 'red', flashes: 10, delay: 0.1)
+      presets = {
+          fast: { delay: 0.04 },
+          slow: { delay: 0.2 },
+          long: { flashes: 5, delay: 0.5 },
+          rainbow: { flashes: 5, color: %w(red orange yellow green blue indigo violet) }
+      }
+      return self.flash(presets[preset]) unless presets[preset].nil?
+
       background_color = original_color = style("background-color")
       background_color = 'white' if background_color.empty?
+      color = [color] if color.is_a? String
+      color.push(background_color)
 
-      (flashes * 2).times do |n|
-        nextcolor = n.even? ? color : background_color
+      (flashes * color.length).times do |n|
+        modulo = n % color.length
+        nextcolor = color[modulo]
         element_call { execute_js(:backgroundColor, @element, nextcolor) }
         sleep(delay)
       end
