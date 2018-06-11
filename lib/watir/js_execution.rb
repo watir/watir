@@ -41,7 +41,7 @@ module Watir
     #   browser.li(id: 'non_link_1').flash(:rainbow)
     #
     # @param [Symbol] preset :fast, :slow, :long or :rainbow for pre-set values
-    # @param [String/Array] color what color or colors to flash with
+    # @param [String/Array] color what 'color' or [colors] to flash with
     # @param [Integer] flashes number of times element should be flashed
     # @param [Integer, Float] delay how long to wait between flashes
     #
@@ -59,13 +59,10 @@ module Watir
 
       background_color = original_color = style("background-color")
       background_color = 'white' if background_color.empty?
-      color = [color] if color.is_a? String
-      color.push(background_color)
+      colors = Array(color).push(background_color)
 
-      (flashes * color.length).times do |n|
-        modulo = n % color.length
-        nextcolor = color[modulo]
-        element_call { execute_js(:backgroundColor, @element, nextcolor) }
+      (colors * flashes).each do |next_color|
+        element_call { execute_js(:backgroundColor, @element, next_color) }
         sleep(delay)
       end
 
