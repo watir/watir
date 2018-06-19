@@ -262,11 +262,12 @@ module Watir
     #   browser.a(id: "link_2").attribute_value "title"
     #   #=> "link_title_2"
     #
-    # @param [String] attribute_name
+    # @param [String, ::Symbol] attribute_name
     # @return [String, nil]
     #
 
     def attribute_value(attribute_name)
+      attribute_name = attribute_name.to_s.tr('_', '-') if attribute_name.is_a?(::Symbol)
       element_call { @element.attribute attribute_name }
     end
     alias_method :attribute, :attribute_value

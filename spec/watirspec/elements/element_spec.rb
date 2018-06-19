@@ -654,4 +654,15 @@ describe "Element" do
     end
   end
 
+  describe '#attribute_value' do
+    before { browser.goto WatirSpec.url_for("data_attributes.html") }
+
+    it 'returns attribute value by string attribute name' do
+      expect(browser.p.attribute_value('data-type')).to eq "ruby-library"
+    end
+
+    it 'returns attribute value by symbol attribute name' do
+      expect(browser.p.attribute_value(:data_type)).to eq "ruby-library"
+    end
+  end
 end
