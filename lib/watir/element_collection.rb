@@ -5,6 +5,8 @@ module Watir
   #
 
   class ElementCollection
+    attr_reader :query_scope, :selector
+
     include Enumerable
     include Locators::ClassHelpers
 
