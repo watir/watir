@@ -36,6 +36,9 @@ module Watir
     def extract_selector(selectors)
       case selectors.size
       when 2
+        Watir.logger.deprecate "Using ordered parameters to locate elements (:#{selectors.first}, #{selectors.last.inspect})",
+                               "{#{selectors.first}: #{selectors.last.inspect}}",
+                               ids: [:selector_parameters]
         return { selectors[0] => selectors[1] }
       when 1
         obj = selectors.first
@@ -44,7 +47,7 @@ module Watir
         return {}
       end
 
-      raise ArgumentError, "expected Hash or (:how, 'what'), got #{selectors.inspect}"
+      raise ArgumentError, "expected Hash, got #{selectors.inspect}"
     end
 
   end # Container
