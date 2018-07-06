@@ -46,7 +46,13 @@ describe 'Browser' do
     end
 
     it 'finds window by :index' do
-      w = browser.window(index: 1).use
+      expect {
+        expect(browser.window(index: 1).use).to be_kind_of(Watir::Window)
+      }.to have_deprecated_window_index
+    end
+
+    it 'finds window by multiple values' do
+      w = browser.window(url: /closeable\.html/, title: 'closeable window').use
       expect(w).to be_kind_of(Watir::Window)
     end
 
@@ -85,7 +91,9 @@ describe 'Browser' do
     end
 
     it "raises a NoMatchingWindowFoundException error if there's no window at the given index" do
-      expect { browser.window(index: 100).use }.to raise_no_matching_window_exception
+      expect {
+        expect { browser.window(index: 100).use }.to raise_no_matching_window_exception
+      }.to have_deprecated_window_index
     end
 
     it 'raises NoMatchingWindowFoundException error when attempting to use a window with an incorrect handle' do
@@ -282,6 +290,7 @@ describe 'Window' do
         end
       end
     end
+
     describe '#current?' do
       it 'returns false if the referenced window is closed' do
         original_window = browser.window
@@ -388,7 +397,9 @@ describe 'Window' do
 
       describe '#present?' do
         it 'should find window by index' do
-          expect(browser.window(index: 0)).to be_present
+          expect {
+            expect(browser.window(index: 0)).to be_present
+          }.to have_deprecated_window_index
         end
 
         it 'should find window by url' do
@@ -403,7 +414,7 @@ describe 'Window' do
       describe '#use' do
         context 'switching windows without blocks' do
           it 'by index' do
-            browser.window(index: 0).use
+            expect { browser.window(index: 0).use }.to have_deprecated_window_index
             expect(browser.title).to be == 'window switching'
           end
 
@@ -420,7 +431,9 @@ describe 'Window' do
 
         context 'Switching windows with blocks' do
           it 'by index' do
-            browser.window(index: 0).use { expect(browser.title).to be == 'window switching' }
+            expect {
+              browser.window(index: 0).use { expect(browser.title).to be == 'window switching' }
+            }.to have_deprecated_window_index
           end
 
           it 'by url' do
