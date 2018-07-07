@@ -328,6 +328,20 @@ describe Watir::Locators::Element::Locator do
         expect_all(:tag_name, "label").and_return([])
         expect(locate_one(tag_name: "div", label: /foo/)).to be_nil
       end
+
+      it "relocates an element that goes stale during filtering" do
+        element1 = element(tag_name: "div", attributes: {class: "foo"})
+        element2 = element(tag_name: "div", attributes: {class: "foob"})
+
+        elements1 = [element1.clone, element2.clone]
+        elements2 = [element1.clone, element2.clone]
+
+        allow(elements1.first).to receive(:attribute).and_raise(Selenium::WebDriver::Error::StaleElementReferenceError)
+
+        expect_all(:xpath, "(.//*)[contains(@class, 'foo')]").and_return(elements1, elements2)
+
+        expect(locate_one(class: /foo/)).to eq elements2[0]
+      end
     end
 
     it "finds all if :index is given" do
