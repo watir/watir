@@ -37,7 +37,7 @@ module Watir
 
       def until(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, interval: nil, object: nil)
         if deprecated_message || deprecated_timeout
-          Watir.logger.deprecate "Using arguments for Wait#until", "keywords"
+          Watir.logger.deprecate "Using arguments for Wait#until", "keywords", ids: [:until, :timeout_arguments]
           timeout = deprecated_timeout
           message = deprecated_message
         end
@@ -63,7 +63,7 @@ module Watir
 
       def while(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, interval: nil, object: nil)
         if deprecated_message || deprecated_timeout
-          Watir.logger.deprecate "Using arguments for Wait#while", "keywords"
+          Watir.logger.deprecate "Using arguments for Wait#while", "keywords", ids: [:while, :timeout_arguments]
           timeout = deprecated_timeout
           message = deprecated_message
         end
@@ -118,7 +118,7 @@ module Watir
 
     def wait_until(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, interval: nil, &blk)
       if deprecated_message || deprecated_timeout
-        Watir.logger.deprecate "Using arguments for #wait_until", "keywords"
+        Watir.logger.deprecate "Using arguments for #wait_until", "keywords", ids: [:wait_until, :timeout_arguments]
         timeout = deprecated_timeout
         message = deprecated_message
       end
@@ -144,7 +144,7 @@ module Watir
 
     def wait_while(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, interval: nil, &blk)
       if deprecated_message || deprecated_timeout
-        Watir.logger.deprecate "Using arguments for #wait_while", "keywords"
+        Watir.logger.deprecate "Using arguments for #wait_while", "keywords", ids: [:wait_while, :timeout_arguments]
         timeout = deprecated_timeout
         message = deprecated_message
       end
@@ -168,7 +168,7 @@ module Watir
 
     def wait_until_present(deprecated_timeout = nil, timeout: nil, interval: nil)
       if deprecated_timeout
-        Watir.logger.deprecate "Using arguments for #wait_until_present", "keywords"
+        Watir.logger.deprecate "Using arguments for #wait_until_present", "keywords", ids: [:wait_until_present, :timeout_arguments]
         timeout = deprecated_timeout
       end
       wait_until(timeout: timeout, interval: interval, &:present?)
@@ -188,7 +188,7 @@ module Watir
 
     def wait_while_present(deprecated_timeout = nil, timeout: nil)
       if deprecated_timeout
-        Watir.logger.deprecate "Using arguments for #wait_while_present", "keywords"
+        Watir.logger.deprecate "Using arguments for #wait_while_present", "keywords", ids: [:wait_while_present, :timeout_arguments]
         timeout = deprecated_timeout
       end
       wait_while(timeout: timeout) do

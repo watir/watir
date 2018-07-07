@@ -110,7 +110,7 @@ module Watir
           message = "This code has slept for the duration of the default timeout "
           message << "waiting for an Alert to exist. If the test is still passing, "
           message << "consider using Alert#exists? instead of rescuing UnknownObjectException"
-          Watir.logger.warn message
+          Watir.logger.warn message, ids: [:wait_for_alert]
         end
         raise Exception::UnknownObjectException, 'unable to locate alert'
       end

@@ -50,7 +50,8 @@ module Watir
             if key == :class
               if value.strip.include?(' ')
                 Watir.logger.deprecate "Using the :class locator to locate multiple classes with a String value (i.e. \"#{value}\")",
-                                       "Array (e.g. #{value.split})"
+                                       "Array (e.g. #{value.split})",
+                                        ids: [:class_array]
               end
               build_class_match(value)
             elsif key == :label && @should_use_label_element

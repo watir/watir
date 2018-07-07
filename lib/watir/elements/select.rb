@@ -94,7 +94,7 @@ module Watir
     #
 
     def select_value(str_or_rx)
-      Watir.logger.deprecate '#select_value', "#select"
+      Watir.logger.deprecate '#select_value', "#select", ids: [:select_value]
       select_by str_or_rx
     end
 
@@ -157,7 +157,8 @@ module Watir
       found = find_options(:value, str_or_rx)
 
       if found && found.size > 1
-        Watir.logger.deprecate "Selecting Multiple Options with #select", "#select_all"
+        Watir.logger.deprecate "Selecting Multiple Options with #select", "#select_all",
+                               ids: [:select_by]
       end
       return select_matching(found) if found && found.any?
       raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
