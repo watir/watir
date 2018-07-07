@@ -5,7 +5,8 @@ if defined?(RSpec)
     raise_unknown_frame_exception: Watir::Exception::UnknownFrameException,
     raise_object_disabled_exception: Watir::Exception::ObjectDisabledException,
     raise_object_read_only_exception: Watir::Exception::ObjectReadOnlyException,
-    raise_no_value_found_exception: Watir::Exception::NoValueFoundException
+    raise_no_value_found_exception: Watir::Exception::NoValueFoundException,
+    raise_timeout_exception: Watir::Wait::TimeoutError
   }.freeze
 
   TIMING_EXCEPTIONS.each do |matcher, exception|
@@ -17,7 +18,7 @@ if defined?(RSpec)
           actual.call
           false
         rescue exception => ex
-          raise exception, "expected '#{message}' to be included in: '#{ex.message}'" unless message.nil? || ex.message.include?(message)
+          raise exception, "expected '#{message}' to be included in: '#{ex.message}'" unless message.nil? || ex.message.match(message)
           true
         ensure
           Watir.default_timeout = original_timeout

@@ -167,14 +167,9 @@ describe Watir::Element do
     end
 
     it "waits until the selector no longer matches" do
-      Watir.default_timeout = 1
       element = browser.link(name: 'add_select').wait_until(&:exists?)
-      begin
-        browser.link(id: 'change_select').click
-        expect { element.wait_while_present }.not_to raise_error
-      ensure
-        Watir.default_timeout = 30
-      end
+      browser.link(id: 'change_select').click
+      expect { element.wait_while_present }.not_to raise_error
     end
   end
 

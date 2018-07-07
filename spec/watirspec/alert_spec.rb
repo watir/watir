@@ -63,14 +63,7 @@ not_compliant_on :headless do
           end
 
           it 'raises error if alert is not present after timeout' do
-            begin
-              Watir.default_timeout = 2
-              expect {
-                browser.alert.wait_until_present.ok
-              }.to raise_error(Watir::Wait::TimeoutError)
-            ensure
-              Watir.default_timeout = 30
-            end
+            expect { browser.alert.wait_until_present.ok }.to raise_timeout_exception
           end
         end
       end
