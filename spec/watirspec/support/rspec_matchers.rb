@@ -34,9 +34,9 @@ if defined?(RSpec)
     end
   end
 
-  RSpec::Matchers.define :exist do |_message|
+  RSpec::Matchers.define :exist do |*args|
     match do |actual|
-      actual.exist?
+      actual.exists? *args
     end
 
     failure_message do |obj|
