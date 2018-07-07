@@ -69,8 +69,17 @@ module Watir
           what = add_regexp_predicates(what) if how == :xpath
 
           if filter == :all || !@filter_selector.empty?
-            elements = locate_elements(how, what, @driver_scope) || []
-            filter_elements(elements, filter: filter)
+            retries = 0
+            begin
+              elements = locate_elements(how, what, @driver_scope) || []
+              filter_elements(elements, filter: filter)
+            rescue Selenium::WebDriver::Error::StaleElementReferenceError
+              retries += 1
+              sleep 0.5
+              retry unless retries > 2
+              target = filter == :all ? "element collection" : "element"
+              raise StandardError, "Unable to locate #{target} from #{@selector} due to changing page"
+            end
           else
             locate_element(how, what, @driver_scope)
           end
