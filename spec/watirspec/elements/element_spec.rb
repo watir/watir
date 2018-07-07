@@ -217,7 +217,7 @@ describe "Element" do
       browser.refresh
 
       expect(element).to be_stale
-      msg = /Checking `#visible\?` or `#present\? == false` to determine a StaleElement is deprecated. Use `#stale\? == true` instead\./
+      msg = /Checking `#visible\?` or `#present\? == false` to determine a stale element is deprecated. Use `#stale\? == true` instead\./
       expect {
         expect { element.visible? }.to raise_unknown_object_exception
       }.to output(msg).to_stdout_from_any_process
@@ -289,7 +289,7 @@ describe "Element" do
 
       expect(element).to be_stale
 
-      msg = /Checking `#visible\?` or `#present\? == false` to determine a StaleElement is deprecated. Use `#stale\? == true` instead\./
+      msg = /Checking `#visible\?` or `#present\? == false` to determine a stale element is deprecated. Use `#stale\? == true` instead\./
       expect {
         expect(element).to_not be_present
       }.to output(msg).to_stdout_from_any_process
@@ -303,7 +303,7 @@ describe "Element" do
 
       expect(element).to be_stale
 
-      msg = /Checking `#visible\?` or `#present\? == false` to determine a StaleElement is deprecated. Use `#stale\? == true` instead\./
+      msg = /Checking `#visible\?` or `#present\? == false` to determine a stale element is deprecated. Use `#stale\? == true` instead\./
       expect {
         expect(element).to_not be_present
       }.to output(msg).to_stdout_from_any_process

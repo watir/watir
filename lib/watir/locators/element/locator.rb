@@ -212,7 +212,8 @@ module Watir
             text_content_matches = selector[:text] === text_content
             unless matches == text_content_matches
               key = @selector.key?(:text) ? "text" : "label"
-              Watir.logger.deprecate("Using :#{key} locator with RegExp (#{selector[:text].inspect}) to match an element that includes hidden text", ":visible_#{key}")
+              Watir.logger.deprecate("Using :#{key} locator with RegExp #{selector[:text].inspect} to match an element that includes hidden text", ":visible_#{key}",
+                  ids: [:text_regexp])
             end
           end
 
@@ -269,7 +270,7 @@ module Watir
           return false unless W3C_FINDERS.include? how
           return false unless what.kind_of?(String)
           if %i[partial_link_text link_text link].include?(how)
-            Watir.logger.deprecate(":#{how} locator", ':visible_text')
+            Watir.logger.deprecate(":#{how} locator", ':visible_text', ids: [:visible_text])
             return true if [:a, :link, nil].include?(tag)
             raise StandardError, "Can not use #{how} locator to find a #{what} element"
           elsif how == :tag_name

@@ -152,12 +152,12 @@ describe "Div" do
       end
 
       it "throws deprecation when no longer matched by text content" do
-        msg = Regexp.new(Regexp.escape("Using :text locator with RegExp (/some visible$/) to match an element that includes hidden text is deprecated. Use :visible_text instead."))
+        msg = /Using :text locator with RegExp \/some visible\$\/ to match an element that includes hidden text is deprecated\. Use :visible_text instead/
         expect { browser.div(text: /some visible$/).exists? }.to output(msg).to_stdout_from_any_process
       end
 
       it "throws deprecation when begins to be matched by text content" do
-        msg = Regexp.new(Regexp.escape("Using :text locator with RegExp (/some hidden/) to match an element that includes hidden text is deprecated. Use :visible_text instead."))
+        msg = /Using :text locator with RegExp \/some hidden\/ to match an element that includes hidden text is deprecated\. Use :visible_text instead/
         expect { browser.div(text: /some hidden/).exists? }.to output(msg).to_stdout_from_any_process
       end
 

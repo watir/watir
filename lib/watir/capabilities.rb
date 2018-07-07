@@ -50,7 +50,8 @@ module Watir
 
       %i(open_timeout read_timeout client_timeout).each do |t|
         next if http_client.nil? || !respond_to?(t)
-        Watir.logger.warn "You can now pass #{t} value directly into Watir::Browser opt without needing to use :http_client"
+        Watir.logger.warn "You can now pass #{t} value directly into Watir::Browser opt without needing to use :http_client",
+                          ids: [:http_client, :use_capabilities]
       end
 
       http_client ||= Selenium::WebDriver::Remote::Http::Default.new
@@ -81,7 +82,10 @@ module Watir
         profile = @options.delete(:profile)
         if browser_options.is_a? Selenium::WebDriver::Firefox::Options
           @selenium_opts[:options] = browser_options
-          Watir.logger.deprecate 'Initializing Browser with both :profile and :option', ':profile as a key inside :option' if profile
+          if profile
+            Watir.logger.deprecate 'Initializing Browser with both :profile and :option', ':profile as a key inside :option',
+                                   ids: [:firefox_profile]
+          end
         end
         if @options.delete(:headless)
           browser_options ||= {}
@@ -111,7 +115,8 @@ module Watir
       caps = @options.delete(:desired_capabilities)
 
       if caps
-        Watir.logger.warn 'You can now pass values directly into Watir::Browser opt without needing to use :desired_capabilities'
+        Watir.logger.warn 'You can now pass values directly into Watir::Browser opt without needing to use :desired_capabilities',
+                          ids: [:use_capabilities]
         @selenium_opts.merge!(@options)
       else
         caps = Selenium::WebDriver::Remote::Capabilities.send @browser, @options

@@ -77,7 +77,8 @@ module WatirSpec
       info << "#{caps.browser_name}"
       info << "#{caps.version}"
 
-      Watir.logger.warn "running watirspec against #{info.join ' '} using:\n#{WatirSpec.implementation.inspect_args}"
+      Watir.logger.warn "running watirspec against #{info.join ' '} using:\n#{WatirSpec.implementation.inspect_args}",
+                        ids: [:browser_info]
     rescue
       # ignored
     end
