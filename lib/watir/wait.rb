@@ -46,7 +46,7 @@ module Watir
           result = yield(object)
           return result if result
         end
-        raise TimeoutError, message_for(timeout, message)
+        raise TimeoutError, message_for(timeout, object, message)
       end
 
       #
@@ -69,12 +69,13 @@ module Watir
         end
         timeout ||= Watir.default_timeout
         run_with_timer(timeout, interval) { return unless yield(object) }
-        raise TimeoutError, message_for(timeout, message)
+        raise TimeoutError, message_for(timeout, object, message)
       end
 
       private
 
-      def message_for(timeout, message)
+      def message_for(timeout, object, message)
+        message = message.call(object) if message.is_a?(Proc)
         err = "timed out after #{timeout} seconds"
         err << ", #{message}" if message
 
@@ -121,7 +122,7 @@ module Watir
         timeout = deprecated_timeout
         message = deprecated_message
       end
-      message ||= "waiting for true condition on #{inspect}"
+      message ||= Proc.new { |obj| "waiting for true condition on #{obj.inspect}" }
       Wait.until(timeout: timeout, message: message, interval: interval, object: self, &blk)
 
       self
@@ -147,7 +148,7 @@ module Watir
         timeout = deprecated_timeout
         message = deprecated_message
       end
-      message ||= "waiting for false condition on #{inspect}"
+      message ||= Proc.new { |obj| "waiting for false condition on #{obj.inspect}" }
       Wait.while(timeout: timeout, message: message, interval: interval, object: self, &blk)
 
       self
