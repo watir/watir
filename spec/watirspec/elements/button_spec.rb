@@ -107,9 +107,9 @@ describe "Button" do
 
   describe "#id" do
     it "returns the id if the button exists" do
-      expect(browser.button(index: 1).id).to eq 'new_user_submit'
-      expect(browser.button(index: 2).id).to eq 'new_user_reset'
-      expect(browser.button(index: 3).id).to eq 'new_user_button'
+      expect(browser.button(index: 0).id).to eq 'new_user_submit'
+      expect(browser.button(index: 1).id).to eq 'new_user_reset'
+      expect(browser.button(index: 2).id).to eq 'new_user_button'
     end
 
     it "raises UnknownObjectException if button does not exist" do
@@ -119,9 +119,9 @@ describe "Button" do
 
   describe "#name" do
     it "returns the name if button exists" do
-      expect(browser.button(index: 1).name).to eq 'new_user_submit'
-      expect(browser.button(index: 2).name).to eq 'new_user_reset'
-      expect(browser.button(index: 3).name).to eq 'new_user_button'
+      expect(browser.button(index: 0).name).to eq 'new_user_submit'
+      expect(browser.button(index: 1).name).to eq 'new_user_reset'
+      expect(browser.button(index: 2).name).to eq 'new_user_button'
     end
 
     it "raises UnknownObjectException if the button does not exist" do
@@ -158,19 +158,19 @@ describe "Button" do
 
   describe "#title" do
     it "returns the title of the button" do
-      expect(browser.button(index: 1).title).to eq 'Submit the form'
+      expect(browser.button(index: 0).title).to eq 'Submit the form'
     end
 
     it "returns an empty string for button without title" do
-      expect(browser.button(index: 0).title).to eq ''
+      expect(browser.button(index: 1).title).to eq ''
     end
   end
 
   describe "#type" do
     it "returns the type if button exists" do
-      expect(browser.button(index: 1).type).to eq 'submit'
-      expect(browser.button(index: 2).type).to eq 'reset'
-      expect(browser.button(index: 3).type).to eq 'button'
+      expect(browser.button(index: 0).type).to eq 'submit'
+      expect(browser.button(index: 1).type).to eq 'reset'
+      expect(browser.button(index: 2).type).to eq 'button'
     end
 
     it "raises UnknownObjectException if button does not exist" do
@@ -180,9 +180,9 @@ describe "Button" do
 
   describe "#value" do
     it "returns the value if button exists" do
-      expect(browser.button(index: 1).value).to eq 'Submit'
-      expect(browser.button(index: 2).value).to eq 'Reset'
-      expect(browser.button(index: 3).value).to eq 'Button'
+      expect(browser.button(index: 0).value).to eq 'Submit'
+      expect(browser.button(index: 1).value).to eq 'Reset'
+      expect(browser.button(index: 2).value).to eq 'Button'
     end
 
     it "raises UnknownObjectException if button does not exist" do
@@ -192,10 +192,10 @@ describe "Button" do
 
   describe "#text" do
     it "returns the text of the button" do
-      expect(browser.button(index: 1).text).to eq 'Submit'
-      expect(browser.button(index: 2).text).to eq 'Reset'
-      expect(browser.button(index: 3).text).to eq 'Button'
-      expect(browser.button(index: 4).text).to eq 'Preview'
+      expect(browser.button(index: 0).text).to eq 'Submit'
+      expect(browser.button(index: 1).text).to eq 'Reset'
+      expect(browser.button(index: 2).text).to eq 'Button'
+      expect(browser.button(index: 3).text).to eq 'Preview'
     end
 
     it "raises UnknownObjectException if the element does not exist" do

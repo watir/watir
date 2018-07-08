@@ -81,6 +81,16 @@ describe 'Watir#relaxed_locate?' do
         end
       end
 
+      context 'when acting on a text field that eventually becomes writable' do
+        it "waits to not be readonly" do
+          expect(browser.text_field(id: 'writable')).to be_readonly
+          start_time = ::Time.now
+          browser.a(id: 'make-writable').click
+          expect { browser.text_field(id: 'writable').set "foo" }.not_to raise_exception
+          expect(::Time.now - start_time).to be > 2
+        end
+      end
+
       it 'ensures all checks happen once even if time has expired' do
         begin
           Watir.default_timeout = -1
