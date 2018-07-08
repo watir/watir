@@ -664,11 +664,11 @@ module Watir
         retry
       rescue Selenium::WebDriver::Error::ElementNotVisibleError, Selenium::WebDriver::Error::ElementNotInteractableError
         raise_present unless Wait.timer.remaining_time > 0
-        raise_present unless precondition == :wait_for_present || precondition == :wait_for_enabled
+        raise_present unless %i[wait_for_present wait_for_enabled wait_for_writable].include?(precondition)
         retry
       rescue Selenium::WebDriver::Error::InvalidElementStateError
         raise_disabled unless Wait.timer.remaining_time > 0
-        raise_disabled unless precondition == :wait_for_writable || precondition == :wait_for_enabled
+        raise_disabled unless %i[wait_for_present wait_for_enabled wait_for_writable].include?(precondition)
         retry
       rescue Selenium::WebDriver::Error::NoSuchWindowError
         raise Exception::NoMatchingWindowFoundException, "browser window was closed"

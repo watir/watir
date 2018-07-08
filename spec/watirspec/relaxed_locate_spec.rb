@@ -71,6 +71,13 @@ describe 'Watir#relaxed_locate?' do
             expect { browser.div(id: 'bar').click }.to_not raise_exception
             expect(::Time.now - start_time).to be < Watir.default_timeout
           end
+
+          it 'waits until text field is displayed and then takes action' do
+            start_time = ::Time.now
+            browser.a(id: 'show_textfield').click
+            expect { browser.text_field(id: 'textfield').set "Foo" }.to_not raise_exception
+            expect(::Time.now - start_time).to be < Watir.default_timeout
+          end
         end
       end
 

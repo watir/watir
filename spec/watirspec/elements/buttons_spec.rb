@@ -14,13 +14,13 @@ describe "Buttons" do
 
   describe "#length" do
     it "returns the number of buttons" do
-      expect(browser.buttons.length).to eq 9
+      expect(browser.buttons.length).to eq 10
     end
   end
 
   describe "#[]" do
     it "returns the button at the given index" do
-      expect(browser.buttons[0].title).to eq "Submit the form"
+      expect(browser.buttons[1].title).to eq "Submit the form"
     end
   end
 
