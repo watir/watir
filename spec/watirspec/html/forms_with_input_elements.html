@@ -2,7 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <title>Forms with input elements</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <script type="text/javascript" charset="utf-8">
+          function makeWritable(id, timeout) {
+              setTimeout(function() {
+                  document.getElementById(id).removeAttribute('readonly');
+              }, timeout);
+          }
+      </script>
+          <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="description" content="this is a test page for forms with input elements" />
     <link rel="stylesheet" href="watirspec.css" type="text/css" media="screen" title="no title" charset="utf-8">
     <script src="javascript/helpers.js" type="text/javascript" charset="utf-8"></script>
@@ -46,6 +53,9 @@
             <input type="text" title="Your personal code" name="new_user_code" id="new_user_code" value="HE2FF8" readonly="readonly" /> <br  />
             <label for="good_luck">Good Luck</label>
             <input type="text" title="Good Luck" name="good_luck" id="good_luck" disabled="disabled" readonly="readonly" /> <br  />
+            <label for="writable">Not Writable</label>
+            <input type="text" title="Not Writable" name="writable" id="writable" readonly="readonly" /> <br  />
+            <button id="make-writable" onclick="makeWritable('writable', 2000);">Make Writable</button>
             <input type="col" id="unknown_text_field" /> <br />
             <label for="new_user_languages">Languages</label>
             <select name="new_user_languages" id="new_user_languages" multiple="multiple" onchange="WatirSpec.addMessage('changed language');">

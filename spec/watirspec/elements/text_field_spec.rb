@@ -206,6 +206,14 @@ describe "TextField" do
     it "raises UnknownReadOnlyException if sending keys to readonly element" do
       expect { browser.text_field(id: 'new_user_code').set 'foo' }.to raise_object_read_only_exception
     end
+
+    it "waits for element to not be readonly" do
+      expect(browser.text_field(id: 'writable')).to be_readonly
+      start_time = ::Time.now
+      browser.button(id: 'make-writable').click
+      expect {browser.text_field(id: 'writable').set "foo" }.not_to raise_exception
+      expect(::Time.now - start_time).to be > 2
+    end
   end
 
   # Manipulation methods
