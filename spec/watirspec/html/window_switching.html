@@ -2,11 +2,21 @@
 <html>
   <head>
     <title>window switching</title>
+    <script>
+        function windowOpenDelayed(timeout) {
+            setTimeout(function() {
+                window.open("closeable.html");
+            }, timeout);
+        }
+    </script>
   </head>
 
   <body>
     <p>
       Click <a id="open" href="#" onclick='window.open("closeable.html")'>here</a> to open a new window.
+    </p>
+    <p>
+      Click <a id="delayed" href="#" onclick=windowOpenDelayed(1000)>here</a> to open a new window after a delay.
     </p>
   </body>
 </html>

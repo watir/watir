@@ -51,6 +51,26 @@ module Watir
       @original_window ||= window
     end
 
+    #
+    # Waits for and returns second window if present
+    # See Window#use
+    #
+    # @example
+    #   browser.switch_window
+    #
+    # @return [Window]
+    #
+
+    def switch_window
+      current_window = window
+      wins = windows
+      wait_until { (wins = windows) && wins.size > 1 } if wins.size == 1
+      raise StandardError, 'Unable to determine which window to switch to' if wins.size > 2
+
+      wins.find { |w| w != current_window }.use
+      window
+    end
+
     private
 
     def filter_windows(selector, windows)
