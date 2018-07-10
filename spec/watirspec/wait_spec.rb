@@ -80,7 +80,7 @@ describe Watir::Element do
 
       it "times out" do
         error = Watir::Wait::TimeoutError
-        inspected = '#<Watir::Button: located: false; {:id=>"btn", :tag_name=>"button"}>'
+        inspected = '#<Watir::Button: located: true; {:id=>"btn", :tag_name=>"button"}>'
         message = "timed out after 1 seconds, waiting for true condition on #{inspected}"
         element = browser.button(id: 'btn')
         expect { element.wait_until(timeout: 1, &:enabled?).click }.to raise_error(error, message)
