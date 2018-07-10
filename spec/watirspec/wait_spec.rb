@@ -116,7 +116,7 @@ describe Watir::Element do
     end
 
     it "times out if the element doesn't appear" do
-      inspected = '#<Watir::Div: located: false; {:id=>"bar", :tag_name=>"div"}>'
+      inspected = '#<Watir::Div: located: true; {:id=>"bar", :tag_name=>"div"}>'
       error = Watir::Wait::TimeoutError
       message = "timed out after 1 seconds, waiting for true condition on #{inspected}"
 
@@ -142,7 +142,7 @@ describe Watir::Element do
 
     it "times out if the element doesn't disappear" do
       error = Watir::Wait::TimeoutError
-      inspected = '#<Watir::Div: located: false; {:id=>"foo", :tag_name=>"div"}>'
+      inspected = '#<Watir::Div: located: true; {:id=>"foo", :tag_name=>"div"}>'
       message = "timed out after 1 seconds, waiting for false condition on #{inspected}"
       expect { browser.div(id: 'foo').wait_while_present(timeout: 1) }.to raise_error(error, message)
     end
