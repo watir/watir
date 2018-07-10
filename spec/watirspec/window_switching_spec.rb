@@ -96,6 +96,41 @@ describe "Browser" do
       expect { browser.window(handle: 'bar').use }.to raise_no_matching_window_exception
     end
   end
+
+  describe "#switch_window" do
+    it "switches to second window" do
+      current_window = browser.window
+      browser.switch_window
+      new_window = browser.window
+
+      expect(current_window).to_not eq new_window
+      expect(browser.windows).to include(current_window, new_window)
+    end
+
+    it "returns an instance of Window" do
+      expect(browser.switch_window).to be_a(Watir::Window)
+    end
+
+    it "times out if there is no second window" do
+      browser.windows.reject(&:current?).each(&:close)
+      message = /waiting for true condition on #<Watir::Browser(.*) url="(.*)window_switching.html#" title="window switching">$/
+      expect { browser.switch_window }.to raise_timeout_exception(message)
+    end
+
+    it "provides previous window value to #original_window" do
+      browser.switch_window
+      expect(browser.original_window).to_not be_nil
+    end
+
+    it "waits for second window" do
+      browser.windows.reject(&:current?).each(&:close)
+      start_time = ::Time.now
+      browser.a(id: "delayed").click
+      expect { browser.switch_window }.to_not raise_error
+      expect(::Time.now - start_time).to be > 1
+    end
+
+  end
 end
 
 describe "Window" do
