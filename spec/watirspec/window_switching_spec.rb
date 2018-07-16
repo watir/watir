@@ -2,6 +2,7 @@ require "watirspec_helper"
 
 describe "Browser" do
   before do
+    @msg = /Using :index as a selector for Window is deprecated/
     url = WatirSpec.url_for("window_switching.html")
     browser.goto url
     browser.a(id: "open").click
@@ -45,8 +46,8 @@ describe "Browser" do
     end
 
     it "finds window by :index" do
-      w = browser.window(index: 1).use
-      expect(w).to be_kind_of(Watir::Window)
+      expect { @w = browser.window(index: 1).use }.to output(@msg).to_stdout_from_any_process
+      expect(@w).to be_kind_of(Watir::Window)
     end
 
     it "should not find incorrect handle" do
@@ -59,7 +60,7 @@ describe "Browser" do
 
     it "stores the reference to a window when no argument is given" do
       original_window = browser.window
-      browser.window(index: 1).use
+      browser.window(title: "closeable window").use
       expect(original_window.url).to match(/window_switching\.html/)
     end
 
@@ -86,12 +87,49 @@ describe "Browser" do
     end
 
     it "raises a NoMatchingWindowFoundException error if there's no window at the given index" do
-      expect { browser.window(index: 100).use }.to raise_no_matching_window_exception
+      expect {
+        expect { browser.window(index: 100).use }.to raise_no_matching_window_exception
+      }.to output(@msg).to_stdout_from_any_process
     end
 
     it "raises NoMatchingWindowFoundException error when attempting to use a window with an incorrect handle" do
       expect { browser.window(handle: 'bar').use }.to raise_no_matching_window_exception
     end
+  end
+
+  describe "#switch_window" do
+    it "switches to second window" do
+      current_window = browser.window
+      browser.switch_window
+      new_window = browser.window
+
+      expect(current_window).to_not eq new_window
+      expect(browser.windows).to include(current_window, new_window)
+    end
+
+    it "returns an instance of Window" do
+      expect(browser.switch_window).to be_a(Watir::Window)
+    end
+
+    it "times out if there is no second window" do
+      browser.windows.reject(&:current?).each(&:close)
+      message = /waiting for true condition on #<Watir::Browser(.*) url="(.*)window_switching.html#" title="window switching">$/
+      expect { browser.switch_window }.to raise_timeout_exception(message)
+    end
+
+    it "provides previous window value to #original_window" do
+      browser.switch_window
+      expect(browser.original_window).to_not be_nil
+    end
+
+    it "waits for second window" do
+      browser.windows.reject(&:current?).each(&:close)
+      start_time = ::Time.now
+      browser.a(id: "delayed").click
+      expect { browser.switch_window }.to_not raise_error
+      expect(::Time.now - start_time).to be > 1
+    end
+
   end
 end
 
@@ -176,12 +214,12 @@ describe "Window" do
 
     describe "#eql?" do
       it "knows when two windows are equal" do
-        expect(browser.window).to eq browser.window(index: 0)
+        expect(browser.window).to eq browser.window(title: "window switching")
       end
 
       it "knows when two windows are not equal" do
-        win1 = browser.window(index: 0)
-        win2 = browser.window(index: 1)
+        win1 = browser.window(title: "window switching")
+        win2 = browser.window(title: "closeable window")
 
         expect(win1).to_not eq win2
       end
@@ -244,7 +282,7 @@ describe "Window" do
       describe "#eql?" do
         it "should return false when checking equivalence to a closed window" do
           original_window = browser.window
-          other_window = browser.window(index: 1)
+          other_window = browser.window(title: "closeable window")
           other_window.use
           original_window.close
           expect(other_window == original_window).to be false
@@ -256,7 +294,7 @@ describe "Window" do
       describe "#use" do
         it "raises NoMatchingWindowFoundException error when attempting to use a referenced window that is closed" do
           original_window = browser.window
-          browser.window(index: 1).use
+          browser.window(title: "closeable window").use
           original_window.close
           expect { original_window.use }.to raise_no_matching_window_exception
         end
@@ -286,13 +324,15 @@ describe "Window" do
         end
 
         after do
-          browser.window(index: 0).use
-          browser.windows[1..-1].each(&:close)
+          browser.original_window.use
+          browser.windows.reject(&:current?).each(&:close)
         end
 
         describe "#present?" do
           it "should find window by index" do
-            expect(browser.window(index: 0)).to be_present
+            expect {
+              expect(browser.window(index: 0)).to be_present
+            }.to output(@msg).to_stdout_from_any_process
           end
 
           it "should find window by url" do
@@ -308,7 +348,7 @@ describe "Window" do
 
           context "switching windows without blocks" do
             it "by index" do
-              browser.window(index: 0).use
+              expect { browser.window(index: 0).use }.to output(@msg).to_stdout_from_any_process
               expect(browser.title).to be == "window switching"
             end
 
@@ -325,7 +365,9 @@ describe "Window" do
 
           context "Switching windows with blocks" do
             it "by index" do
-              browser.window(index: 0).use { expect(browser.title).to be == "window switching" }
+              expect {
+                browser.window(index: 0).use { expect(browser.title).to be == "window switching" }
+              }.to output(@msg).to_stdout_from_any_process
             end
 
             it "by url" do
