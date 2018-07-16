@@ -95,7 +95,7 @@ describe "Pre" do
 
     it "raises UnknownObjectException if the pre doesn't exist" do
       expect { browser.pre(id: 'no_such_id').text }.to raise_unknown_object_exception
-      expect { browser.pre(:xpath , "//pre[@id='no_such_id']").text }.to raise_unknown_object_exception
+      expect { browser.pre(xpath: "//pre[@id='no_such_id']").text }.to raise_unknown_object_exception
     end
   end
 

@@ -28,7 +28,7 @@ describe ["H1s", "H2s", "H3s", "H4s", "H5s", "H6s"] do
       lengths = (1..6).collect do |i|
         collection = browser.send(:"h#{i}s")
         collection.each_with_index do |h, index|
-          expect(h.id).to eq browser.send(:"h#{i}", :index, index).id
+          expect(h.id).to eq browser.send(:"h#{i}", index: index).id
         end
         collection.length
       end

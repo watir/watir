@@ -95,7 +95,7 @@ describe "Li" do
 
     it "raises UnknownObjectException if the li doesn't exist" do
       expect { browser.li(id: 'no_such_id').text }.to raise_unknown_object_exception
-      expect { browser.li(:xpath , "//li[@id='no_such_id']").text }.to raise_unknown_object_exception
+      expect { browser.li(xpath: "//li[@id='no_such_id']").text }.to raise_unknown_object_exception
     end
   end
 

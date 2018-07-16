@@ -31,11 +31,11 @@ describe "Dt" do
   # Attribute methods
   describe "#class_name" do
     it "returns the class attribute if the element exists" do
-      expect(browser.dt(:id , "experience").class_name).to eq "industry"
+      expect(browser.dt(id: "experience").class_name).to eq "industry"
     end
 
     it "returns an empty string if the element exists but the attribute doesn't" do
-      expect(browser.dt(:id , "education").class_name).to eq ""
+      expect(browser.dt(id: "education").class_name).to eq ""
     end
 
     it "raises UnknownObjectException if the element does not exist" do

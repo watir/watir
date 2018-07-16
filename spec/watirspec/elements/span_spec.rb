@@ -95,7 +95,7 @@ describe "Span" do
 
     it "raises UnknownObjectException if the span doesn't exist" do
       expect { browser.span(id: 'no_such_id').text }.to raise_unknown_object_exception
-      expect { browser.span(:xpath , "//span[@id='no_such_id']").text }.to raise_unknown_object_exception
+      expect { browser.span(xpath: "//span[@id='no_such_id']").text }.to raise_unknown_object_exception
     end
   end
 

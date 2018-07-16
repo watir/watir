@@ -169,7 +169,7 @@ describe "CheckBox" do
 
     it "returns false if the checkbox button is disabled" do
       expect(browser.checkbox(id: "new_user_interests_dentistry")).to_not be_enabled
-      expect(browser.checkbox(:xpath,"//input[@id='new_user_interests_dentistry']")).to_not be_enabled
+      expect(browser.checkbox(xpath: "//input[@id='new_user_interests_dentistry']")).to_not be_enabled
     end
 
     it "raises UnknownObjectException if the checkbox button doesn't exist" do

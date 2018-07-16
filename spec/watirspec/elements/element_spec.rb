@@ -217,10 +217,9 @@ describe "Element" do
       browser.refresh
 
       expect(element).to be_stale
-      msg = /Checking `#visible\?` or `#present\? == false` to determine a stale element is deprecated. Use `#stale\? == true` instead\./
       expect {
         expect { element.visible? }.to raise_unknown_object_exception
-      }.to output(msg).to_stdout_from_any_process
+      }.to have_deprecated_stale_visible
     end
 
     it "returns true if the element has style='visibility: visible' even if parent has style='visibility: hidden'" do
@@ -270,15 +269,15 @@ describe "Element" do
     end
 
     it 'returns true if the element exists and is visible' do
-      expect(browser.div(:id, 'foo')).to be_present
+      expect(browser.div(id: 'foo')).to be_present
     end
 
     it 'returns false if the element exists but is not visible' do
-      expect(browser.div(:id, 'bar')).to_not be_present
+      expect(browser.div(id: 'bar')).to_not be_present
     end
 
     it 'returns false if the element does not exist' do
-      expect(browser.div(:id, 'should-not-exist')).to_not be_present
+      expect(browser.div(id: 'should-not-exist')).to_not be_present
     end
 
     # TODO Refactor so that this returns true
@@ -289,10 +288,9 @@ describe "Element" do
 
       expect(element).to be_stale
 
-      msg = /Checking `#visible\?` or `#present\? == false` to determine a stale element is deprecated. Use `#stale\? == true` instead\./
       expect {
         expect(element).to_not be_present
-      }.to output(msg).to_stdout_from_any_process
+      }.to have_deprecated_stale_visible
     end
 
     # TODO Documents Current Behavior, but needs to be refactored/removed
@@ -303,10 +301,9 @@ describe "Element" do
 
       expect(element).to be_stale
 
-      msg = /Checking `#visible\?` or `#present\? == false` to determine a stale element is deprecated. Use `#stale\? == true` instead\./
       expect {
         expect(element).to_not be_present
-      }.to output(msg).to_stdout_from_any_process
+      }.to have_deprecated_stale_visible
       expect(element).to be_present
     end
 
@@ -555,7 +552,7 @@ describe "Element" do
     end
 
     it "locate is false when not located" do
-      element = browser.div(:id, 'not_present')
+      element = browser.div(id: 'not_present')
       expect(element.inspect).to include('located: false')
     end
 

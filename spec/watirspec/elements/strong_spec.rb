@@ -72,7 +72,7 @@ describe "Strong" do
 
     it "raises UnknownObjectException if the element doesn't exist" do
       expect { browser.strong(id: 'no_such_id').text }.to raise_unknown_object_exception
-      expect { browser.strong(:xpath , "//strong[@id='no_such_id']").text }.to raise_unknown_object_exception
+      expect { browser.strong(xpath: "//strong[@id='no_such_id']").text }.to raise_unknown_object_exception
     end
   end
 
