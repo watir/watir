@@ -148,21 +148,19 @@ describe "Div" do
   describe "Deprecation Warnings" do
     describe "text locator with RegExp values" do
       it "does not throw deprecation when still matched by text content" do
-        expect { browser.div(text: /some visible/).exists? }.not_to output(/visible_text/).to_stdout_from_any_process
+        expect { browser.div(text: /some visible/).exists? }.not_to have_deprecated_text_regexp
       end
 
       it "throws deprecation when no longer matched by text content" do
-        msg = /Using :text locator with RegExp \/some visible\$\/ to match an element that includes hidden text is deprecated\. Use :visible_text instead/
-        expect { browser.div(text: /some visible$/).exists? }.to output(msg).to_stdout_from_any_process
+        expect { browser.div(text: /some visible$/).exists? }.to have_deprecated_text_regexp
       end
 
       it "throws deprecation when begins to be matched by text content" do
-        msg = /Using :text locator with RegExp \/some hidden\/ to match an element that includes hidden text is deprecated\. Use :visible_text instead/
-        expect { browser.div(text: /some hidden/).exists? }.to output(msg).to_stdout_from_any_process
+        expect { browser.div(text: /some hidden/).exists? }.to have_deprecated_text_regexp
       end
 
       it "does not throw deprecation when still not matched by text content" do
-        expect { browser.div(text: /does not exist/).exists? }.not_to output(/visible_text/).to_stdout_from_any_process
+        expect { browser.div(text: /does not exist/).exists? }.not_to have_deprecated_text_regexp
       end
     end
   end

@@ -11,7 +11,9 @@ describe Watir::Container do
     end
 
     it "converts 2-arg selector into a hash" do
-      expect(@container.public_extract_selector([:how, 'what'])).to eq Hash[how: 'what']
+      expect {
+        expect(@container.public_extract_selector([:how, 'what'])).to eq Hash[how: 'what']
+      }.to have_deprecated_selector_parameters
     end
 
     it "returns the hash given" do

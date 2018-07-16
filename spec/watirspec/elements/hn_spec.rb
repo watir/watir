@@ -77,7 +77,7 @@ describe ["H1", "H2", "H3", "H4", "H5", "H6"] do
 
     it "raises UnknownObjectException if the p doesn't exist" do
       expect { browser.h1(id: 'no_such_id').text }.to raise_unknown_object_exception
-      expect { browser.h1(:xpath , "//h1[@id='no_such_id']").text }.to raise_unknown_object_exception
+      expect { browser.h1(xpath: "//h1[@id='no_such_id']").text }.to raise_unknown_object_exception
     end
   end
 

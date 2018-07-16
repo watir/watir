@@ -77,8 +77,7 @@ describe Watir::Locators::Element::Locator do
       it "handles selector with multiple classes in string" do
         expect_one :xpath, ".//*[contains(concat(' ', @class, ' '), ' a b ')]"
 
-        msg = /:class locator to locate multiple classes with a String value .* is deprecated/
-        expect { locate_one class: "a b" }.to output(msg).to_stdout_from_any_process
+        expect { locate_one class: "a b" }.to have_deprecated_class_array
       end
 
       it "handles selector with tag_name and xpath" do
@@ -435,8 +434,7 @@ describe Watir::Locators::Element::Locator do
       it "handles selector with multiple classes in string" do
         expect_all :xpath, ".//*[contains(concat(' ', @class, ' '), ' a b ')]"
 
-        msg = /:class locator to locate multiple classes with a String value .* is deprecated/
-        expect { locate_all class: "a b" }.to output(msg).to_stdout_from_any_process
+        expect { locate_all class: "a b" }.to have_deprecated_class_array
       end
     end
 
