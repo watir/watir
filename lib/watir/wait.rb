@@ -118,7 +118,7 @@ module Watir
 
     def wait_until(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, interval: nil, &blk)
       if deprecated_message || deprecated_timeout
-        Watir.logger.deprecate "Using arguments for #wait_until", "keywords", ids: [:wait_until, :timeout_arguments]
+        Watir.logger.deprecate "Using arguments for #wait_until", "keywords", ids: [:timeout_arguments]
         timeout = deprecated_timeout
         message = deprecated_message
       end
@@ -144,7 +144,7 @@ module Watir
 
     def wait_while(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, interval: nil, &blk)
       if deprecated_message || deprecated_timeout
-        Watir.logger.deprecate "Using arguments for #wait_while", "keywords", ids: [:wait_while, :timeout_arguments]
+        Watir.logger.deprecate "Using arguments for #wait_while", "keywords", ids: [:timeout_arguments]
         timeout = deprecated_timeout
         message = deprecated_message
       end
@@ -156,6 +156,7 @@ module Watir
 
     #
     # Waits until the element is present.
+    # Element is always relocated, so this can be used in the case of an element going away and returning
     #
     # @example
     #   browser.text_field(name: "new_user_first_name").wait_until_present
@@ -168,14 +169,25 @@ module Watir
 
     def wait_until_present(deprecated_timeout = nil, timeout: nil, interval: nil)
       if deprecated_timeout
-        Watir.logger.deprecate "Using arguments for #wait_until_present", "keywords", ids: [:wait_until_present, :timeout_arguments]
+        Watir.logger.deprecate "Using arguments for #wait_until_present", "keywords", ids: [:timeout_arguments]
         timeout = deprecated_timeout
       end
-      wait_until(timeout: timeout, interval: interval, &:present?)
+      if self.is_a? Watir::Element
+        wait_until(timeout: timeout, interval: interval) do
+          self.reset! if self.is_a? Watir::Element
+          self.present?
+        end
+      else
+        Watir.logger.deprecate "#{self.class}#wait_until_present",
+                               "#{self.class}#wait_until(&:present?)",
+                               ids: [:wait_until_present]
+        wait_until(timeout: timeout, interval: interval, &:present?)
+      end
     end
 
     #
     # Waits while the element is present.
+    # Element is always relocated, so this can be used in the case of the element changing attributes
     #
     # @example
     #   browser.text_field(name: "abrakadbra").wait_while_present
@@ -186,14 +198,21 @@ module Watir
     # @see Watir::Element#present?
     #
 
-    def wait_while_present(deprecated_timeout = nil, timeout: nil)
+    def wait_while_present(deprecated_timeout = nil, timeout: nil, interval: nil)
       if deprecated_timeout
-        Watir.logger.deprecate "Using arguments for #wait_while_present", "keywords", ids: [:wait_while_present, :timeout_arguments]
+        Watir.logger.deprecate "Using arguments for #wait_while_present", "keywords", ids: [:timeout_arguments]
         timeout = deprecated_timeout
       end
-      wait_while(timeout: timeout) do
-        self.reset! if self.is_a? Watir::Element
-        self.present?
+      if self.is_a? Watir::Element
+        wait_while(timeout: timeout, interval: interval) do
+          self.reset! if self.is_a? Watir::Element
+          self.present?
+        end
+      else
+        Watir.logger.deprecate "#{self.class}#wait_while_present",
+                               "#{self.class}#wait_while(&:present?)",
+                               ids: [:wait_while_present]
+        wait_while(timeout: timeout, interval: interval, &:present?)
       end
     end
 
