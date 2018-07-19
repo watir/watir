@@ -5,6 +5,7 @@ if defined?(RSpec)
                           :visible_text,
                           :text_regexp,
                           :stale_visible,
+                          :stale_present,
                           :select_by].freeze
 
   DEPRECATION_WARNINGS.each do |deprecation|
@@ -24,7 +25,7 @@ if defined?(RSpec)
                       else
                         "deprecation Warning of #{deprecations_found} was found instead"
                       end
-        "expected Warning message of \"#{deprecated}\" being deprecated, but #{but_message}"
+        "expected Warning message of \"#{deprecation}\" being deprecated, but #{but_message}"
       end
 
       def supports_block_expectations?

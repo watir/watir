@@ -204,11 +204,17 @@ describe "Element" do
 
   describe "#visible?" do
     it "returns true if the element is visible" do
-      expect(browser.text_field(id: "new_user_email")).to be_visible
+      msg = /WARN Watir \[\"visible_element\"\]/
+      expect {
+        expect(browser.text_field(id: "new_user_email")).to be_visible
+      }.to output(msg).to_stdout_from_any_process
     end
 
     it "raises UnknownObjectException exception if the element does not exist" do
-      expect { browser.text_field(id: "no_such_id").visible? }.to raise_unknown_object_exception
+      msg = /WARN Watir \[\"visible_element\"\]/
+      expect {
+        expect { browser.text_field(id: "no_such_id").visible? }.to raise_unknown_object_exception
+      }.to output(msg).to_stdout_from_any_process
     end
 
     it "raises UnknownObjectException exception if the element is stale" do
@@ -223,7 +229,10 @@ describe "Element" do
     end
 
     it "returns true if the element has style='visibility: visible' even if parent has style='visibility: hidden'" do
-      expect(browser.div(id: "visible_child")).to be_visible
+      msg = /WARN Watir \[\"visible_element\"\]/
+      expect {
+        expect(browser.div(id: "visible_child")).to be_visible
+      }.to output(msg).to_stdout_from_any_process
     end
 
     it "returns false if the element is input element where type eq 'hidden'" do
@@ -231,15 +240,24 @@ describe "Element" do
     end
 
     it "returns false if the element has style='display: none;'" do
-      expect(browser.div(id: 'changed_language')).to_not be_visible
+      msg = /WARN Watir \[\"visible_element\"\]/
+      expect {
+        expect(browser.div(id: 'changed_language')).to_not be_visible
+      }.to output(msg).to_stdout_from_any_process
     end
 
     it "returns false if the element has style='visibility: hidden;" do
-      expect(browser.div(id: 'wants_newsletter')).to_not be_visible
+      msg = /WARN Watir \[\"visible_element\"\]/
+      expect {
+        expect(browser.div(id: 'wants_newsletter')).to_not be_visible
+      }
     end
 
     it "returns false if one of the parent elements is hidden" do
-      expect(browser.div(id: 'hidden_parent')).to_not be_visible
+      msg = /WARN Watir \[\"visible_element\"\]/
+      expect {
+        expect(browser.div(id: 'hidden_parent')).to_not be_visible
+      }
     end
   end
 
@@ -290,7 +308,7 @@ describe "Element" do
 
       expect {
         expect(element).to_not be_present
-      }.to have_deprecated_stale_visible
+      }.to have_deprecated_stale_present
     end
 
     # TODO Documents Current Behavior, but needs to be refactored/removed
@@ -303,7 +321,7 @@ describe "Element" do
 
       expect {
         expect(element).to_not be_present
-      }.to have_deprecated_stale_visible
+      }.to have_deprecated_stale_present
       expect(element).to be_present
     end
 

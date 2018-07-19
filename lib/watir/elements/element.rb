@@ -403,10 +403,12 @@ module Watir
     #
 
     def visible?
+      Watir.logger.warn "#visible? behavior will be changing slightly, consider switching to #present? (more details: http://watir.com/element-existentialism/)",
+                             ids: [:visible_element]
       assert_exists
       @element.displayed?
     rescue Selenium::WebDriver::Error::StaleElementReferenceError
-      Watir.logger.deprecate "Checking `#visible?` or `#present? == false` to determine a stale element", "`#stale? == true`",
+      Watir.logger.deprecate "Checking `#visible? == false` to determine a stale element", "`#stale? == true`",
                              ids: [:stale_visible]
       reset!
       raise unknown_exception
@@ -432,7 +434,13 @@ module Watir
     #
 
     def present?
-      visible?
+      assert_exists
+      @element.displayed?
+    rescue Selenium::WebDriver::Error::StaleElementReferenceError
+      Watir.logger.deprecate "Checking `#present? == false` to determine a stale element", "`#stale? == true`",
+                             ids: [:stale_present]
+      reset!
+      false
     rescue UnknownObjectException, UnknownFrameException
       false
     end
@@ -537,8 +545,8 @@ module Watir
     end
 
     def wait_for_present
-      return visible? unless Watir.relaxed_locate?
-      return if present?
+      p = present?
+      return p if !Watir.relaxed_locate? || p
 
       begin
         @query_scope.wait_for_present unless @query_scope.is_a? Browser
