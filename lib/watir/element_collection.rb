@@ -8,8 +8,6 @@ module Watir
     include Enumerable
     include Locators::ClassHelpers
 
-    attr_reader :query_scope
-
     def initialize(query_scope, selector)
       @query_scope = query_scope
       @selector = selector
@@ -52,9 +50,9 @@ module Watir
       if value.is_a?(Range)
         to_a[value]
       elsif @selector.key? :adjacent
-        to_a[value] || element_class.new(query_scope, {invalid_locator: true})
+        to_a[value] || element_class.new(@query_scope, {invalid_locator: true})
       else
-        element_class.new(query_scope, @selector.merge(index: value))
+        element_class.new(@query_scope, @selector.merge(index: value))
       end
     end
 
@@ -88,12 +86,12 @@ module Watir
       hash = {}
       @to_a ||=
           elements.map.with_index do |e, idx|
-            element = element_class.new(query_scope, @selector.merge(element: e, index: idx))
+            element = element_class.new(@query_scope, @selector.merge(element: e, index: idx))
             if [Watir::HTMLElement, Watir::Input].include? element.class
               tag_name = element.tag_name.to_sym
               hash[tag_name] ||= 0
               hash[tag_name] += 1
-              Watir.element_class_for(tag_name).new(query_scope, @selector.merge(element: e,
+              Watir.element_class_for(tag_name).new(@query_scope, @selector.merge(element: e,
                                                                                    tag_name: tag_name,
                                                                                    index: hash[tag_name] - 1))
             else
@@ -120,7 +118,7 @@ module Watir
     #
 
     def browser
-      query_scope.browser
+      @query_scope.browser
     end
 
     #

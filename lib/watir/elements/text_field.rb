@@ -11,10 +11,10 @@ module Watir
       selector[:type] = '(any text type)'
       selector[:tag_name] = "input"
 
-      if query_scope.is_a?(Browser) || query_scope.is_a?(IFrame)
+      if @query_scope.is_a?(Browser) || @query_scope.is_a?(IFrame)
         super
       else
-        "#{query_scope.selector_string} --> #{selector.inspect}"
+        "#{@query_scope.selector_string} --> #{selector.inspect}"
       end
     end
   end # TextField

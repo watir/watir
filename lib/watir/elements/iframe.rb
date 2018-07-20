@@ -3,12 +3,12 @@ module Watir
 
     def locate
       return if @selector.empty?
-      query_scope.ensure_context
+      @query_scope.ensure_context
 
       selector = @selector.merge(tag_name: frame_tag)
       element_validator = element_validator_class.new
-      selector_builder = selector_builder_class.new(query_scope, selector, self.class.attribute_list)
-      @locator = locator_class.new(query_scope, selector, selector_builder, element_validator)
+      selector_builder = selector_builder_class.new(@query_scope, selector, self.class.attribute_list)
+      @locator = locator_class.new(@query_scope, selector, selector_builder, element_validator)
 
       element = @locator.locate
       element or raise unknown_exception, "unable to locate #{@selector[:tag_name]} using #{selector_string}"
