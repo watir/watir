@@ -70,7 +70,7 @@ describe "Browser" do
             link = browser.a(id: "close")
             expect(link).to exist
             link.click
-          end.wait_while_present
+          end.wait_while(&:present?)
 
           expect(browser.windows.size).to eq 1
         end
