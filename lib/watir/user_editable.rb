@@ -26,9 +26,11 @@ module Watir
       raise ArgumentError, "#set! does not support special keys, use #set instead" if args.any? { |v| v.kind_of?(::Symbol) }
       input_value = args.join
       set input_value[0]
+      return set_content_editable!(*args) if @content_editable
       element_call { execute_js(:setValue, @element, input_value[0..-2]) }
       append(input_value[-1])
-      raise Watir::Exception::Error, "#set! value does not match expected input" unless value == input_value
+      return if value == input_value
+      raise Watir::Exception::Error, "#set! value: '#{value}' does not match expected input: '#{input_value}'"
     end
 
     #
@@ -38,6 +40,7 @@ module Watir
     #
 
     def append(*args)
+      raise NotImplementedError, "#append method is not supported with contenteditable element" if @content_editable
       send_keys(*args)
     end
     alias_method :<<, :append
@@ -52,5 +55,13 @@ module Watir
       end
     end
 
+    private
+
+    def set_content_editable!(*args)
+      input_text = args.join
+      element_call { execute_js(:setText, @element, input_text) }
+      return if text == input_text
+      raise Watir::Exception::Error, "#set! text: '#{text}' does not match expected input: '#{input_text}'"
+    end
   end # UserEditable
 end # Watir

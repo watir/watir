@@ -702,6 +702,10 @@ module Watir
       method = meth.to_s
       if method =~ Locators::Element::SelectorBuilder::WILDCARD_ATTRIBUTE
         attribute_value(method.tr('_', '-'), *args)
+      elsif UserEditable.instance_methods(false).include?(meth) && content_editable?
+        @content_editable = true
+        self.extend UserEditable
+        send(meth, *args, &blk)
       else
         super
       end
