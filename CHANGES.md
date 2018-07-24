@@ -1,3 +1,20 @@
+### 6.12.0 (2018-07-24)
+
+* Allow elements to be located with attributes that have underscores (thanks John Fitisoff)
+* Get array of elements from an Element Collection using a Range (#738)
+* Deprecate using `#present?` or `#visible?` to determine if an element is stale
+* Allow getting element attribute values with a Symbol
+* Add new functionality to `#flash` (thanks Gijs Paulides)
+* Fix bug preventing text_field from waiting until present (#675)
+* Fix bug allowing `StaleElementReferenceError` during element location
+* Add support for Wait methods to receive `Proc` as message values
+* Add support to ignore specific warnings logged by Watir
+* Deprecate locating elements by ordered parameters
+* Changed scope for locator namespacing (Thanks Aleksandar)
+* Deprecate current implementation of `#visible?`
+* Update logic `#wait_while_present` and `#wait_until_present`
+* Deprecate `#wait_while_present` and `#wait_until_present` for non-Element classes
+
 ### 6.11.0 (2018-05-18)
 
 * Improve lazy loading of element collections
