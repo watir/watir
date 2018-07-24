@@ -127,7 +127,7 @@ module Watir
     # @example
     #   browser.goto "watir.github.io"
     #   browser.title
-    #   #=> "Watir is... – Watir Project – Watir stands for Web Application Testing In Ruby. It facilitates the writing of automated tests by mimicking the behavior of a user interacting with a website."
+    #   #=> "Watir Project – Watir stands for Web Application Testing In Ruby. It facilitates the writing of automated tests by mimicking the behavior of a user interacting with a website."
     #
     # @return [String]
     #
