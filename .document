@@ -1,5 +1,4 @@
 README.rdoc
-lib/**/*.rb
-bin/*
-features/**/*.feature
 LICENSE
+lib/watir/**/*.rb
+lib/watir.rb
