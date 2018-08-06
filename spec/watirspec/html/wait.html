@@ -11,7 +11,9 @@
 
       function setTimeoutDisplay(id, display, timeout) {
           setTimeout(function() {
-              document.getElementById(id).style.display = display;
+              var el = document.getElementById(id)
+                  el.style.display = display;
+                  el.setAttribute("custom", id)
           }, timeout);
       }
 
@@ -54,7 +56,7 @@
   </head>
 
   <body>
-    <div id="foo" style="display:block;">foo</div>
+    <div id="foo" custom="" style="display:block;">foo</div>
     <div id="bar" style="display:none;" onclick='this.innerHTML = "changed"'>bar</div>
     <a id="show_bar" href="#" onclick="setTimeoutDisplay('bar', 'block', 500);">show bar</a>
     <a id="hide_foo" href="#" onclick="setTimeoutDisplay('foo', 'none', 500);">hide foo</a>

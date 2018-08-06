@@ -204,6 +204,49 @@ describe Watir::Element do
       element = browser.div(id: 'bar')
       expect { element.wait_until(interval: 0.1) { true } }.to_not raise_exception
     end
+
+    context "accepts keywords instead of block" do
+      before { browser.refresh }
+
+      it "accepts text keyword" do
+        element = browser.div(id: 'bar')
+        browser.a(id: 'show_bar').click
+        expect { element.wait_until(text: 'bar') }.to_not raise_exception
+      end
+
+      it "accepts regular expression value" do
+        element = browser.div(id: 'bar')
+        browser.a(id: 'show_bar').click
+        expect { element.wait_until(style: /block/) }.to_not raise_exception
+      end
+
+      it "accepts multiple keywords" do
+        element = browser.div(id: 'bar')
+        browser.a(id: 'show_bar').click
+        expect { element.wait_until(text: 'bar', style: /block/) }.to_not raise_exception
+      end
+
+      it "accepts custom keyword" do
+        element = browser.div(id: 'bar')
+        browser.a(id: 'show_bar').click
+        expect { element.wait_until(custom: 'bar') }.to_not raise_exception
+      end
+
+      it "times out when single keyword not met" do
+        element = browser.div(id: 'bar')
+        expect { element.wait_until(id: 'foo') }.to raise_timeout_exception
+      end
+
+      it "times out when one of multiple keywords not met" do
+        element = browser.div(id: 'bar')
+        expect { element.wait_until(id: 'bar', text: 'foo') }.to raise_timeout_exception
+      end
+
+      it "times out when a custom keywords not met" do
+        element = browser.div(id: 'bar')
+        expect { element.wait_until(custom: 'foo') }.to raise_timeout_exception
+      end
+    end
   end
 
   describe "#wait_while" do
@@ -239,6 +282,48 @@ describe Watir::Element do
     it "accepts just an interval parameter" do
       element = browser.div(id: 'foo')
       expect { element.wait_while(interval: 0.1) { false } }.to_not raise_exception
+    end
+
+    context "accepts keywords instead of block" do
+      it "accepts text keyword" do
+        element = browser.div(id: 'foo')
+        browser.a(id: 'hide_foo').click
+        expect { element.wait_while(text: 'foo') }.to_not raise_exception
+      end
+
+      it "accepts regular expression value" do
+        element = browser.div(id: 'foo')
+        browser.a(id: 'hide_foo').click
+        expect { element.wait_while(style: /block/) }.to_not raise_exception
+      end
+
+      it "accepts multiple keywords" do
+        element = browser.div(id: 'foo')
+        browser.a(id: 'hide_foo').click
+        expect { element.wait_while(text: 'foo', style: /block/) }.to_not raise_exception
+      end
+
+      it "accepts custom attributes" do
+        element = browser.div(id: 'foo')
+        browser.a(id: 'hide_foo').click
+        expect { element.wait_while(custom: '') }.to_not raise_exception
+      end
+
+      it "times out when single keyword not met" do
+        element = browser.div(id: 'foo')
+        expect { element.wait_while(id: 'foo') }.to raise_timeout_exception
+      end
+
+      it "times out when one of multiple keywords not met" do
+        element = browser.div(id: 'foo')
+        browser.a(id: 'hide_foo').click
+        expect { element.wait_while(id: 'foo', style: /block/) }.to raise_timeout_exception
+      end
+
+      it "times out when one of custom keywords not met" do
+        element = browser.div(id: 'foo')
+        expect { element.wait_while(custom: '') }.to raise_timeout_exception
+      end
     end
   end
 end
