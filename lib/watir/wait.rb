@@ -111,19 +111,24 @@ module Watir
     #   browser.text_field(name: "new_user_first_name").wait_until(&:present?).click
     #   browser.text_field(name: "new_user_first_name").wait_until(message: 'foo') { |field| field.present? }
     #   browser.text_field(name: "new_user_first_name").wait_until(timeout: 60, &:present?)
+    #   browser.text_field(name: "new_user_first_name").wait_until(timeout: 60, name: 'new_user_first_name')
     #
     # @param [Integer] timeout seconds to wait before timing out
     # @param [String] message error message for when times out
     #
 
-    def wait_until(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, interval: nil, &blk)
+    def wait_until(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, interval: nil, **opt, &blk)
       if deprecated_message || deprecated_timeout
         Watir.logger.deprecate "Using arguments for #wait_until", "keywords", ids: [:timeout_arguments]
         timeout = deprecated_timeout
         message = deprecated_message
       end
       message ||= Proc.new { |obj| "waiting for true condition on #{obj.inspect}" }
-      Wait.until(timeout: timeout, message: message, interval: interval, object: self, &blk)
+
+      raise ArgumentError, "Unknown keyword(s): #{opt.keys} " if block_given? && !opt.empty?
+      proc = block_given? ? blk : create_proc(opt)
+
+      Wait.until(timeout: timeout, message: message, interval: interval, object: self, &proc)
 
       self
     end
@@ -135,6 +140,7 @@ module Watir
     #   browser.wait_while(timeout: 2) do |browser|
     #     !browser.exists?
     #   end
+    #   browser.wait_while(timeout: 2, title: 'No')
     #
     # @todo add element example
     #
@@ -142,14 +148,18 @@ module Watir
     # @param [String] message error message for when times out
     #
 
-    def wait_while(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, interval: nil, &blk)
+    def wait_while(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, interval: nil, **opt, &blk)
       if deprecated_message || deprecated_timeout
         Watir.logger.deprecate "Using arguments for #wait_while", "keywords", ids: [:timeout_arguments]
         timeout = deprecated_timeout
         message = deprecated_message
       end
       message ||= Proc.new { |obj| "waiting for false condition on #{obj.inspect}" }
-      Wait.while(timeout: timeout, message: message, interval: interval, object: self, &blk)
+
+      raise ArgumentError, "Unknown keyword(s): #{opt.keys} " if block_given? && !opt.empty?
+      proc = block_given? ? blk : create_proc(opt)
+
+      Wait.while(timeout: timeout, message: message, interval: interval, object: self, &proc)
 
       self
     end
@@ -213,6 +223,27 @@ module Watir
                                "#{self.class}#wait_while(&:present?)",
                                ids: [:wait_while_present]
         wait_while(timeout: timeout, interval: interval, &:present?)
+      end
+    end
+
+    private
+
+    def create_proc(opt)
+      Proc.new do
+        opt.keys.all? do |key|
+          expected = opt[key]
+          actual = if self.is_a?(Watir::Element) && !self.respond_to?(key)
+                     self.attribute_value(key)
+                   else
+                     self.send(key)
+                   end
+          case expected
+          when Regexp
+            expected =~ actual
+          else
+            expected.to_s == actual
+          end
+        end
       end
     end
 
