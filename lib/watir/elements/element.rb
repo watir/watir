@@ -401,14 +401,14 @@ module Watir
     #
 
     def visible?
-      warning = "#visible? behavior will be changing slightly, consider switching to #present? " \
-                "(more details: http://watir.com/element-existentialism/)"
+      warning = '#visible? behavior will be changing slightly, consider switching to #present? ' \
+                '(more details: http://watir.com/element-existentialism/)'
       Watir.logger.warn warning,
                         ids: [:visible_element]
       assert_exists
       @element.displayed?
     rescue Selenium::WebDriver::Error::StaleElementReferenceError
-      Watir.logger.deprecate "Checking `#visible? == false` to determine a stale element", "`#stale? == true`",
+      Watir.logger.deprecate 'Checking `#visible? == false` to determine a stale element', '`#stale? == true`',
                              ids: [:stale_visible]
       reset!
       raise unknown_exception
@@ -437,7 +437,7 @@ module Watir
       assert_exists
       @element.displayed?
     rescue Selenium::WebDriver::Error::StaleElementReferenceError
-      Watir.logger.deprecate "Checking `#present? == false` to determine a stale element", "`#stale? == true`",
+      Watir.logger.deprecate 'Checking `#present? == false` to determine a stale element', '`#stale? == true`',
                              ids: [:stale_present]
       reset!
       false
@@ -460,7 +460,7 @@ module Watir
       if property
         element_call { @element.style property }
       else
-        attribute_value("style").to_s.strip
+        attribute_value('style').to_s.strip
       end
     end
 
@@ -474,7 +474,7 @@ module Watir
 
     def to_subtype
       tag = tag_name()
-      klass = if tag == "input"
+      klass = if tag == 'input'
                 case attribute_value(:type)
                 when 'checkbox'
                   CheckBox
@@ -512,7 +512,7 @@ module Watir
     #
 
     def stale?
-      raise Watir::Exception::Error, "Can not check staleness of unused element" unless @element
+      raise Watir::Exception::Error, 'Can not check staleness of unused element' unless @element
       return false unless stale_in_context?
       @query_scope.ensure_context
       stale_in_context?
@@ -642,15 +642,13 @@ module Watir
     end
 
     def assert_enabled
-      unless element_call { @element.enabled? }
-        raise ObjectDisabledException, "object is disabled #{inspect}"
-      end
+      return if element_call { @element.enabled? }
+      raise ObjectDisabledException, "object is disabled #{inspect}"
     end
 
     def assert_is_element(obj)
-      unless obj.is_a? Watir::Element
-        raise TypeError, "execpted Watir::Element, got #{obj.inspect}:#{obj.class}"
-      end
+      return if obj.is_a? Watir::Element
+      raise TypeError, "execpted Watir::Element, got #{obj.inspect}:#{obj.class}"
     end
 
     # TODO: - this will get addressed with Watir::Executor implementation
@@ -674,7 +672,7 @@ module Watir
           element_call(:wait_for_exists, &block)
         end
         msg = ex.message
-        msg += "; Maybe look in an iframe?" if @query_scope.ensure_context && @query_scope.iframes.count > 0
+        msg += '; Maybe look in an iframe?' if @query_scope.ensure_context && @query_scope.iframes.count.positive?
         custom_attributes = @locator.nil? ? [] : @locator.selector_builder.custom_attributes
         unless custom_attributes.empty?
           msg += "; Watir treated #{custom_attributes} as a non-HTML compliant attribute, ensure that was intended"
@@ -685,15 +683,15 @@ module Watir
         reset!
         retry
       rescue Selenium::WebDriver::Error::ElementNotVisibleError, Selenium::WebDriver::Error::ElementNotInteractableError
-        raise_present unless Wait.timer.remaining_time > 0
+        raise_present unless Wait.timer.remaining_time.positive?
         raise_present unless %i[wait_for_present wait_for_enabled wait_for_writable].include?(precondition)
         retry
       rescue Selenium::WebDriver::Error::InvalidElementStateError
-        raise_disabled unless Wait.timer.remaining_time > 0
+        raise_disabled unless Wait.timer.remaining_time.positive?
         raise_disabled unless %i[wait_for_present wait_for_enabled wait_for_writable].include?(precondition)
         retry
       rescue Selenium::WebDriver::Error::NoSuchWindowError
-        raise Exception::NoMatchingWindowFoundException, "browser window was closed"
+        raise Exception::NoMatchingWindowFoundException, 'browser window was closed'
       ensure
         Watir.logger.info "<- `Completed #{inspect}##{caller}`"
         Wait.timer.reset! unless already_locked

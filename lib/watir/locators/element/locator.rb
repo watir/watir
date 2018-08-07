@@ -10,7 +10,7 @@ module Watir
                          link_text
                          partial_link_text
                          tag_name
-                         xpath]
+                         xpath].freeze
 
         # Regular expressions that can be reliably converted to xpath `contains`
         # expressions in order to optimize the locator.
@@ -75,7 +75,7 @@ module Watir
               retries += 1
               sleep 0.5
               retry unless retries > 2
-              target = filter == :all ? "element collection" : "element"
+              target = filter == :all ? 'element collection' : 'element'
               raise StandardError, "Unable to locate #{target} from #{@selector} due to changing page"
             end
           else
@@ -100,7 +100,7 @@ module Watir
           when :href
             (href = element.attribute(:href)) && href.strip
           else
-            element.attribute(how.to_s.tr("_", "-").to_sym)
+            element.attribute(how.to_s.tr('_', '-').to_sym)
           end
         end
 
@@ -108,7 +108,7 @@ module Watir
           selector = @filter_selector.dup
           if filter == :first
             idx = selector.delete(:index) || 0
-            if idx < 0
+            if idx.negative?
               elements.reverse!
               idx = idx.abs - 1
             end
@@ -169,7 +169,7 @@ module Watir
 
             # Do not add {index: 0} filter if the only filter.
             # This will allow using #find_element instead of #find_elements.
-            implicit_idx_filter = @filter_selector.empty? && idx == 0
+            implicit_idx_filter = @filter_selector.empty? && idx.zero?
             @filter_selector[:index] = idx unless implicit_idx_filter
           end
 
@@ -226,9 +226,9 @@ module Watir
                                               element: element).send(:execute_js, :getTextContent, element).strip
             text_content_matches = text_content =~ /#{selector[:text]}/
             unless matches == !!text_content_matches
-              key = @selector.key?(:text) ? "text" : "label"
+              key = @selector.key?(:text) ? 'text' : 'label'
               deprecation = "Using :#{key} locator with RegExp #{selector[:text].inspect} to match an element " \
-                            "that includes hidden text"
+                            'that includes hidden text'
               Watir.logger.deprecate(deprecation,  ":visible_#{key}", ids: [:text_regexp])
             end
           end

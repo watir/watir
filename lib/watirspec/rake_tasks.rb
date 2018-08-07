@@ -16,7 +16,7 @@ module WatirSpec
         end
 
         desc 'Run WatirSpec examples'
-        task :run, %i(spec line) do |_, args|
+        task :run, %i[spec line] do |_, args|
           run(args)
         end
       end

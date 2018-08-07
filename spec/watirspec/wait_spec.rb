@@ -1,32 +1,32 @@
-require "watirspec_helper"
+require 'watirspec_helper'
 
 describe Watir::Element do
   before do
-    browser.goto WatirSpec.url_for("wait.html")
+    browser.goto WatirSpec.url_for('wait.html')
   end
 
   # TODO: This is deprecated; remove in future version
   not_compliant_on :relaxed_locate do
-    describe "#when_present" do
-      it "invokes subsequent method calls when the element becomes present" do
+    describe '#when_present' do
+      it 'invokes subsequent method calls when the element becomes present' do
         browser.a(id: 'show_bar').click
 
         bar = browser.div(id: 'bar')
         bar.when_present(2).click
-        expect(bar.text).to eq "changed"
+        expect(bar.text).to eq 'changed'
       end
 
-      it "times out when given a block" do
+      it 'times out when given a block' do
         expect { browser.div(id: 'bar').when_present(1) {} }.to raise_timeout_exception
       end
 
-      it "times out when not given a block" do
+      it 'times out when not given a block' do
         locator = '(\{:id=>"bar", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"bar"\})'
         msg = /^timed out after 1 seconds, waiting for #{locator} to become present$/
         expect { browser.div(id: 'bar').when_present(1).click }.to raise_timeout_exception(msg)
       end
 
-      it "responds to Element methods" do
+      it 'responds to Element methods' do
         decorator = browser.div.when_present
 
         expect(decorator).to respond_to(:exist?)
@@ -34,17 +34,17 @@ describe Watir::Element do
         expect(decorator).to respond_to(:click)
       end
 
-      it "delegates present? to element" do
+      it 'delegates present? to element' do
         Object.class_eval do
           def present?
             false
           end
         end
-        element = browser.a(id: "show_bar").when_present(1)
+        element = browser.a(id: 'show_bar').when_present(1)
         expect(element).to be_present
       end
 
-      it "processes before calling present?" do
+      it 'processes before calling present?' do
         browser.a(id: 'show_bar').click
         expect(browser.div(id: 'bar').when_present.present?).to be true
       end
@@ -52,7 +52,7 @@ describe Watir::Element do
   end
 
   compliant_on :relaxed_locate do
-    it "clicking automatically waits until the element appears" do
+    it 'clicking automatically waits until the element appears' do
       browser.a(id: 'show_bar').click
       expect { browser.div(id: 'bar').click }.to_not raise_exception
       expect(browser.div(id: 'bar').text).to eq 'changed'
@@ -68,8 +68,8 @@ describe Watir::Element do
   end
 
   not_compliant_on :relaxed_locate do
-    describe "#wait_until &:enabled?" do
-      it "invokes subsequent method calls when the element becomes enabled" do
+    describe '#wait_until &:enabled?' do
+      it 'invokes subsequent method calls when the element becomes enabled' do
         browser.a(id: 'enable_btn').click
 
         btn = browser.button(id: 'btn')
@@ -78,7 +78,7 @@ describe Watir::Element do
         expect(btn.disabled?).to be true
       end
 
-      it "times out" do
+      it 'times out' do
         error = Watir::Wait::TimeoutError
         inspected = '#<Watir::Button: located: true; {:id=>"btn", :tag_name=>"button"}>'
         message = "timed out after 1 seconds, waiting for true condition on #{inspected}"
@@ -86,7 +86,7 @@ describe Watir::Element do
         expect { element.wait_until(timeout: 1, &:enabled?).click }.to raise_error(error, message)
       end
 
-      it "responds to Element methods" do
+      it 'responds to Element methods' do
         element = browser.button.wait_until { true }
 
         expect(element).to respond_to(:exist?)
@@ -94,7 +94,7 @@ describe Watir::Element do
         expect(element).to respond_to(:click)
       end
 
-      it "can be chained with #wait_until &:present?" do
+      it 'can be chained with #wait_until &:present?' do
         browser.a(id: 'show_and_enable_btn').click
         browser.button(id: 'btn2').wait_until(&:present?).wait_until(&:enabled?).click
 
@@ -104,13 +104,13 @@ describe Watir::Element do
     end
   end
 
-  describe "#wait_until_present" do
-    it "waits until the element appears" do
+  describe '#wait_until_present' do
+    it 'waits until the element appears' do
       browser.a(id: 'show_bar').click
       expect { browser.div(id: 'bar').wait_until_present(timeout: 5) }.to_not raise_exception
     end
 
-    it "waits until the element re-appears" do
+    it 'waits until the element re-appears' do
       browser.link(id: 'readd_bar').click
       expect { browser.div(id: 'bar').wait_until_present }.to_not raise_exception
     end
@@ -123,7 +123,7 @@ describe Watir::Element do
       expect { browser.div(id: 'bar').wait_until_present(timeout: 1) }.to raise_error(error, message)
     end
 
-    it "uses provided interval" do
+    it 'uses provided interval' do
       element = browser.div(id: 'bar')
       expect(element).to receive(:present?).twice
 
@@ -131,8 +131,8 @@ describe Watir::Element do
     end
   end
 
-  describe "#wait_while_present" do
-    it "waits until the element disappears" do
+  describe '#wait_while_present' do
+    it 'waits until the element disappears' do
       browser.a(id: 'hide_foo').click
       expect { browser.div(id: 'foo').wait_while_present(timeout: 2) }.to_not raise_exception
     end
@@ -144,14 +144,14 @@ describe Watir::Element do
       expect { browser.div(id: 'foo').wait_while_present(timeout: 1) }.to raise_error(error, message)
     end
 
-    it "uses provided interval" do
+    it 'uses provided interval' do
       element = browser.div(id: 'foo')
       expect(element).to receive(:present?).twice
 
       expect { element.wait_until_present(timeout: 0.4, interval: 0.2) }.to raise_timeout_exception
     end
 
-    it "does not error when element goes stale" do
+    it 'does not error when element goes stale' do
       element = browser.div(id: 'foo').tap(&:exists?)
 
       allow(element).to receive(:stale?).and_return(false, true)
@@ -160,77 +160,77 @@ describe Watir::Element do
       expect { element.wait_while_present(timeout: 1) }.to_not raise_exception
     end
 
-    it "waits until the selector no longer matches" do
+    it 'waits until the selector no longer matches' do
       element = browser.link(name: 'add_select').wait_until(&:exists?)
       browser.link(id: 'change_select').click
       expect { element.wait_while_present }.not_to raise_error
     end
   end
 
-  describe "#wait_until" do
-    it "returns element for additional actions" do
+  describe '#wait_until' do
+    it 'returns element for additional actions' do
       element = browser.div(id: 'foo')
       expect(element.wait_until(&:exist?)).to eq element
     end
 
-    it "accepts self in block" do
+    it 'accepts self in block' do
       element = browser.div(id: 'bar')
       browser.a(id: 'show_bar').click
       expect { element.wait_until { |el| el.text == 'bar' } }.to_not raise_exception
     end
 
-    it "accepts any values in block" do
+    it 'accepts any values in block' do
       element = browser.div(id: 'bar')
       expect { element.wait_until { true } }.to_not raise_exception
     end
 
-    it "accepts just a timeout parameter" do
+    it 'accepts just a timeout parameter' do
       element = browser.div(id: 'bar')
       expect { element.wait_until(timeout: 0) { true } }.to_not raise_exception
     end
 
-    it "accepts just a message parameter" do
+    it 'accepts just a message parameter' do
       element = browser.div(id: 'bar')
       expect { element.wait_until(message: 'no') { true } }.to_not raise_exception
     end
 
-    it "accepts just an interval parameter" do
+    it 'accepts just an interval parameter' do
       element = browser.div(id: 'bar')
       expect { element.wait_until(interval: 0.1) { true } }.to_not raise_exception
     end
   end
 
-  describe "#wait_while" do
-    it "returns element for additional actions" do
+  describe '#wait_while' do
+    it 'returns element for additional actions' do
       element = browser.div(id: 'foo')
       browser.a(id: 'hide_foo').click
       expect(element.wait_while(&:present?)).to eq element
     end
 
     not_compliant_on :safari do
-      it "accepts self in block" do
+      it 'accepts self in block' do
         element = browser.div(id: 'foo')
         browser.a(id: 'hide_foo').click
         expect { element.wait_while { |el| el.text == 'foo' } }.to_not raise_exception
       end
     end
 
-    it "accepts any values in block" do
+    it 'accepts any values in block' do
       element = browser.div(id: 'foo')
       expect { element.wait_while { false } }.to_not raise_exception
     end
 
-    it "accepts just a timeout parameter" do
+    it 'accepts just a timeout parameter' do
       element = browser.div(id: 'foo')
       expect { element.wait_while(timeout: 0) { false } }.to_not raise_exception
     end
 
-    it "accepts just a message parameter" do
+    it 'accepts just a message parameter' do
       element = browser.div(id: 'foo')
       expect { element.wait_while(message: 'no') { false } }.to_not raise_exception
     end
 
-    it "accepts just an interval parameter" do
+    it 'accepts just an interval parameter' do
       element = browser.div(id: 'foo')
       expect { element.wait_while(interval: 0.1) { false } }.to_not raise_exception
     end
@@ -238,11 +238,11 @@ describe Watir::Element do
 end
 
 describe Watir do
-  describe "#default_timeout" do
+  describe '#default_timeout' do
     before do
       Watir.default_timeout = 1
 
-      browser.goto WatirSpec.url_for("wait.html")
+      browser.goto WatirSpec.url_for('wait.html')
     end
 
     after do
@@ -250,26 +250,26 @@ describe Watir do
       Watir.default_timeout = 30
     end
 
-    context "when no timeout is specified" do
-      it "is used by Wait#until" do
+    context 'when no timeout is specified' do
+      it 'is used by Wait#until' do
         expect {
           Watir::Wait.until { false }
         }.to raise_error(Watir::Wait::TimeoutError)
       end
 
-      it "is used by Wait#while" do
+      it 'is used by Wait#while' do
         expect {
           Watir::Wait.while { true }
         }.to raise_error(Watir::Wait::TimeoutError)
       end
 
-      it "is used by Element#wait_until_present" do
+      it 'is used by Element#wait_until_present' do
         expect {
           browser.div(id: 'bar').wait_until_present
         }.to raise_error(Watir::Wait::TimeoutError)
       end
 
-      it "is used by Element#wait_while_present" do
+      it 'is used by Element#wait_while_present' do
         expect {
           browser.div(id: 'foo').wait_while_present
         }.to raise_error(Watir::Wait::TimeoutError)

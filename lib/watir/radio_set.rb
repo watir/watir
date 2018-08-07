@@ -48,7 +48,7 @@ module Watir
     def radio(opt = {})
       n = name
       if !n.empty? && (!opt[:name] || opt[:name] == n)
-        frame.radio(opt.merge name: n)
+        frame.radio(opt.merge(name: n))
       elsif n.empty?
         return source
       else
@@ -63,7 +63,7 @@ module Watir
     def radios(opt = {})
       n = name
       if !n.empty? && (!opt[:name] || opt[:name] == n)
-        element_call(:wait_for_present) { frame.radios(opt.merge name: n) }
+        element_call(:wait_for_present) { frame.radios(opt.merge(name: n)) }
       elsif n.empty?
         Watir::RadioCollection.new(frame, element: source.wd)
       else
@@ -219,7 +219,7 @@ module Watir
 
   module Container
     def radio_set(*args)
-      RadioSet.new(self, extract_selector(args).merge(tag_name: "input", type: "radio"))
+      RadioSet.new(self, extract_selector(args).merge(tag_name: 'input', type: 'radio'))
     end
 
     Watir.tag_to_class[:radio_set] = RadioSet

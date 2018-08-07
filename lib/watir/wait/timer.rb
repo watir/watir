@@ -18,7 +18,7 @@ module Watir
         loop do
           yield(block)
           @remaining_time = end_time - current_time
-          break if @remaining_time < 0
+          break if @remaining_time.negative?
         end
       end
 

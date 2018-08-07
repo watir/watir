@@ -9,14 +9,14 @@ require 'webdrivers'
 require 'locator_spec_helper'
 require 'rspec'
 
-SELENIUM_SELECTORS = %i(css tag_name xpath link_text partial_link_text link)
+SELENIUM_SELECTORS = %i[css tag_name xpath link_text partial_link_text link].freeze
 
-if ENV['RELAXED_LOCATE'] == "false"
+if ENV['RELAXED_LOCATE'] == 'false'
   Watir.relaxed_locate = false
 end
 
 ENV['DISPLAY'] = ':99.0' if ENV['TRAVIS']
 
 if Selenium::WebDriver::Platform.linux? && ENV['DISPLAY'].nil?
-  raise "DISPLAY not set"
+  raise 'DISPLAY not set'
 end

@@ -1,14 +1,14 @@
-require "watirspec_helper"
+require 'watirspec_helper'
 
-describe "Table" do
+describe 'Table' do
   before :each do
-    browser.goto(WatirSpec.url_for("nested_tables.html"))
+    browser.goto(WatirSpec.url_for('nested_tables.html'))
   end
 
   # not a selenium bug - IE seems unable to deal with the invalid nesting
   not_compliant_on :internet_explorer do
-    it "returns the correct number of rows under a table" do
-      tables = browser.div(id: "table-rows-test").tables(id: /^tbl/)
+    it 'returns the correct number of rows under a table' do
+      tables = browser.div(id: 'table-rows-test').tables(id: /^tbl/)
       expect(tables.length).to be > 0
 
       tables.each do |table|
@@ -20,8 +20,8 @@ describe "Table" do
       end
     end
 
-    it "returns the correct number of cells under a row" do
-      rows = browser.div(id: "row-cells-test").trs(id: /^row/)
+    it 'returns the correct number of cells under a row' do
+      rows = browser.div(id: 'row-cells-test').trs(id: /^row/)
       expect(rows.length).to be > 0
 
       rows.each do |row|
@@ -33,8 +33,8 @@ describe "Table" do
       end
     end
 
-    it "returns the correct number of rows under a table section" do
-      tbodies = browser.table(id: "tbody-rows-test").tbodys(id: /^body/)
+    it 'returns the correct number of rows under a table section' do
+      tbodies = browser.table(id: 'tbody-rows-test').tbodys(id: /^body/)
       expect(tbodies.length).to be > 0
 
       tbodies.each do |tbody|

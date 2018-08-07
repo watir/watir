@@ -11,7 +11,7 @@ module Watir
 
           xpath = ".//input[(not(@type) or (#{negative_type_expr}))"
           xpath << " and #{input_attr_exp}" unless input_attr_exp.empty?
-          xpath << "]"
+          xpath << ']'
 
           p build_wd_selector: xpath if $DEBUG
 
@@ -22,7 +22,7 @@ module Watir
 
         def negative_type_expr
           Watir::TextField::NON_TEXT_TYPES.map { |type|
-            format("%s!=%s", XpathSupport.downcase('@type'), type.inspect)
+            format('%s!=%s', XpathSupport.downcase('@type'), type.inspect)
           }.join(' and ')
         end
       end

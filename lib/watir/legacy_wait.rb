@@ -9,15 +9,12 @@ module Watir
       @message = message
     end
 
-    def respond_to?(*args)
+    def respond_to_missing?(*args)
       @element.respond_to?(*args)
     end
 
     def method_missing(meth, *args, &block)
-      unless @element.respond_to?(meth)
-        raise NoMethodError, "undefined method `#{meth}' for #{@element.inspect}:#{@element.class}"
-      end
-
+      return super unless @element.respond_to?(meth)
       Watir::Wait.until(@timeout, @message) { wait_until }
 
       @element.__send__(meth, *args, &block)

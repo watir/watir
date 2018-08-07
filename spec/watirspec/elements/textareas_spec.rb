@@ -1,4 +1,4 @@
-require "watirspec_helper"
+require 'watirspec_helper'
 
 describe 'TextArea' do
   before :each do

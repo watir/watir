@@ -52,11 +52,11 @@ module Watir
         fast: {delay: 0.04},
         slow: {delay: 0.2},
         long: {flashes: 5, delay: 0.5},
-        rainbow: {flashes: 5, color: %w(red orange yellow green blue indigo violet)}
+        rainbow: {flashes: 5, color: %w[red orange yellow green blue indigo violet]}
       }
       return flash(presets[preset]) unless presets[preset].nil?
 
-      background_color = original_color = style("background-color")
+      background_color = original_color = style('background-color')
       background_color = 'white' if background_color.empty?
       colors = Array(color).push(background_color)
 

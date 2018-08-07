@@ -38,7 +38,7 @@ module Watir
       elsif after_hook.respond_to? :call
         @after_hooks << after_hook
       else
-        raise ArgumentError, "expected block or object responding to #call"
+        raise ArgumentError, 'expected block or object responding to #call'
       end
     end
     alias << add
@@ -65,9 +65,8 @@ module Watir
     #
 
     def run
-      if @after_hooks.any? && @browser.window.present? && !@browser.alert.exists?
-        each { |after_hook| after_hook.call(@browser) }
-      end
+      return unless @after_hooks.any? && @browser.window.present? && !@browser.alert.exists?
+      each { |after_hook| after_hook.call(@browser) }
     end
 
     #

@@ -73,7 +73,7 @@ module Watir
 
     def define_boolean_attribute(mname, aname)
       define_method mname do
-        attribute_value(aname) == "true"
+        attribute_value(aname) == 'true'
       end
     end
 

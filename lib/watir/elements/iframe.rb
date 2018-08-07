@@ -26,7 +26,7 @@ module Watir
 
     def assert_exists
       if @element && @selector.empty?
-        raise UnknownFrameException, "wrapping a Selenium element as a Frame is not currently supported"
+        raise UnknownFrameException, 'wrapping a Selenium element as a Frame is not currently supported'
       end
 
       super
@@ -97,11 +97,11 @@ module Watir
 
   module Container
     def frame(*args)
-      Frame.new(self, extract_selector(args).merge(tag_name: "frame"))
+      Frame.new(self, extract_selector(args).merge(tag_name: 'frame'))
     end
 
     def frames(*args)
-      FrameCollection.new(self, extract_selector(args).merge(tag_name: "frame"))
+      FrameCollection.new(self, extract_selector(args).merge(tag_name: 'frame'))
     end
   end # Container
 
@@ -135,12 +135,18 @@ module Watir
 
     private
 
+    def respond_to_missing?(meth)
+      @driver.respond_to?(meth) || @element.respond_to?(meth)
+    end
+
     def method_missing(meth, *args, &blk)
       if @driver.respond_to?(meth)
         switch!
         @driver.send(meth, *args, &blk)
-      else
+      elsif @element.respond_to?(meth)
         @element.send(meth, *args, &blk)
+      else
+        super
       end
     end
 

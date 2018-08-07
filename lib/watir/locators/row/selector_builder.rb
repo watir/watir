@@ -4,7 +4,7 @@ module Watir
       class SelectorBuilder < Element::SelectorBuilder
         def build_wd_selector(selectors)
           return if selectors.values.any? { |e| e.is_a? Regexp }
-          selectors.delete(:tag_name) || raise("internal error: no tag_name?!")
+          selectors.delete(:tag_name) || raise('internal error: no tag_name?!')
 
           tag_name = @query_scope.tag_name.downcase
           expressions = %w[./tr]
@@ -18,7 +18,7 @@ module Watir
             expressions.map! { |e| "#{e}[#{attr_expr}]" }
           end
 
-          xpath = expressions.join(" | ")
+          xpath = expressions.join(' | ')
 
           p build_wd_selector: xpath if $DEBUG
 

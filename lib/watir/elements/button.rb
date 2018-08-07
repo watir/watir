@@ -8,7 +8,7 @@ module Watir
   class Button < HTMLElement
     inherit_attributes_from Watir::Input
 
-    VALID_TYPES = %w[button reset submit image]
+    VALID_TYPES = %w[button reset submit image].freeze
 
     #
     # Returns the text of the button.

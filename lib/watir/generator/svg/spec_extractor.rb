@@ -39,7 +39,7 @@ module Watir
         end
 
         def issued_interfaces
-          %w(SVGHatchElement SVGHatchPathElement SVGSolidColorElement)
+          %w[SVGHatchElement SVGHatchPathElement SVGSolidColorElement]
         end
 
         # Some interfaces are actually defined in different specs

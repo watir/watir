@@ -44,7 +44,7 @@ module Watir
     end
 
     it 'allows to selectively ignore deprecations with Strings' do
-      Watir.logger.ignore("old deprecated")
+      Watir.logger.ignore('old deprecated')
       expect { Watir.logger.deprecate('#old', '#new', ids: ['old deprecated']) }.to_not output.to_stdout_from_any_process
     end
 

@@ -102,6 +102,22 @@ Style/CommentedKeyword:
 Style/DoubleNegation:
   Enabled: false
 
+## Configuration parameters: AllowedVariables.
+Style/GlobalVars:
+  AllowedVariables:
+    - $browser
+
+### Cop supports --auto-correct.
+### Configuration parameters: EnforcedStyle, ConsistentQuotesInMultiline.
+## SupportedStyles: single_quotes, double_quotes
+Style/StringLiterals:
+  Exclude:
+    - 'lib/watir/elements/html_elements.rb'
+    - 'lib/watir/elements/svg_elements.rb'
+
+Style/MethodCallWithoutArgsParentheses:
+  Enabled: false
+
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
 # URISchemes: http, https
 Metrics/LineLength:

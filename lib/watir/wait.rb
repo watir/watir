@@ -34,7 +34,7 @@ module Watir
 
       def until(depr_to = nil, depr_msg = nil, timeout: nil, message: nil, interval: nil, object: nil)
         if depr_msg || depr_to
-          Watir.logger.deprecate "Using arguments for Wait#until", "keywords", ids: %i[until timeout_arguments]
+          Watir.logger.deprecate 'Using arguments for Wait#until', 'keywords', ids: %i[until timeout_arguments]
           timeout = depr_to
           message = depr_msg
         end
@@ -60,7 +60,7 @@ module Watir
 
       def while(depr_to = nil, depr_msg = nil, timeout: nil, message: nil, interval: nil, object: nil)
         if depr_msg || depr_to
-          Watir.logger.deprecate "Using arguments for Wait#while", "keywords", ids: %i[while timeout_arguments]
+          Watir.logger.deprecate 'Using arguments for Wait#while', 'keywords', ids: %i[while timeout_arguments]
           timeout = depr_to
           message = depr_msg
         end
@@ -112,11 +112,11 @@ module Watir
 
     def wait_until(depr_to = nil, depr_msg = nil, timeout: nil, message: nil, interval: nil, &blk)
       if depr_msg || depr_to
-        Watir.logger.deprecate "Using arguments for #wait_until", "keywords", ids: [:timeout_arguments]
+        Watir.logger.deprecate 'Using arguments for #wait_until', 'keywords', ids: [:timeout_arguments]
         timeout = depr_to
         message = depr_msg
       end
-      message ||= Proc.new { |obj| "waiting for true condition on #{obj.inspect}" }
+      message ||= proc { |obj| "waiting for true condition on #{obj.inspect}" }
       Wait.until(timeout: timeout, message: message, interval: interval, object: self, &blk)
 
       self
@@ -138,11 +138,11 @@ module Watir
 
     def wait_while(depr_to = nil, depr_msg = nil, timeout: nil, message: nil, interval: nil, &blk)
       if depr_msg || depr_to
-        Watir.logger.deprecate "Using arguments for #wait_while", "keywords", ids: [:timeout_arguments]
+        Watir.logger.deprecate 'Using arguments for #wait_while', 'keywords', ids: [:timeout_arguments]
         timeout = depr_to
         message = depr_msg
       end
-      message ||= Proc.new { |obj| "waiting for false condition on #{obj.inspect}" }
+      message ||= proc { |obj| "waiting for false condition on #{obj.inspect}" }
       Wait.while(timeout: timeout, message: message, interval: interval, object: self, &blk)
 
       self
@@ -163,7 +163,7 @@ module Watir
 
     def wait_until_present(depr_to = nil, timeout: nil, interval: nil)
       if depr_to
-        Watir.logger.deprecate "Using arguments for #wait_until_present", "keywords", ids: [:timeout_arguments]
+        Watir.logger.deprecate 'Using arguments for #wait_until_present', 'keywords', ids: [:timeout_arguments]
         timeout = depr_to
       end
       if is_a? Watir::Element
@@ -194,7 +194,7 @@ module Watir
 
     def wait_while_present(depr_to = nil, timeout: nil, interval: nil)
       if depr_to
-        Watir.logger.deprecate "Using arguments for #wait_while_present", "keywords", ids: [:timeout_arguments]
+        Watir.logger.deprecate 'Using arguments for #wait_while_present', 'keywords', ids: [:timeout_arguments]
         timeout = depr_to
       end
       if is_a? Watir::Element

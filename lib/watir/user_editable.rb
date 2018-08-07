@@ -22,12 +22,12 @@ module Watir
     #
 
     def set!(*args)
-      raise ArgumentError, "#set! does not support special keys, use #set instead" if args.any? { |v| v.is_a?(::Symbol) }
+      raise ArgumentError, '#set! does not support special keys, use #set instead' if args.any? { |v| v.is_a?(::Symbol) }
       input_value = args.join
       set input_value[0]
       element_call { execute_js(:setValue, @element, input_value[0..-2]) }
       append(input_value[-1])
-      raise Watir::Exception::Error, "#set! value does not match expected input" unless value == input_value
+      raise Watir::Exception::Error, '#set! value does not match expected input' unless value == input_value
     end
 
     #

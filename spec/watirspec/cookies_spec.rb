@@ -1,6 +1,6 @@
-require "watirspec_helper"
+require 'watirspec_helper'
 
-describe "Browser#cookies" do
+describe 'Browser#cookies' do
   after { browser.cookies.clear }
 
   it 'gets an empty list of cookies' do
@@ -8,7 +8,7 @@ describe "Browser#cookies" do
     expect(browser.cookies.to_a).to eq []
   end
 
-  it "gets any cookies set" do
+  it 'gets any cookies set' do
     browser.goto set_cookie_url
 
     verify_cookies_count 1
@@ -54,7 +54,7 @@ describe "Browser#cookies" do
       browser.goto set_cookie_url
       verify_cookies_count 1
 
-      expire_time = Time.now + 10000
+      expire_time = Time.now + 10_000
 
       browser.cookies.add 'foo', 'bar', expires: expire_time.to_s
 
@@ -68,8 +68,8 @@ describe "Browser#cookies" do
     it 'adds a cookie with options' do
       browser.goto set_cookie_url
 
-      expires = Time.now + 10000
-      options = {path: "/set_cookie",
+      expires = Time.now + 10_000
+      options = {path: '/set_cookie',
                  secure: true,
                  expires: expires}
 
@@ -80,7 +80,7 @@ describe "Browser#cookies" do
       expect(cookie[:name]).to eq 'a'
       expect(cookie[:value]).to eq 'b'
 
-      expect(cookie[:path]).to eq "/set_cookie"
+      expect(cookie[:path]).to eq '/set_cookie'
       expect(cookie[:secure]).to be true
 
       expect(cookie[:expires]).to be_kind_of(Time)
@@ -98,7 +98,7 @@ describe "Browser#cookies" do
       verify_cookies_count 0
     end
 
-    bug "https://code.google.com/p/selenium/issues/detail?id=5487", :safari do
+    bug 'https://code.google.com/p/selenium/issues/detail?id=5487', :safari do
       it 'clears all cookies' do
         browser.goto set_cookie_url
         browser.cookies.add 'foo', 'bar'
@@ -124,7 +124,7 @@ describe "Browser#cookies" do
       end
     end
 
-    bug "https://github.com/mozilla/geckodriver/issues/1000", :firefox do
+    bug 'https://github.com/mozilla/geckodriver/issues/1000', :firefox do
       describe '#load' do
         it 'loads cookies from file' do
           browser.cookies.clear
@@ -147,7 +147,7 @@ describe "Browser#cookies" do
     WatirSpec.url_for('set_cookie/index.html') + "?t=#{Time.now.to_i + Time.now.usec}"
   end
 
-  def verify_cookies_count expected_size
+  def verify_cookies_count(expected_size)
     cookies = browser.cookies.to_a
     expect(cookies.size).to eq(expected_size),
                             "expected #{expected_size} cookies, got #{cookies.size}: #{cookies.inspect}"

@@ -178,7 +178,7 @@ module Watir
 
     def wait(timeout = 5)
       wait_until(timeout: timeout, message: "waiting for document.readyState == 'complete'") do
-        ready_state == "complete"
+        ready_state == 'complete'
       end
     end
 
@@ -199,7 +199,7 @@ module Watir
     #
 
     def status
-      execute_script "return window.status;"
+      execute_script 'return window.status;'
     end
 
     #
@@ -267,11 +267,11 @@ module Watir
     def assert_exists
       ensure_context
       return if window.present?
-      raise Exception::NoMatchingWindowFoundException, "browser window was closed"
+      raise Exception::NoMatchingWindowFoundException, 'browser window was closed'
     end
 
     def ensure_context
-      raise Exception::Error, "browser was closed" if @closed
+      raise Exception::Error, 'browser was closed' if @closed
       driver.switch_to.default_content unless @default_context
       @default_context = true
     end

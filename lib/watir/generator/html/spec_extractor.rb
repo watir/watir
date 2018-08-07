@@ -7,12 +7,12 @@ module Watir
         def extract_interface_map
           # http://www.whatwg.org/specs/web-apps/current-work/#elements-1
           table = @doc.search("//h3[@id='index-elements']/following-sibling::table[1]").first
-          table || raise("could not find index-elements table")
+          table || raise('could not find index-elements table')
 
           @interface_map = {}
 
           parse_table(table).each do |row|
-            row['Element'].split(", ").each { |tag| @interface_map[tag] = row['Interface'] }
+            row['Element'].split(', ').each { |tag| @interface_map[tag] = row['Interface'] }
           end
         end
 
@@ -28,12 +28,12 @@ module Watir
         end
 
         def parse_table(table)
-          headers = table.css("thead th").map { |e| e.inner_text.strip }
+          headers = table.css('thead th').map { |e| e.inner_text.strip }
 
-          table.css("tbody tr").map do |row|
+          table.css('tbody tr').map do |row|
             result = {}
 
-            row.css("th, td").each_with_index do |node, idx|
+            row.css('th, td').each_with_index do |node, idx|
               result[headers[idx]] = node.inner_text.strip
             end
 

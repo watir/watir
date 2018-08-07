@@ -1,30 +1,30 @@
-require "watirspec_helper"
+require 'watirspec_helper'
 
-describe "Strongs" do
+describe 'Strongs' do
   before :each do
-    browser.goto(WatirSpec.url_for("non_control_elements.html"))
+    browser.goto(WatirSpec.url_for('non_control_elements.html'))
   end
 
-  describe "with selectors" do
-    it "returns the matching elements" do
-      expect(browser.strongs(class: "descartes").to_a).to eq [browser.strong(class: "descartes")]
+  describe 'with selectors' do
+    it 'returns the matching elements' do
+      expect(browser.strongs(class: 'descartes').to_a).to eq [browser.strong(class: 'descartes')]
     end
   end
 
-  describe "#length" do
-    it "returns the number of divs" do
+  describe '#length' do
+    it 'returns the number of divs' do
       expect(browser.strongs.length).to eq 2
     end
   end
 
-  describe "#[]" do
-    it "returns the div at the given index" do
-      expect(browser.strongs[0].id).to eq "descartes"
+  describe '#[]' do
+    it 'returns the div at the given index' do
+      expect(browser.strongs[0].id).to eq 'descartes'
     end
   end
 
-  describe "#each" do
-    it "iterates through divs correctly" do
+  describe '#each' do
+    it 'iterates through divs correctly' do
       count = 0
 
       browser.strongs.each_with_index do |s, index|

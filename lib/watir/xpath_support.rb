@@ -3,7 +3,7 @@ module Watir
     def self.escape(value)
       if value.include? "'"
         parts = value.split("'", -1).map { |part| "'#{part}'" }
-        string = parts.join(%{,"'",})
+        string = parts.join(%(,"'",))
 
         "concat(#{string})"
       else

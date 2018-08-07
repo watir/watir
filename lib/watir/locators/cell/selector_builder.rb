@@ -12,7 +12,7 @@ module Watir
             expressions.map! { |e| "#{e}[#{attr_expr}]" }
           end
 
-          xpath = expressions.join(" | ")
+          xpath = expressions.join(' | ')
 
           p build_wd_selector: xpath if $DEBUG
 

@@ -1,13 +1,13 @@
-require "watirspec_helper"
+require 'watirspec_helper'
 
-describe "Hidden" do
+describe 'Hidden' do
   before :each do
-    browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
+    browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
   end
 
   # Exist method
-  describe "#exists?" do
-    it "returns true if the element exists" do
+  describe '#exists?' do
+    it 'returns true if the element exists' do
       expect(browser.hidden(id: 'new_user_interests_dolls')).to exist
       expect(browser.hidden(id: /new_user_interests_dolls/)).to exist
       expect(browser.hidden(name: 'new_user_interests')).to exist
@@ -20,11 +20,11 @@ describe "Hidden" do
       expect(browser.hidden(xpath: "//input[@id='new_user_interests_dolls']")).to exist
     end
 
-    it "returns the first hidden if given no args" do
+    it 'returns the first hidden if given no args' do
       expect(browser.hidden).to exist
     end
 
-    it "returns false if the element does not exist" do
+    it 'returns false if the element does not exist' do
       expect(browser.hidden(id: 'no_such_id')).to_not exist
       expect(browser.hidden(id: /no_such_id/)).to_not exist
       expect(browser.hidden(name: 'no_such_name')).to_not exist
@@ -45,9 +45,9 @@ describe "Hidden" do
   end
 
   # Attribute methods
-  describe "#id" do
-    it "returns the id attribute if the text field exists" do
-      expect(browser.hidden(index: 1).id).to eq "new_user_interests_dolls"
+  describe '#id' do
+    it 'returns the id attribute if the text field exists' do
+      expect(browser.hidden(index: 1).id).to eq 'new_user_interests_dolls'
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -55,9 +55,9 @@ describe "Hidden" do
     end
   end
 
-  describe "#name" do
-    it "returns the name attribute if the text field exists" do
-      expect(browser.hidden(index: 1).name).to eq "new_user_interests"
+  describe '#name' do
+    it 'returns the name attribute if the text field exists' do
+      expect(browser.hidden(index: 1).name).to eq 'new_user_interests'
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -65,9 +65,9 @@ describe "Hidden" do
     end
   end
 
-  describe "#type" do
-    it "returns the type attribute if the text field exists" do
-      expect(browser.hidden(index: 1).type).to eq "hidden"
+  describe '#type' do
+    it 'returns the type attribute if the text field exists' do
+      expect(browser.hidden(index: 1).type).to eq 'hidden'
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -75,9 +75,9 @@ describe "Hidden" do
     end
   end
 
-  describe "#value" do
-    it "returns the value attribute if the text field exists" do
-      expect(browser.hidden(index: 1).value).to eq "dolls"
+  describe '#value' do
+    it 'returns the value attribute if the text field exists' do
+      expect(browser.hidden(index: 1).value).to eq 'dolls'
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -85,14 +85,14 @@ describe "Hidden" do
     end
   end
 
-  describe "#click" do
-    it "raises ObjectDisabledException when attempting to click" do
+  describe '#click' do
+    it 'raises ObjectDisabledException when attempting to click' do
       expect { browser.hidden(index: 1337).click }.to raise_object_disabled_exception
     end
   end
 
-  describe "#respond_to?" do
-    it "returns true for all attribute methods" do
+  describe '#respond_to?' do
+    it 'returns true for all attribute methods' do
       expect(browser.hidden(index: 1)).to respond_to(:id)
       expect(browser.hidden(index: 1)).to respond_to(:name)
       expect(browser.hidden(index: 1)).to respond_to(:type)

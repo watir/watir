@@ -112,14 +112,14 @@ module Watir
         end
 
         def ruby_method_name_for(attribute)
-          str = if %w(httpEquiv contentEditable acceptCharset isContentEditable).include? attribute.name
+          str = if %w[httpEquiv contentEditable acceptCharset isContentEditable].include? attribute.name
                   attribute.name.snake_case
                 else
                   attribute.name.downcase
                 end
 
           if attribute.type.name == :Boolean
-            str = $1 if str =~ /^is_(.+)/
+            str = Regexp.last_match(1) if str =~ /^is_(.+)/
             str << '?'
           end
 

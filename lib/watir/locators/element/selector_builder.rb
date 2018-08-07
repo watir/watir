@@ -37,10 +37,10 @@ module Watir
             raise_unless_str_regex(what)
           else
             if what.is_a?(Array) && how != :class && how != :class_name
-              raise TypeError, "Only :class locator can have a value of an Array"
+              raise TypeError, 'Only :class locator can have a value of an Array'
             end
             if what.is_a?(Symbol) && how != :adjacent
-              raise TypeError, "Symbol is not a valid value"
+              raise TypeError, 'Symbol is not a valid value'
             end
             return if VALID_WHATS.any? { |t| what.is_a? t }
             raise TypeError, "expected one of #{VALID_WHATS.inspect}, got #{what.inspect}:#{what.class}"
@@ -116,7 +116,7 @@ module Watir
           keys = selector.keys
           return true if keys == [:tag_name]
 
-          if selector[:tag_name] == "input"
+          if selector[:tag_name] == 'input'
             return keys.sort == %i[tag_name type]
           end
 

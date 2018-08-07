@@ -7,7 +7,7 @@ module Watir
     #
 
     def clear
-      raise Error, "you can only clear multi-selects" unless multiple?
+      raise Error, 'you can only clear multi-selects' unless multiple?
 
       selected_options.each(&:click)
     end
@@ -94,7 +94,7 @@ module Watir
     #
 
     def select_value(str_or_rx)
-      Watir.logger.deprecate '#select_value', "#select", ids: [:select_value]
+      Watir.logger.deprecate '#select_value', '#select', ids: [:select_value]
       select_by str_or_rx
     end
 
@@ -113,7 +113,7 @@ module Watir
       by_label = options(label: str_or_rx)
       return true if by_label.find(&:selected?)
 
-      return false unless by_text.size + by_label.size == 0
+      return false unless (by_text.size + by_label.size).zero?
 
       raise(UnknownObjectException, "Unable to locate option matching #{str_or_rx.inspect}")
     end
@@ -157,7 +157,7 @@ module Watir
       found = find_options(:value, str_or_rx)
 
       if found && found.size > 1
-        Watir.logger.deprecate "Selecting Multiple Options with #select", "#select_all",
+        Watir.logger.deprecate 'Selecting Multiple Options with #select', '#select_all',
                                ids: [:select_by]
       end
       return select_matching(found) if found&.any?
@@ -208,7 +208,7 @@ module Watir
     end
 
     def select_all_by(str_or_rx)
-      raise Error, "you can only use #select_all on multi-selects" unless multiple?
+      raise Error, 'you can only use #select_all on multi-selects' unless multiple?
       found = find_options :text, str_or_rx
 
       return select_matching(found) if found

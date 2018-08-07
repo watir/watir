@@ -1,32 +1,32 @@
-require "watirspec_helper"
+require 'watirspec_helper'
 
-describe "Element" do
+describe 'Element' do
   before :each do
-    browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
+    browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
   end
 
-  describe ".new" do
+  describe '.new' do
     it "finds elements matching the conditions when given a hash of :how => 'what' arguments" do
       expect(browser.checkbox(name: 'new_user_interests', title: 'Dancing is fun!').value).to eq 'dancing'
       expect(browser.text_field(class_name: 'name', index: 1).id).to eq 'new_user_last_name'
     end
 
     it "raises UnknownObjectException when given a hash of :how => 'what' arguments (non-existing object)" do
-      expect { browser.text_field(index: 100, name: "foo").id }.to raise_unknown_object_exception
+      expect { browser.text_field(index: 100, name: 'foo').id }.to raise_unknown_object_exception
     end
 
-    it "raises ArgumentError if given the wrong number of arguments" do
-      container = double("container").as_null_object
+    it 'raises ArgumentError if given the wrong number of arguments' do
+      container = double('container').as_null_object
       expect { Watir::Element.new(container, 1, 2, 3, 4) }.to raise_error(ArgumentError)
-      expect { Watir::Element.new(container, "foo") }.to raise_error(ArgumentError)
+      expect { Watir::Element.new(container, 'foo') }.to raise_error(ArgumentError)
     end
   end
 
-  describe "#element_call" do
+  describe '#element_call' do
     it 'handles exceptions when taking an action on a stale element' do
       browser.goto WatirSpec.url_for('removed_element.html')
 
-      element = browser.div(id: "text").tap(&:exists?)
+      element = browser.div(id: 'text').tap(&:exists?)
 
       browser.refresh
 
@@ -35,18 +35,18 @@ describe "Element" do
     end
   end
 
-  describe "#eq and #eql?" do
-    before { browser.goto WatirSpec.url_for("definition_lists.html") }
+  describe '#eq and #eql?' do
+    before { browser.goto WatirSpec.url_for('definition_lists.html') }
 
-    it "returns true if the two elements point to the same DOM element" do
-      a = browser.dl(id: "experience-list")
+    it 'returns true if the two elements point to the same DOM element' do
+      a = browser.dl(id: 'experience-list')
       b = browser.dl
 
       expect(a).to eq b
       expect(a).to eql(b)
     end
 
-    it "returns false if the two elements are not the same" do
+    it 'returns false if the two elements are not the same' do
       a = browser.dls[0]
       b = browser.dls[1]
 
@@ -54,99 +54,99 @@ describe "Element" do
       expect(a).to_not eql(b)
     end
 
-    it "returns false if the other object is not an Element" do
+    it 'returns false if the other object is not an Element' do
       expect(browser.dl).to_not eq 1
     end
   end
 
-  describe "data-* attributes" do
-    before { browser.goto WatirSpec.url_for("data_attributes.html") }
+  describe 'data-* attributes' do
+    before { browser.goto WatirSpec.url_for('data_attributes.html') }
 
-    it "finds elements by a data-* attribute" do
-      expect(browser.p(data_type: "ruby-library")).to exist
+    it 'finds elements by a data-* attribute' do
+      expect(browser.p(data_type: 'ruby-library')).to exist
     end
 
-    it "returns the value of a data-* attribute" do
-      expect(browser.p.data_type).to eq "ruby-library"
-    end
-  end
-
-  describe "aria-* attributes" do
-    before { browser.goto WatirSpec.url_for("aria_attributes.html") }
-
-    it "finds elements by a aria-* attribute" do
-      expect(browser.p(aria_label: "ruby-library")).to exist
-    end
-
-    it "returns the value of a aria-* attribute" do
-      expect(browser.p.aria_label).to eq "ruby-library"
+    it 'returns the value of a data-* attribute' do
+      expect(browser.p.data_type).to eq 'ruby-library'
     end
   end
 
-  describe "visible text" do
-    it "finds elements by visible text" do
+  describe 'aria-* attributes' do
+    before { browser.goto WatirSpec.url_for('aria_attributes.html') }
+
+    it 'finds elements by a aria-* attribute' do
+      expect(browser.p(aria_label: 'ruby-library')).to exist
+    end
+
+    it 'returns the value of a aria-* attribute' do
+      expect(browser.p.aria_label).to eq 'ruby-library'
+    end
+  end
+
+  describe 'visible text' do
+    it 'finds elements by visible text' do
       browser.goto WatirSpec.url_for('non_control_elements.html')
 
-      expect(browser.link(visible_text: "all visible")).to exist
+      expect(browser.link(visible_text: 'all visible')).to exist
       expect(browser.link(visible_text: /all visible/)).to exist
-      expect(browser.link(visible_text: "some visible")).to exist
+      expect(browser.link(visible_text: 'some visible')).to exist
       expect(browser.link(visible_text: /some visible/)).to exist
-      expect(browser.link(visible_text: "none visible")).not_to exist
+      expect(browser.link(visible_text: 'none visible')).not_to exist
       expect(browser.link(visible_text: /none visible/)).not_to exist
 
-      expect(browser.link(visible_text: "Link 2", class: "external")).to exist
-      expect(browser.link(visible_text: /Link 2/, class: "external")).to exist
+      expect(browser.link(visible_text: 'Link 2', class: 'external')).to exist
+      expect(browser.link(visible_text: /Link 2/, class: 'external')).to exist
 
-      expect(browser.element(visible_text: "all visible")).to exist
+      expect(browser.element(visible_text: 'all visible')).to exist
       expect(browser.element(visible_text: /all visible/)).to exist
-      expect(browser.element(visible_text: "some visible")).to exist
+      expect(browser.element(visible_text: 'some visible')).to exist
       expect(browser.element(visible_text: /some visible/)).to exist
     end
   end
 
-  describe "finding with unknown tag name" do
-    it "finds an element without arguments" do
+  describe 'finding with unknown tag name' do
+    it 'finds an element without arguments' do
       expect(browser.element).to exist
     end
 
-    it "finds an element by xpath" do
+    it 'finds an element by xpath' do
       expect(browser.element(xpath: "//*[@for='new_user_first_name']")).to exist
     end
 
-    it "finds an element by arbitrary attribute" do
-      expect(browser.element(title: "no title")).to exist
+    it 'finds an element by arbitrary attribute' do
+      expect(browser.element(title: 'no title')).to exist
     end
 
-    it "finds several elements by xpath" do
-      expect(browser.elements(xpath: "//a").length).to eq 1
+    it 'finds several elements by xpath' do
+      expect(browser.elements(xpath: '//a').length).to eq 1
     end
 
-    it "finds several elements by arbitrary attribute" do
+    it 'finds several elements by arbitrary attribute' do
       expect(browser.elements(id: /^new_user/).length).to eq 33
     end
 
     it "finds an element from an element's subtree" do
-      expect(browser.fieldset.element(id: "first_label")).to exist
-      expect(browser.field_set.element(id: "first_label")).to exist
+      expect(browser.fieldset.element(id: 'first_label')).to exist
+      expect(browser.field_set.element(id: 'first_label')).to exist
     end
 
     it "finds several elements from an element's subtree" do
-      expect(browser.fieldset.elements(xpath: ".//label").length).to eq 22
+      expect(browser.fieldset.elements(xpath: './/label').length).to eq 22
     end
   end
 
-  describe "#to_subtype" do
-    it "returns a CheckBox instance" do
+  describe '#to_subtype' do
+    it 'returns a CheckBox instance' do
       e = browser.input(xpath: "//input[@type='checkbox']").to_subtype
       expect(e).to be_kind_of(Watir::CheckBox)
     end
 
-    it "returns a Radio instance" do
+    it 'returns a Radio instance' do
       e = browser.input(xpath: "//input[@type='radio']").to_subtype
       expect(e).to be_kind_of(Watir::Radio)
     end
 
-    it "returns a Button instance" do
+    it 'returns a Button instance' do
       es = [
         browser.input(xpath: "//input[@type='button']").to_subtype,
         browser.input(xpath: "//input[@type='submit']").to_subtype,
@@ -157,35 +157,35 @@ describe "Element" do
       es.all? { |e| expect(e).to be_kind_of(Watir::Button) }
     end
 
-    it "returns a TextField instance" do
+    it 'returns a TextField instance' do
       e = browser.input(xpath: "//input[@type='text']").to_subtype
       expect(e).to be_kind_of(Watir::TextField)
     end
 
-    it "returns a FileField instance" do
+    it 'returns a FileField instance' do
       e = browser.input(xpath: "//input[@type='file']").to_subtype
       expect(e).to be_kind_of(Watir::FileField)
     end
 
-    it "returns a Div instance" do
+    it 'returns a Div instance' do
       el = browser.element(xpath: "//*[@id='messages']").to_subtype
       expect(el).to be_kind_of(Watir::Div)
     end
   end
 
-  describe "#focus" do
-    it "fires the onfocus event for the given element" do
-      tf = browser.text_field(id: "new_user_occupation")
-      expect(tf.value).to eq "Developer"
+  describe '#focus' do
+    it 'fires the onfocus event for the given element' do
+      tf = browser.text_field(id: 'new_user_occupation')
+      expect(tf.value).to eq 'Developer'
       tf.focus
-      expect(browser.div(id: "onfocus_test").text).to eq "changed by onfocus event"
+      expect(browser.div(id: 'onfocus_test').text).to eq 'changed by onfocus event'
     end
   end
 
-  bug "https://github.com/SeleniumHQ/selenium/issues/2555", %i(remote firefox) do
-    bug "https://github.com/SeleniumHQ/selenium/issues/1795", %i(remote edge) do
-      describe "#focused?" do
-        it "knows if the element is focused" do
+  bug 'https://github.com/SeleniumHQ/selenium/issues/2555', %i[remote firefox] do
+    bug 'https://github.com/SeleniumHQ/selenium/issues/1795', %i[remote edge] do
+      describe '#focused?' do
+        it 'knows if the element is focused' do
           expect(browser.element(id: 'new_user_first_name')).to be_focused
           expect(browser.element(id: 'new_user_last_name')).to_not be_focused
         end
@@ -193,31 +193,31 @@ describe "Element" do
     end
   end
 
-  describe "#fire_event" do
-    it "should fire the given event" do
-      expect(browser.div(id: "onfocus_test").text).to be_empty
-      browser.text_field(id: "new_user_occupation").fire_event('onfocus')
-      expect(browser.div(id: "onfocus_test").text).to eq "changed by onfocus event"
+  describe '#fire_event' do
+    it 'should fire the given event' do
+      expect(browser.div(id: 'onfocus_test').text).to be_empty
+      browser.text_field(id: 'new_user_occupation').fire_event('onfocus')
+      expect(browser.div(id: 'onfocus_test').text).to eq 'changed by onfocus event'
     end
   end
 
-  describe "#visible?" do
-    it "returns true if the element is visible" do
+  describe '#visible?' do
+    it 'returns true if the element is visible' do
       msg = /WARN Watir \[\"visible_element\"\]/
       expect {
-        expect(browser.text_field(id: "new_user_email")).to be_visible
+        expect(browser.text_field(id: 'new_user_email')).to be_visible
       }.to output(msg).to_stdout_from_any_process
     end
 
-    it "raises UnknownObjectException exception if the element does not exist" do
+    it 'raises UnknownObjectException exception if the element does not exist' do
       msg = /WARN Watir \[\"visible_element\"\]/
       expect {
-        expect { browser.text_field(id: "no_such_id").visible? }.to raise_unknown_object_exception
+        expect { browser.text_field(id: 'no_such_id').visible? }.to raise_unknown_object_exception
       }.to output(msg).to_stdout_from_any_process
     end
 
-    it "raises UnknownObjectException exception if the element is stale" do
-      element = browser.text_field(id: "new_user_email").tap(&:exists?)
+    it 'raises UnknownObjectException exception if the element is stale' do
+      element = browser.text_field(id: 'new_user_email').tap(&:exists?)
 
       browser.refresh
 
@@ -230,12 +230,12 @@ describe "Element" do
     it "returns true if the element has style='visibility: visible' even if parent has style='visibility: hidden'" do
       msg = /WARN Watir \[\"visible_element\"\]/
       expect {
-        expect(browser.div(id: "visible_child")).to be_visible
+        expect(browser.div(id: 'visible_child')).to be_visible
       }.to output(msg).to_stdout_from_any_process
     end
 
     it "returns false if the element is input element where type eq 'hidden'" do
-      expect(browser.hidden(id: "new_user_interests_dolls")).to_not be_visible
+      expect(browser.hidden(id: 'new_user_interests_dolls')).to_not be_visible
     end
 
     it "returns false if the element has style='display: none;'" do
@@ -249,18 +249,18 @@ describe "Element" do
       expect(browser.div(id: 'wants_newsletter')).to_not be_visible
     end
 
-    it "returns false if one of the parent elements is hidden" do
+    it 'returns false if one of the parent elements is hidden' do
       expect(browser.div(id: 'hidden_parent')).to_not be_visible
     end
   end
 
-  describe "#exists?" do
+  describe '#exists?' do
     before do
       browser.goto WatirSpec.url_for('removed_element.html')
     end
 
-    it "element from a collection returns false when it becomes stale" do
-      element = browser.divs(id: "text").first.tap(&:exists?)
+    it 'element from a collection returns false when it becomes stale' do
+      element = browser.divs(id: 'text').first.tap(&:exists?)
 
       browser.refresh
 
@@ -268,15 +268,15 @@ describe "Element" do
       expect(element).to_not exist
     end
 
-    it "returns false when tag name does not match id" do
-      watir_element = browser.span(id: "text")
+    it 'returns false when tag name does not match id' do
+      watir_element = browser.span(id: 'text')
       expect(watir_element).to_not exist
     end
   end
 
   describe '#present?' do
     before do
-      browser.goto(WatirSpec.url_for("wait.html"))
+      browser.goto(WatirSpec.url_for('wait.html'))
     end
 
     it 'returns true if the element exists and is visible' do
@@ -292,8 +292,8 @@ describe "Element" do
     end
 
     # TODO: Refactor so that this returns true
-    it "returns false if the element is stale" do
-      element = browser.div(id: "foo").tap(&:exists?)
+    it 'returns false if the element is stale' do
+      element = browser.div(id: 'foo').tap(&:exists?)
 
       browser.refresh
 
@@ -305,8 +305,8 @@ describe "Element" do
     end
 
     # TODO: Documents Current Behavior, but needs to be refactored/removed
-    it "returns true the second time if the element is stale" do
-      element = browser.div(id: "foo").tap(&:exists?)
+    it 'returns true the second time if the element is stale' do
+      element = browser.div(id: 'foo').tap(&:exists?)
 
       browser.refresh
 
@@ -319,104 +319,104 @@ describe "Element" do
     end
   end
 
-  describe "#enabled?" do
+  describe '#enabled?' do
     before do
-      browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
+      browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
     end
 
-    it "returns true if the element is enabled" do
+    it 'returns true if the element is enabled' do
       expect(browser.element(name: 'new_user_submit')).to be_enabled
     end
 
-    it "returns false if the element is disabled" do
+    it 'returns false if the element is disabled' do
       expect(browser.element(name: 'new_user_submit_disabled')).to_not be_enabled
     end
 
     it "raises UnknownObjectException if the element doesn't exist" do
-      expect { browser.element(name: "no_such_name").enabled? }.to raise_unknown_object_exception
+      expect { browser.element(name: 'no_such_name').enabled? }.to raise_unknown_object_exception
     end
   end
 
-  describe "#exist?" do
-    context ":class locator" do
+  describe '#exist?' do
+    context ':class locator' do
       before do
-        browser.goto(WatirSpec.url_for("class_locator.html"))
+        browser.goto(WatirSpec.url_for('class_locator.html'))
       end
 
-      it "matches when the element has a single class" do
-        e = browser.div(class: "a")
+      it 'matches when the element has a single class' do
+        e = browser.div(class: 'a')
         expect(e).to exist
-        expect(e.class_name).to eq "a"
+        expect(e.class_name).to eq 'a'
       end
 
-      it "matches when the element has several classes" do
-        e = browser.div(class: "b")
+      it 'matches when the element has several classes' do
+        e = browser.div(class: 'b')
         expect(e).to exist
-        expect(e.class_name).to eq "a b c"
+        expect(e.class_name).to eq 'a b c'
       end
 
-      it "does not match only part of the class name" do
-        expect(browser.div(class: "bc")).to_not exist
+      it 'does not match only part of the class name' do
+        expect(browser.div(class: 'bc')).to_not exist
       end
 
-      it "matches part of the class name when given a regexp" do
+      it 'matches part of the class name when given a regexp' do
         expect(browser.div(class: /c/)).to exist
       end
 
-      context "with multiple classes" do
-        it "matches when the element has a single class" do
-          e = browser.div(class: ["a"])
+      context 'with multiple classes' do
+        it 'matches when the element has a single class' do
+          e = browser.div(class: ['a'])
           expect(e).to exist
-          expect(e.class_name).to eq "a"
+          expect(e.class_name).to eq 'a'
         end
 
-        it "matches a non-ordered subset" do
+        it 'matches a non-ordered subset' do
           e = browser.div(class: %w[c a])
           expect(e).to exist
-          expect(e.class_name).to eq "a b c"
+          expect(e.class_name).to eq 'a b c'
         end
 
-        it "matches one with a negation" do
-          e = browser.div(class: ["!a"])
+        it 'matches one with a negation' do
+          e = browser.div(class: ['!a'])
           expect(e).to exist
-          expect(e.class_name).to eq "abc"
+          expect(e.class_name).to eq 'abc'
         end
 
-        it "matches multiple with a negation" do
-          e = browser.div(class: ["a", "!c", "b"])
+        it 'matches multiple with a negation' do
+          e = browser.div(class: ['a', '!c', 'b'])
           expect(e).to exist
-          expect(e.class_name).to eq "a b"
+          expect(e.class_name).to eq 'a b'
         end
       end
     end
 
-    context "attribute presence" do
-      before { browser.goto WatirSpec.url_for("data_attributes.html") }
+    context 'attribute presence' do
+      before { browser.goto WatirSpec.url_for('data_attributes.html') }
 
-      it "finds element by attribute presence" do
+      it 'finds element by attribute presence' do
         expect(browser.p(data_type: true)).to exist
         expect(browser.p(class: true)).not_to exist
       end
 
-      it "finds element by attribute absence" do
+      it 'finds element by attribute absence' do
         expect(browser.p(data_type: false)).not_to exist
         expect(browser.p(class: false)).to exist
       end
     end
 
-    context ":index locator" do
-      before { browser.goto WatirSpec.url_for("data_attributes.html") }
+    context ':index locator' do
+      before { browser.goto WatirSpec.url_for('data_attributes.html') }
 
-      it "finds the first element by index: 0" do
-        expect(browser.element(index: 0).tag_name).to eq "html"
+      it 'finds the first element by index: 0' do
+        expect(browser.element(index: 0).tag_name).to eq 'html'
       end
 
-      it "finds the second element by index: 1" do
-        expect(browser.element(index: 1).tag_name).to eq "head"
+      it 'finds the second element by index: 1' do
+        expect(browser.element(index: 1).tag_name).to eq 'head'
       end
 
-      it "finds the last element by index: -1" do
-        expect(browser.element(index: -1).tag_name).to eq "p"
+      it 'finds the last element by index: -1' do
+        expect(browser.element(index: -1).tag_name).to eq 'p'
       end
     end
 
@@ -424,33 +424,33 @@ describe "Element" do
       expect(browser.div(id: 'no_such_div').link(id: 'no_such_id')).to_not exist
     end
 
-    it "raises if both :xpath and :css are given" do
-      expect { browser.div(xpath: "//div", css: "div").exists? }.to raise_error(ArgumentError)
+    it 'raises if both :xpath and :css are given' do
+      expect { browser.div(xpath: '//div', css: 'div').exists? }.to raise_error(ArgumentError)
     end
 
     it "doesn't raise when selector has with :xpath has :index" do
-      expect(browser.div(xpath: "//div", index: 1)).to exist
+      expect(browser.div(xpath: '//div', index: 1)).to exist
     end
 
-    it "raises ArgumentError error if selector hash with :xpath has multiple entries" do
-      expect { browser.div(xpath: "//div", class: "foo").exists? }.to raise_error(ArgumentError)
+    it 'raises ArgumentError error if selector hash with :xpath has multiple entries' do
+      expect { browser.div(xpath: '//div', class: 'foo').exists? }.to raise_error(ArgumentError)
     end
 
     it "doesn't raise when selector has with :css has :index" do
-      expect(browser.div(css: "div", index: 1)).to exist
+      expect(browser.div(css: 'div', index: 1)).to exist
     end
 
-    it "raises ArgumentError error if selector hash with :css has multiple entries" do
-      expect { browser.div(css: "div", class: "foo").exists? }.to raise_error(ArgumentError)
+    it 'raises ArgumentError error if selector hash with :css has multiple entries' do
+      expect { browser.div(css: 'div', class: 'foo').exists? }.to raise_error(ArgumentError)
     end
 
-    it "finds element by Selenium name locator" do
-      expect(browser.element(name: "new_user_first_name")).to exist
+    it 'finds element by Selenium name locator' do
+      expect(browser.element(name: 'new_user_first_name')).to exist
       expect(browser.element(name: /new_user_first_name/)).to exist
     end
 
-    it "returns false when tag name does not match id" do
-      watir_element = browser.span(id: "text")
+    it 'returns false when tag name does not match id' do
+      watir_element = browser.span(id: 'text')
       expect(watir_element).to_not exist
     end
   end
@@ -476,7 +476,7 @@ describe "Element" do
       expect(events).to eq 10
     end
 
-    bug "http://code.google.com/p/chromium/issues/detail?id=93879", :chrome do
+    bug 'http://code.google.com/p/chromium/issues/detail?id=93879', :chrome do
       not_compliant_on :safari, :firefox do
         it 'performs key combinations' do
           receiver.send_keys 'foo'
@@ -502,7 +502,7 @@ describe "Element" do
     end
   end
 
-  describe "#flash" do
+  describe '#flash' do
     let(:h2) { browser.h2(text: 'Add user') }
     let(:h1) { browser.h1(text: 'User administration') }
 
@@ -523,66 +523,66 @@ describe "Element" do
     end
   end
 
-  describe "#hover" do
+  describe '#hover' do
     not_compliant_on :internet_explorer, :safari do
-      it "should hover over the element" do
+      it 'should hover over the element' do
         browser.goto WatirSpec.url_for('hover.html')
         link = browser.a
 
-        expect(link.style("font-size")).to eq "10px"
+        expect(link.style('font-size')).to eq '10px'
         link.hover
-        link.wait_until { |l| l.style("font-size") == "20px" }
-        expect(link.style("font-size")).to eq "20px"
+        link.wait_until { |l| l.style('font-size') == '20px' }
+        expect(link.style('font-size')).to eq '20px'
       end
     end
   end
 
-  describe "#inspect" do
-    before(:each) { browser.goto(WatirSpec.url_for("nested_iframes.html")) }
+  describe '#inspect' do
+    before(:each) { browser.goto(WatirSpec.url_for('nested_iframes.html')) }
 
-    it "does displays specified element type" do
+    it 'does displays specified element type' do
       expect(browser.div.inspect).to include('Watir::Div')
     end
 
-    it "does not display element type if not specified" do
+    it 'does not display element type if not specified' do
       element = browser.element(index: 4)
       expect(element.inspect).to include('Watir::HTMLElement')
     end
 
-    it "displays keyword if specified" do
+    it 'displays keyword if specified' do
       element = browser.h3
       element.keyword = 'foo'
       expect(element.inspect).to include('keyword: foo')
     end
 
-    it "does not display keyword if not specified" do
+    it 'does not display keyword if not specified' do
       element = browser.h3
       expect(element.inspect).to_not include('keyword')
     end
 
-    it "locate is false when not located" do
+    it 'locate is false when not located' do
       element = browser.div(id: 'not_present')
       expect(element.inspect).to include('located: false')
     end
 
-    it "locate is true when located" do
+    it 'locate is true when located' do
       element = browser.h3
       element.exists?
       expect(element.inspect).to include('located: true')
     end
 
-    it "displays selector string for element from colection" do
+    it 'displays selector string for element from colection' do
       elements = browser.frames
       expect(elements.last.inspect).to include '{:tag_name=>"frame", :index=>-1}'
     end
 
-    it "displays selector string for nested element" do
-      browser.goto(WatirSpec.url_for("wait.html"))
+    it 'displays selector string for nested element' do
+      browser.goto(WatirSpec.url_for('wait.html'))
       element = browser.div(index: 1).div(id: 'div2')
       expect(element.inspect).to include '{:index=>1, :tag_name=>"div"} --> {:id=>"div2", :tag_name=>"div"}'
     end
 
-    it "displays selector string for nested element under frame" do
+    it 'displays selector string for nested element under frame' do
       element = browser.iframe(id: 'one').iframe(id: 'three')
       expect(element.inspect).to include '{:id=>"one", :tag_name=>"iframe"} --> {:id=>"three", :tag_name=>"iframe"}'
     end
@@ -607,7 +607,7 @@ describe "Element" do
     it 'returns inner HTML code of element' do
       browser.goto WatirSpec.url_for('non_control_elements.html')
       div = browser.div(id: 'shown')
-      expected_text = "<div id=\"hidden\" style=\"display: none;\">Not shown</div><div>Not hidden</div>"
+      expected_text = '<div id="hidden" style="display: none;">Not shown</div><div>Not hidden</div>'
       expect(div.inner_html).to eq expected_text
     end
   end
@@ -616,24 +616,24 @@ describe "Element" do
     it 'returns outer (inner + element itself) HTML code of element' do
       browser.goto WatirSpec.url_for('non_control_elements.html')
       div = browser.div(id: 'shown')
-      expected_text = "<div id=\"shown\"><div id=\"hidden\" style=\"display: none;\"" \
-                      ">Not shown</div><div>Not hidden</div></div>"
+      expected_text = '<div id="shown"><div id="hidden" style="display: none;"' \
+                      '>Not shown</div><div>Not hidden</div></div>'
       expect(div.outer_html).to eq expected_text
     end
   end
 
-  not_compliant_on %i(remote firefox) do
+  not_compliant_on %i[remote firefox] do
     describe '#scroll_into_view' do
       it 'scrolls element into view' do
         el = browser.button(name: 'new_user_image')
         element_center = el.center['y']
 
         bottom_viewport_script = 'return window.pageYOffset + window.innerHeight'
-        expect(browser.execute_script bottom_viewport_script).to be < element_center
+        expect(browser.execute_script(bottom_viewport_script)).to be < element_center
 
         expect(el.scroll_into_view).to be_a Selenium::WebDriver::Point
 
-        expect(browser.execute_script bottom_viewport_script).to be > element_center
+        expect(browser.execute_script(bottom_viewport_script)).to be > element_center
       end
     end
   end
@@ -685,14 +685,14 @@ describe "Element" do
   end
 
   describe '#attribute_value' do
-    before { browser.goto WatirSpec.url_for("data_attributes.html") }
+    before { browser.goto WatirSpec.url_for('data_attributes.html') }
 
     it 'returns attribute value by string attribute name' do
-      expect(browser.p.attribute_value('data-type')).to eq "ruby-library"
+      expect(browser.p.attribute_value('data-type')).to eq 'ruby-library'
     end
 
     it 'returns attribute value by symbol attribute name' do
-      expect(browser.p.attribute_value(:data_type)).to eq "ruby-library"
+      expect(browser.p.attribute_value(:data_type)).to eq 'ruby-library'
     end
   end
 end

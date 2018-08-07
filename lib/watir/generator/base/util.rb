@@ -5,7 +5,7 @@ module Watir
 
       def classify(regexp, str)
         if str =~ regexp
-          $1
+          Regexp.last_match(1)
         else
           str
         end

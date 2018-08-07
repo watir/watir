@@ -1,4 +1,4 @@
-require "tmpdir"
+require 'tmpdir'
 require 'watirspec/guards'
 require 'watirspec/implementation'
 require 'watirspec/runner'
@@ -37,12 +37,12 @@ module WatirSpec
     end
 
     def implementation
-      @implementation ||= (
+      @implementation ||= begin
         imp = WatirSpec::Implementation.new
         yield imp if block_given?
 
         imp
-      )
+      end
     end
 
     def implementation=(imp)

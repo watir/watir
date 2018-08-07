@@ -24,16 +24,16 @@ end
     spec_path = "support/#{type}.html"
 
     task generator_lib: :lib do
-      require "watir/generator"
+      require 'watir/generator'
     end
 
     desc "Download #{type.upcase} spec from #{spec_uri}"
     task :download do
-      require "open-uri"
+      require 'open-uri'
       mv spec_path, "#{spec_path}.old" if File.exist?(spec_path)
       downloaded_bytes = 0
 
-      File.open(spec_path, "w") do |io|
+      File.open(spec_path, 'w') do |io|
         io << "<!--  downloaded from #{spec_uri} on #{Time.now} -->\n"
         io << data = open(spec_uri).read
         downloaded_bytes = data.bytesize
@@ -54,7 +54,7 @@ end
 
       if extractor.errors.any?
         puts "\n\n<======================= ERRORS =======================>\n\n"
-        puts extractor.errors.join("\n" + "=" * 80 + "\n")
+        puts extractor.errors.join("\n" + '=' * 80 + "\n")
       end
     end
 
@@ -63,7 +63,7 @@ end
       old_file = "lib/watir/elements/#{type}_elements.rb"
       generator = Watir::Generator.const_get(type.upcase).new
 
-      File.open("#{old_file}.new", "w") do |file|
+      File.open("#{old_file}.new", 'w') do |file|
         generator.generate(spec_path, file)
       end
 
@@ -136,7 +136,7 @@ namespace :spec do
                          (:remote_ie if Selenium::WebDriver::Platform.windows?),
                          (:remote_edge if Selenium::WebDriver::Platform.windows?)].compact
 
-  %w(firefox chrome safari ie edge).each do |browser|
+  %w[firefox chrome safari ie edge].each do |browser|
     desc "Run specs in #{browser}"
     task browser do
       ENV['WATIR_BROWSER'] = browser
@@ -146,7 +146,7 @@ namespace :spec do
     desc "Run specs in Remote #{browser}"
     task "remote_#{browser}" do
       ENV['WATIR_BROWSER'] = browser
-      ENV["USE_REMOTE"] = 'true'
+      ENV['USE_REMOTE'] = 'true'
       Rake::Task[:spec].execute
     end
   end
