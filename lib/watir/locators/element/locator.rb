@@ -227,9 +227,8 @@ module Watir
             unless matches == !!text_content_matches
               key = @selector.key?(:text) ? "text" : "label"
               deprecation = "Using :#{key} locator with RegExp #{selector[:text].inspect} to match an element " \
-                            "that includes hidden text", ":visible_#{key}"
-              Watir.logger.deprecate(deprecation,
-                                     ids: [:text_regexp])
+                            "that includes hidden text"
+              Watir.logger.deprecate(deprecation,  ":visible_#{key}", ids: [:text_regexp])
             end
           end
 

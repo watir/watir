@@ -476,14 +476,14 @@ module Watir
       tag = tag_name()
       klass = if tag == "input"
                 case attribute_value(:type)
-                when *Button::VALID_TYPES
-                  Button
                 when 'checkbox'
                   CheckBox
                 when 'radio'
                   Radio
                 when 'file'
                   FileField
+                when *Button::VALID_TYPES
+                  Button
                 else
                   TextField
                 end
@@ -627,8 +627,9 @@ module Watir
     end
 
     def raise_present
-      raise unknown_exception, "element located, but timed out after #{Watir.default_timeout} seconds, " \
+      message = "element located, but timed out after #{Watir.default_timeout} seconds, " \
                                "waiting for #{inspect} to be present"
+      raise unknown_exception, message
     end
 
     def element_class
