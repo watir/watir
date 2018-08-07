@@ -526,7 +526,8 @@ describe "SelectList" do
     it "selects multiple options based on text" do
       browser.select_list(name: "new_user_languages").clear
       browser.select_list(name: "new_user_languages").select_all!(/ish/)
-      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["Danish", "EN", "Swedish"]
+      list = ["Danish", "EN", "Swedish"]
+      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq list
     end
 
     it "selects multiple options based on labels" do

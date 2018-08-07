@@ -150,7 +150,8 @@ describe "FileField" do
           expected = path
           expected.tr!("/", "\\") if Selenium::WebDriver::Platform.windows?
 
-          expect(browser.file_field.value).to include(File.basename(expected)) # only some browser will return the full path
+          # only some browser will return the full path
+          expect(browser.file_field.value).to include(File.basename(expected))
         end
       end
 

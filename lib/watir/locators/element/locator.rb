@@ -156,14 +156,7 @@ module Watir
             @filter_selector[how] = @normalized_selector.delete(how)
           end
 
-          if tag_validation_required?(@normalized_selector)
-            tag_name = if @normalized_selector[:tag_name].is_a?(::Symbol)
-                         @normalized_selector[:tag_name].to_s
-                       else
-                         @normalized_selector[:tag_name]
-                       end
-            @filter_selector[:tag_name] = tag_name
-          end
+          set_tag_validation if tag_validation_required?(@normalized_selector)
 
           # Regexp locators currently need to be validated even if they are included in the XPath builder
           # TODO: Identify Regexp that can have an exact equivalent using XPath contains (ie would not require
@@ -176,12 +169,21 @@ module Watir
           if @normalized_selector[:index] && !@normalized_selector[:adjacent]
             idx = @normalized_selector.delete(:index)
 
-            # Do not add {index: 0} filter if the only filter. This will allow using #find_element instead of #find_elements.
+            # Do not add {index: 0} filter if the only filter.
+            # This will allow using #find_element instead of #find_elements.
             implicit_idx_filter = @filter_selector.empty? && idx == 0
             @filter_selector[:index] = idx unless implicit_idx_filter
           end
 
           @filter_selector
+        end
+
+        def set_tag_validation
+          @filter_selector[:tag_name] = if @normalized_selector[:tag_name].is_a?(::Symbol)
+                                          @normalized_selector[:tag_name].to_s
+                                        else
+                                          @normalized_selector[:tag_name]
+                                        end
         end
 
         def process_label(label_key)
@@ -222,7 +224,8 @@ module Watir
           end
 
           if selector[:text]
-            text_content = Watir::Element.new(@query_scope, element: element).send(:execute_js, :getTextContent, element).strip
+            text_content = Watir::Element.new(@query_scope,
+                                              element: element).send(:execute_js, :getTextContent, element).strip
             text_content_matches = text_content =~ /#{selector[:text]}/
             unless matches == !!text_content_matches
               key = @selector.key?(:text) ? "text" : "label"

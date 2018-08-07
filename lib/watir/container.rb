@@ -36,7 +36,8 @@ module Watir
     def extract_selector(selectors)
       case selectors.size
       when 2
-        Watir.logger.deprecate "Using ordered parameters to locate elements (:#{selectors.first}, #{selectors.last.inspect})",
+        deprecation = "Using ordered parameters to locate elements (:#{selectors.first}, #{selectors.last.inspect})"
+        Watir.logger.deprecate deprecation,
                                "{#{selectors.first}: #{selectors.last.inspect}}",
                                ids: [:selector_parameters]
         return {selectors[0] => selectors[1]}

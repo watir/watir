@@ -43,7 +43,8 @@ module Watir
     # Returns following sibling element of current element.
     #
     # @example
-    #   browser.text_field(name: "new_user_first_name").following_sibling(index: 2) == browser.text_field(id: "new_user_last_name")
+    #   sibs = browser.text_field(name: "new_user_first_name").following_sibling(index: 2)
+    #   sibs == browser.text_field(id: "new_user_last_name")
     #   #=> true
     #
 
@@ -94,7 +95,8 @@ module Watir
     # Returns collection of elements of direct children of current element.
     #
     # @example
-    #   browser.select_list(id: "new_user_languages").children == browser.select_list(id: "new_user_languages").options.to_a
+    #   kids = browser.select_list(id: "new_user_languages").children
+    #   kids == browser.select_list(id: "new_user_languages").options.to_a
     #   #=> true
     #
 
