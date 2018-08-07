@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 Gem::Specification.new do |s|
   s.name        = 'watir'
   s.version     = '6.12.0'
@@ -20,6 +18,7 @@ Gem::Specification.new do |s|
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
   s.require_paths = ['lib']
+  s.required_ruby_version = '~> 2.3'
 
   s.add_dependency 'selenium-webdriver', '~> 3.4', '>= 3.4.1'
 
