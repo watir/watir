@@ -21,9 +21,9 @@ module Watir
         private
 
         def negative_type_expr
-          Watir::TextField::NON_TEXT_TYPES.map do |type|
+          Watir::TextField::NON_TEXT_TYPES.map { |type|
             format("%s!=%s", XpathSupport.downcase('@type'), type.inspect)
-          end.join(' and ')
+          }.join(' and ')
         end
       end
     end

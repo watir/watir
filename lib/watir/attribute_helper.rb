@@ -29,9 +29,9 @@ module Watir
 
     def attribute_list
       @attribute_list ||= (typed_attributes.values.flatten +
-                           ancestors[1..-1].map do |e|
+                           ancestors[1..-1].map { |e|
                              e.attribute_list if e.respond_to?(:attribute_list)
-                           end.compact.flatten
+                           }.compact.flatten
                           ).uniq
     end
 

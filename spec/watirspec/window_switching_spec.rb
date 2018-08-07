@@ -66,11 +66,11 @@ describe "Browser" do
     bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1223277", :firefox do
       not_compliant_on :headless do
         it "it executes the given block in the window" do
-          browser.window(title: "closeable window") do
+          browser.window(title: "closeable window") {
             link = browser.a(id: "close")
             expect(link).to exist
             link.click
-          end.wait_while(&:present?)
+          }.wait_while(&:present?)
 
           expect(browser.windows.size).to eq 1
         end

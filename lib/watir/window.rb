@@ -232,12 +232,12 @@ module Watir
     end
 
     def matches?(handle)
-      @driver.switch_to.window(handle) {
+      @driver.switch_to.window(handle) do
         matches_title = @selector[:title].nil? || @driver.title =~ /#{@selector[:title]}/
         matches_url = @selector[:url].nil? || @driver.current_url =~ /#{@selector[:url]}/
 
         matches_title && matches_url
-      }
+      end
     rescue Selenium::WebDriver::Error::NoSuchWindowError, Selenium::WebDriver::Error::NoSuchDriverError
       # the window may disappear while we're iterating.
       false

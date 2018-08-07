@@ -2,9 +2,7 @@ require 'watirspec_helper'
 
 describe Watir::Element do
   describe "#click" do
-    before {
-      browser.goto WatirSpec.url_for('clicks.html')
-    }
+    before { browser.goto WatirSpec.url_for('clicks.html') }
 
     let(:clicker) { browser.element(id: "click-logger") }
     let(:log)     { browser.element(id: "log").ps.map(&:text) }
