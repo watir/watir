@@ -7,6 +7,7 @@ module Watir
     include Container
     include HasWindow
     include Waitable
+    include Navigation
 
     attr_writer :default_context, :original_window, :locator_namespace
     attr_reader :driver
@@ -66,43 +67,6 @@ module Watir
       '#<%s:0x%x closed=true>' % [self.class, hash * 2]
     end
     alias selector_string inspect
-
-    #
-    # Goes to the given URL.
-    #
-    # @example
-    #   browser.goto "watir.github.io"
-    #
-    # @param [String] uri The url.
-    # @return [String] The url you end up at.
-    #
-
-    def goto(uri)
-      uri = "http://#{uri}" unless uri =~ URI::DEFAULT_PARSER.make_regexp
-
-      @driver.navigate.to uri
-      @after_hooks.run
-
-      uri
-    end
-
-    #
-    # Navigates back in history.
-    #
-
-    def back
-      @driver.navigate.back
-      @after_hooks.run
-    end
-
-    #
-    # Navigates forward in history.
-    #
-
-    def forward
-      @driver.navigate.forward
-      @after_hooks.run
-    end
 
     #
     # Returns URL of current page.
@@ -200,15 +164,6 @@ module Watir
 
     def alert
       Alert.new(self)
-    end
-
-    #
-    # Refreshes current page.
-    #
-
-    def refresh
-      @driver.navigate.refresh
-      @after_hooks.run
     end
 
     #

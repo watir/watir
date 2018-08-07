@@ -138,14 +138,11 @@ module Watir
           Float
         when 'Boolean'
           'Boolean'
-        when 'WindowProxy', 'ValidityState', 'TimeRanges', 'Location',
-             'Any', 'TimedTrackArray', 'TimedTrack', 'TextTrackArray', 'TextTrack',
-             /Media.+/, 'TextTrackKind', 'Function', /.*EventHandler$/,
-             'Document', 'DocumentFragment', 'DOMTokenList', 'DOMSettableTokenList',
-             'DOMStringMap', 'HTMLPropertiesCollection', /HTML.*Element/, /HTML.*Collection/,
-             'CSSStyleDeclaration', /.+List$/, 'Date', 'Element', /DOM.+ReadOnly/,
-             /SVGAnimated.+/, /SVG.*Element/, /SVG.*Collection/, 'SVGViewSpec',
-             'Object', 'USVString'
+        when 'WindowProxy', 'ValidityState', 'TimeRanges', 'Location', 'Any', 'TimedTrackArray', 'TimedTrack',
+            'TextTrackArray', 'TextTrack', /Media.+/, 'TextTrackKind', 'Function', /.*EventHandler$/, 'Object',
+             'Document', 'DocumentFragment', 'DOMTokenList', 'DOMSettableTokenList', 'DOMStringMap', 'USVString',
+            'HTMLPropertiesCollection', /HTML.*Element/, /HTML.*Collection/, 'CSSStyleDeclaration', /.+List$/, 'Date',
+            'Element', /DOM.+ReadOnly/, /SVGAnimated.+/, /SVG.*Element/, /SVG.*Collection/, 'SVGViewSpec'
           # probably completely wrong.
           String
         else

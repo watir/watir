@@ -647,6 +647,9 @@ module Watir
 
     # TODO: - this will get addressed with Watir::Executor implementation
     # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/PerceivedComplexity
+    # rubocop:disable Metrics/CyclomaticComplexity:
     def element_call(precondition = nil, &block)
       caller = caller_locations(1, 1)[0].label
       already_locked = Wait.timer.locked?
@@ -687,6 +690,9 @@ module Watir
       end
     end
     # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/PerceivedComplexity
+    # rubocop:enable Metrics/CyclomaticComplexity:
 
     def check_condition(condition)
       Watir.logger.info "<- `Verifying precondition #{inspect}##{condition}`"

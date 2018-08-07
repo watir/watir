@@ -5,6 +5,9 @@ inherit_from: .rubocop_todo.yml
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
+    - 'support/doctest_helper.rb'
+    - 'watir.gemspec'
+    - 'Rakefile'
 
 # Offense count: 144
 # Cop supports --auto-correct.
@@ -13,6 +16,29 @@ Layout/EmptyLineBetweenDefs:
   Exclude:
     - 'lib/watir/elements/html_elements.rb'
     - 'lib/watir/elements/svg_elements.rb'
+
+## Configuration parameters: CountComments.
+Metrics/ModuleLength:
+  Exclude:
+    - 'lib/watir/elements/html_elements.rb'
+    - 'lib/watir/elements/svg_elements.rb'
+
+# Configuration parameters: CountComments.
+Metrics/MethodLength:
+  Max: 23
+
+# Configuration parameters: CountComments.
+Metrics/ClassLength:
+  Max: 130
+  Exclude:
+    - 'lib/watir/locators/element/locator.rb'
+    - 'lib/watir/elements/element.rb'
+
+Metrics/PerceivedComplexity:
+  Max: 11
+
+Metrics/CyclomaticComplexity:
+  Max: 10
 
 # Offense count: 2
 # Cop supports --auto-correct.
@@ -54,3 +80,18 @@ Metrics/AbcSize:
   Exclude:
     - 'lib/watir/locators/element/selector_builder.rb'
     - 'lib/watir/generator/base/generator.rb'
+
+## TODO - fix with Watir 7
+## Configuration parameters: CountKeywordArgs.
+Metrics/ParameterLists:
+  Exclude:
+    - 'lib/watir/wait.rb'
+
+
+# TODO - Investigate
+# Offense count: 2
+# Cop supports --auto-correct.
+Security/YAMLLoad:
+  Exclude:
+    - 'lib/watir/cookies.rb'
+    - 'spec/watirspec/cookies_spec.rb'

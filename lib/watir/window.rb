@@ -110,7 +110,6 @@ module Watir
     rescue Exception::NoMatchingWindowFoundException
       false
     end
-
     alias_method :present?, :exists?
     alias_method :exist?, :exists?
 

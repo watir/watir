@@ -60,22 +60,9 @@ module Watir
       if severity.is_a?(Integer)
         @logger.level = severity
       else
-        case severity.to_s.downcase
-        when 'debug'.freeze
-          @logger.level = DEBUG
-        when 'info'.freeze
-          @logger.level = INFO
-        when 'warn'.freeze
-          @logger.level = WARN
-        when 'error'.freeze
-          @logger.level = ERROR
-        when 'fatal'.freeze
-          @logger.level = FATAL
-        when 'unknown'.freeze
-          @logger.level = UNKNOWN
-        else
-          raise ArgumentError, "invalid log level: #{severity}"
-        end
+        list = %w[DEBUG INFO WARN ERROR FATAL UNKNOWN]
+        raise ArgumentError, "invalid log level: #{severity}" unless list.include?(severity.to_s.upcase)
+        @logger.level = severity.to_s.upcase
       end
     end
 
