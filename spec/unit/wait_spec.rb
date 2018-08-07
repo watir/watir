@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require_relative 'unit_helper'
 
 describe Watir::Wait do

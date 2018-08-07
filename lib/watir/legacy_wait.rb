@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'forwardable'
 
 # TODO: - remove this file for future release

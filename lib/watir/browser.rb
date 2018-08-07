@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Watir
   #
   # The main class through which you control the browser.

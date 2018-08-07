@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Watir
   #
   # Custom class representing table cell (th or td).

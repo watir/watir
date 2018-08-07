@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Watir
   class Radio < Input
     def initialize(query_scope, selector)

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Watir
   #
   # After hooks are blocks that run after certain browser events.

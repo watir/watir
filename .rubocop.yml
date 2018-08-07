@@ -1,3 +1,5 @@
+inherit_from: .rubocop_todo.yml
+
 # Configuration parameters: CountComments, ExcludedMethods.
 # ExcludedMethods: refine
 Metrics/BlockLength:
@@ -131,6 +133,12 @@ Metrics/LineLength:
   Max: 121
 
 Style/Documentation:
+  Enabled: false
+
+# Cop supports --auto-correct.
+# Configuration parameters: EnforcedStyle.
+# SupportedStyles: when_needed, always, never
+Style/FrozenStringLiteralComment:
   Enabled: false
 
 # TODO: Investigate

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 source 'http://rubygems.org'
 
 gem 'simplecov', '>= 0.3.5', platform: :ruby_19 unless ENV['TRAVIS']

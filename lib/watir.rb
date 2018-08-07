@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'selenium-webdriver'
 
 require 'watir/legacy_wait'

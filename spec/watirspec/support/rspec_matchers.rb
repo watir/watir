@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 if defined?(RSpec)
   DEPRECATION_WARNINGS = %i[selector_parameters
                             class_array

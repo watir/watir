@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class VersionDiffer
   def print_latest(io = $stdout)
     io.puts diff(last_version, '.')

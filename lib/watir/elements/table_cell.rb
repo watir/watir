@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Watir
   class TableCell < HTMLElement
     def column_header

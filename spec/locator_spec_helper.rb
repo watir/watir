@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module LocatorSpecHelper
   def browser
     @browser ||= double(Watir::Browser, wd: driver)

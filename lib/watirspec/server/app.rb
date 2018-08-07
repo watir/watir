@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module WatirSpec
   class Server
     class App
