@@ -76,12 +76,12 @@ module Watir
     # @example
     #   browser.window.move_to 300, 200
     #
-    # @param [Integer] x
-    # @param [Integer] y
+    # @param [Integer] x_coord
+    # @param [Integer] y_coord
     #
 
-    def move_to(x, y)
-      point = Selenium::WebDriver::Point.new(Integer(x), Integer(y))
+    def move_to(x_coord, y_coord)
+      point = Selenium::WebDriver::Point.new(Integer(x_coord), Integer(y_coord))
       use { @driver.manage.window.position = point }
 
       point

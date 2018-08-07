@@ -94,7 +94,7 @@ module WatirSpec
     end
 
     def print_usage
-      p <<~EOS
+      p <<~USAGE
         File spec/watirspec_helper.rb is successfully created!
         Please, check it and customize for your needs. Once done, you can start using WatirSpec.
 
@@ -109,7 +109,7 @@ module WatirSpec
 
         List all WatirSpec examples:
           $ bundle exec rake watirspec:list
-      EOS
+      USAGE
     end
   end
 end

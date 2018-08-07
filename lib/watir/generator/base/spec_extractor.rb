@@ -31,14 +31,14 @@ module Watir
       def sorted_interfaces
         process if @interfaces.nil?
 
-        sorter.sort.map { |name|
+        idl_sorter.sort.map { |name|
           @interfaces.find { |i| i.name == name } or puts "ignoring interface: #{name}"
         }.compact
       end
 
       def print_hierarchy
         process if @interfaces.nil?
-        sorter.print
+        idl_sorter.print
       end
 
       def fetch_interface(interface)
@@ -128,9 +128,10 @@ module Watir
         @idl_parser ||= WebIDL::Parser::IDLParser.new
       end
 
-      def sorter
+      def idl_sorter
         @idl_sorter ||= Base::IDLSorter.new(@interfaces)
       end
+      alias_method :sorter, :idl_sorter
     end # SpecExtractor
   end # Generator
 end # Watir
