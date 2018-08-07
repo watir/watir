@@ -220,7 +220,7 @@ module Watir
           if selector[:text]
             text_content = Watir::Element.new(@query_scope, element: element).send(:execute_js, :getTextContent, element).strip
             text_content_matches = text_content =~ /#{selector[:text]}/
-            unless matches == text_content_matches
+            unless matches == !!text_content_matches
               key = @selector.key?(:text) ? "text" : "label"
               Watir.logger.deprecate("Using :#{key} locator with RegExp #{selector[:text].inspect} to match an element that includes hidden text", ":visible_#{key}",
                                      ids: [:text_regexp])
