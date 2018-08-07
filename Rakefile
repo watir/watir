@@ -11,7 +11,7 @@ end
 
 namespace :spec do
   RSpec::Core::RakeTask.new(:html) do |spec|
-    spec.rspec_opts = "--format html --out #{ENV["SPEC_REPORT"] || "specs.html"}"
+    spec.rspec_opts = "--format html --out #{ENV['SPEC_REPORT'] || 'specs.html'}"
     spec.pattern = 'spec/**/*_spec.rb'
   end
 end
@@ -79,7 +79,7 @@ end
     end
 
     desc "download spec -> generate -> #{type}.rb"
-    task update: [:download, :generate, :overwrite]
+    task update: %i[download generate overwrite]
   end
 end
 
@@ -120,7 +120,7 @@ namespace :spec do
   require 'selenium-webdriver'
 
   desc 'Run specs in all browsers'
-  task all_browsers: [:browsers, :remote_browsers]
+  task all_browsers: %i[browsers remote_browsers]
 
   desc 'Run specs locally for all browsers'
   task browsers: [:chrome,

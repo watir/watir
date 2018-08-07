@@ -371,7 +371,7 @@ describe "Element" do
         end
 
         it "matches a non-ordered subset" do
-          e = browser.div(class: ["c", "a"])
+          e = browser.div(class: %w[c a])
           expect(e).to exist
           expect(e.class_name).to eq "a b c"
         end

@@ -173,7 +173,7 @@ describe "SelectList" do
 
     it "gets the currently selected item(s)" do
       expect(browser.select_list(name: "new_user_country").selected_options.map(&:text)).to eq ["Norway"]
-      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["EN", "NO"]
+      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq %w[EN NO]
     end
   end
 
@@ -296,19 +296,19 @@ describe "SelectList" do
       browser.select_list(name: "new_user_languages").clear
       browser.select_list(name: "new_user_languages").select("Danish")
       browser.select_list(name: "new_user_languages").select("Swedish")
-      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["Danish", "Swedish"]
+      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq %w[Danish Swedish]
     end
 
     it "selects each item in an Array" do
       browser.select_list(name: "new_user_languages").clear
-      browser.select_list(name: "new_user_languages").select(["Danish", "Swedish"])
-      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["Danish", "Swedish"]
+      browser.select_list(name: "new_user_languages").select(%w[Danish Swedish])
+      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq %w[Danish Swedish]
     end
 
     it "selects each item in a parameter list" do
       browser.select_list(name: "new_user_languages").clear
       browser.select_list(name: "new_user_languages").select("Danish", "Swedish")
-      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["Danish", "Swedish"]
+      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq %w[Danish Swedish]
     end
 
     bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1255957", :firefox do
@@ -424,19 +424,19 @@ describe "SelectList" do
       browser.select_list(name: "new_user_languages").clear
       browser.select_list(name: "new_user_languages").select!("Danish")
       browser.select_list(name: "new_user_languages").select!("Swedish")
-      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["Danish", "Swedish"]
+      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq %w[Danish Swedish]
     end
 
     it "selects each item in an Array" do
       browser.select_list(name: "new_user_languages").clear
-      browser.select_list(name: "new_user_languages").select!(["Danish", "Swedish"])
-      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["Danish", "Swedish"]
+      browser.select_list(name: "new_user_languages").select!(%w[Danish Swedish])
+      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq %w[Danish Swedish]
     end
 
     it "selects each item in a parameter list" do
       browser.select_list(name: "new_user_languages").clear
       browser.select_list(name: "new_user_languages").select!("Danish", "Swedish")
-      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["Danish", "Swedish"]
+      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq %w[Danish Swedish]
     end
 
     bug "https://bugzilla.mozilla.org/show_bug.cgi?id=1255957", :firefox do
@@ -486,14 +486,14 @@ describe "SelectList" do
     it "selects multiple options based on text" do
       browser.select_list(name: "new_user_languages").clear
       browser.select_list(name: "new_user_languages").select_all(/ish/)
-      list = ["Danish", "EN", "Swedish"]
+      list = %w[Danish EN Swedish]
       expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq list
     end
 
     it "selects multiple options based on labels" do
       browser.select_list(name: "new_user_languages").clear
       browser.select_list(name: "new_user_languages").select_all(/NO|EN/)
-      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["EN", "NO"]
+      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq %w[EN NO]
     end
 
     it "selects all options in an Array" do
@@ -519,21 +519,21 @@ describe "SelectList" do
     it "selects multiple options based on value" do
       browser.select_list(name: "new_user_languages").clear
       browser.select_list(name: "new_user_languages").select_all!(/\d+/)
-      list = ["Danish", "EN", "NO", "Russian"]
+      list = %w[Danish EN NO Russian]
       expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq list
     end
 
     it "selects multiple options based on text" do
       browser.select_list(name: "new_user_languages").clear
       browser.select_list(name: "new_user_languages").select_all!(/ish/)
-      list = ["Danish", "EN", "Swedish"]
+      list = %w[Danish EN Swedish]
       expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq list
     end
 
     it "selects multiple options based on labels" do
       browser.select_list(name: "new_user_languages").clear
       browser.select_list(name: "new_user_languages").select_all!(/NO|EN/)
-      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["EN", "NO"]
+      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq %w[EN NO]
     end
 
     it "selects all options in an Array" do

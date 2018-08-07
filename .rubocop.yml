@@ -29,7 +29,7 @@ Metrics/MethodLength:
 
 # Configuration parameters: CountComments.
 Metrics/ClassLength:
-  Max: 130
+  Max: 135
   Exclude:
     - 'lib/watir/locators/element/locator.rb'
     - 'lib/watir/elements/element.rb'
@@ -93,6 +93,10 @@ Style/CommentedKeyword:
 Style/DoubleNegation:
   Enabled: false
 
+# Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
+# URISchemes: http, https
+Metrics/LineLength:
+  Max: 121
 
 # TODO - Investigate
 # Offense count: 2

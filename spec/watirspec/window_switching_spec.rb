@@ -163,13 +163,13 @@ describe "Window" do
 
     describe "#url" do
       it "returns the url of the window" do
-        expect(browser.windows.select { |w| w.url =~ (/window_switching\.html/) }.size).to eq 1
-        expect(browser.windows.select { |w| w.url =~ (/closeable\.html$/) }.size).to eq 1
+        expect(browser.windows.select { |w| w.url =~ /window_switching\.html/ }.size).to eq 1
+        expect(browser.windows.select { |w| w.url =~ /closeable\.html$/ }.size).to eq 1
       end
 
       it "does not change the current window" do
         expect(browser.url).to match(/window_switching\.html/)
-        expect(browser.windows.find { |w| w.url =~ (/closeable\.html/) }).to_not be_nil
+        expect(browser.windows.find { |w| w.url =~ /closeable\.html/ }).to_not be_nil
         expect(browser.url).to match(/window_switching/)
       end
     end

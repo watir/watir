@@ -127,7 +127,7 @@ module Watir
 
     def value
       option = selected_options.first
-      option && option.value
+      option&.value
     end
 
     #
@@ -139,7 +139,7 @@ module Watir
 
     def text
       option = selected_options.first
-      option && option.text
+      option&.text
     end
 
     # Returns an array of currently selected options.
@@ -160,7 +160,7 @@ module Watir
         Watir.logger.deprecate "Selecting Multiple Options with #select", "#select_all",
                                ids: [:select_by]
       end
-      return select_matching(found) if found && found.any?
+      return select_matching(found) if found&.any?
       raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
     end
 
@@ -184,8 +184,13 @@ module Watir
       when String
         "^#{str_or_rx}$"
       when Regexp
-        str_or_rx.inspect.sub('\\A', '^').sub('\\Z', '$').sub('\\z', '$').sub(/^\//, '').sub(/\/[a-z]*$/, '')
-                 .gsub(/\(\?#.+\)/, '').gsub(/\(\?-\w+:/, '(')
+        str_or_rx.inspect.sub('\\A', '^')
+                 .sub('\\Z', '$')
+                 .sub('\\z', '$')
+                 .sub(%r{^\/}, '')
+                 .sub(%r{\/[a-z]*$}, '')
+                 .gsub(/\(\?#.+\)/, '')
+                 .gsub(/\(\?-\w+:/, '(')
       else
         raise TypeError, "expected String or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
       end

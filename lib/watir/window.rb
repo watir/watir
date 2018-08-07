@@ -13,7 +13,7 @@ module Watir
       elsif selector.key? :handle
         @handle = selector.delete :handle
       else
-        unless selector.keys.all? { |k| [:title, :url, :index].include? k }
+        unless selector.keys.all? { |k| %i[title url index].include? k }
           raise ArgumentError, "invalid window selector: #{selector.inspect}"
         end
       end

@@ -5,24 +5,22 @@ module Watir
         attr_reader :selector_builder
         attr_reader :element_validator
 
-        W3C_FINDERS = [
-          :css,
-          :link,
-          :link_text,
-          :partial_link_text,
-          :tag_name,
-          :xpath
-        ]
+        W3C_FINDERS = %i[css
+                         link
+                         link_text
+                         partial_link_text
+                         tag_name
+                         xpath]
 
         # Regular expressions that can be reliably converted to xpath `contains`
         # expressions in order to optimize the locator.
-        CONVERTABLE_REGEXP = %r{
+        CONVERTABLE_REGEXP = /
           \A
             ([^\[\]\\^$.|?*+()]*) # leading literal characters
             [^|]*?                # do not try to convert expressions with alternates
             ([^\[\]\\^$.|?*+()]*) # trailing literal characters
           \z
-        }x
+        /x
 
         def initialize(query_scope, selector, selector_builder, element_validator)
           @query_scope = query_scope # either element or browser
@@ -151,7 +149,7 @@ module Watir
           @filter_selector = {}
 
           # Remove selectors that can never be used in XPath builder
-          [:visible, :visible_text].each do |how|
+          %i[visible visible_text].each do |how|
             next unless @normalized_selector.key?(how)
             @filter_selector[how] = @normalized_selector.delete(how)
           end
@@ -246,7 +244,7 @@ module Watir
           return what unless can_convert_regexp_to_contains?
 
           @filter_selector.each do |key, value|
-            next if [:tag_name, :text, :visible_text, :visible, :index].include?(key)
+            next if %i[tag_name text visible_text visible index].include?(key)
 
             predicates = regexp_selector_to_predicates(key, value)
             unless predicates.empty?

@@ -58,7 +58,7 @@ module Watir
       # A little unintuitive - we'll return the 'label' or 'text' attribute if
       # they exist, otherwise the inner text of the element
 
-      [:label, :text].each do |a|
+      %i[label text].each do |a|
         val = attribute_value(a)
         return val unless val.nil?
       end

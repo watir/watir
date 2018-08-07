@@ -34,7 +34,7 @@ module Watir
 
       def until(depr_to = nil, depr_msg = nil, timeout: nil, message: nil, interval: nil, object: nil)
         if depr_msg || depr_to
-          Watir.logger.deprecate "Using arguments for Wait#until", "keywords", ids: [:until, :timeout_arguments]
+          Watir.logger.deprecate "Using arguments for Wait#until", "keywords", ids: %i[until timeout_arguments]
           timeout = depr_to
           message = depr_msg
         end
@@ -60,7 +60,7 @@ module Watir
 
       def while(depr_to = nil, depr_msg = nil, timeout: nil, message: nil, interval: nil, object: nil)
         if depr_msg || depr_to
-          Watir.logger.deprecate "Using arguments for Wait#while", "keywords", ids: [:while, :timeout_arguments]
+          Watir.logger.deprecate "Using arguments for Wait#while", "keywords", ids: %i[while timeout_arguments]
           timeout = depr_to
           message = depr_msg
         end
@@ -166,10 +166,10 @@ module Watir
         Watir.logger.deprecate "Using arguments for #wait_until_present", "keywords", ids: [:timeout_arguments]
         timeout = depr_to
       end
-      if self.is_a? Watir::Element
+      if is_a? Watir::Element
         wait_until(timeout: timeout, interval: interval) do
-          self.reset! if self.is_a? Watir::Element
-          self.present?
+          reset! if is_a? Watir::Element
+          present?
         end
       else
         Watir.logger.deprecate "#{self.class}#wait_until_present",
@@ -197,10 +197,10 @@ module Watir
         Watir.logger.deprecate "Using arguments for #wait_while_present", "keywords", ids: [:timeout_arguments]
         timeout = depr_to
       end
-      if self.is_a? Watir::Element
+      if is_a? Watir::Element
         wait_while(timeout: timeout, interval: interval) do
-          self.reset! if self.is_a? Watir::Element
-          self.present?
+          reset! if is_a? Watir::Element
+          present?
         end
       else
         Watir.logger.deprecate "#{self.class}#wait_while_present",

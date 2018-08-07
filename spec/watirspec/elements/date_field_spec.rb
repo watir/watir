@@ -123,7 +123,7 @@ describe "DateField" do
 
     it "sets the value when accessed through the enclosing Form" do
       date_field = browser.form(id: 'new_user').date_field(id: 'html5_date')
-      date_field.value = (Date.today)
+      date_field.value = Date.today
       expect(Date.parse(date_field.value)).to eq Date.today
     end
 

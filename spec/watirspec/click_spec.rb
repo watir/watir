@@ -7,7 +7,7 @@ describe Watir::Element do
     }
 
     let(:clicker) { browser.element(id: "click-logger") }
-    let(:log)     { browser.element(id: "log").ps.map { |e| e.text } }
+    let(:log)     { browser.element(id: "log").ps.map(&:text) }
 
     bug "https://github.com/watir/watir/issues/343", :webdriver do
       it "clicks an element with text in nested text node using text selector" do

@@ -109,7 +109,7 @@ module Watir
         end
 
         def valid_attribute?(attribute)
-          @valid_attributes && @valid_attributes.include?(attribute)
+          @valid_attributes&.include?(attribute)
         end
 
         def can_be_combined_with_xpath_or_css?(selector)
@@ -117,7 +117,7 @@ module Watir
           return true if keys == [:tag_name]
 
           if selector[:tag_name] == "input"
-            return keys.sort == [:tag_name, :type]
+            return keys.sort == %i[tag_name type]
           end
 
           false
@@ -129,7 +129,7 @@ module Watir
 
         def xpath_builder_class
           Kernel.const_get("#{self.class.name}::XPath")
-        rescue
+        rescue StandardError
           XPath
         end
 

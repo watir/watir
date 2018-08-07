@@ -50,7 +50,7 @@ module Watir
         be re-located if they go stale before use.
         Use Element#stale? or Element#wait_until(&:stale?) if needed for flow control.
       LOC_DEPR
-      Watir.logger.warn msg, ids: [:always_locate, :deprecations]
+      Watir.logger.warn msg, ids: %i[always_locate deprecations]
     end
 
     #
@@ -68,7 +68,7 @@ module Watir
         as Selenium locators will be translated to XPath. To continue using CSS Selectors
         require the watir_css gem - https://github.com/watir/watir_css
       CSS_DEPR
-      Watir.logger.warn msg, ids: [:prefer_css, :deprecations]
+      Watir.logger.warn msg, ids: %i[prefer_css deprecations]
     end
 
     #

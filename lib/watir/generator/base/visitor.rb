@@ -20,7 +20,7 @@ module Watir
           name   = interface.name
           parent = interface.inherits.first
 
-          $stderr.puts name
+          Watir.logger.warn name
           return if name !~ interface_regexp || name =~ /(Collection|Document)$/
 
           if force_inheritance.key?(name)
@@ -94,7 +94,7 @@ module Watir
           @already_defined << name
           name = Util.classify(classify_regexp, name)
 
-          [:class, "#{name}Collection", [:const, :ElementCollection]]
+          [:class, "#{name}Collection", %i[const ElementCollection]]
         end
 
         def attribute_calls(attributes)

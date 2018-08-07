@@ -16,7 +16,7 @@ module Watir
           extract_interface_map
           drop_issued_interfaces
           build_result
-        rescue
+        rescue StandardError
           p errors
           raise
         end

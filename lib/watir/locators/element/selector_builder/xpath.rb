@@ -79,7 +79,7 @@ module Watir
               # https://github.com/watir/watir/issues/72
               XpathSupport.downcase('@type')
             else
-              "@#{key.to_s.tr("_", "-")}"
+              "@#{key.to_s.tr('_', '-')}"
             end
           end
 

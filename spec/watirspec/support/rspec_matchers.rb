@@ -1,12 +1,12 @@
 if defined?(RSpec)
-  DEPRECATION_WARNINGS = [:selector_parameters,
-                          :class_array,
-                          :use_capabilities,
-                          :visible_text,
-                          :text_regexp,
-                          :stale_visible,
-                          :stale_present,
-                          :select_by].freeze
+  DEPRECATION_WARNINGS = %i[selector_parameters
+                            class_array
+                            use_capabilities
+                            visible_text
+                            text_regexp
+                            stale_visible
+                            stale_present
+                            select_by].freeze
 
   DEPRECATION_WARNINGS.each do |deprecation|
     RSpec::Matchers.define "have_deprecated_#{deprecation}" do

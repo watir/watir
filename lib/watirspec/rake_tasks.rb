@@ -43,7 +43,7 @@ module WatirSpec
 
     def run(**args)
       return if system(rspec_command(args))
-      exit $?.exitstatus || 1
+      exit $CHILD_STATUS.exitstatus || 1
     end
 
     def rspec_command(**args)

@@ -115,7 +115,7 @@ module Watir
               elsif !plural
                 HTMLElement
               elsif opt[:tag_name]
-                Object.const_get("#{self.send(opt[:tag_name]).class}Collection")
+                Object.const_get("#{send(opt[:tag_name]).class}Collection")
               else
                 HTMLElementCollection
               end

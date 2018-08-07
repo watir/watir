@@ -51,7 +51,7 @@ module Watir
         next if http_client.nil? || !respond_to?(t)
         deprecation = "You can now pass #{t} value directly into Watir::Browser opt without needing to use :http_client"
         Watir.logger.warn deprecation,
-                          ids: [:http_client, :use_capabilities]
+                          ids: %i[http_client use_capabilities]
       end
 
       http_client ||= Selenium::WebDriver::Remote::Http::Default.new

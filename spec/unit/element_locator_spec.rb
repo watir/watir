@@ -72,7 +72,7 @@ describe Watir::Locators::Element::Locator do
         expect_one :xpath,
                    ".//*[(contains(concat(' ', @class, ' '), ' a ') and contains(concat(' ', @class, ' '), ' b '))]"
 
-        locate_one class: ["a", "b"]
+        locate_one class: %w[a b]
       end
 
       it "handles selector with multiple classes in string" do
@@ -428,7 +428,7 @@ describe Watir::Locators::Element::Locator do
         expect_all :xpath,
                    ".//*[(contains(concat(' ', @class, ' '), ' a ') and contains(concat(' ', @class, ' '), ' b '))]"
 
-        locate_all class: ["a", "b"]
+        locate_all class: %w[a b]
       end
 
       it "handles selector with multiple classes in string" do

@@ -4,7 +4,7 @@ module Watir
     include Watir::Exception
     include Enumerable
 
-    delegate [:exists?, :present?, :visible?, :browser] => :source
+    delegate %i[exists? present? visible? browser] => :source
 
     attr_reader :source, :frame
 
@@ -170,7 +170,7 @@ module Watir
 
     def value
       sel = selected
-      sel && sel.value
+      sel&.value
     end
 
     #
@@ -182,7 +182,7 @@ module Watir
 
     def text
       sel = selected
-      sel && sel.text
+      sel&.text
     end
 
     #

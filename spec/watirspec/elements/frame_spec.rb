@@ -107,7 +107,7 @@ describe "Frame" do
         frame = browser.frame(index: 0)
         expect(frame.div(id: 'set_by_js').text).to eq ""
         msg = 'Art consists of limitation. The most beautiful part of every picture is the frame.'
-        frame.execute_script(%Q{document.getElementById('set_by_js').innerHTML = '#{msg}'})
+        frame.execute_script("document.getElementById('set_by_js').innerHTML = '#{msg}'")
         expect(frame.div(id: 'set_by_js').text).to eq msg
       end
     end

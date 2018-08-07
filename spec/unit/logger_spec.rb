@@ -69,7 +69,7 @@ module Watir
     end
 
     it 'allows to ignore multiple ids' do
-      Watir.logger.ignore([:foo, :bar])
+      Watir.logger.ignore(%i[foo bar])
       expect { Watir.logger.warn('warning', ids: [:foo]) }.to_not output.to_stdout_from_any_process
       expect { Watir.logger.warn('warning', ids: [:bar]) }.to_not output.to_stdout_from_any_process
     end

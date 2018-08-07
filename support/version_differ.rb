@@ -43,7 +43,7 @@ class VersionDiffer
     right = new_version == "." ? new_version : "watir-#{new_version}.gem"
 
     str = StringIO.new
-    str.puts "#{new_version}"
+    str.puts new_version.to_s
     str.puts "=" * new_version.length
     str.puts
 

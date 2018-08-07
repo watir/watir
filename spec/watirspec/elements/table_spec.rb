@@ -69,7 +69,7 @@ describe "Table" do
         {"" => "April 2008", "Before income tax" => "", "Income tax" => "", "After income tax" => ""},
         {"" => "Gregory House", "Before income tax" => "5 863", "Income tax" => "1 331", "After income tax" => "4 532"},
         {"" => "Hugh Laurie", "Before income tax" => "6 252", "Income tax" => "1 420", "After income tax" => "4 832"},
-        {"" => "Sum", "Before income tax" => "24 349", "Income tax" => "5 577", "After income tax" => "18 722"},
+        {"" => "Sum", "Before income tax" => "24 349", "Income tax" => "5 577", "After income tax" => "18 722"}
       ]
     end
 
