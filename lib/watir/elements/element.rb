@@ -716,7 +716,7 @@ module Watir
     end
 
     def respond_to_missing?(meth, *)
-      Locators::Element::SelectorBuilder::WILDCARD_ATTRIBUTE === meth.to_s || super
+      meth.to_s =~ Locators::Element::SelectorBuilder::WILDCARD_ATTRIBUTE || super
     end
   end # Element
 end # Watir

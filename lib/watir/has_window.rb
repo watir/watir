@@ -59,7 +59,7 @@ module Watir
       end
 
       windows.select do |win|
-        selector.all? { |key, value| value === win.send(key) }
+        selector.all? { |key, value| win.send(key) =~ /#{value}/ }
       end
     end
   end # HasWindow

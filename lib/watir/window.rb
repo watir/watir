@@ -233,8 +233,8 @@ module Watir
 
     def matches?(handle)
       @driver.switch_to.window(handle) {
-        matches_title = @selector[:title].nil? || @selector[:title] === @driver.title
-        matches_url   = @selector[:url].nil? || @selector[:url] === @driver.current_url
+        matches_title = @selector[:title].nil? || @driver.title =~ /#{@selector[:title]}/
+        matches_url = @selector[:url].nil? || @driver.current_url =~ /#{@selector[:url]}/
 
         matches_title && matches_url
       }

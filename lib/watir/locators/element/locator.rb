@@ -212,13 +212,14 @@ module Watir
             if how == :tag_name && what.is_a?(String)
               element_validator.validate(element, tag_name: what)
             else
-              what === fetch_value(element, how)
+              val = fetch_value(element, how)
+              what == val || val =~ /#{what}/
             end
           end
 
           if selector[:text]
             text_content = Watir::Element.new(@query_scope, element: element).send(:execute_js, :getTextContent, element).strip
-            text_content_matches = selector[:text] === text_content
+            text_content_matches = text_content =~ /#{selector[:text]}/
             unless matches == text_content_matches
               key = @selector.key?(:text) ? "text" : "label"
               Watir.logger.deprecate("Using :#{key} locator with RegExp #{selector[:text].inspect} to match an element that includes hidden text", ":visible_#{key}",

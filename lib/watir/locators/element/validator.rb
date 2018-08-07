@@ -7,7 +7,7 @@ module Watir
           element_tag_name = element.tag_name.downcase
 
           if selector_tag_name
-            return unless selector_tag_name === element_tag_name
+            return unless element_tag_name =~ /#{selector_tag_name}/
           end
 
           element
