@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'watirspec_helper'
 
 not_compliant_on :headless do

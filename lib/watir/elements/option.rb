@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Watir
   #
   # Represents an option in a select list.

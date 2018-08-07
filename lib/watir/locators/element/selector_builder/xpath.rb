@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Watir
   module Locators
     class Element
@@ -16,9 +18,7 @@ module Watir
             index = selectors.delete(:index)
 
             # the remaining entries should be attributes
-            unless selectors.empty?
-              xpath << '[' << attribute_expression(nil, selectors) << ']'
-            end
+            xpath << '[' << attribute_expression(nil, selectors) << ']' unless selectors.empty?
 
             xpath << "[#{index + 1}]" if adjacent && index
 

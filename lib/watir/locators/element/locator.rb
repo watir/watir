@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Watir
   module Locators
     class Element
@@ -247,9 +249,7 @@ module Watir
             next if %i[tag_name text visible_text visible index].include?(key)
 
             predicates = regexp_selector_to_predicates(key, value)
-            unless predicates.empty?
-              what = "(#{what})[#{predicates.join(' and ')}]"
-            end
+            what = "(#{what})[#{predicates.join(' and ')}]" unless predicates.empty?
           end
           what
         end

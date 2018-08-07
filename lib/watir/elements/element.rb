@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Watir
   #
   # Base class for HTML elements.
@@ -31,9 +33,7 @@ module Watir
     def initialize(query_scope, selector)
       @query_scope = query_scope
 
-      unless selector.is_a? Hash
-        raise ArgumentError, "invalid argument: #{selector.inspect}"
-      end
+      raise ArgumentError, "invalid argument: #{selector.inspect}" unless selector.is_a? Hash
 
       @element = selector.delete(:element)
       @selector = selector
@@ -659,18 +659,14 @@ module Watir
     def element_call(precondition = nil, &block)
       caller = caller_locations(1, 1)[0].label
       already_locked = Wait.timer.locked?
-      unless already_locked
-        Wait.timer = Wait::Timer.new(timeout: Watir.default_timeout)
-      end
+      Wait.timer = Wait::Timer.new(timeout: Watir.default_timeout) unless already_locked
 
       begin
         check_condition(precondition)
         Watir.logger.info "-> `Executing #{inspect}##{caller}`"
         yield
       rescue unknown_exception => ex
-        if precondition.nil?
-          element_call(:wait_for_exists, &block)
-        end
+        element_call(:wait_for_exists, &block) if precondition.nil?
         msg = ex.message
         msg += '; Maybe look in an iframe?' if @query_scope.ensure_context && @query_scope.iframes.count.positive?
         custom_attributes = @locator.nil? ? [] : @locator.selector_builder.custom_attributes

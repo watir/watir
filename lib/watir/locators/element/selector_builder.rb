@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Watir
   module Locators
     class Element
@@ -39,9 +41,7 @@ module Watir
             if what.is_a?(Array) && how != :class && how != :class_name
               raise TypeError, 'Only :class locator can have a value of an Array'
             end
-            if what.is_a?(Symbol) && how != :adjacent
-              raise TypeError, 'Symbol is not a valid value'
-            end
+            raise TypeError, 'Symbol is not a valid value' if what.is_a?(Symbol) && how != :adjacent
             return if VALID_WHATS.any? { |t| what.is_a? t }
             raise TypeError, "expected one of #{VALID_WHATS.inspect}, got #{what.inspect}:#{what.class}"
           end
@@ -90,9 +90,7 @@ module Watir
           css   = selector.delete(:css)
           return unless xpath || css
 
-          if xpath && css
-            raise ArgumentError, ":xpath and :css cannot be combined (#{selector.inspect})"
-          end
+          raise ArgumentError, ":xpath and :css cannot be combined (#{selector.inspect})" if xpath && css
 
           how, what = xpath ? [:xpath, xpath] : [:css, css]
 
@@ -116,9 +114,7 @@ module Watir
           keys = selector.keys
           return true if keys == [:tag_name]
 
-          if selector[:tag_name] == 'input'
-            return keys.sort == %i[tag_name type]
-          end
+          return keys.sort == %i[tag_name type] if selector[:tag_name] == 'input'
 
           false
         end

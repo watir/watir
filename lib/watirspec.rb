@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'tmpdir'
 require 'watirspec/guards'
 require 'watirspec/implementation'
@@ -46,9 +48,7 @@ module WatirSpec
     end
 
     def implementation=(imp)
-      unless imp.is_a?(WatirSpec::Implementation)
-        raise TypeError, "expected WatirSpec::Implementation, got #{imp.class}"
-      end
+      raise TypeError, "expected WatirSpec::Implementation, got #{imp.class}" unless imp.is_a?(WatirSpec::Implementation)
 
       @implementation = imp
     end

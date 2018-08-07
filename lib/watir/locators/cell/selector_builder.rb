@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Watir
   module Locators
     class Cell
@@ -8,9 +10,7 @@ module Watir
           expressions = %w[./th ./td]
           attr_expr = xpath_builder.attribute_expression(nil, selectors)
 
-          unless attr_expr.empty?
-            expressions.map! { |e| "#{e}[#{attr_expr}]" }
-          end
+          expressions.map! { |e| "#{e}[#{attr_expr}]" } unless attr_expr.empty?
 
           xpath = expressions.join(' | ')
 

@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module Watir
   module Generator
     module Base
       class SpecExtractor
-        IDL_SELECTOR = "//pre[contains(@class, 'idl')]".freeze
+        IDL_SELECTOR = "//pre[contains(@class, 'idl')]"
 
         class InterfaceNotFound < StandardError; end
 

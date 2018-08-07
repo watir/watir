@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 $LOAD_PATH.unshift File.expand_path('lib', __dir__)
 
 require 'bundler'
@@ -67,9 +69,7 @@ end
         generator.generate(spec_path, file)
       end
 
-      if File.exist?(old_file)
-        system "diff -Naut #{old_file} #{old_file}.new | less"
-      end
+      system "diff -Naut #{old_file} #{old_file}.new | less" if File.exist?(old_file)
     end
 
     desc "Move #{type}.rb.new to #{type}.rb"
