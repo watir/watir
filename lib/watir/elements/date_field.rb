@@ -15,8 +15,6 @@ module Watir
     end
     alias_method :set, :set!
     alias_method :value=, :set
-
-    protected
   end # DateField
 
   module Container
