@@ -1,6 +1,5 @@
 module Watir
   class TableCell < HTMLElement
-
     def column_header
       current_row = parent(tag_name: 'tr')
       header_row(current_row, index: previous_siblings.size).text

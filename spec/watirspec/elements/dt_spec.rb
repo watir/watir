@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "Dt" do
-
   before :each do
     browser.goto(WatirSpec.url_for("definition_lists.html"))
   end
@@ -56,9 +55,9 @@ describe "Dt" do
     end
 
     it "raises UnknownObjectException if the element does not exist" do
-      expect {browser.dt(id: "no_such_id").id }.to raise_unknown_object_exception
-      expect {browser.dt(title: "no_such_id").id }.to raise_unknown_object_exception
-      expect {browser.dt(index: 1337).id }.to raise_unknown_object_exception
+      expect { browser.dt(id: "no_such_id").id }.to raise_unknown_object_exception
+      expect { browser.dt(title: "no_such_id").id }.to raise_unknown_object_exception
+      expect { browser.dt(index: 1337).id }.to raise_unknown_object_exception
     end
   end
 
@@ -118,5 +117,4 @@ describe "Dt" do
       expect(html).to_not include('</body>')
     end
   end
-
 end

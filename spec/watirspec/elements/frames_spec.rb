@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "Frames" do
-
   before :each do
     browser.goto(WatirSpec.url_for("frames.html"))
   end
@@ -38,4 +37,3 @@ describe "Frames" do
     end
   end
 end
-

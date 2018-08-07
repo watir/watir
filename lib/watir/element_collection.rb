@@ -1,5 +1,4 @@
 module Watir
-
   #
   # Base class for element collections.
   #
@@ -85,19 +84,19 @@ module Watir
     def to_a
       hash = {}
       @to_a ||=
-          elements.map.with_index do |e, idx|
-            element = element_class.new(@query_scope, @selector.merge(element: e, index: idx))
-            if [Watir::HTMLElement, Watir::Input].include? element.class
-              tag_name = element.tag_name.to_sym
-              hash[tag_name] ||= 0
-              hash[tag_name] += 1
-              Watir.element_class_for(tag_name).new(@query_scope, @selector.merge(element: e,
-                                                                                   tag_name: tag_name,
-                                                                                   index: hash[tag_name] - 1))
-            else
-              element
-            end
+        elements.map.with_index do |e, idx|
+          element = element_class.new(@query_scope, @selector.merge(element: e, index: idx))
+          if [Watir::HTMLElement, Watir::Input].include? element.class
+            tag_name = element.tag_name.to_sym
+            hash[tag_name] ||= 0
+            hash[tag_name] += 1
+            Watir.element_class_for(tag_name).new(@query_scope, @selector.merge(element: e,
+                                                                                tag_name: tag_name,
+                                                                                index: hash[tag_name] - 1))
+          else
+            element
           end
+        end
     end
 
     #
@@ -156,6 +155,5 @@ module Watir
     def element_class
       Kernel.const_get(self.class.name.sub(/Collection$/, ''))
     end
-
   end # ElementCollection
 end # Watir

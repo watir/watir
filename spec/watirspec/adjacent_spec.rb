@@ -119,7 +119,7 @@ describe "Adjacent Elements" do
     end
 
     it "accepts class_name argument for multiple classes" do
-      expect(browser.div(id: "second_sibling").following_siblings(class_name: ['a','b']).size).to eq 1
+      expect(browser.div(id: "second_sibling").following_siblings(class_name: ['a', 'b']).size).to eq 1
       expect(browser.div(id: "second_sibling").following_siblings(class_name: ['a', 'b']).first).to be_a Watir::Div
     end
   end

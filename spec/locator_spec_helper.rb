@@ -52,4 +52,3 @@ module LocatorSpecHelper
     end
   end
 end
-

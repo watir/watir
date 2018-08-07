@@ -1,6 +1,5 @@
 module Watir
   module CellContainer
-
     #
     # Returns table cell.
     #
@@ -20,6 +19,5 @@ module Watir
     def cells(*args)
       CellCollection.new(self, extract_selector(args).merge(tag_name: /^(th|td)$/))
     end
-
   end # CellContainer
 end # Watir

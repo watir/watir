@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "TableHeader" do
-
   before :each do
     browser.goto(WatirSpec.url_for("tables.html"))
   end
@@ -82,5 +81,4 @@ describe "TableHeader" do
       ]
     end
   end
-
 end

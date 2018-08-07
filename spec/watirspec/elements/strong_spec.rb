@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "Strong" do
-
   before :each do
     browser.goto(WatirSpec.url_for("non_control_elements.html"))
   end

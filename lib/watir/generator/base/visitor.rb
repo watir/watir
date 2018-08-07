@@ -1,7 +1,6 @@
 module Watir
   module Generator
     class Base::Visitor < WebIDL::RubySexpVisitor
-
       def initialize
         super
 
@@ -32,12 +31,10 @@ module Watir
           parent = @inheritance_map[name] || return
         end
 
-        [ :scope,
-          [:block,
-            element_class(interface.name, extract_attributes(interface), parent),
-            collection_class(interface.name)
-          ]
-        ]
+        [:scope,
+         [:block,
+          element_class(interface.name, extract_attributes(interface), parent),
+          collection_class(interface.name)]]
       end
 
       def visit_module(mod)
@@ -81,8 +78,7 @@ module Watir
 
       def element_class(name, attributes, parent)
         [:class, Util.classify(classify_regexp, name), [:const, Util.classify(classify_regexp, parent)],
-          *attribute_calls(attributes)
-        ]
+         *attribute_calls(attributes)]
       end
 
       def extract_attributes(interface)
@@ -103,10 +99,10 @@ module Watir
       def attribute_calls(attributes)
         attributes.map do |attribute|
           call(:attribute, [
-            [:lit, ruby_type_for(attribute.type)],
-            [:lit, ruby_method_name_for(attribute)],
-            [:lit, attribute.name.to_sym]
-          ])
+                 [:lit, ruby_type_for(attribute.type)],
+                 [:lit, ruby_method_name_for(attribute)],
+                 [:lit, attribute.name.to_sym]
+               ])
         end
       end
 
@@ -116,10 +112,10 @@ module Watir
 
       def ruby_method_name_for(attribute)
         str = if %w(httpEquiv contentEditable acceptCharset isContentEditable).include? attribute.name
-          attribute.name.snake_case
-        else
-          attribute.name.downcase
-        end
+                attribute.name.snake_case
+              else
+                attribute.name.downcase
+              end
 
         if attribute.type.name == :Boolean
           str = $1 if str =~ /^is_(.+)/
@@ -147,7 +143,7 @@ module Watir
              /Media.+/, 'TextTrackKind', 'Function', /.*EventHandler$/,
              'Document', 'DocumentFragment', 'DOMTokenList', 'DOMSettableTokenList',
              'DOMStringMap', 'HTMLPropertiesCollection', /HTML.*Element/, /HTML.*Collection/,
-             'CSSStyleDeclaration',  /.+List$/, 'Date', 'Element', /DOM.+ReadOnly/,
+             'CSSStyleDeclaration', /.+List$/, 'Date', 'Element', /DOM.+ReadOnly/,
              /SVGAnimated.+/, /SVG.*Element/, /SVG.*Collection/, 'SVGViewSpec',
              'Object', 'USVString'
           # probably completely wrong.
@@ -156,7 +152,6 @@ module Watir
           raise "unknown type: #{type.name}"
         end
       end
-
     end # Visitor
   end # Generator
 end # Watir

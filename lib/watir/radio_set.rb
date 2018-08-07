@@ -56,7 +56,6 @@ module Watir
       else
         raise Watir::Exception::UnknownObjectException, "#{opt[:name]} does not match name of RadioSet: #{n}"
       end
-
     end
 
     #
@@ -227,5 +226,4 @@ module Watir
 
     Watir.tag_to_class[:radio_set] = RadioSet
   end # Container
-
 end # Watir

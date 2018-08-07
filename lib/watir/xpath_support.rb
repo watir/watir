@@ -1,6 +1,5 @@
 module Watir
   module XpathSupport
-
     def self.escape(value)
       if value.include? "'"
         parts = value.split("'", -1).map { |part| "'#{part}'" }
@@ -15,6 +14,5 @@ module Watir
     def self.downcase(value)
       "translate(#{value},'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')"
     end
-
   end # XpathSupport
 end # Watir

@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe ["H1", "H2", "H3", "H4", "H5", "H6"] do
-
   before :each do
     browser.goto(WatirSpec.url_for("non_control_elements.html"))
   end
@@ -88,5 +87,4 @@ describe ["H1", "H2", "H3", "H4", "H5", "H6"] do
       expect(browser.h1(index: 0)).to respond_to(:text)
     end
   end
-
 end

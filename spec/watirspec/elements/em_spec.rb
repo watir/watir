@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "Em" do
-
   before :each do
     browser.goto(WatirSpec.url_for("non_control_elements.html"))
   end
@@ -48,9 +47,9 @@ describe "Em" do
     end
 
     it "raises UnknownObjectException if the element does not exist" do
-      expect {browser.em(id: "no_such_id").id }.to raise_unknown_object_exception
-      expect {browser.em(title: "no_such_id").id }.to raise_unknown_object_exception
-      expect {browser.em(index: 1337).id }.to raise_unknown_object_exception
+      expect { browser.em(id: "no_such_id").id }.to raise_unknown_object_exception
+      expect { browser.em(title: "no_such_id").id }.to raise_unknown_object_exception
+      expect { browser.em(index: 1337).id }.to raise_unknown_object_exception
     end
   end
 
@@ -92,5 +91,4 @@ describe "Em" do
       expect { browser.em(xpath: "//em[@id='no_such_id']").click }.to raise_unknown_object_exception
     end
   end
-
 end

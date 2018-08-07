@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "Hidden" do
-
   before :each do
     browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
   end
@@ -100,5 +99,4 @@ describe "Hidden" do
       expect(browser.hidden(index: 1)).to respond_to(:value)
     end
   end
-
 end

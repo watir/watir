@@ -5,7 +5,6 @@ require "watirspec_helper"
 #
 
 describe "IFrame" do
-
   before :each do
     browser.goto(WatirSpec.url_for("iframes.html"))
   end
@@ -190,5 +189,4 @@ describe "IFrame" do
       expect(browser.iframe.text).to include("Frame 1")
     end
   end
-
 end

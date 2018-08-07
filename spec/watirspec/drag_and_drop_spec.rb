@@ -44,6 +44,5 @@ describe "Element" do
         end
       end
     end
-
   end
 end

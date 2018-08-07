@@ -27,7 +27,7 @@ module Watir
                    :fatal, :fatal?,
                    :level
 
-    def initialize(progname="Watir")
+    def initialize(progname = "Watir")
       @logger = create_logger($stdout)
       @logger.progname = progname
       @ignored = []

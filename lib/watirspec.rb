@@ -82,6 +82,5 @@ module WatirSpec
     rescue
       # ignored
     end
-
   end # class << WatirSpec
 end # WatirSpec

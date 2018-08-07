@@ -1,6 +1,5 @@
 module WatirSpec
   module Guards
-
     class << self
       def guards
         @guards ||= Hash.new { |hash, key| hash[key] = [] }
@@ -12,7 +11,7 @@ module WatirSpec
 
       def report
         gs = WatirSpec.implementation.matching_guards_in(guards)
-        str= "WatirSpec guards for this implementation: \n"
+        str = "WatirSpec guards for this implementation: \n"
 
         if gs.empty?
           "\tnone."

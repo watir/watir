@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "Ul" do
-
   before :each do
     browser.goto(WatirSpec.url_for("non_control_elements.html"))
   end
@@ -71,5 +70,4 @@ describe "Ul" do
       expect(browser.ul(index: 0)).to respond_to(:id)
     end
   end
-
 end

@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "Browser" do
-
   describe "#exists?" do
     after do
       browser.original_window.use
@@ -155,7 +154,7 @@ describe "Browser" do
   describe "#new" do
     not_compliant_on :remote do
       context "with parameters" do
-        let(:url) {"http://localhost:4544/wd/hub/"}
+        let(:url) { "http://localhost:4544/wd/hub/" }
 
         before(:all) do
           @original = WatirSpec.implementation.clone
@@ -443,7 +442,6 @@ describe "Browser" do
       expect(hash['elements'].first).to be_kind_of(Watir::Body)
       expect(hash['body']['element']).to be_kind_of(Watir::Body)
     end
-
   end
 
   describe "#back and #forward" do
@@ -474,8 +472,7 @@ describe "Browser" do
       urls = ["non_control_elements.html",
               "tables.html",
               "forms_with_input_elements.html",
-              "definition_lists.html"
-      ].map do |page|
+              "definition_lists.html"].map do |page|
         browser.goto WatirSpec.url_for(page)
         browser.url
       end

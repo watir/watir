@@ -2,7 +2,6 @@ module Watir
   module Locators
     class TextField
       class Locator < Element::Locator
-
         private
 
         def using_selenium(*)
@@ -23,7 +22,6 @@ module Watir
 
           super
         end
-
       end
     end
   end

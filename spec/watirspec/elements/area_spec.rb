@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "Area" do
-
   before :each do
     browser.goto(WatirSpec.url_for("images.html"))
   end
@@ -60,7 +59,6 @@ describe "Area" do
       expect { browser.area(id: "no_such_id").id }.to raise_unknown_object_exception
       expect { browser.area(index: 1337).id }.to raise_unknown_object_exception
     end
-
   end
 
   describe "#respond_to?" do
@@ -68,5 +66,4 @@ describe "Area" do
       expect(browser.area(index: 0)).to respond_to(:id)
     end
   end
-
 end

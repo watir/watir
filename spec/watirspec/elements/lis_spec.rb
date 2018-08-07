@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "Lis" do
-
   before :each do
     browser.goto(WatirSpec.url_for("non_control_elements.html"))
   end
@@ -38,5 +37,4 @@ describe "Lis" do
       expect(count).to be > 0
     end
   end
-
 end

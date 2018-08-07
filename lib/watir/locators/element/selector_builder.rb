@@ -143,7 +143,6 @@ module Watir
         rescue
           XPath
         end
-
       end
     end
   end

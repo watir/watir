@@ -1,5 +1,4 @@
 class VersionDiffer
-
   def print_latest(io = $stdout)
     io.puts diff(last_version, ".")
   end
@@ -34,7 +33,7 @@ class VersionDiffer
     require 'multi_json'
 
     versions = MultiJson.decode(open("https://rubygems.org/api/v1/versions/watir.json").read)
-    versions.map! { |e| e.fetch('number')}
+    versions.map! { |e| e.fetch('number') }
   end
 
   def diff(old_version, new_version)
@@ -55,5 +54,4 @@ class VersionDiffer
 
     str.string
   end
-
 end

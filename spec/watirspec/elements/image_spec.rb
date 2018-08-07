@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "Image" do
-
   before :each do
     browser.goto(WatirSpec.url_for("images.html"))
   end
@@ -154,5 +153,4 @@ describe "Image" do
       expect { browser.image(index: 1337).loaded? }.to raise_unknown_object_exception
     end
   end
-
 end

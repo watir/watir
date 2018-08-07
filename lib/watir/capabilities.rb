@@ -1,6 +1,5 @@
 module Watir
   class Capabilities
-
     attr_reader :options
 
     def initialize(browser, options = {})
@@ -62,6 +61,8 @@ module Watir
       @selenium_opts[:http_client] = http_client
     end
 
+    # TODO: - this will get addressed with Capabilities Update
+    # rubocop:disable Metrics/AbcSize
     def process_browser_options
       browser_options = @options.delete(:options) || {}
 
@@ -110,6 +111,7 @@ module Watir
         end
       end
     end
+    # rubocop:enable Metrics/AbcSize
 
     def process_capabilities
       caps = @options.delete(:desired_capabilities)
@@ -124,6 +126,5 @@ module Watir
 
       @selenium_opts[:desired_capabilities] = caps
     end
-
   end
 end

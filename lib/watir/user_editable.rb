@@ -1,6 +1,5 @@
 module Watir
   module UserEditable
-
     #
     # Clear the element, then type in the given value.
     #
@@ -51,6 +50,5 @@ module Watir
         @element.clear
       end
     end
-
   end # UserEditable
 end # Watir

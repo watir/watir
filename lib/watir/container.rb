@@ -39,7 +39,7 @@ module Watir
         Watir.logger.deprecate "Using ordered parameters to locate elements (:#{selectors.first}, #{selectors.last.inspect})",
                                "{#{selectors.first}: #{selectors.last.inspect}}",
                                ids: [:selector_parameters]
-        return { selectors[0] => selectors[1] }
+        return {selectors[0] => selectors[1]}
       when 1
         obj = selectors.first
         return obj if obj.kind_of? Hash
@@ -49,6 +49,5 @@ module Watir
 
       raise ArgumentError, "expected Hash, got #{selectors.inspect}"
     end
-
   end # Container
 end # Watir

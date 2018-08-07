@@ -1,7 +1,6 @@
 module Watir
   module Generator
     class HTML < Base
-
       private
 
       def ignored_tags
@@ -30,7 +29,6 @@ module Watir
       def extractor_class
         HTML::SpecExtractor
       end
-
     end # Generator
   end # HTML
 end # Watir

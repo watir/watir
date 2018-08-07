@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "Font" do
-
   before :each do
     browser.goto(WatirSpec.url_for("font.html"))
   end
@@ -25,5 +24,4 @@ describe "Font" do
   it "finds all font elements" do
     expect(browser.fonts.size).to eq 1
   end
-
 end

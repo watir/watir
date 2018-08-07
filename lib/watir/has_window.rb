@@ -1,6 +1,5 @@
 module Watir
   module HasWindow
-
     #
     # Returns browser windows array.
     #
@@ -63,6 +62,5 @@ module Watir
         selector.all? { |key, value| value === win.send(key) }
       end
     end
-
   end # HasWindow
 end # Watir

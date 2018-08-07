@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "Option" do
-
   before :each do
     browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
   end
@@ -117,5 +116,4 @@ describe "Option" do
       expect(browser.select_list(name: "new_user_country").option(text: 'Sweden')).to respond_to(:text)
     end
   end
-
 end

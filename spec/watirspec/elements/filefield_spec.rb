@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "FileField" do
-
   before :each do
     browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
   end
@@ -166,5 +165,4 @@ describe "FileField" do
       end
     end
   end
-
 end

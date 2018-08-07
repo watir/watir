@@ -82,5 +82,4 @@ describe "TableFooter" do
       ]
     end
   end
-
 end

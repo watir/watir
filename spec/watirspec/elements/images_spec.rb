@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "Images" do
-
   before :each do
     browser.goto(WatirSpec.url_for("images.html"))
   end
@@ -36,5 +35,4 @@ describe "Images" do
       expect(count).to be > 0
     end
   end
-
 end

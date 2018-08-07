@@ -2,7 +2,6 @@ require 'forwardable'
 
 # TODO - remove this file for future release
 module Watir
-
   class BaseDecorator
     def initialize(element, timeout, message = nil)
       @element = element
@@ -51,7 +50,6 @@ module Watir
   #
 
   class WhenEnabledDecorator < BaseDecorator
-
     private
 
     def wait_until
@@ -122,6 +120,5 @@ module Watir
         WhenEnabledDecorator.new(self, timeout, message)
       end
     end
-
   end # EventuallyPresent
 end # Watir

@@ -1,7 +1,6 @@
 module Watir
   module Generator
     class SVG::Visitor < Base::Visitor
-
       def classify_regexp
         /^SVG(.+)Element$/
       end
@@ -13,9 +12,8 @@ module Watir
       end
 
       def force_inheritance
-        { 'SVGElement' => 'HTMLElement' }
+        {'SVGElement' => 'HTMLElement'}
       end
-
     end # SVG::Visitor
   end # Generator
 end # Watir

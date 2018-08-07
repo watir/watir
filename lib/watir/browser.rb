@@ -1,5 +1,4 @@
 module Watir
-
   #
   # The main class through which you control the browser.
   #
@@ -59,12 +58,12 @@ module Watir
 
     def inspect
       if alert.exists?
-        '#<%s:0x%x alert=true>' % [self.class, hash*2]
+        '#<%s:0x%x alert=true>' % [self.class, hash * 2]
       else
         '#<%s:0x%x url=%s title=%s>' % [self.class, hash * 2, url.inspect, title.inspect]
       end
     rescue Errno::ECONNREFUSED
-      '#<%s:0x%x closed=true>' % [self.class, hash*2]
+      '#<%s:0x%x closed=true>' % [self.class, hash * 2]
     end
     alias selector_string inspect
 
@@ -344,7 +343,7 @@ module Watir
       when Array
         obj.map { |e| wrap_elements_in(scope, e) }
       when Hash
-        obj.each { |k,v| obj[k] = wrap_elements_in(scope, v) }
+        obj.each { |k, v| obj[k] = wrap_elements_in(scope, v) }
 
         obj
       else
@@ -355,6 +354,5 @@ module Watir
     def wrap_element(scope, element)
       Watir.element_class_for(element.tag_name.downcase).new(scope, element: element)
     end
-
   end # Browser
 end # Watir

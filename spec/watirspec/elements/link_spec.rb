@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "Link" do
-
   before :each do
     browser.goto(WatirSpec.url_for("non_control_elements.html"))
   end
@@ -161,10 +160,8 @@ describe "Link" do
     it "clicks a link with no text content but an img child" do
       browser.goto WatirSpec.url_for("images.html")
       browser.link(href: /definition_lists.html/).click
-      Watir::Wait.while { browser.title == "Images" || browser.title == ""}
+      Watir::Wait.while { browser.title == "Images" || browser.title == "" }
       expect(browser.title).to eq 'definition_lists'
     end
-
   end
-
 end

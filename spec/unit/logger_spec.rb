@@ -73,6 +73,5 @@ module Watir
       expect { Watir.logger.warn('warning', ids: [:foo]) }.to_not output.to_stdout_from_any_process
       expect { Watir.logger.warn('warning', ids: [:bar]) }.to_not output.to_stdout_from_any_process
     end
-
   end
 end

@@ -23,13 +23,12 @@ describe Watir::Wait do
     end
 
     it "uses provided interval" do
-      begin
+      expect {
         Watir::Wait.until(timeout: 0.4, interval: 0.2) do
           @result = @result.nil? ? 1 : @result + 1
           false
         end
-      rescue Watir::Wait::TimeoutError
-      end
+      }.to raise_timeout_exception
       expect(@result).to eq 2
     end
 
@@ -60,13 +59,12 @@ describe Watir::Wait do
     end
 
     it "uses provided interval" do
-      begin
+      expect {
         Watir::Wait.while(timeout: 0.4, interval: 0.2) do
           @result = @result.nil? ? 1 : @result + 1
           true
         end
-      rescue Watir::Wait::TimeoutError
-      end
+      }.to raise_timeout_exception
       expect(@result).to eq 2
     end
 

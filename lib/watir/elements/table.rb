@@ -71,6 +71,5 @@ module Watir
       row_id = index ? "row at index #{index - 1}" : 'designated row'
       raise Exception::Error, "#{row_id} has #{row_size} cells, while header row has #{header_size}"
     end
-
   end # Table
 end # Watir

@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "Li" do
-
   before :each do
     browser.goto(WatirSpec.url_for("non_control_elements.html"))
   end
@@ -107,5 +106,4 @@ describe "Li" do
       expect(browser.li(index: 0)).to respond_to(:title)
     end
   end
-
 end

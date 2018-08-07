@@ -2,14 +2,11 @@ require 'watir/wait/timer'
 
 module Watir
   module Wait
-
-    class TimeoutError < StandardError ; end
+    class TimeoutError < StandardError; end
 
     INTERVAL = 0.1
 
-
     class << self
-
       #
       # @!attribute timer
       #   Access Watir timer implementation in use.
@@ -92,13 +89,10 @@ module Watir
           end
         end
       end
-
     end # self
   end # Wait
 
-
   module Waitable
-
     #
     # Waits until the condition is true.
     #
@@ -215,6 +209,5 @@ module Watir
         wait_while(timeout: timeout, interval: interval, &:present?)
       end
     end
-
   end # Waitable
 end # Watir

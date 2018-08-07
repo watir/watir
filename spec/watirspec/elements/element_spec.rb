@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "Element" do
-
   before :each do
     browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
   end
@@ -324,7 +323,6 @@ describe "Element" do
       }.to have_deprecated_stale_present
       expect(element).to be_present
     end
-
   end
 
   describe "#enabled?" do
@@ -529,7 +527,6 @@ describe "Element" do
       expect(h1.flash(:fast)).to eq h1
       expect(h2.flash(:long)).to eq h2
     end
-
   end
 
   describe "#hover" do
@@ -680,7 +677,6 @@ describe "Element" do
 
       expect(width).to eq 104.0
     end
-
   end
 
   describe '#center' do

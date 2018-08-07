@@ -39,9 +39,8 @@ module Watir
         return if @visited.include?(node)
         @visited << node
         puts " " * indent + node
-        tsort_each_child(node) { |child| print_node(child, indent + 2)}
+        tsort_each_child(node) { |child| print_node(child, indent + 2) }
       end
-
     end # IDLSorter
   end # Generator
 end # Watir

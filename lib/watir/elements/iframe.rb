@@ -1,6 +1,5 @@
 module Watir
   class IFrame < HTMLElement
-
     def locate
       return if @selector.empty?
       @query_scope.ensure_context
@@ -80,31 +79,23 @@ module Watir
     def unknown_exception
       Watir::Exception::UnknownFrameException
     end
-
   end # IFrame
-
 
   class IFrameCollection < ElementCollection
   end # IFrameCollection
 
-
   class Frame < IFrame
-
     private
 
     def frame_tag
       'frame'
     end
-
   end # Frame
-
 
   class FrameCollection < IFrameCollection
   end # FrameCollection
 
-
   module Container
-
     def frame(*args)
       Frame.new(self, extract_selector(args).merge(tag_name: "frame"))
     end
@@ -112,9 +103,7 @@ module Watir
     def frames(*args)
       FrameCollection.new(self, extract_selector(args).merge(tag_name: "frame"))
     end
-
   end # Container
-
 
   # @api private
   #
@@ -161,6 +150,5 @@ module Watir
     rescue Selenium::WebDriver::Error::NoSuchFrameError => e
       raise Exception::UnknownFrameException, e.message
     end
-
   end # FramedDriver
 end # Watir

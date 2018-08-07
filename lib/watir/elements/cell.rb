@@ -1,5 +1,4 @@
 module Watir
-
   #
   # Custom class representing table cell (th or td).
   #

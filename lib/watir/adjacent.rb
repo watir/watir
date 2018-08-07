@@ -1,6 +1,5 @@
 module Watir
   module Adjacent
-
     #
     # Returns parent element of current element.
     #
@@ -67,7 +66,6 @@ module Watir
     end
     alias_method :next_siblings, :following_siblings
 
-
     #
     # Returns collection of siblings of current element, including current element.
     #
@@ -115,12 +113,11 @@ module Watir
               elsif !plural
                 HTMLElement
               elsif opt[:tag_name]
-                 Object.const_get("#{self.send(opt[:tag_name]).class}Collection")
+                Object.const_get("#{self.send(opt[:tag_name]).class}Collection")
               else
                 HTMLElementCollection
               end
       klass.new(self, opt)
     end
-
   end # Adjacent
 end # Watir

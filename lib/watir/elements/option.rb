@@ -1,11 +1,9 @@
 module Watir
-
   #
   # Represents an option in a select list.
   #
 
   class Option < HTMLElement
-
     #
     # Selects this option.
     #
@@ -67,6 +65,5 @@ module Watir
 
       super
     end
-
   end # Option
 end # Watir

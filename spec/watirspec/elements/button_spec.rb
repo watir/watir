@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "Button" do
-
   before :each do
     browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
   end
@@ -254,7 +253,7 @@ describe "Button" do
     it "clicks the button if it exists" do
       browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
       browser.button(id: 'delete_user_submit').click
-      Watir::Wait.until { !browser.url.include? 'forms_with_input_elements.html'}
+      Watir::Wait.until { !browser.url.include? 'forms_with_input_elements.html' }
       expect(browser.text).to include("Semantic table")
     end
 
@@ -272,6 +271,4 @@ describe "Button" do
       expect { browser.button(value: "Disabled").click }.to raise_object_disabled_exception
     end
   end
-
-
 end

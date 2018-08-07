@@ -42,7 +42,7 @@ module Watir
     #
 
     def select(*str_or_rx)
-      results = str_or_rx.flatten.map { |v| select_by v}
+      results = str_or_rx.flatten.map { |v| select_by v }
       results.first
     end
 
@@ -165,15 +165,7 @@ module Watir
     end
 
     def select_by!(str_or_rx, number)
-      js_rx = case str_or_rx
-              when String
-                "^#{str_or_rx}$"
-              when Regexp
-                str_or_rx.inspect.sub('\\A', '^').sub('\\Z', '$').sub('\\z', '$').sub(/^\//, '').sub(/\/[a-z]*$/, '')
-                    .gsub(/\(\?#.+\)/, '').gsub(/\(\?-\w+:/, '(')
-              else
-                raise TypeError, "expected String or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
-              end
+      js_rx = process_str_or_rx(str_or_rx)
 
       element_call { execute_js(:selectOptionsText, self, js_rx, number.to_s) }
       return selected_options.first.text if matching_option?(:text, str_or_rx)
@@ -185,6 +177,18 @@ module Watir
       return selected_options.first.text if matching_option?(:value, str_or_rx)
 
       raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
+    end
+
+    def process_str_or_rx(str_or_rx)
+      case str_or_rx
+      when String
+        "^#{str_or_rx}$"
+      when Regexp
+        str_or_rx.inspect.sub('\\A', '^').sub('\\Z', '$').sub('\\z', '$').sub(/^\//, '').sub(/\/[a-z]*$/, '')
+                 .gsub(/\(\?#.+\)/, '').gsub(/\(\?-\w+:/, '(')
+      else
+        raise TypeError, "expected String or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
+      end
     end
 
     def matching_option?(how, what)

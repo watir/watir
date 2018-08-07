@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "Labels" do
-
   before :each do
     browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
   end
@@ -36,5 +35,4 @@ describe "Labels" do
       expect(count).to be > 0
     end
   end
-
 end

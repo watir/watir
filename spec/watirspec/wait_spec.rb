@@ -17,12 +17,13 @@ describe Watir::Element do
       end
 
       it "times out when given a block" do
-        expect { browser.div(id: 'bar').when_present(1) {} }.to raise_error(Watir::Wait::TimeoutError)
+        expect { browser.div(id: 'bar').when_present(1) {} }.to raise_timeout_exception
       end
 
       it "times out when not given a block" do
-        message = /^timed out after 1 seconds, waiting for (\{:id=>"bar", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"bar"\}) to become present$/
-        expect { browser.div(id: 'bar').when_present(1).click }.to raise_error(Watir::Wait::TimeoutError, message)
+        locator = '(\{:id=>"bar", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"bar"\})'
+        msg = /^timed out after 1 seconds, waiting for #{locator} to become present$/
+        expect { browser.div(id: 'bar').when_present(1).click }.to raise_timeout_exception(msg)
       end
 
       it "responds to Element methods" do
@@ -64,7 +65,6 @@ describe Watir::Element do
     it "raises exception if the element doesn't become enabled" do
       expect { browser.button(id: 'btn').click }.to raise_object_disabled_exception
     end
-
   end
 
   not_compliant_on :relaxed_locate do
@@ -127,10 +127,7 @@ describe Watir::Element do
       element = browser.div(id: 'bar')
       expect(element).to receive(:present?).twice
 
-      begin
-        element.wait_until_present(timeout: 0.4, interval: 0.2)
-      rescue Watir::Wait::TimeoutError
-      end
+      expect { element.wait_until_present(timeout: 0.4, interval: 0.2) }.to raise_timeout_exception
     end
   end
 
@@ -151,10 +148,7 @@ describe Watir::Element do
       element = browser.div(id: 'foo')
       expect(element).to receive(:present?).twice
 
-      begin
-        element.wait_until_present(timeout: 0.4, interval: 0.2)
-      rescue Watir::Wait::TimeoutError
-      end
+      expect { element.wait_until_present(timeout: 0.4, interval: 0.2) }.to raise_timeout_exception
     end
 
     it "does not error when element goes stale" do
