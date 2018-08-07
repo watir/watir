@@ -9,3 +9,7 @@ if [[ "$RAKE_TASK" = "yard:doctest" ]]; then
   mkdir ~/.yard
   bundle exec yard config -a autoload_plugins yard-doctest
 fi
+
+pwd
+echo "$RUBY_VERSION" >> .ruby-version
+cat .ruby-version
