@@ -90,7 +90,9 @@ module Watir
           css   = selector.delete(:css)
           return unless xpath || css
 
-          raise ArgumentError, ":xpath and :css cannot be combined (#{selector.inspect})" if xpath && css
+          if xpath && css
+            raise ArgumentError, ":xpath and :css cannot be combined (#{selector.inspect})"
+          end
 
           how, what = xpath ? [:xpath, xpath] : [:css, css]
 

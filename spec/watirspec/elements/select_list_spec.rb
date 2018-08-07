@@ -245,7 +245,8 @@ describe "SelectList" do
       end
 
       it "raises UnknownObjectException if the option doesn't exist" do
-        expect { browser.select_list(name: 'new_user_country').selected?('missing_option') }.to raise_unknown_object_exception
+        expect { browser.select_list(name: 'new_user_country').selected?('missing_option') }
+            .to raise_unknown_object_exception
       end
     end
   end
@@ -362,12 +363,15 @@ describe "SelectList" do
     end
 
     it "raises NoValueFoundException if the option doesn't exist" do
-      expect { browser.select_list(name: "new_user_country").select("missing_option") }.to raise_no_value_found_exception
-      expect { browser.select_list(name: "new_user_country").select(/missing_option/) }.to raise_no_value_found_exception
+      expect { browser.select_list(name: "new_user_country").select("missing_option") }
+          .to raise_no_value_found_exception
+      expect { browser.select_list(name: "new_user_country").select(/missing_option/) }
+          .to raise_no_value_found_exception
     end
 
     it "raises ObjectDisabledException if the option is disabled" do
-      expect { browser.select_list(name: "new_user_languages").select("Russian") }.to raise_object_disabled_exception
+      expect { browser.select_list(name: "new_user_languages").select("Russian") }
+          .to raise_object_disabled_exception
     end
 
     it "raises a TypeError if argument is not a String, Regexp or Numeric" do
@@ -460,13 +464,16 @@ describe "SelectList" do
     end
 
     it "raises NoValueFoundException if the option doesn't exist" do
-      expect { browser.select_list(id: "new_user_country").select!("missing_option") }.to raise_no_value_found_exception
-      expect { browser.select_list(id: "new_user_country").select!(/missing_option/) }.to raise_no_value_found_exception
+      expect { browser.select_list(id: "new_user_country").select!("missing_option") }
+          .to raise_no_value_found_exception
+      expect { browser.select_list(id: "new_user_country").select!(/missing_option/) }
+          .to raise_no_value_found_exception
     end
 
     it "raises ObjectDisabledException if the option is disabled" do
       browser.select_list(id: "new_user_languages").clear
-      expect { browser.select_list(id: "new_user_languages").select!("Russian") }.to raise_object_disabled_exception
+      expect { browser.select_list(id: "new_user_languages").select!("Russian") }
+          .to raise_object_disabled_exception
     end
 
     it "raises a TypeError if argument is not a String, Regexp or Numeric" do
@@ -479,7 +486,8 @@ describe "SelectList" do
     it "selects multiple options based on text" do
       browser.select_list(name: "new_user_languages").clear
       browser.select_list(name: "new_user_languages").select_all(/ish/)
-      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["Danish", "EN", "Swedish"]
+      list = ["Danish", "EN", "Swedish"]
+      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq list
     end
 
     it "selects multiple options based on labels" do
@@ -491,13 +499,15 @@ describe "SelectList" do
     it "selects all options in an Array" do
       browser.select_list(name: "new_user_languages").clear
       browser.select_list(name: "new_user_languages").select_all([/ish/, /Latin/])
-      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["Danish", "EN", "Swedish", "Azeri - Latin", "Latin"]
+      list = ["Danish", "EN", "Swedish", "Azeri - Latin", "Latin"]
+      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq list
     end
 
     it "selects all options in a parameter list" do
       browser.select_list(name: "new_user_languages").clear
       browser.select_list(name: "new_user_languages").select_all(/ish/, /Latin/)
-      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["Danish", "EN", "Swedish", "Azeri - Latin", "Latin"]
+      list = ["Danish", "EN", "Swedish", "Azeri - Latin", "Latin"]
+      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq list
     end
 
     it "returns the first matching value if there are multiple matches" do
@@ -509,7 +519,8 @@ describe "SelectList" do
     it "selects multiple options based on value" do
       browser.select_list(name: "new_user_languages").clear
       browser.select_list(name: "new_user_languages").select_all!(/\d+/)
-      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["Danish", "EN", "NO", "Russian"]
+      list = ["Danish", "EN", "NO", "Russian"]
+      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq list
     end
 
     it "selects multiple options based on text" do
@@ -527,13 +538,15 @@ describe "SelectList" do
     it "selects all options in an Array" do
       browser.select_list(name: "new_user_languages").clear
       browser.select_list(name: "new_user_languages").select_all!([/ish/, /Latin/])
-      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["Danish", "EN", "Swedish", "Azeri - Latin", "Latin"]
+      list = ["Danish", "EN", "Swedish", "Azeri - Latin", "Latin"]
+      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq list
     end
 
     it "selects all options in a parameter list" do
       browser.select_list(name: "new_user_languages").clear
       browser.select_list(name: "new_user_languages").select_all!(/ish/, /Latin/)
-      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq ["Danish", "EN", "Swedish", "Azeri - Latin", "Latin"]
+      list = ["Danish", "EN", "Swedish", "Azeri - Latin", "Latin"]
+      expect(browser.select_list(name: "new_user_languages").selected_options.map(&:text)).to eq list
     end
 
     it "returns the first matching value if there are multiple matches" do

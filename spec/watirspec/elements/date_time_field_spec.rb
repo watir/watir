@@ -120,21 +120,21 @@ describe "DateTimeField" do
   # Manipulation methods
   describe "#value= " do
     it "sets the value of the element" do
-      date_time = DateTime.now
+      date_time = Time.now
       date_time_field = browser.date_time_field(id: 'html5_datetime-local')
       date_time_field.value = date_time
-      expect(DateTime.parse(date_time_field.value).strftime("%Y-%m-%dT%H:%M")).to eq date_time.strftime("%Y-%m-%dT%H:%M")
+      expect(Time.parse(date_time_field.value).strftime("%Y-%m-%dT%H:%M")).to eq date_time.strftime("%Y-%m-%dT%H:%M")
     end
 
     it "sets the value when accessed through the enclosing Form" do
-      date_time = DateTime.now
+      date_time = Time.now
       date_time_field = browser.form(id: 'new_user').date_time_field(id: 'html5_datetime-local')
       date_time_field.value = date_time
-      expect(DateTime.parse(date_time_field.value).strftime("%Y-%m-%dT%H:%M")).to eq date_time.strftime("%Y-%m-%dT%H:%M")
+      expect(Time.parse(date_time_field.value).strftime("%Y-%m-%dT%H:%M")).to eq date_time.strftime("%Y-%m-%dT%H:%M")
     end
 
     it "raises UnknownObjectException if the date-time field doesn't exist" do
-      expect { browser.date_time_field(id: "no_such_id").value = DateTime.now }.to raise_unknown_object_exception
+      expect { browser.date_time_field(id: "no_such_id").value = Time.now }.to raise_unknown_object_exception
     end
 
     it "raises ArgumentError if using non-Date parameter" do
@@ -144,17 +144,17 @@ describe "DateTimeField" do
 
   describe "#set!" do
     it "sets the value of the element" do
-      date_time = DateTime.now
+      date_time = Time.now
       date_time_field = browser.date_time_field(id: 'html5_datetime-local')
       date_time_field.set! date_time
-      expect(DateTime.parse(date_time_field.value).strftime("%Y-%m-%dT%H:%M")).to eq date_time.strftime("%Y-%m-%dT%H:%M")
+      expect(Time.parse(date_time_field.value).strftime("%Y-%m-%dT%H:%M")).to eq date_time.strftime("%Y-%m-%dT%H:%M")
     end
 
     it "sets the value when accessed through the enclosing Form" do
-      date_time = DateTime.now
+      date_time = Time.now
       date_time_field = browser.form(id: 'new_user').date_time_field(id: 'html5_datetime-local')
       date_time_field.set! date_time
-      expect(DateTime.parse(date_time_field.value).strftime("%Y-%m-%dT%H:%M")).to eq date_time.strftime("%Y-%m-%dT%H:%M")
+      expect(Time.parse(date_time_field.value).strftime("%Y-%m-%dT%H:%M")).to eq date_time.strftime("%Y-%m-%dT%H:%M")
     end
 
     it "raises ArgumentError when no arguments are provided" do
@@ -162,23 +162,23 @@ describe "DateTimeField" do
     end
 
     it "raises UnknownObjectException if the date-time field doesn't exist" do
-      expect { browser.date_time_field(id: "no_such_id").set!(DateTime.now) }.to raise_unknown_object_exception
+      expect { browser.date_time_field(id: "no_such_id").set!(Time.now) }.to raise_unknown_object_exception
     end
   end
 
   describe "#set" do
     it "sets the value of the element" do
-      date_time = DateTime.now
+      date_time = Time.now
       date_time_field = browser.date_time_field(id: 'html5_datetime-local')
       date_time_field.set(date_time)
-      expect(DateTime.parse(date_time_field.value).strftime("%Y-%m-%dT%H:%M")).to eq date_time.strftime("%Y-%m-%dT%H:%M")
+      expect(Time.parse(date_time_field.value).strftime("%Y-%m-%dT%H:%M")).to eq date_time.strftime("%Y-%m-%dT%H:%M")
     end
 
     it "sets the value when accessed through the enclosing Form" do
-      date_time = DateTime.now
+      date_time = Time.now
       date_time_field = browser.form(id: 'new_user').date_time_field(id: 'html5_datetime-local')
       date_time_field.set date_time
-      expect(DateTime.parse(date_time_field.value).strftime("%Y-%m-%dT%H:%M")).to eq date_time.strftime("%Y-%m-%dT%H:%M")
+      expect(Time.parse(date_time_field.value).strftime("%Y-%m-%dT%H:%M")).to eq date_time.strftime("%Y-%m-%dT%H:%M")
     end
 
     it "raises ArgumentError when no arguments are provided" do
@@ -186,7 +186,7 @@ describe "DateTimeField" do
     end
 
     it "raises UnknownObjectException if the date-time field doesn't exist" do
-      expect { browser.date_time_field(id: "no_such_id").set(DateTime.now) }.to raise_unknown_object_exception
+      expect { browser.date_time_field(id: "no_such_id").set(Time.now) }.to raise_unknown_object_exception
     end
   end
 end

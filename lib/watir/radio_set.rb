@@ -9,9 +9,7 @@ module Watir
     attr_reader :source, :frame
 
     def initialize(query_scope, selector)
-      unless selector.is_a? Hash
-        raise ArgumentError, "invalid argument: #{selector.inspect}"
-      end
+      raise ArgumentError, "invalid argument: #{selector.inspect}" unless selector.is_a?(Hash)
 
       @source = Radio.new(query_scope, selector)
       @frame = @source.parent(tag_name: :form)

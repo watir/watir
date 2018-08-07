@@ -401,7 +401,9 @@ module Watir
     #
 
     def visible?
-      Watir.logger.warn "#visible? behavior will be changing slightly, consider switching to #present? (more details: http://watir.com/element-existentialism/)",
+      warning = "#visible? behavior will be changing slightly, consider switching to #present? " \
+                "(more details: http://watir.com/element-existentialism/)"
+      Watir.logger.warn warning,
                         ids: [:visible_element]
       assert_exists
       @element.displayed?
@@ -474,14 +476,14 @@ module Watir
       tag = tag_name()
       klass = if tag == "input"
                 case attribute_value(:type)
+                when *Button::VALID_TYPES
+                  Button
                 when 'checkbox'
                   CheckBox
                 when 'radio'
                   Radio
                 when 'file'
                   FileField
-                when *Button::VALID_TYPES
-                  Button
                 else
                   TextField
                 end
@@ -578,8 +580,9 @@ module Watir
       begin
         wait_until { !respond_to?(:readonly?) || !readonly? }
       rescue Watir::Wait::TimeoutError
-        message = "element present and enabled, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to not be readonly"
-        raise ObjectReadOnlyException, message
+        msg = "element present and enabled, but timed out after #{Watir.default_timeout} seconds, " \
+              "waiting for #{inspect} to not be readonly"
+        raise ObjectReadOnlyException, msg
       end
     end
 
@@ -612,17 +615,20 @@ module Watir
     end
 
     def raise_writable
-      message = "element present and enabled, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to not be readonly"
+      message = "element present and enabled, but timed out after #{Watir.default_timeout} seconds, " \
+                "waiting for #{inspect} to not be readonly"
       raise ObjectReadOnlyException, message
     end
 
     def raise_disabled
-      message = "element present, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to be enabled"
+      message = "element present, but timed out after #{Watir.default_timeout} seconds, " \
+                "waiting for #{inspect} to be enabled"
       raise ObjectDisabledException, message
     end
 
     def raise_present
-      raise unknown_exception, "element located, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to be present"
+      raise unknown_exception, "element located, but timed out after #{Watir.default_timeout} seconds, " \
+                               "waiting for #{inspect} to be present"
     end
 
     def element_class
@@ -668,7 +674,9 @@ module Watir
         msg = ex.message
         msg += "; Maybe look in an iframe?" if @query_scope.ensure_context && @query_scope.iframes.count > 0
         custom_attributes = @locator.nil? ? [] : @locator.selector_builder.custom_attributes
-        msg += "; Watir treated #{custom_attributes} as a non-HTML compliant attribute, ensure that was intended" unless custom_attributes.empty?
+        unless custom_attributes.empty?
+          msg += "; Watir treated #{custom_attributes} as a non-HTML compliant attribute, ensure that was intended"
+        end
         raise unknown_exception, msg
       rescue Selenium::WebDriver::Error::StaleElementReferenceError
         @query_scope.ensure_context

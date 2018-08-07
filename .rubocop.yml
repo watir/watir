@@ -87,6 +87,12 @@ Metrics/ParameterLists:
   Exclude:
     - 'lib/watir/wait.rb'
 
+Style/CommentedKeyword:
+  Enabled: false
+
+Style/DoubleNegation:
+  Enabled: false
+
 
 # TODO - Investigate
 # Offense count: 2

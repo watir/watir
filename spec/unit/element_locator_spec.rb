@@ -171,23 +171,20 @@ describe Watir::Locators::Element::Locator do
         translated_type = "translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')"
         expect_one :xpath, ".//input[#{translated_type}='file']"
 
-        selector = [
-          :tag_name, "input",
-          :type, "file",
-        ]
+        selector = [:tag_name, "input",
+                    :type, "file"]
 
         locate_one selector, Watir::Input.attributes
       end
 
       it "uses the corresponding <label>'s @for attribute or parent::label when locating by label" do
         translated_type = "translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')"
-        expect_one :xpath, ".//input[#{translated_type}='text' and (@id=//label[normalize-space()='foo']/@for or parent::label[normalize-space()='foo'])]"
+        label_info = "(@id=//label[normalize-space()='foo']/@for or parent::label[normalize-space()='foo'])"
+        expect_one :xpath, ".//input[#{translated_type}='text' and #{label_info}]"
 
-        selector = [
-          :tag_name, "input",
-          :type, "text",
-          :label, "foo"
-        ]
+        selector = [:tag_name, "input",
+                    :type, "text",
+                    :label, "foo"]
 
         locate_one selector, Watir::Input.attributes
       end

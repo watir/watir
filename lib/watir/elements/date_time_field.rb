@@ -5,7 +5,7 @@ module Watir
     #
 
     def set!(date)
-      date = DateTime.parse date if date.is_a?(String)
+      date = ::Time.parse date if date.is_a?(String)
 
       message = "DateTimeField##{__callee__} only accepts instances of DateTime or Time"
       raise ArgumentError, message unless [DateTime, ::Time].include?(date.class)

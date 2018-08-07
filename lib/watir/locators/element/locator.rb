@@ -157,7 +157,11 @@ module Watir
           end
 
           if tag_validation_required?(@normalized_selector)
-            tag_name = @normalized_selector[:tag_name].is_a?(::Symbol) ? @normalized_selector[:tag_name].to_s : @normalized_selector[:tag_name]
+            tag_name = if @normalized_selector[:tag_name].is_a?(::Symbol)
+                         @normalized_selector[:tag_name].to_s
+                       else
+                         @normalized_selector[:tag_name]
+                       end
             @filter_selector[:tag_name] = tag_name
           end
 
@@ -222,7 +226,9 @@ module Watir
             text_content_matches = text_content =~ /#{selector[:text]}/
             unless matches == !!text_content_matches
               key = @selector.key?(:text) ? "text" : "label"
-              Watir.logger.deprecate("Using :#{key} locator with RegExp #{selector[:text].inspect} to match an element that includes hidden text", ":visible_#{key}",
+              deprecation = "Using :#{key} locator with RegExp #{selector[:text].inspect} to match an element " \
+                            "that includes hidden text", ":visible_#{key}"
+              Watir.logger.deprecate(deprecation,
                                      ids: [:text_regexp])
             end
           end
