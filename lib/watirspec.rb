@@ -9,7 +9,7 @@ module WatirSpec
     attr_accessor :browser_args, :unguarded, :implementation
 
     def htmls
-      @htmls ||= [File.expand_path("../../spec/watirspec/html", __FILE__)]
+      @htmls ||= [File.expand_path('../spec/watirspec/html', __dir__)]
     end
 
     def run!
@@ -30,7 +30,7 @@ module WatirSpec
     end
 
     def load_support
-      root = File.expand_path("../../spec/watirspec", __FILE__)
+      root = File.expand_path('../spec/watirspec', __dir__)
       Dir.glob("#{root}/support/**/*.rb").each do |file|
         require file
       end

@@ -19,7 +19,7 @@ module Watir
             value = copy.delete(:value)
 
             super(element, copy) &&
-                (fetch_value(element, :value) =~ /#{value}/ || fetch_value(element, :text) =~ /#{value}/)
+              (fetch_value(element, :value) =~ /#{value}/ || fetch_value(element, :text) =~ /#{value}/)
           else
             super
           end

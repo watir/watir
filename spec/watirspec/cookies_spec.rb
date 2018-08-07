@@ -63,7 +63,7 @@ describe "Browser#cookies" do
     end
   end
 
-  # TODO - Split this up into multiple tests or figure out which parts are not compliant
+  # TODO: - Split this up into multiple tests or figure out which parts are not compliant
   not_compliant_on :chrome, :internet_explorer, :safari, :firefox do
     it 'adds a cookie with options' do
       browser.goto set_cookie_url

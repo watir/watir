@@ -181,7 +181,7 @@ module Watir
         end
 
         def process_label(label_key)
-          regexp = @normalized_selector[label_key].kind_of?(Regexp)
+          regexp = @normalized_selector[label_key].is_a?(Regexp)
           return unless (regexp || label_key == :visible_label) && selector_builder.should_use_label_element?
 
           label = label_from_text(label_key)
@@ -278,7 +278,7 @@ module Watir
 
         def wd_supported?(how, what, tag)
           return false unless W3C_FINDERS.include? how
-          return false unless what.kind_of?(String)
+          return false unless what.is_a?(String)
           if %i[partial_link_text link_text link].include?(how)
             Watir.logger.deprecate(":#{how} locator", ':visible_text', ids: [:visible_text])
             return true if [:a, :link, nil].include?(tag)

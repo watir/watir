@@ -9,7 +9,7 @@ module Watir
     attr_reader :source, :frame
 
     def initialize(query_scope, selector)
-      unless selector.kind_of? Hash
+      unless selector.is_a? Hash
         raise ArgumentError, "invalid argument: #{selector.inspect}"
       end
 
@@ -207,7 +207,7 @@ module Watir
     #
 
     def ==(other)
-      return false unless other.kind_of?(self.class)
+      return false unless other.is_a?(self.class)
       radios == other.radios
     end
     alias eql? ==

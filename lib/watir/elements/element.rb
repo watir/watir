@@ -31,7 +31,7 @@ module Watir
     def initialize(query_scope, selector)
       @query_scope = query_scope
 
-      unless selector.kind_of? Hash
+      unless selector.is_a? Hash
         raise ArgumentError, "invalid argument: #{selector.inspect}"
       end
 
@@ -58,11 +58,11 @@ module Watir
       string = "#<#{self.class}: "
       string << "keyword: #{keyword} " if keyword
       string << "located: #{!!@element}; "
-      if @selector.empty?
-        string << '{element: (selenium element)}'
-      else
-        string << selector_string
-      end
+      string << if @selector.empty?
+                  '{element: (selenium element)}'
+                else
+                  selector_string
+                end
       string << '>'
       string
     end
@@ -640,7 +640,7 @@ module Watir
     end
 
     def assert_is_element(obj)
-      unless obj.kind_of? Watir::Element
+      unless obj.is_a? Watir::Element
         raise TypeError, "execpted Watir::Element, got #{obj.inspect}:#{obj.class}"
       end
     end

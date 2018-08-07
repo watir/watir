@@ -60,7 +60,7 @@ module Watir
     #
 
     def execute_script(script, *args)
-      args.map! { |e| e.kind_of?(Watir::Element) ? e.wd : e }
+      args.map! { |e| e.is_a?(Watir::Element) ? e.wd : e }
       returned = driver.execute_script(script, *args)
 
       browser.send(:wrap_elements_in, self, returned)

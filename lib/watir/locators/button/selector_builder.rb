@@ -3,7 +3,7 @@ module Watir
     class Button
       class SelectorBuilder < Element::SelectorBuilder
         def build_wd_selector(selectors)
-          return if selectors.values.any? { |e| e.kind_of? Regexp }
+          return if selectors.values.any? { |e| e.is_a? Regexp }
 
           selectors.delete(:tag_name) || raise("internal error: no tag_name?!")
 

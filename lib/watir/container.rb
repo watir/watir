@@ -42,7 +42,7 @@ module Watir
         return {selectors[0] => selectors[1]}
       when 1
         obj = selectors.first
-        return obj if obj.kind_of? Hash
+        return obj if obj.is_a? Hash
       when 0
         return {}
       end

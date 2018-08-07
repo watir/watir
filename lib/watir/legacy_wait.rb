@@ -1,6 +1,6 @@
 require 'forwardable'
 
-# TODO - remove this file for future release
+# TODO: - remove this file for future release
 module Watir
   class BaseDecorator
     def initialize(element, timeout, message = nil)

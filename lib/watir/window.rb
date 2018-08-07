@@ -20,7 +20,7 @@ module Watir
     end
 
     def inspect
-      '#<%s:0x%x located=%s>' % [self.class, hash * 2, !!@handle]
+      format('#<%s:0x%x located=%s>', self.class, hash * 2, !!@handle)
     end
 
     #
@@ -124,7 +124,7 @@ module Watir
     #
 
     def ==(other)
-      return false unless other.kind_of?(self.class)
+      return false unless other.is_a?(self.class)
 
       handle == other.handle
     end

@@ -22,7 +22,7 @@ module Watir
     #
 
     def set!(*args)
-      raise ArgumentError, "#set! does not support special keys, use #set instead" if args.any? { |v| v.kind_of?(::Symbol) }
+      raise ArgumentError, "#set! does not support special keys, use #set instead" if args.any? { |v| v.is_a?(::Symbol) }
       input_value = args.join
       set input_value[0]
       element_call { execute_js(:setValue, @element, input_value[0..-2]) }

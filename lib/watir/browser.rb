@@ -59,12 +59,12 @@ module Watir
 
     def inspect
       if alert.exists?
-        '#<%s:0x%x alert=true>' % [self.class, hash * 2]
+        format('#<%s:0x%x alert=true>', self.class, hash * 2)
       else
-        '#<%s:0x%x url=%s title=%s>' % [self.class, hash * 2, url.inspect, title.inspect]
+        format('#<%s:0x%x url=%s title=%s>', self.class, hash * 2, url.inspect, title.inspect)
       end
     rescue Errno::ECONNREFUSED
-      '#<%s:0x%x closed=true>' % [self.class, hash * 2]
+      format('#<%s:0x%x closed=true>', self.class, hash * 2)
     end
     alias selector_string inspect
 
@@ -217,7 +217,7 @@ module Watir
     #
 
     def execute_script(script, *args)
-      args.map! { |e| e.kind_of?(Watir::Element) ? e.wd : e }
+      args.map! { |e| e.is_a?(Watir::Element) ? e.wd : e }
       returned = @driver.execute_script(script, *args)
 
       wrap_elements_in(self, returned)
