@@ -86,7 +86,7 @@ module Watir
         end
 
         def validate(elements, tag_name)
-          elements.compact.all? { |element| element_validator.validate(element, {tag_name: tag_name}) }
+          elements.compact.all? { |element| element_validator.validate(element, tag_name: tag_name) }
         end
 
         def fetch_value(element, how)
@@ -210,7 +210,7 @@ module Watir
         def matches_selector?(element, selector)
           matches = selector.all? do |how, what|
             if how == :tag_name && what.is_a?(String)
-              element_validator.validate(element, {tag_name: what})
+              element_validator.validate(element, tag_name: what)
             else
               what === fetch_value(element, how)
             end

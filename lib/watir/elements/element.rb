@@ -52,7 +52,7 @@ module Watir
     rescue UnknownObjectException, UnknownFrameException
       false
     end
-    alias_method :exist?, :exists?
+    alias exist? exists?
 
     def inspect
       string = "#<#{self.class}: "
@@ -78,7 +78,7 @@ module Watir
     def ==(other)
       other.is_a?(self.class) && wd == other.wd
     end
-    alias_method :eql?, :==
+    alias eql? ==
 
     def hash
       @element ? @element.hash : super
@@ -268,7 +268,7 @@ module Watir
       attribute_name = attribute_name.to_s.tr('_', '-') if attribute_name.is_a?(::Symbol)
       element_call { @element.attribute attribute_name }
     end
-    alias_method :attribute, :attribute_value
+    alias attribute attribute_value
 
     #
     # Sends sequence of keystrokes to element.
@@ -373,7 +373,7 @@ module Watir
       Selenium::WebDriver::Point.new(point.x + (dimensions['width'] / 2),
                                      point.y + (dimensions['height'] / 2))
     end
-    alias_method :centre, :center
+    alias centre center
 
     #
     # @api private

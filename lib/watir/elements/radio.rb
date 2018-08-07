@@ -12,7 +12,7 @@ module Watir
     def set
       click unless set?
     end
-    alias_method :select, :set
+    alias select set
 
     #
     # Is this radio set?
@@ -23,7 +23,7 @@ module Watir
     def set?
       element_call { @element.selected? }
     end
-    alias_method :selected?, :set?
+    alias selected? set?
 
     #
     # Returns the text of the associated label.

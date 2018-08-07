@@ -247,8 +247,8 @@ module Watir
   end # Select
 
   module Container
-    alias_method :select_list, :select
-    alias_method :select_lists, :selects
+    alias select_list select
+    alias select_lists selects
 
     Watir.tag_to_class[:select_list] = Select
   end # Container

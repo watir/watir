@@ -95,3 +95,9 @@ Security/YAMLLoad:
   Exclude:
     - 'lib/watir/cookies.rb'
     - 'spec/watirspec/cookies_spec.rb'
+
+# Offense count: 2
+Security/Open:
+  Exclude:
+    - 'Rakefile'
+    - 'lib/watir/generator/base/spec_extractor.rb'

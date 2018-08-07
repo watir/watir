@@ -29,6 +29,6 @@ module Watir
         res << row.cells.map(&:text)
       end
     end
-    alias_method :to_a, :strings
+    alias to_a strings
   end # RowContainer
 end # Watir

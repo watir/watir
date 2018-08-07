@@ -32,7 +32,7 @@ module Watir
         process if @interfaces.nil?
 
         idl_sorter.sort.map { |name|
-          @interfaces.find { |i| i.name == name } or puts "ignoring interface: #{name}"
+          @interfaces.find { |i| i.name == name } || puts("ignoring interface: #{name}")
         }.compact
       end
 
@@ -42,7 +42,7 @@ module Watir
       end
 
       def fetch_interface(interface)
-        @interfaces_by_name[interface] or raise InterfaceNotFound, "#{interface} not found in IDL"
+        @interfaces_by_name[interface] || raise(InterfaceNotFound, "#{interface} not found in IDL")
       end
 
       private
@@ -131,7 +131,7 @@ module Watir
       def idl_sorter
         @idl_sorter ||= Base::IDLSorter.new(@interfaces)
       end
-      alias_method :sorter, :idl_sorter
+      alias sorter idl_sorter
     end # SpecExtractor
   end # Generator
 end # Watir

@@ -28,10 +28,9 @@ module Watir
       to_a.each(&blk)
     end
 
-    alias_method :length, :count
-    alias_method :size, :count
-
-    alias_method :empty?, :none?
+    alias length count
+    alias size count
+    alias empty? none?
 
     #
     # Get the element at the given index or range.
@@ -49,7 +48,7 @@ module Watir
       if value.is_a?(Range)
         to_a[value]
       elsif @selector.key? :adjacent
-        to_a[value] || element_class.new(@query_scope, {invalid_locator: true})
+        to_a[value] || element_class.new(@query_scope, invalid_locator: true)
       else
         element_class.new(@query_scope, @selector.merge(index: value))
       end
@@ -135,7 +134,7 @@ module Watir
     def ==(other)
       to_a == other.to_a
     end
-    alias_method :eql?, :==
+    alias eql? ==
 
     #
     # Creates a Collection containing elements of two collections.

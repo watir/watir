@@ -5,7 +5,7 @@ module Watir
 
       def extract_interface_map
         list = @doc.search("//div[@id='chapter-eltindex']//ul/li")
-        list.any? or raise 'could not find elements list'
+        list.any? || raise('could not find elements list')
 
         @interface_map = parse_list(list)
       end

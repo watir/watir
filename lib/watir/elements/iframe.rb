@@ -10,7 +10,7 @@ module Watir
       @locator = locator_class.new(@query_scope, selector, selector_builder, element_validator)
 
       element = @locator.locate
-      element or raise unknown_exception, "unable to locate #{@selector[:tag_name]} using #{selector_string}"
+      element || raise(unknown_exception, "unable to locate #{@selector[:tag_name]} using #{selector_string}")
 
       @element = FramedDriver.new(element, browser)
     end
@@ -120,7 +120,7 @@ module Watir
     def ==(other)
       wd == other.wd
     end
-    alias_method :eql?, :==
+    alias eql? ==
 
     def send_keys(*args)
       switch!

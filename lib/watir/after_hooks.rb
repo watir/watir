@@ -41,7 +41,7 @@ module Watir
         raise ArgumentError, "expected block or object responding to #call"
       end
     end
-    alias_method :<<, :add
+    alias << add
 
     #
     # Deletes after hook.
@@ -114,7 +114,7 @@ module Watir
     def length
       @after_hooks.length
     end
-    alias_method :size, :length
+    alias size length
 
     #
     # Gets the after hook at the given index.

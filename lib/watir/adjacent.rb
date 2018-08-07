@@ -23,7 +23,7 @@ module Watir
     def preceding_sibling(opt = {})
       xpath_adjacent(opt.merge(adjacent: :preceding, plural: false))
     end
-    alias_method :previous_sibling, :preceding_sibling
+    alias previous_sibling preceding_sibling
 
     #
     # Returns collection of preceding sibling elements of current element.
@@ -37,7 +37,7 @@ module Watir
       raise ArgumentError, "#previous_siblings can not take an index value" if opt[:index]
       xpath_adjacent(opt.merge(adjacent: :preceding, plural: true))
     end
-    alias_method :previous_siblings, :preceding_siblings
+    alias previous_siblings preceding_siblings
 
     #
     # Returns following sibling element of current element.
@@ -50,7 +50,7 @@ module Watir
     def following_sibling(opt = {})
       xpath_adjacent(opt.merge(adjacent: :following, plural: false))
     end
-    alias_method :next_sibling, :following_sibling
+    alias next_sibling following_sibling
 
     #
     # Returns collection of following sibling elements of current element.
@@ -64,7 +64,7 @@ module Watir
       raise ArgumentError, "#next_siblings can not take an index value" if opt[:index]
       xpath_adjacent(opt.merge(adjacent: :following, plural: true))
     end
-    alias_method :next_siblings, :following_siblings
+    alias next_siblings following_siblings
 
     #
     # Returns collection of siblings of current element, including current element.

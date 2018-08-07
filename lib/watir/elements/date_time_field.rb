@@ -13,8 +13,8 @@ module Watir
       date_time_string = date.strftime("%Y-%m-%dT%H:%M")
       element_call(:wait_for_writable) { execute_js(:setValue, @element, date_time_string) }
     end
-    alias_method :set, :set!
-    alias_method :value=, :set
+    alias set set!
+    alias value= set
   end # DateTimeField
 
   module Container

@@ -122,7 +122,7 @@ module Watir
     def outer_html
       element_call { execute_js(:getOuterHtml, @element) }.strip
     end
-    alias_method :html, :outer_html
+    alias html outer_html
 
     #
     # Returns text content of element.

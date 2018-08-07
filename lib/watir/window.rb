@@ -110,8 +110,8 @@ module Watir
     rescue Exception::NoMatchingWindowFoundException
       false
     end
-    alias_method :present?, :exists?
-    alias_method :exist?, :exists?
+    alias present? exists?
+    alias exist? exists?
 
     #
     # Returns true if two windows are equal.
@@ -128,7 +128,7 @@ module Watir
 
       handle == other.handle
     end
-    alias_method :eql?, :==
+    alias eql? ==
 
     def hash
       handle.hash ^ self.class.hash

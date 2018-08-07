@@ -210,7 +210,7 @@ module Watir
       return false unless other.kind_of?(self.class)
       radios == other.radios
     end
-    alias_method :eql?, :==
+    alias eql? ==
 
     private
 

@@ -35,7 +35,7 @@ module Watir
                           ).uniq
     end
 
-    alias_method :attributes, :attribute_list
+    alias attributes attribute_list
 
     #
     # YARD macro to generated friendly

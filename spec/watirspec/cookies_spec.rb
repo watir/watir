@@ -56,7 +56,7 @@ describe "Browser#cookies" do
 
       expire_time = Time.now + 10000
 
-      browser.cookies.add 'foo', 'bar', {expires: expire_time.to_s}
+      browser.cookies.add 'foo', 'bar', expires: expire_time.to_s
 
       cookie = browser.cookies[:foo]
       expect(cookie[:expires]).to be_kind_of(Time)

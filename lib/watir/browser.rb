@@ -12,7 +12,7 @@ module Watir
     attr_writer :default_context, :original_window, :locator_namespace
     attr_reader :driver
     attr_reader :after_hooks
-    alias_method :wd, :driver # ensures duck typing with Watir::Element
+    alias wd driver # ensures duck typing with Watir::Element
 
     class << self
       #
@@ -90,7 +90,7 @@ module Watir
     # @example
     #   browser.goto "watir.github.io"
     #   browser.title
-    #   #=> "Watir Project – Watir stands for Web Application Testing In Ruby. It facilitates the writing of automated tests by mimicking the behavior of a user interacting with a website."
+    #   #=> "Watir Project"
     #
     # @return [String]
     #
@@ -108,7 +108,7 @@ module Watir
       @driver.quit
       @closed = true
     end
-    alias_method :quit, :close # TODO: close vs quit
+    alias quit close # TODO: close vs quit
 
     #
     # Handles cookies.
@@ -256,7 +256,7 @@ module Watir
     def exist?
       !@closed && window.present?
     end
-    alias_method :exists?, :exist?
+    alias exists? exist?
 
     #
     # Protocol shared with Watir::Element

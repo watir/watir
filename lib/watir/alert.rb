@@ -82,7 +82,7 @@ module Watir
     rescue Exception::UnknownObjectException
       false
     end
-    alias_method :present?, :exists?
+    alias present? exists?
 
     #
     # @api private

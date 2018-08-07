@@ -12,7 +12,7 @@ module Watir
         @element.send_keys(*args)
       end
     end
-    alias_method :value=, :set
+    alias value= set
 
     #
     # Uses JavaScript to enter most of the given value.
@@ -39,7 +39,7 @@ module Watir
     def append(*args)
       send_keys(*args)
     end
-    alias_method :<<, :append
+    alias << append
 
     #
     # Clears the text field.
