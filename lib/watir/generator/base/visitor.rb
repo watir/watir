@@ -22,7 +22,7 @@ module Watir
         $stderr.puts name
         return if name !~ interface_regexp || name =~ /(Collection|Document)$/
 
-        if force_inheritance.keys.include?(name)
+        if force_inheritance.key?(name)
           parent = force_inheritance[name]
         elsif parent
           @inheritance_map[name] ||= parent.name
