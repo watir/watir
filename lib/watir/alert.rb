@@ -96,7 +96,7 @@ module Watir
 
     def assert_exists
       @alert = @browser.driver.switch_to.alert
-    rescue Selenium::WebDriver::Error::NoAlertPresentError, Selenium::WebDriver::Error::NoSuchAlertError
+    rescue Selenium::WebDriver::Error::NoSuchAlertError
       raise Exception::UnknownObjectException, 'unable to locate alert'
     end
 
