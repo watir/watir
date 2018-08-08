@@ -1,34 +1,33 @@
-require "watirspec_helper"
+require 'watirspec_helper'
 
-describe "Strong" do
-
+describe 'Strong' do
   before :each do
-    browser.goto(WatirSpec.url_for("non_control_elements.html"))
+    browser.goto(WatirSpec.url_for('non_control_elements.html'))
   end
 
   # Exists method
-  describe "#exist?" do
-    it "returns true if the element exists" do
-      expect(browser.strong(id: "descartes")).to exist
+  describe '#exist?' do
+    it 'returns true if the element exists' do
+      expect(browser.strong(id: 'descartes')).to exist
       expect(browser.strong(id: /descartes/)).to exist
-      expect(browser.strong(text: "Dubito, ergo cogito, ergo sum.")).to exist
+      expect(browser.strong(text: 'Dubito, ergo cogito, ergo sum.')).to exist
       expect(browser.strong(text: /Dubito, ergo cogito, ergo sum/)).to exist
-      expect(browser.strong(class: "descartes")).to exist
+      expect(browser.strong(class: 'descartes')).to exist
       expect(browser.strong(class: /descartes/)).to exist
       expect(browser.strong(index: 0)).to exist
       expect(browser.strong(xpath: "//strong[@id='descartes']")).to exist
     end
 
-    it "returns the first strong if given no args" do
+    it 'returns the first strong if given no args' do
       expect(browser.strong).to exist
     end
 
     it "returns false if the element doesn't exist" do
-      expect(browser.strong(id: "no_such_id")).to_not exist
+      expect(browser.strong(id: 'no_such_id')).to_not exist
       expect(browser.strong(id: /no_such_id/)).to_not exist
-      expect(browser.strong(text: "no_such_text")).to_not exist
+      expect(browser.strong(text: 'no_such_text')).to_not exist
       expect(browser.strong(text: /no_such_text/)).to_not exist
-      expect(browser.strong(class: "no_such_class")).to_not exist
+      expect(browser.strong(class: 'no_such_class')).to_not exist
       expect(browser.strong(class: /no_such_class/)).to_not exist
       expect(browser.strong(index: 1337)).to_not exist
       expect(browser.strong(xpath: "//strong[@id='no_such_id']")).to_not exist
@@ -40,8 +39,8 @@ describe "Strong" do
   end
 
   # Attribute methods
-  describe "#class_name" do
-    it "returns the class attribute" do
+  describe '#class_name' do
+    it 'returns the class attribute' do
       expect(browser.strong(index: 0).class_name).to eq 'descartes'
     end
 
@@ -54,20 +53,20 @@ describe "Strong" do
     end
   end
 
-  describe "#id" do
-    it "returns the id attribute" do
-      expect(browser.strong(index: 0).id).to eq "descartes"
+  describe '#id' do
+    it 'returns the id attribute' do
+      expect(browser.strong(index: 0).id).to eq 'descartes'
     end
 
     it "raises UnknownObjectException if the element doesn't exist" do
-      expect { browser.strong(id: "no_such_id").id }.to raise_unknown_object_exception
+      expect { browser.strong(id: 'no_such_id').id }.to raise_unknown_object_exception
       expect { browser.strong(index: 1337).id }.to raise_unknown_object_exception
     end
   end
 
-  describe "#text" do
-    it "returns the text of the element" do
-      expect(browser.strong(index: 0).text).to eq "Dubito, ergo cogito, ergo sum."
+  describe '#text' do
+    it 'returns the text of the element' do
+      expect(browser.strong(index: 0).text).to eq 'Dubito, ergo cogito, ergo sum.'
     end
 
     it "raises UnknownObjectException if the element doesn't exist" do
@@ -76,8 +75,8 @@ describe "Strong" do
     end
   end
 
-  describe "#respond_to?" do
-    it "returns true for all attribute methods" do
+  describe '#respond_to?' do
+    it 'returns true for all attribute methods' do
       expect(browser.strong(index: 0)).to respond_to(:class_name)
       expect(browser.strong(index: 0)).to respond_to(:id)
       expect(browser.strong(index: 0)).to respond_to(:text)

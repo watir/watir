@@ -5,7 +5,7 @@ module Watir
         class XPath < Element::SelectorBuilder::XPath
           def lhs_for(building, key)
             if building == :input && key == :text
-              "@value"
+              '@value'
             else
               super
             end

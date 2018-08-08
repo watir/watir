@@ -1,5 +1,4 @@
 module Watir
-
   #
   # The main class through which you control the browser.
   #
@@ -8,11 +7,12 @@ module Watir
     include Container
     include HasWindow
     include Waitable
+    include Navigation
 
     attr_writer :default_context, :original_window, :locator_namespace
     attr_reader :driver
     attr_reader :after_hooks
-    alias_method :wd, :driver # ensures duck typing with Watir::Element
+    alias wd driver # ensures duck typing with Watir::Element
 
     class << self
       #
@@ -45,7 +45,7 @@ module Watir
       case browser
       when ::Symbol, String
         selenium_args = Watir::Capabilities.new(browser, *args).to_args
-        @driver = Selenium::WebDriver.for *selenium_args
+        @driver = Selenium::WebDriver.for(*selenium_args)
       when Selenium::WebDriver::Driver
         @driver = browser
       else
@@ -59,51 +59,14 @@ module Watir
 
     def inspect
       if alert.exists?
-        '#<%s:0x%x alert=true>' % [self.class, hash*2]
+        format('#<%s:0x%x alert=true>', self.class, hash * 2)
       else
-        '#<%s:0x%x url=%s title=%s>' % [self.class, hash * 2, url.inspect, title.inspect]
+        format('#<%s:0x%x url=%s title=%s>', self.class, hash * 2, url.inspect, title.inspect)
       end
     rescue Errno::ECONNREFUSED
-      '#<%s:0x%x closed=true>' % [self.class, hash*2]
+      format('#<%s:0x%x closed=true>', self.class, hash * 2)
     end
     alias selector_string inspect
-
-    #
-    # Goes to the given URL.
-    #
-    # @example
-    #   browser.goto "watir.github.io"
-    #
-    # @param [String] uri The url.
-    # @return [String] The url you end up at.
-    #
-
-    def goto(uri)
-      uri = "http://#{uri}" unless uri =~ URI.regexp
-
-      @driver.navigate.to uri
-      @after_hooks.run
-
-      uri
-    end
-
-    #
-    # Navigates back in history.
-    #
-
-    def back
-      @driver.navigate.back
-      @after_hooks.run
-    end
-
-    #
-    # Navigates forward in history.
-    #
-
-    def forward
-      @driver.navigate.forward
-      @after_hooks.run
-    end
 
     #
     # Returns URL of current page.
@@ -145,7 +108,7 @@ module Watir
       @driver.quit
       @closed = true
     end
-    alias_method :quit, :close # TODO: close vs quit
+    alias quit close # TODO: close vs quit
 
     #
     # Handles cookies.
@@ -204,15 +167,6 @@ module Watir
     end
 
     #
-    # Refreshes current page.
-    #
-
-    def refresh
-      @driver.navigate.refresh
-      @after_hooks.run
-    end
-
-    #
     # Waits until readyState of document is complete.
     #
     # @example
@@ -224,7 +178,7 @@ module Watir
 
     def wait(timeout = 5)
       wait_until(timeout: timeout, message: "waiting for document.readyState == 'complete'") do
-        ready_state == "complete"
+        ready_state == 'complete'
       end
     end
 
@@ -245,7 +199,7 @@ module Watir
     #
 
     def status
-      execute_script "return window.status;"
+      execute_script 'return window.status;'
     end
 
     #
@@ -263,7 +217,7 @@ module Watir
     #
 
     def execute_script(script, *args)
-      args.map! { |e| e.kind_of?(Watir::Element) ? e.wd : e }
+      args.map! { |e| e.is_a?(Watir::Element) ? e.wd : e }
       returned = @driver.execute_script(script, *args)
 
       wrap_elements_in(self, returned)
@@ -302,7 +256,7 @@ module Watir
     def exist?
       !@closed && window.present?
     end
-    alias_method :exists?, :exist?
+    alias exists? exist?
 
     #
     # Protocol shared with Watir::Element
@@ -313,11 +267,11 @@ module Watir
     def assert_exists
       ensure_context
       return if window.present?
-      raise Exception::NoMatchingWindowFoundException, "browser window was closed"
+      raise Exception::NoMatchingWindowFoundException, 'browser window was closed'
     end
 
     def ensure_context
-      raise Exception::Error, "browser was closed" if @closed
+      raise Exception::Error, 'browser was closed' if @closed
       driver.switch_to.default_content unless @default_context
       @default_context = true
     end
@@ -344,7 +298,7 @@ module Watir
       when Array
         obj.map { |e| wrap_elements_in(scope, e) }
       when Hash
-        obj.each { |k,v| obj[k] = wrap_elements_in(scope, v) }
+        obj.each { |k, v| obj[k] = wrap_elements_in(scope, v) }
 
         obj
       else
@@ -355,6 +309,5 @@ module Watir
     def wrap_element(scope, element)
       Watir.element_class_for(element.tag_name.downcase).new(scope, element: element)
     end
-
   end # Browser
 end # Watir

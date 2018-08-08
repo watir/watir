@@ -3,16 +3,14 @@ module Watir
     class Cell
       class SelectorBuilder < Element::SelectorBuilder
         def build_wd_selector(selectors)
-          return if selectors.values.any? { |e| e.kind_of? Regexp }
+          return if selectors.values.any? { |e| e.is_a? Regexp }
 
           expressions = %w[./th ./td]
           attr_expr = xpath_builder.attribute_expression(nil, selectors)
 
-          unless attr_expr.empty?
-            expressions.map! { |e| "#{e}[#{attr_expr}]" }
-          end
+          expressions.map! { |e| "#{e}[#{attr_expr}]" } unless attr_expr.empty?
 
-          xpath = expressions.join(" | ")
+          xpath = expressions.join(' | ')
 
           p build_wd_selector: xpath if $DEBUG
 

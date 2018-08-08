@@ -1,21 +1,21 @@
 module Watir
   module Generator
-    class HTML::Visitor < Base::Visitor
+    module HTML
+      class Visitor < Base::Visitor
+        def classify_regexp
+          /^HTML(.+)Element$/
+        end
 
-      def classify_regexp
-        /^HTML(.+)Element$/
-      end
+        private
 
-      private
+        def interface_regexp
+          /^HTML/
+        end
 
-      def interface_regexp
-        /^HTML/
-      end
-
-      def force_inheritance
-        { 'HTMLElement' => 'Element' }
-      end
-
-    end # HTML::Visitor
+        def force_inheritance
+          {'HTMLElement' => 'Element'}
+        end
+      end # Visitor
+    end # HTML
   end # Generator
 end # Watir

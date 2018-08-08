@@ -13,14 +13,14 @@ module Watir
       elsif selector.key? :handle
         @handle = selector.delete :handle
       else
-        unless selector.keys.all? { |k| [:title, :url, :index].include? k }
+        unless selector.keys.all? { |k| %i[title url index].include? k }
           raise ArgumentError, "invalid window selector: #{selector.inspect}"
         end
       end
     end
 
     def inspect
-      '#<%s:0x%x located=%s>' % [self.class, hash*2, !!@handle]
+      format('#<%s:0x%x located=%s>', self.class, hash * 2, !!@handle)
     end
 
     #
@@ -76,12 +76,12 @@ module Watir
     # @example
     #   browser.window.move_to 300, 200
     #
-    # @param [Integer] x
-    # @param [Integer] y
+    # @param [Integer] x_coord
+    # @param [Integer] y_coord
     #
 
-    def move_to(x, y)
-      point = Selenium::WebDriver::Point.new(Integer(x), Integer(y))
+    def move_to(x_coord, y_coord)
+      point = Selenium::WebDriver::Point.new(Integer(x_coord), Integer(y_coord))
       use { @driver.manage.window.position = point }
 
       point
@@ -110,9 +110,8 @@ module Watir
     rescue Exception::NoMatchingWindowFoundException
       false
     end
-
-    alias_method :present?, :exists?
-    alias_method :exist?, :exists?
+    alias present? exists?
+    alias exist? exists?
 
     #
     # Returns true if two windows are equal.
@@ -125,11 +124,11 @@ module Watir
     #
 
     def ==(other)
-      return false unless other.kind_of?(self.class)
+      return false unless other.is_a?(self.class)
 
       handle == other.handle
     end
-    alias_method :eql?, :==
+    alias eql? ==
 
     def hash
       handle.hash ^ self.class.hash
@@ -233,12 +232,12 @@ module Watir
     end
 
     def matches?(handle)
-      @driver.switch_to.window(handle) {
-        matches_title = @selector[:title].nil? || @selector[:title] === @driver.title
-        matches_url   = @selector[:url].nil? || @selector[:url] === @driver.current_url
+      @driver.switch_to.window(handle) do
+        matches_title = @selector[:title].nil? || @driver.title =~ /#{@selector[:title]}/
+        matches_url = @selector[:url].nil? || @driver.current_url =~ /#{@selector[:url]}/
 
         matches_title && matches_url
-      }
+      end
     rescue Selenium::WebDriver::Error::NoSuchWindowError, Selenium::WebDriver::Error::NoSuchDriverError
       # the window may disappear while we're iterating.
       false
@@ -252,6 +251,5 @@ module Watir
         raise Exception::NoMatchingWindowFoundException, @selector.inspect
       end
     end
-
   end # Window
 end # Watir

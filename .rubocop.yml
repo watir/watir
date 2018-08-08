@@ -1,0 +1,154 @@
+# Configuration parameters: CountComments, ExcludedMethods.
+# ExcludedMethods: refine
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+    - 'support/doctest_helper.rb'
+    - 'watir.gemspec'
+    - 'Rakefile'
+
+# Offense count: 144
+# Cop supports --auto-correct.
+# Configuration parameters: AllowAdjacentOneLineDefs, NumberOfEmptyLines.
+Layout/EmptyLineBetweenDefs:
+  Exclude:
+    - 'lib/watir/elements/html_elements.rb'
+    - 'lib/watir/elements/svg_elements.rb'
+
+## Configuration parameters: CountComments.
+Metrics/ModuleLength:
+  Exclude:
+    - 'lib/watir/elements/html_elements.rb'
+    - 'lib/watir/elements/svg_elements.rb'
+
+# Configuration parameters: CountComments.
+Metrics/MethodLength:
+  Max: 23
+
+# Configuration parameters: CountComments.
+Metrics/ClassLength:
+  Max: 135
+  Exclude:
+    - 'lib/watir/locators/element/locator.rb'
+    - 'lib/watir/elements/element.rb'
+
+Metrics/PerceivedComplexity:
+  Max: 11
+
+Metrics/CyclomaticComplexity:
+  Max: 10
+
+# Cop supports --auto-correct.
+# Configuration parameters: EnforcedStyle, ProceduralMethods, FunctionalMethods, IgnoredMethods.
+# SupportedStyles: line_count_based, semantic, braces_for_chaining
+# ProceduralMethods: benchmark, bm, bmbm, create, each_with_object, measure, new, realtime, tap, with_object
+# FunctionalMethods: let, let!, subject, watch
+# IgnoredMethods: lambda, proc, it
+Style/BlockDelimiters:
+  EnforcedStyle: braces_for_chaining
+
+# Offense count: 2
+# Cop supports --auto-correct.
+Layout/EmptyLines:
+  Exclude:
+    - 'lib/watir/elements/html_elements.rb'
+    - 'lib/watir/elements/svg_elements.rb'
+
+# Offense count: 2
+# Cop supports --auto-correct.
+# Configuration parameters: EnforcedStyle.
+# SupportedStyles: empty_lines, empty_lines_except_namespace, empty_lines_special, no_empty_lines
+Layout/EmptyLinesAroundModuleBody:
+  Exclude:
+    - 'lib/watir/elements/html_elements.rb'
+    - 'lib/watir/elements/svg_elements.rb'
+
+# Offense count: 85
+# Cop supports --auto-correct.
+# Configuration parameters: EnforcedStyle, EnforcedStyleForEmptyBraces.
+# SupportedStyles: space, no_space, compact
+# SupportedStylesForEmptyBraces: space, no_space
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
+
+# Offense count: 2
+Lint/DuplicateMethods:
+  Exclude:
+    - 'lib/watirspec.rb'
+
+# Offense count: 1
+Lint/HandleExceptions:
+  Exclude:
+    - 'lib/watirspec.rb'
+
+# Offense count: 28
+Metrics/AbcSize:
+  Max: 25
+  Exclude:
+    - 'lib/watir/locators/element/selector_builder.rb'
+    - 'lib/watir/generator/base/generator.rb'
+
+## TODO: fix with Watir 7
+## Configuration parameters: CountKeywordArgs.
+Metrics/ParameterLists:
+  Exclude:
+    - 'lib/watir/wait.rb'
+
+Style/CommentedKeyword:
+  Enabled: false
+
+Style/DoubleNegation:
+  Enabled: false
+
+## Configuration parameters: AllowedVariables.
+Style/GlobalVars:
+  AllowedVariables:
+    - $browser
+
+### Cop supports --auto-correct.
+### Configuration parameters: EnforcedStyle, ConsistentQuotesInMultiline.
+## SupportedStyles: single_quotes, double_quotes
+Style/StringLiterals:
+  Exclude:
+    - 'lib/watir/elements/html_elements.rb'
+    - 'lib/watir/elements/svg_elements.rb'
+
+Style/MethodCallWithoutArgsParentheses:
+  Enabled: false
+
+# TODO: I can't tell if this applies
+## Configuration parameters: EnforcedStyle.
+## SupportedStyles: annotated, template, unannotated
+Style/FormatStringToken:
+  Exclude:
+    - 'lib/watir/browser.rb'
+    - 'lib/watir/locators/text_field/selector_builder.rb'
+    - 'lib/watir/window.rb'
+
+# Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
+# URISchemes: http, https
+Metrics/LineLength:
+  Max: 121
+
+Style/Documentation:
+  Enabled: false
+
+# Cop supports --auto-correct.
+# Configuration parameters: EnforcedStyle.
+# SupportedStyles: when_needed, always, never
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# TODO: Investigate
+# Offense count: 2
+# Cop supports --auto-correct.
+Security/YAMLLoad:
+  Exclude:
+    - 'lib/watir/cookies.rb'
+    - 'spec/watirspec/cookies_spec.rb'
+
+# Offense count: 2
+Security/Open:
+  Exclude:
+    - 'Rakefile'
+    - 'lib/watir/generator/base/spec_extractor.rb'

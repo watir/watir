@@ -1,13 +1,12 @@
-require "watirspec_helper"
+require 'watirspec_helper'
 
-describe "FileField" do
-
+describe 'FileField' do
   before :each do
-    browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
+    browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
   end
 
-  describe "#exist?" do
-    it "returns true if the file field exists" do
+  describe '#exist?' do
+    it 'returns true if the file field exists' do
       expect(browser.file_field(id: 'new_user_portrait')).to exist
       expect(browser.file_field(id: /new_user_portrait/)).to exist
       expect(browser.file_field(name: 'new_user_portrait')).to exist
@@ -18,12 +17,12 @@ describe "FileField" do
       expect(browser.file_field(xpath: "//input[@id='new_user_portrait']")).to exist
     end
 
-    it "returns the first file field if given no args" do
+    it 'returns the first file field if given no args' do
       expect(browser.file_field).to exist
     end
 
-    it "returns true for element with upper case type" do
-      expect(browser.file_field(id: "new_user_resume")).to exist
+    it 'returns true for element with upper case type' do
+      expect(browser.file_field(id: 'new_user_resume')).to exist
     end
 
     it "returns false if the file field doesn't exist" do
@@ -44,9 +43,9 @@ describe "FileField" do
 
   # Attribute methods
 
-  describe "#class_name" do
-    it "returns the class attribute if the text field exists" do
-      expect(browser.file_field(index: 0).class_name).to eq "portrait"
+  describe '#class_name' do
+    it 'returns the class attribute if the text field exists' do
+      expect(browser.file_field(index: 0).class_name).to eq 'portrait'
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -54,9 +53,9 @@ describe "FileField" do
     end
   end
 
-  describe "#id" do
-    it "returns the id attribute if the text field exists" do
-      expect(browser.file_field(index: 0).id).to eq "new_user_portrait"
+  describe '#id' do
+    it 'returns the id attribute if the text field exists' do
+      expect(browser.file_field(index: 0).id).to eq 'new_user_portrait'
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -64,9 +63,9 @@ describe "FileField" do
     end
   end
 
-  describe "#name" do
-    it "returns the name attribute if the text field exists" do
-      expect(browser.file_field(index: 0).name).to eq "new_user_portrait"
+  describe '#name' do
+    it 'returns the name attribute if the text field exists' do
+      expect(browser.file_field(index: 0).name).to eq 'new_user_portrait'
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -74,15 +73,15 @@ describe "FileField" do
     end
   end
 
-  describe "#title" do
-    it "returns the title attribute if the text field exists" do
-      expect(browser.file_field(id: "new_user_portrait").title).to eq "Smile!"
+  describe '#title' do
+    it 'returns the title attribute if the text field exists' do
+      expect(browser.file_field(id: 'new_user_portrait').title).to eq 'Smile!'
     end
   end
 
-  describe "#type" do
-    it "returns the type attribute if the text field exists" do
-      expect(browser.file_field(index: 0).type).to eq "file"
+  describe '#type' do
+    it 'returns the type attribute if the text field exists' do
+      expect(browser.file_field(index: 0).type).to eq 'file'
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -90,8 +89,8 @@ describe "FileField" do
     end
   end
 
-  describe "#respond_to?" do
-    it "returns true for all attribute methods" do
+  describe '#respond_to?' do
+    it 'returns true for all attribute methods' do
       expect(browser.file_field(index: 0)).to respond_to(:class_name)
       expect(browser.file_field(index: 0)).to respond_to(:id)
       expect(browser.file_field(index: 0)).to respond_to(:name)
@@ -103,25 +102,25 @@ describe "FileField" do
 
   # Manipulation methods
 
-  describe "#set" do
+  describe '#set' do
     not_compliant_on :safari do
-      bug "https://github.com/mozilla/geckodriver/issues/858", :firefox do
-        it "is able to set a file path in the field and click the upload button and fire the onchange event" do
-          browser.goto WatirSpec.url_for("forms_with_input_elements.html")
+      bug 'https://github.com/mozilla/geckodriver/issues/858', :firefox do
+        it 'is able to set a file path in the field and click the upload button and fire the onchange event' do
+          browser.goto WatirSpec.url_for('forms_with_input_elements.html')
 
           path = File.expand_path(__FILE__)
-          element = browser.file_field(name: "new_user_portrait")
+          element = browser.file_field(name: 'new_user_portrait')
 
           element.set path
 
           expect(element.value).to include(File.basename(path)) # only some browser will return the full path
           expect(messages.first).to include(File.basename(path))
 
-          browser.button(name: "new_user_submit").click
+          browser.button(name: 'new_user_submit').click
         end
       end
 
-      it "raises an error if the file does not exist" do
+      it 'raises an error if the file does not exist' do
         expect {
           browser.file_field.set(File.join(Dir.tmpdir, 'unlikely-to-exist'))
         }.to raise_error(Errno::ENOENT)
@@ -130,13 +129,13 @@ describe "FileField" do
   end
 
   not_compliant_on :safari do
-    describe "#value=" do
-      bug "https://github.com/mozilla/geckodriver/issues/858", :firefox do
-        it "is able to set a file path in the field and click the upload button and fire the onchange event" do
-          browser.goto WatirSpec.url_for("forms_with_input_elements.html")
+    describe '#value=' do
+      bug 'https://github.com/mozilla/geckodriver/issues/858', :firefox do
+        it 'is able to set a file path in the field and click the upload button and fire the onchange event' do
+          browser.goto WatirSpec.url_for('forms_with_input_elements.html')
 
           path = File.expand_path(__FILE__)
-          element = browser.file_field(name: "new_user_portrait")
+          element = browser.file_field(name: 'new_user_portrait')
 
           element.value = path
           expect(element.value).to include(File.basename(path)) # only some browser will return the full path
@@ -144,27 +143,27 @@ describe "FileField" do
       end
 
       not_compliant_on :internet_explorer, :firefox, :chrome do
-        it "does not raise an error if the file does not exist" do
+        it 'does not raise an error if the file does not exist' do
           path = File.join(Dir.tmpdir, 'unlikely-to-exist')
           browser.file_field.value = path
 
           expected = path
-          expected.gsub!("/", "\\") if Selenium::WebDriver::Platform.windows?
+          expected.tr!('/', '\\') if Selenium::WebDriver::Platform.windows?
 
-          expect(browser.file_field.value).to include(File.basename(expected)) # only some browser will return the full path
+          # only some browser will return the full path
+          expect(browser.file_field.value).to include(File.basename(expected))
         end
       end
 
-      not_compliant_on :internet_explorer, %i(chrome windows) do
-        bug "Raises InvalidArgumentError: File not found", :firefox do
-          it "does not alter its argument" do
+      not_compliant_on :internet_explorer, %i[chrome windows] do
+        bug 'Raises InvalidArgumentError: File not found', :firefox do
+          it 'does not alter its argument' do
             value = File.expand_path '.travis.yml'
             browser.file_field.value = value
-            expect(value).to match /\.travis\.yml$/
+            expect(value).to match(/\.travis\.yml$/)
           end
         end
       end
     end
   end
-
 end

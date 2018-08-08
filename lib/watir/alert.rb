@@ -82,7 +82,7 @@ module Watir
     rescue Exception::UnknownObjectException
       false
     end
-    alias_method :present?, :exists?
+    alias present? exists?
 
     #
     # @api private
@@ -96,7 +96,7 @@ module Watir
 
     def assert_exists
       @alert = @browser.driver.switch_to.alert
-    rescue Selenium::WebDriver::Error::NoAlertPresentError, Selenium::WebDriver::Error::NoSuchAlertError
+    rescue Selenium::WebDriver::Error::NoSuchAlertError
       raise Exception::UnknownObjectException, 'unable to locate alert'
     end
 
@@ -104,17 +104,16 @@ module Watir
       return assert_exists unless Watir.relaxed_locate?
 
       begin
-        wait_until(message: "waiting for alert", &:exists?)
+        wait_until(message: 'waiting for alert', &:exists?)
       rescue Wait::TimeoutError
-        unless Watir.default_timeout == 0
-          message = "This code has slept for the duration of the default timeout "
-          message << "waiting for an Alert to exist. If the test is still passing, "
-          message << "consider using Alert#exists? instead of rescuing UnknownObjectException"
+        unless Watir.default_timeout.zero?
+          message = 'This code has slept for the duration of the default timeout '
+          message << 'waiting for an Alert to exist. If the test is still passing, '
+          message << 'consider using Alert#exists? instead of rescuing UnknownObjectException'
           Watir.logger.warn message, ids: [:wait_for_alert]
         end
         raise Exception::UnknownObjectException, 'unable to locate alert'
       end
     end
-
   end # Alert
 end # Watir

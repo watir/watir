@@ -13,17 +13,16 @@ require 'watir/js_snippets'
 require 'watir/container'
 require 'watir/cookies'
 require 'watir/capabilities'
+require 'watir/navigation'
 require 'watir/browser'
 require 'watir/screenshot'
 require 'watir/after_hooks'
 require 'watir/logger'
 
 module Watir
-
   @relaxed_locate = true
 
   class << self
-
     attr_writer :relaxed_locate, :always_locate, :default_timeout, :prefer_css
 
     #
@@ -46,12 +45,12 @@ module Watir
     end
 
     def always_locate_message
-      msg = <<-EOS.gsub("\n", " ")
-Watir#always_locate is deprecated; elements are always cached and will always
-be re-located if they go stale before use.
-Use Element#stale? or Element#wait_until(&:stale?) if needed for flow control.
-      EOS
-      Watir.logger.warn msg, ids: [:always_locate, :deprecations]
+      msg = <<~LOC_DEPR.tr("\n", ' ')
+        Watir#always_locate is deprecated; elements are always cached and will always
+        be re-located if they go stale before use.
+        Use Element#stale? or Element#wait_until(&:stale?) if needed for flow control.
+      LOC_DEPR
+      Watir.logger.warn msg, ids: %i[always_locate deprecations]
     end
 
     #
@@ -64,12 +63,12 @@ Use Element#stale? or Element#wait_until(&:stale?) if needed for flow control.
     end
 
     def prefer_css_message
-      msg = <<-EOS.gsub("\n", " ")
-Watir#prefer_css is deprecated; all elements that can not be passed directly
-as Selenium locators will be translated to XPath. To continue using CSS Selectors
-require the watir_css gem - https://github.com/watir/watir_css
-      EOS
-      Watir.logger.warn msg, ids: [:prefer_css, :deprecations]
+      msg = <<~CSS_DEPR.tr("\n", ' ')
+        Watir#prefer_css is deprecated; all elements that can not be passed directly
+        as Selenium locators will be translated to XPath. To continue using CSS Selectors
+        require the watir_css gem - https://github.com/watir/watir_css
+      CSS_DEPR
+      Watir.logger.warn msg, ids: %i[prefer_css deprecations]
     end
 
     #
@@ -106,7 +105,6 @@ require the watir_css gem - https://github.com/watir/watir_css
   def self.logger
     @logger ||= Watir::Logger.new
   end
-
 end
 require 'watir/locators'
 

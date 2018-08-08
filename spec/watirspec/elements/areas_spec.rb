@@ -1,31 +1,30 @@
-require "watirspec_helper"
+require 'watirspec_helper'
 
-describe "Areas" do
-
+describe 'Areas' do
   before :each do
-    browser.goto(WatirSpec.url_for("images.html"))
+    browser.goto(WatirSpec.url_for('images.html'))
   end
 
-  describe "with selectors" do
-    it "returns the matching elements" do
-      expect(browser.areas(alt: "Tables").to_a).to eq [browser.area(alt: "Tables")]
+  describe 'with selectors' do
+    it 'returns the matching elements' do
+      expect(browser.areas(alt: 'Tables').to_a).to eq [browser.area(alt: 'Tables')]
     end
   end
 
-  describe "#length" do
-    it "returns the number of areas" do
+  describe '#length' do
+    it 'returns the number of areas' do
       expect(browser.areas.length).to eq 3
     end
   end
 
-  describe "#[]" do
-    it "returns the area at the given index" do
-      expect(browser.areas[0].id).to eq("NCE")
+  describe '#[]' do
+    it 'returns the area at the given index' do
+      expect(browser.areas[0].id).to eq('NCE')
     end
   end
 
-  describe "#each" do
-    it "iterates through areas correctly" do
+  describe '#each' do
+    it 'iterates through areas correctly' do
       count = 0
 
       browser.areas.each_with_index do |a, index|
@@ -38,5 +37,4 @@ describe "Areas" do
       expect(count).to be > 0
     end
   end
-
 end

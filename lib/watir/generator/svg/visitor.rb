@@ -1,21 +1,21 @@
 module Watir
   module Generator
-    class SVG::Visitor < Base::Visitor
+    module SVG
+      class Visitor < Base::Visitor
+        def classify_regexp
+          /^SVG(.+)Element$/
+        end
 
-      def classify_regexp
-        /^SVG(.+)Element$/
-      end
+        private
 
-      private
+        def interface_regexp
+          /^SVG.*Element$/
+        end
 
-      def interface_regexp
-        /^SVG.*Element$/
-      end
-
-      def force_inheritance
-        { 'SVGElement' => 'HTMLElement' }
-      end
-
-    end # SVG::Visitor
+        def force_inheritance
+          {'SVGElement' => 'HTMLElement'}
+        end
+      end # Visitor
+    end # SVG
   end # Generator
 end # Watir

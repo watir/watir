@@ -3,22 +3,18 @@ module Watir
     class Row
       class SelectorBuilder < Element::SelectorBuilder
         def build_wd_selector(selectors)
-          return if selectors.values.any? { |e| e.kind_of? Regexp }
-          selectors.delete(:tag_name) || raise("internal error: no tag_name?!")
+          return if selectors.values.any? { |e| e.is_a? Regexp }
+          selectors.delete(:tag_name) || raise('internal error: no tag_name?!')
 
           tag_name = @query_scope.tag_name.downcase
           expressions = %w[./tr]
-          unless %w[tbody tfoot thead].include?(tag_name)
-            expressions += %w[./tbody/tr ./thead/tr ./tfoot/tr]
-          end
+          expressions += %w[./tbody/tr ./thead/tr ./tfoot/tr] unless %w[tbody tfoot thead].include?(tag_name)
 
           attr_expr = xpath_builder.attribute_expression(nil, selectors)
 
-          unless attr_expr.empty?
-            expressions.map! { |e| "#{e}[#{attr_expr}]" }
-          end
+          expressions.map! { |e| "#{e}[#{attr_expr}]" } unless attr_expr.empty?
 
-          xpath = expressions.join(" | ")
+          xpath = expressions.join(' | ')
 
           p build_wd_selector: xpath if $DEBUG
 

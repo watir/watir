@@ -1,6 +1,5 @@
 module WatirSpec
   module Guards
-
     class << self
       def guards
         @guards ||= Hash.new { |hash, key| hash[key] = [] }
@@ -12,13 +11,13 @@ module WatirSpec
 
       def report
         gs = WatirSpec.implementation.matching_guards_in(guards)
-        str= "WatirSpec guards for this implementation: \n"
+        str = "WatirSpec guards for this implementation: \n"
 
         if gs.empty?
           "\tnone."
         else
           gs.each do |guard|
-            guard[:data][:file] = guard[:data][:file][/\/spec\/(.*):/, 1]
+            guard[:data][:file] = guard[:data][:file][%r{\/spec\/(.*):}, 1]
             guard_name = "#{guard[:name]}:".ljust(15)
             str << " \t#{guard_name} #{guard[:data].inspect}\n"
           end
@@ -30,25 +29,25 @@ module WatirSpec
     private
 
     def deviates_on(*impls)
-      Guards.record :deviates, impls, file: caller.first
+      Guards.record :deviates, impls, file: caller(1..1).first
       return yield if WatirSpec.unguarded?
       yield if WatirSpec.implementation.matches_guard?(impls)
     end
 
     def not_compliant_on(*impls)
-      Guards.record :not_compliant, impls, file: caller.first
+      Guards.record :not_compliant, impls, file: caller(1..1).first
       return yield if WatirSpec.unguarded?
       yield unless WatirSpec.implementation.matches_guard?(impls)
     end
 
     def compliant_on(*impls)
-      Guards.record :compliant, impls, file: caller.first
+      Guards.record :compliant, impls, file: caller(1..1).first
       return yield if WatirSpec.unguarded?
       yield if WatirSpec.implementation.matches_guard?(impls)
     end
 
     def bug(key, *impls)
-      Guards.record :bug, impls, file: caller.first, key: key
+      Guards.record :bug, impls, file: caller(1..1).first, key: key
       return yield if WatirSpec.unguarded?
       yield if impls.any? && !WatirSpec.implementation.matches_guard?(impls)
     end

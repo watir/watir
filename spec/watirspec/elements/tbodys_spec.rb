@@ -1,39 +1,38 @@
-require "watirspec_helper"
+require 'watirspec_helper'
 
-describe "TableBodies" do
-
+describe 'TableBodies' do
   before :each do
-    browser.goto(WatirSpec.url_for("tables.html"))
+    browser.goto(WatirSpec.url_for('tables.html'))
   end
 
-  describe "with selectors" do
-    it "returns the matching elements" do
-      expect(browser.tbodys(id: "first").to_a).to eq [browser.tbody(id: "first")]
+  describe 'with selectors' do
+    it 'returns the matching elements' do
+      expect(browser.tbodys(id: 'first').to_a).to eq [browser.tbody(id: 'first')]
     end
   end
 
-  describe "#length" do
-    it "returns the correct number of table bodies (page context)" do
+  describe '#length' do
+    it 'returns the correct number of table bodies (page context)' do
       expect(browser.tbodys.length).to eq 5
     end
 
-    it "returns the correct number of table bodies (table context)" do
+    it 'returns the correct number of table bodies (table context)' do
       expect(browser.table(index: 0).tbodys.length).to eq 2
     end
   end
 
-  describe "#[]" do
-    it "returns the row at the given index (page context)" do
-      expect(browser.tbodys[0].id).to eq "first"
+  describe '#[]' do
+    it 'returns the row at the given index (page context)' do
+      expect(browser.tbodys[0].id).to eq 'first'
     end
 
-    it "returns the row at the given index (table context)" do
-      expect(browser.table(index: 0).tbodys[0].id).to eq "first"
+    it 'returns the row at the given index (table context)' do
+      expect(browser.table(index: 0).tbodys[0].id).to eq 'first'
     end
   end
 
-  describe "#each" do
-    it "iterates through table bodies correctly (table context)" do
+  describe '#each' do
+    it 'iterates through table bodies correctly (table context)' do
       count = 0
 
       browser.tbodys.each_with_index do |body, index|
@@ -45,7 +44,7 @@ describe "TableBodies" do
       expect(count).to be > 0
     end
 
-    it "iterates through table bodies correctly (table context)" do
+    it 'iterates through table bodies correctly (table context)' do
       table = browser.table(index: 0)
       count = 0
 
@@ -58,5 +57,4 @@ describe "TableBodies" do
       expect(count).to be > 0
     end
   end
-
 end

@@ -1,34 +1,34 @@
-require "watirspec_helper"
+require 'watirspec_helper'
 
-describe "SelectLists" do
-
+describe 'SelectLists' do
   before :each do
-    browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
+    browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
   end
 
-  describe "with selectors" do
-    it "returns the matching elements" do
-      expect(browser.select_lists(name: "delete_user_username").to_a).to eq [browser.select_list(name: "delete_user_username")]
+  describe 'with selectors' do
+    it 'returns the matching elements' do
+      expect(browser.select_lists(name: 'delete_user_username').to_a)
+        .to eq [browser.select_list(name: 'delete_user_username')]
     end
   end
 
-  describe "#length" do
-    it "returns the correct number of select lists on the page" do
+  describe '#length' do
+    it 'returns the correct number of select lists on the page' do
       expect(browser.select_lists.length).to eq 6
     end
   end
 
-  describe "#[]" do
-    it "returns the correct item" do
-      expect(browser.select_lists[0].value).to eq "2"
-      expect(browser.select_lists[0].name).to eq "new_user_country"
+  describe '#[]' do
+    it 'returns the correct item' do
+      expect(browser.select_lists[0].value).to eq '2'
+      expect(browser.select_lists[0].name).to eq 'new_user_country'
       expect(browser.select_lists[0]).to_not be_multiple
       expect(browser.select_lists[1]).to be_multiple
     end
   end
 
-  describe "#each" do
-    it "iterates through the select lists correctly" do
+  describe '#each' do
+    it 'iterates through the select lists correctly' do
       count = 0
 
       browser.select_lists.each_with_index do |l, index|
@@ -42,5 +42,4 @@ describe "SelectLists" do
       expect(count).to be > 0
     end
   end
-
 end

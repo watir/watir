@@ -5,24 +5,22 @@ module Watir
         attr_reader :selector_builder
         attr_reader :element_validator
 
-        W3C_FINDERS = [
-          :css,
-          :link,
-          :link_text,
-          :partial_link_text,
-          :tag_name,
-          :xpath
-        ]
+        W3C_FINDERS = %i[css
+                         link
+                         link_text
+                         partial_link_text
+                         tag_name
+                         xpath].freeze
 
         # Regular expressions that can be reliably converted to xpath `contains`
         # expressions in order to optimize the locator.
-        CONVERTABLE_REGEXP = %r{
+        CONVERTABLE_REGEXP = /
           \A
             ([^\[\]\\^$.|?*+()]*) # leading literal characters
             [^|]*?                # do not try to convert expressions with alternates
             ([^\[\]\\^$.|?*+()]*) # trailing literal characters
           \z
-        }x
+        /x
 
         def initialize(query_scope, selector, selector_builder, element_validator)
           @query_scope = query_scope # either element or browser
@@ -77,7 +75,7 @@ module Watir
               retries += 1
               sleep 0.5
               retry unless retries > 2
-              target = filter == :all ? "element collection" : "element"
+              target = filter == :all ? 'element collection' : 'element'
               raise StandardError, "Unable to locate #{target} from #{@selector} due to changing page"
             end
           else
@@ -86,7 +84,7 @@ module Watir
         end
 
         def validate(elements, tag_name)
-          elements.compact.all? { |element| element_validator.validate(element, {tag_name: tag_name}) }
+          elements.compact.all? { |element| element_validator.validate(element, tag_name: tag_name) }
         end
 
         def fetch_value(element, how)
@@ -102,7 +100,7 @@ module Watir
           when :href
             (href = element.attribute(:href)) && href.strip
           else
-            element.attribute(how.to_s.tr("_", "-").to_sym)
+            element.attribute(how.to_s.tr('_', '-').to_sym)
           end
         end
 
@@ -110,7 +108,7 @@ module Watir
           selector = @filter_selector.dup
           if filter == :first
             idx = selector.delete(:index) || 0
-            if idx < 0
+            if idx.negative?
               elements.reverse!
               idx = idx.abs - 1
             end
@@ -151,15 +149,12 @@ module Watir
           @filter_selector = {}
 
           # Remove selectors that can never be used in XPath builder
-          [:visible, :visible_text].each do |how|
+          %i[visible visible_text].each do |how|
             next unless @normalized_selector.key?(how)
             @filter_selector[how] = @normalized_selector.delete(how)
           end
 
-          if tag_validation_required?(@normalized_selector)
-            tag_name = @normalized_selector[:tag_name].is_a?(::Symbol) ? @normalized_selector[:tag_name].to_s : @normalized_selector[:tag_name]
-            @filter_selector[:tag_name] = tag_name
-          end
+          set_tag_validation if tag_validation_required?(@normalized_selector)
 
           # Regexp locators currently need to be validated even if they are included in the XPath builder
           # TODO: Identify Regexp that can have an exact equivalent using XPath contains (ie would not require
@@ -172,17 +167,26 @@ module Watir
           if @normalized_selector[:index] && !@normalized_selector[:adjacent]
             idx = @normalized_selector.delete(:index)
 
-            # Do not add {index: 0} filter if the only filter. This will allow using #find_element instead of #find_elements.
-            implicit_idx_filter = @filter_selector.empty? && idx == 0
+            # Do not add {index: 0} filter if the only filter.
+            # This will allow using #find_element instead of #find_elements.
+            implicit_idx_filter = @filter_selector.empty? && idx.zero?
             @filter_selector[:index] = idx unless implicit_idx_filter
           end
 
           @filter_selector
         end
 
+        def set_tag_validation
+          @filter_selector[:tag_name] = if @normalized_selector[:tag_name].is_a?(::Symbol)
+                                          @normalized_selector[:tag_name].to_s
+                                        else
+                                          @normalized_selector[:tag_name]
+                                        end
+        end
+
         def process_label(label_key)
-          regexp = @normalized_selector[label_key].kind_of?(Regexp)
-          return unless (regexp || label_key == :visible_label)  && selector_builder.should_use_label_element?
+          regexp = @normalized_selector[label_key].is_a?(Regexp)
+          return unless (regexp || label_key == :visible_label) && selector_builder.should_use_label_element?
 
           label = label_from_text(label_key)
           unless label # label not found, stop looking for element
@@ -210,19 +214,22 @@ module Watir
         def matches_selector?(element, selector)
           matches = selector.all? do |how, what|
             if how == :tag_name && what.is_a?(String)
-              element_validator.validate(element, {tag_name: what})
+              element_validator.validate(element, tag_name: what)
             else
-              what === fetch_value(element, how)
+              val = fetch_value(element, how)
+              what == val || val =~ /#{what}/
             end
           end
 
           if selector[:text]
-            text_content = Watir::Element.new(@query_scope, element: element).send(:execute_js, :getTextContent, element).strip
-            text_content_matches = selector[:text] === text_content
-            unless matches == text_content_matches
-              key = @selector.key?(:text) ? "text" : "label"
-              Watir.logger.deprecate("Using :#{key} locator with RegExp #{selector[:text].inspect} to match an element that includes hidden text", ":visible_#{key}",
-                  ids: [:text_regexp])
+            text_content = Watir::Element.new(@query_scope,
+                                              element: element).send(:execute_js, :getTextContent, element).strip
+            text_content_matches = text_content =~ /#{selector[:text]}/
+            unless matches == !!text_content_matches
+              key = @selector.key?(:text) ? 'text' : 'label'
+              deprecation = "Using :#{key} locator with RegExp #{selector[:text].inspect} to match an element " \
+                            'that includes hidden text'
+              Watir.logger.deprecate(deprecation,  ":visible_#{key}", ids: [:text_regexp])
             end
           end
 
@@ -237,20 +244,18 @@ module Watir
           return what unless can_convert_regexp_to_contains?
 
           @filter_selector.each do |key, value|
-            next if [:tag_name, :text, :visible_text, :visible, :index].include?(key)
+            next if %i[tag_name text visible_text visible index].include?(key)
 
             predicates = regexp_selector_to_predicates(key, value)
-            unless predicates.empty?
-              what = "(#{what})[#{predicates.join(' and ')}]"
-            end
+            what = "(#{what})[#{predicates.join(' and ')}]" unless predicates.empty?
           end
           what
         end
 
-        def regexp_selector_to_predicates(key, re)
-          return [] if re.casefold?
+        def regexp_selector_to_predicates(key, reg)
+          return [] if reg.casefold?
 
-          match = re.source.match(CONVERTABLE_REGEXP)
+          match = reg.source.match(CONVERTABLE_REGEXP)
           return [] unless match
 
           lhs = selector_builder.xpath_builder.lhs_for(nil, key)
@@ -277,7 +282,7 @@ module Watir
 
         def wd_supported?(how, what, tag)
           return false unless W3C_FINDERS.include? how
-          return false unless what.kind_of?(String)
+          return false unless what.is_a?(String)
           if %i[partial_link_text link_text link].include?(how)
             Watir.logger.deprecate(":#{how} locator", ':visible_text', ids: [:visible_text])
             return true if [:a, :link, nil].include?(tag)

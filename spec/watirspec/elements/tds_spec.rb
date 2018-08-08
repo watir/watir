@@ -1,14 +1,13 @@
-require "watirspec_helper"
+require 'watirspec_helper'
 
-describe "TableCells" do
-
+describe 'TableCells' do
   before :each do
-    browser.goto(WatirSpec.url_for("tables.html"))
+    browser.goto(WatirSpec.url_for('tables.html'))
   end
 
-  describe "with selectors" do
-    it "returns the matching elements" do
-      expect(browser.tds(headers: "before_tax").to_a).to eq [browser.td(headers: "before_tax")]
+  describe 'with selectors' do
+    it 'returns the matching elements' do
+      expect(browser.tds(headers: 'before_tax').to_a).to eq [browser.td(headers: 'before_tax')]
     end
   end
 
@@ -27,8 +26,8 @@ describe "TableCells" do
   #    end
   #  end
 
-  describe "#each" do
-    it "iterates through all cells on the page correctly" do
+  describe '#each' do
+    it 'iterates through all cells on the page correctly' do
       count = 0
 
       browser.tds.each_with_index do |c, index|
@@ -39,7 +38,7 @@ describe "TableCells" do
       expect(count).to be > 0
     end
 
-    it "iterates through cells inside a table" do
+    it 'iterates through cells inside a table' do
       count = 0
 
       inner_table = browser.table(id: 'inner')
@@ -48,6 +47,5 @@ describe "TableCells" do
         count += 1
       end
     end
-
   end
 end

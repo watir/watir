@@ -1,12 +1,12 @@
 if defined?(RSpec)
-  DEPRECATION_WARNINGS = [:selector_parameters,
-                          :class_array,
-                          :use_capabilities,
-                          :visible_text,
-                          :text_regexp,
-                          :stale_visible,
-                          :stale_present,
-                          :select_by].freeze
+  DEPRECATION_WARNINGS = %i[selector_parameters
+                            class_array
+                            use_capabilities
+                            visible_text
+                            text_regexp
+                            stale_visible
+                            stale_present
+                            select_by].freeze
 
   DEPRECATION_WARNINGS.each do |deprecation|
     RSpec::Matchers.define "have_deprecated_#{deprecation}" do
@@ -21,7 +21,7 @@ if defined?(RSpec)
       failure_message do |_actual|
         deprecations_found = @stdout_message[/WARN Watir \[DEPRECATION\] ([^.*\ ]*)/, 1]
         but_message = if deprecations_found.nil?
-                        "no Warnings were found"
+                        'no Warnings were found'
                       else
                         "deprecation Warning of #{deprecations_found} was found instead"
                       end
@@ -31,7 +31,6 @@ if defined?(RSpec)
       def supports_block_expectations?
         true
       end
-
     end
   end
 
@@ -54,8 +53,8 @@ if defined?(RSpec)
           actual.call
           false
         rescue exception => ex
-          raise exception, "expected '#{message}' to be included in: '#{ex.message}'" unless message.nil? || ex.message.match(message)
-          true
+          return true if message.nil? || ex.message.match(message)
+          raise exception, "expected '#{message}' to be included in: '#{ex.message}'"
         ensure
           Watir.default_timeout = original_timeout
         end
@@ -73,7 +72,7 @@ if defined?(RSpec)
 
   RSpec::Matchers.define :exist do |*args|
     match do |actual|
-      actual.exists? *args
+      actual.exists?(*args)
     end
 
     failure_message do |obj|

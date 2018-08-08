@@ -1,12 +1,11 @@
 module Watir
   module Generator
     class HTML < Base
-
       private
 
       def ignored_tags
         # ignore the link element for now
-        %w(link)
+        %w[link]
       end
 
       def ignored_interfaces
@@ -16,7 +15,7 @@ module Watir
       end
 
       def ignored_attributes
-        %w(cells elements hash rows span text size selected? style width height tHead tFoot)
+        %w[cells elements hash rows span text size selected? style width height tHead tFoot]
       end
 
       def generator_implementation
@@ -30,7 +29,6 @@ module Watir
       def extractor_class
         HTML::SpecExtractor
       end
-
     end # Generator
   end # HTML
 end # Watir

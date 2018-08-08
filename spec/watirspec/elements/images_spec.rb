@@ -1,31 +1,30 @@
-require "watirspec_helper"
+require 'watirspec_helper'
 
-describe "Images" do
-
+describe 'Images' do
   before :each do
-    browser.goto(WatirSpec.url_for("images.html"))
+    browser.goto(WatirSpec.url_for('images.html'))
   end
 
-  describe "with selectors" do
-    it "returns the matching elements" do
-      expect(browser.images(alt: "circle").to_a).to eq [browser.image(alt: "circle")]
+  describe 'with selectors' do
+    it 'returns the matching elements' do
+      expect(browser.images(alt: 'circle').to_a).to eq [browser.image(alt: 'circle')]
     end
   end
 
-  describe "#length" do
-    it "returns the number of images" do
+  describe '#length' do
+    it 'returns the number of images' do
       expect(browser.images.length).to eq 10
     end
   end
 
-  describe "#[]" do
-    it "returns the image at the given index" do
-      expect(browser.images[5].id).to eq "square"
+  describe '#[]' do
+    it 'returns the image at the given index' do
+      expect(browser.images[5].id).to eq 'square'
     end
   end
 
-  describe "#each" do
-    it "iterates through images correctly" do
+  describe '#each' do
+    it 'iterates through images correctly' do
       count = 0
 
       browser.images.each_with_index do |c, index|
@@ -36,5 +35,4 @@ describe "Images" do
       expect(count).to be > 0
     end
   end
-
 end

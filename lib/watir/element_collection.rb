@@ -1,5 +1,4 @@
 module Watir
-
   #
   # Base class for element collections.
   #
@@ -29,10 +28,9 @@ module Watir
       to_a.each(&blk)
     end
 
-    alias_method :length, :count
-    alias_method :size, :count
-
-    alias_method :empty?, :none?
+    alias length count
+    alias size count
+    alias empty? none?
 
     #
     # Get the element at the given index or range.
@@ -50,7 +48,7 @@ module Watir
       if value.is_a?(Range)
         to_a[value]
       elsif @selector.key? :adjacent
-        to_a[value] || element_class.new(@query_scope, {invalid_locator: true})
+        to_a[value] || element_class.new(@query_scope, invalid_locator: true)
       else
         element_class.new(@query_scope, @selector.merge(index: value))
       end
@@ -85,19 +83,19 @@ module Watir
     def to_a
       hash = {}
       @to_a ||=
-          elements.map.with_index do |e, idx|
-            element = element_class.new(@query_scope, @selector.merge(element: e, index: idx))
-            if [Watir::HTMLElement, Watir::Input].include? element.class
-              tag_name = element.tag_name.to_sym
-              hash[tag_name] ||= 0
-              hash[tag_name] += 1
-              Watir.element_class_for(tag_name).new(@query_scope, @selector.merge(element: e,
-                                                                                   tag_name: tag_name,
-                                                                                   index: hash[tag_name] - 1))
-            else
-              element
-            end
+        elements.map.with_index do |e, idx|
+          element = element_class.new(@query_scope, @selector.merge(element: e, index: idx))
+          if [Watir::HTMLElement, Watir::Input].include? element.class
+            tag_name = element.tag_name.to_sym
+            hash[tag_name] ||= 0
+            hash[tag_name] += 1
+            Watir.element_class_for(tag_name).new(@query_scope, @selector.merge(element: e,
+                                                                                tag_name: tag_name,
+                                                                                index: hash[tag_name] - 1))
+          else
+            element
           end
+        end
     end
 
     #
@@ -136,7 +134,7 @@ module Watir
     def ==(other)
       to_a == other.to_a
     end
-    alias_method :eql?, :==
+    alias eql? ==
 
     #
     # Creates a Collection containing elements of two collections.
@@ -156,6 +154,5 @@ module Watir
     def element_class
       Kernel.const_get(self.class.name.sub(/Collection$/, ''))
     end
-
   end # ElementCollection
 end # Watir

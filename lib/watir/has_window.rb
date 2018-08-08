@@ -1,6 +1,5 @@
 module Watir
   module HasWindow
-
     #
     # Returns browser windows array.
     #
@@ -55,14 +54,13 @@ module Watir
     private
 
     def filter_windows(selector, windows)
-      unless selector.keys.all? { |k| [:title, :url].include? k }
+      unless selector.keys.all? { |k| %i[title url].include? k }
         raise ArgumentError, "invalid window selector: #{selector.inspect}"
       end
 
       windows.select do |win|
-        selector.all? { |key, value| value === win.send(key) }
+        selector.all? { |key, value| win.send(key) =~ /#{value}/ }
       end
     end
-
   end # HasWindow
 end # Watir

@@ -1,41 +1,40 @@
-require "watirspec_helper"
+require 'watirspec_helper'
 
-describe "Ol" do
-
+describe 'Ol' do
   before :each do
-    browser.goto(WatirSpec.url_for("non_control_elements.html"))
+    browser.goto(WatirSpec.url_for('non_control_elements.html'))
   end
 
   # Exists method
-  describe "#exist?" do
+  describe '#exist?' do
     it "returns true if the 'ol' exists" do
-      expect(browser.ol(id: "favorite_compounds")).to exist
+      expect(browser.ol(id: 'favorite_compounds')).to exist
       expect(browser.ol(id: /favorite_compounds/)).to exist
       expect(browser.ol(index: 0)).to exist
       expect(browser.ol(xpath: "//ol[@id='favorite_compounds']")).to exist
     end
 
-    it "returns the first ol if given no args" do
+    it 'returns the first ol if given no args' do
       expect(browser.ol).to exist
     end
 
     it "returns false if the 'ol' doesn't exist" do
-      expect(browser.ol(id: "no_such_id")).to_not exist
+      expect(browser.ol(id: 'no_such_id')).to_not exist
       expect(browser.ol(id: /no_such_id/)).to_not exist
-      expect(browser.ol(text: "no_such_text")).to_not exist
+      expect(browser.ol(text: 'no_such_text')).to_not exist
       expect(browser.ol(text: /no_such_text/)).to_not exist
-      expect(browser.ol(class: "no_such_class")).to_not exist
+      expect(browser.ol(class: 'no_such_class')).to_not exist
       expect(browser.ol(class: /no_such_class/)).to_not exist
       expect(browser.ol(index: 1337)).to_not exist
       expect(browser.ol(xpath: "//ol[@id='no_such_id']")).to_not exist
     end
 
     it "returns false if the 'ol' doesn't exist" do
-      expect(browser.ol(id: "no_such_id")).to_not exist
+      expect(browser.ol(id: 'no_such_id')).to_not exist
       expect(browser.ol(id: /no_such_id/)).to_not exist
-      expect(browser.ol(text: "no_such_text")).to_not exist
+      expect(browser.ol(text: 'no_such_text')).to_not exist
       expect(browser.ol(text: /no_such_text/)).to_not exist
-      expect(browser.ol(class: "no_such_class")).to_not exist
+      expect(browser.ol(class: 'no_such_class')).to_not exist
       expect(browser.ol(class: /no_such_class/)).to_not exist
       expect(browser.ol(index: 1337)).to_not exist
       expect(browser.ol(xpath: "//ol[@id='no_such_id']")).to_not exist
@@ -47,8 +46,8 @@ describe "Ol" do
   end
 
   # Attribute methods
-  describe "#class_name" do
-    it "returns the class attribute" do
+  describe '#class_name' do
+    it 'returns the class attribute' do
       expect(browser.ol(id: 'favorite_compounds').class_name).to eq 'chemistry'
     end
 
@@ -61,9 +60,9 @@ describe "Ol" do
     end
   end
 
-  describe "#id" do
-    it "returns the id attribute" do
-      expect(browser.ol(class: 'chemistry').id).to eq "favorite_compounds"
+  describe '#id' do
+    it 'returns the id attribute' do
+      expect(browser.ol(class: 'chemistry').id).to eq 'favorite_compounds'
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
@@ -71,13 +70,13 @@ describe "Ol" do
     end
 
     it "raises UnknownObjectException if the ol doesn't exist" do
-      expect { browser.ol(id: "no_such_id").id }.to raise_unknown_object_exception
+      expect { browser.ol(id: 'no_such_id').id }.to raise_unknown_object_exception
       expect { browser.ol(index: 1337).id }.to raise_unknown_object_exception
     end
   end
 
-  describe "#respond_to?" do
-    it "returns true for all attribute methods" do
+  describe '#respond_to?' do
+    it 'returns true for all attribute methods' do
       expect(browser.ol(index: 0)).to respond_to(:class_name)
       expect(browser.ol(index: 0)).to respond_to(:id)
     end

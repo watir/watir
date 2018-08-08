@@ -1,5 +1,4 @@
 module Watir
-
   #
   # Base class for HTML elements.
   #
@@ -32,9 +31,7 @@ module Watir
     def initialize(query_scope, selector)
       @query_scope = query_scope
 
-      unless selector.kind_of? Hash
-        raise ArgumentError, "invalid argument: #{selector.inspect}"
-      end
+      raise ArgumentError, "invalid argument: #{selector.inspect}" unless selector.is_a? Hash
 
       @element = selector.delete(:element)
       @selector = selector
@@ -53,17 +50,17 @@ module Watir
     rescue UnknownObjectException, UnknownFrameException
       false
     end
-    alias_method :exist?, :exists?
+    alias exist? exists?
 
     def inspect
       string = "#<#{self.class}: "
       string << "keyword: #{keyword} " if keyword
       string << "located: #{!!@element}; "
-      if @selector.empty?
-        string << '{element: (selenium element)}'
-      else
-        string << selector_string
-      end
+      string << if @selector.empty?
+                  '{element: (selenium element)}'
+                else
+                  selector_string
+                end
       string << '>'
       string
     end
@@ -79,7 +76,7 @@ module Watir
     def ==(other)
       other.is_a?(self.class) && wd == other.wd
     end
-    alias_method :eql?, :==
+    alias eql? ==
 
     def hash
       @element ? @element.hash : super
@@ -176,7 +173,6 @@ module Watir
       browser.after_hooks.run
     end
 
-
     #
     # Right clicks the element.
     # Note that browser support may vary.
@@ -216,9 +212,9 @@ module Watir
       assert_is_element other
 
       value = element_call(:wait_for_present) do
-        driver.action.
-               drag_and_drop(@element, other.wd).
-               perform
+        driver.action
+              .drag_and_drop(@element, other.wd)
+              .perform
       end
       browser.after_hooks.run
       value
@@ -237,9 +233,9 @@ module Watir
 
     def drag_and_drop_by(right_by, down_by)
       element_call(:wait_for_present) do
-        driver.action.
-               drag_and_drop_by(@element, right_by, down_by).
-               perform
+        driver.action
+              .drag_and_drop_by(@element, right_by, down_by)
+              .perform
       end
     end
 
@@ -270,7 +266,7 @@ module Watir
       attribute_name = attribute_name.to_s.tr('_', '-') if attribute_name.is_a?(::Symbol)
       element_call { @element.attribute attribute_name }
     end
-    alias_method :attribute, :attribute_value
+    alias attribute attribute_value
 
     #
     # Sends sequence of keystrokes to element.
@@ -372,10 +368,10 @@ module Watir
     def center
       point = location
       dimensions = size
-      Selenium::WebDriver::Point.new(point.x + (dimensions['width']/2),
-                                     point.y + (dimensions['height']/2))
+      Selenium::WebDriver::Point.new(point.x + (dimensions['width'] / 2),
+                                     point.y + (dimensions['height'] / 2))
     end
-    alias_method :centre, :center
+    alias centre center
 
     #
     # @api private
@@ -403,12 +399,14 @@ module Watir
     #
 
     def visible?
-      Watir.logger.warn "#visible? behavior will be changing slightly, consider switching to #present? (more details: http://watir.com/element-existentialism/)",
-                             ids: [:visible_element]
+      warning = '#visible? behavior will be changing slightly, consider switching to #present? ' \
+                '(more details: http://watir.com/element-existentialism/)'
+      Watir.logger.warn warning,
+                        ids: [:visible_element]
       assert_exists
       @element.displayed?
     rescue Selenium::WebDriver::Error::StaleElementReferenceError
-      Watir.logger.deprecate "Checking `#visible? == false` to determine a stale element", "`#stale? == true`",
+      Watir.logger.deprecate 'Checking `#visible? == false` to determine a stale element', '`#stale? == true`',
                              ids: [:stale_visible]
       reset!
       raise unknown_exception
@@ -437,7 +435,7 @@ module Watir
       assert_exists
       @element.displayed?
     rescue Selenium::WebDriver::Error::StaleElementReferenceError
-      Watir.logger.deprecate "Checking `#present? == false` to determine a stale element", "`#stale? == true`",
+      Watir.logger.deprecate 'Checking `#present? == false` to determine a stale element', '`#stale? == true`',
                              ids: [:stale_present]
       reset!
       false
@@ -460,7 +458,7 @@ module Watir
       if property
         element_call { @element.style property }
       else
-        attribute_value("style").to_s.strip
+        attribute_value('style').to_s.strip
       end
     end
 
@@ -474,16 +472,16 @@ module Watir
 
     def to_subtype
       tag = tag_name()
-      klass = if tag == "input"
+      klass = if tag == 'input'
                 case attribute_value(:type)
-                when *Button::VALID_TYPES
-                  Button
                 when 'checkbox'
                   CheckBox
                 when 'radio'
                   Radio
                 when 'file'
                   FileField
+                when *Button::VALID_TYPES
+                  Button
                 else
                   TextField
                 end
@@ -512,7 +510,7 @@ module Watir
     #
 
     def stale?
-      raise Watir::Exception::Error, "Can not check staleness of unused element" unless @element
+      raise Watir::Exception::Error, 'Can not check staleness of unused element' unless @element
       return false unless stale_in_context?
       @query_scope.ensure_context
       stale_in_context?
@@ -552,7 +550,8 @@ module Watir
         @query_scope.wait_for_present unless @query_scope.is_a? Browser
         wait_until_present
       rescue Watir::Wait::TimeoutError
-        msg = "element located, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to be present"
+        msg = "element located, but timed out after #{Watir.default_timeout} seconds, " \
+              "waiting for #{inspect} to be present"
         raise unknown_exception, msg
       end
     end
@@ -561,7 +560,7 @@ module Watir
       return assert_enabled unless Watir.relaxed_locate?
 
       wait_for_exists
-      return if [Input, Button, Select, Option].none? { |c| self.is_a? c }
+      return if [Input, Button, Select, Option].none? { |c| is_a? c }
 
       begin
         wait_until(&:enabled?)
@@ -580,8 +579,9 @@ module Watir
       begin
         wait_until { !respond_to?(:readonly?) || !readonly? }
       rescue Watir::Wait::TimeoutError
-        message = "element present and enabled, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to not be readonly"
-        raise ObjectReadOnlyException, message
+        msg = "element present and enabled, but timed out after #{Watir.default_timeout} seconds, " \
+              "waiting for #{inspect} to not be readonly"
+        raise ObjectReadOnlyException, msg
       end
     end
 
@@ -614,17 +614,21 @@ module Watir
     end
 
     def raise_writable
-      message = "element present and enabled, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to not be readonly"
+      message = "element present and enabled, but timed out after #{Watir.default_timeout} seconds, " \
+                "waiting for #{inspect} to not be readonly"
       raise ObjectReadOnlyException, message
     end
 
     def raise_disabled
-      message = "element present, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to be enabled"
+      message = "element present, but timed out after #{Watir.default_timeout} seconds, " \
+                "waiting for #{inspect} to be enabled"
       raise ObjectDisabledException, message
     end
 
     def raise_present
-      raise unknown_exception, "element located, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to be present"
+      message = "element located, but timed out after #{Watir.default_timeout} seconds, " \
+                               "waiting for #{inspect} to be present"
+      raise unknown_exception, message
     end
 
     def element_class
@@ -636,56 +640,61 @@ module Watir
     end
 
     def assert_enabled
-      unless element_call { @element.enabled? }
-        raise ObjectDisabledException, "object is disabled #{inspect}"
-      end
+      return if element_call { @element.enabled? }
+      raise ObjectDisabledException, "object is disabled #{inspect}"
     end
 
     def assert_is_element(obj)
-      unless obj.kind_of? Watir::Element
-        raise TypeError, "execpted Watir::Element, got #{obj.inspect}:#{obj.class}"
-      end
+      return if obj.is_a? Watir::Element
+      raise TypeError, "execpted Watir::Element, got #{obj.inspect}:#{obj.class}"
     end
 
+    # TODO: - this will get addressed with Watir::Executor implementation
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/PerceivedComplexity
+    # rubocop:disable Metrics/CyclomaticComplexity:
     def element_call(precondition = nil, &block)
       caller = caller_locations(1, 1)[0].label
       already_locked = Wait.timer.locked?
-      unless already_locked
-        Wait.timer = Wait::Timer.new(timeout: Watir.default_timeout)
-      end
+      Wait.timer = Wait::Timer.new(timeout: Watir.default_timeout) unless already_locked
 
       begin
         check_condition(precondition)
         Watir.logger.info "-> `Executing #{inspect}##{caller}`"
         yield
       rescue unknown_exception => ex
-        if precondition.nil?
-          element_call(:wait_for_exists, &block)
-        end
+        element_call(:wait_for_exists, &block) if precondition.nil?
         msg = ex.message
-        msg += "; Maybe look in an iframe?" if @query_scope.ensure_context && @query_scope.iframes.count > 0
+        msg += '; Maybe look in an iframe?' if @query_scope.ensure_context && @query_scope.iframes.count.positive?
         custom_attributes = @locator.nil? ? [] : @locator.selector_builder.custom_attributes
-        msg += "; Watir treated #{custom_attributes} as a non-HTML compliant attribute, ensure that was intended" unless custom_attributes.empty?
+        unless custom_attributes.empty?
+          msg += "; Watir treated #{custom_attributes} as a non-HTML compliant attribute, ensure that was intended"
+        end
         raise unknown_exception, msg
       rescue Selenium::WebDriver::Error::StaleElementReferenceError
         @query_scope.ensure_context
         reset!
         retry
       rescue Selenium::WebDriver::Error::ElementNotVisibleError, Selenium::WebDriver::Error::ElementNotInteractableError
-        raise_present unless Wait.timer.remaining_time > 0
+        raise_present unless Wait.timer.remaining_time.positive?
         raise_present unless %i[wait_for_present wait_for_enabled wait_for_writable].include?(precondition)
         retry
       rescue Selenium::WebDriver::Error::InvalidElementStateError
-        raise_disabled unless Wait.timer.remaining_time > 0
+        raise_disabled unless Wait.timer.remaining_time.positive?
         raise_disabled unless %i[wait_for_present wait_for_enabled wait_for_writable].include?(precondition)
         retry
       rescue Selenium::WebDriver::Error::NoSuchWindowError
-        raise Exception::NoMatchingWindowFoundException, "browser window was closed"
+        raise Exception::NoMatchingWindowFoundException, 'browser window was closed'
       ensure
         Watir.logger.info "<- `Completed #{inspect}##{caller}`"
         Wait.timer.reset! unless already_locked
       end
     end
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/PerceivedComplexity
+    # rubocop:enable Metrics/CyclomaticComplexity:
 
     def check_condition(condition)
       Watir.logger.info "<- `Verifying precondition #{inspect}##{condition}`"
@@ -709,8 +718,7 @@ module Watir
     end
 
     def respond_to_missing?(meth, *)
-      Locators::Element::SelectorBuilder::WILDCARD_ATTRIBUTE === meth.to_s || super
+      meth.to_s =~ Locators::Element::SelectorBuilder::WILDCARD_ATTRIBUTE || super
     end
-
   end # Element
 end # Watir

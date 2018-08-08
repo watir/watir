@@ -1,31 +1,30 @@
-require "watirspec_helper"
+require 'watirspec_helper'
 
-describe "Dts" do
-
+describe 'Dts' do
   before :each do
-    browser.goto(WatirSpec.url_for("definition_lists.html"))
+    browser.goto(WatirSpec.url_for('definition_lists.html'))
   end
 
-  describe "with selectors" do
-    it "returns the matching elements" do
-      expect(browser.dts(class: "current-industry").to_a).to eq [browser.dt(class: "current-industry")]
+  describe 'with selectors' do
+    it 'returns the matching elements' do
+      expect(browser.dts(class: 'current-industry').to_a).to eq [browser.dt(class: 'current-industry')]
     end
   end
 
-  describe "#length" do
-    it "returns the number of dts" do
+  describe '#length' do
+    it 'returns the number of dts' do
       expect(browser.dts.length).to eq 11
     end
   end
 
-  describe "#[]" do
-    it "returns the dt at the given index" do
-      expect(browser.dts[0].id).to eq "experience"
+  describe '#[]' do
+    it 'returns the dt at the given index' do
+      expect(browser.dts[0].id).to eq 'experience'
     end
   end
 
-  describe "#each" do
-    it "iterates through dts correctly" do
+  describe '#each' do
+    it 'iterates through dts correctly' do
       count = 0
 
       browser.dts.each_with_index do |d, index|
@@ -38,5 +37,4 @@ describe "Dts" do
       expect(count).to be > 0
     end
   end
-
 end

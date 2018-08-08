@@ -1,6 +1,5 @@
 module Watir
   module JSExecution
-
     #
     # Delegates script execution to Browser or IFrame.
     #
@@ -50,14 +49,14 @@ module Watir
 
     def flash(preset = :default, color: 'red', flashes: 10, delay: 0.1)
       presets = {
-          fast: { delay: 0.04 },
-          slow: { delay: 0.2 },
-          long: { flashes: 5, delay: 0.5 },
-          rainbow: { flashes: 5, color: %w(red orange yellow green blue indigo violet) }
+        fast: {delay: 0.04},
+        slow: {delay: 0.2},
+        long: {flashes: 5, delay: 0.5},
+        rainbow: {flashes: 5, color: %w[red orange yellow green blue indigo violet]}
       }
-      return self.flash(presets[preset]) unless presets[preset].nil?
+      return flash(presets[preset]) unless presets[preset].nil?
 
-      background_color = original_color = style("background-color")
+      background_color = original_color = style('background-color')
       background_color = 'white' if background_color.empty?
       colors = Array(color).push(background_color)
 
@@ -123,7 +122,7 @@ module Watir
     def outer_html
       element_call { execute_js(:getOuterHtml, @element) }.strip
     end
-    alias_method :html, :outer_html
+    alias html outer_html
 
     #
     # Returns text content of element.
@@ -149,6 +148,5 @@ module Watir
     def select_text(str)
       element_call { execute_js :selectText, @element, str }
     end
-
   end # JSExecution
 end # Watir

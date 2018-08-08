@@ -1,9 +1,9 @@
-require "watirspec_helper"
+require 'watirspec_helper'
 
 not_compliant_on :headless do
   describe 'Alert API' do
     before do
-      browser.goto WatirSpec.url_for("alerts.html")
+      browser.goto WatirSpec.url_for('alerts.html')
     end
 
     after do
@@ -23,7 +23,7 @@ not_compliant_on :headless do
           expect(browser.alert).to_not exist
         end
 
-        bug "Alert exception not thrown, so Browser#inspect hangs", :safari do
+        bug 'Alert exception not thrown, so Browser#inspect hangs', :safari do
           it 'returns true if alert is present' do
             browser.button(id: 'alert').click
             browser.wait_until(timeout: 10) { browser.alert.exists? }
@@ -41,7 +41,7 @@ not_compliant_on :headless do
         end
       end
 
-      bug "https://code.google.com/p/chromedriver/issues/detail?id=26", [:chrome, :macosx] do
+      bug 'https://code.google.com/p/chromedriver/issues/detail?id=26', [:chrome, :macosx] do
         not_compliant_on :safari do
           describe '#close' do
             it 'closes alert' do
@@ -74,7 +74,7 @@ not_compliant_on :headless do
         it 'accepts confirm' do
           browser.button(id: 'confirm').click
           browser.alert.ok
-          expect(browser.button(id: 'confirm').value).to eq "true"
+          expect(browser.button(id: 'confirm').value).to eq 'true'
         end
       end
 
@@ -82,7 +82,7 @@ not_compliant_on :headless do
         it 'cancels confirm' do
           browser.button(id: 'confirm').click
           browser.alert.close
-          expect(browser.button(id: 'confirm').value).to eq "false"
+          expect(browser.button(id: 'confirm').value).to eq 'false'
         end
       end
     end

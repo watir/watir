@@ -27,7 +27,7 @@ module Watir
 
     def hashes
       all_rows = rows.locate
-      header_row = all_rows.first || raise(Exception::Error, "no rows in table")
+      header_row = all_rows.first || raise(Exception::Error, 'no rows in table')
 
       all_rows.entries[1..-1].map do |row|
         cell_size_check(header_row, row)
@@ -71,6 +71,5 @@ module Watir
       row_id = index ? "row at index #{index - 1}" : 'designated row'
       raise Exception::Error, "#{row_id} has #{row_size} cells, while header row has #{header_size}"
     end
-
   end # Table
 end # Watir

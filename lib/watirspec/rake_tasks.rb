@@ -16,7 +16,7 @@ module WatirSpec
         end
 
         desc 'Run WatirSpec examples'
-        task :run, %i(spec line) do |_, args|
+        task :run, %i[spec line] do |_, args|
           run(args)
         end
       end
@@ -43,7 +43,7 @@ module WatirSpec
 
     def run(**args)
       return if system(rspec_command(args))
-      exit $?.exitstatus || 1
+      exit $CHILD_STATUS.exitstatus || 1
     end
 
     def rspec_command(**args)
@@ -74,42 +74,42 @@ module WatirSpec
     end
 
     def watirspec_helper_template
-      <<-RUBY
-require 'watirspec'
-# require your gems
+      <<~RUBY
+        require 'watirspec'
+        # require your gems
 
-WatirSpec.implementation do |watirspec|
-  # add WatirSpec implementation (see example below)
-  #
-  # watirspec.name = :watizzle
-  # watirspec.browser_class = Watir::Browser
-  # watirspec.browser_args = [:firefox, {}]
-  # watirspec.guard_proc = lambda do |args|
-  #   args.include?(:firefox)
-  # end
-end
+        WatirSpec.implementation do |watirspec|
+          # add WatirSpec implementation (see example below)
+          #
+          # watirspec.name = :watizzle
+          # watirspec.browser_class = Watir::Browser
+          # watirspec.browser_args = [:firefox, {}]
+          # watirspec.guard_proc = lambda do |args|
+          #   args.include?(:firefox)
+          # end
+        end
 
-WatirSpec.run!
+        WatirSpec.run!
       RUBY
     end
 
     def print_usage
-      p <<-EOS
-File spec/watirspec_helper.rb is successfully created!
-Please, check it and customize for your needs. Once done, you can start using WatirSpec.
+      p <<~USAGE
+        File spec/watirspec_helper.rb is successfully created!
+        Please, check it and customize for your needs. Once done, you can start using WatirSpec.
 
-Run all WatirSpec examples:
-  $ bundle exec rake watirspec:run
+        Run all WatirSpec examples:
+          $ bundle exec rake watirspec:run
 
-Run specific WatirSpec example:
-  $ bundle exec rake watirspec:run[elements/div]
+        Run specific WatirSpec example:
+          $ bundle exec rake watirspec:run[elements/div]
 
-Run WatirSpec example on a custom line:
-  $ bundle exec rake watirspec:run[elements/div, 50]
+        Run WatirSpec example on a custom line:
+          $ bundle exec rake watirspec:run[elements/div, 50]
 
-List all WatirSpec examples:
-  $ bundle exec rake watirspec:list
-      EOS
+        List all WatirSpec examples:
+          $ bundle exec rake watirspec:list
+      USAGE
     end
   end
 end

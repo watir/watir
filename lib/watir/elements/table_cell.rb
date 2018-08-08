@@ -1,6 +1,5 @@
 module Watir
   class TableCell < HTMLElement
-
     def column_header
       current_row = parent(tag_name: 'tr')
       header_row(current_row, index: previous_siblings.size).text
@@ -17,13 +16,13 @@ module Watir
     private
 
     def header_row(current_row, opt)
-      table = self.parent(tag_name: 'table')
+      table = parent(tag_name: 'table')
       header_row = table.tr
 
       table.cell_size_check(header_row, current_row)
 
       header_type = table.th.exist? ? 'th' : 'tr'
-      opt.merge!(tag_name: header_type)
+      opt[:tag_name] = header_type
 
       Watir.tag_to_class[header_type.to_sym].new(header_row, opt)
     end

@@ -1,34 +1,33 @@
-require "watirspec_helper"
+require 'watirspec_helper'
 
-describe "Li" do
-
+describe 'Li' do
   before :each do
-    browser.goto(WatirSpec.url_for("non_control_elements.html"))
+    browser.goto(WatirSpec.url_for('non_control_elements.html'))
   end
 
   # Exists method
-  describe "#exist?" do
+  describe '#exist?' do
     it "returns true if the 'li' exists" do
-      expect(browser.li(id: "non_link_1")).to exist
+      expect(browser.li(id: 'non_link_1')).to exist
       expect(browser.li(id: /non_link_1/)).to exist
-      expect(browser.li(text: "Non-link 3")).to exist
+      expect(browser.li(text: 'Non-link 3')).to exist
       expect(browser.li(text: /Non-link 3/)).to exist
-      expect(browser.li(class: "nonlink")).to exist
+      expect(browser.li(class: 'nonlink')).to exist
       expect(browser.li(class: /nonlink/)).to exist
       expect(browser.li(index: 0)).to exist
       expect(browser.li(xpath: "//li[@id='non_link_1']")).to exist
     end
 
-    it "returns the first element if given no args" do
+    it 'returns the first element if given no args' do
       expect(browser.li).to exist
     end
 
     it "returns false if the 'li' doesn't exist" do
-      expect(browser.li(id: "no_such_id")).to_not exist
+      expect(browser.li(id: 'no_such_id')).to_not exist
       expect(browser.li(id: /no_such_id/)).to_not exist
-      expect(browser.li(text: "no_such_text")).to_not exist
+      expect(browser.li(text: 'no_such_text')).to_not exist
       expect(browser.li(text: /no_such_text/)).to_not exist
-      expect(browser.li(class: "no_such_class")).to_not exist
+      expect(browser.li(class: 'no_such_class')).to_not exist
       expect(browser.li(class: /no_such_class/)).to_not exist
       expect(browser.li(index: 1337)).to_not exist
       expect(browser.li(xpath: "//li[@id='no_such_id']")).to_not exist
@@ -40,8 +39,8 @@ describe "Li" do
   end
 
   # Attribute methods
-  describe "#class_name" do
-    it "returns the class attribute" do
+  describe '#class_name' do
+    it 'returns the class attribute' do
       expect(browser.li(id: 'non_link_1').class_name).to eq 'nonlink'
     end
 
@@ -54,9 +53,9 @@ describe "Li" do
     end
   end
 
-  describe "#id" do
-    it "returns the id attribute" do
-      expect(browser.li(class: 'nonlink').id).to eq "non_link_1"
+  describe '#id' do
+    it 'returns the id attribute' do
+      expect(browser.li(class: 'nonlink').id).to eq 'non_link_1'
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do
@@ -64,13 +63,13 @@ describe "Li" do
     end
 
     it "raises UnknownObjectException if the li doesn't exist" do
-      expect { browser.li(id: "no_such_id").id }.to raise_unknown_object_exception
+      expect { browser.li(id: 'no_such_id').id }.to raise_unknown_object_exception
       expect { browser.li(index: 1337).id }.to raise_unknown_object_exception
     end
   end
 
-  describe "#title" do
-    it "returns the title attribute" do
+  describe '#title' do
+    it 'returns the title attribute' do
       expect(browser.li(id: 'non_link_1').title).to eq 'This is not a link!'
     end
 
@@ -84,8 +83,8 @@ describe "Li" do
     end
   end
 
-  describe "#text" do
-    it "returns the text of the li" do
+  describe '#text' do
+    it 'returns the text of the li' do
       expect(browser.li(id: 'non_link_1').text).to eq 'Non-link 1'
     end
 
@@ -99,13 +98,12 @@ describe "Li" do
     end
   end
 
-  describe "#respond_to?" do
-    it "returns true for all attribute methods" do
+  describe '#respond_to?' do
+    it 'returns true for all attribute methods' do
       expect(browser.li(index: 0)).to respond_to(:class_name)
       expect(browser.li(index: 0)).to respond_to(:id)
       expect(browser.li(index: 0)).to respond_to(:text)
       expect(browser.li(index: 0)).to respond_to(:title)
     end
   end
-
 end

@@ -1,31 +1,30 @@
-require "watirspec_helper"
+require 'watirspec_helper'
 
-describe "CheckBoxes" do
-
+describe 'CheckBoxes' do
   before :each do
-    browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
+    browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
   end
 
-  describe "with selectors" do
-    it "returns the matching elements" do
-      expect(browser.checkboxes(value: "books").to_a).to eq [browser.checkbox(value: "books")]
+  describe 'with selectors' do
+    it 'returns the matching elements' do
+      expect(browser.checkboxes(value: 'books').to_a).to eq [browser.checkbox(value: 'books')]
     end
   end
 
-  describe "#length" do
-    it "returns the number of checkboxes" do
+  describe '#length' do
+    it 'returns the number of checkboxes' do
       expect(browser.checkboxes.length).to eq 8
     end
   end
 
-  describe "#[]" do
-    it "returns the checkbox at the given index" do
-      expect(browser.checkboxes[0].id).to eq "new_user_interests_books"
+  describe '#[]' do
+    it 'returns the checkbox at the given index' do
+      expect(browser.checkboxes[0].id).to eq 'new_user_interests_books'
     end
   end
 
-  describe "#each" do
-    it "iterates through checkboxes correctly" do
+  describe '#each' do
+    it 'iterates through checkboxes correctly' do
       count = 0
 
       browser.checkboxes.each_with_index do |c, index|
@@ -40,5 +39,4 @@ describe "CheckBoxes" do
       expect(count).to be > 0
     end
   end
-
 end

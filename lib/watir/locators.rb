@@ -27,23 +27,23 @@ module Watir
     module ClassHelpers
       def locator_class
         class_from_string("#{browser.locator_namespace}::#{element_class_name}::Locator") ||
-            class_from_string("Watir::Locators::#{element_class_name}::Locator") ||
-            class_from_string("#{browser.locator_namespace}::Element::Locator") ||
-            Watir::Locators::Element::Locator
+          class_from_string("Watir::Locators::#{element_class_name}::Locator") ||
+          class_from_string("#{browser.locator_namespace}::Element::Locator") ||
+          Watir::Locators::Element::Locator
       end
 
       def element_validator_class
         class_from_string("#{browser.locator_namespace}::#{element_class_name}::Validator") ||
-            class_from_string("Watir::Locators::#{element_class_name}::Validator") ||
-            class_from_string("#{browser.locator_namespace}::Element::Validator") ||
-            Watir::Locators::Element::Validator
+          class_from_string("Watir::Locators::#{element_class_name}::Validator") ||
+          class_from_string("#{browser.locator_namespace}::Element::Validator") ||
+          Watir::Locators::Element::Validator
       end
 
       def selector_builder_class
         class_from_string("#{browser.locator_namespace}::#{element_class_name}::SelectorBuilder") ||
-            class_from_string("Watir::Locators::#{element_class_name}::SelectorBuilder") ||
-            class_from_string("#{browser.locator_namespace}::Element::SelectorBuilder") ||
-            Watir::Locators::Element::SelectorBuilder
+          class_from_string("Watir::Locators::#{element_class_name}::SelectorBuilder") ||
+          class_from_string("#{browser.locator_namespace}::Element::SelectorBuilder") ||
+          Watir::Locators::Element::SelectorBuilder
       end
 
       def class_from_string(string)

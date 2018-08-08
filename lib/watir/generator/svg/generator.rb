@@ -1,7 +1,6 @@
 module Watir
   module Generator
     class SVG < Base
-
       private
 
       # fix collisions with HTML
@@ -10,7 +9,7 @@ module Watir
       # are inherited from HTML ones
 
       def ignored_tags
-        %w(a audio canvas iframe image script source style text title track video unknown)
+        %w[a audio canvas iframe image script source style text title track video unknown]
       end
 
       def ignored_interfaces
@@ -32,7 +31,6 @@ module Watir
       def extractor_class
         SVG::SpecExtractor
       end
-
     end # SVG
   end # Generator
 end # Watir

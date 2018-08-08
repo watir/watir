@@ -3,7 +3,7 @@ module Watir
     class TextField
       class SelectorBuilder < Element::SelectorBuilder
         def build_wd_selector(selectors)
-          return if selectors.values.any? { |e| e.kind_of? Regexp }
+          return if selectors.values.any? { |e| e.is_a? Regexp }
 
           selectors.delete(:tag_name)
 
@@ -11,7 +11,7 @@ module Watir
 
           xpath = ".//input[(not(@type) or (#{negative_type_expr}))"
           xpath << " and #{input_attr_exp}" unless input_attr_exp.empty?
-          xpath << "]"
+          xpath << ']'
 
           p build_wd_selector: xpath if $DEBUG
 
@@ -21,9 +21,9 @@ module Watir
         private
 
         def negative_type_expr
-          Watir::TextField::NON_TEXT_TYPES.map do |type|
-            "%s!=%s" % [XpathSupport.downcase('@type'), type.inspect]
-          end.join(' and ')
+          Watir::TextField::NON_TEXT_TYPES.map { |type|
+            format('%s!=%s', XpathSupport.downcase('@type'), type.inspect)
+          }.join(' and ')
         end
       end
     end

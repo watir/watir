@@ -1,6 +1,5 @@
 module Watir
   class IFrame < HTMLElement
-
     def locate
       return if @selector.empty?
       @query_scope.ensure_context
@@ -11,7 +10,7 @@ module Watir
       @locator = locator_class.new(@query_scope, selector, selector_builder, element_validator)
 
       element = @locator.locate
-      element or raise unknown_exception, "unable to locate #{@selector[:tag_name]} using #{selector_string}"
+      element || raise(unknown_exception, "unable to locate #{@selector[:tag_name]} using #{selector_string}")
 
       @element = FramedDriver.new(element, browser)
     end
@@ -27,7 +26,7 @@ module Watir
 
     def assert_exists
       if @element && @selector.empty?
-        raise UnknownFrameException, "wrapping a Selenium element as a Frame is not currently supported"
+        raise UnknownFrameException, 'wrapping a Selenium element as a Frame is not currently supported'
       end
 
       super
@@ -61,7 +60,7 @@ module Watir
     #
 
     def execute_script(script, *args)
-      args.map! { |e| e.kind_of?(Watir::Element) ? e.wd : e }
+      args.map! { |e| e.is_a?(Watir::Element) ? e.wd : e }
       returned = driver.execute_script(script, *args)
 
       browser.send(:wrap_elements_in, self, returned)
@@ -80,41 +79,31 @@ module Watir
     def unknown_exception
       Watir::Exception::UnknownFrameException
     end
-
   end # IFrame
-
 
   class IFrameCollection < ElementCollection
   end # IFrameCollection
 
-
   class Frame < IFrame
-
     private
 
     def frame_tag
       'frame'
     end
-
   end # Frame
-
 
   class FrameCollection < IFrameCollection
   end # FrameCollection
 
-
   module Container
-
     def frame(*args)
-      Frame.new(self, extract_selector(args).merge(tag_name: "frame"))
+      Frame.new(self, extract_selector(args).merge(tag_name: 'frame'))
     end
 
     def frames(*args)
-      FrameCollection.new(self, extract_selector(args).merge(tag_name: "frame"))
+      FrameCollection.new(self, extract_selector(args).merge(tag_name: 'frame'))
     end
-
   end # Container
-
 
   # @api private
   #
@@ -131,7 +120,7 @@ module Watir
     def ==(other)
       wd == other.wd
     end
-    alias_method :eql?, :==
+    alias eql? ==
 
     def send_keys(*args)
       switch!
@@ -146,12 +135,18 @@ module Watir
 
     private
 
+    def respond_to_missing?(meth)
+      @driver.respond_to?(meth) || @element.respond_to?(meth)
+    end
+
     def method_missing(meth, *args, &blk)
       if @driver.respond_to?(meth)
         switch!
         @driver.send(meth, *args, &blk)
-      else
+      elsif @element.respond_to?(meth)
         @element.send(meth, *args, &blk)
+      else
+        super
       end
     end
 
@@ -161,6 +156,5 @@ module Watir
     rescue Selenium::WebDriver::Error::NoSuchFrameError => e
       raise Exception::UnknownFrameException, e.message
     end
-
   end # FramedDriver
 end # Watir

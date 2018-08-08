@@ -18,10 +18,10 @@ module Watir
       list_items.each(&block)
     end
 
-    alias_method :length, :count
-    alias_method :size, :count
-    alias_method :items, :count
-    alias_method :empty?, :none?
+    alias length count
+    alias size count
+    alias items count
+    alias empty? none?
 
     #
     # Returns item from this list at given index.

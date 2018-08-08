@@ -1,5 +1,4 @@
 module Watir
-
   #
   # After hooks are blocks that run after certain browser events.
   # They are generally used to ensure application under test does not encounter
@@ -39,10 +38,10 @@ module Watir
       elsif after_hook.respond_to? :call
         @after_hooks << after_hook
       else
-        raise ArgumentError, "expected block or object responding to #call"
+        raise ArgumentError, 'expected block or object responding to #call'
       end
     end
-    alias_method :<<, :add
+    alias << add
 
     #
     # Deletes after hook.
@@ -66,9 +65,8 @@ module Watir
     #
 
     def run
-      if @after_hooks.any? && @browser.window.present? && !@browser.alert.exists?
-        each { |after_hook| after_hook.call(@browser) }
-      end
+      return unless @after_hooks.any? && @browser.window.present? && !@browser.alert.exists?
+      each { |after_hook| after_hook.call(@browser) }
     end
 
     #
@@ -115,7 +113,7 @@ module Watir
     def length
       @after_hooks.length
     end
-    alias_method :size, :length
+    alias size length
 
     #
     # Gets the after hook at the given index.
@@ -127,6 +125,5 @@ module Watir
     def [](index)
       @after_hooks[index]
     end
-
   end # AfterHooks
 end # Watir

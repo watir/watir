@@ -34,9 +34,9 @@ module LocatorSpecHelper
     attrs = opts.delete(:attributes)
     el = double(Watir::HTMLElement, opts)
 
-    attrs.each do |key, value|
+    attrs&.each do |key, value|
       allow(el).to receive(:attribute).with(key).and_return(value)
-    end if attrs
+    end
     allow(el).to receive(:enabled?).and_return true
     el
   end
@@ -52,4 +52,3 @@ module LocatorSpecHelper
     end
   end
 end
-

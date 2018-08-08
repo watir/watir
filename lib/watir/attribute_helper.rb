@@ -1,5 +1,4 @@
 module Watir
-
   #
   # @private
   #
@@ -7,6 +6,16 @@ module Watir
   #
 
   module AttributeHelper
+    class << self
+      private
+
+      def extended(klass)
+        klass.class_eval do
+          # undefine deprecated methods to use them for Element attributes
+          %i[id type].each { |m| undef_method m if method_defined? m }
+        end
+      end
+    end
 
     def inherit_attributes_from(kls)
       kls.typed_attributes.each do |type, attrs|
@@ -15,19 +24,18 @@ module Watir
     end
 
     def typed_attributes
-      @typed_attributes ||= Hash.new { |hash, type| hash[type] = []  }
+      @typed_attributes ||= Hash.new { |hash, type| hash[type] = [] }
     end
 
     def attribute_list
-      @attribute_list ||= (
-        list = typed_attributes.values.flatten
-        list += ancestors[1..-1].map do |e|
-          e.attribute_list if e.respond_to?(:attribute_list)
-        end.compact.flatten
-      ).uniq
+      @attribute_list ||= (typed_attributes.values.flatten +
+                           ancestors[1..-1].map { |e|
+                             e.attribute_list if e.respond_to?(:attribute_list)
+                           }.compact.flatten
+                          ).uniq
     end
 
-    alias_method :attributes, :attribute_list
+    alias attributes attribute_list
 
     #
     # YARD macro to generated friendly
@@ -40,15 +48,6 @@ module Watir
     def attribute(type, method, attr)
       typed_attributes[type] << [method, attr]
       define_attribute(type, method, attr)
-    end
-
-    private
-
-    def self.extended(klass)
-      klass.class_eval do
-        # undefine deprecated methods to use them for Element attributes
-        [:id, :type].each { |m| undef_method m if method_defined? m }
-      end
     end
 
     def define_attribute(type, name, attr)
@@ -74,7 +73,7 @@ module Watir
 
     def define_boolean_attribute(mname, aname)
       define_method mname do
-        attribute_value(aname) == "true"
+        attribute_value(aname) == 'true'
       end
     end
 
@@ -91,6 +90,5 @@ module Watir
         value && Float(value)
       end
     end
-
   end # AttributeHelper
 end # Watir

@@ -7,7 +7,7 @@ module Watir
     #
 
     def clear
-      raise Error, "you can only clear multi-selects" unless multiple?
+      raise Error, 'you can only clear multi-selects' unless multiple?
 
       selected_options.each(&:click)
     end
@@ -42,7 +42,7 @@ module Watir
     #
 
     def select(*str_or_rx)
-      results = str_or_rx.flatten.map { |v| select_by v}
+      results = str_or_rx.flatten.map { |v| select_by v }
       results.first
     end
 
@@ -94,7 +94,7 @@ module Watir
     #
 
     def select_value(str_or_rx)
-      Watir.logger.deprecate '#select_value', "#select", ids: [:select_value]
+      Watir.logger.deprecate '#select_value', '#select', ids: [:select_value]
       select_by str_or_rx
     end
 
@@ -113,7 +113,7 @@ module Watir
       by_label = options(label: str_or_rx)
       return true if by_label.find(&:selected?)
 
-      return false unless by_text.size + by_label.size == 0
+      return false unless (by_text.size + by_label.size).zero?
 
       raise(UnknownObjectException, "Unable to locate option matching #{str_or_rx.inspect}")
     end
@@ -127,7 +127,7 @@ module Watir
 
     def value
       option = selected_options.first
-      option && option.value
+      option&.value
     end
 
     #
@@ -139,7 +139,7 @@ module Watir
 
     def text
       option = selected_options.first
-      option && option.text
+      option&.text
     end
 
     # Returns an array of currently selected options.
@@ -157,23 +157,15 @@ module Watir
       found = find_options(:value, str_or_rx)
 
       if found && found.size > 1
-        Watir.logger.deprecate "Selecting Multiple Options with #select", "#select_all",
+        Watir.logger.deprecate 'Selecting Multiple Options with #select', '#select_all',
                                ids: [:select_by]
       end
-      return select_matching(found) if found && found.any?
+      return select_matching(found) if found&.any?
       raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
     end
 
     def select_by!(str_or_rx, number)
-      js_rx = case str_or_rx
-              when String
-                "^#{str_or_rx}$"
-              when Regexp
-                str_or_rx.inspect.sub('\\A', '^').sub('\\Z', '$').sub('\\z', '$').sub(/^\//, '').sub(/\/[a-z]*$/, '')
-                    .gsub(/\(\?#.+\)/, '').gsub(/\(\?-\w+:/, '(')
-              else
-                raise TypeError, "expected String or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
-              end
+      js_rx = process_str_or_rx(str_or_rx)
 
       element_call { execute_js(:selectOptionsText, self, js_rx, number.to_s) }
       return selected_options.first.text if matching_option?(:text, str_or_rx)
@@ -185,6 +177,23 @@ module Watir
       return selected_options.first.text if matching_option?(:value, str_or_rx)
 
       raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
+    end
+
+    def process_str_or_rx(str_or_rx)
+      case str_or_rx
+      when String
+        "^#{str_or_rx}$"
+      when Regexp
+        str_or_rx.inspect.sub('\\A', '^')
+                 .sub('\\Z', '$')
+                 .sub('\\z', '$')
+                 .sub(%r{^\/}, '')
+                 .sub(%r{\/[a-z]*$}, '')
+                 .gsub(/\(\?#.+\)/, '')
+                 .gsub(/\(\?-\w+:/, '(')
+      else
+        raise TypeError, "expected String or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
+      end
     end
 
     def matching_option?(how, what)
@@ -199,7 +208,7 @@ module Watir
     end
 
     def select_all_by(str_or_rx)
-      raise Error, "you can only use #select_all on multi-selects" unless multiple?
+      raise Error, 'you can only use #select_all on multi-selects' unless multiple?
       found = find_options :text, str_or_rx
 
       return select_matching(found) if found
@@ -243,8 +252,8 @@ module Watir
   end # Select
 
   module Container
-    alias_method :select_list, :select
-    alias_method :select_lists, :selects
+    alias select_list select
+    alias select_lists selects
 
     Watir.tag_to_class[:select_list] = Select
   end # Container

@@ -1,6 +1,5 @@
 module Watir
   module UserEditable
-
     #
     # Clear the element, then type in the given value.
     #
@@ -13,7 +12,7 @@ module Watir
         @element.send_keys(*args)
       end
     end
-    alias_method :value=, :set
+    alias value= set
 
     #
     # Uses JavaScript to enter most of the given value.
@@ -23,12 +22,12 @@ module Watir
     #
 
     def set!(*args)
-      raise ArgumentError, "#set! does not support special keys, use #set instead" if args.any? { |v| v.kind_of?(::Symbol) }
+      raise ArgumentError, '#set! does not support special keys, use #set instead' if args.any? { |v| v.is_a?(::Symbol) }
       input_value = args.join
       set input_value[0]
       element_call { execute_js(:setValue, @element, input_value[0..-2]) }
       append(input_value[-1])
-      raise Watir::Exception::Error, "#set! value does not match expected input" unless value == input_value
+      raise Watir::Exception::Error, '#set! value does not match expected input' unless value == input_value
     end
 
     #
@@ -40,7 +39,7 @@ module Watir
     def append(*args)
       send_keys(*args)
     end
-    alias_method :<<, :append
+    alias << append
 
     #
     # Clears the text field.
@@ -51,6 +50,5 @@ module Watir
         @element.clear
       end
     end
-
   end # UserEditable
 end # Watir

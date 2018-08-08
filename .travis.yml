@@ -74,3 +74,6 @@ matrix:
       - env: RAKE_TASK=yard:doctest
         <<: *five
         <<: *chrome
+      - env: RAKE_TASK=rubocop
+        <<: *three
+        <<: *chrome
