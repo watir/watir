@@ -21,6 +21,11 @@ describe "Adjacent Elements" do
       expect(browser.div(id: "first_sibling").parent(tag_name: :div)).to be_a Watir::Div
     end
 
+    it "accepts custom tag_name argument" do
+      expect(browser.div(id: "regular_child").parent(tag_name: :grandelement).id).to eq 'custom_grandparent'
+      expect(browser.div(id: "regular_child").parent(tag_name: :grandelement)).to be_a Watir::HTMLElement
+    end
+
     it "accepts class_name argument" do
       expect(browser.div(id: "first_sibling").parent(class_name: 'parent').id).to eq 'parent_span'
     end
@@ -49,6 +54,12 @@ describe "Adjacent Elements" do
       siblings = browser.div(id: "second_sibling").siblings(tag_name: :div)
       expect(siblings.size).to eq 3
       expect(siblings.all? { |sib| sib.is_a? Watir::Div }).to eq true
+    end
+
+    it "accepts custom tag name argument" do
+      siblings = browser.div(id: "regular_child").siblings(tag_name: :childelement)
+      expect(siblings.size).to eq 3
+      expect(siblings.all? { |sib| sib.is_a? Watir::HTMLElement }).to eq true
     end
 
     it "accepts a class_name argument" do
@@ -191,6 +202,11 @@ describe "Adjacent Elements" do
       expect(browser.div(id: "parent").child(tag_name: :span)).to be_a Watir::Span
     end
 
+    it "accepts custom tag_name argument" do
+      expect(browser.element(id: "custom_parent").child(tag_name: :childelement).id).to eq 'custom_child'
+      expect(browser.element(id: "custom_parent").child(tag_name: :childelement)).to be_a Watir::HTMLElement
+    end
+
     it "accepts class_name argument" do
       expect(browser.div(id: "parent").child(class_name: 'b').id).to eq 'second_sibling'
     end
@@ -219,6 +235,12 @@ describe "Adjacent Elements" do
       children = browser.div(id: "parent").children(tag_name: :div)
       expect(children.size).to eq 3
       expect(children.all? { |child| child.is_a? Watir::Div }).to eq true
+    end
+
+    it "accepts custom tag_name argument" do
+      children = browser.element(id: "custom_parent").children(tag_name: :childelement)
+      expect(children.size).to eq 3
+      expect(children.all? { |child| child.is_a? Watir::HTMLElement }).to eq true
     end
 
     it "accepts a class_name argument" do
