@@ -6,7 +6,7 @@
 </head>
 
 <body>
-<span id="grandparent_span">
+    <span id="grandparent_span">
         <div id="grandparent">
             <span class="parent" id="parent_span">
                 <div id="parent">
@@ -30,5 +30,15 @@
             </span>
         </div>
     </span>
+    <div>
+        <grandelement id="custom_grandparent">
+            <parentelement id="custom_parent">
+                <div id="regular_child"></div>
+                <childelement id="custom_child" class="custom_child a"></childelement>
+                <childelement class="custom_child b"></childelement>
+                <childelement class="custom_child c"></childelement>
+            </parentelement>
+        </grandelement>
+    </div>
 </body>
 </html>
