@@ -115,10 +115,18 @@ module Watir
               idx = idx.abs - 1
             end
 
+            counter = 0
+
             # Lazy evaluation to avoid fetching values for elements that will be discarded
-            matches = elements.lazy.select { |el| matches_selector?(el, selector) }
-            matches.take(idx + 1).to_a[idx]
+            matches = elements.lazy.select do |el|
+              counter += 1
+              matches_selector?(el, selector)
+            end
+            val = matches.take(idx + 1).to_a[idx]
+            Watir.logger.debug "Filtered through #{counter} elements to locate #{@selector.inspect}"
+            val
           else
+            Watir.logger.debug "Iterated through #{elements.size} elements to locate all #{@selector.inspect}"
             elements.select { |el| matches_selector?(el, selector) }
           end
         end
