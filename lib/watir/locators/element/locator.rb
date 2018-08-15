@@ -216,17 +216,19 @@ module Watir
             end
           end
 
-          if selector[:text]
-            text_content = Watir::Element.new(@query_scope, element: element).send(:execute_js, :getTextContent, element).strip
-            text_content_matches = selector[:text] === text_content
-            unless matches == text_content_matches
-              key = @selector.key?(:text) ? "text" : "label"
-              Watir.logger.deprecate("Using :#{key} locator with RegExp #{selector[:text].inspect} to match an element that includes hidden text", ":visible_#{key}",
-                  ids: [:text_regexp])
-            end
-          end
+          text_regexp_deprecation(element, selector, matches) if selector[:text]
 
           matches
+        end
+
+        def text_regexp_deprecation(element, selector, matches)
+          text_content = Watir::Element.new(@query_scope, element: element).send(:execute_js, :getTextContent, element).strip
+          text_content_matches = selector[:text] === text_content
+          unless matches == text_content_matches
+            key = @selector.key?(:text) ? "text" : "label"
+            Watir.logger.deprecate("Using :#{key} locator with RegExp #{selector[:text].inspect} to match an element that includes hidden text", ":visible_#{key}",
+                  ids: [:text_regexp])
+          end
         end
 
         def can_convert_regexp_to_contains?

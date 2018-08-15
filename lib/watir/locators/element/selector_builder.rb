@@ -59,9 +59,10 @@ module Watir
         end
 
         def build(selector)
+          inspect = selector.inspect
           return given_xpath_or_css(selector) if selector.key?(:xpath) || selector.key?(:css)
           built = build_wd_selector(selector)
-          Watir.logger.debug "Converted #{selector.inspect} to #{built}"
+          Watir.logger.debug "Converted #{inspect} to #{built}"
           built
         end
 

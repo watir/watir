@@ -151,12 +151,16 @@ describe "Div" do
         expect { browser.div(text: /some visible/).exists? }.not_to have_deprecated_text_regexp
       end
 
-      it "throws deprecation when no longer matched by text content" do
-        expect { browser.div(text: /some visible$/).exists? }.to have_deprecated_text_regexp
+      not_compliant_on :watigiri do
+        it "throws deprecation when no longer matched by text content" do
+          expect { browser.div(text: /some visible$/).exists? }.to have_deprecated_text_regexp
+        end
       end
 
-      it "throws deprecation when begins to be matched by text content" do
-        expect { browser.div(text: /some hidden/).exists? }.to have_deprecated_text_regexp
+      not_compliant_on :watigiri do
+        it "throws deprecation when begins to be matched by text content" do
+          expect { browser.div(text: /some hidden/).exists? }.to have_deprecated_text_regexp
+        end
       end
 
       it "does not throw deprecation when still not matched by text content" do
