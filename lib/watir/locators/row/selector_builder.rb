@@ -6,11 +6,7 @@ module Watir
           return if selectors.values.any? { |e| e.kind_of? Regexp }
           selectors.delete(:tag_name) || raise("internal error: no tag_name?!")
 
-          tag_name = @query_scope.tag_name.downcase
-          expressions = %w[./tr]
-          unless %w[tbody tfoot thead].include?(tag_name)
-            expressions += %w[./tbody/tr ./thead/tr ./tfoot/tr]
-          end
+          expressions = generate_expressions(@query_scope.tag_name.downcase)
 
           attr_expr = xpath_builder.attribute_expression(nil, selectors)
 
@@ -23,6 +19,16 @@ module Watir
           p build_wd_selector: xpath if $DEBUG
 
           [:xpath, xpath]
+        end
+
+        protected
+
+        def generate_expressions(tag_name)
+          expressions = %w[./tr]
+          unless %w[tbody tfoot thead].include?(tag_name)
+            expressions += %w[./tbody/tr ./thead/tr ./tfoot/tr]
+          end
+          expressions
         end
       end
     end
