@@ -513,16 +513,15 @@ module Watir
 
     def stale?
       raise Watir::Exception::Error, "Can not check staleness of unused element" unless @element
-      return false unless stale_in_context?
       @query_scope.ensure_context
-      stale_in_context?
+      @stale || stale_in_context?
     end
 
     def stale_in_context?
       @element.enabled? # any wire call will check for staleness
       false
     rescue Selenium::WebDriver::Error::ObsoleteElementError
-      true
+      @stale = true
     end
 
     def reset!

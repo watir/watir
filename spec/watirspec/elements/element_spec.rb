@@ -333,15 +333,31 @@ describe "Element" do
     end
 
     it "returns true if the element is enabled" do
-      expect(browser.element(name: 'new_user_submit')).to be_enabled
+      expect(browser.button(name: 'new_user_submit')).to be_enabled
     end
 
     it "returns false if the element is disabled" do
-      expect(browser.element(name: 'new_user_submit_disabled')).to_not be_enabled
+      expect(browser.button(name: 'new_user_submit_disabled')).to_not be_enabled
     end
 
     it "raises UnknownObjectException if the element doesn't exist" do
-      expect { browser.element(name: "no_such_name").enabled? }.to raise_unknown_object_exception
+      expect { browser.button(name: "no_such_name").enabled? }.to raise_unknown_object_exception
+    end
+  end
+
+  describe "#stale?" do
+    it "returns true if the element is stale" do
+      element = browser.button(name: 'new_user_submit_disabled').tap(&:exists?)
+
+      browser.refresh
+
+      expect(element).to be_stale
+    end
+
+    it "returns false if the element is not stale" do
+      element = browser.button(name: 'new_user_submit_disabled').tap(&:exists?)
+
+      expect(element).to_not be_stale
     end
   end
 
