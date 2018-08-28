@@ -51,6 +51,8 @@ module Watir
         to_a[value]
       elsif @selector.key? :adjacent
         to_a[value] || element_class.new(@query_scope, {invalid_locator: true})
+      elsif @to_a && @to_a[value]
+        @to_a[value]
       else
         element_class.new(@query_scope, @selector.merge(index: value))
       end

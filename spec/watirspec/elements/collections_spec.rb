@@ -49,4 +49,28 @@ describe "Collections" do
     expect(spans).to receive(:elements).and_return([])
     expect(spans.locate).to be_a Watir::SpanCollection
   end
+
+  it "lazy loads collections referenced with #[]" do
+    browser.goto(WatirSpec.url_for("collections.html"))
+    expect(browser.wd).to_not receive(:find_elements)
+    browser.spans[3]
+  end
+
+  it "does not relocate collections when previously evaluated" do
+    browser.goto(WatirSpec.url_for("collections.html"))
+    elements = browser.spans.tap(&:to_a)
+
+    expect(browser.wd).to_not receive(:find_elements)
+    elements[1].id
+  end
+
+  it "relocates cached elements that go stale" do
+    browser.goto(WatirSpec.url_for("collections.html"))
+    elements = browser.spans.tap(&:to_a)
+
+    browser.refresh
+    expect(elements[1]).to be_stale
+    expect { elements[1] }.to_not raise_unknown_object_exception
+  end
+
 end
