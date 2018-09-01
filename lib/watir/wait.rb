@@ -172,18 +172,20 @@ module Watir
     #   browser.text_field(name: "new_user_first_name").wait_until_present
     #
     # @param [Integer] timeout seconds to wait before timing out
+    # @param [Float] interval seconds to wait before each try
+    # @param [String] message error message for when times out
     #
     # @see Watir::Wait
     # @see Watir::Element#present?
     #
 
-    def wait_until_present(deprecated_timeout = nil, timeout: nil, interval: nil)
+    def wait_until_present(deprecated_timeout = nil, timeout: nil, interval: nil, message: nil)
       if deprecated_timeout
         Watir.logger.deprecate "Using arguments for #wait_until_present", "keywords", ids: [:timeout_arguments]
         timeout = deprecated_timeout
       end
       if self.is_a? Watir::Element
-        wait_until(timeout: timeout, interval: interval) do
+        wait_until(timeout: timeout, interval: interval, message: message) do
           self.reset! if self.is_a? Watir::Element
           self.present?
         end
@@ -191,7 +193,7 @@ module Watir
         Watir.logger.deprecate "#{self.class}#wait_until_present",
                                "#{self.class}#wait_until(&:present?)",
                                ids: [:wait_until_present]
-        wait_until(timeout: timeout, interval: interval, &:present?)
+        wait_until(timeout: timeout, interval: interval, message: message, &:present?)
       end
     end
 
@@ -203,18 +205,20 @@ module Watir
     #   browser.text_field(name: "abrakadbra").wait_while_present
     #
     # @param [Integer] timeout seconds to wait before timing out
+    # @param [Float] interval seconds to wait before each try
+    # @param [String] message error message for when times out
     #
     # @see Watir::Wait
     # @see Watir::Element#present?
     #
 
-    def wait_while_present(deprecated_timeout = nil, timeout: nil, interval: nil)
+    def wait_while_present(deprecated_timeout = nil, timeout: nil, interval: nil, message: nil)
       if deprecated_timeout
         Watir.logger.deprecate "Using arguments for #wait_while_present", "keywords", ids: [:timeout_arguments]
         timeout = deprecated_timeout
       end
       if self.is_a? Watir::Element
-        wait_while(timeout: timeout, interval: interval) do
+        wait_while(timeout: timeout, interval: interval, message: message) do
           self.reset! if self.is_a? Watir::Element
           self.present?
         end
@@ -222,7 +226,7 @@ module Watir
         Watir.logger.deprecate "#{self.class}#wait_while_present",
                                "#{self.class}#wait_while(&:present?)",
                                ids: [:wait_while_present]
-        wait_while(timeout: timeout, interval: interval, &:present?)
+        wait_while(timeout: timeout, interval: interval, message: message, &:present?)
       end
     end
 
