@@ -42,6 +42,7 @@ module Watir
 
     #
     # Returns true if element exists.
+    # Checking for staleness is deprecated
     #
     # @return [Boolean]
     #
@@ -390,8 +391,7 @@ module Watir
     #
 
     def wd
-      assert_exists if @element.nil?
-      return driver if @element.is_a? FramedDriver
+      assert_exists
       @element
     end
 
@@ -513,15 +513,15 @@ module Watir
 
     def stale?
       raise Watir::Exception::Error, "Can not check staleness of unused element" unless @element
-      @query_scope.ensure_context
-      @stale || stale_in_context?
+      ensure_context
+      stale_in_context?
     end
 
     def stale_in_context?
       @element.enabled? # any wire call will check for staleness
       false
     rescue Selenium::WebDriver::Error::ObsoleteElementError
-      @stale = true
+      true
     end
 
     def reset!
@@ -570,7 +570,6 @@ module Watir
     end
 
     def wait_for_writable
-      wait_for_exists
       wait_for_enabled
       unless Watir.relaxed_locate?
         raise_writable unless !respond_to?(:readonly?) || !readonly?
@@ -584,26 +583,31 @@ module Watir
       end
     end
 
-    # Ensure that the element exists, making sure that it is not stale and located if necessary
+    # Locates if not previously found; does not check for stale
     def assert_exists
       locate unless @element
-      return if @element
-      raise unknown_exception, "unable to locate element: #{inspect}"
+      raise unknown_exception, "unable to locate element: #{inspect}" unless @element
     end
 
-    def locate
+    def locate_in_context
       @locator = build_locator
       @element = @locator.locate
+    end
+
+    # Ensure the driver is in the desired browser context
+    def locate
+      ensure_context
+      locate_in_context
+    end
+
+    def ensure_context
+      @query_scope.locate
+      @query_scope.switch_to! if @query_scope.is_a?(IFrame)
     end
 
     def selector_string
       return @selector.inspect if @query_scope.is_a?(Browser)
       "#{@query_scope.send :selector_string} --> #{@selector.inspect}"
-    end
-
-    # Ensure the driver is in the desired browser context
-    def ensure_context
-      locate unless exists?
     end
 
     private
@@ -654,7 +658,7 @@ module Watir
       end
 
       begin
-        check_condition(precondition)
+        check_condition(precondition, caller)
         Watir.logger.info "-> `Executing #{inspect}##{caller}`"
         yield
       rescue unknown_exception => ex
@@ -662,12 +666,11 @@ module Watir
           element_call(:wait_for_exists, &block)
         end
         msg = ex.message
-        msg += "; Maybe look in an iframe?" if @query_scope.ensure_context && @query_scope.iframes.count > 0
+        msg += "; Maybe look in an iframe?" if @query_scope.iframes.count > 0
         custom_attributes = @locator.nil? ? [] : @locator.selector_builder.custom_attributes
         msg += "; Watir treated #{custom_attributes} as a non-HTML compliant attribute, ensure that was intended" unless custom_attributes.empty?
         raise unknown_exception, msg
       rescue Selenium::WebDriver::Error::StaleElementReferenceError
-        @query_scope.ensure_context
         reset!
         retry
       rescue Selenium::WebDriver::Error::ElementNotVisibleError, Selenium::WebDriver::Error::ElementNotInteractableError
@@ -686,15 +689,15 @@ module Watir
       end
     end
 
-    def check_condition(condition)
-      Watir.logger.info "<- `Verifying precondition #{inspect}##{condition}`"
+    def check_condition(condition, caller)
+      Watir.logger.info "<- `Verifying precondition #{inspect}##{condition} for #{caller}`"
       begin
         condition.nil? ? assert_exists : send(condition)
         Watir.logger.info "<- `Verified precondition #{inspect}##{condition || 'assert_exists'}`"
       rescue unknown_exception
         raise unless condition.nil?
         Watir.logger.info "<- `Unable to satisfy precondition #{inspect}##{condition}`"
-        check_condition(:wait_for_exists)
+        check_condition(:wait_for_exists, caller)
       end
     end
 

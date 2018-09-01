@@ -57,8 +57,6 @@ module Watir
       end
 
       def build_locator
-        @query_scope.send :ensure_context
-
         element_validator = element_validator_class.new
         selector_builder = selector_builder_class.new(@query_scope, @selector.dup, element_class.attribute_list)
         locator_class.new(@query_scope, @selector.dup, selector_builder, element_validator)

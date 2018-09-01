@@ -12,8 +12,6 @@ describe "Frame" do
 
   not_compliant_on :safari do
     it "handles crossframe javascript" do
-      browser.goto WatirSpec.url_for("frames.html")
-
       expect(browser.frame(id: "frame_1").text_field(name: 'senderElement').value).to eq 'send_this_value'
       expect(browser.frame(id: "frame_2").text_field(name: 'recieverElement').value).to eq 'old_value'
       browser.frame(id: "frame_1").button(id: 'send').click
