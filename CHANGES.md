@@ -1,7 +1,3 @@
-### 6.12.1 (2018-08-31)
-
-* Added `message` argument to `wait_until_present` and `wait_while_present` methods
-
 ### 6.12.0 (2018-07-24)
 
 * Allow elements to be located with attributes that have underscores (thanks John Fitisoff)
