@@ -1,3 +1,12 @@
+### 6.13.0 (2018-09-02)
+
+* Allow wait methods to wait for values of any attribute
+* Allow locating custom elements with adjacent methods
+* Support how latest IEDrivers are handling stale elements
+* Restore support for using of previously cached elements in collections
+* Fix bug preventing clicking option when select list is not displayed
+* Allow elements with content-editable attribute to use UserEditable module methods 
+
 ### 6.12.0 (2018-07-24)
 
 * Allow elements to be located with attributes that have underscores (thanks John Fitisoff)
