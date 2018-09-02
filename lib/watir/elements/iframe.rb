@@ -55,6 +55,16 @@ module Watir
       browser.send(:wrap_elements_in, self, returned)
     end
 
+    #
+    # Sends sequence of keystrokes to the driver within the frame context.
+    #
+    # @param [String, Symbol] args
+    #
+
+    def send_keys(*args)
+      element_call(:wait_for_writable) { wd.send_keys(*args) }
+    end
+
     private
 
     def frame_tag
