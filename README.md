@@ -17,10 +17,10 @@ require 'watir'
 browser = Watir::Browser.new
 
 browser.goto 'watir.com'
-browser.link(text: 'documentation').click
+browser.link(text: 'Guides').click
 
 puts browser.title
-# => 'Documentation – Watir Project...'
+# => 'Guides – Watir Project'
 browser.close
 ```
 
