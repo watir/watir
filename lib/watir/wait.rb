@@ -184,6 +184,8 @@ module Watir
         Watir.logger.deprecate "Using arguments for #wait_until_present", "keywords", ids: [:timeout_arguments]
         timeout = deprecated_timeout
       end
+      message ||= Proc.new { |obj| "waiting for true condition on #{obj.inspect}" }
+
       if self.is_a? Watir::Element
         wait_until(timeout: timeout, interval: interval, message: message) do
           self.reset! if self.is_a? Watir::Element
@@ -217,6 +219,8 @@ module Watir
         Watir.logger.deprecate "Using arguments for #wait_while_present", "keywords", ids: [:timeout_arguments]
         timeout = deprecated_timeout
       end
+      message ||= Proc.new { |obj| "waiting for false condition on #{obj.inspect}" }
+
       if self.is_a? Watir::Element
         wait_while(timeout: timeout, interval: interval, message: message) do
           self.reset! if self.is_a? Watir::Element
