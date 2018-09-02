@@ -9,6 +9,12 @@ RSpec::Core::RakeTask.new(:spec) do |spec|
   spec.pattern = 'spec/**/*_spec.rb'
 end
 
+require 'rubocop/rake_task'
+
+RuboCop::RakeTask.new(:rubocop) do |t|
+  t.options = ['--display-cop-names']
+end
+
 namespace :spec do
   RSpec::Core::RakeTask.new(:html) do |spec|
     spec.rspec_opts = "--format html --out #{ENV["SPEC_REPORT"] || "specs.html"}"
