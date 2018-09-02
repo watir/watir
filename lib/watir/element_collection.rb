@@ -154,7 +154,12 @@ module Watir
 
     def elements
       ensure_context
-      locate_all
+      if @query_scope.is_a?(Watir::Browser) || @query_scope.located?
+        locate_all
+      else
+        # This gives all of the standard Watir waiting behaviors to Collections
+        @query_scope.send(:element_call) { locate_all }
+      end
     end
 
     def ensure_context

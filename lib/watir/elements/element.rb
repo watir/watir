@@ -48,7 +48,7 @@ module Watir
     #
 
     def exists?
-      return false if @element && stale?
+      return false if located? && stale?
       assert_exists
       true
     rescue UnknownObjectException, UnknownFrameException
@@ -59,7 +59,7 @@ module Watir
     def inspect
       string = "#<#{self.class}: "
       string << "keyword: #{keyword} " if keyword
-      string << "located: #{!!@element}; "
+      string << "located: #{located?}; "
       if @selector.empty?
         string << '{element: (selenium element)}'
       else
@@ -83,7 +83,7 @@ module Watir
     alias_method :eql?, :==
 
     def hash
-      @element ? @element.hash : super
+      located? ? @element.hash : super
     end
 
     #
@@ -512,7 +512,7 @@ module Watir
     #
 
     def stale?
-      raise Watir::Exception::Error, "Can not check staleness of unused element" unless @element
+      raise Watir::Exception::Error, "Can not check staleness of unused element" unless located?
       ensure_context
       stale_in_context?
     end
@@ -526,6 +526,10 @@ module Watir
 
     def reset!
       @element = nil
+    end
+
+    def located?
+      !!@element
     end
 
     protected
@@ -585,8 +589,10 @@ module Watir
 
     # Locates if not previously found; does not check for stale
     def assert_exists
-      locate unless @element
-      raise unknown_exception, "unable to locate element: #{inspect}" unless @element
+      return if located?
+      locate
+      return if located?
+      raise unknown_exception, "unable to locate element: #{inspect}"
     end
 
     def locate_in_context
@@ -666,7 +672,7 @@ module Watir
           element_call(:wait_for_exists, &block)
         end
         msg = ex.message
-        msg += "; Maybe look in an iframe?" if @query_scope.iframes.count > 0
+        msg += "; Maybe look in an iframe?" if @query_scope.iframe.exist?
         custom_attributes = @locator.nil? ? [] : @locator.selector_builder.custom_attributes
         msg += "; Watir treated #{custom_attributes} as a non-HTML compliant attribute, ensure that was intended" unless custom_attributes.empty?
         raise unknown_exception, msg
