@@ -10,9 +10,8 @@ module Watir
     attribute(Integer, :tabindex, :tabIndex)
     attribute(String, :accesskey, :accessKey)
     attribute("Boolean", :draggable?, :draggable)
-    attribute(String, :dropzone, :dropzone)
-    attribute(String, :contextmenu, :contextMenu)
     attribute("Boolean", :spellcheck?, :spellcheck)
+    attribute(String, :innertext, :innerText)
     attribute(String, :onabort, :onabort)
     attribute(String, :onblur, :onblur)
     attribute(String, :oncancel, :oncancel)
@@ -21,7 +20,6 @@ module Watir
     attribute(String, :onchange, :onchange)
     attribute(String, :onclick, :onclick)
     attribute(String, :onclose, :onclose)
-    attribute(String, :oncontextmenu, :oncontextmenu)
     attribute(String, :oncuechange, :oncuechange)
     attribute(String, :ondblclick, :ondblclick)
     attribute(String, :ondrag, :ondrag)
@@ -172,24 +170,11 @@ module Watir
   class ScriptCollection < ElementCollection
   end
 
-  class MenuItem < HTMLElement
-    attribute(String, :type, :type)
-    attribute(String, :label, :label)
-    attribute(String, :icon, :icon)
-    attribute("Boolean", :disabled?, :disabled)
-    attribute("Boolean", :checked?, :checked)
-    attribute(String, :radiogroup, :radiogroup)
-    attribute("Boolean", :default?, :default)
+  class Dialog < HTMLElement
+    attribute("Boolean", :open?, :open)
+    attribute(String, :returnvalue, :returnValue)
   end
-  class MenuItemCollection < ElementCollection
-  end
-
-  class Menu < HTMLElement
-    attribute(String, :type, :type)
-    attribute(String, :label, :label)
-    attribute("Boolean", :compact?, :compact)
-  end
-  class MenuCollection < ElementCollection
+  class DialogCollection < ElementCollection
   end
 
   class Details < HTMLElement
@@ -253,22 +238,6 @@ module Watir
   class OutputCollection < ElementCollection
   end
 
-  class Keygen < HTMLElement
-    attribute("Boolean", :autofocus?, :autofocus)
-    attribute(String, :challenge, :challenge)
-    attribute("Boolean", :disabled?, :disabled)
-    attribute(String, :form, :form)
-    attribute(String, :keytype, :keytype)
-    attribute(String, :name, :name)
-    attribute(String, :type, :type)
-    attribute("Boolean", :willvalidate?, :willValidate)
-    attribute(String, :validity, :validity)
-    attribute(String, :validationmessage, :validationMessage)
-    attribute(String, :labels, :labels)
-  end
-  class KeygenCollection < ElementCollection
-  end
-
   class TextArea < HTMLElement
     attribute(String, :autocomplete, :autocomplete)
     attribute("Boolean", :autofocus?, :autofocus)
@@ -276,7 +245,6 @@ module Watir
     attribute(String, :dirname, :dirName)
     attribute("Boolean", :disabled?, :disabled)
     attribute(String, :form, :form)
-    attribute(String, :inputmode, :inputMode)
     attribute(Integer, :maxlength, :maxLength)
     attribute(Integer, :minlength, :minLength)
     attribute(String, :name, :name)
@@ -319,7 +287,6 @@ module Watir
   end
 
   class DataList < HTMLElement
-    attribute(String, :options, :options)
   end
   class DataListCollection < ElementCollection
   end
@@ -333,7 +300,6 @@ module Watir
     attribute(String, :name, :name)
     attribute("Boolean", :required?, :required)
     attribute(String, :type, :type)
-    attribute(String, :options, :options)
     attribute(Integer, :length, :length)
     attribute(String, :selectedoptions, :selectedOptions)
     attribute(Integer, :selectedindex, :selectedIndex)
@@ -358,7 +324,6 @@ module Watir
     attribute(String, :name, :name)
     attribute(String, :type, :type)
     attribute(String, :value, :value)
-    attribute(String, :menu, :menu)
     attribute("Boolean", :willvalidate?, :willValidate)
     attribute(String, :validity, :validity)
     attribute(String, :validationmessage, :validationMessage)
@@ -384,7 +349,6 @@ module Watir
     attribute("Boolean", :formnovalidate?, :formNoValidate)
     attribute(String, :formtarget, :formTarget)
     attribute("Boolean", :indeterminate?, :indeterminate)
-    attribute(String, :inputmode, :inputMode)
     attribute(String, :list, :list)
     attribute(String, :max, :max)
     attribute(Integer, :maxlength, :maxLength)
@@ -463,7 +427,6 @@ module Watir
   end
 
   class TableDataCell < TableCell
-    attribute(String, :abbr, :abbr)
   end
   class TableDataCellCollection < ElementCollection
   end
@@ -529,6 +492,7 @@ module Watir
     attribute(String, :rellist, :relList)
     attribute(String, :hreflang, :hreflang)
     attribute(String, :type, :type)
+    attribute(String, :referrerpolicy, :referrerPolicy)
     attribute("Boolean", :nohref?, :noHref)
     attribute(String, :href, :href)
     attribute(String, :origin, :origin)
@@ -638,7 +602,6 @@ module Watir
     attribute(Integer, :vspace, :vspace)
     attribute(String, :codebase, :codeBase)
     attribute(String, :codetype, :codeType)
-    attribute(String, :usemap, :useMap)
     attribute(String, :border, :border)
   end
   class ObjectCollection < ElementCollection
@@ -659,11 +622,14 @@ module Watir
     attribute(String, :name, :name)
     attribute(String, :sandbox, :sandbox)
     attribute("Boolean", :allowfullscreen?, :allowFullscreen)
+    attribute("Boolean", :allowpaymentrequest?, :allowPaymentRequest)
+    attribute(String, :referrerpolicy, :referrerPolicy)
     attribute(String, :contentdocument, :contentDocument)
     attribute(String, :contentwindow, :contentWindow)
     attribute(String, :align, :align)
     attribute(String, :scrolling, :scrolling)
     attribute(String, :frameborder, :frameBorder)
+    attribute(String, :longdesc, :longDesc)
     attribute(String, :marginheight, :marginHeight)
     attribute(String, :marginwidth, :marginWidth)
   end
@@ -677,11 +643,13 @@ module Watir
     attribute(String, :sizes, :sizes)
     attribute(String, :crossorigin, :crossOrigin)
     attribute(String, :usemap, :useMap)
+    attribute(String, :longdesc, :longDesc)
     attribute("Boolean", :ismap?, :isMap)
     attribute(Integer, :naturalwidth, :naturalWidth)
     attribute(Integer, :naturalheight, :naturalHeight)
     attribute("Boolean", :complete?, :complete)
     attribute(String, :currentsrc, :currentSrc)
+    attribute(String, :referrerpolicy, :referrerPolicy)
     attribute(String, :name, :name)
     attribute(String, :lowsrc, :lowsrc)
     attribute(String, :align, :align)
@@ -693,11 +661,11 @@ module Watir
   end
 
   class Source < HTMLElement
+    attribute(String, :src, :src)
+    attribute(String, :type, :type)
     attribute(String, :srcset, :srcset)
     attribute(String, :sizes, :sizes)
     attribute(String, :media, :media)
-    attribute(String, :src, :src)
-    attribute(String, :type, :type)
   end
   class SourceCollection < ElementCollection
   end
@@ -745,6 +713,7 @@ module Watir
     attribute(String, :rellist, :relList)
     attribute(String, :hreflang, :hreflang)
     attribute(String, :type, :type)
+    attribute(String, :referrerpolicy, :referrerPolicy)
     attribute(String, :coords, :coords)
     attribute(String, :charset, :charset)
     attribute(String, :name, :name)
@@ -830,7 +799,6 @@ module Watir
   end
 
   class Body < HTMLElement
-    attribute(String, :link, :link)
     attribute(String, :vlink, :vLink)
     attribute(String, :alink, :aLink)
     attribute(String, :bgcolor, :bgColor)
@@ -1172,6 +1140,16 @@ module Watir
     end
     Watir.tag_to_class[:dfn] = HTMLElement
 
+    # @return [Dialog]
+    def dialog(*args)
+      Dialog.new(self, extract_selector(args).merge(tag_name: "dialog"))
+    end
+    # @return [DialogCollection]
+    def dialogs(*args)
+      DialogCollection.new(self, extract_selector(args).merge(tag_name: "dialog"))
+    end
+    Watir.tag_to_class[:dialog] = Dialog
+
     # @return [Div]
     def div(*args)
       Div.new(self, extract_selector(args).merge(tag_name: "div"))
@@ -1442,16 +1420,6 @@ module Watir
     end
     Watir.tag_to_class[:kbd] = HTMLElement
 
-    # @return [Keygen]
-    def keygen(*args)
-      Keygen.new(self, extract_selector(args).merge(tag_name: "keygen"))
-    end
-    # @return [KeygenCollection]
-    def keygens(*args)
-      KeygenCollection.new(self, extract_selector(args).merge(tag_name: "keygen"))
-    end
-    Watir.tag_to_class[:keygen] = Keygen
-
     # @return [Label]
     def label(*args)
       Label.new(self, extract_selector(args).merge(tag_name: "label"))
@@ -1511,26 +1479,6 @@ module Watir
       HTMLElementCollection.new(self, extract_selector(args).merge(tag_name: "mark"))
     end
     Watir.tag_to_class[:mark] = HTMLElement
-
-    # @return [Menu]
-    def menu(*args)
-      Menu.new(self, extract_selector(args).merge(tag_name: "menu"))
-    end
-    # @return [MenuCollection]
-    def menus(*args)
-      MenuCollection.new(self, extract_selector(args).merge(tag_name: "menu"))
-    end
-    Watir.tag_to_class[:menu] = Menu
-
-    # @return [MenuItem]
-    def menuitem(*args)
-      MenuItem.new(self, extract_selector(args).merge(tag_name: "menuitem"))
-    end
-    # @return [MenuItemCollection]
-    def menuitems(*args)
-      MenuItemCollection.new(self, extract_selector(args).merge(tag_name: "menuitem"))
-    end
-    Watir.tag_to_class[:menuitem] = MenuItem
 
     # @return [Meta]
     def meta(*args)

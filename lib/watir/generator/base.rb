@@ -4,6 +4,7 @@ require "pp"
 require "webidl"
 require "active_support/inflector"
 
+require "watir/generator/extensions/interface_members"
 require "watir/generator/base/generator"
 require "watir/generator/base/idl_sorter"
 require "watir/generator/base/spec_extractor"
