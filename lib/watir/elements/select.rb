@@ -14,12 +14,13 @@ module Watir
 
     #
     # Gets all the options in the select list
+    # Use Element#options rather than Select element attribute "options"
     #
     # @return [Watir::OptionCollection]
     #
 
     def options(*)
-      element_call(:wait_for_present) { super }
+      super
     end
 
     #
