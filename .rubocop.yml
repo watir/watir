@@ -31,3 +31,8 @@ Layout/EmptyLinesAroundModuleBody:
 # SupportedStylesForEmptyBraces: space, no_space
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
+
+# Offense count: 1
+Lint/HandleExceptions:
+  Exclude:
+    - 'lib/watirspec.rb'

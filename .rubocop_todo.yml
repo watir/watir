@@ -6,77 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 1
-Lint/AmbiguousBlockAssociation:
-  Exclude:
-    - 'support/version_differ.rb'
-
-# Offense count: 2
-Lint/AmbiguousOperator:
-  Exclude:
-    - 'lib/watir/browser.rb'
-    - 'spec/watirspec/support/rspec_matchers.rb'
-
-# Offense count: 2
-Lint/AmbiguousRegexpLiteral:
-  Exclude:
-    - 'lib/watir/generator/html.rb'
-    - 'spec/watirspec/elements/filefield_spec.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Lint/DeprecatedClassMethods:
-  Exclude:
-    - 'lib/watirspec/remote_server.rb'
-
-# Offense count: 2
-Lint/DuplicateMethods:
-  Exclude:
-    - 'lib/watirspec.rb'
-
-# Offense count: 5
-Lint/HandleExceptions:
-  Exclude:
-    - 'lib/watirspec.rb'
-    - 'spec/unit/wait_spec.rb'
-    - 'spec/watirspec/wait_spec.rb'
-
-# Offense count: 1
-Lint/IneffectiveAccessModifier:
-  Exclude:
-    - 'lib/watir/attribute_helper.rb'
-
-# Offense count: 1
-Lint/ShadowedException:
-  Exclude:
-    - 'lib/watir/alert.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: AllowUnusedKeywordArguments, IgnoreEmptyMethods.
-Lint/UnusedMethodArgument:
-  Exclude:
-    - 'lib/watir/locators/text_field/validator.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Lint/UriRegexp:
-  Exclude:
-    - 'lib/watir/browser.rb'
-
-# Offense count: 2
-# Configuration parameters: ContextCreatingMethods, MethodCreatingMethods.
-Lint/UselessAccessModifier:
-  Exclude:
-    - 'lib/watir/elements/date_field.rb'
-    - 'lib/watir/elements/date_time_field.rb'
-
-# Offense count: 3
-Lint/UselessAssignment:
-  Exclude:
-    - 'lib/watir/attribute_helper.rb'
-    - 'spec/watirspec/elements/element_spec.rb'
-
 # Offense count: 31
 Metrics/AbcSize:
   Max: 50
@@ -245,6 +174,7 @@ Style/BarePercentLiterals:
 # IgnoredMethods: lambda, proc, it
 Style/BlockDelimiters:
   Exclude:
+    - 'lib/watir/attribute_helper.rb'
     - 'lib/watir/generator/base/spec_extractor.rb'
     - 'lib/watir/window.rb'
     - 'spec/unit/container_spec.rb'

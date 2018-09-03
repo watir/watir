@@ -3,7 +3,7 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.plural 'tbody', 'tbodys'
   inflect.plural 'canvas', 'canvases'
   inflect.plural 'ins', 'inses'
-  inflect.plural /^s$/, 'ss'
+  inflect.plural(/^s$/, 'ss')
   inflect.plural 'meta', 'metas'
   inflect.plural 'details', 'detailses'
   inflect.plural 'data', 'datas'

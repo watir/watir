@@ -6,7 +6,7 @@ require 'watirspec/server'
 
 module WatirSpec
   class << self
-    attr_accessor :browser_args, :unguarded, :implementation
+    attr_accessor :browser_args, :unguarded
 
     def htmls
       @htmls ||= [File.expand_path("../../spec/watirspec/html", __FILE__)]

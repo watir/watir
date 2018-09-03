@@ -44,7 +44,7 @@ module Watir
       case browser
       when ::Symbol, String
         selenium_args = Watir::Capabilities.new(browser, *args).to_args
-        @driver = Selenium::WebDriver.for *selenium_args
+        @driver = Selenium::WebDriver.for(*selenium_args)
       when Selenium::WebDriver::Driver
         @driver = browser
       else
@@ -78,7 +78,7 @@ module Watir
     #
 
     def goto(uri)
-      uri = "http://#{uri}" unless uri =~ URI.regexp
+      uri = "http://#{uri}" unless uri =~ URI::DEFAULT_PARSER.make_regexp
 
       @driver.navigate.to uri
       @after_hooks.run

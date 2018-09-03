@@ -126,10 +126,7 @@ describe Watir::Element do
       element = browser.div(id: 'bar')
       expect(element).to receive(:present?).twice
 
-      begin
-        element.wait_until_present(timeout: 0.4, interval: 0.2)
-      rescue Watir::Wait::TimeoutError
-      end
+      expect { element.wait_until_present(timeout: 0.4, interval: 0.2) }.to raise_timeout_exception
     end
   end
 
@@ -150,10 +147,7 @@ describe Watir::Element do
       element = browser.div(id: 'foo')
       expect(element).to receive(:present?).twice
 
-      begin
-        element.wait_until_present(timeout: 0.4, interval: 0.2)
-      rescue Watir::Wait::TimeoutError
-      end
+      expect { element.wait_until_present(timeout: 0.4, interval: 0.2) }.to raise_timeout_exception
     end
 
     it "does not error when element goes stale" do

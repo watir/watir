@@ -24,7 +24,7 @@ module WatirSpec
 
       if File.exist?(ENV['REMOTE_SERVER_BINARY'] || '')
         ENV['REMOTE_SERVER_BINARY']
-      elsif ENV['LOCAL_SELENIUM'] && File.exists?(local)
+      elsif ENV['LOCAL_SELENIUM'] && File.exist?(local)
         local
       elsif !Dir.glob('*selenium*.jar').empty?
         Dir.glob('*selenium*.jar').first

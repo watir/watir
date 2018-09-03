@@ -246,17 +246,11 @@ describe "Element" do
     end
 
     it "returns false if the element has style='visibility: hidden;" do
-      msg = /WARN Watir \[\"visible_element\"\]/
-      expect {
-        expect(browser.div(id: 'wants_newsletter')).to_not be_visible
-      }
+      expect { expect(browser.div(id: 'wants_newsletter')).to_not be_visible }
     end
 
     it "returns false if one of the parent elements is hidden" do
-      msg = /WARN Watir \[\"visible_element\"\]/
-      expect {
-        expect(browser.div(id: 'hidden_parent')).to_not be_visible
-      }
+      expect { expect(browser.div(id: 'hidden_parent')).to_not be_visible }
     end
   end
 
