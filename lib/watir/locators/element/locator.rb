@@ -257,10 +257,10 @@ module Watir
           what
         end
 
-        def regexp_selector_to_predicates(key, re)
-          return [] if re.casefold?
+        def regexp_selector_to_predicates(key, regexp)
+          return [] if regexp.casefold?
 
-          match = re.source.match(CONVERTABLE_REGEXP)
+          match = regexp.source.match(CONVERTABLE_REGEXP)
           return [] unless match
 
           lhs = selector_builder.xpath_builder.lhs_for(nil, key)

@@ -25,7 +25,7 @@ module Watir
       raise ArgumentError, "#set! does not support special keys, use #set instead" if args.any? { |v| v.kind_of?(::Symbol) }
       input_value = args.join
       set input_value[0]
-      return set_content_editable!(*args) if @content_editable
+      return content_editable_set!(*args) if @content_editable
       element_call { execute_js(:setValue, @element, input_value[0..-2]) }
       append(input_value[-1])
       return if value == input_value
@@ -56,7 +56,7 @@ module Watir
 
     private
 
-    def set_content_editable!(*args)
+    def content_editable_set!(*args)
       input_text = args.join
       element_call { execute_js(:setText, @element, input_text) }
       return if text == input_text
