@@ -2,10 +2,8 @@
 module Watir
   class SVGElement < HTMLElement
     attribute(String, :classname, :className)
-    attribute(String, :dataset, :dataset)
     attribute(String, :ownersvgelement, :ownerSVGElement)
     attribute(String, :viewportelement, :viewportElement)
-    attribute(Integer, :tabindex, :tabIndex)
     attribute(String, :correspondingelement, :correspondingElement)
     attribute(String, :correspondinguseelement, :correspondingUseElement)
   end
@@ -18,24 +16,6 @@ module Watir
     attribute(Integer, :zoomandpan, :zoomAndPan)
   end
   class ViewCollection < ElementCollection
-  end
-
-  class Cursor < SVGElement
-    attribute(Integer, :x, :x)
-    attribute(Integer, :y, :y)
-    attribute(String, :href, :href)
-  end
-  class CursorCollection < ElementCollection
-  end
-
-  class Hatchpath < SVGElement
-  end
-  class HatchpathCollection < ElementCollection
-  end
-
-  class Hatch < SVGElement
-  end
-  class HatchCollection < ElementCollection
   end
 
   class Pattern < SVGElement
@@ -59,16 +39,6 @@ module Watir
   class StopCollection < ElementCollection
   end
 
-  class Meshpatch < SVGElement
-  end
-  class MeshpatchCollection < ElementCollection
-  end
-
-  class Meshrow < SVGElement
-  end
-  class MeshrowCollection < ElementCollection
-  end
-
   class Gradient < SVGElement
     attribute(String, :gradientunits, :gradientUnits)
     attribute(String, :gradienttransform, :gradientTransform)
@@ -76,11 +46,6 @@ module Watir
     attribute(String, :href, :href)
   end
   class GradientCollection < ElementCollection
-  end
-
-  class MeshGradient < Gradient
-  end
-  class MeshGradientCollection < ElementCollection
   end
 
   class RadialGradient < Gradient
@@ -101,11 +66,6 @@ module Watir
     attribute(Integer, :y2, :y2)
   end
   class LinearGradientCollection < ElementCollection
-  end
-
-  class Solidcolor < SVGElement
-  end
-  class SolidcolorCollection < ElementCollection
   end
 
   class Marker < SVGElement
@@ -249,12 +209,6 @@ module Watir
   class PolylineCollection < ElementCollection
   end
 
-  class Mesh < Geometry
-    attribute(String, :href, :href)
-  end
-  class MeshCollection < ElementCollection
-  end
-
   class Line < Geometry
     attribute(Integer, :x1, :x1)
     attribute(Integer, :y1, :y1)
@@ -310,16 +264,6 @@ module Watir
     end
     Watir.tag_to_class[:circle] = Circle
 
-    # @return [Cursor]
-    def cursor(*args)
-      Cursor.new(self, extract_selector(args).merge(tag_name: "cursor"))
-    end
-    # @return [CursorCollection]
-    def cursors(*args)
-      CursorCollection.new(self, extract_selector(args).merge(tag_name: "cursor"))
-    end
-    Watir.tag_to_class[:cursor] = Cursor
-
     # @return [Defs]
     def defs(*args)
       Defs.new(self, extract_selector(args).merge(tag_name: "defs"))
@@ -370,16 +314,6 @@ module Watir
     end
     Watir.tag_to_class[:g] = G
 
-    # @return [Hatchpath]
-    def hatchpath(*args)
-      Hatchpath.new(self, extract_selector(args).merge(tag_name: "hatchpath"))
-    end
-    # @return [HatchpathCollection]
-    def hatchpaths(*args)
-      HatchpathCollection.new(self, extract_selector(args).merge(tag_name: "hatchpath"))
-    end
-    Watir.tag_to_class[:hatchpath] = Hatchpath
-
     # @return [Line]
     def line(*args)
       Line.new(self, extract_selector(args).merge(tag_name: "line"))
@@ -409,46 +343,6 @@ module Watir
       MarkerCollection.new(self, extract_selector(args).merge(tag_name: "marker"))
     end
     Watir.tag_to_class[:marker] = Marker
-
-    # @return [Mesh]
-    def mesh(*args)
-      Mesh.new(self, extract_selector(args).merge(tag_name: "mesh"))
-    end
-    # @return [MeshCollection]
-    def meshes(*args)
-      MeshCollection.new(self, extract_selector(args).merge(tag_name: "mesh"))
-    end
-    Watir.tag_to_class[:mesh] = Mesh
-
-    # @return [MeshGradient]
-    def meshgradient(*args)
-      MeshGradient.new(self, extract_selector(args).merge(tag_name: "meshgradient"))
-    end
-    # @return [MeshGradientCollection]
-    def meshgradients(*args)
-      MeshGradientCollection.new(self, extract_selector(args).merge(tag_name: "meshgradient"))
-    end
-    Watir.tag_to_class[:meshgradient] = MeshGradient
-
-    # @return [Meshpatch]
-    def meshpatch(*args)
-      Meshpatch.new(self, extract_selector(args).merge(tag_name: "meshpatch"))
-    end
-    # @return [MeshpatchCollection]
-    def meshpatches(*args)
-      MeshpatchCollection.new(self, extract_selector(args).merge(tag_name: "meshpatch"))
-    end
-    Watir.tag_to_class[:meshpatch] = Meshpatch
-
-    # @return [Meshrow]
-    def meshrow(*args)
-      Meshrow.new(self, extract_selector(args).merge(tag_name: "meshrow"))
-    end
-    # @return [MeshrowCollection]
-    def meshrows(*args)
-      MeshrowCollection.new(self, extract_selector(args).merge(tag_name: "meshrow"))
-    end
-    Watir.tag_to_class[:meshrow] = Meshrow
 
     # @return [Metadata]
     def metadata(*args)
@@ -519,16 +413,6 @@ module Watir
       RectCollection.new(self, extract_selector(args).merge(tag_name: "rect"))
     end
     Watir.tag_to_class[:rect] = Rect
-
-    # @return [Solidcolor]
-    def solidcolor(*args)
-      Solidcolor.new(self, extract_selector(args).merge(tag_name: "solidcolor"))
-    end
-    # @return [SolidcolorCollection]
-    def solidcolors(*args)
-      SolidcolorCollection.new(self, extract_selector(args).merge(tag_name: "solidcolor"))
-    end
-    Watir.tag_to_class[:solidcolor] = Solidcolor
 
     # @return [Stop]
     def stop(*args)

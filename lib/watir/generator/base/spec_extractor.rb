@@ -56,6 +56,7 @@ module Watir
         parsed = @doc.search(IDL_SELECTOR).map {  |e| parse_idl(e.inner_text) }.compact
 
         implements = []
+        includes = []
         @interfaces = []
 
         parsed.flatten.each do |element|
@@ -64,11 +65,14 @@ module Watir
             @interfaces << element
           when WebIDL::Ast::ImplementsStatement
             implements << element
+          when WebIDL::Ast::IncludesStatement
+            includes << element
           end
         end
 
         @interfaces_by_name = @interfaces.group_by(&:name)
         apply_implements(implements)
+        apply_includes(includes)
         merge_interfaces
       end
 
@@ -105,6 +109,20 @@ module Watir
           begin
             intf = fetch_interface(implementor_name).first
             intf.implements << fetch_interface(implementee_name).first
+          rescue InterfaceNotFound => ex
+            puts ex.message
+          end
+        end
+      end
+
+      def apply_includes(includes)
+        includes.each do |is|
+          includer_name = is.includer.gsub(/^::/, '')
+          includee_name = is.includee.gsub(/^::/, '')
+
+          begin
+            intf = fetch_interface(includer_name).first
+            intf.includes << fetch_interface(includee_name).first
           rescue InterfaceNotFound => ex
             puts ex.message
           end

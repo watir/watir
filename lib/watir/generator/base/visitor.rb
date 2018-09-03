@@ -88,6 +88,7 @@ module Watir
       def extract_attributes(interface)
         members = interface.members
         members += interface.implements.flat_map(&:members)
+        members += interface.includes.flat_map(&:members)
 
         members.select { |e| e.kind_of?(WebIDL::Ast::Attribute) }.uniq(&:name)
       end
