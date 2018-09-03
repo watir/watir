@@ -54,30 +54,31 @@ Metrics/ModuleLength:
 
 # Configuration parameters: CountComments.
 Metrics/MethodLength:
-  Max: 23
+  Max: 18
 
 # Configuration parameters: CountComments.
 Metrics/ClassLength:
-  Max: 135
+  Max: 120
   Exclude:
     - 'lib/watir/locators/element/locator.rb'
     - 'lib/watir/elements/element.rb'
+    - 'lib/watir/elements/select.rb'
 
 Metrics/PerceivedComplexity:
-  Max: 11
+  Max: 9
 
 Metrics/CyclomaticComplexity:
-  Max: 10
+  Max: 9
 
 # Offense count: 28
 Metrics/AbcSize:
-  Max: 25
+  Max: 22
   Exclude:
     - 'lib/watir/locators/element/selector_builder.rb'
     - 'lib/watir/generator/base/generator.rb'
 
-## TODO: fix with Watir 7
-## Configuration parameters: CountKeywordArgs.
+# TODO: fix with Watir 7
+# Configuration parameters: CountKeywordArgs.
 Metrics/ParameterLists:
   Exclude:
     - 'lib/watir/wait.rb'
@@ -85,5 +86,5 @@ Metrics/ParameterLists:
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
 # URISchemes: http, https
 Metrics/LineLength:
-  Max: 121
+  Max: 120
 

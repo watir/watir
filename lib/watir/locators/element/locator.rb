@@ -69,17 +69,7 @@ module Watir
           what = add_regexp_predicates(what) if how == :xpath
 
           if filter == :all || !@filter_selector.empty?
-            retries = 0
-            begin
-              elements = locate_elements(how, what, @driver_scope) || []
-              filter_elements(elements, filter: filter)
-            rescue Selenium::WebDriver::Error::StaleElementReferenceError
-              retries += 1
-              sleep 0.5
-              retry unless retries > 2
-              target = filter == :all ? "element collection" : "element"
-              raise StandardError, "Unable to locate #{target} from #{@selector} due to changing page"
-            end
+            locate_filtered_elements(how, what, filter)
           else
             locate_element(how, what, @driver_scope)
           end
@@ -109,12 +99,7 @@ module Watir
         def filter_elements(elements, filter: :first)
           selector = @filter_selector.dup
           if filter == :first
-            idx = selector.delete(:index) || 0
-            if idx < 0
-              elements.reverse!
-              idx = idx.abs - 1
-            end
-
+            idx = element_index(elements, selector)
             counter = 0
 
             # Lazy evaluation to avoid fetching values for elements that will be discarded
@@ -122,13 +107,19 @@ module Watir
               counter += 1
               matches_selector?(el, selector)
             end
-            val = matches.take(idx + 1).to_a[idx]
-            Watir.logger.debug "Filtered through #{counter} elements to locate #{@selector.inspect}"
-            val
+            msg = "Filtered through #{counter} elements to locate #{@selector.inspect}"
+            matches.take(idx + 1).to_a[idx].tap { Watir.logger.debug msg }
           else
             Watir.logger.debug "Iterated through #{elements.size} elements to locate all #{@selector.inspect}"
             elements.select { |el| matches_selector?(el, selector) }
           end
+        end
+
+        def element_index(elements, selector)
+          idx = selector.delete(:index) || 0
+          return idx unless idx.negative?
+          elements.reverse!
+          idx.abs - 1
         end
 
         def create_normalized_selector(filter)
@@ -293,6 +284,20 @@ module Watir
 
         def locate_elements(how, what, scope = @query_scope.wd)
           scope.find_elements(how, what)
+        end
+
+        def locate_filtered_elements(how, what, filter)
+          retries = 0
+          begin
+            elements = locate_elements(how, what, @driver_scope) || []
+            filter_elements(elements, filter: filter)
+          rescue Selenium::WebDriver::Error::StaleElementReferenceError
+            retries += 1
+            sleep 0.5
+            retry unless retries > 2
+            target = filter == :all ? "element collection" : "element"
+            raise StandardError, "Unable to locate #{target} from #{@selector} due to changing page"
+          end
         end
 
         def wd_supported?(how, what, tag)

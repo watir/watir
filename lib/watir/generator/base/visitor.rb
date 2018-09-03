@@ -1,6 +1,14 @@
 module Watir
   module Generator
     class Base::Visitor < WebIDL::RubySexpVisitor
+      STRING_TYPES = ['WindowProxy', 'ValidityState', 'TimeRanges', 'Location',
+                      'Any', 'TimedTrackArray', 'TimedTrack', 'TextTrackArray', 'TextTrack',
+                      /Media.+/, 'TextTrackKind', 'Function', /.*EventHandler$/,
+                      'Document', 'DocumentFragment', 'DOMTokenList', 'DOMSettableTokenList',
+                      'DOMStringMap', 'HTMLPropertiesCollection', /HTML.*Element/, /HTML.*Collection/,
+                      'CSSStyleDeclaration', /.+List$/, 'Date', 'Element', /DOM.+ReadOnly/,
+                      /SVGAnimated.+/, /SVG.*Element/, /SVG.*Collection/, 'SVGViewSpec',
+                      'Object', 'USVString'].freeze
       def initialize
         super
 
@@ -22,14 +30,13 @@ module Watir
         $stderr.puts name
         return if name !~ interface_regexp || name =~ /(Collection|Document)$/
 
-        if force_inheritance.keys.include?(name)
-          parent = force_inheritance[name]
-        elsif parent
-          @inheritance_map[name] ||= parent.name
-          parent = parent.name
-        else
-          parent = @inheritance_map[name] || return
-        end
+        parent = if force_inheritance.keys.include?(name)
+                   force_inheritance[name]
+                 else
+                   @inheritance_map[name] ||= parent&.name
+                   return unless @inheritance_map[name]
+                   @inheritance_map[name]
+                 end
 
         [:scope,
          [:block,
@@ -139,14 +146,7 @@ module Watir
           Float
         when 'Boolean'
           'Boolean'
-        when 'WindowProxy', 'ValidityState', 'TimeRanges', 'Location',
-             'Any', 'TimedTrackArray', 'TimedTrack', 'TextTrackArray', 'TextTrack',
-             /Media.+/, 'TextTrackKind', 'Function', /.*EventHandler$/,
-             'Document', 'DocumentFragment', 'DOMTokenList', 'DOMSettableTokenList',
-             'DOMStringMap', 'HTMLPropertiesCollection', /HTML.*Element/, /HTML.*Collection/,
-             'CSSStyleDeclaration', /.+List$/, 'Date', 'Element', /DOM.+ReadOnly/,
-             /SVGAnimated.+/, /SVG.*Element/, /SVG.*Collection/, 'SVGViewSpec',
-             'Object', 'USVString'
+        when *STRING_TYPES
           # probably completely wrong.
           String
         else

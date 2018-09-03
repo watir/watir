@@ -143,7 +143,8 @@ module Watir
     # Creates a Collection containing elements of two collections.
     #
     # @example
-    #   (browser.select_list(name: "new_user_languages").options + browser.select_list(id: "new_user_role").options).size
+    #   options = browser.select_list(name: "new_user_languages").options
+    #   (options + browser.select_list(id: "new_user_role").options).size
     #   #=> 8
     #
 

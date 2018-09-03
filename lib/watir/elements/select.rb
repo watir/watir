@@ -157,14 +157,10 @@ module Watir
     def select_by!(str_or_rx, number)
       js_rx = process_str_or_rx(str_or_rx)
 
-      element_call { execute_js(:selectOptionsText, self, js_rx, number.to_s) }
-      return selected_options.first.text if matching_option?(:text, str_or_rx)
-
-      element_call { execute_js(:selectOptionsLabel, self, js_rx, number.to_s) }
-      return selected_options.first.text if matching_option?(:label, str_or_rx)
-
-      element_call { execute_js(:selectOptionsValue, self, js_rx, number.to_s) }
-      return selected_options.first.text if matching_option?(:value, str_or_rx)
+      %w[Text Label Value].each do |approach|
+        element_call { execute_js("selectOptions#{approach}", self, js_rx, number.to_s) }
+        return selected_options.first.text if matching_option?(approach.downcase, str_or_rx)
+      end
 
       raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
     end

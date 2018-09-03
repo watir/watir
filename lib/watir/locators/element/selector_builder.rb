@@ -36,7 +36,7 @@ module Watir
           when :visible_text
             raise_unless_str_regex(what)
           else
-            if what.is_a?(Array) && how != :class && how != :class_name
+            if what.is_a?(Array) && !%i[class class_name].include?(how)
               raise TypeError, "Only :class locator can have a value of an Array"
             end
             raise TypeError, "Symbol is not a valid value" if what.is_a?(Symbol) && how != :adjacent
@@ -85,25 +85,16 @@ module Watir
         end
 
         def given_xpath_or_css(selector)
-          xpath = selector.delete(:xpath)
-          css   = selector.delete(:css)
-          return unless xpath || css
+          locator = {}
+          locator[:xpath] = selector.delete(:xpath) if selector.key?(:xpath)
+          locator[:css] = selector.delete(:css) if selector.key?(:css)
 
-          if xpath && css
-            raise ArgumentError, ":xpath and :css cannot be combined (#{selector.inspect})"
-          end
+          return if locator.empty?
+          raise ArgumentError, ":xpath and :css cannot be combined (#{selector.inspect})" if locator.size > 1
 
-          how, what = if xpath
-                        [:xpath, xpath]
-                      elsif css
-                        [:css, css]
-                      end
-
-          if selector.any? && !can_be_combined_with_xpath_or_css?(selector)
-            raise ArgumentError, "#{how} cannot be combined with other selectors (#{selector.inspect})"
-          end
-
-          [how, what]
+          return locator.first unless selector.any? && !can_be_combined_with_xpath_or_css?(selector)
+          msg = "#{locator.keys.first} cannot be combined with other selectors (#{selector.inspect})"
+          raise ArgumentError, msg
         end
 
         def build_wd_selector(selectors)

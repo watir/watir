@@ -12,6 +12,17 @@ module WatirSpec
         when %r{/set_cookie}
           body = "<html>C is for cookie, it's good enough for me</html>"
           respond(body, 'Content-Type' => 'text/html', 'Set-Cookie' => 'monster=1')
+        when static_file?
+          respond_to_file(path)
+        else
+          respond('')
+        end
+      end
+
+      private
+
+      def respond_to_file(path)
+        case path
         when css_file?
           respond(file_read(path), 'Content-Type' => 'text/css')
         when js_file?
@@ -20,14 +31,10 @@ module WatirSpec
           respond(file_binread(path), 'Content-Type' => 'image/png')
         when gif_file?
           respond(file_read(path), 'Content-Type' => 'image/gif')
-        when static_file?
-          respond(file_read(path))
         else
-          respond('')
+          respond(file_read(path))
         end
       end
-
-      private
 
       def respond(body, headers = {}, status = '200 OK')
         [status, headers, body]

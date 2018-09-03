@@ -123,14 +123,16 @@ describe "DateTimeField" do
       date_time = DateTime.now
       date_time_field = browser.date_time_field(id: 'html5_datetime-local')
       date_time_field.value = date_time
-      expect(DateTime.parse(date_time_field.value).strftime("%Y-%m-%dT%H:%M")).to eq date_time.strftime("%Y-%m-%dT%H:%M")
+      expect(DateTime.parse(date_time_field.value).strftime("%Y-%m-%dT%H:%M"))
+        .to eq date_time.strftime("%Y-%m-%dT%H:%M")
     end
 
     it "sets the value when accessed through the enclosing Form" do
       date_time = DateTime.now
       date_time_field = browser.form(id: 'new_user').date_time_field(id: 'html5_datetime-local')
       date_time_field.value = date_time
-      expect(DateTime.parse(date_time_field.value).strftime("%Y-%m-%dT%H:%M")).to eq date_time.strftime("%Y-%m-%dT%H:%M")
+      expect(DateTime.parse(date_time_field.value).strftime("%Y-%m-%dT%H:%M"))
+        .to eq date_time.strftime("%Y-%m-%dT%H:%M")
     end
 
     it "raises UnknownObjectException if the date-time field doesn't exist" do
@@ -147,14 +149,16 @@ describe "DateTimeField" do
       date_time = DateTime.now
       date_time_field = browser.date_time_field(id: 'html5_datetime-local')
       date_time_field.set! date_time
-      expect(DateTime.parse(date_time_field.value).strftime("%Y-%m-%dT%H:%M")).to eq date_time.strftime("%Y-%m-%dT%H:%M")
+      expect(DateTime.parse(date_time_field.value).strftime("%Y-%m-%dT%H:%M"))
+        .to eq date_time.strftime("%Y-%m-%dT%H:%M")
     end
 
     it "sets the value when accessed through the enclosing Form" do
       date_time = DateTime.now
       date_time_field = browser.form(id: 'new_user').date_time_field(id: 'html5_datetime-local')
       date_time_field.set! date_time
-      expect(DateTime.parse(date_time_field.value).strftime("%Y-%m-%dT%H:%M")).to eq date_time.strftime("%Y-%m-%dT%H:%M")
+      expect(DateTime.parse(date_time_field.value).strftime("%Y-%m-%dT%H:%M"))
+        .to eq date_time.strftime("%Y-%m-%dT%H:%M")
     end
 
     it "raises ArgumentError when no arguments are provided" do
@@ -171,14 +175,16 @@ describe "DateTimeField" do
       date_time = DateTime.now
       date_time_field = browser.date_time_field(id: 'html5_datetime-local')
       date_time_field.set(date_time)
-      expect(DateTime.parse(date_time_field.value).strftime("%Y-%m-%dT%H:%M")).to eq date_time.strftime("%Y-%m-%dT%H:%M")
+      expect(DateTime.parse(date_time_field.value).strftime("%Y-%m-%dT%H:%M"))
+        .to eq date_time.strftime("%Y-%m-%dT%H:%M")
     end
 
     it "sets the value when accessed through the enclosing Form" do
       date_time = DateTime.now
       date_time_field = browser.form(id: 'new_user').date_time_field(id: 'html5_datetime-local')
       date_time_field.set date_time
-      expect(DateTime.parse(date_time_field.value).strftime("%Y-%m-%dT%H:%M")).to eq date_time.strftime("%Y-%m-%dT%H:%M")
+      expect(DateTime.parse(date_time_field.value).strftime("%Y-%m-%dT%H:%M"))
+        .to eq date_time.strftime("%Y-%m-%dT%H:%M")
     end
 
     it "raises ArgumentError when no arguments are provided" do

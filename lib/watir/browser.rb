@@ -10,8 +10,7 @@ module Watir
     include Navigation
 
     attr_writer :default_context, :original_window, :locator_namespace
-    attr_reader :driver
-    attr_reader :after_hooks
+    attr_reader :driver, :after_hooks
     alias_method :wd, :driver # ensures duck typing with Watir::Element
 
     class << self
@@ -27,10 +26,7 @@ module Watir
       # @return [Watir::Browser]
       #
       def start(url, browser = :chrome, *args)
-        b = new(browser, *args)
-        b.goto url
-
-        b
+        new(browser, *args).tap { |b| b.goto url }
       end
     end
 
@@ -80,7 +76,6 @@ module Watir
     #
 
     def url
-      assert_exists
       @driver.current_url
     end
 
@@ -108,7 +103,7 @@ module Watir
       @driver.quit
       @closed = true
     end
-    alias_method :quit, :close # TODO: close vs quit
+    alias_method :quit, :close
 
     #
     # Handles cookies.
@@ -152,7 +147,6 @@ module Watir
     #
 
     def html
-      # use body.html instead?
       @driver.page_source
     end
 
@@ -218,9 +212,8 @@ module Watir
 
     def execute_script(script, *args)
       args.map! { |e| e.kind_of?(Watir::Element) ? e.wd : e }
-      returned = @driver.execute_script(script, *args)
 
-      wrap_elements_in(self, returned)
+      wrap_elements_in(self, @driver.execute_script(script, *args))
     end
 
     #
@@ -299,8 +292,6 @@ module Watir
         obj.map { |e| wrap_elements_in(scope, e) }
       when Hash
         obj.each { |k, v| obj[k] = wrap_elements_in(scope, v) }
-
-        obj
       else
         obj
       end

@@ -49,7 +49,7 @@ module Watir
 
       %i(open_timeout read_timeout client_timeout).each do |t|
         next if http_client.nil? || !respond_to?(t)
-        msg = "You can now pass #{t} value directly into Watir::Browser opt without needing to use :http_client"
+        msg = "You can pass #{t} value directly into Watir::Browser opt without needing to use :http_client"
         Watir.logger.warn msg, ids: [:http_client, :use_capabilities]
       end
 
@@ -123,7 +123,7 @@ module Watir
       caps = @options.delete(:desired_capabilities)
 
       if caps
-        msg = 'You can now pass values directly into Watir::Browser opt without needing to use :desired_capabilities'
+        msg = 'You can pass values directly into Watir::Browser opt without needing to use :desired_capabilities'
         Watir.logger.warn msg,
                           ids: [:use_capabilities]
         @selenium_opts.merge!(@options)

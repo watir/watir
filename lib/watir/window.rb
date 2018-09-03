@@ -13,9 +13,8 @@ module Watir
       elsif selector.key? :handle
         @handle = selector.delete :handle
       else
-        unless selector.keys.all? { |k| [:title, :url, :index].include? k }
-          raise ArgumentError, "invalid window selector: #{selector.inspect}"
-        end
+        return if selector.keys.all? { |k| [:title, :url, :index].include? k }
+        raise ArgumentError, "invalid window selector: #{selector.inspect}"
       end
     end
 
@@ -32,10 +31,7 @@ module Watir
     #
 
     def size
-      size = nil
-      use { size = @driver.manage.window.size }
-
-      size
+      use { return @driver.manage.window.size }
     end
 
     #
@@ -47,10 +43,7 @@ module Watir
     #
 
     def position
-      pos = nil
-      use { pos = @driver.manage.window.position }
-
-      pos
+      use { return @driver.manage.window.position }
     end
 
     #
@@ -64,10 +57,9 @@ module Watir
     #
 
     def resize_to(width, height)
-      dimension = Selenium::WebDriver::Dimension.new(Integer(width), Integer(height))
-      use { @driver.manage.window.size = dimension }
-
-      dimension
+      Selenium::WebDriver::Dimension.new(Integer(width), Integer(height)).tap do |dimension|
+        use { @driver.manage.window.size = dimension }
+      end
     end
 
     #
@@ -81,10 +73,9 @@ module Watir
     #
 
     def move_to(x_coord, y_coord)
-      point = Selenium::WebDriver::Point.new(Integer(x_coord), Integer(y_coord))
-      use { @driver.manage.window.position = point }
-
-      point
+      Selenium::WebDriver::Point.new(Integer(x_coord), Integer(y_coord)).tap do |point|
+        use { @driver.manage.window.position = point }
+      end
     end
 
     #
@@ -163,10 +154,7 @@ module Watir
     #
 
     def title
-      title = nil
-      use { title = @driver.title }
-
-      title
+      use { return @driver.title }
     end
 
     #
@@ -176,10 +164,7 @@ module Watir
     #
 
     def url
-      url = nil
-      use { url = @driver.current_url }
-
-      url
+      use { return @driver.current_url }
     end
 
     #
