@@ -23,18 +23,17 @@ It facilitates the writing of automated tests by mimicing the behavior of a user
 
   s.add_dependency 'selenium-webdriver', '~> 3.4', '>= 3.4.1'
 
-  s.add_development_dependency 'rspec', '~> 3.0'
-  s.add_development_dependency 'yard', '> 0.8.2.1'
-  s.add_development_dependency 'webidl', '>= 0.2.2'
-  s.add_development_dependency 'rake', '~> 0.9.2'
+  s.add_development_dependency 'activesupport', '~> 4.0', '>= 4.1.11' # for pluralization during code generation
+  s.add_development_dependency 'coveralls'
   s.add_development_dependency 'fuubar'
   s.add_development_dependency 'nokogiri'
-  s.add_development_dependency 'activesupport', '~> 4.0', '>= 4.1.11' # for pluralization during code generation
   s.add_development_dependency 'pry'
-  s.add_development_dependency 'coveralls'
-  s.add_development_dependency 'yard-doctest', '>= 0.1.8'
-  s.add_development_dependency 'webdrivers', '~> 3.0', '>= 3.1.0'
-  s.add_development_dependency 'selenium_statistics'
+  s.add_development_dependency 'rake', '~> 0.9.2'
+  s.add_development_dependency 'rspec', '~> 3.0'
   s.add_development_dependency 'rubocop'
+  s.add_development_dependency 'selenium_statistics'
+  s.add_development_dependency 'webdrivers', '~> 3.0', '>= 3.1.0'
+  s.add_development_dependency 'webidl', '>= 0.2.2'
+  s.add_development_dependency 'yard', '> 0.8.2.1'
+  s.add_development_dependency 'yard-doctest', '>= 0.1.8'
 end
-
