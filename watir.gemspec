@@ -25,7 +25,7 @@ It facilitates the writing of automated tests by mimicing the behavior of a user
 
   s.add_development_dependency 'rspec', '~> 3.0'
   s.add_development_dependency 'yard', '> 0.8.2.1'
-  s.add_development_dependency 'webidl', '>= 0.2.0'
+  s.add_development_dependency 'webidl', '>= 0.2.1'
   s.add_development_dependency 'rake', '~> 0.9.2'
   s.add_development_dependency 'fuubar'
   s.add_development_dependency 'nokogiri'
