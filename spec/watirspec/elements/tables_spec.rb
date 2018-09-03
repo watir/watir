@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "Tables" do
-
   before :each do
     browser.goto(WatirSpec.url_for("tables.html"))
   end
@@ -38,5 +37,4 @@ describe "Tables" do
       expect(count).to be > 0
     end
   end
-
 end

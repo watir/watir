@@ -1,6 +1,5 @@
 module Watir
   module JSSnippets
-
     private
 
     def execute_js(function_name, *arguments)
@@ -11,6 +10,5 @@ module Watir
       script = "return (#{js}).apply(null, arguments)"
       @query_scope.execute_script(script, *arguments)
     end
-
   end # JSSnippets
 end # Watir

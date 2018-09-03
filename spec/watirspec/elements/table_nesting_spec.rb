@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "Table" do
-
   before :each do
     browser.goto(WatirSpec.url_for("nested_tables.html"))
   end
@@ -47,5 +46,4 @@ describe "Table" do
       end
     end
   end
-
 end

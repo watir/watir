@@ -1,7 +1,6 @@
 module Watir
   module Generator
     class HTML::SpecExtractor < Base::SpecExtractor
-
       private
 
       def extract_interface_map
@@ -44,7 +43,6 @@ module Watir
       def issued_interfaces
         []
       end
-
     end # HTML:;SpecExtractor
   end # Generator
 end # Watir

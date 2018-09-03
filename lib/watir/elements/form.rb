@@ -1,6 +1,5 @@
 module Watir
   class Form < HTMLElement
-
     #
     # Submits the form.
     #
@@ -11,6 +10,5 @@ module Watir
       element_call(:wait_for_present) { @element.submit }
       browser.after_hooks.run
     end
-
   end # Form
 end # Watir

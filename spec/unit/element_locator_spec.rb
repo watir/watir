@@ -39,8 +39,8 @@ describe Watir::Locators::Element::Locator do
         expect_one :xpath, ".//div[@title='foo' and @dir='bar']"
 
         locate_one [:tag_name, "div",
-                    :title   , "foo",
-                    :dir     , 'bar']
+                    :title, "foo",
+                    :dir, 'bar']
       end
 
       it "handles selector with no tag name and multiple attributes" do
@@ -81,34 +81,34 @@ describe Watir::Locators::Element::Locator do
       end
 
       it "handles selector with tag_name and xpath" do
-          elements = [
-              element(tag_name: "div", attributes: { class: "foo" }),
-              element(tag_name: "span", attributes: { class: "foo" }),
-              element(tag_name: "div", attributes: { class: "foo" })
-          ]
+        elements = [
+          element(tag_name: "div", attributes: {class: "foo"}),
+          element(tag_name: "span", attributes: {class: "foo"}),
+          element(tag_name: "div", attributes: {class: "foo"})
+        ]
 
-          expect_all(:xpath, './/*[@class="foo"]').and_return(elements)
+        expect_all(:xpath, './/*[@class="foo"]').and_return(elements)
 
-          selector = {
-              xpath: './/*[@class="foo"]',
-              tag_name: 'span'
-          }
+        selector = {
+          xpath: './/*[@class="foo"]',
+          tag_name: 'span'
+        }
 
-          expect(locate_one(selector).tag_name).to eq 'span'
+        expect(locate_one(selector).tag_name).to eq 'span'
       end
 
       it "handles custom attributes" do
         elements = [
-            element(tag_name: "div", attributes: { custom_attribute: "foo" }),
-            element(tag_name: "span", attributes: { custom_attribute: "foo" }),
-            element(tag_name: "div", attributes: { custom_attribute: "foo" })
+          element(tag_name: "div", attributes: {custom_attribute: "foo"}),
+          element(tag_name: "span", attributes: {custom_attribute: "foo"}),
+          element(tag_name: "div", attributes: {custom_attribute: "foo"})
         ]
 
         expect_one(:xpath, ".//span[@custom-attribute='foo']").and_return(elements[1])
 
         selector = {
-            custom_attribute: 'foo',
-            tag_name: 'span'
+          custom_attribute: 'foo',
+          tag_name: 'span'
         }
 
         expect(locate_one(selector).tag_name).to eq 'span'
@@ -173,7 +173,7 @@ describe Watir::Locators::Element::Locator do
 
         selector = [
           :tag_name, "input",
-          :type    , "file",
+          :type, "file",
         ]
 
         locate_one selector, Watir::Input.attributes
@@ -185,8 +185,8 @@ describe Watir::Locators::Element::Locator do
 
         selector = [
           :tag_name, "input",
-          :type    , "text",
-          :label   , "foo"
+          :type, "text",
+          :label, "foo"
         ]
 
         locate_one selector, Watir::Input.attributes
@@ -195,7 +195,7 @@ describe Watir::Locators::Element::Locator do
       it "uses label attribute if it is valid for element" do
         expect_one :xpath, ".//option[@label='foo']"
 
-        selector = { tag_name: "option", label: "foo" }
+        selector = {tag_name: "option", label: "foo"}
         locate_one selector, Watir::Option.attributes
       end
 
@@ -216,8 +216,8 @@ describe Watir::Locators::Element::Locator do
     describe "with regexp selectors" do
       it "handles selector with tag name and a single regexp attribute" do
         elements = [
-          element(tag_name: "div", attributes: { class: "foo" }),
-          element(tag_name: "div", attributes: { class: "foob"})
+          element(tag_name: "div", attributes: {class: "foo"}),
+          element(tag_name: "div", attributes: {class: "foob"})
         ]
 
         expect_all(:xpath, "(.//div)[contains(@class, 'oob')]").and_return(elements)
@@ -227,8 +227,8 @@ describe Watir::Locators::Element::Locator do
 
       it "handles :tag_name, :index and a single regexp attribute" do
         elements = [
-          element(tag_name: "div", attributes: { class: "foo" }),
-          element(tag_name: "div", attributes: { class: "foo" })
+          element(tag_name: "div", attributes: {class: "foo"}),
+          element(tag_name: "div", attributes: {class: "foo"})
         ]
 
         expect_all(:xpath, "(.//div)[contains(@class, 'foo')]").and_return(elements)
@@ -244,8 +244,8 @@ describe Watir::Locators::Element::Locator do
 
       it "handles :xpath and :index selectors" do
         elements = [
-          element(tag_name: "div", attributes: { class: "foo" }),
-          element(tag_name: "div", attributes: { class: "foo" })
+          element(tag_name: "div", attributes: {class: "foo"}),
+          element(tag_name: "div", attributes: {class: "foo"})
         ]
 
         expect_all(:xpath, './/div[@class="foo"]').and_return(elements)
@@ -260,8 +260,8 @@ describe Watir::Locators::Element::Locator do
 
       it "handles :css and :index selectors" do
         elements = [
-          element(tag_name: "div", attributes: { class: "foo" }),
-          element(tag_name: "div", attributes: { class: "foo" })
+          element(tag_name: "div", attributes: {class: "foo"}),
+          element(tag_name: "div", attributes: {class: "foo"})
         ]
 
         expect_all(:css, 'div[class="foo"]').and_return(elements)
@@ -276,8 +276,8 @@ describe Watir::Locators::Element::Locator do
 
       it "handles mix of string and regexp attributes" do
         elements = [
-          element(tag_name: "div", attributes: { dir: "foo", title: "bar" }),
-          element(tag_name: "div", attributes: { dir: "foo", title: "baz" })
+          element(tag_name: "div", attributes: {dir: "foo", title: "bar"}),
+          element(tag_name: "div", attributes: {dir: "foo", title: "baz"})
         ]
 
         expect_all(:xpath, "(.//div[@dir='foo'])[contains(@title, 'baz')]").and_return(elements)
@@ -293,8 +293,8 @@ describe Watir::Locators::Element::Locator do
 
       it "handles data-* attributes with regexp" do
         elements = [
-          element(tag_name: "div", attributes: { :'data-automation-id' => "foo" }),
-          element(tag_name: "div", attributes: { :'data-automation-id' => "bar" })
+          element(tag_name: "div", attributes: {:'data-automation-id' => "foo"}),
+          element(tag_name: "div", attributes: {:'data-automation-id' => "bar"})
         ]
 
         expect_all(:xpath, "(.//div)[contains(@data-automation-id, 'bar')]").and_return(elements)
@@ -309,8 +309,8 @@ describe Watir::Locators::Element::Locator do
 
       it "handles :label => /regexp/ selector" do
         label_elements = [
-          element(tag_name: "label", text: "foo", attributes: { 'for' => "bar"}),
-          element(tag_name: "label", text: "foob", attributes: { 'for' => "baz"})
+          element(tag_name: "label", text: "foo", attributes: {'for' => "bar"}),
+          element(tag_name: "label", text: "foob", attributes: {'for' => "baz"})
         ]
         div_elements = [element(tag_name: "div")]
 
@@ -375,13 +375,13 @@ describe Watir::Locators::Element::Locator do
     describe "errors" do
       it "raises a TypeError if :index is not a Integer" do
         expect { locate_one(tag_name: "div", index: "bar") }.to \
-        raise_error(TypeError, %[expected Integer, got "bar":String])
+          raise_error(TypeError, %[expected Integer, got "bar":String])
       end
 
       it "raises a TypeError if selector value is not a String, Regexp or Boolean" do
         num_type = RUBY_VERSION[/^\d+\.(\d+)/, 1].to_i >= 4 ? 'Integer' : 'Fixnum'
         expect { locate_one(tag_name: 123) }.to \
-        raise_error(TypeError, %[expected one of [Array, String, Regexp, TrueClass, FalseClass, Symbol], got 123:#{num_type}])
+          raise_error(TypeError, %[expected one of [Array, String, Regexp, TrueClass, FalseClass, Symbol], got 123:#{num_type}])
       end
     end
   end
@@ -415,8 +415,8 @@ describe Watir::Locators::Element::Locator do
       it "handles selector with tag name and multiple attributes" do
         expect_all :xpath, ".//div[@dir='foo' and @title='bar']"
         locate_all [:tag_name, "div",
-                    :dir     , "foo",
-                    :title   , 'bar']
+                    :dir, "foo",
+                    :title, 'bar']
       end
 
       it "handles selector with class attribute presence" do
@@ -441,10 +441,10 @@ describe Watir::Locators::Element::Locator do
     describe "with regexp selectors" do
       it "handles selector with tag name and a single regexp attribute" do
         elements = [
-          element(tag_name: "div", attributes: { class: "foo" }),
-          element(tag_name: "div", attributes: { class: "foob"}),
-          element(tag_name: "div", attributes: { class: "doob"}),
-          element(tag_name: "div", attributes: { class: "noob"})
+          element(tag_name: "div", attributes: {class: "foo"}),
+          element(tag_name: "div", attributes: {class: "foob"}),
+          element(tag_name: "div", attributes: {class: "doob"}),
+          element(tag_name: "div", attributes: {class: "noob"})
         ]
 
         expect_all(:xpath, "(.//div)[contains(@class, 'oob')]").and_return(elements)
@@ -453,9 +453,9 @@ describe Watir::Locators::Element::Locator do
 
       it "handles mix of string and regexp attributes" do
         elements = [
-          element(tag_name: "div", attributes: { dir: "foo", title: "bar" }),
-          element(tag_name: "div", attributes: { dir: "foo", title: "baz" }),
-          element(tag_name: "div", attributes: { dir: "foo", title: "bazt"})
+          element(tag_name: "div", attributes: {dir: "foo", title: "bar"}),
+          element(tag_name: "div", attributes: {dir: "foo", title: "baz"}),
+          element(tag_name: "div", attributes: {dir: "foo", title: "bazt"})
         ]
 
         expect_all(:xpath, "(.//div[@dir='foo'])[contains(@title, 'baz')]").and_return(elements)
@@ -472,9 +472,9 @@ describe Watir::Locators::Element::Locator do
       context "and xpath" do
         it "converts a leading run of regexp literals to a contains() expression" do
           elements = [
-            element(tag_name: "div", attributes: { class: "foo" }),
-            element(tag_name: "div", attributes: { class: "foob" }),
-            element(tag_name: "div", attributes: { class: "bar" })
+            element(tag_name: "div", attributes: {class: "foo"}),
+            element(tag_name: "div", attributes: {class: "foob"}),
+            element(tag_name: "div", attributes: {class: "bar"})
           ]
 
           expect_all(:xpath, "(.//div)[contains(@class, 'fo')]").and_return(elements.first(2))
@@ -484,8 +484,8 @@ describe Watir::Locators::Element::Locator do
 
         it "converts a trailing run of regexp literals to a contains() expression" do
           elements = [
-            element(tag_name: "div", attributes: { class: "foo" }),
-            element(tag_name: "div", attributes: { class: "foob" })
+            element(tag_name: "div", attributes: {class: "foo"}),
+            element(tag_name: "div", attributes: {class: "foob"})
           ]
 
           expect_all(:xpath, "(.//div)[contains(@class, 'b')]").and_return(elements.last(1))
@@ -495,20 +495,20 @@ describe Watir::Locators::Element::Locator do
 
         it "converts a leading and a trailing run of regexp literals to a contains() expression" do
           elements = [
-            element(tag_name: "div", attributes: { class: "foo" }),
-            element(tag_name: "div", attributes: { class: "foob" })
+            element(tag_name: "div", attributes: {class: "foo"}),
+            element(tag_name: "div", attributes: {class: "foob"})
           ]
 
-          expect_all(:xpath, "(.//div)[contains(@class, 'fo') and contains(@class, 'b')]").
-            and_return(elements.last(1))
+          expect_all(:xpath, "(.//div)[contains(@class, 'fo') and contains(@class, 'b')]")
+            .and_return(elements.last(1))
 
           expect(locate_one(tag_name: "div", class: /fo.b/)).to eq elements[1]
         end
 
         it "does not try to convert case insensitive expressions" do
           elements = [
-            element(tag_name: "div", attributes: { class: "foo" }),
-            element(tag_name: "div", attributes: { class: "foob"})
+            element(tag_name: "div", attributes: {class: "foo"}),
+            element(tag_name: "div", attributes: {class: "foob"})
           ]
 
           expect_all(:xpath, ".//div").and_return(elements.last(1))
@@ -518,8 +518,8 @@ describe Watir::Locators::Element::Locator do
 
         it "does not try to convert expressions containing '|'" do
           elements = [
-            element(tag_name: "div", attributes: { class: "foo" }),
-            element(tag_name: "div", attributes: { class: "foob"})
+            element(tag_name: "div", attributes: {class: "foo"}),
+            element(tag_name: "div", attributes: {class: "foob"})
           ]
 
           expect_all(:xpath, ".//div").and_return(elements.last(1))
@@ -532,9 +532,8 @@ describe Watir::Locators::Element::Locator do
     describe "errors" do
       it "raises ArgumentError if :index is given" do
         expect { locate_all(tag_name: "div", index: 1) }.to \
-        raise_error(ArgumentError, "can't locate all elements by :index")
+          raise_error(ArgumentError, "can't locate all elements by :index")
       end
     end
   end
-
 end

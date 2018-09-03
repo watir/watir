@@ -1,7 +1,6 @@
 module Watir
   module Generator
     class Base::SpecExtractor
-
       IDL_SELECTOR = "//pre[contains(@class, 'idl')]".freeze
 
       class InterfaceNotFound < StandardError; end
@@ -53,7 +52,7 @@ module Watir
       end
 
       def extract_idl_parts
-        parsed = @doc.search(IDL_SELECTOR).map {  |e| parse_idl(e.inner_text) }.compact
+        parsed = @doc.search(IDL_SELECTOR).map { |e| parse_idl(e.inner_text) }.compact
 
         implements = []
         includes = []
@@ -150,7 +149,6 @@ module Watir
       def sorter
         @idl_sorter ||= Base::IDLSorter.new(@interfaces)
       end
-
     end # SpecExtractor
   end # Generator
 end # Watir

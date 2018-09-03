@@ -1,1 +1,33 @@
 inherit_from: .rubocop_todo.yml
+
+# Offense count: 144
+# Cop supports --auto-correct.
+# Configuration parameters: AllowAdjacentOneLineDefs, NumberOfEmptyLines.
+Layout/EmptyLineBetweenDefs:
+  Exclude:
+    - 'lib/watir/elements/html_elements.rb'
+    - 'lib/watir/elements/svg_elements.rb'
+
+# Offense count: 2
+# Cop supports --auto-correct.
+Layout/EmptyLines:
+  Exclude:
+    - 'lib/watir/elements/html_elements.rb'
+    - 'lib/watir/elements/svg_elements.rb'
+
+# Offense count: 2
+# Cop supports --auto-correct.
+# Configuration parameters: EnforcedStyle.
+# SupportedStyles: empty_lines, empty_lines_except_namespace, empty_lines_special, no_empty_lines
+Layout/EmptyLinesAroundModuleBody:
+  Exclude:
+    - 'lib/watir/elements/html_elements.rb'
+    - 'lib/watir/elements/svg_elements.rb'
+
+# Offense count: 85
+# Cop supports --auto-correct.
+# Configuration parameters: EnforcedStyle, EnforcedStyleForEmptyBraces.
+# SupportedStyles: space, no_space, compact
+# SupportedStylesForEmptyBraces: space, no_space
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space

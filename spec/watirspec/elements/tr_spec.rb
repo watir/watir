@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "TableRow" do
-
   before :each do
     browser.goto(WatirSpec.url_for("tables.html"))
   end
@@ -74,5 +73,4 @@ describe "TableRow" do
       end
     end
   end
-
 end

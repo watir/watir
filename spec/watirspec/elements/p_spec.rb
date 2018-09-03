@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "P" do
-
   before :each do
     browser.goto(WatirSpec.url_for("non_control_elements.html"))
   end
@@ -107,5 +106,4 @@ describe "P" do
       expect(browser.p(index: 0)).to respond_to(:text)
     end
   end
-
 end

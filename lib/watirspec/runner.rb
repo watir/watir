@@ -1,6 +1,5 @@
 module WatirSpec
   module Runner
-
     module BrowserHelper
       def browser
         $browser
@@ -54,6 +53,5 @@ module WatirSpec
       return if WatirSpec.unguarded?
       at_exit { WatirSpec::Guards.report }
     end
-
   end # Runner
 end # WatirSpec

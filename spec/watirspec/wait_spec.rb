@@ -64,7 +64,6 @@ describe Watir::Element do
     it "raises exception if the element doesn't become enabled" do
       expect { browser.button(id: 'btn').click }.to raise_object_disabled_exception
     end
-
   end
 
   not_compliant_on :relaxed_locate do

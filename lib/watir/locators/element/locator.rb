@@ -190,7 +190,7 @@ module Watir
 
         def process_label(label_key)
           regexp = @normalized_selector[label_key].kind_of?(Regexp)
-          return unless (regexp || label_key == :visible_label)  && selector_builder.should_use_label_element?
+          return unless (regexp || label_key == :visible_label) && selector_builder.should_use_label_element?
 
           label = label_from_text(label_key)
           unless label # label not found, stop looking for element
@@ -235,7 +235,7 @@ module Watir
           unless matches == text_content_matches
             key = @selector.key?(:text) ? "text" : "label"
             Watir.logger.deprecate("Using :#{key} locator with RegExp #{selector[:text].inspect} to match an element that includes hidden text", ":visible_#{key}",
-                  ids: [:text_regexp])
+                                   ids: [:text_regexp])
           end
         end
 

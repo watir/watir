@@ -20,7 +20,7 @@ module Watir
     end
 
     def inspect
-      '#<%s:0x%x located=%s>' % [self.class, hash*2, !!@handle]
+      '#<%s:0x%x located=%s>' % [self.class, hash * 2, !!@handle]
     end
 
     #
@@ -252,6 +252,5 @@ module Watir
         raise Exception::NoMatchingWindowFoundException, @selector.inspect
       end
     end
-
   end # Window
 end # Watir

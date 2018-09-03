@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "IFrames" do
-
   before :each do
     browser.goto(WatirSpec.url_for("iframes.html"))
   end
@@ -16,7 +15,6 @@ describe "IFrames" do
     it "matches equality of iframe with that from a collection" do
       expect(browser.iframes.last).to eq browser.iframe(id: "iframe_2")
     end
-
   end
 
   describe "#length" do

@@ -31,7 +31,6 @@ if defined?(RSpec)
       def supports_block_expectations?
         true
       end
-
     end
   end
 

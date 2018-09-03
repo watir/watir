@@ -11,6 +11,5 @@ module Watir
     class NoMatchingWindowFoundException < Error; end
     class UnknownFrameException < Error; end
     class UnknownRowException < Error; end
-
   end # Exception
 end # Watir

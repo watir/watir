@@ -1,6 +1,5 @@
 module WatirSpec
   class Implementation
-
     attr_writer :name, :guard_proc, :browser_class
     attr_accessor :browser_args
 
@@ -43,7 +42,7 @@ module WatirSpec
       return "#{string} default capabilities" unless desired_capabilities
 
       string << "\tcapabilities:\n"
-      caps.each { |k, v| string << "\t\t#{k}: #{v}\n"}
+      caps.each { |k, v| string << "\t\t#{k}: #{v}\n" }
       hash[:desired_capabilities] = desired_capabilities
       string
     end

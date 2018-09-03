@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "Table" do
-
   before :each do
     browser.goto(WatirSpec.url_for("tables.html"))
   end
@@ -48,7 +47,7 @@ describe "Table" do
           ["Table 1, Row 1, Cell 1", "Table 1, Row 1, Cell 2"],
           ["Table 1, Row 2, Cell 1", "Table 1, Row 2, Cell 2\nTable 2, Row 1, Cell 1 Table 2, Row 1, Cell 2"],
           ["Table 1, Row 3, Cell 1", "Table 1, Row 3, Cell 2"]
-       ]
+        ]
       end
     end
   end
@@ -64,13 +63,13 @@ describe "Table" do
   describe "#hashes" do
     it "returns an Array of Hashes for the common table usage" do
       expect(browser.table(id: "axis_example").hashes).to eq [
-        { "" => "March 2008",     "Before income tax" => "",       "Income tax" => "",      "After income tax" => ""      },
-        { "" => "Gregory House",  "Before income tax" => "5 934",  "Income tax" => "1 347", "After income tax" => "4 587" },
-        { "" => "Hugh Laurie",    "Before income tax" => "6 300",  "Income tax" => "1 479", "After income tax" => "4 821" },
-        { "" => "April 2008",     "Before income tax" => "",       "Income tax" => "",      "After income tax" => ""      },
-        { "" => "Gregory House",  "Before income tax" => "5 863",  "Income tax" => "1 331", "After income tax" => "4 532" },
-        { "" => "Hugh Laurie",    "Before income tax" => "6 252",  "Income tax" => "1 420", "After income tax" => "4 832" },
-        { "" => "Sum",            "Before income tax" => "24 349", "Income tax" => "5 577", "After income tax" => "18 722"},
+        {"" => "March 2008",     "Before income tax" => "",       "Income tax" => "",      "After income tax" => ""},
+        {"" => "Gregory House",  "Before income tax" => "5 934",  "Income tax" => "1 347", "After income tax" => "4 587"},
+        {"" => "Hugh Laurie",    "Before income tax" => "6 300",  "Income tax" => "1 479", "After income tax" => "4 821"},
+        {"" => "April 2008",     "Before income tax" => "",       "Income tax" => "",      "After income tax" => ""},
+        {"" => "Gregory House",  "Before income tax" => "5 863",  "Income tax" => "1 331", "After income tax" => "4 532"},
+        {"" => "Hugh Laurie",    "Before income tax" => "6 252",  "Income tax" => "1 420", "After income tax" => "4 832"},
+        {"" => "Sum",            "Before income tax" => "24 349", "Income tax" => "5 577", "After income tax" => "18 722"},
       ]
     end
 
@@ -148,5 +147,4 @@ describe "Table" do
       expect(bodies[1].id).to eq "second"
     end
   end
-
 end

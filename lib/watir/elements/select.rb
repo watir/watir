@@ -32,7 +32,7 @@ module Watir
     #
 
     def select(*str_or_rx)
-      results = str_or_rx.flatten.map { |v| select_by v}
+      results = str_or_rx.flatten.map { |v| select_by v }
       results.first
     end
 
@@ -160,7 +160,7 @@ module Watir
                 "^#{str_or_rx}$"
               when Regexp
                 str_or_rx.inspect.sub('\\A', '^').sub('\\Z', '$').sub('\\z', '$').sub(/^\//, '').sub(/\/[a-z]*$/, '')
-                    .gsub(/\(\?#.+\)/, '').gsub(/\(\?-\w+:/, '(')
+                         .gsub(/\(\?#.+\)/, '').gsub(/\(\?-\w+:/, '(')
               else
                 raise TypeError, "expected String or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
               end

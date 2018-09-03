@@ -8,17 +8,17 @@ Gem::Specification.new do |s|
   s.email       = ['p0deje@gmail.com', 'titusfortner@gmail.com']
   s.homepage    = 'http://github.com/watir/watir'
   s.summary     = 'Watir powered by Selenium'
-  s.description = <<-DESCRIPTION_MESSAGE
-Watir stands for Web Application Testing In Ruby
-It facilitates the writing of automated tests by mimicing the behavior of a user interacting with a website.
+  s.description = <<~DESCRIPTION_MESSAGE
+    Watir stands for Web Application Testing In Ruby
+    It facilitates the writing of automated tests by mimicing the behavior of a user interacting with a website.
   DESCRIPTION_MESSAGE
 
-  s.license     = 'MIT'
+  s.license = 'MIT'
   s.rubyforge_project = 'watir'
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+  s.executables   = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
   s.require_paths = ['lib']
 
   s.add_dependency 'selenium-webdriver', '~> 3.4', '>= 3.4.1'

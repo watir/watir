@@ -1,7 +1,6 @@
 module Watir
   module Generator
     class SVG < Base
-
       private
 
       # fix collisions with HTML
@@ -32,7 +31,6 @@ module Watir
       def extractor_class
         SVG::SpecExtractor
       end
-
     end # SVG
   end # Generator
 end # Watir

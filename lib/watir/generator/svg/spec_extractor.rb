@@ -1,7 +1,6 @@
 module Watir
   module Generator
     class SVG::SpecExtractor < Base::SpecExtractor
-
       private
 
       def extract_interface_map
@@ -47,7 +46,6 @@ module Watir
       def external_interface?(id)
         id !~ /^#.+/
       end
-
     end # SVG::SpecExtractor
   end # Generator
 end # Watir

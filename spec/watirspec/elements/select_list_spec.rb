@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "SelectList" do
-
   before :each do
     browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
   end
@@ -540,5 +539,4 @@ describe "SelectList" do
     describe "#select_value" do
     end
   end
-
 end

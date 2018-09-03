@@ -305,7 +305,6 @@ describe "Window" do
         end
 
         describe "#use" do
-
           context "switching windows without blocks" do
             it "by index" do
               browser.window(index: 0).use
@@ -336,7 +335,6 @@ describe "Window" do
               browser.window(title: "window switching").use { expect(browser.url).to match(/window_switching\.html/) }
             end
           end
-
         end
       end
     end
@@ -367,8 +365,8 @@ describe "Window" do
       it "should resize the window" do
         initial_size = browser.window.size
         browser.window.resize_to(
-            initial_size.width - 20,
-            initial_size.height - 20
+          initial_size.width - 20,
+          initial_size.height - 20
         )
 
         new_size = browser.window.size
@@ -383,8 +381,8 @@ describe "Window" do
         initial_pos = browser.window.position
 
         browser.window.move_to(
-            initial_pos.x + 2,
-            initial_pos.y + 2
+          initial_pos.x + 2,
+          initial_pos.y + 2
         )
 
         new_pos = browser.window.position
@@ -398,8 +396,8 @@ describe "Window" do
         it "should maximize the window" do
           initial_size = browser.window.size
           browser.window.resize_to(
-              initial_size.width,
-              initial_size.height - 20
+            initial_size.width,
+            initial_size.height - 20
           )
 
           browser.window.maximize

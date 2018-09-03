@@ -1,7 +1,6 @@
 module Watir
   module Generator
     class Base
-
       def generate(spec_url, io = StringIO.new)
         @spec_url, @io = spec_url, io
 
@@ -83,19 +82,19 @@ module Watir
           collection_class = "#{element_class}Collection"
 
           # visitor.visit_tag(tag, interfaces.first.name) !?
-          @io.puts indent(<<-CODE, 2)
+          @io.puts indent(<<~CODE, 2)
 
-# @return [#{element_class}]
-def #{singular}(*args)
-  #{element_class}.new(self, extract_selector(args).merge(tag_name: #{tag_string}))
-end
-# @return [#{collection_class}]
-def #{plural}(*args)
-  #{collection_class}.new(self, extract_selector(args).merge(tag_name: #{tag_string}))
-end
-Watir.tag_to_class[#{tag.to_sym.inspect}] = #{element_class}
+            # @return [#{element_class}]
+            def #{singular}(*args)
+              #{element_class}.new(self, extract_selector(args).merge(tag_name: #{tag_string}))
+            end
+            # @return [#{collection_class}]
+            def #{plural}(*args)
+              #{collection_class}.new(self, extract_selector(args).merge(tag_name: #{tag_string}))
+            end
+            Watir.tag_to_class[#{tag.to_sym.inspect}] = #{element_class}
 
-CODE
+          CODE
         end
 
         @io.puts indent("end # Container")
@@ -109,7 +108,6 @@ CODE
         indent_string = "  " * indent
         code.split("\n").map { |line| line.empty? ? line : indent_string + line }.join("\n")
       end
-
     end # Base
   end # Generator
 end # Watir

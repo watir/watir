@@ -115,6 +115,5 @@ module Watir
         raise Exception::UnknownObjectException, 'unable to locate alert'
       end
     end
-
   end # Alert
 end # Watir

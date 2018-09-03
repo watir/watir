@@ -1,5 +1,4 @@
 module Watir
-
   #
   # After hooks are blocks that run after certain browser events.
   # They are generally used to ensure application under test does not encounter
@@ -127,6 +126,5 @@ module Watir
     def [](index)
       @after_hooks[index]
     end
-
   end # AfterHooks
 end # Watir

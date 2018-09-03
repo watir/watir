@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "Div" do
-
   before :each do
     browser.goto(WatirSpec.url_for("non_control_elements.html"))
   end
@@ -101,7 +100,7 @@ describe "Div" do
     end
 
     it "raises UnknownObjectException if the element does not exist" do
-      expect {browser.div(id: "no_such_id").style }.to raise_unknown_object_exception
+      expect { browser.div(id: "no_such_id").style }.to raise_unknown_object_exception
     end
   end
 
@@ -256,5 +255,4 @@ describe "Div" do
       end
     end
   end
-
 end

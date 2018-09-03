@@ -1,6 +1,5 @@
 module Watir
   module RowContainer
-
     #
     # Returns table row.
     #
@@ -31,6 +30,5 @@ module Watir
       end
     end
     alias_method :to_a, :strings
-
   end # RowContainer
 end # Watir

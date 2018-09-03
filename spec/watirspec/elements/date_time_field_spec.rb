@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "DateTimeField" do
-
   before :each do
     browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
   end

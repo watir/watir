@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "TableCells" do
-
   before :each do
     browser.goto(WatirSpec.url_for("tables.html"))
   end
@@ -48,6 +47,5 @@ describe "TableCells" do
         count += 1
       end
     end
-
   end
 end

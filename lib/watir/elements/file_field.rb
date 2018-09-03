@@ -1,6 +1,5 @@
 module Watir
   class FileField < Input
-
     #
     # Set the file field to the given path
     #
@@ -23,7 +22,6 @@ module Watir
       path = path.gsub(File::SEPARATOR, File::ALT_SEPARATOR) if File::ALT_SEPARATOR
       element_call { @element.send_keys path }
     end
-
   end # FileField
 
   module Container

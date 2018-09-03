@@ -24,7 +24,7 @@ describe "Browser::AfterHooks" do
   describe "#delete" do
     it "removes a previously added after_hook" do
       output = ''
-      after_hook = lambda{ |browser| output << browser.text }
+      after_hook = lambda { |browser| output << browser.text }
 
       browser.after_hooks.add(after_hook)
       browser.goto(WatirSpec.url_for("non_control_elements.html"))

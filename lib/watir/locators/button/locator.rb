@@ -2,8 +2,6 @@ module Watir
   module Locators
     class Button
       class Locator < Element::Locator
-
-
         private
 
         def using_selenium(*)

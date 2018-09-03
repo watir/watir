@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "CheckBox" do
-
   before :each do
     browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
   end
@@ -144,7 +143,7 @@ describe "CheckBox" do
     end
 
     it "raises UnknownObjectException if the checkbox doesn't exist" do
-      expect { browser.checkbox(index: 1337).value}.to raise_unknown_object_exception
+      expect { browser.checkbox(index: 1337).value }.to raise_unknown_object_exception
     end
   end
 
@@ -173,8 +172,8 @@ describe "CheckBox" do
     end
 
     it "raises UnknownObjectException if the checkbox button doesn't exist" do
-      expect { browser.checkbox(id: "no_such_id").enabled?  }.to raise_unknown_object_exception
-      expect { browser.checkbox(xpath: "//input[@id='no_such_id']").enabled?  }.to raise_unknown_object_exception
+      expect { browser.checkbox(id: "no_such_id").enabled? }.to raise_unknown_object_exception
+      expect { browser.checkbox(xpath: "//input[@id='no_such_id']").enabled? }.to raise_unknown_object_exception
     end
   end
 
@@ -213,7 +212,7 @@ describe "CheckBox" do
 
     it "raises UnknownObjectException if the checkbox button doesn't exist" do
       expect { browser.checkbox(name: "no_such_id").clear }.to raise_unknown_object_exception
-      expect { browser.checkbox(xpath: "//input[@id='no_such_id']").clear  }.to raise_unknown_object_exception
+      expect { browser.checkbox(xpath: "//input[@id='no_such_id']").clear }.to raise_unknown_object_exception
     end
   end
 
@@ -237,13 +236,13 @@ describe "CheckBox" do
     end
 
     it "raises UnknownObjectException if the checkbox button doesn't exist" do
-      expect { browser.checkbox(name: "no_such_name").set  }.to raise_unknown_object_exception
-      expect { browser.checkbox(xpath: "//input[@name='no_such_name']").set  }.to raise_unknown_object_exception
+      expect { browser.checkbox(name: "no_such_name").set }.to raise_unknown_object_exception
+      expect { browser.checkbox(xpath: "//input[@name='no_such_name']").set }.to raise_unknown_object_exception
     end
 
     it "raises ObjectDisabledException if the checkbox is disabled" do
-      expect { browser.checkbox(id: "new_user_interests_dentistry").set  }.to raise_object_disabled_exception
-      expect { browser.checkbox(xpath: "//input[@id='new_user_interests_dentistry']").set  }.to raise_object_disabled_exception
+      expect { browser.checkbox(id: "new_user_interests_dentistry").set }.to raise_object_disabled_exception
+      expect { browser.checkbox(xpath: "//input[@id='new_user_interests_dentistry']").set }.to raise_object_disabled_exception
     end
   end
 
@@ -267,9 +266,8 @@ describe "CheckBox" do
     end
 
     it "raises UnknownObjectException if the checkbox button doesn't exist" do
-      expect { browser.checkbox(id: "no_such_id").set?  }.to raise_unknown_object_exception
-      expect { browser.checkbox(xpath: "//input[@id='no_such_id']").set?  }.to raise_unknown_object_exception
+      expect { browser.checkbox(id: "no_such_id").set? }.to raise_unknown_object_exception
+      expect { browser.checkbox(xpath: "//input[@id='no_such_id']").set? }.to raise_unknown_object_exception
     end
   end
-
 end

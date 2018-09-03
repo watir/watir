@@ -1,5 +1,4 @@
 module Watir
-
   #
   # @private
   #
@@ -7,7 +6,6 @@ module Watir
   #
 
   module AttributeHelper
-
     def inherit_attributes_from(kls)
       kls.typed_attributes.each do |type, attrs|
         attrs.each { |method, attr| attribute type, method, attr }
@@ -15,7 +13,7 @@ module Watir
     end
 
     def typed_attributes
-      @typed_attributes ||= Hash.new { |hash, type| hash[type] = []  }
+      @typed_attributes ||= Hash.new { |hash, type| hash[type] = [] }
     end
 
     def attribute_list
@@ -91,6 +89,5 @@ module Watir
         value && Float(value)
       end
     end
-
   end # AttributeHelper
 end # Watir

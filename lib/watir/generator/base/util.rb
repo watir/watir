@@ -1,7 +1,6 @@
 module Watir
   module Generator
     module Util
-
       module_function
 
       def classify(regexp, str)
@@ -15,7 +14,6 @@ module Watir
       def paramify(regexp, str)
         classify(regexp, str).snake_case
       end
-
     end # Util
   end # Generator
 end # Watir

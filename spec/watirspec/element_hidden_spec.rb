@@ -1,7 +1,6 @@
 require 'watirspec_helper'
 
 describe Watir::Locators::Element::Locator do
-
   describe "Visible Elements" do
     before do
       browser.goto(WatirSpec.url_for("wait.html"))
@@ -9,7 +8,7 @@ describe Watir::Locators::Element::Locator do
 
     context "when true" do
       it "finds single element" do
-        element =  browser.body.element(visible: true)
+        element = browser.body.element(visible: true)
         expect(element.id).to eq 'foo'
       end
 
@@ -41,12 +40,12 @@ describe Watir::Locators::Element::Locator do
 
     context "when false" do
       it "finds single element" do
-        element =  browser.body.element(visible: false)
+        element = browser.body.element(visible: false)
         expect(element.id).to eq 'bar'
       end
 
       it "handles tag_name and index" do
-        element =  browser.div(visible: false, index: 1)
+        element = browser.div(visible: false, index: 1)
         expect(element.id).to eq 'also_hidden'
       end
 
@@ -72,4 +71,3 @@ describe Watir::Locators::Element::Locator do
     end
   end
 end
-

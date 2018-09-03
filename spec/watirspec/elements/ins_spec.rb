@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "Ins" do
-
   before :each do
     browser.goto(WatirSpec.url_for("non_control_elements.html"))
   end
@@ -123,5 +122,4 @@ describe "Ins" do
       end
     end
   end
-
 end

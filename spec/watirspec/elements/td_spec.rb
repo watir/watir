@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "TableCell" do
-
   before :each do
     browser.goto(WatirSpec.url_for("tables.html"))
   end
@@ -87,6 +86,5 @@ describe "TableCell" do
       td = local_td.sibling_from_header(text: /tax/, index: 2)
       expect(td.text).to eq '4 532'
     end
-
   end
 end

@@ -2,7 +2,6 @@ require 'yaml'
 
 module Watir
   class Cookies
-
     def initialize(control)
       @control = control
     end
@@ -56,7 +55,8 @@ module Watir
     def add(name, value, opts = {})
       cookie = {
         name: name,
-        value: value}
+        value: value
+      }
       cookie[:secure] = opts[:secure] if opts.key?(:secure)
       cookie[:path] = opts[:path] if opts.key?(:path)
       expires = opts[:expires]
@@ -129,6 +129,5 @@ module Watir
         ::Time.local t.year, t.month, t.day, t.hour, t.min, t.sec
       end
     end
-
   end # Cookies
 end # Watir

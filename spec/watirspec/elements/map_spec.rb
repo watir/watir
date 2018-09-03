@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "Map" do
-
   before :each do
     browser.goto(WatirSpec.url_for("images.html"))
   end

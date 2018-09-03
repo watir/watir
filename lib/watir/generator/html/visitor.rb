@@ -1,7 +1,6 @@
 module Watir
   module Generator
     class HTML::Visitor < Base::Visitor
-
       def classify_regexp
         /^HTML(.+)Element$/
       end
@@ -13,9 +12,8 @@ module Watir
       end
 
       def force_inheritance
-        { 'HTMLElement' => 'Element' }
+        {'HTMLElement' => 'Element'}
       end
-
     end # HTML::Visitor
   end # Generator
 end # Watir

@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "Radio" do
-
   before :each do
     browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
   end
@@ -156,7 +155,7 @@ describe "Radio" do
     end
 
     it "raises UnknownObjectException if the radio doesn't exist" do
-      expect { browser.radio(index: 1337).value}.to raise_unknown_object_exception
+      expect { browser.radio(index: 1337).value }.to raise_unknown_object_exception
     end
   end
 
@@ -184,8 +183,8 @@ describe "Radio" do
     end
 
     it "raises UnknownObjectException if the radio button doesn't exist" do
-      expect { browser.radio(id: "no_such_id").enabled?  }.to raise_unknown_object_exception
-      expect { browser.radio(xpath: "//input[@id='no_such_id']").enabled?  }.to raise_unknown_object_exception
+      expect { browser.radio(id: "no_such_id").enabled? }.to raise_unknown_object_exception
+      expect { browser.radio(xpath: "//input[@id='no_such_id']").enabled? }.to raise_unknown_object_exception
     end
   end
 
@@ -236,13 +235,13 @@ describe "Radio" do
     end
 
     it "raises UnknownObjectException if the radio button doesn't exist" do
-      expect { browser.radio(name: "no_such_name").set  }.to raise_unknown_object_exception
-      expect { browser.radio(xpath: "//input[@name='no_such_name']").set  }.to raise_unknown_object_exception
+      expect { browser.radio(name: "no_such_name").set }.to raise_unknown_object_exception
+      expect { browser.radio(xpath: "//input[@name='no_such_name']").set }.to raise_unknown_object_exception
     end
 
     it "raises ObjectDisabledException if the radio is disabled" do
       expect { browser.radio(id: "new_user_newsletter_nah").set  }.to raise_object_disabled_exception
-      expect { browser.radio(xpath: "//input[@id='new_user_newsletter_nah']").set  }.to raise_object_disabled_exception
+      expect { browser.radio(xpath: "//input[@id='new_user_newsletter_nah']").set }.to raise_object_disabled_exception
     end
   end
 
@@ -265,9 +264,8 @@ describe "Radio" do
     end
 
     it "raises UnknownObjectException if the radio button doesn't exist" do
-      expect { browser.radio(id: "no_such_id").set?  }.to raise_unknown_object_exception
-      expect { browser.radio(xpath: "//input[@id='no_such_id']").set?  }.to raise_unknown_object_exception
+      expect { browser.radio(id: "no_such_id").set? }.to raise_unknown_object_exception
+      expect { browser.radio(xpath: "//input[@id='no_such_id']").set? }.to raise_unknown_object_exception
     end
   end
-
 end

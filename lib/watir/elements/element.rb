@@ -1,5 +1,4 @@
 module Watir
-
   #
   # Base class for HTML elements.
   #
@@ -176,7 +175,6 @@ module Watir
       browser.after_hooks.run
     end
 
-
     #
     # Right clicks the element.
     # Note that browser support may vary.
@@ -216,9 +214,9 @@ module Watir
       assert_is_element other
 
       value = element_call(:wait_for_present) do
-        driver.action.
-               drag_and_drop(@element, other.wd).
-               perform
+        driver.action
+              .drag_and_drop(@element, other.wd)
+              .perform
       end
       browser.after_hooks.run
       value
@@ -237,9 +235,9 @@ module Watir
 
     def drag_and_drop_by(right_by, down_by)
       element_call(:wait_for_present) do
-        driver.action.
-               drag_and_drop_by(@element, right_by, down_by).
-               perform
+        driver.action
+              .drag_and_drop_by(@element, right_by, down_by)
+              .perform
       end
     end
 
@@ -372,8 +370,8 @@ module Watir
     def center
       point = location
       dimensions = size
-      Selenium::WebDriver::Point.new(point.x + (dimensions['width']/2),
-                                     point.y + (dimensions['height']/2))
+      Selenium::WebDriver::Point.new(point.x + (dimensions['width'] / 2),
+                                     point.y + (dimensions['height'] / 2))
     end
     alias_method :centre, :center
 
@@ -404,7 +402,7 @@ module Watir
 
     def visible?
       Watir.logger.warn "#visible? behavior will be changing slightly, consider switching to #present? (more details: http://watir.com/element-existentialism/)",
-                             ids: [:visible_element]
+                        ids: [:visible_element]
       assert_exists
       @element.displayed?
     rescue Selenium::WebDriver::Error::StaleElementReferenceError
@@ -714,6 +712,5 @@ module Watir
     def respond_to_missing?(meth, *)
       Locators::Element::SelectorBuilder::WILDCARD_ATTRIBUTE === meth.to_s || super
     end
-
   end # Element
 end # Watir

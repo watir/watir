@@ -1,5 +1,4 @@
 module Watir
-
   #
   # Class representing button elements.
   #
@@ -7,7 +6,6 @@ module Watir
   #
 
   class Button < HTMLElement
-
     inherit_attributes_from Watir::Input
 
     VALID_TYPES = %w[button reset submit image]

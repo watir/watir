@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "RadioSet" do
-
   before :each do
     browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
   end
@@ -209,7 +208,6 @@ describe "RadioSet" do
     end
   end
 
-
   describe "#selected" do
     it "should raise UnknownObjectException if the radio set doesn't exist" do
       expect { browser.radio_set(name: 'no_such_name').selected }.to raise_unknown_object_exception
@@ -332,5 +330,4 @@ describe "RadioSet" do
   it "raises a TypeError if argument is not a String, Regexp or Numeric" do
     expect { browser.radio_set(id: 'new_user_newsletter_yes').select([]) }.to raise_error(TypeError)
   end
-
 end

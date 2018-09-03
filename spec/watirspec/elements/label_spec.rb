@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "Label" do
-
   before :each do
     browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
   end
@@ -71,5 +70,4 @@ describe "Label" do
       expect(browser.label(index: 0)).to respond_to(:for)
     end
   end
-
 end

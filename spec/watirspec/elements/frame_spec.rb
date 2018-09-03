@@ -5,7 +5,6 @@ require "watirspec_helper"
 #
 
 describe "Frame" do
-
   before :each do
     browser.goto(WatirSpec.url_for("frames.html"))
   end
@@ -117,5 +116,4 @@ describe "Frame" do
       expect(browser.frame.html.downcase).to include("<title>frame 1</title>")
     end
   end
-
 end

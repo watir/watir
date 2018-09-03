@@ -1,6 +1,5 @@
 module Watir
   module UserEditable
-
     #
     # Clear the element, then type in the given value.
     #

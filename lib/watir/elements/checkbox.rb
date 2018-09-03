@@ -1,6 +1,5 @@
 module Watir
   class CheckBox < Input
-
     #
     # Sets checkbox to the given value.
     #
@@ -38,7 +37,6 @@ module Watir
       set false
     end
     alias_method :uncheck, :clear
-
   end # CheckBox
 
   module Container

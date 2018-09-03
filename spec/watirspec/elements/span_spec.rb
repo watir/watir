@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "Span" do
-
   before :each do
     browser.goto(WatirSpec.url_for("non_control_elements.html"))
   end
@@ -109,7 +108,7 @@ describe "Span" do
   end
 
   # Other
-    not_compliant_on :headless do
+  not_compliant_on :headless do
     describe "#click" do
       it "fires events" do
         expect(browser.span(class: 'footer').text).to_not include('Javascript')
@@ -123,5 +122,4 @@ describe "Span" do
       end
     end
   end
-
 end

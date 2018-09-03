@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "Pre" do
-
   before :each do
     browser.goto(WatirSpec.url_for("non_control_elements.html"))
   end
@@ -107,5 +106,4 @@ describe "Pre" do
       expect(browser.image(index: 0)).to respond_to(:text)
     end
   end
-
 end

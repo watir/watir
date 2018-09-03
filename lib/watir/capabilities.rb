@@ -1,6 +1,5 @@
 module Watir
   class Capabilities
-
     attr_reader :options
 
     def initialize(browser, options = {})
@@ -124,6 +123,5 @@ module Watir
 
       @selenium_opts[:desired_capabilities] = caps
     end
-
   end
 end

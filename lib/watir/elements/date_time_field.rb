@@ -1,6 +1,5 @@
 module Watir
   class DateTimeField < Input
-
     #
     # Enter the provided value.
     #
@@ -18,7 +17,6 @@ module Watir
     alias_method :value=, :set
 
     protected
-
   end # DateTimeField
 
   module Container

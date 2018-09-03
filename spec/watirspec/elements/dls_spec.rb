@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "Dls" do
-
   before :each do
     browser.goto(WatirSpec.url_for("definition_lists.html"))
   end
@@ -39,5 +38,4 @@ describe "Dls" do
       expect(count).to be > 0
     end
   end
-
 end

@@ -1,7 +1,6 @@
 require "watirspec_helper"
 
 describe "Links" do
-
   before :each do
     browser.goto(WatirSpec.url_for("non_control_elements.html"))
   end
@@ -40,5 +39,4 @@ describe "Links" do
       expect(count).to be > 0
     end
   end
-
 end
