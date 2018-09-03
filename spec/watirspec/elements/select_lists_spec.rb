@@ -7,7 +7,8 @@ describe "SelectLists" do
 
   describe "with selectors" do
     it "returns the matching elements" do
-      expect(browser.select_lists(name: "delete_user_username").to_a).to eq [browser.select_list(name: "delete_user_username")]
+      list = [browser.select_list(name: "delete_user_username")]
+      expect(browser.select_lists(name: "delete_user_username").to_a).to eq list
     end
   end
 

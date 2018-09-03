@@ -36,3 +36,54 @@ Layout/SpaceInsideHashLiteralBraces:
 Lint/HandleExceptions:
   Exclude:
     - 'lib/watirspec.rb'
+
+# Configuration parameters: CountComments, ExcludedMethods.
+# ExcludedMethods: refine
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+    - 'support/doctest_helper.rb'
+    - 'watir.gemspec'
+    - 'Rakefile'
+
+## Configuration parameters: CountComments.
+Metrics/ModuleLength:
+  Exclude:
+    - 'lib/watir/elements/html_elements.rb'
+    - 'lib/watir/elements/svg_elements.rb'
+
+# Configuration parameters: CountComments.
+Metrics/MethodLength:
+  Max: 23
+
+# Configuration parameters: CountComments.
+Metrics/ClassLength:
+  Max: 135
+  Exclude:
+    - 'lib/watir/locators/element/locator.rb'
+    - 'lib/watir/elements/element.rb'
+
+Metrics/PerceivedComplexity:
+  Max: 11
+
+Metrics/CyclomaticComplexity:
+  Max: 10
+
+# Offense count: 28
+Metrics/AbcSize:
+  Max: 25
+  Exclude:
+    - 'lib/watir/locators/element/selector_builder.rb'
+    - 'lib/watir/generator/base/generator.rb'
+
+## TODO: fix with Watir 7
+## Configuration parameters: CountKeywordArgs.
+Metrics/ParameterLists:
+  Exclude:
+    - 'lib/watir/wait.rb'
+
+# Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
+# URISchemes: http, https
+Metrics/LineLength:
+  Max: 121
+

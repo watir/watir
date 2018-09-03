@@ -149,6 +149,7 @@ describe "Browser#cookies" do
 
   def verify_cookies_count expected_size
     cookies = browser.cookies.to_a
-    expect(cookies.size).to eq(expected_size), "expected #{expected_size} cookies, got #{cookies.size}: #{cookies.inspect}"
+    msg = "expected #{expected_size} cookies, got #{cookies.size}: #{cookies.inspect}"
+    expect(cookies.size).to eq(expected_size), msg
   end
 end

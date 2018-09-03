@@ -401,8 +401,9 @@ module Watir
     #
 
     def visible?
-      Watir.logger.warn "#visible? behavior will be changing slightly, consider switching to #present? (more details: http://watir.com/element-existentialism/)",
-                        ids: [:visible_element]
+      msg = "#visible? behavior will be changing slightly, consider switching to #present? " \
+            "(more details: http://watir.com/element-existentialism/)"
+      Watir.logger.warn msg, ids: [:visible_element]
       assert_exists
       @element.displayed?
     rescue Selenium::WebDriver::Error::StaleElementReferenceError
@@ -549,7 +550,8 @@ module Watir
         @query_scope.wait_for_present unless @query_scope.is_a? Browser
         wait_until_present
       rescue Watir::Wait::TimeoutError
-        msg = "element located, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to be present"
+        msg = "element located, but timed out after #{Watir.default_timeout} seconds, " \
+              "waiting for #{inspect} to be present"
         raise unknown_exception, msg
       end
     end
@@ -577,7 +579,8 @@ module Watir
       begin
         wait_until { !respond_to?(:readonly?) || !readonly? }
       rescue Watir::Wait::TimeoutError
-        message = "element present and enabled, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to not be readonly"
+        message = "element present and enabled, but timed out after #{Watir.default_timeout} seconds, " \
+                  "waiting for #{inspect} to not be readonly"
         raise ObjectReadOnlyException, message
       end
     end
@@ -611,17 +614,21 @@ module Watir
     end
 
     def raise_writable
-      message = "element present and enabled, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to not be readonly"
+      message = "element present and enabled, but timed out after #{Watir.default_timeout} seconds, " \
+                "waiting for #{inspect} to not be readonly"
       raise ObjectReadOnlyException, message
     end
 
     def raise_disabled
-      message = "element present, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to be enabled"
+      message = "element present, but timed out after #{Watir.default_timeout} seconds, " \
+                "waiting for #{inspect} to be enabled"
       raise ObjectDisabledException, message
     end
 
     def raise_present
-      raise unknown_exception, "element located, but timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to be present"
+      message = "element located, but timed out after #{Watir.default_timeout} seconds, " \
+                               "waiting for #{inspect} to be present"
+      raise unknown_exception, message
     end
 
     def element_class
@@ -644,6 +651,11 @@ module Watir
       end
     end
 
+    # TODO: - this will get addressed with Watir::Executor implementation
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/PerceivedComplexity
+    # rubocop:disable Metrics/CyclomaticComplexity:
     def element_call(precondition = nil, &block)
       caller = caller_locations(1, 1)[0].label
       already_locked = Wait.timer.locked?
@@ -662,7 +674,9 @@ module Watir
         msg = ex.message
         msg += "; Maybe look in an iframe?" if @query_scope.ensure_context && @query_scope.iframes.count > 0
         custom_attributes = @locator.nil? ? [] : @locator.selector_builder.custom_attributes
-        msg += "; Watir treated #{custom_attributes} as a non-HTML compliant attribute, ensure that was intended" unless custom_attributes.empty?
+        unless custom_attributes.empty?
+          msg += "; Watir treated #{custom_attributes} as a non-HTML compliant attribute, ensure that was intended"
+        end
         raise unknown_exception, msg
       rescue Selenium::WebDriver::Error::StaleElementReferenceError
         @query_scope.ensure_context
@@ -683,6 +697,10 @@ module Watir
         Wait.timer.reset! unless already_locked
       end
     end
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/PerceivedComplexity
+    # rubocop:enable Metrics/CyclomaticComplexity:
 
     def check_condition(condition)
       Watir.logger.info "<- `Verifying precondition #{inspect}##{condition}`"

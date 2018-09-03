@@ -11,7 +11,7 @@ describe "Element" do
       expect(browser.text_field(class_name: 'name', index: 1).id).to eq 'new_user_last_name'
     end
 
-    it "raises UnknownObjectException with a sane error message when given a hash of :how => 'what' arguments (non-existing object)" do
+    it "raises UnknownObjectException when given a hash of :how => 'what' arguments (non-existing object)" do
       expect { browser.text_field(index: 100, name: "foo").id }.to raise_unknown_object_exception
     end
 
@@ -632,8 +632,8 @@ describe "Element" do
     it 'returns outer (inner + element itself) HTML code of element' do
       browser.goto WatirSpec.url_for('non_control_elements.html')
       div = browser.div(id: 'shown')
-      expected_text = "<div id=\"shown\"><div id=\"hidden\" style=\"display: none;\">Not shown</div><div>Not hidden</div></div>"
-      expect(div.outer_html).to eq expected_text
+      text = '<div id="shown"><div id="hidden" style="display: none;">Not shown</div><div>Not hidden</div></div>'
+      expect(div.outer_html).to eq text
     end
   end
 

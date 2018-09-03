@@ -7,7 +7,8 @@ describe "DateTimeFields" do
 
   describe "with selectors" do
     it "returns the matching elements" do
-      expect(browser.date_time_fields(name: "html5_datetime-local").to_a).to eq [browser.date_time_field(name: "html5_datetime-local")]
+      list = [browser.date_time_field(name: "html5_datetime-local")]
+      expect(browser.date_time_fields(name: "html5_datetime-local").to_a).to eq list
     end
   end
 

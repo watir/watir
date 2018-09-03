@@ -70,7 +70,8 @@ describe "Pre" do
 
   describe "#title" do
     it "returns the title attribute" do
-      expect(browser.pre(class: 'brainfuck').title).to eq 'The brainfuck language is an esoteric programming language noted for its extreme minimalism'
+      title = 'The brainfuck language is an esoteric programming language noted for its extreme minimalism'
+      expect(browser.pre(class: 'brainfuck').title).to eq title
     end
 
     it "returns an empty string if the element exists and the attribute doesn't" do

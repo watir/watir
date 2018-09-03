@@ -85,7 +85,10 @@ describe "Span" do
 
   describe "#text" do
     it "returns the text of the span" do
-      expect(browser.span(index: 1).text).to eq 'Sed pretium metus et quam. Nullam odio dolor, vestibulum non, tempor ut, vehicula sed, sapien. Vestibulum placerat ligula at quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.'
+      msg = 'Sed pretium metus et quam. Nullam odio dolor, vestibulum non, tempor ut, vehicula sed, sapien. ' \
+            'Vestibulum placerat ligula at quam. Pellentesque habitant morbi tristique senectus et netus et ' \
+            'malesuada fames ac turpis egestas.'
+      expect(browser.span(index: 1).text).to eq msg
     end
 
     it "returns an empty string if the element doesn't contain any text" do

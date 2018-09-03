@@ -21,8 +21,9 @@ describe Watir::Element do
       end
 
       it "times out when not given a block" do
-        message = /^timed out after 1 seconds, waiting for (\{:id=>"bar", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"bar"\}) to become present$/
-        expect { browser.div(id: 'bar').when_present(1).click }.to raise_error(Watir::Wait::TimeoutError, message)
+        locator = '(\{:id=>"bar", :tag_name=>"div"\}|\{:tag_name=>"div", :id=>"bar"\})'
+        msg = /^timed out after 1 seconds, waiting for #{locator} to become present$/
+        expect { browser.div(id: 'bar').when_present(1).click }.to raise_error(Watir::Wait::TimeoutError, msg)
       end
 
       it "responds to Element methods" do

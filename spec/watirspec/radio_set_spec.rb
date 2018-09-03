@@ -240,7 +240,8 @@ describe "RadioSet" do
     end
 
     it "raises UnknownObjectException if the radio button doesn't exist" do
-      expect { browser.radio_set(id: 'new_user_newsletter_yes').selected?('missing_option') }.to raise_unknown_object_exception
+      expect { browser.radio_set(id: 'new_user_newsletter_yes').selected?('missing_option') }
+        .to raise_unknown_object_exception
     end
   end
 
@@ -285,7 +286,8 @@ describe "RadioSet" do
 
       browser.radio_set(id: 'new_user_newsletter_yes').radio(value: 'yes').set
       browser.radio_set(id: 'new_user_newsletter_yes').radio(value: 'certainly').set
-      expect(messages).to eq ["changed: new_user_newsletter", "clicked: new_user_newsletter_yes", "changed: new_user_newsletter"]
+      list = ["changed: new_user_newsletter", "clicked: new_user_newsletter_yes", "changed: new_user_newsletter"]
+      expect(messages).to eq list
     end
 
     it "doesn't fire onchange event when selecting an already selected radio" do
@@ -319,8 +321,10 @@ describe "RadioSet" do
   end
 
   it "raises UnknownObjectException if the radio doesn't exist" do
-    expect { browser.radio_set(id: 'new_user_newsletter_yes').select("missing_option") }.to raise_unknown_object_exception
-    expect { browser.radio_set(id: 'new_user_newsletter_yes').select(/missing_option/) }.to raise_unknown_object_exception
+    expect { browser.radio_set(id: 'new_user_newsletter_yes').select("missing_option") }
+      .to raise_unknown_object_exception
+    expect { browser.radio_set(id: 'new_user_newsletter_yes').select(/missing_option/) }
+      .to raise_unknown_object_exception
   end
 
   it "raises ObjectDisabledException if the option is disabled" do

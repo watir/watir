@@ -230,7 +230,8 @@ describe "Radio" do
 
         browser.radio(value: 'yes').set
         browser.radio(value: 'certainly').set
-        expect(messages).to eq ["changed: new_user_newsletter", "clicked: new_user_newsletter_yes", "changed: new_user_newsletter"]
+        list = ["changed: new_user_newsletter", "clicked: new_user_newsletter_yes", "changed: new_user_newsletter"]
+        expect(messages).to eq list
       end
     end
 

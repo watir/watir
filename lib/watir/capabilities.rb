@@ -49,8 +49,8 @@ module Watir
 
       %i(open_timeout read_timeout client_timeout).each do |t|
         next if http_client.nil? || !respond_to?(t)
-        Watir.logger.warn "You can now pass #{t} value directly into Watir::Browser opt without needing to use :http_client",
-                          ids: [:http_client, :use_capabilities]
+        msg = "You can now pass #{t} value directly into Watir::Browser opt without needing to use :http_client"
+        Watir.logger.warn msg, ids: [:http_client, :use_capabilities]
       end
 
       http_client ||= Selenium::WebDriver::Remote::Http::Default.new
@@ -61,6 +61,11 @@ module Watir
       @selenium_opts[:http_client] = http_client
     end
 
+    # TODO: - this will get addressed with Capabilities Update
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/PerceivedComplexity:
+    # rubocop:disable Metrics/CyclomaticComplexity::
     def process_browser_options
       browser_options = @options.delete(:options) || {}
 
@@ -82,8 +87,8 @@ module Watir
         if browser_options.is_a? Selenium::WebDriver::Firefox::Options
           @selenium_opts[:options] = browser_options
           if profile
-            Watir.logger.deprecate 'Initializing Browser with both :profile and :option', ':profile as a key inside :option',
-                                   ids: [:firefox_profile]
+            msg = 'Initializing Browser with both :profile and :option', ':profile as a key inside :option'
+            Watir.logger.deprecate msg, ids: [:firefox_profile]
           end
         end
         if @options.delete(:headless)
@@ -109,12 +114,17 @@ module Watir
         end
       end
     end
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/PerceivedComplexity:
+    # rubocop:enable Metrics/CyclomaticComplexity::
 
     def process_capabilities
       caps = @options.delete(:desired_capabilities)
 
       if caps
-        Watir.logger.warn 'You can now pass values directly into Watir::Browser opt without needing to use :desired_capabilities',
+        msg = 'You can now pass values directly into Watir::Browser opt without needing to use :desired_capabilities'
+        Watir.logger.warn msg,
                           ids: [:use_capabilities]
         @selenium_opts.merge!(@options)
       else

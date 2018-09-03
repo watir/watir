@@ -22,7 +22,8 @@ module Watir
     #
 
     def set!(*args)
-      raise ArgumentError, "#set! does not support special keys, use #set instead" if args.any? { |v| v.kind_of?(::Symbol) }
+      msg = "#set! does not support special keys, use #set instead"
+      raise ArgumentError, msg if args.any? { |v| v.kind_of?(::Symbol) }
       input_value = args.join
       set input_value[0]
       return content_editable_set!(*args) if @content_editable

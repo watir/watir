@@ -16,7 +16,8 @@ describe "Table" do
         actual        = table.rows.length
         browser_count = Integer(table.data_browser_count)
 
-        expect(actual).to eql(expected), "expected #{expected} rows, got #{actual} for table id=#{table.id}, browser reported: #{browser_count}"
+        msg = "expected #{expected} rows, got #{actual} for table id=#{table.id}, browser reported: #{browser_count}"
+        expect(actual).to eql(expected), msg
       end
     end
 
@@ -29,7 +30,8 @@ describe "Table" do
         actual        = row.cells.length
         browser_count = Integer(row.data_browser_count)
 
-        expect(actual).to eql(expected), "expected #{expected} cells, got #{actual} for row id=#{row.id}, browser reported: #{browser_count}"
+        msg = "expected #{expected} cells, got #{actual} for row id=#{row.id}, browser reported: #{browser_count}"
+        expect(actual).to eql(expected), msg
       end
     end
 
@@ -42,7 +44,8 @@ describe "Table" do
         actual        = tbody.rows.count
         browser_count = Integer(tbody.data_browser_count)
 
-        expect(actual).to eql(expected), "expected #{expected} rows, got #{actual} for tbody id=#{tbody.id}, browser reported: #{browser_count}"
+        msg = "expected #{expected} rows, got #{actual} for tbody id=#{tbody.id}, browser reported: #{browser_count}"
+        expect(actual).to eql(expected), msg
       end
     end
   end

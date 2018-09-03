@@ -32,11 +32,11 @@ module Watir
       # @raise [TimeoutError] if timeout is exceeded
       #
 
-      def until(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, interval: nil, object: nil)
-        if deprecated_message || deprecated_timeout
+      def until(depr_timeout = nil, depr_message = nil, timeout: nil, message: nil, interval: nil, object: nil)
+        if depr_message || depr_timeout
           Watir.logger.deprecate "Using arguments for Wait#until", "keywords", ids: [:until, :timeout_arguments]
-          timeout = deprecated_timeout
-          message = deprecated_message
+          timeout = depr_timeout
+          message = depr_message
         end
         timeout ||= Watir.default_timeout
         run_with_timer(timeout, interval) do
@@ -58,11 +58,11 @@ module Watir
       # @raise [TimeoutError] if timeout is exceeded
       #
 
-      def while(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, interval: nil, object: nil)
-        if deprecated_message || deprecated_timeout
+      def while(depr_timeout = nil, depr_message = nil, timeout: nil, message: nil, interval: nil, object: nil)
+        if depr_message || depr_timeout
           Watir.logger.deprecate "Using arguments for Wait#while", "keywords", ids: [:while, :timeout_arguments]
-          timeout = deprecated_timeout
-          message = deprecated_message
+          timeout = depr_timeout
+          message = depr_message
         end
         timeout ||= Watir.default_timeout
         run_with_timer(timeout, interval) { return unless yield(object) }
@@ -111,11 +111,11 @@ module Watir
     # @param [String] message error message for when times out
     #
 
-    def wait_until(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, interval: nil, **opt, &blk)
-      if deprecated_message || deprecated_timeout
+    def wait_until(depr_timeout = nil, depr_message = nil, timeout: nil, message: nil, interval: nil, **opt, &blk)
+      if depr_message || depr_timeout
         Watir.logger.deprecate "Using arguments for #wait_until", "keywords", ids: [:timeout_arguments]
-        timeout = deprecated_timeout
-        message = deprecated_message
+        timeout = depr_timeout
+        message = depr_message
       end
       message ||= Proc.new { |obj| "waiting for true condition on #{obj.inspect}" }
 
@@ -142,11 +142,11 @@ module Watir
     # @param [String] message error message for when times out
     #
 
-    def wait_while(deprecated_timeout = nil, deprecated_message = nil, timeout: nil, message: nil, interval: nil, **opt, &blk)
-      if deprecated_message || deprecated_timeout
+    def wait_while(depr_timeout = nil, depr_message = nil, timeout: nil, message: nil, interval: nil, **opt, &blk)
+      if depr_message || depr_timeout
         Watir.logger.deprecate "Using arguments for #wait_while", "keywords", ids: [:timeout_arguments]
-        timeout = deprecated_timeout
-        message = deprecated_message
+        timeout = depr_timeout
+        message = depr_message
       end
       message ||= Proc.new { |obj| "waiting for false condition on #{obj.inspect}" }
 
@@ -173,8 +173,8 @@ module Watir
     # @see Watir::Element#present?
     #
 
-    def wait_until_present(deprecated_timeout = nil, timeout: nil, interval: nil, message: nil)
-      if deprecated_timeout
+    def wait_until_present(depr_timeout = nil, timeout: nil, interval: nil, message: nil)
+      if depr_timeout
         Watir.logger.deprecate "Using arguments for #wait_until_present", "keywords", ids: [:timeout_arguments]
         timeout = deprecated_timeout
       end
@@ -208,10 +208,10 @@ module Watir
     # @see Watir::Element#present?
     #
 
-    def wait_while_present(deprecated_timeout = nil, timeout: nil, interval: nil, message: nil)
-      if deprecated_timeout
+    def wait_while_present(depr_timeout = nil, timeout: nil, interval: nil, message: nil)
+      if depr_timeout
         Watir.logger.deprecate "Using arguments for #wait_while_present", "keywords", ids: [:timeout_arguments]
-        timeout = deprecated_timeout
+        timeout = depr_timeout
       end
 
       if self.is_a? Watir::Element

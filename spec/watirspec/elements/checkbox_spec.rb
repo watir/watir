@@ -196,8 +196,10 @@ describe "CheckBox" do
   describe "#clear" do
     it "raises ObjectDisabledException if the checkbox is disabled" do
       expect(browser.checkbox(id: "new_user_interests_dentistry")).to_not be_set
-      expect { browser.checkbox(id: "new_user_interests_dentistry").clear }.to raise_object_disabled_exception
-      expect { browser.checkbox(xpath: "//input[@id='new_user_interests_dentistry']").clear }.to raise_object_disabled_exception
+      expect { browser.checkbox(id: "new_user_interests_dentistry").clear }
+        .to raise_object_disabled_exception
+      expect { browser.checkbox(xpath: "//input[@id='new_user_interests_dentistry']").clear }
+        .to raise_object_disabled_exception
     end
 
     it "clears the checkbox button if it is set" do
@@ -241,8 +243,10 @@ describe "CheckBox" do
     end
 
     it "raises ObjectDisabledException if the checkbox is disabled" do
-      expect { browser.checkbox(id: "new_user_interests_dentistry").set }.to raise_object_disabled_exception
-      expect { browser.checkbox(xpath: "//input[@id='new_user_interests_dentistry']").set }.to raise_object_disabled_exception
+      expect { browser.checkbox(id: "new_user_interests_dentistry").set }
+        .to raise_object_disabled_exception
+      expect { browser.checkbox(xpath: "//input[@id='new_user_interests_dentistry']").set }
+        .to raise_object_disabled_exception
     end
   end
 

@@ -162,7 +162,8 @@ describe "IFrame" do
   end
 
   it 'will suggest looking in an iframe when iframes exist' do
-    expect { browser.text_field(name: 'senderElement').set('no') }.to raise_unknown_object_exception('Maybe look in an iframe?')
+    msg = "Maybe look in an iframe?"
+    expect { browser.text_field(name: 'senderElement').set('no') }.to raise_unknown_object_exception(msg)
   end
 
   describe "#execute_script" do
@@ -170,8 +171,11 @@ describe "IFrame" do
       it "executes the given javascript in the specified frame" do
         frame = browser.iframe(index: 0)
         expect(frame.div(id: 'set_by_js').text).to eq ""
-        frame.execute_script(%Q{document.getElementById('set_by_js').innerHTML = 'Art consists of limitation. The most beautiful part of every picture is the frame.'})
-        expect(frame.div(id: 'set_by_js').text).to eq "Art consists of limitation. The most beautiful part of every picture is the frame."
+        inner_html = "Art consists of limitation. The most beautiful part of every picture is the frame."
+        script = "document.getElementById('set_by_js').innerHTML = '#{inner_html}'"
+        frame.execute_script script
+        text = "Art consists of limitation. The most beautiful part of every picture is the frame."
+        expect(frame.div(id: 'set_by_js').text).to eq text
       end
     end
   end

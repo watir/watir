@@ -10,7 +10,8 @@ module WatirSpec
         when '/plain_text'
           respond('This is text/plain', 'Content-Type' => 'text/plain')
         when %r{/set_cookie}
-          respond("<html>C is for cookie, it's good enough for me</html>", 'Content-Type' => 'text/html', 'Set-Cookie' => 'monster=1')
+          body = "<html>C is for cookie, it's good enough for me</html>"
+          respond(body, 'Content-Type' => 'text/html', 'Set-Cookie' => 'monster=1')
         when css_file?
           respond(file_read(path), 'Content-Type' => 'text/css')
         when js_file?

@@ -30,27 +30,18 @@ module Watir
         def check_type(how, what)
           case how
           when :index
-            unless what.is_a?(Integer)
-              raise TypeError, "expected Integer, got #{what.inspect}:#{what.class}"
-            end
+            raise_unless_int(what)
           when :visible
-            unless what.is_a?(TrueClass) || what.is_a?(FalseClass)
-              raise TypeError, "expected TrueClass or FalseClass, got #{what.inspect}:#{what.class}"
-            end
+            raise_unless_boolean(what)
           when :visible_text
-            unless what.is_a?(String) || what.is_a?(Regexp)
-              raise TypeError, "expected String or Regexp, got #{what.inspect}:#{what.class}"
-            end
+            raise_unless_str_regex(what)
           else
             if what.is_a?(Array) && how != :class && how != :class_name
               raise TypeError, "Only :class locator can have a value of an Array"
             end
-            if what.is_a?(Symbol) && how != :adjacent
-              raise TypeError, "Symbol is not a valid value"
-            end
-            unless VALID_WHATS.any? { |t| what.is_a? t }
-              raise TypeError, "expected one of #{VALID_WHATS.inspect}, got #{what.inspect}:#{what.class}"
-            end
+            raise TypeError, "Symbol is not a valid value" if what.is_a?(Symbol) && how != :adjacent
+            return if VALID_WHATS.any? { |t| what.is_a? t }
+            raise TypeError, "expected one of #{VALID_WHATS.inspect}, got #{what.inspect}:#{what.class}"
           end
         end
 
@@ -143,6 +134,21 @@ module Watir
           Kernel.const_get("#{self.class.name}::XPath")
         rescue
           XPath
+        end
+
+        def raise_unless_int(what)
+          return if what.is_a?(Integer)
+          raise TypeError, "expected Integer, got #{what.inspect}:#{what.class}"
+        end
+
+        def raise_unless_boolean(what)
+          return if what.is_a?(TrueClass) || what.is_a?(FalseClass)
+          raise TypeError, "expected TrueClass or FalseClass, got #{what.inspect}:#{what.class}"
+        end
+
+        def raise_unless_str_regex(what)
+          return if what.is_a?(String) || what.is_a?(Regexp)
+          raise TypeError, "expected String or Regexp, got #{what.inspect}:#{what.class}"
         end
       end
     end

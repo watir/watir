@@ -104,8 +104,10 @@ describe "Frame" do
       it "executes the given javascript in the specified frame" do
         frame = browser.frame(index: 0)
         expect(frame.div(id: 'set_by_js').text).to eq ""
-        frame.execute_script(%Q{document.getElementById('set_by_js').innerHTML = 'Art consists of limitation. The most beautiful part of every picture is the frame.'})
-        expect(frame.div(id: 'set_by_js').text).to eq "Art consists of limitation. The most beautiful part of every picture is the frame."
+        inner_html = "Art consists of limitation. The most beautiful part of every picture is the frame."
+        frame.execute_script(%Q{document.getElementById('set_by_js').innerHTML = '#{inner_html}'})
+        text = "Art consists of limitation. The most beautiful part of every picture is the frame."
+        expect(frame.div(id: 'set_by_js').text).to eq text
       end
     end
   end

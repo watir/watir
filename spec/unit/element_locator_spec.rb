@@ -69,7 +69,8 @@ describe Watir::Locators::Element::Locator do
       end
 
       it "handles selector with multiple classes in array" do
-        expect_one :xpath, ".//*[(contains(concat(' ', @class, ' '), ' a ') and contains(concat(' ', @class, ' '), ' b '))]"
+        xpath = ".//*[(contains(concat(' ', @class, ' '), ' a ') and contains(concat(' ', @class, ' '), ' b '))]"
+        expect_one :xpath, xpath
 
         locate_one class: ["a", "b"]
       end
@@ -181,7 +182,9 @@ describe Watir::Locators::Element::Locator do
 
       it "uses the corresponding <label>'s @for attribute or parent::label when locating by label" do
         translated_type = "translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')"
-        expect_one :xpath, ".//input[#{translated_type}='text' and (@id=//label[normalize-space()='foo']/@for or parent::label[normalize-space()='foo'])]"
+        xpath = ".//input[#{translated_type}='text' and (@id=//label[normalize-space()='foo']/@for or " \
+                "parent::label[normalize-space()='foo'])]"
+        expect_one :xpath, xpath
 
         selector = [
           :tag_name, "input",
@@ -380,8 +383,9 @@ describe Watir::Locators::Element::Locator do
 
       it "raises a TypeError if selector value is not a String, Regexp or Boolean" do
         num_type = RUBY_VERSION[/^\d+\.(\d+)/, 1].to_i >= 4 ? 'Integer' : 'Fixnum'
-        expect { locate_one(tag_name: 123) }.to \
-          raise_error(TypeError, %[expected one of [Array, String, Regexp, TrueClass, FalseClass, Symbol], got 123:#{num_type}])
+        msg = %[expected one of [Array, String, Regexp, TrueClass, FalseClass, Symbol], got 123:#{num_type}]
+        expect { locate_one(tag_name: 123) }
+          .to raise_error TypeError, msg
       end
     end
   end
@@ -426,7 +430,8 @@ describe Watir::Locators::Element::Locator do
       end
 
       it "handles selector with multiple classes in array" do
-        expect_all :xpath, ".//*[(contains(concat(' ', @class, ' '), ' a ') and contains(concat(' ', @class, ' '), ' b '))]"
+        xpath = ".//*[(contains(concat(' ', @class, ' '), ' a ') and contains(concat(' ', @class, ' '), ' b '))]"
+        expect_all :xpath, xpath
 
         locate_all class: ["a", "b"]
       end
