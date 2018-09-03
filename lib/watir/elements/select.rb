@@ -13,17 +13,6 @@ module Watir
     end
 
     #
-    # Gets all the options in the select list
-    # Use Element#options rather than Select element attribute "options"
-    #
-    # @return [Watir::OptionCollection]
-    #
-
-    def options(*)
-      super
-    end
-
-    #
     # Returns true if the select list has one or more options where text or label matches the given value.
     #
     # @param [String, Regexp] str_or_rx
