@@ -353,6 +353,13 @@ describe "SelectList" do
         select_list = browser.select_list(id: 'languages')
         expect { select_list.select('No') }.to wait_and_raise_no_value_found_exception
       end
+
+      it 'waits for select list when selecting an option' do
+        browser.goto WatirSpec.url_for("wait.html")
+        select_list = browser.select_list(id: 'not_there')
+
+        expect { select_list.select('Anything') }.to wait_and_raise_unknown_object_exception
+      end
     end
 
     it "raises NoValueFoundException if the option doesn't exist" do
