@@ -168,8 +168,7 @@ module Watir
     end
 
     def locate_all
-      @locator ||= build_locator
-      @elements ||= @locator.locate_all
+      build_locator.locate_all
     end
 
     def element_class
