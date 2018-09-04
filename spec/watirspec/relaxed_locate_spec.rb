@@ -9,57 +9,28 @@ describe 'Watir#relaxed_locate?' do
 
       context 'when acting on an element that is never present' do
         it 'raises exception after timing out' do
-          begin
-            time_out = 2
-            Watir.default_timeout = time_out
-            element = browser.link(id: 'not_there')
-            start_time = ::Time.now
-            allow($stderr).to receive(:write).twice
-            expect { element.click }.to raise_exception(Watir::Exception::UnknownObjectException)
-            expect(::Time.now - start_time).to be > time_out
-          ensure
-            Watir.default_timeout = 30
-          end
+          element = browser.link(id: 'not_there')
+          expect { element.click }.to wait_and_raise_unknown_object_exception
         end
       end
 
       context 'when acting on an element whose parent is never present' do
         it 'raises exception after timing out' do
-          begin
-            time_out = 2
-            Watir.default_timeout = time_out
-            element = browser.link(id: 'not_there')
-            start_time = ::Time.now
-            allow($stderr).to receive(:write).twice
-            expect { element.element.click }.to raise_exception(Watir::Exception::UnknownObjectException)
-            expect(::Time.now - start_time).to be > time_out
-          ensure
-            Watir.default_timeout = 30
-          end
+          element = browser.link(id: 'not_there')
+          expect { element.element.click }.to wait_and_raise_unknown_object_exception
         end
       end
 
       context 'when acting on an element from a collection whose parent is never present' do
         it 'raises exception after timing out' do
-          begin
-            time_out = 2
-            Watir.default_timeout = time_out
-            element = browser.link(id: 'not_there')
-            start_time = ::Time.now
-            allow($stderr).to receive(:write).twice
-            expect { element.elements[2].click }.to raise_exception(Watir::Exception::UnknownObjectException)
-            expect(::Time.now - start_time).to be > time_out
-          ensure
-            Watir.default_timeout = 30
-          end
+          element = browser.link(id: 'not_there')
+          expect { element.elements[2].click }.to wait_and_raise_unknown_object_exception
         end
       end
 
       context 'when acting on an element that is already present' do
         it 'does not wait' do
-          start_time = ::Time.now
-          expect { browser.link.click }.to_not raise_exception
-          expect(::Time.now - start_time).to be < Watir.default_timeout
+          expect { browser.link.click }.to execute_immediately
         end
       end
 
@@ -102,16 +73,7 @@ describe 'Watir#relaxed_locate?' do
 
       it 'waits for parent element to be present before locating a collection' do
         els = browser.element(id: "not_there").elements(id: "doesnt_matter")
-        begin
-          time_out = 2
-          Watir.default_timeout = time_out
-          element = browser.link(id: 'not_there')
-          start_time = ::Time.now
-          expect { els.to_a }.to raise_exception(Watir::Exception::UnknownObjectException)
-          expect(::Time.now - start_time).to be > time_out
-        ensure
-          Watir.default_timeout = 30
-        end
+        expect { els.to_a }.to wait_and_raise_unknown_object_exception
       end
     end
   end
