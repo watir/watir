@@ -36,17 +36,17 @@ if defined?(RSpec)
   end
 
   TIMING_EXCEPTIONS = {
-    raise_unknown_object_exception: Watir::Exception::UnknownObjectException,
-    raise_no_matching_window_exception: Watir::Exception::NoMatchingWindowFoundException,
-    raise_unknown_frame_exception: Watir::Exception::UnknownFrameException,
-    raise_object_disabled_exception: Watir::Exception::ObjectDisabledException,
-    raise_object_read_only_exception: Watir::Exception::ObjectReadOnlyException,
-    raise_no_value_found_exception: Watir::Exception::NoValueFoundException,
-    raise_timeout_exception: Watir::Wait::TimeoutError
+    unknown_object: Watir::Exception::UnknownObjectException,
+    no_matching_window: Watir::Exception::NoMatchingWindowFoundException,
+    unknown_frame: Watir::Exception::UnknownFrameException,
+    object_disabled: Watir::Exception::ObjectDisabledException,
+    object_read_only: Watir::Exception::ObjectReadOnlyException,
+    no_value_found: Watir::Exception::NoValueFoundException,
+    timeout: Watir::Wait::TimeoutError
   }.freeze
 
   TIMING_EXCEPTIONS.each do |matcher, exception|
-    RSpec::Matchers.define matcher do |message|
+    RSpec::Matchers.define "raise_#{matcher}_exception" do |message|
       match do |actual|
         original_timeout = Watir.default_timeout
         Watir.default_timeout = 0
@@ -68,6 +68,67 @@ if defined?(RSpec)
       def supports_block_expectations?
         true
       end
+    end
+
+    RSpec::Matchers.define "wait_and_raise_#{matcher}_exception" do |message = nil, timeout: 2|
+      match do |actual|
+        original_timeout = Watir.default_timeout
+        Watir.default_timeout = timeout
+        begin
+          start_time = ::Time.now
+          actual.call
+          false
+        rescue exception => ex
+          finish_time = ::Time.now
+          raise exception, "expected '#{message}' to be included in: '#{ex.message}'" unless message.nil? || ex.message.match(message)
+          @time_difference = finish_time - start_time
+          @time_difference > timeout
+        ensure
+          Watir.default_timeout = original_timeout
+        end
+      end
+
+      failure_message do
+        if @time_difference
+          "expected action to take more than provided timeout (#{timeout} seconds), " \
+          "instead it took #{@time_difference} seconds"
+        else
+          "expected #{exception} but nothing was raised"
+        end
+      end
+
+      def supports_block_expectations?
+        true
+      end
+    end
+  end
+
+  RSpec::Matchers.define :execute_immediately do |timeout: 1|
+    match do |actual|
+      original_timeout = Watir.default_timeout
+      Watir.default_timeout = timeout
+      begin
+        start_time = ::Time.now
+        actual.call
+        @time_difference = ::Time.now - start_time
+        @time_difference < timeout
+      ensure
+        Watir.default_timeout = original_timeout
+      end
+    end
+
+    failure_message_when_negated do
+      "expected action to take more than provided timeout (#{timeout} seconds), " \
+      "instead it took #{@time_difference} seconds"
+    end
+
+    failure_message do
+      "expected action to take less than provided timeout (#{timeout} seconds), " \
+      "instead it took #{@time_difference} seconds"
+    end
+
+    def supports_block_expectations?
+      true
     end
   end
 

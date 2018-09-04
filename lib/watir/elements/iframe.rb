@@ -1,36 +1,25 @@
 module Watir
   class IFrame < HTMLElement
 
-    def locate
-      return if @selector.empty?
-      @query_scope.ensure_context
-
-      selector = @selector.merge(tag_name: frame_tag)
-      element_validator = element_validator_class.new
-      selector_builder = selector_builder_class.new(@query_scope, selector, self.class.attribute_list)
-      @locator = locator_class.new(@query_scope, selector, selector_builder, element_validator)
-
-      element = @locator.locate
-      element or raise unknown_exception, "unable to locate #{@selector[:tag_name]} using #{selector_string}"
-
-      @element = FramedDriver.new(element, browser)
-    end
-
-    def ==(other)
-      return false unless other.is_a?(self.class)
-      wd == other.wd.is_a?(FramedDriver) ? other.wd.send(:wd) : other.wd
+    def locate_in_context
+      @selector.merge(tag_name: frame_tag)
+      super
     end
 
     def switch_to!
-      locate.send :switch!
+      wd.send :switch!
     end
 
     def assert_exists
+      super
       if @element && @selector.empty?
         raise UnknownFrameException, "wrapping a Selenium element as a Frame is not currently supported"
       end
+    end
 
+    def wd
       super
+      @driver ||= FramedDriver.new(@element, browser)
     end
 
     #
@@ -50,8 +39,7 @@ module Watir
     #
 
     def html
-      wait_for_exists
-      @element.page_source
+      wd.page_source
     end
 
     #
@@ -67,8 +55,14 @@ module Watir
       browser.send(:wrap_elements_in, self, returned)
     end
 
-    def ensure_context
-      switch_to!
+    #
+    # Sends sequence of keystrokes to the driver within the frame context.
+    #
+    # @param [String, Symbol] args
+    #
+
+    def send_keys(*args)
+      element_call(:wait_for_writable) { wd.send_keys(*args) }
     end
 
     private
@@ -125,7 +119,6 @@ module Watir
     def initialize(element, browser)
       @element = element
       @browser = browser
-      @driver = browser.driver
     end
 
     def ==(other)
@@ -135,28 +128,28 @@ module Watir
 
     def send_keys(*args)
       switch!
-      @driver.switch_to.active_element.send_keys(*args)
+      wd.switch_to.active_element.send_keys(*args)
     end
 
     protected
 
     def wd
-      @element
+      @browser.driver
     end
 
     private
 
     def method_missing(meth, *args, &blk)
-      if @driver.respond_to?(meth)
+      if wd.respond_to?(meth) && !%i[find_element find_elements].include?(meth)
         switch!
-        @driver.send(meth, *args, &blk)
+        wd.send(meth, *args, &blk)
       else
-        @element.send(meth, *args, &blk)
+        wd.send(meth, *args, &blk)
       end
     end
 
     def switch!
-      @driver.switch_to.frame @element
+      wd.switch_to.frame @element
       @browser.default_context = false
     rescue Selenium::WebDriver::Error::NoSuchFrameError => e
       raise Exception::UnknownFrameException, e.message

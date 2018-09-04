@@ -351,14 +351,14 @@ describe "SelectList" do
         browser.goto WatirSpec.url_for("wait.html")
         browser.a(id: 'add_select').click
         select_list = browser.select_list(id: 'languages')
-        Watir.default_timeout = 2
-        begin
-          start_time = ::Time.now
-          expect { select_list.select('No') }.to raise_error Watir::Exception::NoValueFoundException
-          expect(::Time.now - start_time).to be > 2
-        ensure
-          Watir.default_timeout = 30
-        end
+        expect { select_list.select('No') }.to wait_and_raise_no_value_found_exception
+      end
+
+      it 'waits for select list when selecting an option' do
+        browser.goto WatirSpec.url_for("wait.html")
+        select_list = browser.select_list(id: 'not_there')
+
+        expect { select_list.select('Anything') }.to wait_and_raise_unknown_object_exception
       end
     end
 
