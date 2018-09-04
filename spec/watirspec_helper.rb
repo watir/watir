@@ -82,9 +82,7 @@ class LocalConfig
     matching_guards << [browser, Selenium::WebDriver::Platform.os]
     matching_guards << :relaxed_locate if Watir.relaxed_locate?
     matching_guards << :not_relaxed_locate unless Watir.relaxed_locate?
-    if @imp.browser_args.last[:headless]
-      matching_guards << :headless
-    end
+    matching_guards << :headless if @imp.browser_args.last[:headless]
 
     if !Selenium::WebDriver::Platform.linux? || ENV['DESKTOP_SESSION']
       # some specs (i.e. Window#maximize) needs a window manager on linux
@@ -102,7 +100,7 @@ class LocalConfig
   end
 
   def chrome_args
-    opts = {args: ["--disable-translate"]}
+    opts = {args: ['--disable-translate']}
     opts[:headless] = true if ENV['HEADLESS'] == 'true'
     opts[:options] = {binary: ENV['CHROME_BINARY']} if ENV['CHROME_BINARY']
     opts
@@ -131,7 +129,7 @@ end
 class RemoteConfig < LocalConfig
   def configure
     load_webdrivers
-    @url = ENV["REMOTE_SERVER_URL"] || begin
+    @url = ENV['REMOTE_SERVER_URL'] || begin
       require 'watirspec/remote_server'
 
       remote_server = WatirSpec::RemoteServer.new
@@ -157,7 +155,7 @@ class RemoteConfig < LocalConfig
   end
 end
 
-if ENV["REMOTE_SERVER_URL"] || ENV["USE_REMOTE"]
+if ENV['REMOTE_SERVER_URL'] || ENV['USE_REMOTE']
   RemoteConfig.new(WatirSpec.implementation).configure
 else
   LocalConfig.new(WatirSpec.implementation).configure

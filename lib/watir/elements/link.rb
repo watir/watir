@@ -1,7 +1,7 @@
 module Watir
   module Container
-    alias_method :link,  :a
-    alias_method :links, :as
+    alias link a
+    alias links as
   end # Container
 
   class Anchor < HTMLElement

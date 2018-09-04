@@ -33,7 +33,7 @@ module WatirSpec
       end
     rescue SocketError
       # not connected to internet
-      raise Watir::Exception::Error, "unable to find or download selenium-server-standalone jar"
+      raise Watir::Exception::Error, 'unable to find or download selenium-server-standalone jar'
     end
   end
 end

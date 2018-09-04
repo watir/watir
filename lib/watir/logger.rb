@@ -27,7 +27,7 @@ module Watir
                    :fatal, :fatal?,
                    :level
 
-    def initialize(progname = "Watir")
+    def initialize(progname = 'Watir')
       @logger = create_logger($stdout)
       @logger.progname = progname
       @ignored = []
@@ -46,7 +46,7 @@ module Watir
     # Only log a warn message if it is not set to be ignored.
     #
     def warn(message, ids: [], &block)
-      msg = ids.empty? ? "" : "[#{ids.map!(&:to_s).map(&:inspect).join(", ")}] "
+      msg = ids.empty? ? '' : "[#{ids.map!(&:to_s).map(&:inspect).join(', ')}] "
       msg += message
       @logger.warn(msg, &block) unless (@ignored & ids).any?
     end
@@ -89,7 +89,7 @@ module Watir
     #
     def deprecate(old, new, ids: [])
       return if @ignored.include?('deprecations') || (@ignored & ids.map!(&:to_s)).any?
-      msg = ids.empty? ? "" : "[#{ids.map(&:inspect).join(", ")}] "
+      msg = ids.empty? ? '' : "[#{ids.map(&:inspect).join(', ')}] "
       warn "[DEPRECATION] #{msg}#{old} is deprecated. Use #{new} instead."
     end
 

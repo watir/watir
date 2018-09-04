@@ -12,7 +12,7 @@ module Watir
     def set
       click unless set?
     end
-    alias_method :select, :set
+    alias select set
 
     #
     # Is this radio set?
@@ -23,7 +23,7 @@ module Watir
     def set?
       element_call { @element.selected? }
     end
-    alias_method :selected?, :set?
+    alias selected? set?
 
     #
     # Returns the text of the associated label.
@@ -40,11 +40,11 @@ module Watir
 
   module Container
     def radio(*args)
-      Radio.new(self, extract_selector(args).merge(tag_name: "input", type: "radio"))
+      Radio.new(self, extract_selector(args).merge(tag_name: 'input', type: 'radio'))
     end
 
     def radios(*args)
-      RadioCollection.new(self, extract_selector(args).merge(tag_name: "input", type: "radio"))
+      RadioCollection.new(self, extract_selector(args).merge(tag_name: 'input', type: 'radio'))
     end
   end # Container
 

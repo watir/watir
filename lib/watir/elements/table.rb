@@ -27,7 +27,7 @@ module Watir
 
     def hashes
       all_rows = rows.locate
-      header_row = all_rows.first || raise(Exception::Error, "no rows in table")
+      header_row = all_rows.first || raise(Exception::Error, 'no rows in table')
 
       all_rows.entries[1..-1].map do |row|
         cell_size_check(header_row, row)

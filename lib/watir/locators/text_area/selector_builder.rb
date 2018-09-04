@@ -10,7 +10,7 @@ module Watir
           # difference between IDL vs content attribute.
           # Current Element design doesn't allow to do that in any
           # obvious way except to use regular expression.
-          if how == :value && what.kind_of?(String)
+          if how == :value && what.is_a?(String)
             [how, Regexp.new('^' + Regexp.escape(what) + '$')]
           else
             super

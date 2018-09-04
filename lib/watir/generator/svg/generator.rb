@@ -9,7 +9,7 @@ module Watir
       # are inherited from HTML ones
 
       def ignored_tags
-        %w(a audio canvas iframe image script source style text title track video unknown)
+        %w[a audio canvas iframe image script source style text title track video unknown]
       end
 
       def ignored_interfaces

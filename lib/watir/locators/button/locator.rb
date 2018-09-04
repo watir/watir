@@ -18,7 +18,8 @@ module Watir
             copy  = selector.dup
             value = copy.delete(:value)
 
-            super(element, copy) && (value === fetch_value(element, :value) || value === fetch_value(element, :text))
+            super(element, copy) &&
+              (fetch_value(element, :value) =~ /#{value}/ || fetch_value(element, :text) =~ /#{value}/)
           else
             super
           end

@@ -1,30 +1,30 @@
-require "watirspec_helper"
+require 'watirspec_helper'
 
-describe "Dls" do
+describe 'Dls' do
   before :each do
-    browser.goto(WatirSpec.url_for("definition_lists.html"))
+    browser.goto(WatirSpec.url_for('definition_lists.html'))
   end
 
-  describe "with selectors" do
-    it "returns the matching elements" do
-      expect(browser.dls(title: "experience").to_a).to eq [browser.dl(title: "experience")]
+  describe 'with selectors' do
+    it 'returns the matching elements' do
+      expect(browser.dls(title: 'experience').to_a).to eq [browser.dl(title: 'experience')]
     end
   end
 
-  describe "#length" do
-    it "returns the number of dls" do
+  describe '#length' do
+    it 'returns the number of dls' do
       expect(browser.dls.length).to eq 3
     end
   end
 
-  describe "#[]" do
-    it "returns the dl at the given index" do
-      expect(browser.dls[0].id).to eq "experience-list"
+  describe '#[]' do
+    it 'returns the dl at the given index' do
+      expect(browser.dls[0].id).to eq 'experience-list'
     end
   end
 
-  describe "#each" do
-    it "iterates through dls correctly" do
+  describe '#each' do
+    it 'iterates through dls correctly' do
       count = 0
 
       browser.dls.each_with_index do |d, index|

@@ -1,12 +1,12 @@
 if defined?(RSpec)
-  DEPRECATION_WARNINGS = [:selector_parameters,
-                          :class_array,
-                          :use_capabilities,
-                          :visible_text,
-                          :text_regexp,
-                          :stale_visible,
-                          :stale_present,
-                          :select_by].freeze
+  DEPRECATION_WARNINGS = %i[selector_parameters
+                            class_array
+                            use_capabilities
+                            visible_text
+                            text_regexp
+                            stale_visible
+                            stale_present
+                            select_by].freeze
 
   DEPRECATION_WARNINGS.each do |deprecation|
     RSpec::Matchers.define "have_deprecated_#{deprecation}" do
@@ -21,7 +21,7 @@ if defined?(RSpec)
       failure_message do |_actual|
         deprecations_found = @stdout_message[/WARN Watir \[DEPRECATION\] ([^.*\ ]*)/, 1]
         but_message = if deprecations_found.nil?
-                        "no Warnings were found"
+                        'no Warnings were found'
                       else
                         "deprecation Warning of #{deprecations_found} was found instead"
                       end

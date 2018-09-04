@@ -13,13 +13,13 @@ module Watir
       elsif selector.key? :handle
         @handle = selector.delete :handle
       else
-        return if selector.keys.all? { |k| [:title, :url, :index].include? k }
+        return if selector.keys.all? { |k| %i[title url index].include? k }
         raise ArgumentError, "invalid window selector: #{selector.inspect}"
       end
     end
 
     def inspect
-      '#<%s:0x%x located=%s>' % [self.class, hash * 2, !!@handle]
+      format('#<%s:0x%x located=%s>', self.class, hash * 2, !!@handle)
     end
 
     #
@@ -102,8 +102,8 @@ module Watir
       false
     end
 
-    alias_method :present?, :exists?
-    alias_method :exist?, :exists?
+    alias present? exists?
+    alias exist? exists?
 
     #
     # Returns true if two windows are equal.
@@ -116,11 +116,11 @@ module Watir
     #
 
     def ==(other)
-      return false unless other.kind_of?(self.class)
+      return false unless other.is_a?(self.class)
 
       handle == other.handle
     end
-    alias_method :eql?, :==
+    alias eql? ==
 
     def hash
       handle.hash ^ self.class.hash
@@ -218,12 +218,12 @@ module Watir
     end
 
     def matches?(handle)
-      @driver.switch_to.window(handle) {
-        matches_title = @selector[:title].nil? || @selector[:title] === @driver.title
-        matches_url   = @selector[:url].nil? || @selector[:url] === @driver.current_url
+      @driver.switch_to.window(handle) do
+        matches_title = @selector[:title].nil? || @driver.title =~ /#{@selector[:title]}/
+        matches_url = @selector[:url].nil? || @driver.current_url =~ /#{@selector[:url]}/
 
         matches_title && matches_url
-      }
+      end
     rescue Selenium::WebDriver::Error::NoSuchWindowError, Selenium::WebDriver::Error::NoSuchDriverError
       # the window may disappear while we're iterating.
       false

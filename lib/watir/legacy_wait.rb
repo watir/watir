@@ -1,6 +1,6 @@
 require 'forwardable'
 
-# TODO - remove this file for future release
+# TODO: - remove this file for future release
 module Watir
   class BaseDecorator
     def initialize(element, timeout, message = nil)
@@ -9,15 +9,12 @@ module Watir
       @message = message
     end
 
-    def respond_to?(*args)
+    def respond_to_missing?(*args)
       @element.respond_to?(*args)
     end
 
     def method_missing(method, *args, &block)
-      unless @element.respond_to?(method)
-        raise NoMethodError, "undefined method `#{method}' for #{@element.inspect}:#{@element.class}"
-      end
-
+      return super unless @element.respond_to?(method)
       Watir::Wait.until(@timeout, @message) { wait_until }
 
       @element.__send__(method, *args, &block)
@@ -81,7 +78,7 @@ module Watir
     def when_present(timeout = nil)
       warning = '#when_present has been deprecated and is unlikely to be needed; '
       warning << 'replace this with #wait_until_present if a wait is still needed'
-      Watir.logger.warn warning, ids: [:when_present, :deprecations]
+      Watir.logger.warn warning, ids: %i[when_present deprecations]
 
       timeout ||= Watir.default_timeout
       message = "waiting for #{selector_string} to become present"
@@ -108,7 +105,7 @@ module Watir
 
     def when_enabled(timeout = nil)
       Watir.logger.warn '#when_enabled has been deprecated and is unlikely to be needed',
-                        ids: [:when_enabled, :deprecations]
+                        ids: %i[when_enabled deprecations]
 
       timeout ||= Watir.default_timeout
       message = "waiting for #{selector_string} to become enabled"

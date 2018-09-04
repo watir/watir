@@ -1,5 +1,3 @@
-inherit_from: .rubocop_todo.yml
-
 # Offense count: 144
 # Cop supports --auto-correct.
 # Configuration parameters: AllowAdjacentOneLineDefs, NumberOfEmptyLines.
@@ -87,4 +85,53 @@ Metrics/ParameterLists:
 # URISchemes: http, https
 Metrics/LineLength:
   Max: 120
+
+# Cop supports --auto-correct.
+# Configuration parameters: EnforcedStyle, ProceduralMethods, FunctionalMethods, IgnoredMethods.
+# SupportedStyles: line_count_based, semantic, braces_for_chaining
+# ProceduralMethods: benchmark, bm, bmbm, create, each_with_object, measure, new, realtime, tap, with_object
+# FunctionalMethods: let, let!, subject, watch
+# IgnoredMethods: lambda, proc, it
+Style/BlockDelimiters:
+  EnforcedStyle: braces_for_chaining
+
+Style/CommentedKeyword:
+  Enabled: false
+
+Style/DoubleNegation:
+  Enabled: false
+
+## Configuration parameters: AllowedVariables.
+Style/GlobalVars:
+  AllowedVariables:
+    - $browser
+
+### Cop supports --auto-correct.
+### Configuration parameters: EnforcedStyle, ConsistentQuotesInMultiline.
+## SupportedStyles: single_quotes, double_quotes
+Style/StringLiterals:
+  Exclude:
+    - 'lib/watir/elements/html_elements.rb'
+    - 'lib/watir/elements/svg_elements.rb'
+
+Style/MethodCallWithoutArgsParentheses:
+  Enabled: false
+
+# TODO: I can't tell if this applies
+## Configuration parameters: EnforcedStyle.
+## SupportedStyles: annotated, template, unannotated
+Style/FormatStringToken:
+  Exclude:
+    - 'lib/watir/browser.rb'
+    - 'lib/watir/locators/text_field/selector_builder.rb'
+    - 'lib/watir/window.rb'
+
+Style/Documentation:
+  Enabled: false
+
+# Cop supports --auto-correct.
+# Configuration parameters: EnforcedStyle.
+# SupportedStyles: when_needed, always, never
+Style/FrozenStringLiteralComment:
+  Enabled: false
 

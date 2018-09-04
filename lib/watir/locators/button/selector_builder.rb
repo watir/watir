@@ -3,20 +3,20 @@ module Watir
     class Button
       class SelectorBuilder < Element::SelectorBuilder
         def build_wd_selector(selectors)
-          return if selectors.values.any? { |e| e.kind_of? Regexp }
+          return if selectors.values.any? { |e| e.is_a? Regexp }
 
-          selectors.delete(:tag_name) || raise("internal error: no tag_name?!")
+          selectors.delete(:tag_name) || raise('internal error: no tag_name?!')
 
           button_attr_exp = xpath_builder.attribute_expression(:button, selectors)
 
-          xpath = ".//button"
+          xpath = './/button'
           xpath << "[#{button_attr_exp}]" unless button_attr_exp.empty?
 
           unless selectors[:type] == false
             selectors[:type] = Watir::Button::VALID_TYPES if [nil, true].include?(selectors[:type])
             input_attr_exp = xpath_builder.attribute_expression(:input, selectors)
 
-            xpath << " | .//input"
+            xpath << ' | .//input'
             xpath << "[#{input_attr_exp}]"
           end
 

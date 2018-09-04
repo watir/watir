@@ -14,11 +14,11 @@ module WatirSpec
     end
 
     def browser_class
-      @browser_class || raise("browser_class not set")
+      @browser_class || raise('browser_class not set')
     end
 
     def name
-      @name || raise("implementation name not set")
+      @name || raise('implementation name not set')
     end
 
     def matches_guard?(args)

@@ -37,9 +37,9 @@ module Watir
             raise_unless_str_regex(what)
           else
             if what.is_a?(Array) && !%i[class class_name].include?(how)
-              raise TypeError, "Only :class locator can have a value of an Array"
+              raise TypeError, 'Only :class locator can have a value of an Array'
             end
-            raise TypeError, "Symbol is not a valid value" if what.is_a?(Symbol) && how != :adjacent
+            raise TypeError, 'Symbol is not a valid value' if what.is_a?(Symbol) && how != :adjacent
             return if VALID_WHATS.any? { |t| what.is_a? t }
             raise TypeError, "expected one of #{VALID_WHATS.inspect}, got #{what.inspect}:#{what.class}"
           end
@@ -103,16 +103,14 @@ module Watir
         end
 
         def valid_attribute?(attribute)
-          @valid_attributes && @valid_attributes.include?(attribute)
+          @valid_attributes&.include?(attribute)
         end
 
         def can_be_combined_with_xpath_or_css?(selector)
           keys = selector.keys
           return true if keys == [:tag_name]
 
-          if selector[:tag_name] == "input"
-            return keys.sort == [:tag_name, :type]
-          end
+          return keys.sort == %i[tag_name type] if selector[:tag_name] == 'input'
 
           false
         end
@@ -123,7 +121,7 @@ module Watir
 
         def xpath_builder_class
           Kernel.const_get("#{self.class.name}::XPath")
-        rescue
+        rescue StandardError
           XPath
         end
 

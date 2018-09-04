@@ -34,7 +34,7 @@ module Watir
 
       def until(depr_timeout = nil, depr_message = nil, timeout: nil, message: nil, interval: nil, object: nil)
         if depr_message || depr_timeout
-          Watir.logger.deprecate "Using arguments for Wait#until", "keywords", ids: [:until, :timeout_arguments]
+          Watir.logger.deprecate 'Using arguments for Wait#until', 'keywords', ids: %i[until timeout_arguments]
           timeout = depr_timeout
           message = depr_message
         end
@@ -60,7 +60,7 @@ module Watir
 
       def while(depr_timeout = nil, depr_message = nil, timeout: nil, message: nil, interval: nil, object: nil)
         if depr_message || depr_timeout
-          Watir.logger.deprecate "Using arguments for Wait#while", "keywords", ids: [:while, :timeout_arguments]
+          Watir.logger.deprecate 'Using arguments for Wait#while', 'keywords', ids: %i[while timeout_arguments]
           timeout = depr_timeout
           message = depr_message
         end
@@ -113,11 +113,11 @@ module Watir
 
     def wait_until(depr_timeout = nil, depr_message = nil, timeout: nil, message: nil, interval: nil, **opt, &blk)
       if depr_message || depr_timeout
-        Watir.logger.deprecate "Using arguments for #wait_until", "keywords", ids: [:timeout_arguments]
+        Watir.logger.deprecate 'Using arguments for #wait_until', 'keywords', ids: [:timeout_arguments]
         timeout = depr_timeout
         message = depr_message
       end
-      message ||= Proc.new { |obj| "waiting for true condition on #{obj.inspect}" }
+      message ||= proc { |obj| "waiting for true condition on #{obj.inspect}" }
 
       raise ArgumentError, "Unknown keyword(s): #{opt.keys} " if block_given? && !opt.empty?
       proc = block_given? ? blk : create_proc(opt)
@@ -144,11 +144,11 @@ module Watir
 
     def wait_while(depr_timeout = nil, depr_message = nil, timeout: nil, message: nil, interval: nil, **opt, &blk)
       if depr_message || depr_timeout
-        Watir.logger.deprecate "Using arguments for #wait_while", "keywords", ids: [:timeout_arguments]
+        Watir.logger.deprecate 'Using arguments for #wait_while', 'keywords', ids: [:timeout_arguments]
         timeout = depr_timeout
         message = depr_message
       end
-      message ||= Proc.new { |obj| "waiting for false condition on #{obj.inspect}" }
+      message ||= proc { |obj| "waiting for false condition on #{obj.inspect}" }
 
       raise ArgumentError, "Unknown keyword(s): #{opt.keys} " if block_given? && !opt.empty?
       proc = block_given? ? blk : create_proc(opt)
@@ -175,15 +175,14 @@ module Watir
 
     def wait_until_present(depr_timeout = nil, timeout: nil, interval: nil, message: nil)
       if depr_timeout
-        Watir.logger.deprecate "Using arguments for #wait_until_present", "keywords", ids: [:timeout_arguments]
-        timeout = deprecated_timeout
+        Watir.logger.deprecate 'Using arguments for #wait_until_present', 'keywords', ids: [:timeout_arguments]
+        timeout = depr_timeout
       end
-
-      if self.is_a? Watir::Element
-        message ||= Proc.new { |obj| "waiting for element #{obj.inspect} to become present" }
+      if is_a? Watir::Element
+        message ||= proc { |obj| "waiting for element #{obj.inspect} to become present" }
         wait_until(timeout: timeout, interval: interval, message: message) do
-          self.reset! if self.is_a? Watir::Element
-          self.present?
+          reset! if is_a? Watir::Element
+          present?
         end
       else
         Watir.logger.deprecate "#{self.class}#wait_until_present",
@@ -210,15 +209,14 @@ module Watir
 
     def wait_while_present(depr_timeout = nil, timeout: nil, interval: nil, message: nil)
       if depr_timeout
-        Watir.logger.deprecate "Using arguments for #wait_while_present", "keywords", ids: [:timeout_arguments]
+        Watir.logger.deprecate 'Using arguments for #wait_while_present', 'keywords', ids: [:timeout_arguments]
         timeout = depr_timeout
       end
-
-      if self.is_a? Watir::Element
-        message ||= Proc.new { |obj| "waiting for element #{obj.inspect} not to be present" }
+      if is_a? Watir::Element
+        message ||= proc { |obj| "waiting for element #{obj.inspect} not to be present" }
         wait_while(timeout: timeout, interval: interval, message: message) do
-          self.reset! if self.is_a? Watir::Element
-          self.present?
+          reset! if is_a? Watir::Element
+          present?
         end
       else
         Watir.logger.deprecate "#{self.class}#wait_while_present",
@@ -231,13 +229,13 @@ module Watir
     private
 
     def create_proc(opt)
-      Proc.new do
+      proc do
         opt.keys.all? do |key|
           expected = opt[key]
-          actual = if self.is_a?(Watir::Element) && !self.respond_to?(key)
-                     self.attribute_value(key)
+          actual = if is_a?(Watir::Element) && !respond_to?(key)
+                     attribute_value(key)
                    else
-                     self.send(key)
+                     send(key)
                    end
           case expected
           when Regexp

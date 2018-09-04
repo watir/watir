@@ -5,24 +5,24 @@ module Watir
         attr_reader :selector_builder
         attr_reader :element_validator
 
-        W3C_FINDERS = [
-          :css,
-          :link,
-          :link_text,
-          :partial_link_text,
-          :tag_name,
-          :xpath
-        ]
+        W3C_FINDERS = %i[
+          css
+          link
+          link_text
+          partial_link_text
+          tag_name
+          xpath
+        ].freeze
 
         # Regular expressions that can be reliably converted to xpath `contains`
         # expressions in order to optimize the locator.
-        CONVERTABLE_REGEXP = %r{
+        CONVERTABLE_REGEXP = /
           \A
             ([^\[\]\\^$.|?*+()]*) # leading literal characters
             [^|]*?                # do not try to convert expressions with alternates
             ([^\[\]\\^$.|?*+()]*) # trailing literal characters
           \z
-        }x
+        /x
 
         def initialize(query_scope, selector, selector_builder, element_validator)
           @query_scope = query_scope # either element or browser
@@ -76,7 +76,7 @@ module Watir
         end
 
         def validate(elements, tag_name)
-          elements.compact.all? { |element| element_validator.validate(element, {tag_name: tag_name}) }
+          elements.compact.all? { |element| element_validator.validate(element, tag_name: tag_name) }
         end
 
         def fetch_value(element, how)
@@ -92,7 +92,7 @@ module Watir
           when :href
             (href = element.attribute(:href)) && href.strip
           else
-            element.attribute(how.to_s.tr("_", "-").to_sym)
+            element.attribute(how.to_s.tr('_', '-').to_sym)
           end
         end
 
@@ -150,7 +150,7 @@ module Watir
           @filter_selector = {}
 
           # Remove selectors that can never be used in XPath builder
-          [:visible, :visible_text].each do |how|
+          %i[visible visible_text].each do |how|
             next unless @normalized_selector.key?(how)
             @filter_selector[how] = @normalized_selector.delete(how)
           end
@@ -170,7 +170,7 @@ module Watir
 
             # Do not add {index: 0} filter if the only filter.
             # This will allow using #find_element instead of #find_elements.
-            implicit_idx_filter = @filter_selector.empty? && idx == 0
+            implicit_idx_filter = @filter_selector.empty? && idx.zero?
             @filter_selector[:index] = idx unless implicit_idx_filter
           end
 
@@ -186,7 +186,7 @@ module Watir
         end
 
         def process_label(label_key)
-          regexp = @normalized_selector[label_key].kind_of?(Regexp)
+          regexp = @normalized_selector[label_key].is_a?(Regexp)
           return unless (regexp || label_key == :visible_label) && selector_builder.should_use_label_element?
 
           label = label_from_text(label_key)
@@ -215,9 +215,10 @@ module Watir
         def matches_selector?(element, selector)
           matches = selector.all? do |how, what|
             if how == :tag_name && what.is_a?(String)
-              element_validator.validate(element, {tag_name: what})
+              element_validator.validate(element, tag_name: what)
             else
-              what === fetch_value(element, how)
+              val = fetch_value(element, how)
+              what == val || val =~ /#{what}/
             end
           end
 
@@ -229,15 +230,13 @@ module Watir
         def text_regexp_deprecation(element, selector, matches)
           new_element = Watir::Element.new(@query_scope, element: element)
           text_content = new_element.send(:execute_js, :getTextContent, element).strip
-          text_content_matches = selector[:text] === text_content
-          unless matches == text_content_matches
-            key = @selector.key?(:text) ? "text" : "label"
-            selector_text = selector[:text].inspect
-            dep = "Using :#{key} locator with RegExp #{selector_text} to match an element that includes hidden text"
-            Watir.logger.deprecate(dep,
-                                   ":visible_#{key}",
-                                   ids: [:text_regexp])
-          end
+          text_content_matches = text_content =~ /#{selector[:text]}/
+          return if matches == !!text_content_matches
+
+          key = @selector.key?(:text) ? 'text' : 'label'
+          selector_text = selector[:text].inspect
+          dep = "Using :#{key} locator with RegExp #{selector_text} to match an element that includes hidden text"
+          Watir.logger.deprecate(dep, ":visible_#{key}", ids: [:text_regexp])
         end
 
         def can_convert_regexp_to_contains?
@@ -248,12 +247,10 @@ module Watir
           return what unless can_convert_regexp_to_contains?
 
           @filter_selector.each do |key, value|
-            next if [:tag_name, :text, :visible_text, :visible, :index].include?(key)
+            next if %i[tag_name text visible_text visible index].include?(key)
 
             predicates = regexp_selector_to_predicates(key, value)
-            unless predicates.empty?
-              what = "(#{what})[#{predicates.join(' and ')}]"
-            end
+            what = "(#{what})[#{predicates.join(' and ')}]" unless predicates.empty?
           end
           what
         end
@@ -295,14 +292,14 @@ module Watir
             retries += 1
             sleep 0.5
             retry unless retries > 2
-            target = filter == :all ? "element collection" : "element"
+            target = filter == :all ? 'element collection' : 'element'
             raise StandardError, "Unable to locate #{target} from #{@selector} due to changing page"
           end
         end
 
         def wd_supported?(how, what, tag)
           return false unless W3C_FINDERS.include? how
-          return false unless what.kind_of?(String)
+          return false unless what.is_a?(String)
           if %i[partial_link_text link_text link].include?(how)
             Watir.logger.deprecate(":#{how} locator", ':visible_text', ids: [:visible_text])
             return true if [:a, :link, nil].include?(tag)

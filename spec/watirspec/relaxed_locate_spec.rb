@@ -1,10 +1,10 @@
-require "watirspec_helper"
+require 'watirspec_helper'
 
 describe 'Watir#relaxed_locate?' do
   not_compliant_on :not_relaxed_locate do
     context 'when true' do
       before :each do
-        browser.goto(WatirSpec.url_for("wait.html"))
+        browser.goto(WatirSpec.url_for('wait.html'))
       end
 
       context 'when acting on an element that is never present' do
@@ -35,7 +35,7 @@ describe 'Watir#relaxed_locate?' do
       end
 
       context 'when acting on an element that eventually becomes present' do
-        bug "https://github.com/SeleniumHQ/selenium/issues/4380", %i{remote firefox} do
+        bug 'https://github.com/SeleniumHQ/selenium/issues/4380', %i[remote firefox] do
           it 'waits until present and then takes action' do
             start_time = ::Time.now
             browser.a(id: 'show_bar').click
@@ -46,18 +46,18 @@ describe 'Watir#relaxed_locate?' do
           it 'waits until text field is displayed and then takes action' do
             start_time = ::Time.now
             browser.a(id: 'show_textfield').click
-            expect { browser.text_field(id: 'textfield').set "Foo" }.to_not raise_exception
+            expect { browser.text_field(id: 'textfield').set 'Foo' }.to_not raise_exception
             expect(::Time.now - start_time).to be < Watir.default_timeout
           end
         end
       end
 
       context 'when acting on a text field that eventually becomes writable' do
-        it "waits to not be readonly" do
+        it 'waits to not be readonly' do
           expect(browser.text_field(id: 'writable')).to be_readonly
           start_time = ::Time.now
           browser.a(id: 'make-writable').click
-          expect { browser.text_field(id: 'writable').set "foo" }.not_to raise_exception
+          expect { browser.text_field(id: 'writable').set 'foo' }.not_to raise_exception
           expect(::Time.now - start_time).to be > 2
         end
       end
@@ -76,7 +76,7 @@ describe 'Watir#relaxed_locate?' do
   not_compliant_on :relaxed_locate do
     context 'when false' do
       before :each do
-        browser.goto(WatirSpec.url_for("wait.html"))
+        browser.goto(WatirSpec.url_for('wait.html'))
       end
 
       context 'when acting on an element that is never present' do

@@ -1,6 +1,6 @@
-require "watirspec_helper"
+require 'watirspec_helper'
 
-describe "TextArea" do
+describe 'TextArea' do
   before :each do
     browser.goto WatirSpec.url_for('forms_with_input_elements.html')
   end

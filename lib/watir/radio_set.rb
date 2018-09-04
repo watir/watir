@@ -4,14 +4,12 @@ module Watir
     include Watir::Exception
     include Enumerable
 
-    delegate [:exists?, :present?, :visible?, :browser] => :source
+    delegate %i[exists? present? visible? browser] => :source
 
     attr_reader :source, :frame
 
     def initialize(query_scope, selector)
-      unless selector.kind_of? Hash
-        raise ArgumentError, "invalid argument: #{selector.inspect}"
-      end
+      raise ArgumentError, "invalid argument: #{selector.inspect}" unless selector.is_a? Hash
 
       @source = Radio.new(query_scope, selector)
       @frame = @source.parent(tag_name: :form)
@@ -50,7 +48,7 @@ module Watir
     def radio(opt = {})
       n = name
       if !n.empty? && (!opt[:name] || opt[:name] == n)
-        frame.radio(opt.merge name: n)
+        frame.radio(opt.merge(name: n))
       elsif n.empty?
         return source
       else
@@ -65,7 +63,7 @@ module Watir
     def radios(opt = {})
       n = name
       if !n.empty? && (!opt[:name] || opt[:name] == n)
-        element_call(:wait_for_present) { frame.radios(opt.merge name: n) }
+        element_call(:wait_for_present) { frame.radios(opt.merge(name: n)) }
       elsif n.empty?
         Watir::RadioCollection.new(frame, element: source.wd)
       else
@@ -172,7 +170,7 @@ module Watir
 
     def value
       sel = selected
-      sel && sel.value
+      sel&.value
     end
 
     #
@@ -184,7 +182,7 @@ module Watir
 
     def text
       sel = selected
-      sel && sel.text
+      sel&.text
     end
 
     #
@@ -207,10 +205,10 @@ module Watir
     #
 
     def ==(other)
-      return false unless other.kind_of?(self.class)
+      return false unless other.is_a?(self.class)
       radios == other.radios
     end
-    alias_method :eql?, :==
+    alias eql? ==
 
     private
 
@@ -221,7 +219,7 @@ module Watir
 
   module Container
     def radio_set(*args)
-      RadioSet.new(self, extract_selector(args).merge(tag_name: "input", type: "radio"))
+      RadioSet.new(self, extract_selector(args).merge(tag_name: 'input', type: 'radio'))
     end
 
     Watir.tag_to_class[:radio_set] = RadioSet

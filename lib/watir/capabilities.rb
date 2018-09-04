@@ -47,10 +47,10 @@ module Watir
 
       http_client = @options.delete(:http_client)
 
-      %i(open_timeout read_timeout client_timeout).each do |t|
+      %i[open_timeout read_timeout client_timeout].each do |t|
         next if http_client.nil? || !respond_to?(t)
         msg = "You can pass #{t} value directly into Watir::Browser opt without needing to use :http_client"
-        Watir.logger.warn msg, ids: [:http_client, :use_capabilities]
+        Watir.logger.warn msg, ids: %i[http_client use_capabilities]
       end
 
       http_client ||= Selenium::WebDriver::Remote::Http::Default.new
@@ -110,7 +110,7 @@ module Watir
           @options[Selenium::WebDriver::Firefox::Options::KEY] = {'args' => args + ['--headless']}
         end
         if @browser == :safari && @options.delete(:technology_preview)
-          @options["safari.options"] = {'technologyPreview' => true}
+          @options['safari.options'] = {'technologyPreview' => true}
         end
       end
     end

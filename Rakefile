@@ -1,4 +1,4 @@
-$LOAD_PATH.unshift File.expand_path("../lib", __FILE__)
+$LOAD_PATH.unshift File.expand_path('lib', __dir__)
 
 require 'bundler'
 Bundler::GemHelper.install_tasks
@@ -17,7 +17,7 @@ end
 
 namespace :spec do
   RSpec::Core::RakeTask.new(:html) do |spec|
-    spec.rspec_opts = "--format html --out #{ENV["SPEC_REPORT"] || "specs.html"}"
+    spec.rspec_opts = "--format html --out #{ENV['SPEC_REPORT'] || 'specs.html'}"
     spec.pattern = 'spec/**/*_spec.rb'
   end
 end
@@ -30,16 +30,16 @@ end
     spec_path = "support/#{type}.html"
 
     task generator_lib: :lib do
-      require "watir/generator"
+      require 'watir/generator'
     end
 
     desc "Download #{type.upcase} spec from #{spec_uri}"
     task :download do
-      require "open-uri"
+      require 'open-uri'
       mv spec_path, "#{spec_path}.old" if File.exist?(spec_path)
       downloaded_bytes = 0
 
-      File.open(spec_path, "w") do |io|
+      File.open(spec_path, 'w') do |io|
         io << "<!--  downloaded from #{spec_uri} on #{Time.now} -->\n"
         io << data = URI.open(spec_uri).read
         downloaded_bytes = data.bytesize
@@ -60,7 +60,7 @@ end
 
       if extractor.errors.any?
         puts "\n\n<======================= ERRORS =======================>\n\n"
-        puts extractor.errors.join("\n" + "=" * 80 + "\n")
+        puts extractor.errors.join("\n" + '=' * 80 + "\n")
       end
     end
 
@@ -69,13 +69,11 @@ end
       old_file = "lib/watir/elements/#{type}_elements.rb"
       generator = Watir::Generator.const_get(type.upcase).new
 
-      File.open("#{old_file}.new", "w") do |file|
+      File.open("#{old_file}.new", 'w') do |file|
         generator.generate(spec_path, file)
       end
 
-      if File.exist?(old_file)
-        system "diff -Naut #{old_file} #{old_file}.new | less"
-      end
+      system "diff -Naut #{old_file} #{old_file}.new | less" if File.exist?(old_file)
     end
 
     desc "Move #{type}.rb.new to #{type}.rb"
@@ -85,7 +83,7 @@ end
     end
 
     desc "download spec -> generate -> #{type}.rb"
-    task update: [:download, :generate, :overwrite]
+    task update: %i[download generate overwrite]
   end
 end
 
@@ -126,7 +124,7 @@ namespace :spec do
   require 'selenium-webdriver'
 
   desc 'Run specs in all browsers'
-  task all_browsers: [:browsers, :remote_browsers]
+  task all_browsers: %i[browsers remote_browsers]
 
   desc 'Run specs locally for all browsers'
   task browsers: [:chrome,
@@ -142,7 +140,7 @@ namespace :spec do
                          (:remote_ie if Selenium::WebDriver::Platform.windows?),
                          (:remote_edge if Selenium::WebDriver::Platform.windows?)].compact
 
-  %w(firefox chrome safari ie edge).each do |browser|
+  %w[firefox chrome safari ie edge].each do |browser|
     desc "Run specs in #{browser}"
     task browser do
       ENV['WATIR_BROWSER'] = browser
@@ -152,16 +150,16 @@ namespace :spec do
     desc "Run specs in Remote #{browser}"
     task "remote_#{browser}" do
       ENV['WATIR_BROWSER'] = browser
-      ENV["USE_REMOTE"] = 'true'
+      ENV['USE_REMOTE'] = 'true'
       Rake::Task[:spec].execute
     end
   end
 
-  desc "Run element location specs and report wire calls"
+  desc 'Run element location specs and report wire calls'
   RSpec::Core::RakeTask.new(:stats) do |spec|
     ENV['SELENIUM_STATS'] = 'true'
     spec.pattern = 'spec/**/**_spec.rb'
-    spec.exclude_pattern = "**/window_switching_spec.rb, **/browser_spec.rb, **/after_hooks_spec.rb, " \
-                           "**/alert_spec.rb, **/wait_spec.rb, **/screenshot_spec.rb"
+    spec.exclude_pattern = '**/window_switching_spec.rb, **/browser_spec.rb, **/after_hooks_spec.rb, ' \
+                           '**/alert_spec.rb, **/wait_spec.rb, **/screenshot_spec.rb'
   end
 end

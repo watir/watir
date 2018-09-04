@@ -1,30 +1,30 @@
-require "watirspec_helper"
+require 'watirspec_helper'
 
-describe "Inses" do
+describe 'Inses' do
   before :each do
-    browser.goto(WatirSpec.url_for("non_control_elements.html"))
+    browser.goto(WatirSpec.url_for('non_control_elements.html'))
   end
 
-  describe "with selectors" do
-    it "returns the matching elements" do
-      expect(browser.inses(class: "lead").to_a).to eq [browser.ins(class: "lead")]
+  describe 'with selectors' do
+    it 'returns the matching elements' do
+      expect(browser.inses(class: 'lead').to_a).to eq [browser.ins(class: 'lead')]
     end
   end
 
-  describe "#length" do
-    it "returns the number of inses" do
+  describe '#length' do
+    it 'returns the number of inses' do
       expect(browser.inses.length).to eq 5
     end
   end
 
-  describe "#[]" do
-    it "returns the ins at the given index" do
-      expect(browser.inses[0].id).to eq "lead"
+  describe '#[]' do
+    it 'returns the ins at the given index' do
+      expect(browser.inses[0].id).to eq 'lead'
     end
   end
 
-  describe "#each" do
-    it "iterates through inses correctly" do
+  describe '#each' do
+    it 'iterates through inses correctly' do
       count = 0
 
       browser.inses.each_with_index do |s, index|

@@ -5,7 +5,7 @@ module Watir
     #
 
     def row(*args)
-      Row.new(self, extract_selector(args).merge(tag_name: "tr"))
+      Row.new(self, extract_selector(args).merge(tag_name: 'tr'))
     end
 
     #
@@ -13,7 +13,7 @@ module Watir
     #
 
     def rows(*args)
-      RowCollection.new(self, extract_selector(args).merge(tag_name: "tr"))
+      RowCollection.new(self, extract_selector(args).merge(tag_name: 'tr'))
     end
 
     #
@@ -29,6 +29,6 @@ module Watir
         res << row.cells.map(&:text)
       end
     end
-    alias_method :to_a, :strings
+    alias to_a strings
   end # RowContainer
 end # Watir

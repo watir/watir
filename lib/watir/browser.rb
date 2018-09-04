@@ -11,7 +11,7 @@ module Watir
 
     attr_writer :default_context, :original_window, :locator_namespace
     attr_reader :driver, :after_hooks
-    alias_method :wd, :driver # ensures duck typing with Watir::Element
+    alias wd driver # ensures duck typing with Watir::Element
 
     class << self
       #
@@ -55,12 +55,12 @@ module Watir
 
     def inspect
       if alert.exists?
-        '#<%s:0x%x alert=true>' % [self.class, hash * 2]
+        format('#<%s:0x%x alert=true>', self.class, hash * 2)
       else
-        '#<%s:0x%x url=%s title=%s>' % [self.class, hash * 2, url.inspect, title.inspect]
+        format('#<%s:0x%x url=%s title=%s>', self.class, hash * 2, url.inspect, title.inspect)
       end
     rescue Errno::ECONNREFUSED
-      '#<%s:0x%x closed=true>' % [self.class, hash * 2]
+      format('#<%s:0x%x closed=true>', self.class, hash * 2)
     end
     alias selector_string inspect
 
@@ -103,7 +103,7 @@ module Watir
       @driver.quit
       @closed = true
     end
-    alias_method :quit, :close
+    alias quit close
 
     #
     # Handles cookies.
@@ -172,7 +172,7 @@ module Watir
 
     def wait(timeout = 5)
       wait_until(timeout: timeout, message: "waiting for document.readyState == 'complete'") do
-        ready_state == "complete"
+        ready_state == 'complete'
       end
     end
 
@@ -193,7 +193,7 @@ module Watir
     #
 
     def status
-      execute_script "return window.status;"
+      execute_script 'return window.status;'
     end
 
     #
@@ -211,7 +211,7 @@ module Watir
     #
 
     def execute_script(script, *args)
-      args.map! { |e| e.kind_of?(Watir::Element) ? e.wd : e }
+      args.map! { |e| e.is_a?(Watir::Element) ? e.wd : e }
 
       wrap_elements_in(self, @driver.execute_script(script, *args))
     end
@@ -249,7 +249,7 @@ module Watir
     def exist?
       !@closed && window.present?
     end
-    alias_method :exists?, :exist?
+    alias exists? exist?
 
     #
     # Protocol shared with Watir::Element
@@ -260,11 +260,11 @@ module Watir
     def assert_exists
       ensure_context
       return if window.present?
-      raise Exception::NoMatchingWindowFoundException, "browser window was closed"
+      raise Exception::NoMatchingWindowFoundException, 'browser window was closed'
     end
 
     def ensure_context
-      raise Exception::Error, "browser was closed" if @closed
+      raise Exception::Error, 'browser was closed' if @closed
       driver.switch_to.default_content unless @default_context
       @default_context = true
     end

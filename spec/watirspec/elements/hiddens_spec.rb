@@ -1,30 +1,30 @@
-require "watirspec_helper"
+require 'watirspec_helper'
 
-describe "Hiddens" do
+describe 'Hiddens' do
   before :each do
-    browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
+    browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
   end
 
-  describe "with selectors" do
-    it "returns the matching elements" do
-      expect(browser.hiddens(value: "dolls").to_a).to eq [browser.hidden(value: "dolls")]
+  describe 'with selectors' do
+    it 'returns the matching elements' do
+      expect(browser.hiddens(value: 'dolls').to_a).to eq [browser.hidden(value: 'dolls')]
     end
   end
 
-  describe "#length" do
-    it "returns the number of hiddens" do
+  describe '#length' do
+    it 'returns the number of hiddens' do
       expect(browser.hiddens.length).to eq 2
     end
   end
 
-  describe "#[]" do
-    it "returns the Hidden at the given index" do
-      expect(browser.hiddens[1].id).to eq "new_user_interests_dolls"
+  describe '#[]' do
+    it 'returns the Hidden at the given index' do
+      expect(browser.hiddens[1].id).to eq 'new_user_interests_dolls'
     end
   end
 
-  describe "#each" do
-    it "iterates through hiddens correctly" do
+  describe '#each' do
+    it 'iterates through hiddens correctly' do
       count = 0
 
       browser.hiddens.each_with_index do |h, index|

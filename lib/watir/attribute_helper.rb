@@ -35,7 +35,7 @@ module Watir
                           ).uniq
     end
 
-    alias_method :attributes, :attribute_list
+    alias attributes attribute_list
 
     #
     # YARD macro to generated friendly
@@ -73,7 +73,7 @@ module Watir
 
     def define_boolean_attribute(mname, aname)
       define_method mname do
-        attribute_value(aname) == "true"
+        attribute_value(aname) == 'true'
       end
     end
 

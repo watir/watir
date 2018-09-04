@@ -12,7 +12,7 @@ module Watir
         @element.send_keys(*args)
       end
     end
-    alias_method :value=, :set
+    alias value= set
 
     #
     # Uses JavaScript to enter most of the given value.
@@ -22,8 +22,8 @@ module Watir
     #
 
     def set!(*args)
-      msg = "#set! does not support special keys, use #set instead"
-      raise ArgumentError, msg if args.any? { |v| v.kind_of?(::Symbol) }
+      msg = '#set! does not support special keys, use #set instead'
+      raise ArgumentError, msg if args.any? { |v| v.is_a?(::Symbol) }
       input_value = args.join
       set input_value[0]
       return content_editable_set!(*args) if @content_editable
@@ -40,10 +40,10 @@ module Watir
     #
 
     def append(*args)
-      raise NotImplementedError, "#append method is not supported with contenteditable element" if @content_editable
+      raise NotImplementedError, '#append method is not supported with contenteditable element' if @content_editable
       send_keys(*args)
     end
-    alias_method :<<, :append
+    alias << append
 
     #
     # Clears the text field.

@@ -1,39 +1,39 @@
-require "watirspec_helper"
+require 'watirspec_helper'
 
-describe "Elements" do
+describe 'Elements' do
   before :each do
-    browser.goto(WatirSpec.url_for("forms_with_input_elements.html"))
+    browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
   end
 
-  describe "#[]" do
-    context "when elements do not exist" do
-      it "returns not existing element" do
-        expect(browser.elements(id: "non-existing")[0]).not_to exist
+  describe '#[]' do
+    context 'when elements do not exist' do
+      it 'returns not existing element' do
+        expect(browser.elements(id: 'non-existing')[0]).not_to exist
       end
     end
   end
 
-  describe "#eq and #eql?" do
-    before { browser.goto WatirSpec.url_for("forms_with_input_elements.html") }
+  describe '#eq and #eql?' do
+    before { browser.goto WatirSpec.url_for('forms_with_input_elements.html') }
 
-    it "returns true if the two collections have the same Watir Elements" do
-      a = browser.select_list(name: "new_user_languages").options
-      b = browser.select_list(id: "new_user_languages").options
+    it 'returns true if the two collections have the same Watir Elements' do
+      a = browser.select_list(name: 'new_user_languages').options
+      b = browser.select_list(id: 'new_user_languages').options
 
       expect(a).to eq b
       expect(a).to eql(b)
     end
 
-    it "returns false if the two collections are not the same" do
-      a = browser.select_list(name: "new_user_languages").options
-      b = browser.select_list(id: "new_user_role").options
+    it 'returns false if the two collections are not the same' do
+      a = browser.select_list(name: 'new_user_languages').options
+      b = browser.select_list(id: 'new_user_role').options
 
       expect(a).to_not eq b
       expect(a).to_not eql(b)
     end
   end
 
-  describe "visible text" do
+  describe 'visible text' do
     it 'finds elements by visible text' do
       browser.goto WatirSpec.url_for('non_control_elements.html')
       expect(browser.links(visible_text: 'all visible').count).to eq(1)

@@ -16,7 +16,7 @@ module Watir
     private
 
     def header_row(current_row, opt)
-      table = self.parent(tag_name: 'table')
+      table = parent(tag_name: 'table')
       header_row = table.tr
 
       table.cell_size_check(header_row, current_row)
