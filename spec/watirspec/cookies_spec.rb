@@ -130,7 +130,7 @@ describe "Browser#cookies" do
           browser.cookies.clear
           browser.cookies.load file
           expected = browser.cookies.to_a
-          actual = YAML.load(IO.read(file))
+          actual = YAML.safe_load(IO.read(file), [::Symbol])
 
           # https://code.google.com/p/selenium/issues/detail?id=6834
           expected.each { |cookie| cookie.delete(:expires) }

@@ -41,7 +41,7 @@ end
 
       File.open(spec_path, "w") do |io|
         io << "<!--  downloaded from #{spec_uri} on #{Time.now} -->\n"
-        io << data = open(spec_uri).read
+        io << data = URI.open(spec_uri).read
         downloaded_bytes = data.bytesize
       end
 

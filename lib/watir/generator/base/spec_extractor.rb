@@ -48,7 +48,7 @@ module Watir
       private
 
       def download_and_parse
-        open(@uri) { |io| @doc = Nokogiri.HTML(io) }
+        URI.open(@uri) { |io| @doc = Nokogiri.HTML(io) }
       end
 
       def extract_idl_parts
