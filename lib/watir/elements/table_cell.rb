@@ -22,7 +22,7 @@ module Watir
       table.cell_size_check(header_row, current_row)
 
       header_type = table.th.exist? ? 'th' : 'tr'
-      opt.merge!(tag_name: header_type)
+      opt[:tag_name] = header_type
 
       Watir.tag_to_class[header_type.to_sym].new(header_row, opt)
     end

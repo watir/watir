@@ -475,14 +475,14 @@ module Watir
       tag = tag_name()
       klass = if tag == "input"
                 case attribute_value(:type)
-                when *Button::VALID_TYPES
-                  Button
                 when 'checkbox'
                   CheckBox
                 when 'radio'
                   Radio
                 when 'file'
                   FileField
+                when *Button::VALID_TYPES
+                  Button
                 else
                   TextField
                 end

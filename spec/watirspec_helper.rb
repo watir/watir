@@ -53,7 +53,7 @@ class LocalConfig
 
     if ENV['SELECTOR_STATS']
       listener = SelectorListener.new
-      args.merge!(listener: listener)
+      args[:listener] = listener
       at_exit { listener.report }
     end
 

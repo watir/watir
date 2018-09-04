@@ -180,7 +180,7 @@ describe "Browser" do
         end
 
         it "uses remote client based on provided url" do
-          @opts.merge!(url: url)
+          @opts[:url] = url
           @new_browser = WatirSpec.new_browser
 
           server_url = @new_browser.driver.instance_variable_get('@bridge').http.instance_variable_get('@server_url')
@@ -199,7 +199,8 @@ describe "Browser" do
 
         it "accepts http_client" do
           http_client = Selenium::WebDriver::Remote::Http::Default.new
-          @opts.merge!(url: url, http_client: http_client)
+          @opts[:url] = url
+          @opts[:http_client] = http_client
           @new_browser = WatirSpec.new_browser
 
           expect(@new_browser.driver.instance_variable_get('@bridge').http).to eq http_client
@@ -208,7 +209,8 @@ describe "Browser" do
         compliant_on :firefox do
           it "accepts Remote::Capabilities instance as :desired_capabilities" do
             caps = Selenium::WebDriver::Remote::Capabilities.firefox(accept_insecure_certs: true)
-            @opts.merge!(url: url, desired_capabilities: caps)
+            @opts[:url] = url
+            @opts[:desired_capabilities] = caps
 
             msg = /You can pass values directly into Watir::Browser opt without needing to use :desired_capabilities/
             expect { @new_browser = WatirSpec.new_browser }.to output(msg).to_stdout_from_any_process
@@ -218,7 +220,7 @@ describe "Browser" do
 
         compliant_on :firefox do
           it "accepts individual driver capabilities" do
-            @opts.merge!(accept_insecure_certs: true)
+            @opts[:accept_insecure_certs] = true
             @new_browser = WatirSpec.new_browser
 
             expect(@new_browser.driver.capabilities[:accept_insecure_certs]).to eq true
@@ -231,7 +233,7 @@ describe "Browser" do
             profile = Selenium::WebDriver::Firefox::Profile.new
             profile['browser.startup.homepage'] = home_page
             profile['browser.startup.page'] = 1
-            @opts.merge!(profile: profile)
+            @opts[:profile] = profile
 
             @new_browser = WatirSpec.new_browser
 
@@ -241,7 +243,7 @@ describe "Browser" do
 
         compliant_on :chrome do
           it "accepts browser options" do
-            @opts.merge!(options: {emulation: {userAgent: 'foo;bar'}})
+            @opts[:options] = {emulation: {userAgent: 'foo;bar'}}
 
             @new_browser = WatirSpec.new_browser
 
@@ -261,7 +263,7 @@ describe "Browser" do
 
           it "accepts switches argument" do
             @opts.delete :args
-            @opts.merge!(switches: ['--window-size=600,700'])
+            @opts[:switches] = ['--window-size=600,700']
 
             @new_browser = WatirSpec.new_browser
             size = @new_browser.window.size
@@ -273,7 +275,7 @@ describe "Browser" do
             it "accepts Chrome::Options instance as :options" do
               chrome_opts = Selenium::WebDriver::Chrome::Options.new(emulation: {userAgent: 'foo;bar'})
               @opts.delete :args
-              @opts.merge!(options: chrome_opts)
+              @opts[:options] = chrome_opts
 
               @new_browser = WatirSpec.new_browser
 

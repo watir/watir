@@ -6,57 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 4
-Performance/Caller:
-  Exclude:
-    - 'lib/watirspec/guards.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Performance/CaseWhenSplat:
-  Exclude:
-    - 'lib/watir/elements/element.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Performance/Casecmp:
-  Exclude:
-    - 'lib/watir/locators/text_field/validator.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Performance/InefficientHashSearch:
-  Exclude:
-    - 'lib/watir/generator/base/visitor.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-Performance/RedundantBlockCall:
-  Exclude:
-    - 'lib/watir/wait.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Performance/RedundantMatch:
-  Exclude:
-    - 'lib/watir/locators/element/selector_builder/xpath.rb'
-
-# Offense count: 10
-# Cop supports --auto-correct.
-# Configuration parameters: MaxKeyValuePairs.
-Performance/RedundantMerge:
-  Exclude:
-    - 'lib/watir/elements/table_cell.rb'
-    - 'spec/watirspec/browser_spec.rb'
-    - 'spec/watirspec_helper.rb'
-
-# Offense count: 3
-# Cop supports --auto-correct.
-Performance/StringReplacement:
-  Exclude:
-    - 'lib/watir.rb'
-    - 'spec/watirspec/elements/filefield_spec.rb'
-
 # Offense count: 2
 Security/Open:
   Exclude:

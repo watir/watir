@@ -79,12 +79,12 @@ module Watir
         err
       end
 
-      def run_with_timer(timeout, interval, &block)
+      def run_with_timer(timeout, interval)
         if timeout.zero?
-          block.call
+          yield
         else
           timer.wait(timeout) do
-            block.call
+            yield
             sleep interval || INTERVAL
           end
         end

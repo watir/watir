@@ -46,7 +46,7 @@ module Watir
     end
 
     def always_locate_message
-      msg = <<~ALWAYS_LOCATE.gsub("\n", " ")
+      msg = <<~ALWAYS_LOCATE.tr("\n", " ")
         Watir#always_locate is deprecated; elements are always cached and will always
         be re-located if they go stale before use.
         Use Element#stale? or Element#wait_until(&:stale?) if needed for flow control.
@@ -64,7 +64,7 @@ module Watir
     end
 
     def prefer_css_message
-      msg = <<~PREFER_CSS.gsub("\n", " ")
+      msg = <<~PREFER_CSS.tr("\n", " ")
         Watir#prefer_css is deprecated; all elements that can not be passed directly
         as Selenium locators will be translated to XPath. To continue using CSS Selectors
         require the watir_css gem - https://github.com/watir/watir_css
