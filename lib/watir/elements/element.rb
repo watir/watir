@@ -39,12 +39,13 @@ module Watir
 
     #
     # Returns true if element exists.
+    # Checking for staleness is deprecated
     #
     # @return [Boolean]
     #
 
     def exists?
-      return false if @element && stale?
+      return false if located? && stale?
       assert_exists
       true
     rescue UnknownObjectException, UnknownFrameException
@@ -55,7 +56,7 @@ module Watir
     def inspect
       string = "#<#{self.class}: "
       string << "keyword: #{keyword} " if keyword
-      string << "located: #{!!@element}; "
+      string << "located: #{located?}; "
       string << if @selector.empty?
                   '{element: (selenium element)}'
                 else
@@ -79,7 +80,7 @@ module Watir
     alias eql? ==
 
     def hash
-      @element ? @element.hash : super
+      located? ? @element.hash : super
     end
 
     #
@@ -525,6 +526,17 @@ module Watir
       @element = nil
     end
 
+    #
+    # Returns true if element has previously been located.
+    #
+    # @return [Boolean]
+    # @see Watir::Wait
+    #
+
+    def located?
+      !!@element
+    end
+
     protected
 
     def wait_for_exists
@@ -585,8 +597,8 @@ module Watir
 
     # Ensure that the element exists, making sure that it is not stale and located if necessary
     def assert_exists
-      locate unless @element
-      return if @element
+      locate unless located?
+      return if located?
       raise unknown_exception, "unable to locate element: #{inspect}"
     end
 
@@ -656,7 +668,7 @@ module Watir
       Wait.timer = Wait::Timer.new(timeout: Watir.default_timeout) unless already_locked
 
       begin
-        check_condition(precondition)
+        check_condition(precondition, caller)
         Watir.logger.info "-> `Executing #{inspect}##{caller}`"
         yield
       rescue unknown_exception => ex
@@ -692,15 +704,15 @@ module Watir
     # rubocop:enable Metrics/PerceivedComplexity
     # rubocop:enable Metrics/CyclomaticComplexity:
 
-    def check_condition(condition)
-      Watir.logger.info "<- `Verifying precondition #{inspect}##{condition}`"
+    def check_condition(condition, caller)
+      Watir.logger.info "<- `Verifying precondition #{inspect}##{condition} for #{caller}`"
       begin
         condition.nil? ? assert_exists : send(condition)
         Watir.logger.info "<- `Verified precondition #{inspect}##{condition || 'assert_exists'}`"
       rescue unknown_exception
         raise unless condition.nil?
         Watir.logger.info "<- `Unable to satisfy precondition #{inspect}##{condition}`"
-        check_condition(:wait_for_exists)
+        check_condition(:wait_for_exists, caller)
       end
     end
 

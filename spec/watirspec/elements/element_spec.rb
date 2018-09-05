@@ -710,4 +710,14 @@ describe 'Element' do
       expect(browser.p.attribute_value(:data_type)).to eq 'ruby-library'
     end
   end
+
+  describe '#located?' do
+    it 'returns true if element has been located' do
+      expect(browser.form(id: 'new_user')).to_not be_located
+    end
+
+    it 'returns false if element has not been located' do
+      expect(browser.form(id: 'new_user').tap(&:exists?)).to be_located
+    end
+  end
 end
