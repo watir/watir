@@ -1,6 +1,11 @@
 require 'watirspec'
 require 'spec_helper'
 
+if ENV['SELENIUM_STATS'] == 'true'
+  require 'selenium_statistics'
+  at_exit { SeleniumStatistics.print_results }
+end
+
 class LocalConfig
   def initialize(imp)
     @imp = imp

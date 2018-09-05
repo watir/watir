@@ -34,4 +34,5 @@ It facilitates the writing of automated tests by mimicing the behavior of a user
   s.add_development_dependency 'coveralls'
   s.add_development_dependency 'yard-doctest', '>= 0.1.8'
   s.add_development_dependency 'webdrivers', '~> 3.0', '>= 3.1.0'
+  s.add_development_dependency 'selenium_statistics'
 end

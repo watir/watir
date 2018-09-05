@@ -71,6 +71,9 @@ matrix:
       - env: RAKE_TASK=spec:chrome HEADLESS=true
         <<: *five
         <<: *chrome
+      - env: RAKE_TASK=spec:stats
+        <<: *five
+        <<: *chrome
       - env: RAKE_TASK=yard:doctest
         <<: *five
         <<: *chrome

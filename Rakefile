@@ -150,4 +150,12 @@ namespace :spec do
       Rake::Task[:spec].execute
     end
   end
+
+  desc "Run element location specs and report wire calls"
+  RSpec::Core::RakeTask.new(:stats) do |spec|
+    ENV['SELENIUM_STATS'] = 'true'
+    spec.pattern = 'spec/**/**_spec.rb'
+    spec.exclude_pattern = "**/window_switching_spec.rb, **/browser_spec.rb, **/after_hooks_spec.rb, " \
+                           "**/alert_spec.rb, **/wait_spec.rb, **/screenshot_spec.rb"
+  end
 end
