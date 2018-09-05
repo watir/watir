@@ -331,39 +331,24 @@ end
 describe Watir do
   describe "#default_timeout" do
     before do
-      Watir.default_timeout = 1
-
       browser.goto WatirSpec.url_for("wait.html")
-    end
-
-    after do
-      # Reset the default timeout
-      Watir.default_timeout = 30
     end
 
     context "when no timeout is specified" do
       it "is used by Wait#until" do
-        expect {
-          Watir::Wait.until { false }
-        }.to raise_error(Watir::Wait::TimeoutError)
+        expect { Watir::Wait.until { false } }.to wait_and_raise_timeout_exception(timeout: 1)
       end
 
       it "is used by Wait#while" do
-        expect {
-          Watir::Wait.while { true }
-        }.to raise_error(Watir::Wait::TimeoutError)
+        expect { Watir::Wait.while { true } }.to wait_and_raise_timeout_exception(timeout: 1)
       end
 
       it "is used by Element#wait_until_present" do
-        expect {
-          browser.div(id: 'bar').wait_until_present
-        }.to raise_error(Watir::Wait::TimeoutError)
+        expect { browser.div(id: 'bar').wait_until_present }.to wait_and_raise_timeout_exception(timeout: 1)
       end
 
       it "is used by Element#wait_while_present" do
-        expect {
-          browser.div(id: 'foo').wait_while_present
-        }.to raise_error(Watir::Wait::TimeoutError)
+        expect { browser.div(id: 'foo').wait_while_present }.to wait_and_raise_timeout_exception(timeout: 1)
       end
     end
   end
