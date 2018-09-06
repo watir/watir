@@ -70,6 +70,11 @@ describe 'Watir#relaxed_locate?' do
           Watir.default_timeout = 30
         end
       end
+
+      it 'waits for parent element to be present before locating a collection' do
+        els = browser.element(id: 'not_there').elements(id: 'doesnt_matter')
+        expect { els.to_a }.to wait_and_raise_unknown_object_exception
+      end
     end
   end
 

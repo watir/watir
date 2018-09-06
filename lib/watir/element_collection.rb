@@ -87,14 +87,16 @@ module Watir
       hash = {}
       @to_a ||=
         elements.map.with_index do |e, idx|
-          element = element_class.new(@query_scope, @selector.merge(element: e, index: idx))
+          selector = @selector.merge(element: e)
+          selector[:index] = idx
+          element = element_class.new(@query_scope, selector)
           if [Watir::HTMLElement, Watir::Input].include? element.class
             tag_name = @selector[:tag_name] || element.tag_name.to_sym
             hash[tag_name] ||= 0
             hash[tag_name] += 1
-            Watir.element_class_for(tag_name).new(@query_scope, @selector.merge(element: e,
-                                                                                tag_name: tag_name,
-                                                                                index: hash[tag_name] - 1))
+            selector[:index] = hash[tag_name] - 1
+            selector[:tag_name] = tag_name
+            Watir.element_class_for(tag_name).new(@query_scope, selector)
           else
             element
           end
@@ -152,7 +154,12 @@ module Watir
 
     def elements
       ensure_context
-      locate_all
+      if @query_scope.is_a?(Browser)
+        locate_all
+      else
+        # This gives all of the standard Watir waiting behaviors to Collections
+        @query_scope.send(:element_call) { locate_all }
+      end
     end
 
     def ensure_context
@@ -161,8 +168,7 @@ module Watir
     end
 
     def locate_all
-      @locator = build_locator
-      @elements = @locator.locate_all
+      build_locator.locate_all
     end
 
     def element_class
