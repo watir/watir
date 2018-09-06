@@ -1,17 +1,18 @@
 module Watir
   class IFrame < HTMLElement
-    def ==(other)
-      return false unless other.is_a?(self.class)
-      wd == other.wd.is_a?(FramedDriver) ? other.wd.send(:wd) : other.wd
-    end
-
     def switch_to!
       locate unless @element
-      @element.send :switch!
+      wd.switch!
+    end
+
+    def wd
+      super
+      FramedDriver.new(@element, browser)
     end
 
     #
     # Returns text of iframe body.
+    # #body ensures context so this method does not have to
     #
     # @return [String]
     #
@@ -27,8 +28,15 @@ module Watir
     #
 
     def html
-      wait_for_exists
-      @element.page_source
+      wd.page_source
+    end
+
+    #
+    # Delegate sending keystrokes to FramedDriver
+    #
+
+    def send_keys(*args)
+      wd.send_keys(*args)
     end
 
     #
@@ -50,25 +58,7 @@ module Watir
       true
     end
 
-    def locate_in_context
-      return if @selector.empty?
-
-      selector = @selector.merge(tag_name: frame_tag)
-      element_validator = element_validator_class.new
-      selector_builder = selector_builder_class.new(@query_scope, selector, self.class.attribute_list)
-      @locator = locator_class.new(@query_scope, selector, selector_builder, element_validator)
-
-      element = @locator.locate
-      element || raise(unknown_exception, "unable to locate #{@selector[:tag_name]} using #{selector_string}")
-
-      @element = FramedDriver.new(element, browser)
-    end
-
     private
-
-    def frame_tag
-      'iframe'
-    end
 
     def unknown_exception
       Watir::Exception::UnknownFrameException
@@ -79,11 +69,6 @@ module Watir
   end # IFrameCollection
 
   class Frame < IFrame
-    private
-
-    def frame_tag
-      'frame'
-    end
   end # Frame
 
   class FrameCollection < IFrameCollection
@@ -99,16 +84,15 @@ module Watir
     end
   end # Container
 
-  # @api private
   #
-  # another hack..
+  # @api private
   #
 
   class FramedDriver
     def initialize(element, browser)
       @element = element
       @browser = browser
-      @driver = browser.driver
+      @driver = browser.wd
     end
 
     def ==(other)
@@ -119,6 +103,13 @@ module Watir
     def send_keys(*args)
       switch!
       @driver.switch_to.active_element.send_keys(*args)
+    end
+
+    def switch!
+      @driver.switch_to.frame @element
+      @browser.default_context = false
+    rescue Selenium::WebDriver::Error::NoSuchFrameError => e
+      raise Exception::UnknownFrameException, e.message
     end
 
     protected
@@ -134,7 +125,9 @@ module Watir
     end
 
     def method_missing(meth, *args, &blk)
-      if @driver.respond_to?(meth)
+      if %i[find_element find_elements].include?(meth)
+        @driver.send(meth, *args, &blk)
+      elsif @driver.respond_to?(meth)
         switch!
         @driver.send(meth, *args, &blk)
       elsif @element.respond_to?(meth)
@@ -142,13 +135,6 @@ module Watir
       else
         super
       end
-    end
-
-    def switch!
-      @driver.switch_to.frame @element
-      @browser.default_context = false
-    rescue Selenium::WebDriver::Error::NoSuchFrameError => e
-      raise Exception::UnknownFrameException, e.message
     end
   end # FramedDriver
 end # Watir
