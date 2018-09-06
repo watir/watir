@@ -22,6 +22,14 @@ describe 'IFrame' do
     end
   end
 
+  it 'locates an element defined by Selenium Element' do
+    Selenium::WebDriver.logger.level = :info
+    iframe = browser.iframe(id: 'iframe_1').tap(&:exists?)
+    se_element = iframe.instance_variable_get('@element')
+    iframe2 = browser.element(element: se_element).to_subtype
+    expect(iframe2).to eq iframe
+  end
+
   describe '#exist?' do
     it 'returns true if the iframe exists' do
       expect(browser.iframe(id: 'iframe_1')).to exist

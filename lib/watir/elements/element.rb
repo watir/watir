@@ -392,7 +392,7 @@ module Watir
 
     def wd
       assert_exists
-      @element.is_a?(FramedDriver) ? driver : @element
+      @element
     end
 
     #
@@ -693,7 +693,6 @@ module Watir
         end
         raise unknown_exception, msg
       rescue Selenium::WebDriver::Error::StaleElementReferenceError
-        @query_scope.ensure_context
         reset!
         retry
       rescue Selenium::WebDriver::Error::ElementNotVisibleError, Selenium::WebDriver::Error::ElementNotInteractableError
