@@ -69,6 +69,10 @@ module Watir
     #
     # Returns true if two elements are equal.
     #
+    # TODO: Address how this is affected by stale elements
+    # TODO: Address how this is affected by HTMLElement vs subclass
+    # TODO: Address how this is affected by a non-located element
+    #
     # @example
     #   browser.text_field(name: "new_user_first_name") == browser.text_field(name: "new_user_first_name")
     #   #=> true
@@ -387,9 +391,8 @@ module Watir
     #
 
     def wd
-      assert_exists if @element.nil?
-      return driver if @element.is_a? FramedDriver
-      @element
+      assert_exists
+      @element.is_a?(FramedDriver) ? driver : @element
     end
 
     #
@@ -511,15 +514,15 @@ module Watir
 
     def stale?
       raise Watir::Exception::Error, 'Can not check staleness of unused element' unless @element
-      @query_scope.ensure_context
-      @stale || stale_in_context?
+      ensure_context
+      stale_in_context?
     end
 
     def stale_in_context?
       @element.enabled? # any wire call will check for staleness
       false
     rescue Selenium::WebDriver::Error::ObsoleteElementError
-      @stale = true
+      true
     end
 
     def reset!
@@ -580,7 +583,6 @@ module Watir
     end
 
     def wait_for_writable
-      wait_for_exists
       wait_for_enabled
       unless Watir.relaxed_locate?
         raise_writable unless !respond_to?(:readonly?) || !readonly?
@@ -595,7 +597,7 @@ module Watir
       end
     end
 
-    # Ensure that the element exists, making sure that it is not stale and located if necessary
+    # Locates if not previously found; does not check for staleness for performance reasons
     def assert_exists
       locate unless located?
       return if located?
@@ -603,6 +605,22 @@ module Watir
     end
 
     def locate
+      ensure_context
+      locate_in_context
+    end
+
+    # This is the performance shortcut for ensuring context
+    # no need to recurse if element is already located and not stale
+    def relocate?
+      located? && stale?
+    end
+
+    def ensure_context
+      @query_scope.send(:locate) if @query_scope.send(:relocate?)
+      @query_scope.switch_to! if @query_scope.is_a?(IFrame)
+    end
+
+    def locate_in_context
       @locator = build_locator
       @element = @locator.locate
     end
@@ -610,11 +628,6 @@ module Watir
     def selector_string
       return @selector.inspect if @query_scope.is_a?(Browser)
       "#{@query_scope.send :selector_string} --> #{@selector.inspect}"
-    end
-
-    # Ensure the driver is in the desired browser context
-    def ensure_context
-      locate unless exists?
     end
 
     private
@@ -674,7 +687,7 @@ module Watir
       rescue unknown_exception => ex
         element_call(:wait_for_exists, &block) if precondition.nil?
         msg = ex.message
-        msg += '; Maybe look in an iframe?' if @query_scope.ensure_context && @query_scope.iframes.count.positive?
+        msg += '; Maybe look in an iframe?' if @query_scope.iframe.exists?
         custom_attributes = @locator.nil? ? [] : @locator.selector_builder.custom_attributes
         unless custom_attributes.empty?
           msg += "; Watir treated #{custom_attributes} as a non-HTML compliant attribute, ensure that was intended"
