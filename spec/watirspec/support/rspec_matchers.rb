@@ -4,8 +4,6 @@ if defined?(RSpec)
                             use_capabilities
                             visible_text
                             text_regexp
-                            stale_visible
-                            stale_present
                             select_by].freeze
 
   DEPRECATION_WARNINGS.each do |deprecation|
@@ -19,7 +17,8 @@ if defined?(RSpec)
       end
 
       failure_message do |_actual|
-        deprecations_found = @stdout_message[/WARN Watir \[DEPRECATION\] ([^.*\ ]*)/, 1]
+        match = /WARN Watir \[DEPRECATION\] ([^.*\ ]*)/
+        deprecations_found = @stdout_message[match, 1] if @stdout_message
         but_message = if deprecations_found.nil?
                         'no Warnings were found'
                       else
@@ -45,10 +44,10 @@ if defined?(RSpec)
   }.freeze
 
   TIMING_EXCEPTIONS.each do |matcher, exception|
-    RSpec::Matchers.define "raise_#{matcher}_exception" do |message|
+    RSpec::Matchers.define "raise_#{matcher}_exception" do |message = nil, timeout: 0|
       match do |actual|
         original_timeout = Watir.default_timeout
-        Watir.default_timeout = 0
+        Watir.default_timeout = timeout
         begin
           actual.call
           false

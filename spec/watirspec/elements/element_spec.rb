@@ -201,71 +201,18 @@ describe 'Element' do
     end
   end
 
-  describe '#visible?' do
-    it 'returns true if the element is visible' do
-      msg = /WARN Watir \[\"visible_element\"\]/
-      expect {
-        expect(browser.text_field(id: 'new_user_email')).to be_visible
-      }.to output(msg).to_stdout_from_any_process
-    end
-
-    it 'raises UnknownObjectException exception if the element does not exist' do
-      msg = /WARN Watir \[\"visible_element\"\]/
-      expect {
-        expect { browser.text_field(id: 'no_such_id').visible? }.to raise_unknown_object_exception
-      }.to output(msg).to_stdout_from_any_process
-    end
-
-    it 'raises UnknownObjectException exception if the element is stale' do
-      element = browser.text_field(id: 'new_user_email').tap(&:exists?)
-
-      browser.refresh
-
-      expect(element).to be_stale
-      expect {
-        expect { element.visible? }.to raise_unknown_object_exception
-      }.to have_deprecated_stale_visible
-    end
-
-    it "returns true if the element has style='visibility: visible' even if parent has style='visibility: hidden'" do
-      msg = /WARN Watir \[\"visible_element\"\]/
-      expect {
-        expect(browser.div(id: 'visible_child')).to be_visible
-      }.to output(msg).to_stdout_from_any_process
-    end
-
-    it "returns false if the element is input element where type eq 'hidden'" do
-      expect(browser.hidden(id: 'new_user_interests_dolls')).to_not be_visible
-    end
-
-    it "returns false if the element has style='display: none;'" do
-      msg = /WARN Watir \[\"visible_element\"\]/
-      expect {
-        expect(browser.div(id: 'changed_language')).to_not be_visible
-      }.to output(msg).to_stdout_from_any_process
-    end
-
-    it "returns false if the element has style='visibility: hidden;" do
-      expect { expect(browser.div(id: 'wants_newsletter')).to_not be_visible }
-    end
-
-    it 'returns false if one of the parent elements is hidden' do
-      expect { expect(browser.div(id: 'hidden_parent')).to_not be_visible }
-    end
-  end
-
   describe '#exists?' do
     before do
       browser.goto WatirSpec.url_for('removed_element.html')
     end
 
-    it 'element from a collection returns false when it becomes stale' do
+    it 'element from a collection is re-looked up after it becomes stale' do
       element = browser.divs(id: 'text').first.tap(&:exists?)
 
       browser.refresh
 
       expect(element).to be_stale
-      expect(element).to_not exist
+      expect(element).to exist
     end
 
     it 'returns false when tag name does not match id' do
@@ -291,30 +238,12 @@ describe 'Element' do
       expect(browser.div(id: 'should-not-exist')).to_not be_present
     end
 
-    # TODO: Refactor so that this returns true
-    it 'returns false if the element is stale' do
+    it 'returns true if the element goes stale, but an element still exists at that location' do
       element = browser.div(id: 'foo').tap(&:exists?)
 
       browser.refresh
 
       expect(element).to be_stale
-
-      expect {
-        expect(element).to_not be_present
-      }.to have_deprecated_stale_present
-    end
-
-    # TODO: Documents Current Behavior, but needs to be refactored/removed
-    it 'returns true the second time if the element is stale' do
-      element = browser.div(id: 'foo').tap(&:exists?)
-
-      browser.refresh
-
-      expect(element).to be_stale
-
-      expect {
-        expect(element).to_not be_present
-      }.to have_deprecated_stale_present
       expect(element).to be_present
     end
   end
@@ -343,6 +272,15 @@ describe 'Element' do
 
       browser.refresh
 
+      expect(element).to be_stale
+    end
+
+    it 'returns true the second time if the element is stale' do
+      element = browser.div(id: 'foo').tap(&:exists?)
+
+      browser.refresh
+
+      expect(element).to be_stale
       expect(element).to be_stale
     end
 

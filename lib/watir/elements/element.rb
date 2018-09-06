@@ -39,13 +39,16 @@ module Watir
 
     #
     # Returns true if element exists.
-    # Checking for staleness is deprecated
     #
     # @return [Boolean]
     #
 
     def exists?
-      return false if located? && stale?
+      if located? && stale?
+        reset!
+      elsif located?
+        return true
+      end
       assert_exists
       true
     rescue UnknownObjectException, UnknownFrameException
@@ -393,26 +396,6 @@ module Watir
     end
 
     #
-    # Returns true if this element is visible on the page.
-    # Raises exception if element does not exist
-    #
-    # @return [Boolean]
-    #
-
-    def visible?
-      msg = '#visible? behavior will be changing slightly, consider switching to #present? ' \
-            '(more details: http://watir.com/element-existentialism/)'
-      Watir.logger.warn msg, ids: [:visible_element]
-      assert_exists
-      @element.displayed?
-    rescue Selenium::WebDriver::Error::StaleElementReferenceError
-      Watir.logger.deprecate 'Checking `#visible? == false` to determine a stale element', '`#stale? == true`',
-                             ids: [:stale_visible]
-      reset!
-      raise unknown_exception
-    end
-
-    #
     # Returns true if this element is present and enabled on the page.
     #
     # @return [Boolean]
@@ -432,16 +415,17 @@ module Watir
     #
 
     def present?
-      assert_exists
-      @element.displayed?
-    rescue Selenium::WebDriver::Error::StaleElementReferenceError
-      Watir.logger.deprecate 'Checking `#present? == false` to determine a stale element', '`#stale? == true`',
-                             ids: [:stale_present]
-      reset!
-      false
-    rescue UnknownObjectException, UnknownFrameException
-      false
+      begin
+        assert_exists
+        @element.displayed?
+      rescue Selenium::WebDriver::Error::StaleElementReferenceError
+        reset!
+        retry
+      rescue UnknownObjectException, UnknownFrameException
+        false
+      end
     end
+    alias visible? present?
 
     #
     # Returns given style property of this element.
