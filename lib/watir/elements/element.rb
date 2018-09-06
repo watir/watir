@@ -533,7 +533,6 @@ module Watir
     # Returns true if element has previously been located.
     #
     # @return [Boolean]
-    # @see Watir::Wait
     #
 
     def located?

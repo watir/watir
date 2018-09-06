@@ -166,6 +166,12 @@ describe 'IFrame' do
     expect { browser.text_field(name: 'senderElement').set('no') }.to raise_unknown_object_exception(msg)
   end
 
+  it 'will suggest looking in a nested iframe when iframes exist' do
+    browser.goto(WatirSpec.url_for('nested_iframes.html'))
+    top = browser.iframe(id: 'two')
+    expect { top.link(id: 'four').click }.to raise_unknown_object_exception('Maybe look in an iframe?')
+  end
+
   describe '#execute_script' do
     bug 'Safari does not strip text', :safari do
       it 'executes the given javascript in the specified frame' do
