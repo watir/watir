@@ -21,6 +21,7 @@ describe 'Browser' do
     end
 
     it 'only returns windows matching the given selector' do
+      browser.wait_until { |b| b.window(title: 'closeable window').exists? }
       expect(browser.windows(title: 'closeable window').size).to eq 1
     end
 
