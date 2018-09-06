@@ -56,9 +56,10 @@ Metrics/MethodLength:
 
 # Configuration parameters: CountComments.
 Metrics/ClassLength:
-  Max: 120
+  Max: 116
   Exclude:
     - 'lib/watir/locators/element/locator.rb'
+    - 'lib/watir/browser.rb'
     - 'lib/watir/elements/element.rb'
     - 'lib/watir/elements/select.rb'
 

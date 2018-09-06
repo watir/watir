@@ -124,7 +124,7 @@ module Watir
 
         def create_normalized_selector(filter)
           return @normalized_selector if @normalized_selector
-          @driver_scope = ensure_scope_context
+          @driver_scope = @query_scope.wd
 
           @normalized_selector = selector_builder.normalized_selector
 
@@ -269,10 +269,6 @@ module Watir
 
         def tag_validation_required?(selector)
           (selector.key?(:css) || selector.key?(:xpath)) && selector.key?(:tag_name)
-        end
-
-        def ensure_scope_context
-          @query_scope.wd
         end
 
         def locate_element(how, what, scope = @query_scope.wd)

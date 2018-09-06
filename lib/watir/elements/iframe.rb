@@ -1,35 +1,13 @@
 module Watir
   class IFrame < HTMLElement
-    def locate
-      return if @selector.empty?
-      @query_scope.ensure_context
-
-      selector = @selector.merge(tag_name: frame_tag)
-      element_validator = element_validator_class.new
-      selector_builder = selector_builder_class.new(@query_scope, selector, self.class.attribute_list)
-      @locator = locator_class.new(@query_scope, selector, selector_builder, element_validator)
-
-      element = @locator.locate
-      element || raise(unknown_exception, "unable to locate #{@selector[:tag_name]} using #{selector_string}")
-
-      @element = FramedDriver.new(element, browser)
-    end
-
     def ==(other)
       return false unless other.is_a?(self.class)
       wd == other.wd.is_a?(FramedDriver) ? other.wd.send(:wd) : other.wd
     end
 
     def switch_to!
-      locate.send :switch!
-    end
-
-    def assert_exists
-      if @element && @selector.empty?
-        raise UnknownFrameException, 'wrapping a Selenium element as a Frame is not currently supported'
-      end
-
-      super
+      locate unless @element
+      @element.send :switch!
     end
 
     #
@@ -66,8 +44,24 @@ module Watir
       browser.send(:wrap_elements_in, self, returned)
     end
 
-    def ensure_context
-      switch_to!
+    protected
+
+    def relocate?
+      true
+    end
+
+    def locate_in_context
+      return if @selector.empty?
+
+      selector = @selector.merge(tag_name: frame_tag)
+      element_validator = element_validator_class.new
+      selector_builder = selector_builder_class.new(@query_scope, selector, self.class.attribute_list)
+      @locator = locator_class.new(@query_scope, selector, selector_builder, element_validator)
+
+      element = @locator.locate
+      element || raise(unknown_exception, "unable to locate #{@selector[:tag_name]} using #{selector_string}")
+
+      @element = FramedDriver.new(element, browser)
     end
 
     private

@@ -151,8 +151,18 @@ module Watir
     private
 
     def elements
-      @locator ||= build_locator
-      @elements ||= @locator.locate_all
+      ensure_context
+      locate_all
+    end
+
+    def ensure_context
+      @query_scope.send(:locate) if @query_scope.send(:relocate?)
+      @query_scope.switch_to! if @query_scope.is_a?(IFrame)
+    end
+
+    def locate_all
+      @locator = build_locator
+      @elements = @locator.locate_all
     end
 
     def element_class

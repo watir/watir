@@ -258,15 +258,23 @@ module Watir
     #
 
     def assert_exists
-      ensure_context
+      locate
       return if window.present?
       raise Exception::NoMatchingWindowFoundException, 'browser window was closed'
     end
 
-    def ensure_context
+    def locate
       raise Exception::Error, 'browser was closed' if @closed
+      ensure_context
+    end
+
+    def ensure_context
       driver.switch_to.default_content unless @default_context
       @default_context = true
+    end
+
+    def relocate?
+      true
     end
 
     def browser
