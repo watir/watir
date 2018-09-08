@@ -387,7 +387,9 @@ module Watir
     end
 
     #
-    # @api private
+    # Returns underlying Selenium object of the Watir Element
+    #
+    # @return [Selenium::WebDriver::Element]
     #
 
     def wd
@@ -530,13 +532,46 @@ module Watir
     end
 
     #
-    # Returns true if element has previously been located.
+    # @api private
+    #
+
+    def locate
+      ensure_context
+      locate_in_context
+    end
+
+    #
+    # @api private
+    #
+    # Returns true if element has been previously located.
     #
     # @return [Boolean]
     #
 
     def located?
       !!@element
+    end
+
+    #
+    # @api private
+    #
+    # This is a performance shortcut for ensuring context
+    # Returns true if ensuring context requires relocating the element.
+    #
+    # @return [Boolean]
+    #
+
+    def relocate?
+      located? && stale?
+    end
+
+    #
+    # @api private
+    #
+
+    def selector_string
+      return @selector.inspect if @query_scope.is_a?(Browser)
+      "#{@query_scope.selector_string} --> #{@selector.inspect}"
     end
 
     protected
@@ -603,30 +638,14 @@ module Watir
       raise unknown_exception, "unable to locate element: #{inspect}"
     end
 
-    def locate
-      ensure_context
-      locate_in_context
-    end
-
-    # This is the performance shortcut for ensuring context
-    # no need to recurse if element is already located and not stale
-    def relocate?
-      located? && stale?
-    end
-
     def ensure_context
-      @query_scope.send(:locate) if @query_scope.send(:relocate?)
+      @query_scope.locate if @query_scope.relocate?
       @query_scope.switch_to! if @query_scope.is_a?(IFrame)
     end
 
     def locate_in_context
       @locator = build_locator
       @element = @locator.locate
-    end
-
-    def selector_string
-      return @selector.inspect if @query_scope.is_a?(Browser)
-      "#{@query_scope.send :selector_string} --> #{@selector.inspect}"
     end
 
     private

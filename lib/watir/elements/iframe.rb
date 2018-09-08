@@ -1,13 +1,12 @@
 module Watir
   class IFrame < HTMLElement
-    def switch_to!
-      locate unless @element
-      wd.switch!
-    end
+    #
+    # Move Driver context into the iframe
+    #
 
-    def wd
-      super
-      FramedDriver.new(@element, browser)
+    def switch_to!
+      locate unless located?
+      wd.switch!
     end
 
     #
@@ -49,10 +48,27 @@ module Watir
       args.map! { |e| e.is_a?(Watir::Element) ? e.wd : e }
       returned = driver.execute_script(script, *args)
 
-      browser.send(:wrap_elements_in, self, returned)
+      browser.wrap_elements_in(self, returned)
     end
 
-    protected
+    #
+    # Provides access to underlying Selenium Objects as delegated by FramedDriver
+    #
+    # @return [Watir::FramedDriver]
+    #
+
+    def wd
+      super
+      FramedDriver.new(@element, browser)
+    end
+
+    #
+    # @api private
+    #
+    # Always relocate a FramedDriver to ensure proper context switching
+    #
+    # @return [Boolean]
+    #
 
     def relocate?
       true
@@ -112,13 +128,9 @@ module Watir
       raise Exception::UnknownFrameException, e.message
     end
 
-    protected
-
     def wd
       @element
     end
-
-    private
 
     def respond_to_missing?(meth)
       @driver.respond_to?(meth) || @element.respond_to?(meth)

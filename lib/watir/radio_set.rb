@@ -4,7 +4,7 @@ module Watir
     include Watir::Exception
     include Enumerable
 
-    delegate %i[exists? present? visible? browser] => :source
+    delegate %i[exists? present? visible? browser assert_exists element_call] => :source
 
     attr_reader :source, :frame
 
@@ -108,7 +108,7 @@ module Watir
     #
 
     def type
-      source.send :assert_exists
+      assert_exists
       'radio'
     end
 
@@ -209,12 +209,6 @@ module Watir
       radios == other.radios
     end
     alias eql? ==
-
-    private
-
-    def element_call(*args, &blk)
-      source.send :element_call, *args, &blk
-    end
   end # RadioSet
 
   module Container

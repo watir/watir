@@ -183,15 +183,20 @@ module Watir
       self
     end
 
+    #
+    # @api private
+    #
+    # Referenced in EventuallyPresent
+    #
+
+    def selector_string
+      @selector.inspect
+    end
+
     protected
 
     def handle
       @handle ||= locate
-    end
-
-    # Referenced in EventuallyPresent
-    def selector_string
-      @selector.inspect
     end
 
     private

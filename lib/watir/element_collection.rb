@@ -163,7 +163,7 @@ module Watir
     end
 
     def ensure_context
-      @query_scope.send(:locate) if @query_scope.send(:relocate?)
+      @query_scope.locate if @query_scope.relocate?
       @query_scope.switch_to! if @query_scope.is_a?(IFrame)
     end
 
