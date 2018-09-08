@@ -23,11 +23,27 @@ describe 'IFrame' do
   end
 
   it 'locates an element defined by Selenium Element' do
-    Selenium::WebDriver.logger.level = :info
     iframe = browser.iframe(id: 'iframe_1').tap(&:exists?)
     se_element = iframe.instance_variable_get('@element')
     iframe2 = browser.element(element: se_element).to_subtype
     expect(iframe2).to eq iframe
+  end
+
+  describe '#wd' do
+    it 'returns a Watir::FramedDriver instance' do
+      iframe = browser.iframe(id: 'iframe_1')
+      expect(iframe.wd).to be_a(Watir::FramedDriver)
+    end
+
+    it 'properly delegates driver commands' do
+      iframe = browser.iframe(id: 'iframe_1')
+      expect(iframe.wd.title).to eq 'Iframes'
+    end
+
+    it 'properly delegates element commands' do
+      iframe = browser.iframe(id: 'iframe_1')
+      expect(iframe.wd.attribute('id')).to eq 'iframe_1'
+    end
   end
 
   describe '#exist?' do

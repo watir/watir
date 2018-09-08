@@ -4,8 +4,6 @@ module Watir
 
     NON_TEXT_TYPES = %w[file radio checkbox submit reset image button hidden range color date datetime-local].freeze
 
-    protected
-
     def selector_string
       selector = @selector.dup
       selector[:type] = '(any text type)'

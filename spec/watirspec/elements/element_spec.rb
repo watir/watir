@@ -720,4 +720,11 @@ describe 'Element' do
       expect(browser.form(id: 'new_user').tap(&:exists?)).to be_located
     end
   end
+
+  describe '#wd' do
+    it 'returns a Selenium::WebDriver::Element instance' do
+      element = browser.text_field(id: 'new_user_email')
+      expect(element.wd).to be_a(Selenium::WebDriver::Element)
+    end
+  end
 end

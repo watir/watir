@@ -229,7 +229,7 @@ module Watir
 
         def text_regexp_deprecation(element, selector, matches)
           new_element = Watir::Element.new(@query_scope, element: element)
-          text_content = new_element.send(:execute_js, :getTextContent, element).strip
+          text_content = new_element.execute_js(:getTextContent, element).strip
           text_content_matches = text_content =~ /#{selector[:text]}/
           return if matches == !!text_content_matches
 

@@ -1,6 +1,8 @@
 module Watir
   module JSSnippets
-    private
+    #
+    # @api private
+    #
 
     def execute_js(function_name, *arguments)
       file = File.expand_path("../js_snippets/#{function_name}.js", __FILE__)

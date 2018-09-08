@@ -273,6 +273,14 @@ module Watir
       @default_context = true
     end
 
+    #
+    # @api private
+    #
+    # Always relocate a Browser to ensure proper context switching
+    #
+    # @return [Boolean]
+    #
+
     def relocate?
       true
     end
@@ -290,7 +298,9 @@ module Watir
       @locator_namespace ||= Watir::Locators
     end
 
-    private
+    #
+    # @api private
+    #
 
     def wrap_elements_in(scope, obj)
       case obj
@@ -304,6 +314,8 @@ module Watir
         obj
       end
     end
+
+    private
 
     def wrap_element(scope, element)
       Watir.element_class_for(element.tag_name.downcase).new(scope, element: element)
