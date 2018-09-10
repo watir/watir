@@ -38,6 +38,7 @@ module Watir
 
         def print_node(node, indent = 0)
           return if @visited.include?(node)
+
           @visited << node
           puts ' ' * indent + node
           tsort_each_child(node) { |child| print_node(child, indent + 2) }

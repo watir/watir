@@ -62,6 +62,7 @@ module Watir
       else
         levels = %w[debug info warn error fatal unknown]
         raise ArgumentError, "invalid log level: #{severity}" unless levels.include? severity.to_s.downcase
+
         @logger.level = severity.to_s.upcase
       end
     end
@@ -89,6 +90,7 @@ module Watir
     #
     def deprecate(old, new, ids: [])
       return if @ignored.include?('deprecations') || (@ignored & ids.map!(&:to_s)).any?
+
       msg = ids.empty? ? '' : "[#{ids.map(&:inspect).join(', ')}] "
       warn "[DEPRECATION] #{msg}#{old} is deprecated. Use #{new} instead."
     end

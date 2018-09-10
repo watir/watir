@@ -15,6 +15,7 @@ module Watir
 
     def method_missing(method, *args, &block)
       return super unless @element.respond_to?(method)
+
       Watir::Wait.until(@timeout, @message) { wait_until }
 
       @element.__send__(method, *args, &block)

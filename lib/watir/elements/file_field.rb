@@ -9,6 +9,7 @@ module Watir
 
     def set(path)
       raise Errno::ENOENT, path unless File.exist?(path)
+
       self.value = path
     end
 

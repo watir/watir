@@ -35,6 +35,7 @@ module Watir
 
     def preceding_siblings(opt = {})
       raise ArgumentError, '#previous_siblings can not take an index value' if opt[:index]
+
       xpath_adjacent(opt.merge(adjacent: :preceding, plural: true))
     end
     alias previous_siblings preceding_siblings
@@ -63,6 +64,7 @@ module Watir
 
     def following_siblings(opt = {})
       raise ArgumentError, '#next_siblings can not take an index value' if opt[:index]
+
       xpath_adjacent(opt.merge(adjacent: :following, plural: true))
     end
     alias next_siblings following_siblings
@@ -102,6 +104,7 @@ module Watir
 
     def children(opt = {})
       raise ArgumentError, '#children can not take an index value' if opt[:index]
+
       xpath_adjacent(opt.merge(adjacent: :child, plural: true))
     end
 

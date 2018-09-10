@@ -14,6 +14,7 @@ module Watir
         @handle = selector.delete :handle
       else
         return if selector.keys.all? { |k| %i[title url index].include? k }
+
         raise ArgumentError, "invalid window selector: #{selector.inspect}"
       end
     end
@@ -236,6 +237,7 @@ module Watir
 
     def wait_for_exists
       return assert_exists unless Watir.relaxed_locate?
+
       begin
         wait_until(&:exists?)
       rescue Wait::TimeoutError

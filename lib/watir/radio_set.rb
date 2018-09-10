@@ -158,6 +158,7 @@ module Watir
       found = frame.radio(label: str_or_rx)
 
       return found.selected? if found.exist?
+
       raise UnknownObjectException, "Unable to locate radio matching #{str_or_rx.inspect}"
     end
 
@@ -206,6 +207,7 @@ module Watir
 
     def ==(other)
       return false unless other.is_a?(self.class)
+
       radios == other.radios
     end
     alias eql? ==

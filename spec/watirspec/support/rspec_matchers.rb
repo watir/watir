@@ -54,6 +54,7 @@ if defined?(RSpec)
           false
         rescue exception => ex
           return true if message.nil? || ex.message.match(message)
+
           raise exception, "expected '#{message}' to be included in: '#{ex.message}'"
         ensure
           Watir.default_timeout = original_timeout
@@ -82,6 +83,7 @@ if defined?(RSpec)
           unless message.nil? || ex.message.match(message)
             raise exception, "expected '#{message}' to be included in: '#{ex.message}'"
           end
+
           @time_difference = finish_time - start_time
           @time_difference > timeout
         ensure

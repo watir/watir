@@ -120,6 +120,7 @@ module Watir
       message ||= proc { |obj| "waiting for true condition on #{obj.inspect}" }
 
       raise ArgumentError, "Unknown keyword(s): #{opt.keys} " if block_given? && !opt.empty?
+
       proc = block_given? ? blk : create_proc(opt)
 
       Wait.until(timeout: timeout, message: message, interval: interval, object: self, &proc)
@@ -151,6 +152,7 @@ module Watir
       message ||= proc { |obj| "waiting for false condition on #{obj.inspect}" }
 
       raise ArgumentError, "Unknown keyword(s): #{opt.keys} " if block_given? && !opt.empty?
+
       proc = block_given? ? blk : create_proc(opt)
 
       Wait.while(timeout: timeout, message: message, interval: interval, object: self, &proc)

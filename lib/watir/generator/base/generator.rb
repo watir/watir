@@ -60,6 +60,7 @@ module Watir
         @sorted_interfaces.each do |interface|
           interface = generator.generate(interface)
           next if interface.empty?
+
           interface.gsub!(/^\s+\n/, '') # remove empty lines
           @io.puts indent(interface)
           @io.puts "\n"

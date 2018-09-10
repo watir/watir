@@ -67,6 +67,7 @@ module WatirSpec
 
     def print_browser_info_once(instance)
       return if defined?(@did_print_browser_info) && @did_print_browser_info
+
       @did_print_browser_info = true
 
       info = []

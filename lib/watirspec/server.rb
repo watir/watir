@@ -6,6 +6,7 @@ module WatirSpec
     class << self
       def run!
         return if running?
+
         Thread.new do
           run_server
           wait_for_connection
@@ -37,6 +38,7 @@ module WatirSpec
       def wait_for_connection
         socket_poller = Selenium::WebDriver::SocketPoller.new(bind, port, 30)
         return if socket_poller.connected?
+
         raise 'Cannot start WatirSpec server.'
       end
 
@@ -68,6 +70,7 @@ module WatirSpec
         headers = {}
         while (line = client.gets.split(' ', 2))
           break if line[0] == ''
+
           headers[line[0].chop] = line[1].strip
         end
 

@@ -46,6 +46,7 @@ module Watir
 
     def exists?
       return false if located? && stale?
+
       assert_exists
       true
     rescue UnknownObjectException, UnknownFrameException
@@ -516,6 +517,7 @@ module Watir
 
     def stale?
       raise Watir::Exception::Error, 'Can not check staleness of unused element' unless @element
+
       ensure_context
       stale_in_context?
     end
@@ -571,6 +573,7 @@ module Watir
 
     def selector_string
       return @selector.inspect if @query_scope.is_a?(Browser)
+
       "#{@query_scope.selector_string} --> #{@selector.inspect}"
     end
 
@@ -635,6 +638,7 @@ module Watir
     def assert_exists
       locate unless located?
       return if located?
+
       raise unknown_exception, "unable to locate element: #{inspect}"
     end
 
@@ -741,6 +745,7 @@ module Watir
         Watir.logger.info "<- `Verified precondition #{inspect}##{condition || 'assert_exists'}`"
       rescue unknown_exception
         raise unless condition.nil?
+
         Watir.logger.info "<- `Unable to satisfy precondition #{inspect}##{condition}`"
         check_condition(:wait_for_exists, caller)
       end

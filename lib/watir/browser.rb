@@ -100,6 +100,7 @@ module Watir
 
     def close
       return if @closed
+
       @driver.quit
       @closed = true
     end
@@ -260,11 +261,13 @@ module Watir
     def assert_exists
       locate
       return if window.present?
+
       raise Exception::NoMatchingWindowFoundException, 'browser window was closed'
     end
 
     def locate
       raise Exception::Error, 'browser was closed' if @closed
+
       ensure_context
     end
 

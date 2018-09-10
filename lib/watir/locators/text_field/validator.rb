@@ -4,6 +4,7 @@ module Watir
       class Validator < Element::Validator
         def validate(element, _selector)
           return unless element.tag_name.casecmp('input').zero?
+
           element
         end
       end

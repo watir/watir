@@ -51,6 +51,7 @@ module WatirSpec
 
     def add_guard_hook
       return if WatirSpec.unguarded?
+
       at_exit { WatirSpec::Guards.report }
     end
   end # Runner

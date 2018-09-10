@@ -136,3 +136,6 @@ Style/Documentation:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
+Naming/FileName:
+  Exclude:
+    - 'lib/watir-webdriver.rb'

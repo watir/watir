@@ -36,6 +36,7 @@ module Watir
                    else
                      @inheritance_map[name] ||= parent&.name
                      return unless @inheritance_map[name]
+
                      @inheritance_map[name]
                    end
 
@@ -99,6 +100,7 @@ module Watir
 
         def collection_class(name)
           return if @already_defined.include?(name)
+
           @already_defined << name
           name = Util.classify(classify_regexp, name)
 

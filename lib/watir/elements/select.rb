@@ -151,6 +151,7 @@ module Watir
                                ids: [:select_by]
       end
       return select_matching(found) if found&.any?
+
       raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
     end
 
@@ -185,19 +186,21 @@ module Watir
     def matching_option?(how, what)
       selected_options.each do |opt|
         value = opt.send(how)
-        if what.is_a?(String) ? value == what : value =~ what
-          return true if opt.enabled?
-          raise Watir::Exception::ObjectDisabledException, "option matching #{what} by #{how} on #{inspect} is disabled"
-        end
+        next unless what.is_a?(String) ? value == what : value =~ what
+        return true if opt.enabled?
+
+        raise Watir::Exception::ObjectDisabledException, "option matching #{what} by #{how} on #{inspect} is disabled"
       end
       false
     end
 
     def select_all_by(str_or_rx)
       raise Error, 'you can only use #select_all on multi-selects' unless multiple?
+
       found = find_options :text, str_or_rx
 
       return select_matching(found) if found
+
       raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
     end
 
@@ -214,6 +217,7 @@ module Watir
         end
       end
       return @found unless @found.empty?
+
       raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
     rescue Wait::TimeoutError
       raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"

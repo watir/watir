@@ -4,6 +4,7 @@ module Watir
       class SelectorBuilder < Element::SelectorBuilder
         def build_wd_selector(selectors)
           return if selectors.values.any? { |e| e.is_a? Regexp }
+
           selectors.delete(:tag_name) || raise('internal error: no tag_name?!')
 
           expressions = generate_expressions(@query_scope.tag_name.downcase)

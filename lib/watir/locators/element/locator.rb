@@ -39,6 +39,7 @@ module Watir
 
         def locate_all
           return [@selector[:element]] if @selector.key?(:element)
+
           using_selenium(:all) || using_watir(:all)
         end
 
@@ -66,6 +67,7 @@ module Watir
           unless how
             raise Error, "internal error: unable to build Selenium selector from #{@normalized_selector.inspect}"
           end
+
           what = add_regexp_predicates(what) if how == :xpath
 
           if filter == :all || !@filter_selector.empty?
@@ -118,12 +120,14 @@ module Watir
         def element_index(elements, selector)
           idx = selector.delete(:index) || 0
           return idx unless idx.negative?
+
           elements.reverse!
           idx.abs - 1
         end
 
         def create_normalized_selector(filter)
           return @normalized_selector if @normalized_selector
+
           @driver_scope = @query_scope.wd
 
           @normalized_selector = selector_builder.normalized_selector
@@ -142,16 +146,19 @@ module Watir
           if @normalized_selector.key?(:index) && filter == :all
             raise ArgumentError, "can't locate all elements by :index"
           end
+
           @normalized_selector
         end
 
         def create_filter_selector
           return @filter_selector if @filter_selector
+
           @filter_selector = {}
 
           # Remove selectors that can never be used in XPath builder
           %i[visible visible_text].each do |how|
             next unless @normalized_selector.key?(how)
+
             @filter_selector[how] = @normalized_selector.delete(how)
           end
 
@@ -162,6 +169,7 @@ module Watir
           #  filtering) vs approximations (ie would still requiring filtering)
           @normalized_selector.each do |how, what|
             next unless what.is_a?(Regexp)
+
             @filter_selector[how] = @normalized_selector.delete(how)
           end
 
@@ -296,9 +304,11 @@ module Watir
         def wd_supported?(how, what, tag)
           return false unless W3C_FINDERS.include? how
           return false unless what.is_a?(String)
+
           if %i[partial_link_text link_text link].include?(how)
             Watir.logger.deprecate(":#{how} locator", ':visible_text', ids: [:visible_text])
             return true if [:a, :link, nil].include?(tag)
+
             raise StandardError, "Can not use #{how} locator to find a #{what} element"
           elsif how == :tag_name
             return true

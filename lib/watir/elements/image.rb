@@ -8,6 +8,7 @@ module Watir
 
     def loaded?
       return false unless complete?
+
       element_call { execute_js(:isImageLoaded, @element) }
     end
   end # Image

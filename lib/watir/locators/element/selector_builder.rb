@@ -41,6 +41,7 @@ module Watir
             end
             raise TypeError, 'Symbol is not a valid value' if what.is_a?(Symbol) && how != :adjacent
             return if VALID_WHATS.any? { |t| what.is_a? t }
+
             raise TypeError, "expected one of #{VALID_WHATS.inspect}, got #{what.inspect}:#{what.class}"
           end
         end
@@ -52,6 +53,7 @@ module Watir
         def build(selector)
           inspect = selector.inspect
           return given_xpath_or_css(selector) if selector.key?(:xpath) || selector.key?(:css)
+
           built = build_wd_selector(selector)
           Watir.logger.debug "Converted #{inspect} to #{built}"
           built
@@ -81,6 +83,7 @@ module Watir
 
         def check_custom_attribute(attribute)
           return if valid_attribute?(attribute) || attribute.to_s =~ WILDCARD_ATTRIBUTE
+
           @custom_attributes << attribute.to_s
         end
 
@@ -93,12 +96,14 @@ module Watir
           raise ArgumentError, ":xpath and :css cannot be combined (#{selector.inspect})" if locator.size > 1
 
           return locator.first unless selector.any? && !can_be_combined_with_xpath_or_css?(selector)
+
           msg = "#{locator.keys.first} cannot be combined with other selectors (#{selector.inspect})"
           raise ArgumentError, msg
         end
 
         def build_wd_selector(selectors)
           return if selectors.values.any? { |e| e.is_a? Regexp }
+
           build_xpath(selectors)
         end
 
@@ -127,16 +132,19 @@ module Watir
 
         def raise_unless_int(what)
           return if what.is_a?(Integer)
+
           raise TypeError, "expected Integer, got #{what.inspect}:#{what.class}"
         end
 
         def raise_unless_boolean(what)
           return if what.is_a?(TrueClass) || what.is_a?(FalseClass)
+
           raise TypeError, "expected TrueClass or FalseClass, got #{what.inspect}:#{what.class}"
         end
 
         def raise_unless_str_regex(what)
           return if what.is_a?(String) || what.is_a?(Regexp)
+
           raise TypeError, "expected String or Regexp, got #{what.inspect}:#{what.class}"
         end
       end

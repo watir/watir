@@ -49,6 +49,7 @@ module Watir
 
       %i[open_timeout read_timeout client_timeout].each do |t|
         next if http_client.nil? || !respond_to?(t)
+
         msg = "You can pass #{t} value directly into Watir::Browser opt without needing to use :http_client"
         Watir.logger.warn msg, ids: %i[http_client use_capabilities]
       end
