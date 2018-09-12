@@ -88,11 +88,12 @@ module Watir
     # @param [String] old
     # @param [String] new
     #
-    def deprecate(old, new, ids: [])
+    def deprecate(old, new, reference: '', ids: [])
       return if @ignored.include?('deprecations') || (@ignored & ids.map!(&:to_s)).any?
 
       msg = ids.empty? ? '' : "[#{ids.map(&:inspect).join(', ')}] "
-      warn "[DEPRECATION] #{msg}#{old} is deprecated. Use #{new} instead."
+      ref_msg = reference.empty? ? '.' : "; see explanation for this deprecation: #{reference}."
+      warn "[DEPRECATION] #{msg}#{old} is deprecated. Use #{new} instead#{ref_msg}"
     end
 
     private

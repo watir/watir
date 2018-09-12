@@ -291,7 +291,6 @@ describe 'Element' do
       expect(browser.div(id: 'should-not-exist')).to_not be_present
     end
 
-    # TODO: Refactor so that this returns true
     it 'returns false if the element is stale' do
       element = browser.div(id: 'foo').tap(&:exists?)
 
@@ -302,6 +301,13 @@ describe 'Element' do
       expect {
         expect(element).to_not be_present
       }.to have_deprecated_stale_present
+    end
+
+    it 'does not raise staleness deprecation if element no longer exists in DOM' do
+      element = browser.div(id: 'foo').tap(&:exists?)
+      browser.goto(WatirSpec.url_for('iframes.html'))
+
+      expect { element.present? }.to_not have_deprecated_stale_present
     end
 
     # TODO: Documents Current Behavior, but needs to be refactored/removed

@@ -409,13 +409,16 @@ module Watir
       msg = '#visible? behavior will be changing slightly, consider switching to #present? ' \
             '(more details: http://watir.com/element-existentialism/)'
       Watir.logger.warn msg, ids: [:visible_element]
-      assert_exists
-      @element.displayed?
-    rescue Selenium::WebDriver::Error::StaleElementReferenceError
-      Watir.logger.deprecate 'Checking `#visible? == false` to determine a stale element', '`#stale? == true`',
-                             ids: [:stale_visible]
-      reset!
-      raise unknown_exception
+      displayed = display_check
+      if displayed.nil? && display_check
+        Watir.logger.deprecate 'Checking `#present? == false` to determine a stale element',
+                               '`#stale? == true`',
+                               reference: 'http://watir.com/staleness-changes',
+                               ids: [:stale_visible]
+      end
+      raise unknown_exception if displayed.nil?
+
+      displayed
     end
 
     #
@@ -438,13 +441,14 @@ module Watir
     #
 
     def present?
-      assert_exists
-      @element.displayed?
-    rescue Selenium::WebDriver::Error::StaleElementReferenceError
-      Watir.logger.deprecate 'Checking `#present? == false` to determine a stale element', '`#stale? == true`',
-                             ids: [:stale_present]
-      reset!
-      false
+      displayed = display_check
+      if displayed.nil? && display_check
+        Watir.logger.deprecate 'Checking `#present? == false` to determine a stale element',
+                               '`#stale? == true`',
+                               reference: 'http://watir.com/staleness-changes',
+                               ids: [:stale_present]
+      end
+      displayed
     rescue UnknownObjectException, UnknownFrameException
       false
     end
@@ -690,6 +694,15 @@ module Watir
 
     def assert_is_element(obj)
       raise TypeError, "execpted Watir::Element, got #{obj.inspect}:#{obj.class}" unless obj.is_a? Watir::Element
+    end
+
+    # Removes duplication in #present? & #visible? and makes setting deprecation notice easier
+    def display_check
+      assert_exists
+      @element.displayed?
+    rescue Selenium::WebDriver::Error::StaleElementReferenceError
+      reset!
+      nil
     end
 
     # TODO: - this will get addressed with Watir::Executor implementation
