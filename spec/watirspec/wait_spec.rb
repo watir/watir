@@ -107,48 +107,63 @@ describe Watir::Element do
   describe '#wait_until_present' do
     it 'waits until the element appears' do
       browser.a(id: 'show_bar').click
-      expect { browser.div(id: 'bar').wait_until_present(timeout: 5) }.to_not raise_exception
+      expect {
+        expect { browser.div(id: 'bar').wait_until_present(timeout: 5) }.to_not raise_exception
+      }.to have_deprecated_wait_until_present
     end
 
     it 'waits until the element re-appears' do
       browser.link(id: 'readd_bar').click
-      expect { browser.div(id: 'bar').wait_until_present }.to_not raise_exception
+      expect {
+        expect { browser.div(id: 'bar').wait_until_present }.to_not raise_exception
+      }.to have_deprecated_wait_until_present
     end
 
     it "times out if the element doesn't appear" do
       inspected = '#<Watir::Div: located: true; {:id=>"bar", :tag_name=>"div"}>'
       error = Watir::Wait::TimeoutError
-      message = "timed out after 1 seconds, waiting for element #{inspected} to become present"
+      message = "timed out after 1 seconds, waiting for #{inspected} to become present"
 
-      expect { browser.div(id: 'bar').wait_until_present(timeout: 1) }.to raise_error(error, message)
+      expect {
+        expect { browser.div(id: 'bar').wait_until_present(timeout: 1) }.to raise_error(error, message)
+      }.to have_deprecated_wait_until_present
     end
 
     it 'uses provided interval' do
       element = browser.div(id: 'bar')
       expect(element).to receive(:present?).twice
 
-      expect { element.wait_until_present(timeout: 0.4, interval: 0.2) }.to raise_timeout_exception
+      expect {
+        expect { element.wait_until_present(timeout: 0.4, interval: 0.2) }.to raise_timeout_exception
+      }.to have_deprecated_wait_until_present
     end
   end
 
   describe '#wait_while_present' do
     it 'waits until the element disappears' do
       browser.a(id: 'hide_foo').click
-      expect { browser.div(id: 'foo').wait_while_present(timeout: 2) }.to_not raise_exception
+      expect {
+        expect { browser.div(id: 'foo').wait_while_present(timeout: 2) }.to_not raise_exception
+      }.to have_deprecated_wait_while_present
     end
 
     it "times out if the element doesn't disappear" do
       error = Watir::Wait::TimeoutError
       inspected = '#<Watir::Div: located: true; {:id=>"foo", :tag_name=>"div"}>'
-      message = "timed out after 1 seconds, waiting for element #{inspected} not to be present"
-      expect { browser.div(id: 'foo').wait_while_present(timeout: 1) }.to raise_error(error, message)
+      message = "timed out after 1 seconds, waiting for #{inspected} not to be present"
+      expect {
+        expect { browser.div(id: 'foo').wait_while_present(timeout: 1) }.to raise_error(error, message)
+      }.to have_deprecated_wait_while_present
     end
 
     it 'uses provided interval' do
+      error = Watir::Wait::TimeoutError
       element = browser.div(id: 'foo')
-      expect(element).to receive(:present?).twice
+      expect(element).to receive(:present?).and_return(true).twice
 
-      expect { element.wait_until_present(timeout: 0.4, interval: 0.2) }.to raise_timeout_exception
+      expect {
+        expect { element.wait_while_present(timeout: 0.4, interval: 0.2) }.to raise_error(error)
+      }.to have_deprecated_wait_while_present
     end
 
     it 'does not error when element goes stale' do
@@ -157,13 +172,17 @@ describe Watir::Element do
       allow(element).to receive(:stale?).and_return(false, true)
 
       browser.a(id: 'hide_foo').click
-      expect { element.wait_while_present(timeout: 1) }.to_not raise_exception
+      expect {
+        expect { element.wait_while_present(timeout: 1) }.to_not raise_exception
+      }.to have_deprecated_wait_while_present
     end
 
     it 'waits until the selector no longer matches' do
       element = browser.link(name: 'add_select').wait_until(&:exists?)
       browser.link(id: 'change_select').click
-      expect { element.wait_while_present }.not_to raise_error
+      expect {
+        expect { element.wait_while_present }.not_to raise_error
+      }.to have_deprecated_wait_while_present
     end
   end
 
@@ -303,6 +322,34 @@ describe Watir::Element do
         expect { element.wait_while(custom: '') }.to_not raise_exception
       end
 
+      it 'accepts keywords and block' do
+        element = browser.div(id: 'foo')
+        browser.a(id: 'hide_foo').click
+        expect { element.wait_while(custom: '', &:present?) }.to_not raise_exception
+      end
+
+      it 'browser accepts keywords' do
+        expect { browser.wait_until(title: 'wait test') }.to_not raise_exception
+        expect { browser.wait_until(title: 'wrong') }.to raise_timeout_exception
+      end
+
+      it 'alert accepts keywords' do
+        browser.goto WatirSpec.url_for('alerts.html')
+
+        begin
+          browser.button(id: 'alert').click
+          expect { browser.alert.wait_until(text: 'ok') }.to_not raise_exception
+          expect { browser.alert.wait_until(text: 'not ok') }.to raise_timeout_exception
+        ensure
+          browser.alert.ok
+        end
+      end
+
+      it 'window accepts keywords' do
+        expect { browser.window.wait_until(title: 'wait test') }.to_not raise_exception
+        expect { browser.window.wait_until(title: 'wrong') }.to raise_timeout_exception
+      end
+
       it 'times out when single keyword not met' do
         element = browser.div(id: 'foo')
         expect { element.wait_while(id: 'foo') }.to raise_timeout_exception
@@ -338,11 +385,15 @@ describe Watir do
       end
 
       it 'is used by Element#wait_until_present' do
-        expect { browser.div(id: 'bar').wait_until_present }.to wait_and_raise_timeout_exception(timeout: 1)
+        expect {
+          expect { browser.div(id: 'bar').wait_until_present }.to wait_and_raise_timeout_exception(timeout: 1)
+        }.to have_deprecated_wait_until_present
       end
 
       it 'is used by Element#wait_while_present' do
-        expect { browser.div(id: 'foo').wait_while_present }.to wait_and_raise_timeout_exception(timeout: 1)
+        expect {
+          expect { browser.div(id: 'foo').wait_while_present }.to wait_and_raise_timeout_exception(timeout: 1)
+        }.to have_deprecated_wait_while_present
       end
     end
   end

@@ -651,7 +651,8 @@ module Watir
       return assert_enabled unless Watir.relaxed_locate?
 
       wait_for_exists
-      return if [Input, Button, Select, Option].none? { |c| is_a? c }
+      return unless [Input, Button, Select, Option].any? { |c| is_a? c } || @content_editable
+      return if enabled?
 
       begin
         wait_until(&:enabled?)
@@ -665,6 +666,8 @@ module Watir
       unless Watir.relaxed_locate?
         raise_writable unless !respond_to?(:readonly?) || !readonly?
       end
+
+      return if !respond_to?(:readonly?) || !readonly?
 
       begin
         wait_until { !respond_to?(:readonly?) || !readonly? }
