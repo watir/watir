@@ -33,9 +33,9 @@ module Watir
                 '(' + val.map { |v| build_class_match(v) }.join(' and ') + ')'
               elsif val.is_a?(Array)
                 '(' + val.map { |v| equal_pair(building, key, v) }.join(' or ') + ')'
-              elsif val == true
+              elsif val.eql? true
                 attribute_presence(key)
-              elsif val == false
+              elsif val.eql? false
                 attribute_absence(key)
               else
                 equal_pair(building, key, val)
@@ -77,8 +77,10 @@ module Watir
               # type attributes can be upper case - downcase them
               # https://github.com/watir/watir/issues/72
               XpathSupport.downcase('@type')
-            else
+            when ::Symbol
               "@#{key.to_s.tr('_', '-')}"
+            else
+              raise Error::Exception, "Unable to build XPath using #{key}"
             end
           end
 

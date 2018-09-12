@@ -4,7 +4,7 @@ module Watir
     include Watir::Exception
     include Enumerable
 
-    delegate %i[exists? present? visible? browser assert_exists element_call] => :source
+    delegate %i[exists? present? visible? browser] => :source
 
     attr_reader :source, :frame
 
@@ -211,6 +211,13 @@ module Watir
       radios == other.radios
     end
     alias eql? ==
+
+    # Ruby 2.4+ complains about using #delegate to do this
+    %i[assert_exists element_call].each do |method|
+      define_method(method) do |*args, &blk|
+        source.send(method, *args, &blk)
+      end
+    end
   end # RadioSet
 
   module Container

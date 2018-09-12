@@ -1,11 +1,13 @@
 Gem::Specification.new do |s|
-  s.name        = 'watir'
-  s.version     = '6.13.0'
-  s.platform    = Gem::Platform::RUBY
-  s.authors     = ['Alex Rodionov', 'Titus Fortner']
-  s.email       = ['p0deje@gmail.com', 'titusfortner@gmail.com']
-  s.homepage    = 'http://github.com/watir/watir'
-  s.summary     = 'Watir powered by Selenium'
+  s.name = 'watir'
+  s.version = '6.13.0'
+  s.required_ruby_version = '>= 2.3.0'
+
+  s.platform = Gem::Platform::RUBY
+  s.authors = ['Alex Rodionov', 'Titus Fortner']
+  s.email = ['p0deje@gmail.com', 'titusfortner@gmail.com']
+  s.homepage = 'http://github.com/watir/watir'
+  s.summary = 'Watir powered by Selenium'
   s.description = <<~DESCRIPTION_MESSAGE
     Watir stands for Web Application Testing In Ruby
     It facilitates the writing of automated tests by mimicing the behavior of a user interacting with a website.
@@ -14,9 +16,9 @@ Gem::Specification.new do |s|
   s.license = 'MIT'
   s.rubyforge_project = 'watir'
 
-  s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.executables   = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
+  s.files = `git ls-files`.split("\n")
+  s.test_files = `git ls-files -- {test,spec,features}/*`.split("\n")
+  s.executables = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
   s.require_paths = ['lib']
 
   s.add_dependency 'selenium-webdriver', '~> 3.4', '>= 3.4.1'

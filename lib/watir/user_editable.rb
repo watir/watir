@@ -18,7 +18,7 @@ module Watir
     # Uses JavaScript to enter most of the given value.
     # Selenium is used to enter the first and last characters
     #
-    # @param [String] input_value
+    # @param [String, Symbol] args
     #
 
     def set!(*args)

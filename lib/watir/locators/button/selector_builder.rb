@@ -12,7 +12,7 @@ module Watir
           xpath = './/button'
           xpath << "[#{button_attr_exp}]" unless button_attr_exp.empty?
 
-          unless selectors[:type] == false
+          unless selectors[:type].eql? false
             selectors[:type] = Watir::Button::VALID_TYPES if [nil, true].include?(selectors[:type])
             input_attr_exp = xpath_builder.attribute_expression(:input, selectors)
 

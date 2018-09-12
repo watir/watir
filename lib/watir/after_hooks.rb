@@ -24,7 +24,7 @@ module Watir
     #   browser.after_hooks.add do |browser|
     #     browser.text.include?("Server Error") and puts "Application exception or 500 error!"
     #   end
-    #   browser.goto "watir.github.io/404"
+    #   browser.goto "watir.com/404"
     #   "Application exception or 500 error!"
     #
     # @param [#call] after_hook Object responding to call
@@ -50,7 +50,7 @@ module Watir
     #   browser.after_hooks.add do |browser|
     #     browser.text.include?("Server Error") and puts "Application exception or 500 error!"
     #   end
-    #   browser.goto "watir.github.io/404"
+    #   browser.goto "watir.com/404"
     #   "Application exception or 500 error!"
     #   browser.after_hooks.delete browser.after_hooks[0]
     #   browser.refresh

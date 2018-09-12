@@ -92,9 +92,12 @@ module Watir
           when :tag_name
             element.tag_name.downcase
           when :href
-            (href = element.attribute(:href)) && href.strip
+            element.attribute('href')&.strip
+          when String, ::Symbol
+            how = how.to_s.tr('_', '-') if how.is_a?(::Symbol)
+            element.attribute(how)
           else
-            element.attribute(how.to_s.tr('_', '-').to_sym)
+            raise Error::Exception, "Unable to fetch value for #{how}"
           end
         end
 
