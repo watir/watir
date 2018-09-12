@@ -6,7 +6,9 @@ if defined?(RSpec)
                             text_regexp
                             stale_visible
                             stale_present
-                            select_by].freeze
+                            select_by
+                            wait_until_present
+                            wait_while_present].freeze
 
   DEPRECATION_WARNINGS.each do |deprecation|
     RSpec::Matchers.define "have_deprecated_#{deprecation}" do

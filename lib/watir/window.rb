@@ -3,6 +3,8 @@ module Watir
     include EventuallyPresent
     include Waitable
 
+    attr_reader :browser
+
     def initialize(browser, selector)
       @browser = browser
       @driver = browser.driver
