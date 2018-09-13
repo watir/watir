@@ -9,9 +9,10 @@ module Watir
 
           def build(selectors)
             adjacent = selectors.delete :adjacent
-            xpath = adjacent ? process_adjacent(adjacent) : './/'
+            xpath = adjacent ? process_adjacent(adjacent) : './/*'
 
-            xpath << (selectors.delete(:tag_name) || '*').to_s
+            tag_name = selectors.delete(:tag_name).to_s
+            xpath << "[local-name()='#{tag_name}']" unless tag_name.empty?
 
             index = selectors.delete(:index)
 
@@ -87,13 +88,13 @@ module Watir
             xpath = './'
             xpath << case adjacent
                      when :ancestor
-                       'ancestor::'
+                       'ancestor::*'
                      when :preceding
-                       'preceding-sibling::'
+                       'preceding-sibling::*'
                      when :following
-                       'following-sibling::'
+                       'following-sibling::*'
                      when :child
-                       'child::'
+                       'child::*'
                      end
             xpath
           end
