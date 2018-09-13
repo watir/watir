@@ -275,6 +275,43 @@ module Watir
     alias attribute attribute_value
 
     #
+    # Returns all attribute values. Attributes with special characters are returned as String,
+    # rest are returned as a Symbol.
+    #
+    # @return [Hash]
+    #
+    # @example
+    #   browser.pre(id: 'rspec').attribute_values
+    #   #=> {class:'ruby', id: 'rspec' }
+    #
+
+    def attribute_values
+      result = element_call { execute_js(:attributeValues, @element) }
+      result.keys.each do |key|
+        next unless key == key[/[a-zA-Z\-]*/]
+
+        result[key.tr('-', '_').to_sym] = result.delete(key)
+      end
+      result
+    end
+    alias attributes attribute_values
+
+    #
+    # Returns list of all attributes. Attributes with special characters are returned as String,
+    # rest are returned as a Symbol.
+    #
+    # @return [Array]
+    #
+    # @example
+    #   browser.pre(id: 'rspec').attribute_list
+    #   #=> [:class, :id]
+    #
+
+    def attribute_list
+      attribute_values.keys
+    end
+
+    #
     # Sends sequence of keystrokes to element.
     #
     # @example

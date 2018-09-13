@@ -432,7 +432,7 @@ describe 'Element' do
       end
 
       it 'finds the last element by index: -1' do
-        expect(browser.element(index: -1).tag_name).to eq 'p'
+        expect(browser.element(index: -1).tag_name).to eq 'div'
       end
     end
 
@@ -708,6 +708,44 @@ describe 'Element' do
 
     it 'returns attribute value by symbol attribute name' do
       expect(browser.p.attribute_value(:data_type)).to eq 'ruby-library'
+    end
+  end
+
+  describe '#attribute_values' do
+    before { browser.goto WatirSpec.url_for('data_attributes.html') }
+
+    it 'returns a Hash object' do
+      expect(browser.p.attribute_values).to be_an_instance_of(Hash)
+    end
+
+    it 'returns attribute values from an element' do
+      expected = {data_type: 'ruby-library'}
+      expect(browser.p.attribute_values).to eq expected
+    end
+
+    it 'returns attribute with special characters' do
+      expected = {data_type: 'description', 'data-type_$p3c!a1' => 'special-description'}
+      expect(browser.div.attribute_values).to eq expected
+    end
+
+    it 'returns attribute with special characters as a String' do
+      expect(browser.div.attribute_values.keys[0]).to be_an_instance_of(String)
+    end
+  end
+
+  describe '#attribute_list' do
+    before { browser.goto WatirSpec.url_for('data_attributes.html') }
+
+    it 'returns an Array object' do
+      expect(browser.div.attribute_list).to be_an_instance_of(Array)
+    end
+
+    it 'returns list of attributes from an element' do
+      expect(browser.p.attribute_list).to eq [:data_type]
+    end
+
+    it 'returns attribute name with special characters as a String' do
+      expect(browser.div.attribute_list[0]).to be_an_instance_of(String)
     end
   end
 
