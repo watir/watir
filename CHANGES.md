@@ -1,3 +1,15 @@
+### 6.14.0 (2018-09-13)
+
+* HTML Element attribute support updated to HTML 5.2
+* `#wait_until_present` and `#wait_while_present` accept custom message arguments (thanks Jakub Samek)
+* Added `Element#located?` method
+* Fix bug preventing collections from waiting for a parent element (#759)
+* Fix bug preventing collection elements from being cached
+* Update code style in accordance with Rubocop settings
+* Add `Element#attribute_list` and `Element#attribute_values` (thanks Lakshya Kapoor)
+* Fix bug preventing location of elements based on how XPath deals with default namespaces 
+* Ruby 2.2 and below are no longer supported.
+
 ### 6.13.0 (2018-09-02)
 
 * Allow wait methods to wait for values of any attribute

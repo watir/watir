@@ -1,6 +1,11 @@
+lib = File.expand_path('lib', __dir__)
+$LOAD_PATH.unshift lib unless $LOAD_PATH.include?(lib)
+
+require 'watir/version'
+
 Gem::Specification.new do |s|
   s.name = 'watir'
-  s.version = '6.13.0'
+  s.version = Watir::VERSION
   s.required_ruby_version = '>= 2.3.0'
 
   s.platform = Gem::Platform::RUBY
