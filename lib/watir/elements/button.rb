@@ -6,7 +6,7 @@ module Watir
   #
 
   class Button < HTMLElement
-    inherit_attributes_from Watir::Input
+    inherit_attributes_from Input
 
     VALID_TYPES = %w[button reset submit image].freeze
 
@@ -28,7 +28,7 @@ module Watir
       when 'button'
         super
       else
-        raise Exception::Error, "unknown tag name for button: #{tn}"
+        raise Error, "unknown tag name for button: #{tn}"
       end
     end
   end # Button

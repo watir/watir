@@ -212,7 +212,7 @@ module Watir
 
     def create_proc(opt)
       proc do
-        reset! if is_a?(Watir::Element)
+        reset! if is_a?(Element)
         (opt.empty? || match_attributes(opt).call) && (!block_given? || yield(self))
       end
     end
@@ -221,7 +221,7 @@ module Watir
       proc do
         opt.keys.all? do |key|
           expected = opt[key]
-          actual = if is_a?(Watir::Element) && !respond_to?(key)
+          actual = if is_a?(Element) && !respond_to?(key)
                      attribute_value(key)
                    else
                      send(key)

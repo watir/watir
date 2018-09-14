@@ -90,7 +90,7 @@ module Watir
           selector = @selector.merge(element: e)
           selector[:index] = idx
           element = element_class.new(@query_scope, selector)
-          if [Watir::HTMLElement, Watir::Input].include? element.class
+          if [HTMLElement, Input].include? element.class
             tag_name = @selector[:tag_name] || element.tag_name.to_sym
             hash[tag_name] ||= 0
             hash[tag_name] += 1

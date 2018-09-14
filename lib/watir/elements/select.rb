@@ -1,13 +1,11 @@
 module Watir
   class Select < HTMLElement
-    include Watir::Exception
-
     #
     # Clears all selected options.
     #
 
     def clear
-      raise Error, 'you can only clear multi-selects' unless multiple?
+      raise Exception::Error, 'you can only clear multi-selects' unless multiple?
 
       selected_options.each(&:click)
     end
@@ -189,7 +187,7 @@ module Watir
         next unless what.is_a?(String) ? value == what : value =~ what
         return true if opt.enabled?
 
-        raise Watir::Exception::ObjectDisabledException, "option matching #{what} by #{how} on #{inspect} is disabled"
+        raise ObjectDisabledException, "option matching #{what} by #{how} on #{inspect} is disabled"
       end
       false
     end
@@ -236,7 +234,7 @@ module Watir
       when :value
         element.value =~ exp
       else
-        raise Error, "unknown how: #{how.inspect}"
+        raise Exception::Error, "unknown how: #{how.inspect}"
       end
     end
   end # Select

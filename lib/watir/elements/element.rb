@@ -557,7 +557,7 @@ module Watir
     #
 
     def stale?
-      raise Watir::Exception::Error, 'Can not check staleness of unused element' unless @element
+      raise Error, 'Can not check staleness of unused element' unless @element
 
       ensure_context
       stale_in_context?
@@ -627,7 +627,7 @@ module Watir
       begin
         @query_scope.wait_for_exists unless @query_scope.is_a? Browser
         wait_until(&:exists?)
-      rescue Watir::Wait::TimeoutError
+      rescue Wait::TimeoutError
         msg = "timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to be located"
         raise unknown_exception, msg
       end
@@ -640,7 +640,7 @@ module Watir
       begin
         @query_scope.wait_for_present unless @query_scope.is_a? Browser
         wait_until_present
-      rescue Watir::Wait::TimeoutError
+      rescue Wait::TimeoutError
         msg = "element located, but timed out after #{Watir.default_timeout} seconds, " \
               "waiting for #{inspect} to be present"
         raise unknown_exception, msg
@@ -656,7 +656,7 @@ module Watir
 
       begin
         wait_until(&:enabled?)
-      rescue Watir::Wait::TimeoutError
+      rescue Wait::TimeoutError
         raise_disabled
       end
     end
@@ -671,7 +671,7 @@ module Watir
 
       begin
         wait_until { !respond_to?(:readonly?) || !readonly? }
-      rescue Watir::Wait::TimeoutError
+      rescue Wait::TimeoutError
         message = "element present and enabled, but timed out after #{Watir.default_timeout} seconds, " \
                   "waiting for #{inspect} to not be readonly"
         raise ObjectReadOnlyException, message
@@ -699,7 +699,7 @@ module Watir
     private
 
     def unknown_exception
-      Watir::Exception::UnknownObjectException
+      UnknownObjectException
     end
 
     def raise_writable
@@ -733,7 +733,7 @@ module Watir
     end
 
     def assert_is_element(obj)
-      raise TypeError, "execpted Watir::Element, got #{obj.inspect}:#{obj.class}" unless obj.is_a? Watir::Element
+      raise TypeError, "execpted Watir::Element, got #{obj.inspect}:#{obj.class}" unless obj.is_a? Element
     end
 
     # Removes duplication in #present? & #visible? and makes setting deprecation notice easier
@@ -780,7 +780,7 @@ module Watir
         raise_disabled unless %i[wait_for_present wait_for_enabled wait_for_writable].include?(precondition)
         retry
       rescue Selenium::WebDriver::Error::NoSuchWindowError
-        raise Exception::NoMatchingWindowFoundException, 'browser window was closed'
+        raise NoMatchingWindowFoundException, 'browser window was closed'
       ensure
         Watir.logger.info "<- `Completed #{inspect}##{caller}`"
         Wait.timer.reset! unless already_locked

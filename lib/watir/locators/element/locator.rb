@@ -2,6 +2,8 @@ module Watir
   module Locators
     class Element
       class Locator
+        include Exception
+
         attr_reader :selector_builder
         attr_reader :element_validator
 
@@ -55,7 +57,7 @@ module Watir
 
           unless how
             msg = "internal error: unable to build Selenium selector from #{@normalized_selector.inspect}"
-            raise Exception::Error, msg
+            raise LocatorException, msg
           end
 
           if filter == :all || !values_to_match.empty?
@@ -85,7 +87,7 @@ module Watir
             how = how.to_s.tr('_', '-') if how.is_a?(::Symbol)
             element.attribute(how)
           else
-            raise Error::Exception, "Unable to fetch value for #{how}"
+            raise LocatorException, "Unable to fetch value for #{how}"
           end
         end
 
@@ -271,7 +273,7 @@ module Watir
             sleep 0.5
             retry unless retries > 2
             target = filter == :all ? 'element collection' : 'element'
-            raise StandardError, "Unable to locate #{target} from #{@selector} due to changing page"
+            raise LocatorException, "Unable to locate #{target} from #{@selector} due to changing page"
           end
         end
 
@@ -283,7 +285,7 @@ module Watir
             Watir.logger.deprecate(":#{how} locator", ':visible_text', ids: [:visible_text])
             return true if [:a, :link, nil].include?(tag)
 
-            raise StandardError, "Can not use #{how} locator to find a #{what} element"
+            raise LocatorException, "Can not use #{how} locator to find a #{what} element"
           elsif how == :tag_name
             return true
           else

@@ -1,7 +1,7 @@
 module Watir
   class RadioSet
     extend Forwardable
-    include Watir::Exception
+    include Exception
     include Enumerable
 
     delegate %i[exists? present? visible? browser] => :source
@@ -52,7 +52,7 @@ module Watir
       elsif n.empty?
         return source
       else
-        raise Watir::Exception::UnknownObjectException, "#{opt[:name]} does not match name of RadioSet: #{n}"
+        raise UnknownObjectException, "#{opt[:name]} does not match name of RadioSet: #{n}"
       end
     end
 
@@ -65,9 +65,9 @@ module Watir
       if !n.empty? && (!opt[:name] || opt[:name] == n)
         element_call(:wait_for_present) { frame.radios(opt.merge(name: n)) }
       elsif n.empty?
-        Watir::RadioCollection.new(frame, element: source.wd)
+        RadioCollection.new(frame, element: source.wd)
       else
-        raise Watir::Exception::UnknownObjectException, "#{opt[:name]} does not match name of RadioSet: #{n}"
+        raise UnknownObjectException, "#{opt[:name]} does not match name of RadioSet: #{n}"
       end
     end
 

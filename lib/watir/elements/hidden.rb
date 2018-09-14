@@ -5,7 +5,7 @@ module Watir
     end
 
     def click
-      raise Watir::Exception::ObjectDisabledException, 'click is not available on the hidden field element'
+      raise ObjectDisabledException, 'click is not available on the hidden field element'
     end
   end
 

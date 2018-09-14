@@ -8,6 +8,7 @@ module Watir
     include HasWindow
     include Waitable
     include Navigation
+    include Exception
 
     attr_writer :default_context, :original_window, :locator_namespace
     attr_reader :driver, :after_hooks
@@ -40,7 +41,7 @@ module Watir
     def initialize(browser = :chrome, *args)
       case browser
       when ::Symbol, String
-        selenium_args = Watir::Capabilities.new(browser, *args).to_args
+        selenium_args = Capabilities.new(browser, *args).to_args
         @driver = Selenium::WebDriver.for(*selenium_args)
       when Selenium::WebDriver::Driver
         @driver = browser
@@ -212,7 +213,7 @@ module Watir
     #
 
     def execute_script(script, *args)
-      args.map! { |e| e.is_a?(Watir::Element) ? e.wd : e }
+      args.map! { |e| e.is_a?(Element) ? e.wd : e }
 
       wrap_elements_in(self, @driver.execute_script(script, *args))
     end
@@ -262,11 +263,11 @@ module Watir
       locate
       return if window.present?
 
-      raise Exception::NoMatchingWindowFoundException, 'browser window was closed'
+      raise NoMatchingWindowFoundException, 'browser window was closed'
     end
 
     def locate
-      raise Exception::Error, 'browser was closed' if @closed
+      raise Error, 'browser was closed' if @closed
 
       ensure_context
     end
@@ -298,7 +299,7 @@ module Watir
     #
 
     def locator_namespace
-      @locator_namespace ||= Watir::Locators
+      @locator_namespace ||= Locators
     end
 
     #

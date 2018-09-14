@@ -2,6 +2,7 @@ module Watir
   class Alert
     include EventuallyPresent
     include Waitable
+    include Exception
 
     def initialize(browser)
       @browser = browser
@@ -79,7 +80,7 @@ module Watir
     def exists?
       assert_exists
       true
-    rescue Exception::UnknownObjectException
+    rescue UnknownObjectException
       false
     end
     alias present? exists?
@@ -97,7 +98,7 @@ module Watir
     def assert_exists
       @alert = @browser.driver.switch_to.alert
     rescue Selenium::WebDriver::Error::NoSuchAlertError
-      raise Exception::UnknownObjectException, 'unable to locate alert'
+      raise UnknownObjectException, 'unable to locate alert'
     end
 
     def wait_for_exists
@@ -112,7 +113,7 @@ module Watir
           message << 'consider using Alert#exists? instead of rescuing UnknownObjectException'
           Watir.logger.warn message, ids: [:wait_for_alert]
         end
-        raise Exception::UnknownObjectException, 'unable to locate alert'
+        raise UnknownObjectException, 'unable to locate alert'
       end
     end
   end # Alert

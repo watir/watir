@@ -2,6 +2,7 @@ module Watir
   class Window
     include EventuallyPresent
     include Waitable
+    include Exception
 
     attr_reader :browser
 
@@ -101,7 +102,7 @@ module Watir
     def exists?
       assert_exists
       true
-    rescue Exception::NoMatchingWindowFoundException
+    rescue NoMatchingWindowFoundException
       false
     end
 
@@ -215,7 +216,9 @@ module Watir
     end
 
     def assert_exists
-      raise(Exception::NoMatchingWindowFoundException, @selector.inspect) unless @driver.window_handles.include?(handle)
+      return if @driver.window_handles.include?(handle)
+
+      raise(NoMatchingWindowFoundException, @selector.inspect)
     end
 
     # return a handle to the currently active window if it is still open; otherwise nil
@@ -243,7 +246,7 @@ module Watir
       begin
         wait_until(&:exists?)
       rescue Wait::TimeoutError
-        raise Exception::NoMatchingWindowFoundException, @selector.inspect
+        raise NoMatchingWindowFoundException, @selector.inspect
       end
     end
   end # Window

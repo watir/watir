@@ -104,7 +104,7 @@ module Watir
   #
 
   def self.logger
-    @logger ||= Watir::Logger.new
+    @logger ||= Logger.new
   end
 end
 require 'watir/locators'
