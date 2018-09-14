@@ -3,6 +3,8 @@ module Watir
     class Element
       class SelectorBuilder
         class XPath
+          include Exception
+
           # Regular expressions that can be reliably converted to xpath `contains`
           # expressions in order to optimize the locator.
           CONVERTABLE_REGEXP = /
@@ -115,7 +117,7 @@ module Watir
             when ::Symbol
               "@#{key.to_s.tr('_', '-')}"
             else
-              raise Error::Exception, "Unable to build XPath using #{key}"
+              raise LocatorException, "Unable to build XPath using #{key}"
             end
           end
 

@@ -16,7 +16,7 @@ module Watir
     def method_missing(method, *args, &block)
       return super unless @element.respond_to?(method)
 
-      Watir::Wait.until(@timeout, @message) { wait_until }
+      Wait.until(@timeout, @message) { wait_until }
 
       @element.__send__(method, *args, &block)
     end
@@ -29,9 +29,9 @@ module Watir
 
   class WhenPresentDecorator < BaseDecorator
     def present?
-      Watir::Wait.until(@timeout, @message) { wait_until }
+      Wait.until(@timeout, @message) { wait_until }
       true
-    rescue Watir::Wait::TimeoutError
+    rescue Wait::TimeoutError
       false
     end
 
@@ -85,7 +85,7 @@ module Watir
       message = "waiting for #{selector_string} to become present"
 
       if block_given?
-        Watir::Wait.until(timeout, message) { present? }
+        Wait.until(timeout, message) { present? }
         yield self
       else
         WhenPresentDecorator.new(self, timeout, message)
@@ -112,7 +112,7 @@ module Watir
       message = "waiting for #{selector_string} to become enabled"
 
       if block_given?
-        Watir::Wait.until(timeout, message) { enabled? }
+        Wait.until(timeout, message) { enabled? }
         yield self
       else
         WhenEnabledDecorator.new(self, timeout, message)

@@ -33,7 +33,7 @@ module Watir
       append(input_value[-1])
       return if value == input_value
 
-      raise Watir::Exception::Error, "#set! value: '#{value}' does not match expected input: '#{input_value}'"
+      raise Exception::Error, "#set! value: '#{value}' does not match expected input: '#{input_value}'"
     end
 
     #
@@ -66,7 +66,7 @@ module Watir
       element_call { execute_js(:setText, @element, input_text) }
       return if text == input_text
 
-      raise Watir::Exception::Error, "#set! text: '#{text}' does not match expected input: '#{input_text}'"
+      raise Exception::Error, "#set! text: '#{text}' does not match expected input: '#{input_text}'"
     end
   end # UserEditable
 end # Watir

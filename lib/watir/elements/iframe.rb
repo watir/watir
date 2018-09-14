@@ -45,7 +45,7 @@ module Watir
     #
 
     def execute_script(script, *args)
-      args.map! { |e| e.is_a?(Watir::Element) ? e.wd : e }
+      args.map! { |e| e.is_a?(Element) ? e.wd : e }
       returned = driver.execute_script(script, *args)
 
       browser.wrap_elements_in(self, returned)
@@ -77,7 +77,7 @@ module Watir
     private
 
     def unknown_exception
-      Watir::Exception::UnknownFrameException
+      UnknownFrameException
     end
   end # IFrame
 
@@ -125,7 +125,7 @@ module Watir
       @driver.switch_to.frame @element
       @browser.default_context = false
     rescue Selenium::WebDriver::Error::NoSuchFrameError => e
-      raise Exception::UnknownFrameException, e.message
+      raise UnknownFrameException, e.message
     end
 
     def wd
