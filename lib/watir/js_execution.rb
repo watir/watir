@@ -148,5 +148,16 @@ module Watir
     def select_text(str)
       element_call { execute_js :selectText, @element, str }
     end
+
+    #
+    # Selects text on page (as if dragging clicked mouse across provided text).
+    #
+    # @example
+    #   browser.li(id: 'non_link_1').selected_text
+    #
+
+    def selected_text
+      element_call { execute_js :selectedText }
+    end
   end # JSExecution
 end # Watir

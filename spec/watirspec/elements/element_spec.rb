@@ -643,6 +643,15 @@ describe 'Element' do
     end
   end
 
+  describe '#select_text and #selected_text' do
+    it 'selects text and returns selected text' do
+      browser.goto WatirSpec.url_for('non_control_elements.html')
+      element = browser.element(visible_text: 'all visible')
+      element.select_text('all visible')
+      expect(element.selected_text).to eq 'all visible'
+    end
+  end
+
   not_compliant_on %i[remote firefox] do
     describe '#scroll_into_view' do
       it 'scrolls element into view' do
