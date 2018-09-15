@@ -18,7 +18,7 @@ module Watir
 
     def to_a
       @control.all_cookies.map do |e|
-        e.merge(expires: e[:expires] ? to_time(e[:expires]) : nil)
+        e.merge(expires: e[:expires] ? e[:expires].to_time : nil)
       end
     end
 
@@ -117,16 +117,6 @@ module Watir
     def load(file = '.cookies')
       YAML.safe_load(IO.read(file), [::Symbol]).each do |c|
         add(c.delete(:name), c.delete(:value), c)
-      end
-    end
-
-    private
-
-    def to_time(time)
-      if time.respond_to?(:to_time)
-        time.to_time
-      else
-        ::Time.local time.year, time.month, time.day, time.hour, time.min, time.sec
       end
     end
   end # Cookies

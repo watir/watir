@@ -226,7 +226,18 @@ describe 'Window' do
             browser.window(title: 'closeable window').use
             browser.a(id: 'close').click
             Watir::Wait.until { browser.windows.size == 1 }
-            expect(browser.window).to_not be_present
+            expect(browser.window).to_not exist
+          end
+
+          it 'returns false if window closes during iteration' do
+            browser.window(title: 'closeable window').use
+            original_handle = browser.original_window.instance_variable_get('@handle')
+            handles = browser.windows.map { |w| w.instance_variable_get('@handle') }
+
+            browser.a(id: 'close').click
+            Watir::Wait.until { browser.windows.size == 1 }
+            allow(browser.wd).to receive(:window_handles).and_return(handles, [original_handle])
+            expect(browser.window(title: 'closeable window')).to_not exist
           end
         end
       end

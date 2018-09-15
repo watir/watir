@@ -206,6 +206,11 @@ describe 'RadioSet' do
       radio_set = browser.radio_set(id: 'new_user_newsletter_yes')
       expect { radio_set.radios(name: '') }.to raise_unknown_object_exception
     end
+
+    it 'returns the radio button at the specified index' do
+      radio_set = browser.radio_set(id: 'new_user_newsletter_yes')
+      expect(radio_set[1]).to be_a Watir::Radio
+    end
   end
 
   describe '#selected' do

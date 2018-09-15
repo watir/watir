@@ -56,7 +56,7 @@ module Watir
           how, what = selector_builder.build(@normalized_selector, values_to_match)
 
           unless how
-            msg = "internal error: unable to build Selenium selector from #{@normalized_selector.inspect}"
+            msg = "#{selector_builder.class} was unable to build selector from #{@normalized_selector.inspect}"
             raise LocatorException, msg
           end
 
@@ -65,10 +65,6 @@ module Watir
           else
             locate_element(how, what, @driver_scope)
           end
-        end
-
-        def validate(elements, tag_name)
-          elements.compact.all? { |element| element_validator.validate(element, tag_name: tag_name) }
         end
 
         def fetch_value(element, how)
@@ -178,11 +174,7 @@ module Watir
         end
 
         def set_tag_validation
-          values_to_match[:tag_name] = if @normalized_selector[:tag_name].is_a?(::Symbol)
-                                         @normalized_selector[:tag_name].to_s
-                                       else
-                                         @normalized_selector[:tag_name]
-                                       end
+          values_to_match[:tag_name] = @normalized_selector[:tag_name].to_s
         end
 
         def process_label(label_key)

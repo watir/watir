@@ -102,6 +102,18 @@ describe 'Element' do
       expect(browser.element(visible_text: 'some visible')).to exist
       expect(browser.element(visible_text: /some visible/)).to exist
     end
+
+    it 'raises exception unless value is a String or a RegExp' do
+      browser.goto WatirSpec.url_for('non_control_elements.html')
+      msg = /expected String or Regexp, got 7\:(Fixnum|Integer)/
+      expect { browser.link(visible_text: 7).exists? }.to raise_exception(TypeError, msg)
+    end
+
+    it 'raises exception unless key is valid' do
+      browser.goto WatirSpec.url_for('non_control_elements.html')
+      msg = 'Unable to build XPath using 7'
+      expect { browser.link(7 => /foo/).exists? }.to raise_exception(Watir::Exception::Error, msg)
+    end
   end
 
   describe 'finding with unknown tag name' do

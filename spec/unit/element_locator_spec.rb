@@ -13,6 +13,12 @@ describe Watir::Locators::Element::Locator do
           expect { locate_one loc => 'bar' }.send(match, output(msg).to_stdout_from_any_process)
         end
       end
+
+      it 'raises exception if locating a non-link element by link locator' do
+        selector = {tag_name: 'div', link_text: 'foo'}
+        msg = 'Can not use link_text locator to find a foo element'
+        expect { locate_one(selector) }.to raise_exception(StandardError, msg)
+      end
     end
 
     describe 'with selectors not supported by Selenium' do
@@ -81,7 +87,7 @@ describe Watir::Locators::Element::Locator do
         expect { locate_one class: 'a b' }.to have_deprecated_class_array
       end
 
-      it 'handles selector with tag_name and xpath' do
+      it 'handles selector with xpath and tag_name String' do
         elements = [
           element(tag_name: 'div', attributes: {class: 'foo'}),
           element(tag_name: 'span', attributes: {class: 'foo'}),
@@ -93,6 +99,23 @@ describe Watir::Locators::Element::Locator do
         selector = {
           xpath: './/*[@class="foo"]',
           tag_name: 'span'
+        }
+
+        expect(locate_one(selector).tag_name).to eq 'span'
+      end
+
+      it 'handles selector with xpath and tag_name Symbol' do
+        elements = [
+          element(tag_name: 'div', attributes: {class: 'foo'}),
+          element(tag_name: 'span', attributes: {class: 'foo'}),
+          element(tag_name: 'div', attributes: {class: 'foo'})
+        ]
+
+        expect_all(:xpath, './/*[@class="foo"]').and_return(elements)
+
+        selector = {
+          xpath: './/*[@class="foo"]',
+          tag_name: :span
         }
 
         expect(locate_one(selector).tag_name).to eq 'span'
@@ -345,6 +368,24 @@ describe Watir::Locators::Element::Locator do
 
         expect(locate_one(class: /foo/)).to eq elements2[0]
       end
+
+      it 'raises error if too many attempts to relocate a stale element during filtering' do
+        element1 = element(tag_name: 'div', attributes: {class: 'foo'})
+        element2 = element(tag_name: 'div', attributes: {class: 'foob'})
+
+        elements1 = [element1.clone, element2.clone]
+        elements2 = [element1.clone, element2.clone]
+        elements3 = [element1.clone, element2.clone]
+
+        allow(elements1.first).to receive(:attribute).and_raise(Selenium::WebDriver::Error::StaleElementReferenceError)
+        allow(elements2.first).to receive(:attribute).and_raise(Selenium::WebDriver::Error::StaleElementReferenceError)
+        allow(elements3.first).to receive(:attribute).and_raise(Selenium::WebDriver::Error::StaleElementReferenceError)
+
+        expect_all(:xpath, "(.//*)[contains(@class, 'foo')]").and_return(elements1, elements2, elements3)
+
+        msg = 'Unable to locate element from {:class=>/foo/} due to changing page'
+        expect { locate_one(class: /foo/) }.to raise_exception(StandardError, msg)
+      end
     end
 
     it 'finds all if :index is given' do
@@ -387,6 +428,29 @@ describe Watir::Locators::Element::Locator do
         msg = %(expected one of [Array, String, Regexp, TrueClass, FalseClass, Symbol], got 123:#{num_type})
         expect { locate_one(tag_name: 123) }
           .to raise_error TypeError, msg
+      end
+
+      it 'raises a Error if selector key is not a String or a Symbol' do
+        msg = 'Unable to build XPath using 7'
+        expect { locate_one(7 => 'bad') }.to raise_exception(Watir::Exception::Error, msg)
+      end
+
+      it 'raises an Error if unable to build selector' do
+        module Foo
+          class SelectorBuilder < Watir::Locators::Element::SelectorBuilder
+            def build(*_args)
+              nil
+            end
+          end
+        end
+
+        selector = {name: 'foo'}
+        element_validator = Watir::Locators::Element::Validator.new
+        selector_builder = Foo::SelectorBuilder.new(driver, selector, Watir::HTMLElement.attributes)
+        locator = Watir::Locators::Element::Locator.new(browser, selector, selector_builder, element_validator)
+
+        msg = 'Foo::SelectorBuilder was unable to build selector from {:name=>"foo"}'
+        expect { locator.locate }.to raise_exception(Watir::Exception::LocatorException, msg)
       end
     end
   end
