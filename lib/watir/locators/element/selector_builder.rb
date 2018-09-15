@@ -50,17 +50,13 @@ module Watir
           !valid_attribute?(:label)
         end
 
-        def build(selector)
+        def build(selector, values_to_match)
           inspect = selector.inspect
           return given_xpath_or_css(selector) if selector.key?(:xpath) || selector.key?(:css)
 
-          built = build_wd_selector(selector)
+          built = build_wd_selector(selector, values_to_match)
           Watir.logger.debug "Converted #{inspect} to #{built}"
           built
-        end
-
-        def xpath_builder
-          @xpath_builder ||= xpath_builder_class.new(should_use_label_element?)
         end
 
         private
@@ -97,14 +93,22 @@ module Watir
 
           return locator.first unless selector.any? && !can_be_combined_with_xpath_or_css?(selector)
 
-          msg = "#{locator.keys.first} cannot be combined with other selectors (#{selector.inspect})"
+          msg = "#{locator.keys.first} cannot be combined with other locators (#{selector.inspect})"
           raise ArgumentError, msg
         end
 
-        def build_wd_selector(selectors)
-          return if selectors.values.any? { |e| e.is_a? Regexp }
+        def build_wd_selector(selector, values_to_match)
+          xpath_builder.build(selector, values_to_match)
+        end
 
-          build_xpath(selectors)
+        def xpath_builder
+          @xpath_builder ||= xpath_builder_class.new(should_use_label_element?)
+        end
+
+        def xpath_builder_class
+          Kernel.const_get("#{self.class.name}::XPath")
+        rescue StandardError
+          XPath
         end
 
         def valid_attribute?(attribute)
@@ -118,16 +122,6 @@ module Watir
           return keys.sort == %i[tag_name type] if selector[:tag_name] == 'input'
 
           false
-        end
-
-        def build_xpath(selectors)
-          xpath_builder.build(selectors)
-        end
-
-        def xpath_builder_class
-          Kernel.const_get("#{self.class.name}::XPath")
-        rescue StandardError
-          XPath
         end
 
         def raise_unless_int(what)

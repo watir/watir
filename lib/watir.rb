@@ -55,7 +55,7 @@ module Watir
     end
 
     #
-    # Whether or not Watir should prefer CSS when translating the Watir selectors to Selenium.
+    # Whether or not Watir should prefer CSS when translating the Watir selector to Selenium.
     #
 
     def prefer_css?

@@ -59,6 +59,7 @@ Metrics/ClassLength:
   Max: 116
   Exclude:
     - 'lib/watir/locators/element/locator.rb'
+    - 'lib/watir/locators/element/selector_builder/xpath.rb'
     - 'lib/watir/browser.rb'
     - 'lib/watir/elements/element.rb'
     - 'lib/watir/elements/select.rb'
@@ -69,11 +70,11 @@ Metrics/PerceivedComplexity:
 Metrics/CyclomaticComplexity:
   Max: 9
 
-# Offense count: 28
 Metrics/AbcSize:
-  Max: 22
+  Max: 21
   Exclude:
     - 'lib/watir/locators/element/selector_builder.rb'
+    - 'lib/watir/locators/element/locator.rb'
     - 'lib/watir/generator/base/generator.rb'
 
 # TODO: fix with Watir 7
@@ -124,7 +125,7 @@ Style/MethodCallWithoutArgsParentheses:
 Style/FormatStringToken:
   Exclude:
     - 'lib/watir/browser.rb'
-    - 'lib/watir/locators/text_field/selector_builder.rb'
+    - 'lib/watir/locators/text_field/selector_builder/xpath.rb'
     - 'lib/watir/window.rb'
 
 Style/Documentation:

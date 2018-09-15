@@ -8,14 +8,9 @@ module Watir
           # force watir usage
         end
 
-        def can_convert_regexp_to_contains?
-          # regexp conversion won't work with the complex xpath selector
-          false
-        end
-
-        def matches_selector?(element, selector)
-          if selector.key?(:value)
-            copy  = selector.dup
+        def matches_values?(element, values_to_match)
+          if values_to_match.key?(:value)
+            copy  = values_to_match.dup
             value = copy.delete(:value)
 
             super(element, copy) &&
