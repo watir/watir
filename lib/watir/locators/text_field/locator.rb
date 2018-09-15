@@ -8,7 +8,7 @@ module Watir
           # force Watir usage
         end
 
-        def matches_selector?(element, rx_selector)
+        def matches_values?(element, rx_selector)
           rx_selector = rx_selector.dup
 
           tag_name = element.tag_name.downcase

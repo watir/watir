@@ -14,16 +14,6 @@ module Watir
           xpath
         ].freeze
 
-        # Regular expressions that can be reliably converted to xpath `contains`
-        # expressions in order to optimize the locator.
-        CONVERTABLE_REGEXP = /
-          \A
-            ([^\[\]\\^$.|?*+()]*) # leading literal characters
-            [^|]*?                # do not try to convert expressions with alternates
-            ([^\[\]\\^$.|?*+()]*) # trailing literal characters
-          \z
-        /x
-
         def initialize(query_scope, selector, selector_builder, element_validator)
           @query_scope = query_scope # either element or browser
           @selector = selector.dup
@@ -61,17 +51,15 @@ module Watir
           create_normalized_selector(filter)
           return unless @normalized_selector
 
-          create_filter_selector
+          how, what = selector_builder.build(@normalized_selector, values_to_match)
 
-          how, what = selector_builder.build(@normalized_selector.dup)
           unless how
-            raise Error, "internal error: unable to build Selenium selector from #{@normalized_selector.inspect}"
+            msg = "internal error: unable to build Selenium selector from #{@normalized_selector.inspect}"
+            raise Exception::Error, msg
           end
 
-          what = add_regexp_predicates(what) if how == :xpath
-
-          if filter == :all || !@filter_selector.empty?
-            locate_filtered_elements(how, what, filter)
+          if filter == :all || !values_to_match.empty?
+            locate_matching_elements(how, what, filter)
           else
             locate_element(how, what, @driver_scope)
           end
@@ -101,27 +89,26 @@ module Watir
           end
         end
 
-        def filter_elements(elements, filter: :first)
-          selector = @filter_selector.dup
+        def matching_elements(elements, filter: :first)
           if filter == :first
-            idx = element_index(elements, selector)
+            idx = element_index(elements, values_to_match)
             counter = 0
 
             # Lazy evaluation to avoid fetching values for elements that will be discarded
             matches = elements.lazy.select do |el|
               counter += 1
-              matches_selector?(el, selector)
+              matches_values?(el, values_to_match)
             end
-            msg = "Filtered through #{counter} elements to locate #{@selector.inspect}"
+            msg = "iterated through #{counter} elements to locate #{@selector.inspect}"
             matches.take(idx + 1).to_a[idx].tap { Watir.logger.debug msg }
           else
             Watir.logger.debug "Iterated through #{elements.size} elements to locate all #{@selector.inspect}"
-            elements.select { |el| matches_selector?(el, selector) }
+            elements.select { |el| matches_values?(el, values_to_match) }
           end
         end
 
-        def element_index(elements, selector)
-          idx = selector.delete(:index) || 0
+        def element_index(elements, values_to_match)
+          idx = values_to_match.delete(:index) || 0
           return idx unless idx.negative?
 
           elements.reverse!
@@ -153,47 +140,47 @@ module Watir
           @normalized_selector
         end
 
-        def create_filter_selector
-          return @filter_selector if @filter_selector
+        def values_to_match
+          return @values_to_match if @values_to_match
 
-          @filter_selector = {}
+          @values_to_match = {}
 
-          # Remove selectors that can never be used in XPath builder
+          # Remove locators that can never be used in XPath builder
           %i[visible visible_text].each do |how|
             next unless @normalized_selector.key?(how)
 
-            @filter_selector[how] = @normalized_selector.delete(how)
+            @values_to_match[how] = @normalized_selector.delete(how)
           end
 
           set_tag_validation if tag_validation_required?(@normalized_selector)
 
           # Regexp locators currently need to be validated even if they are included in the XPath builder
           # TODO: Identify Regexp that can have an exact equivalent using XPath contains (ie would not require
-          #  filtering) vs approximations (ie would still requiring filtering)
+          #  additional matching) vs approximations (ie would still require additional matching)
           @normalized_selector.each do |how, what|
             next unless what.is_a?(Regexp)
 
-            @filter_selector[how] = @normalized_selector.delete(how)
+            @values_to_match[how] = @normalized_selector.delete(how)
           end
 
           if @normalized_selector[:index] && !@normalized_selector[:adjacent]
             idx = @normalized_selector.delete(:index)
 
-            # Do not add {index: 0} filter if the only filter.
+            # Do not add {index: 0} if the only value to match
             # This will allow using #find_element instead of #find_elements.
-            implicit_idx_filter = @filter_selector.empty? && idx.zero?
-            @filter_selector[:index] = idx unless implicit_idx_filter
+            implicit_idx_match = @values_to_match.empty? && idx.zero?
+            @values_to_match[:index] = idx unless implicit_idx_match
           end
 
-          @filter_selector
+          @values_to_match
         end
 
         def set_tag_validation
-          @filter_selector[:tag_name] = if @normalized_selector[:tag_name].is_a?(::Symbol)
-                                          @normalized_selector[:tag_name].to_s
-                                        else
-                                          @normalized_selector[:tag_name]
-                                        end
+          values_to_match[:tag_name] = if @normalized_selector[:tag_name].is_a?(::Symbol)
+                                         @normalized_selector[:tag_name].to_s
+                                       else
+                                         @normalized_selector[:tag_name]
+                                       end
         end
 
         def process_label(label_key)
@@ -219,12 +206,12 @@ module Watir
           label_text = @normalized_selector.delete(label_key)
           locator_key = label_key.to_s.gsub('label', 'text').to_sym
           locate_elements(:tag_name, 'label', @driver_scope).find do |el|
-            matches_selector?(el, locator_key => label_text)
+            matches_values?(el, locator_key => label_text)
           end
         end
 
-        def matches_selector?(element, selector)
-          matches = selector.all? do |how, what|
+        def matches_values?(element, values_to_match)
+          matches = values_to_match.all? do |how, what|
             if how == :tag_name && what.is_a?(String)
               element_validator.validate(element, tag_name: what)
             else
@@ -233,7 +220,7 @@ module Watir
             end
           end
 
-          text_regexp_deprecation(element, selector, matches) if selector[:text]
+          text_regexp_deprecation(element, values_to_match, matches) if values_to_match[:text]
 
           matches
         end
@@ -250,32 +237,16 @@ module Watir
           Watir.logger.deprecate(dep, ":visible_#{key}", ids: [:text_regexp])
         end
 
-        def can_convert_regexp_to_contains?
-          true
-        end
-
         def add_regexp_predicates(what)
           return what unless can_convert_regexp_to_contains?
 
-          @filter_selector.each do |key, value|
+          values_to_match.each do |key, value|
             next if %i[tag_name text visible_text visible index].include?(key)
 
             predicates = regexp_selector_to_predicates(key, value)
             what = "(#{what})[#{predicates.join(' and ')}]" unless predicates.empty?
           end
           what
-        end
-
-        def regexp_selector_to_predicates(key, regexp)
-          return [] if regexp.casefold?
-
-          match = regexp.source.match(CONVERTABLE_REGEXP)
-          return [] unless match
-
-          lhs = selector_builder.xpath_builder.lhs_for(nil, key)
-          match.captures.reject(&:empty?).map do |literals|
-            "contains(#{lhs}, #{XpathSupport.escape(literals)})"
-          end
         end
 
         def tag_validation_required?(selector)
@@ -290,11 +261,11 @@ module Watir
           scope.find_elements(how, what)
         end
 
-        def locate_filtered_elements(how, what, filter)
+        def locate_matching_elements(how, what, filter)
           retries = 0
           begin
             elements = locate_elements(how, what, @driver_scope) || []
-            filter_elements(elements, filter: filter)
+            matching_elements(elements, filter: filter)
           rescue Selenium::WebDriver::Error::StaleElementReferenceError
             retries += 1
             sleep 0.5

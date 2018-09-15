@@ -3,32 +3,67 @@ module Watir
     class Element
       class SelectorBuilder
         class XPath
-          def initialize(should_use_label_element)
-            @should_use_label_element = should_use_label_element
+          # Regular expressions that can be reliably converted to xpath `contains`
+          # expressions in order to optimize the locator.
+          CONVERTABLE_REGEXP = /
+            \A
+              ([^\[\]\\^$.|?*+()]*) # leading literal characters
+              [^|]*?                # do not try to convert expressions with alternates
+              ([^\[\]\\^$.|?*+()]*) # trailing literal characters
+            \z
+          /x
+
+          def initialize(use_label_element)
+            @should_use_label_element = use_label_element
           end
 
-          def build(selectors)
-            adjacent = selectors.delete :adjacent
-            xpath = adjacent ? process_adjacent(adjacent) : './/*'
-
-            tag_name = selectors.delete(:tag_name).to_s
-            xpath << "[local-name()='#{tag_name}']" unless tag_name.empty?
-
-            index = selectors.delete(:index)
+          def build(selector, values_to_match)
+            adjacent = selector.delete :adjacent
+            xpath = adjacent.nil? ? default_start : process_adjacent(adjacent)
+            xpath << add_tag_name(selector)
+            index = selector.delete(:index)
 
             # the remaining entries should be attributes
-            xpath << '[' << attribute_expression(nil, selectors) << ']' unless selectors.empty?
+            xpath << add_attributes(selector)
 
             xpath << "[#{index + 1}]" if adjacent && index
 
-            p xpath: xpath, selectors: selectors if $DEBUG
+            xpath = add_regexp_predicates(xpath, values_to_match)
+
+            Watir.logger.debug(xpath: xpath, selector: selector)
 
             [:xpath, xpath]
           end
 
+          def default_start
+            './/*'
+          end
+
+          def add_tag_name(selector)
+            tag_name = selector.delete(:tag_name).to_s
+            tag_name.empty? ? '' : "[local-name()='#{tag_name}']"
+          end
+
+          def add_attributes(selector)
+            element_attr_exp = attribute_expression(nil, selector)
+            element_attr_exp.empty? ? '' : "[#{element_attr_exp}]"
+          end
+
+          def add_regexp_predicates(what, selector)
+            return what unless convert_regexp_to_contains?
+
+            selector.each do |key, value|
+              next if %i[tag_name text visible_text visible index].include?(key)
+
+              predicates = regexp_selector_to_predicates(key, value)
+              what = "(#{what})[#{predicates.join(' and ')}]" unless predicates.empty?
+            end
+            what
+          end
+
           # @todo Get rid of building
-          def attribute_expression(building, selectors)
-            f = selectors.map do |key, val|
+          def attribute_expression(building, selector)
+            f = selector.map do |key, val|
               if val.is_a?(Array) && key == :class
                 '(' + val.map { |v| build_class_match(v) }.join(' and ') + ')'
               elsif val.is_a?(Array)
@@ -117,6 +152,22 @@ module Watir
 
           def attribute_absence(attribute)
             "not(#{lhs_for(nil, attribute)})"
+          end
+
+          def convert_regexp_to_contains?
+            true
+          end
+
+          def regexp_selector_to_predicates(key, regexp)
+            return [] if regexp.casefold?
+
+            match = regexp.source.match(CONVERTABLE_REGEXP)
+            return [] unless match
+
+            lhs = lhs_for(nil, key)
+            match.captures.reject(&:empty?).map do |literals|
+              "contains(#{lhs}, #{XpathSupport.escape(literals)})"
+            end
           end
         end
       end
