@@ -91,7 +91,7 @@ module Watir
           return if locator.empty?
           raise ArgumentError, ":xpath and :css cannot be combined (#{selector.inspect})" if locator.size > 1
 
-          return locator.first unless selector.any? && !can_be_combined_with_xpath_or_css?(selector)
+          return locator.first unless selector.any? && !combine_with_xpath_or_css?(selector)
 
           msg = "#{locator.keys.first} cannot be combined with other locators (#{selector.inspect})"
           raise ArgumentError, msg
@@ -107,15 +107,13 @@ module Watir
 
         def xpath_builder_class
           Kernel.const_get("#{self.class.name}::XPath")
-        rescue StandardError
-          XPath
         end
 
         def valid_attribute?(attribute)
           @valid_attributes&.include?(attribute)
         end
 
-        def can_be_combined_with_xpath_or_css?(selector)
+        def combine_with_xpath_or_css?(selector)
           keys = selector.keys
           return true if keys == [:tag_name]
 

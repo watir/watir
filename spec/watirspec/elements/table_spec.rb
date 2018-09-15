@@ -148,4 +148,10 @@ describe 'Table' do
       expect(bodies[1].id).to eq 'second'
     end
   end
+
+  describe '#each' do
+    it 'allows iterating over the rows in a table' do
+      expect(browser.table(id: 'inner').to_a).to all be_a Watir::Row
+    end
+  end
 end
