@@ -448,7 +448,7 @@ module Watir
       Watir.logger.warn msg, ids: [:visible_element]
       displayed = display_check
       if displayed.nil? && display_check
-        Watir.logger.deprecate 'Checking `#present? == false` to determine a stale element',
+        Watir.logger.deprecate 'Checking `#visible? == false` to determine a stale element',
                                '`#stale? == true`',
                                reference: 'http://watir.com/staleness-changes',
                                ids: [:stale_visible]
