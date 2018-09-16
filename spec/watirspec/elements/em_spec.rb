@@ -28,19 +28,6 @@ describe 'Em' do
   end
 
   # Attribute methods
-  describe '#class_name' do
-    it 'returns the class attribute if the element exists' do
-      expect(browser.em(id: 'important-id').class_name).to eq 'important-class'
-    end
-
-    it 'raises UnknownObjectException if the element does not exist' do
-      expect { browser.em(id: 'no_such_id').class_name }.to raise_unknown_object_exception
-      expect { browser.em(title: 'no_such_title').class_name }.to raise_unknown_object_exception
-      expect { browser.em(index: 1337).class_name }.to raise_unknown_object_exception
-      expect { browser.em(xpath: "//em[@id='no_such_id']").class_name }.to raise_unknown_object_exception
-    end
-  end
-
   describe '#id' do
     it 'returns the id attribute if the element exists' do
       expect(browser.em(class: 'important-class').id).to eq 'important-id'

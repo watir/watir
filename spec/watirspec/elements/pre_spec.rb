@@ -39,20 +39,6 @@ describe 'Pre' do
   end
 
   # Attribute methods
-  describe '#class_name' do
-    it 'returns the class attribute' do
-      expect(browser.pre(id: 'rspec').class_name).to eq 'ruby'
-    end
-
-    it "returns an empty string if the element exists and the attribute doesn't" do
-      expect(browser.pre(index: 0).class_name).to eq ''
-    end
-
-    it "raises UnknownObjectException if the p doesn't exist" do
-      expect { browser.pre(id: 'no_such_id').class_name }.to raise_unknown_object_exception
-    end
-  end
-
   describe '#id' do
     it 'returns the id attribute' do
       expect(browser.pre(class: 'ruby').id).to eq 'rspec'

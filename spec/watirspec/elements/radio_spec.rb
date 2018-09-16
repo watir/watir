@@ -68,20 +68,6 @@ describe 'Radio' do
   end
 
   # Attribute methods
-  describe '#class_name' do
-    it 'returns the class name if the radio exists and has an attribute' do
-      expect(browser.radio(id: 'new_user_newsletter_yes').class_name).to eq 'huge'
-    end
-
-    it "returns an empty string if the radio exists and the attribute doesn't" do
-      expect(browser.radio(id: 'new_user_newsletter_no').class_name).to eq ''
-    end
-
-    it "raises UnknownObjectException if the radio doesn't exist" do
-      expect { browser.radio(id: 'no_such_id').class_name }.to raise_unknown_object_exception
-    end
-  end
-
   describe '#id' do
     it 'returns the id attribute if the radio exists and has an attribute' do
       expect(browser.radio(index: 0).id).to eq 'new_user_newsletter_yes'

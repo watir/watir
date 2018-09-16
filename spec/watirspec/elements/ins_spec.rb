@@ -39,20 +39,6 @@ describe 'Ins' do
   end
 
   # Attribute methods
-  describe '#class_name' do
-    it 'returns the class attribute' do
-      expect(browser.ins(index: 0).class_name).to eq 'lead'
-    end
-
-    it "returns an empty string if the element exists and the attribute doesn't" do
-      expect(browser.ins(index: 2).class_name).to eq ''
-    end
-
-    it "raises UnknownObjectException if the ins doesn't exist" do
-      expect { browser.ins(id: 'no_such_id').class_name }.to raise_unknown_object_exception
-    end
-  end
-
   describe '#id' do
     it 'returns the id attribute' do
       expect(browser.ins(index: 0).id).to eq 'lead'

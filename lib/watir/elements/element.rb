@@ -246,6 +246,16 @@ module Watir
     end
 
     #
+    # Returns list of class values.
+    #
+    # @return [Array]
+    #
+
+    def classes
+      class_name.split
+    end
+
+    #
     # Returns value of the element.
     #
     # @return [String]

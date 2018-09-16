@@ -792,4 +792,36 @@ describe 'Element' do
       expect(element.wd).to be_a(Selenium::WebDriver::Element)
     end
   end
+
+  describe '#class_name' do
+    it 'returns single class name' do
+      expect(browser.form(id: 'new_user').class_name).to eq 'user'
+    end
+
+    it 'returns multiple class names in a String' do
+      expect(browser.div(id: 'messages').class_name).to eq 'multiple classes here'
+    end
+
+    it 'returns an empty string if the element exists but there is no class attribute' do
+      expect(browser.div(id: 'changed_language').class_name).to eq ''
+    end
+
+    it 'raises UnknownObjectException if the element does not exist' do
+      expect { browser.div(id: 'no_such_id').class_name }.to raise_unknown_object_exception
+    end
+  end
+
+  describe '#classes' do
+    it 'returns the class attribute if the element exists' do
+      expect(browser.div(id: 'messages').classes).to eq %w[multiple classes here]
+    end
+
+    it 'returns an empty array if the element exists but there is no class attribute' do
+      expect(browser.div(id: 'changed_language').classes).to eq []
+    end
+
+    it 'raises UnknownObjectException if the element does not exist' do
+      expect { browser.div(id: 'no_such_id').classes }.to raise_unknown_object_exception
+    end
+  end
 end

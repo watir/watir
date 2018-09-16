@@ -42,17 +42,6 @@ describe 'FileField' do
   end
 
   # Attribute methods
-
-  describe '#class_name' do
-    it 'returns the class attribute if the text field exists' do
-      expect(browser.file_field(index: 0).class_name).to eq 'portrait'
-    end
-
-    it "raises UnknownObjectException if the text field doesn't exist" do
-      expect { browser.file_field(index: 1337).class_name }.to raise_unknown_object_exception
-    end
-  end
-
   describe '#id' do
     it 'returns the id attribute if the text field exists' do
       expect(browser.file_field(index: 0).id).to eq 'new_user_portrait'
