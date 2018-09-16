@@ -101,16 +101,6 @@ describe 'Option' do
     end
   end
 
-  describe '#class_name' do
-    it 'is able to get attributes (page context)' do
-      expect(browser.option(text: 'Sweden').class_name).to eq 'scandinavia'
-    end
-
-    it 'is able to get attributes (select_list context)' do
-      expect(browser.select_list(name: 'new_user_country').option(text: 'Sweden').class_name).to eq 'scandinavia'
-    end
-  end
-
   describe '#respond_to?' do
     it 'returns true for all attribute methods' do
       expect(browser.select_list(name: 'new_user_country').option(text: 'Sweden')).to respond_to(:class_name)

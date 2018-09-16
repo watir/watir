@@ -43,16 +43,6 @@ describe 'SelectList' do
   end
 
   # Attribute methods
-  describe '#class_name' do
-    it 'returns the class name of the select list' do
-      expect(browser.select_list(name: 'new_user_country').class_name).to eq 'country'
-    end
-
-    it "raises UnknownObjectException if the select list doesn't exist" do
-      expect { browser.select_list(name: 'no_such_name').class_name }.to raise_unknown_object_exception
-    end
-  end
-
   describe '#id' do
     it 'returns the id of the element' do
       expect(browser.select_list(index: 0).id).to eq 'new_user_country'

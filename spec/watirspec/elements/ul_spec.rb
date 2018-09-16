@@ -35,20 +35,6 @@ describe 'Ul' do
   end
 
   # Attribute methods
-  describe '#class_name' do
-    it 'returns the class attribute' do
-      expect(browser.ul(id: 'navbar').class_name).to eq 'navigation'
-    end
-
-    it "returns an empty string if the element exists and the attribute doesn't" do
-      expect(browser.ul(index: 1).class_name).to eq ''
-    end
-
-    it "raises UnknownObjectException if the ul doesn't exist" do
-      expect { browser.ul(id: 'no_such_id').class_name }.to raise_unknown_object_exception
-    end
-  end
-
   describe '#id' do
     it 'returns the id attribute' do
       expect(browser.ul(class: 'navigation').id).to eq 'navbar'

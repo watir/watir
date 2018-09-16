@@ -94,16 +94,6 @@ describe 'Button' do
   end
 
   # Attribute methods
-  describe '#class_name' do
-    it 'returns the class name of the button' do
-      expect(browser.button(name: 'new_user_image').class_name).to eq 'image'
-    end
-
-    it 'returns an empty string if the button has no class name' do
-      expect(browser.button(name: 'new_user_submit').class_name).to eq ''
-    end
-  end
-
   describe '#id' do
     it 'returns the id if the button exists' do
       expect(browser.button(index: 0).id).to eq 'new_user_submit'

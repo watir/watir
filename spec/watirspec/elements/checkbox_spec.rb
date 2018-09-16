@@ -70,21 +70,6 @@ describe 'CheckBox' do
   end
 
   # Attribute methods
-
-  describe '#class_name' do
-    it 'returns the class name if the checkbox exists and has an attribute' do
-      expect(browser.checkbox(id: 'new_user_interests_dancing').class_name).to eq 'fun'
-    end
-
-    it "returns an empty string if the checkbox exists and the attribute doesn't" do
-      expect(browser.checkbox(id: 'new_user_interests_books').class_name).to eq ''
-    end
-
-    it "raises UnknownObjectException if the checkbox doesn't exist" do
-      expect { browser.checkbox(id: 'no_such_id').class_name }.to raise_unknown_object_exception
-    end
-  end
-
   describe '#id' do
     it 'returns the id attribute if the checkbox exists and has an attribute' do
       expect(browser.checkbox(index: 0).id).to eq 'new_user_interests_books'

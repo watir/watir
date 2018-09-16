@@ -45,23 +45,6 @@ describe 'Div' do
   end
 
   # Attribute methods
-  describe '#class_name' do
-    it 'returns the class attribute if the element exists' do
-      expect(browser.div(id: 'footer').class_name).to eq 'profile'
-    end
-
-    it "returns an empty string if the element exists but the attribute doesn't" do
-      expect(browser.div(id: 'content').class_name).to eq ''
-    end
-
-    it 'raises UnknownObjectException if the element does not exist' do
-      expect { browser.div(id: 'no_such_id').class_name }.to raise_unknown_object_exception
-      expect { browser.div(title: 'no_such_title').class_name }.to raise_unknown_object_exception
-      expect { browser.div(index: 1337).class_name }.to raise_unknown_object_exception
-      expect { browser.div(xpath: "//div[@id='no_such_id']").class_name }.to raise_unknown_object_exception
-    end
-  end
-
   describe '#id' do
     it 'returns the id attribute if the element exists' do
       expect(browser.div(index: 1).id).to eq 'outer_container'

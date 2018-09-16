@@ -28,23 +28,6 @@ describe 'Dl' do
   end
 
   # Attribute methods
-  describe '#class_name' do
-    it 'returns the class attribute if the element exists' do
-      expect(browser.dl(id: 'experience-list').class_name).to eq 'list'
-    end
-
-    it "returns an empty string if the element exists but the attribute doesn't" do
-      expect(browser.dl(id: 'noop').class_name).to eq ''
-    end
-
-    it 'raises UnknownObjectException if the element does not exist' do
-      expect { browser.dl(id: 'no_such_id').class_name }.to raise_unknown_object_exception
-      expect { browser.dl(title: 'no_such_title').class_name }.to raise_unknown_object_exception
-      expect { browser.dl(index: 1337).class_name }.to raise_unknown_object_exception
-      expect { browser.dl(xpath: "//dl[@id='no_such_id']").class_name }.to raise_unknown_object_exception
-    end
-  end
-
   describe '#id' do
     it 'returns the id attribute if the element exists' do
       expect(browser.dl(class: 'list').id).to eq 'experience-list'

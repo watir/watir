@@ -49,20 +49,6 @@ describe 'Link' do
   end
 
   # Attribute methods
-  describe '#class_name' do
-    it 'returns the type attribute if the link exists' do
-      expect(browser.link(index: 1).class_name).to eq 'external'
-    end
-
-    it "returns an empty string if the link exists and the attribute doesn't" do
-      expect(browser.link(index: 0).class_name).to eq ''
-    end
-
-    it "raises an UnknownObjectException if the link doesn't exist" do
-      expect { browser.link(index: 1337).class_name }.to raise_unknown_object_exception
-    end
-  end
-
   describe '#href' do
     it 'returns the href attribute if the link exists' do
       expect(browser.link(index: 1).href).to match(/non_control_elements/)

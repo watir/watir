@@ -28,23 +28,6 @@ describe 'Dt' do
   end
 
   # Attribute methods
-  describe '#class_name' do
-    it 'returns the class attribute if the element exists' do
-      expect(browser.dt(id: 'experience').class_name).to eq 'industry'
-    end
-
-    it "returns an empty string if the element exists but the attribute doesn't" do
-      expect(browser.dt(id: 'education').class_name).to eq ''
-    end
-
-    it 'raises UnknownObjectException if the element does not exist' do
-      expect { browser.dt(id: 'no_such_id').class_name }.to raise_unknown_object_exception
-      expect { browser.dt(title: 'no_such_title').class_name }.to raise_unknown_object_exception
-      expect { browser.dt(index: 1337).class_name }.to raise_unknown_object_exception
-      expect { browser.dt(xpath: "//dt[@id='no_such_id']").class_name }.to raise_unknown_object_exception
-    end
-  end
-
   describe '#id' do
     it 'returns the id attribute if the element exists' do
       expect(browser.dt(class: 'industry').id).to eq 'experience'
