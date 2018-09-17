@@ -17,6 +17,14 @@ describe 'Collections' do
     expect(collection.all? { |el| el.is_a? Watir::Span }).to eq true
   end
 
+  it 'returns correct subtype of elements without tag_name' do
+    browser.goto(WatirSpec.url_for('collections.html'))
+    collection = browser.span(id: 'a_span').elements
+    collection.locate
+    expect(collection.first).to be_a Watir::Div
+    expect(collection.last).to be_a Watir::Span
+  end
+
   it 'can contain more than one type of element' do
     browser.goto(WatirSpec.url_for('nested_elements.html'))
     collection = browser.div(id: 'parent').children
@@ -70,5 +78,29 @@ describe 'Collections' do
     browser.refresh
     expect(elements[1]).to be_stale
     expect { elements[1] }.to_not raise_unknown_object_exception
+  end
+
+  it 'does not retrieve tag_name on elements when specifying tag_name' do
+    browser.goto(WatirSpec.url_for('collections.html'))
+    collection = browser.span(id: 'a_span').spans
+
+    expect_any_instance_of(Selenium::WebDriver::Element).to_not receive(:tag_name)
+    collection.locate
+  end
+
+  it 'does not retrieve tag_name on elements without specifying tag_name' do
+    browser.goto(WatirSpec.url_for('collections.html'))
+    collection = browser.span(id: 'a_span').elements
+
+    expect_any_instance_of(Selenium::WebDriver::Element).to_not receive(:tag_name)
+    collection.locate
+  end
+
+  it 'does not execute_script to retrieve tag_names when specifying tag_name' do
+    browser.goto(WatirSpec.url_for('collections.html'))
+    collection = browser.span(id: 'a_span').spans
+
+    expect(browser.wd).to_not receive(:execute_script)
+    collection.locate
   end
 end

@@ -86,12 +86,11 @@ module Watir
     def to_a
       hash = {}
       @to_a ||=
-        elements.map.with_index do |e, idx|
+        elements_with_tags.map.with_index do |(e, tag_name), idx|
           selector = @selector.merge(element: e)
           selector[:index] = idx
           element = element_class.new(@query_scope, selector)
           if [HTMLElement, Input].include? element.class
-            tag_name = @selector[:tag_name] || element.tag_name
             hash[tag_name] ||= 0
             hash[tag_name] += 1
             selector[:index] = hash[tag_name] - 1
@@ -159,6 +158,19 @@ module Watir
       else
         # This gives all of the standard Watir waiting behaviors to Collections
         @query_scope.send(:element_call) { locate_all }
+      end
+    end
+
+    def elements_with_tags
+      els = elements
+      if @selector[:tag_name]
+        els.map { |e| [e, @selector[:tag_name]] }
+      else
+        begin
+          els.zip(browser.wd.execute_script('return arguments[0].map(function(e) {return e.localName});', els))
+        rescue Selenium::WebDriver::Error::ObsoleteElementError
+          elements_with_tags
+        end
       end
     end
 
