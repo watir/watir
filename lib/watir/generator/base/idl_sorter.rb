@@ -2,7 +2,7 @@ require 'tsort'
 
 module Watir
   module Generator
-    module Base
+    class Base
       class IDLSorter
         include TSort
 

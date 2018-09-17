@@ -1,6 +1,6 @@
 module Watir
   module Generator
-    module SVG
+    class SVG
       class Visitor < Base::Visitor
         def classify_regexp
           /^SVG(.+)Element$/

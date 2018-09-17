@@ -1,6 +1,6 @@
 module Watir
   module Generator
-    module HTML
+    class HTML
       class SpecExtractor < Base::SpecExtractor
         private
 
