@@ -5,6 +5,8 @@ module Watir
 
   class ElementCollection
     include Enumerable
+    include Exception
+    include JSSnippets
     include Locators::ClassHelpers
 
     def initialize(query_scope, selector)
@@ -92,12 +94,12 @@ module Watir
     def to_a
       hash = {}
       @to_a ||=
-        elements.map.with_index do |el, idx|
+        elements_with_tags.map.with_index do |(el, tag_name), idx|
           selector = @selector.dup
           selector[:index] = idx unless idx.zero?
           element = element_class.new(@query_scope, selector)
           if [HTMLElement, Input].include? element.class
-            construct_subtype(element, hash).tap { |e| e.cache = el }
+            construct_subtype(element, hash, tag_name).tap { |e| e.cache = el }
           else
             element.tap { |e| e.cache = el }
           end
@@ -162,6 +164,23 @@ module Watir
       end
     end
 
+    def elements_with_tags
+      els = elements
+      if @selector[:tag_name]
+        els.map { |e| [e, @selector[:tag_name]] }
+      else
+        retries = 0
+        begin
+          els.zip(execute_js(:getElementTags, els))
+        rescue Selenium::WebDriver::Error::StaleElementReferenceError
+          retries += 1
+          sleep 0.5
+          retry unless retries > 2
+          raise LocatorException, "Unable to locate element collection from #{@selector} due to changing page"
+        end
+      end
+    end
+
     def ensure_context
       @query_scope.locate if @query_scope.relocate?
       @query_scope.switch_to! if @query_scope.is_a?(IFrame)
@@ -175,9 +194,8 @@ module Watir
       Kernel.const_get(self.class.name.sub(/Collection$/, ''))
     end
 
-    def construct_subtype(element, hash)
+    def construct_subtype(element, hash, tag_name)
       selector = element.selector
-      tag_name = selector[:tag_name] || element.tag_name
       hash[tag_name] ||= 0
       hash[tag_name] += 1
       selector[:index] = hash[tag_name] - 1
