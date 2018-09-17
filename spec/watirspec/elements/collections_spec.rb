@@ -17,6 +17,14 @@ describe 'Collections' do
     expect(collection.all? { |el| el.is_a? Watir::Span }).to eq true
   end
 
+  it 'returns correct subtype of elements without tag_name' do
+    browser.goto(WatirSpec.url_for('collections.html'))
+    collection = browser.span(id: 'a_span').elements
+    collection.locate
+    expect(collection.first).to be_a Watir::Div
+    expect(collection.last).to be_a Watir::Span
+  end
+
   it 'can contain more than one type of element' do
     browser.goto(WatirSpec.url_for('nested_elements.html'))
     collection = browser.div(id: 'parent').children
@@ -70,5 +78,46 @@ describe 'Collections' do
     browser.refresh
     expect(elements[1]).to be_stale
     expect { elements[1] }.to_not raise_unknown_object_exception
+  end
+
+  it 'does not retrieve tag_name on elements when specifying tag_name' do
+    browser.goto(WatirSpec.url_for('collections.html'))
+    collection = browser.span(id: 'a_span').spans
+
+    expect_any_instance_of(Selenium::WebDriver::Element).to_not receive(:tag_name)
+    collection.locate
+  end
+
+  it 'does not retrieve tag_name on elements without specifying tag_name' do
+    browser.goto(WatirSpec.url_for('collections.html'))
+    collection = browser.span(id: 'a_span').elements
+
+    expect_any_instance_of(Selenium::WebDriver::Element).to_not receive(:tag_name)
+    collection.locate
+  end
+
+  it 'does not execute_script to retrieve tag_names when specifying tag_name' do
+    browser.goto(WatirSpec.url_for('collections.html'))
+    collection = browser.span(id: 'a_span').spans
+
+    expect(browser.wd).to_not receive(:execute_script)
+    collection.locate
+  end
+
+  it 'returns correct containers without specifying tag_name' do
+    browser.goto(WatirSpec.url_for('collections.html'))
+    elements = browser.span(id: 'a_span').elements.to_a
+    expect(elements[0]).to be_a(Watir::Div)
+    expect(elements[-1]).to be_a(Watir::Span)
+  end
+
+  it 'Raises Exception if any element in collection continues to go stale' do
+    browser.goto(WatirSpec.url_for('collections.html'))
+
+    stale_exception = Selenium::WebDriver::Error::StaleElementReferenceError
+    expect(browser.wd).to receive(:execute_script).and_raise(stale_exception).exactly(3).times
+
+    msg = 'Unable to locate element collection from {:xpath=>".//span"} due to changing page'
+    expect { browser.span.elements(xpath: './/span').to_a }.to raise_exception Watir::Exception::LocatorException, msg
   end
 end
