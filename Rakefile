@@ -41,7 +41,7 @@ end
 
       File.open(spec_path, 'w') do |io|
         io << "<!--  downloaded from #{spec_uri} on #{Time.now} -->\n"
-        io << data = URI.open(spec_uri).read
+        io << data = URI.parse(spec_uri).read
         downloaded_bytes = data.bytesize
       end
 
@@ -73,7 +73,7 @@ end
         generator.generate(spec_path, file)
       end
 
-      system "diff -Naut #{old_file} #{old_file}.new | less" if File.exist?(old_file)
+      system "diff -Naut #{old_file} #{old_file}.new" if File.exist?(old_file)
     end
 
     desc "Move #{type}.rb.new to #{type}.rb"

@@ -1,6 +1,6 @@
 module Watir
   module Generator
-    module HTML
+    class HTML
       class Visitor < Base::Visitor
         def classify_regexp
           /^HTML(.+)Element$/

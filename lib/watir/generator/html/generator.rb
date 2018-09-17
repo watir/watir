@@ -4,7 +4,6 @@ module Watir
       private
 
       def ignored_tags
-        # ignore the link element for now
         %w[link]
       end
 

@@ -1,6 +1,6 @@
 module Watir
   module Generator
-    module Base
+    class Base
       class Visitor < WebIDL::RubySexpVisitor
         STRING_TYPES = ['WindowProxy', 'ValidityState', 'TimeRanges', 'Location',
                         'Any', 'TimedTrackArray', 'TimedTrack', 'TextTrackArray', 'TextTrack',

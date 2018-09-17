@@ -1,6 +1,6 @@
 module Watir
   module Generator
-    module Base
+    class Base
       class SpecExtractor
         IDL_SELECTOR = "//pre[contains(@class, 'idl')]".freeze
 
@@ -49,7 +49,7 @@ module Watir
         private
 
         def download_and_parse
-          URI.open(@uri) { |io| @doc = Nokogiri.HTML(io) }
+          File.open(@uri) { |io| @doc = Nokogiri.HTML(io) }
         end
 
         def extract_idl_parts

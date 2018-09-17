@@ -1,6 +1,6 @@
 module Watir
   module Generator
-    module SVG
+    class SVG
       class SpecExtractor < Base::SpecExtractor
         private
 
