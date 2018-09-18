@@ -59,7 +59,7 @@ module Watir
     #
     # @example
     #   browser.text_field(name: "new_user_first_name").following_siblings.size
-    #   #=> 53
+    #   #=> 55
     #
 
     def following_siblings(opt = {})
@@ -74,7 +74,7 @@ module Watir
     #
     # @example
     #   browser.text_field(name: "new_user_first_name").siblings.size
-    #   #=> 57
+    #   #=> 59
     #
 
     def siblings(opt = {})

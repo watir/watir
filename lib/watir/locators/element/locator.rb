@@ -79,11 +79,9 @@ module Watir
             element.tag_name.downcase
           when :href
             element.attribute('href')&.strip
-          when String, ::Symbol
+          else
             how = how.to_s.tr('_', '-') if how.is_a?(::Symbol)
             element.attribute(how)
-          else
-            raise LocatorException, "Unable to fetch value for #{how}"
           end
         end
 
@@ -229,18 +227,6 @@ module Watir
           selector_text = selector[:text].inspect
           dep = "Using :#{key} locator with RegExp #{selector_text} to match an element that includes hidden text"
           Watir.logger.deprecate(dep, ":visible_#{key}", ids: [:text_regexp])
-        end
-
-        def add_regexp_predicates(what)
-          return what unless can_convert_regexp_to_contains?
-
-          values_to_match.each do |key, value|
-            next if %i[tag_name text visible_text visible index].include?(key)
-
-            predicates = regexp_selector_to_predicates(key, value)
-            what = "(#{what})[#{predicates.join(' and ')}]" unless predicates.empty?
-          end
-          what
         end
 
         def tag_validation_required?(selector)

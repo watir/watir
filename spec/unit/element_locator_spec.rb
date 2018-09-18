@@ -435,6 +435,11 @@ describe Watir::Locators::Element::Locator do
         expect { locate_one(7 => 'bad') }.to raise_exception(Watir::Exception::Error, msg)
       end
 
+      it 'raises a Error if selector key is not a String or a Symbol' do
+        msg = 'Unable to build XPath using 7'
+        expect { locate_one(7 => 'bad') }.to raise_exception(Watir::Exception::Error, msg)
+      end
+
       it 'raises an Error if unable to build selector' do
         module Foo
           class SelectorBuilder < Watir::Locators::Element::SelectorBuilder

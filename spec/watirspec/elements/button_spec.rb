@@ -180,11 +180,15 @@ describe 'Button' do
   end
 
   describe '#text' do
-    it 'returns the text of the button' do
+    it 'returns the text of an input button' do
       expect(browser.button(index: 0).text).to eq 'Submit'
       expect(browser.button(index: 1).text).to eq 'Reset'
       expect(browser.button(index: 2).text).to eq 'Button'
       expect(browser.button(index: 3).text).to eq 'Preview'
+    end
+
+    it 'returns the text of a button element' do
+      expect(browser.button(name: 'new_user_button_2').text).to eq 'Button 2'
     end
 
     it 'raises UnknownObjectException if the element does not exist' do
