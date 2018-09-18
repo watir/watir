@@ -224,3 +224,18 @@ describe 'IFrame' do
     end
   end
 end
+
+describe 'FramedDriver' do
+  it 'raises name error if method is not defined on driver or element' do
+    browser.goto WatirSpec.url_for('iframes.html')
+    expect(browser.iframe(id: 'iframe_1').wd).not_to respond_to :foo
+    expect { browser.iframe(id: 'iframe_1').wd.foo }.to raise_exception NoMethodError
+  end
+
+  it 'raises exception when attempting to switch to a non-frame element' do
+    browser.goto WatirSpec.url_for('iframes.html')
+    element = browser.h1.wd
+    fd = Watir::FramedDriver.new(element, browser)
+    expect { fd.switch! }.to raise_exception Watir::Exception::UnknownFrameException
+  end
+end

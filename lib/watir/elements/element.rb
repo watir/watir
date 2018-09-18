@@ -638,7 +638,7 @@ module Watir
 
       begin
         @query_scope.wait_for_present unless @query_scope.is_a? Browser
-        wait_until_present
+        wait_until(&:present?)
       rescue Wait::TimeoutError
         msg = "element located, but timed out after #{Watir.default_timeout} seconds, " \
               "waiting for #{inspect} to be present"
@@ -671,9 +671,7 @@ module Watir
       begin
         wait_until { !respond_to?(:readonly?) || !readonly? }
       rescue Wait::TimeoutError
-        message = "element present and enabled, but timed out after #{Watir.default_timeout} seconds, " \
-                  "waiting for #{inspect} to not be readonly"
-        raise ObjectReadOnlyException, message
+        raise_writable
       end
     end
 
@@ -721,10 +719,6 @@ module Watir
 
     def element_class
       self.class
-    end
-
-    def attribute?(attribute_name)
-      !attribute_value(attribute_name).nil?
     end
 
     def assert_enabled

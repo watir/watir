@@ -1,5 +1,6 @@
 if defined?(RSpec)
   DEPRECATION_WARNINGS = %i[selector_parameters
+                            ready_state
                             class_array
                             use_capabilities
                             visible_text

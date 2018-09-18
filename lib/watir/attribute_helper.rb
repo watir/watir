@@ -52,8 +52,6 @@ module Watir
 
     def define_attribute(type, name, attr)
       case type.to_s
-      when 'String'
-        define_string_attribute(name, attr)
       when 'Boolean'
         define_boolean_attribute(name, attr)
       when 'Integer'
@@ -61,7 +59,7 @@ module Watir
       when 'Float'
         define_float_attribute(name, attr)
       else
-        Watir.logger.debug "treating #{type.inspect} as string for now"
+        define_string_attribute(name, attr)
       end
     end
 

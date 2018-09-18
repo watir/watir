@@ -105,6 +105,8 @@ module Watir
   #
 
   class FramedDriver
+    include Exception
+
     def initialize(element, browser)
       @element = element
       @browser = browser
@@ -132,8 +134,8 @@ module Watir
       @element
     end
 
-    def respond_to_missing?(meth)
-      @driver.respond_to?(meth) || @element.respond_to?(meth)
+    def respond_to_missing?(meth, _include_private = false)
+      @driver.respond_to?(meth) || @element.respond_to?(meth) || super
     end
 
     def method_missing(meth, *args, &blk)

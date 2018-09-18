@@ -508,6 +508,32 @@ describe 'Browser' do
     end
   end
 
+  describe '#wait' do
+    # The only way to get engage this method is with page load strategy set to "none"
+    # Chrome will be blocking on document ready state because it does not yet support page load strategy
+    # This spec is both mocking out the response and demonstrating the necessary settings for it to be meaningful
+    not_compliant_on :chrome do
+      it 'waits for document ready state to be complete' do
+        @original = WatirSpec.implementation.clone
+        browser.close
+        @opts = WatirSpec.implementation.browser_args.last
+
+        @opts[:page_load_strategy] = 'none'
+        browser = WatirSpec.new_browser
+
+        start_time = Time.now
+        allow(browser).to receive(:ready_state) { Time.now < start_time + 3 ? 'loading' : 'complete' }
+        expect(browser.ready_state).to eq 'loading'
+        browser.wait(20)
+        expect(browser.ready_state).to eq 'complete'
+
+        browser.close
+        WatirSpec.implementation = @original.clone
+        $browser = WatirSpec.new_browser
+      end
+    end
+  end
+
   describe '#inspect' do
     it 'works even if browser is closed' do
       expect(browser).to receive(:url).and_raise(Errno::ECONNREFUSED)

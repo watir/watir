@@ -128,6 +128,10 @@ describe Watir::UserEditable do
     it "raises UnknownObjectException if the text field doesn't exist" do
       expect { browser.text_field(id: 'no_such_id').set('secret') }.to raise_unknown_object_exception
     end
+
+    it 'raises ObjectReadOnlyException if the object is read only' do
+      expect { browser.text_field(id: 'new_user_code').set('Foo') }.to raise_object_read_only_exception
+    end
   end
 
   describe '#set!' do
