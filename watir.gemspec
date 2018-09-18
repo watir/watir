@@ -37,6 +37,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec', '~> 3.0'
   s.add_development_dependency 'rubocop', '~> 0.59'
   s.add_development_dependency 'selenium_statistics'
+  s.add_development_dependency 'simplecov'
+  s.add_development_dependency 'simplecov-console'
   s.add_development_dependency 'webdrivers', '~> 3.4'
   s.add_development_dependency 'webidl', '>= 0.2.2'
   s.add_development_dependency 'yard', '> 0.8.2.1'

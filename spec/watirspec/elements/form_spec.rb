@@ -60,5 +60,11 @@ describe 'Form' do
         expect(messages[0]).to eq 'submit'
       end
     end
+
+    compliant_on :relaxed_locate do
+      it 'times out when submitting an element that is not displayed' do
+        expect { browser.form(name: 'no').submit }.to raise_unknown_object_exception
+      end
+    end
   end
 end

@@ -24,6 +24,11 @@ module Watir
       expect(Watir.logger.level).to eq(1)
     end
 
+    it 'allows to change level with integer' do
+      Watir.logger.level = 3
+      expect(Watir.logger.level).to eq(3)
+    end
+
     it 'outputs to stdout by default' do
       expect { Watir.logger.warn('message') }.to output(/WARN Watir message/).to_stdout_from_any_process
     end

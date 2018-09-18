@@ -253,19 +253,6 @@ module Watir
     end
     alias exists? exist?
 
-    #
-    # Protocol shared with Watir::Element
-    #
-    # @api private
-    #
-
-    def assert_exists
-      locate
-      return if window.present?
-
-      raise NoMatchingWindowFoundException, 'browser window was closed'
-    end
-
     def locate
       raise Error, 'browser was closed' if @closed
 

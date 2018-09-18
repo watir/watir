@@ -18,7 +18,7 @@ module Watir
       else
         return if selector.keys.all? { |k| %i[title url index].include? k }
 
-        raise ArgumentError, "invalid window selector: #{selector.inspect}"
+        raise ArgumentError, "invalid window selector: #{selector_string}"
       end
     end
 
@@ -197,8 +197,6 @@ module Watir
       @selector.inspect
     end
 
-    protected
-
     def handle
       @handle ||= locate
     end
@@ -218,7 +216,7 @@ module Watir
     def assert_exists
       return if @driver.window_handles.include?(handle)
 
-      raise(NoMatchingWindowFoundException, @selector.inspect)
+      raise(NoMatchingWindowFoundException, selector_string)
     end
 
     # return a handle to the currently active window if it is still open; otherwise nil
@@ -230,8 +228,8 @@ module Watir
 
     def matches?(handle)
       @driver.switch_to.window(handle) do
-        matches_title = @selector[:title].nil? || @driver.title =~ /#{@selector[:title]}/
-        matches_url = @selector[:url].nil? || @driver.current_url =~ /#{@selector[:url]}/
+        matches_title = @selector[:title].nil? || @browser.title =~ /#{@selector[:title]}/
+        matches_url = @selector[:url].nil? || @browser.url =~ /#{@selector[:url]}/
 
         matches_title && matches_url
       end
@@ -246,7 +244,7 @@ module Watir
       begin
         wait_until(&:exists?)
       rescue Wait::TimeoutError
-        raise NoMatchingWindowFoundException, @selector.inspect
+        raise NoMatchingWindowFoundException, selector_string
       end
     end
   end # Window

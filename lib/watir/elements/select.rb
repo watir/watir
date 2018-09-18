@@ -144,13 +144,11 @@ module Watir
     def select_by(str_or_rx)
       found = find_options(:value, str_or_rx)
 
-      if found && found.size > 1
+      if found.size > 1
         Watir.logger.deprecate 'Selecting Multiple Options with #select', '#select_all',
                                ids: [:select_by]
       end
-      return select_matching(found) if found&.any?
-
-      raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
+      select_matching(found)
     end
 
     def select_by!(str_or_rx, number)
@@ -197,9 +195,7 @@ module Watir
 
       found = find_options :text, str_or_rx
 
-      return select_matching(found) if found
-
-      raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
+      select_matching(found)
     end
 
     def find_options(how, str_or_rx)
@@ -214,6 +210,7 @@ module Watir
           raise TypeError, "expected String or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
         end
       end
+      # TODO: Remove conditional when remove relaxed_locate toggle
       return @found unless @found.empty?
 
       raise NoValueFoundException, "#{str_or_rx.inspect} not found in select list"
@@ -225,17 +222,6 @@ module Watir
       elements = [elements.first] unless multiple?
       elements.each { |e| e.click unless e.selected? }
       elements.first.exist? ? elements.first.text : ''
-    end
-
-    def matches_regexp?(how, element, exp)
-      case how
-      when :text
-        element.text =~ exp || element.label =~ exp
-      when :value
-        element.value =~ exp
-      else
-        raise Exception::Error, "unknown how: #{how.inspect}"
-      end
     end
   end # Select
 

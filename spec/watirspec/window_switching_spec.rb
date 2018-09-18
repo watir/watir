@@ -283,6 +283,48 @@ describe 'Window' do
         end
       end
     end
+
+    it 'raises an exception when using an element on a closed window' do
+      window = browser.window(title: 'closeable window')
+      window.use
+      browser.a(id: 'close').click
+      msg = 'browser window was closed'
+      expect { browser.a.text }.to raise_exception(Watir::Exception::NoMatchingWindowFoundException, msg)
+    end
+
+    it 'raises an exception when locating a closed window' do
+      browser.window(title: 'closeable window').use
+      handles = browser.windows.map(&:handle)
+      browser.a(id: 'close').click
+      allow(browser.wd).to receive(:window_handles).and_return(handles, [browser.original_window.handle])
+      expect { browser.window(title: 'closeable window').use }.to raise_no_matching_window_exception
+    end
+
+    it 'raises an exception when locating a window closed during lookup' do
+      browser.window(title: 'closeable window').use
+      browser.a(id: 'close-delay').click
+
+      begin
+        module Watir
+          class Browser
+            alias title_old title
+
+            def title
+              sleep 0.5
+              title_old
+            end
+          end
+        end
+
+        expect { browser.window(title: 'closeable window').use }.to raise_no_matching_window_exception
+      ensure
+        module Watir
+          class Browser
+            alias title title_old
+          end
+        end
+      end
+    end
   end
 
   bug 'https://bugzilla.mozilla.org/show_bug.cgi?id=1223277', :firefox do

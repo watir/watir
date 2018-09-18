@@ -2,11 +2,19 @@
 <html>
   <head>
     <title>closeable window</title>
+    <script>
+      function closeDelayed(timeout) {
+        setTimeout(function() {
+          window.close();
+        }, timeout);
+      }
+    </script>
   </head>
 
   <body>
     <p>
       Click <a id="close" href="#" onclick="window.close()">here</a> to close this window.
+      Click <a id="close-delay" href="#" onclick="closeDelayed(500)">here</a> to close this window with a delay.
     </p>
   </body>
 

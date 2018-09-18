@@ -87,6 +87,7 @@ module Watir
 
     #
     # @api private
+    # @see Watir::Wait
     #
 
     def selector_string
