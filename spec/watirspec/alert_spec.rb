@@ -10,6 +10,16 @@ not_compliant_on :headless do
       browser.alert.ok if browser.alert.exists?
     end
 
+    not_compliant_on :not_relaxed_locate do
+      context 'Relaxed Waits' do
+        context 'when acting on an alert' do
+          it 'raises exception after timing out' do
+            expect { browser.alert.text }.to wait_and_raise_unknown_object_exception
+          end
+        end
+      end
+    end
+
     context 'alert' do
       describe '#text' do
         it 'returns text of alert' do

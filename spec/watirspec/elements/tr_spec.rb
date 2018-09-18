@@ -68,7 +68,7 @@ describe 'TableRow' do
     end
 
     it 'iterates correctly through the cells of the row' do
-      browser.table(id: 'outer').row(index: 1).cells.each_with_index do |cell, idx|
+      browser.table(id: 'outer').tr(index: 1).each_with_index do |cell, idx|
         expect(cell.id).to eq "t1_r2_c#{idx + 1}"
       end
     end

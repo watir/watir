@@ -143,7 +143,7 @@ describe 'Element' do
     end
 
     it "finds several elements from an element's subtree" do
-      expect(browser.fieldset.elements(xpath: './/label').length).to eq 22
+      expect(browser.fieldset.elements(xpath: './/label').length).to eq 23
     end
   end
 
@@ -536,6 +536,20 @@ describe 'Element' do
     end
   end
 
+  describe '#click' do
+    bug 'https://github.com/mozilla/geckodriver/issues/1375', :firefox do
+      it 'accepts modifiers' do
+        begin
+          browser.a.click(:shift)
+          expect(browser.windows.size).to eq 2
+        ensure
+          browser.windows.reject(&:current?).each(&:close)
+          expect(browser.windows.size).to eq 1
+        end
+      end
+    end
+  end
+
   describe '#flash' do
     let(:h2) { browser.h2(text: 'Add user') }
     let(:h1) { browser.h1(text: 'User administration') }
@@ -790,6 +804,41 @@ describe 'Element' do
     it 'returns a Selenium::WebDriver::Element instance' do
       element = browser.text_field(id: 'new_user_email')
       expect(element.wd).to be_a(Selenium::WebDriver::Element)
+    end
+  end
+
+  describe '#hash' do
+    it 'returns a hash' do
+      element = browser.text_field(id: 'new_user_email')
+      hash1 = element.hash
+      hash2 = element.locate.hash
+      expect(hash1).to be_a Integer
+      expect(hash2).to be_a Integer
+      expect(hash1).to_not eq hash2
+    end
+  end
+
+  describe 'Float Attribute' do
+    it 'returns Float value of applicable element' do
+      element = browser.text_field(id: 'number')
+      expect(element.valueasnumber).to be_a Float
+    end
+
+    it 'returns nil value for an inapplicable Element' do
+      element = browser.input
+      expect(element.valueasnumber).to be_nil
+    end
+  end
+
+  describe 'Integer Attribute' do
+    it 'returns Float value of applicable element' do
+      element = browser.form
+      expect(element.length).to be_a Integer
+    end
+
+    it 'returns -1 for an inapplicable Element' do
+      element = browser.input
+      expect(element.maxlength).to eq(-1)
     end
   end
 

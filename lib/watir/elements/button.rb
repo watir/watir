@@ -20,16 +20,7 @@ module Watir
     #
 
     def text
-      tn = tag_name
-
-      case tn
-      when 'input'
-        value
-      when 'button'
-        super
-      else
-        raise Error, "unknown tag name for button: #{tn}"
-      end
+      tag_name == 'input' ? value : super
     end
   end # Button
 end # Watir

@@ -87,6 +87,7 @@ module Watir
     def define_float_attribute(mname, aname)
       define_method mname do
         value = attribute_value(aname)
+        value = nil if value == 'NaN'
         value && Float(value)
       end
     end

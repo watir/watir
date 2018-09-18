@@ -256,18 +256,6 @@ module Watir
     end
 
     #
-    # Returns value of the element.
-    #
-    # @return [String]
-    #
-
-    def value
-      attribute_value('value') || ''
-    rescue Selenium::WebDriver::Error::InvalidElementStateError
-      ''
-    end
-
-    #
     # Returns given attribute value of element.
     #
     # @example
@@ -591,6 +579,7 @@ module Watir
     def locate
       ensure_context
       locate_in_context
+      self
     end
 
     #
