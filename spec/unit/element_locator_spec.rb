@@ -17,7 +17,9 @@ describe Watir::Locators::Element::Locator do
       it 'raises exception if locating a non-link element by link locator' do
         selector = {tag_name: 'div', link_text: 'foo'}
         msg = 'Can not use link_text locator to find a foo element'
-        expect { locate_one(selector) }.to raise_exception(StandardError, msg)
+        expect {
+          expect { locate_one(selector) }.to raise_exception(StandardError, msg)
+        }.to to have_deprecated_link_text
       end
     end
 

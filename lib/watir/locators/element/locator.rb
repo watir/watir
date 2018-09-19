@@ -260,7 +260,7 @@ module Watir
           return false unless what.is_a?(String)
 
           if %i[partial_link_text link_text link].include?(how)
-            Watir.logger.deprecate(":#{how} locator", ':visible_text', ids: [:visible_text])
+            Watir.logger.deprecate(":#{how} locator", ':visible_text', ids: [:link_text])
             return true if [:a, :link, nil].include?(tag)
 
             raise LocatorException, "Can not use #{how} locator to find a #{what} element"

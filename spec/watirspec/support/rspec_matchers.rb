@@ -3,6 +3,7 @@ if defined?(RSpec)
                             class_array
                             use_capabilities
                             visible_text
+                            link_text
                             text_regexp
                             stale_visible
                             stale_present
