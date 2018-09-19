@@ -19,7 +19,7 @@ describe Watir::Locators::Element::Locator do
         msg = 'Can not use link_text locator to find a foo element'
         expect {
           expect { locate_one(selector) }.to raise_exception(StandardError, msg)
-        }.to to have_deprecated_link_text
+        }.to have_deprecated_link_text
       end
     end
 
