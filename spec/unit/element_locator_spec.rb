@@ -603,6 +603,17 @@ describe Watir::Locators::Element::Locator do
 
           expect(locate_one(tag_name: 'div', class: /x|b/)).to eq elements[1]
         end
+
+        it 'does not convert metacharacters to literal characters' do
+          elements = [
+            element(tag_name: 'div', attributes: {class: 'abcd'}),
+            element(tag_name: 'div', attributes: {class: 'abc23'})
+          ]
+
+          expect_all(:xpath, "(.//*[local-name()='div'])[contains(@class, 'abc')]").and_return(elements)
+
+          expect(locate_one(tag_name: 'div', class: /abc\d\d/)).to eq elements[1]
+        end
       end
     end
 

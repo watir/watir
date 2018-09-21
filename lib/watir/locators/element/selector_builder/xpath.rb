@@ -11,6 +11,7 @@ module Watir
             \A
               ([^\[\]\\^$.|?*+()]*) # leading literal characters
               [^|]*?                # do not try to convert expressions with alternates
+              (?<!\\)               # skip metacharacters - ie has preceding slash
               ([^\[\]\\^$.|?*+()]*) # trailing literal characters
             \z
           /x
