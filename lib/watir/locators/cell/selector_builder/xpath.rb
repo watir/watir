@@ -3,7 +3,7 @@ module Watir
     class Cell
       class SelectorBuilder
         class XPath < Element::SelectorBuilder::XPath
-          def add_attributes(selector)
+          def add_attributes(selector, _scope_tag_name)
             attr_expr = attribute_expression(nil, selector)
 
             expressions = %w[./th ./td]

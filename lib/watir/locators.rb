@@ -60,7 +60,8 @@ module Watir
 
       def build_locator
         element_validator = element_validator_class.new
-        selector_builder = selector_builder_class.new(@query_scope, @selector.dup, element_class.attribute_list)
+        scope_tag_name = @query_scope.selector[:tag_name] if @query_scope.respond_to?(:selector)
+        selector_builder = selector_builder_class.new(scope_tag_name, element_class.attribute_list)
         locator_class.new(@query_scope, @selector.dup, selector_builder, element_validator)
       end
     end

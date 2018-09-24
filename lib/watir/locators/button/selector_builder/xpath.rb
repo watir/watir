@@ -8,7 +8,8 @@ module Watir
             "[local-name()='button']"
           end
 
-          def add_attributes(selector)
+          def add_attributes(selector, _scope_tag_name)
+            selector = selector.dup
             button_attr_exp = attribute_expression(:button, selector)
             xpath = button_attr_exp.empty? ? '' : "[#{button_attr_exp}]"
             return xpath if selector[:type].eql? false

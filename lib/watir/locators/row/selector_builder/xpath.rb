@@ -3,12 +3,10 @@ module Watir
     class Row
       class SelectorBuilder
         class XPath < Element::SelectorBuilder::XPath
-          attr_accessor :scope_tag_name
-
-          def add_attributes(selector)
+          def add_attributes(selector, scope_tag_name)
             attr_expr = attribute_expression(nil, selector)
 
-            expressions = generate_expressions
+            expressions = generate_expressions(scope_tag_name)
             expressions.map! { |e| "#{e}[#{attr_expr}]" } unless attr_expr.empty?
             expressions.join(' | ')
           end
@@ -24,7 +22,7 @@ module Watir
 
           private
 
-          def generate_expressions
+          def generate_expressions(scope_tag_name)
             expressions = %w[./tr]
             return expressions if scope_tag_name.nil? || %w[tbody tfoot thead].include?(scope_tag_name)
 

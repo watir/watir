@@ -453,10 +453,30 @@ describe Watir::Locators::Element::Locator do
 
         selector = {name: 'foo'}
         element_validator = Watir::Locators::Element::Validator.new
-        selector_builder = Foo::SelectorBuilder.new(driver, selector, Watir::HTMLElement.attributes)
+        scope_tag_name = @query_scope.selector[:tag_name] if @query_scope.respond_to?(:selector)
+        selector_builder = Foo::SelectorBuilder.new(scope_tag_name, Watir::HTMLElement.attributes)
         locator = Watir::Locators::Element::Locator.new(browser, selector, selector_builder, element_validator)
 
         msg = 'Foo::SelectorBuilder was unable to build selector from {:name=>"foo"}'
+        expect { locator.locate }.to raise_exception(Watir::Exception::LocatorException, msg)
+      end
+
+      it 'raises an Error if unable to build values to match' do
+        module Foo
+          class SelectorBuilder < Watir::Locators::Element::SelectorBuilder
+            def build(*_args)
+              {}
+            end
+          end
+        end
+
+        selector = {name: 'foo'}
+        element_validator = Watir::Locators::Element::Validator.new
+        scope_tag_name = @query_scope.selector[:tag_name] if @query_scope.respond_to?(:selector)
+        selector_builder = Foo::SelectorBuilder.new(scope_tag_name, Watir::HTMLElement.attributes)
+        locator = Watir::Locators::Element::Locator.new(browser, selector, selector_builder, element_validator)
+
+        msg = 'Foo::SelectorBuilder#build is not returning expected responses for the current version of Watir'
         expect { locator.locate }.to raise_exception(Watir::Exception::LocatorException, msg)
       end
     end

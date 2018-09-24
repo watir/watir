@@ -3,7 +3,7 @@ module Watir
     class TextField
       class SelectorBuilder
         class XPath < Element::SelectorBuilder::XPath
-          def add_attributes(selector)
+          def add_attributes(selector, _scope_tag_name)
             input_attr_exp = attribute_expression(:input, selector)
             xpath = "[(not(@type) or (#{negative_type_expr}))"
             xpath << " and #{input_attr_exp}" unless input_attr_exp.empty?
