@@ -15,7 +15,12 @@ describe 'DateTimeField' do
       expect(browser.date_time_field(text: '')).to exist
       expect(browser.date_time_field(text: //)).to exist
       expect(browser.date_time_field(index: 0)).to exist
-      expect(browser.date_time_field(xpath: "//input[@id='html5_datetime-local']")).to exist
+
+      # Firefox validates attribute "type" as "text" not "datetime-local"
+      not_compliant_on :firefox do
+        expect(browser.date_time_field(xpath: "//input[@id='html5_datetime-local']")).to exist
+      end
+
       expect(browser.date_time_field(label: 'HTML5 Datetime Local')).to exist
       expect(browser.date_time_field(label: /Local$/)).to exist
     end
