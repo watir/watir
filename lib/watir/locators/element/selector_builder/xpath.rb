@@ -26,6 +26,7 @@ module Watir
 
             xpath << "[#{selector.delete(:index) + 1}]" if adjacent && selector.key?(:index)
 
+            # TODO: figure out how to delete the attributes as we use them instead of everything that doesn't match
             selector.select! { |k, v| %i[index visible visible_text visible_label].include?(k) || v.is_a?(Regexp) }
 
             xpath = add_regexp_predicates(xpath, selector)
@@ -81,11 +82,7 @@ module Watir
                                        ids: [:class_array]
               end
               build_class_match(value)
-            elsif key == :index
-              nil
             elsif key == :label_element
-              return if value.is_a? Regexp
-
               # we assume :label means a corresponding label element, not the attribute
               text = "normalize-space()=#{XpathSupport.escape value}"
               "(@id=//label[#{text}]/@for or parent::label[#{text}])"
