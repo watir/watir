@@ -26,7 +26,7 @@ module Watir
 
             xpath << "[#{selector.delete(:index) + 1}]" if adjacent && selector.key?(:index)
 
-            xpath << add_regexp_predicates(selector) unless selector.empty?
+            xpath << add_regexp_predicates(selector) unless selector.empty? || convert_regexp_to_contains?
 
             # TODO: figure out how to delete the attributes as we use them instead of
             # just keeping everything that might require additional matching
@@ -48,7 +48,7 @@ module Watir
             elsif tag_name.to_s.empty?
               ''
             else
-              "[local-name()='#{tag_name.to_s}']"
+              "[local-name()='#{tag_name}']"
             end
           end
 
@@ -58,8 +58,6 @@ module Watir
           end
 
           def add_regexp_predicates(selector)
-            return '' unless convert_regexp_to_contains?
-
             selector.keys.each_with_object('') do |key, string|
               next if %i[tag_name text visible_text visible index].include?(key)
 
@@ -67,6 +65,7 @@ module Watir
               if key == :class && selector[key].is_a?(Array)
                 selector[key].dup.each do |val|
                   next unless val.is_a?(Regexp)
+
                   array_selector = {key => val}
                   predicates += regexp_selector_to_predicates(:class, array_selector)
                   selector[key].delete(val) if array_selector.empty?

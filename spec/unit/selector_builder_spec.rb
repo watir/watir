@@ -7,33 +7,65 @@ describe 'Current behavior' do
     # Element Calls
     browser.element.exists? # {"using":"xpath","value":".//*"}
 
-    browser.element(tag_name: 'div').exists? # {"using":"tag name","value":"div"}
-    browser.element(xpath: ".//div").exists? # {"using":"xpath","value":".//div"}
-    browser.element(css: "div").exists? # {"using":"css selector","value":"div"}
-    browser.element(class: "foo").exists? # {"using":"xpath","value":".//*[contains(concat(' ', @class, ' '), ' foo ')]"}
-    browser.element(class: "foo").exists? # {"using":"xpath","value":".//*[contains(concat(' ', @class, ' '), ' foo ')]"}
-    browser.element(class: %w[foo bar]).exists? # {"using":"xpath","value":".//*[(contains(concat(' ', @class, ' '), ' foo ') and contains(concat(' ', @class, ' '), ' bar '))]"}
+    # {"using":"tag name","value":"div"}
+    browser.element(tag_name: 'div').exists?
+
+    # {"using":"xpath","value":".//div"}
+    browser.element(xpath: './/div').exists?
+
+    # {"using":"css selector","value":"div"}
+    browser.element(css: 'div').exists?
+
+    # {"using":"xpath","value":".//*[contains(concat(' ', @class, ' '), ' foo ')]"}
+    browser.element(class: 'foo').exists?
+
+    # {"using":"xpath","value":".//*[contains(concat(' ', @class, ' '), ' foo ')]"}
+    browser.element(class: 'foo').exists?
+
+    # {"using":"xpath","value":".//*[(contains(concat(' ', @class, ' '), ' foo ')
+    # and contains(concat(' ', @class, ' '), ' bar '))]"}
+    browser.element(class: %w[foo bar]).exists?
 
     # This does not currently work
     # browser.element(class: [/foo/, /bar/]).exists?
 
-    browser.element(xpath: ".//*[@id='foo']", tag_name: 'div').exists? # {"using":"xpath","value":".//*[@id='foo']"}
-    browser.element(class: "foo", tag_name: 'div').exists? # {"using":"xpath","value":".//*[local-name()='div'][contains(concat(' ', @class, ' '), ' foo ')]"}
-    browser.element(id: "foo", tag_name: 'div').exists? # {"using":"xpath","value":".//*[local-name()='div'][@id='foo']"}
-    browser.element(class: %w[foo bar], tag_name: 'div').exists? # {"using":"xpath","value":".//*[local-name()='div'][(contains(concat(' ', @class, ' '), ' foo ') and contains(concat(' ', @class, ' '), ' bar '))]"}
+    # {"using":"xpath","value":".//*[@id='foo']"}
+    browser.element(xpath: ".//*[@id='foo']", tag_name: 'div').exists?
 
-    browser.element(class: %w[!foo bar]).exists? # {"using":"xpath","value":".//*[(not(contains(concat(' ', @class, ' '), ' foo ')) and contains(concat(' ', @class, ' '), ' bar '))]"}
+    # {"using":"xpath","value":".//*[local-name()='div'][contains(concat(' ', @class, ' '), ' foo ')]"}
+    browser.element(class: 'foo', tag_name: 'div').exists?
+
+    # {"using":"xpath","value":".//*[local-name()='div'][@id='foo']"}
+    browser.element(id: 'foo', tag_name: 'div').exists?
+
+    # {"using":"xpath","value":".//*[local-name()='div'][(contains(concat(' ', @class, ' '), ' foo ') and
+    # contains(concat(' ', @class, ' '), ' bar '))]"}
+    browser.element(class: %w[foo bar], tag_name: 'div').exists?
+
+    # {"using":"xpath","value":".//*[(not(contains(concat(' ', @class, ' '), ' foo '))
+    # and contains(concat(' ', @class, ' '), ' bar '))]"}
+    browser.element(class: %w[!foo bar]).exists?
+
     browser.element(id: true).exists? # {"using":"xpath","value":".//*[@id]"}
+
     browser.element(id: false).exists? # {"using":"xpath","value":".//*[not(@id)]"}
 
     # Elements Calls
-    browser.element(tag_name: /div/).exists? # {"using":"xpath","value":".//*"}
-    browser.element(class: /foo/).exists? # {"using":"xpath","value":"(.//*)[contains(@class, 'foo')]"}
-    browser.element(id: /foo/).exists? #  {"using":"xpath","value":"(.//*)[contains(@id, 'foo')]"}
-    # Why does this need to match values???
-    browser.element(id: "foo").exists? # {"using":"xpath","value":".//*[@id='foo']"}
-    browser.element(css: ".bar", tag_name: 'div').exists? # {"using":"css selector","value":".bar"}
 
+    # {"using":"xpath","value":".//*"}
+    browser.element(tag_name: /div/).exists?
+
+    # {"using":"xpath","value":"(.//*)[contains(@class, 'foo')]"}
+    browser.element(class: /foo/).exists?
+
+    #  {"using":"xpath","value":"(.//*)[contains(@id, 'foo')]"}
+    browser.element(id: /foo/).exists?
+
+    # {"using":"xpath","value":".//*[@id='foo']"}
+    browser.element(id: 'foo').exists?
+
+    # {"using":"css selector","value":".bar"}
+    browser.element(css: '.bar', tag_name: 'div').exists?
   end
 end
 
@@ -50,7 +82,7 @@ describe Watir::Locators::Element::SelectorBuilder do
   describe '#build' do
     it 'builds with no locators provided' do
       selector = {}
-      expected = {xpath: ".//*"}
+      expected = {xpath: './/*'}
 
       expect_built(selector, expected)
     end
@@ -65,28 +97,28 @@ describe Watir::Locators::Element::SelectorBuilder do
         end
 
         it 'xpath' do
-          selector = {xpath: ".//div]"}
+          selector = {xpath: './/div]'}
           expected = selector.dup
 
           expect_built(selector, expected)
         end
 
         it 'css' do
-          selector = {css: "div"}
+          selector = {css: 'div'}
           expected = selector.dup
 
           expect_built(selector, expected)
         end
 
         it 'class name' do
-          selector = {class: "foo"}
+          selector = {class: 'foo'}
           expected = {xpath: ".//*[contains(concat(' ', @class, ' '), ' foo ')]"}
 
           expect_built(selector, expected)
         end
 
         it 'attribute' do
-          selector = {id: "foo"}
+          selector = {id: 'foo'}
           expected = {xpath: ".//*[@id='foo']"}
 
           expect_built(selector, expected)
@@ -104,7 +136,7 @@ describe Watir::Locators::Element::SelectorBuilder do
       context 'with Regexp values' do
         it 'tag name' do
           selector = {tag_name: /div/}
-          expected = {xpath: ".//*[contains(local-name(), div)]"}
+          expected = {xpath: './/*[contains(local-name(), div)]'}
 
           expect_built(selector, expected)
         end
@@ -139,7 +171,6 @@ describe Watir::Locators::Element::SelectorBuilder do
           expect_built(selector, expected)
         end
       end
-
     end
 
     context 'with tag name and single locator' do
@@ -153,15 +184,15 @@ describe Watir::Locators::Element::SelectorBuilder do
 
       # Desired Behavior
       xit 'css' do
-        selector = {css: ".bar", tag_name: 'div'}
-        expected = {css: "div.bar"}
+        selector = {css: '.bar', tag_name: 'div'}
+        expected = {css: 'div.bar'}
 
         expect_built(selector, expected)
       end
 
       it 'css' do
-        selector = {css: ".bar", tag_name: 'div'}
-        expected = {css: ".bar"}
+        selector = {css: '.bar', tag_name: 'div'}
+        expected = {css: '.bar'}
 
         expect_built(selector, expected, tag_name: 'div')
       end
@@ -174,14 +205,14 @@ describe Watir::Locators::Element::SelectorBuilder do
       end
 
       it 'class name' do
-        selector = {class: "foo", tag_name: 'div'}
+        selector = {class: 'foo', tag_name: 'div'}
         expected = {xpath: ".//*[local-name()='div'][contains(concat(' ', @class, ' '), ' foo ')]"}
 
         expect_built(selector, expected)
       end
 
       it 'attribute' do
-        selector = {id: "foo", tag_name: 'div'}
+        selector = {id: 'foo', tag_name: 'div'}
         expected = {xpath: ".//*[local-name()='div'][@id='foo']"}
 
         expect_built(selector, expected)

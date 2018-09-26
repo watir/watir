@@ -348,7 +348,7 @@ describe Watir::Locators::Element::Locator do
         expect(locate_one(tag_name: 'div', label: /foo/)).to be_nil
       end
 
-      # TODO - figure out how to test this since this is now one wire call not many
+      # TODO: - figure out how to test this since this is now one wire call not many
       xit 'relocates an element that goes stale during filtering' do
         element1 = element(tag_name: 'div', attributes: {class: 'foo'})
         element2 = element(tag_name: 'div', attributes: {class: 'foob'})
@@ -363,7 +363,7 @@ describe Watir::Locators::Element::Locator do
         expect(locate_one(class: /foo/)).to eq elements2[0]
       end
 
-      # TODO - figure out how to test this since this is now one wire call not many
+      # TODO: - figure out how to test this since this is now one wire call not many
       xit 'raises error if too many attempts to relocate a stale element during filtering' do
         element1 = element(tag_name: 'div', attributes: {class: 'foo'})
         element2 = element(tag_name: 'div', attributes: {class: 'foob'})
