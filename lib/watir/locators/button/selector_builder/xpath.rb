@@ -4,8 +4,8 @@ module Watir
       class SelectorBuilder
         class XPath < Element::SelectorBuilder::XPath
           def add_tag_name(selector)
-            selector.delete(:tag_name)
-            "[local-name()='button']"
+            selector[:tag_name] = 'button'
+            super
           end
 
           def add_attributes(selector, _scope_tag_name)

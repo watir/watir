@@ -26,10 +26,11 @@ module Watir
 
             xpath << "[#{selector.delete(:index) + 1}]" if adjacent && selector.key?(:index)
 
-            # TODO: figure out how to delete the attributes as we use them instead of everything that doesn't match
-            selector.select! { |k, v| %i[index visible visible_text visible_label].include?(k) || v.is_a?(Regexp) }
+            xpath << add_regexp_predicates(selector) unless selector.empty?
 
-            xpath = add_regexp_predicates(xpath, selector)
+            # TODO: figure out how to delete the attributes as we use them instead of everything that might
+            # require additional matching
+            selector.select! { |k, v| %i[index visible visible_text visible_label].include?(k) || v.is_a?(Regexp) }
 
             Watir.logger.debug(xpath: xpath, selector: selector)
 
@@ -41,8 +42,14 @@ module Watir
           end
 
           def add_tag_name(selector)
-            tag_name = selector.delete(:tag_name).to_s
-            tag_name.empty? ? '' : "[local-name()='#{tag_name}']"
+            tag_name = selector.delete(:tag_name)
+            if tag_name.is_a?(Regexp)
+              "[contains(local-name(), #{tag_name.source})]"
+            elsif tag_name.to_s.empty?
+              ''
+            else
+              "[local-name()='#{tag_name.to_s}']"
+            end
           end
 
           def add_attributes(selector, _scope_tag_name)
@@ -50,23 +57,34 @@ module Watir
             element_attr_exp.empty? ? '' : "[#{element_attr_exp}]"
           end
 
-          def add_regexp_predicates(what, selector)
-            return what if selector.empty?
-            return what unless convert_regexp_to_contains?
+          def add_regexp_predicates(selector)
+            return '' unless convert_regexp_to_contains?
 
-            selector.each do |key, value|
-              next if %i[tag_name text visible_text visible index label_element].include?(key)
+            selector.keys.each_with_object('') do |key, string|
+              next if %i[tag_name text visible_text visible index].include?(key)
 
-              predicates = regexp_selector_to_predicates(key, value)
-              what = "(#{what})[#{predicates.join(' and ')}]" unless predicates.empty?
+              predicates = []
+              if key == :class && selector[key].is_a?(Array)
+                selector[key].dup.each do |val|
+                  next unless val.is_a?(Regexp)
+                  array_selector = {key => val}
+                  predicates += regexp_selector_to_predicates(:class, array_selector)
+                  selector[key].delete(val) if array_selector.empty?
+                end
+              elsif !selector[key].is_a?(Regexp)
+                next
+              else
+                predicates += regexp_selector_to_predicates(key, selector)
+              end
+
+              string << (predicates.empty? ? '' : "[#{predicates.join(' and ')}]")
             end
-            what
           end
 
           # @todo Get rid of building
           def attribute_expression(building, selector)
             selector.map { |key, val|
-              next if val.is_a?(Regexp) || %i[visible visible_text visible_label index].include?(key)
+              next if %i[visible visible_text visible_label index].include?(key) || val.is_a?(Regexp)
 
               locator_expression(building, key, val)
             }.compact.join(' and ')
@@ -116,7 +134,8 @@ module Watir
 
           def locator_expression(building, key, val)
             if val.is_a?(Array) && key == :class
-              '(' + val.map { |v| build_class_match(v) }.join(' and ') + ')'
+              result = val.map { |v| build_class_match(v) unless v.is_a?(Regexp) }.compact
+              '(' + result.join(' and ') + ')' unless result.empty?
             elsif val.is_a?(Array)
               '(' + val.map { |v| equal_pair(building, key, v) }.join(' or ') + ')'
             elsif val.eql? true
@@ -165,14 +184,19 @@ module Watir
             true
           end
 
-          def regexp_selector_to_predicates(key, regexp)
+          def regexp_selector_to_predicates(key, selector)
+            regexp = selector[key]
             return [] if regexp.casefold?
 
             match = regexp.source.match(CONVERTABLE_REGEXP)
             return [] unless match
 
             lhs = lhs_for(nil, key)
-            match.captures.reject(&:empty?).map do |literals|
+
+            # This is taking as much as it can before the first special character to do a better partial match
+            captures = match.captures.reject(&:empty?)
+            selector.delete(key) if regexp.source == captures.first
+            captures.map do |literals|
               "contains(#{lhs}, #{XpathSupport.escape(literals)})"
             end
           end
