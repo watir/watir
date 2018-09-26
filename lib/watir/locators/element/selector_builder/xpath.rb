@@ -28,8 +28,8 @@ module Watir
 
             xpath << add_regexp_predicates(selector) unless selector.empty?
 
-            # TODO: figure out how to delete the attributes as we use them instead of everything that might
-            # require additional matching
+            # TODO: figure out how to delete the attributes as we use them instead of
+            # just keeping everything that might require additional matching
             selector.select! { |k, v| %i[index visible visible_text visible_label].include?(k) || v.is_a?(Regexp) }
 
             Watir.logger.debug(xpath: xpath, selector: selector)

@@ -28,6 +28,8 @@ module Watir
                     xpath_css
                   end
 
+          @selector.delete(:index) if @selector[:index] == 0
+
           Watir.logger.debug "Converted #{@selector.inspect} to #{built}"
           [built, @selector]
         end
