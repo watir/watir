@@ -75,7 +75,7 @@ Metrics/CyclomaticComplexity:
 Metrics/AbcSize:
   Max: 21
   Exclude:
-    - 'lib/watir/locators/element/selector_builder.rb'
+    - 'lib/watir/locators/element/selector_builder/xpath.rb'
     - 'lib/watir/locators/element/locator.rb'
     - 'lib/watir/generator/base/generator.rb'
 

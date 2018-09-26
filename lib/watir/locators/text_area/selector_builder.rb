@@ -4,7 +4,7 @@ module Watir
       class SelectorBuilder < Element::SelectorBuilder
         private
 
-        def normalize_selector(how, what)
+        def normalize_locator(how, what)
           # We need to iterate through located elements and fetch
           # attribute value using Selenium because XPath doesn't understand
           # difference between IDL vs content attribute.
