@@ -9,12 +9,12 @@
         <div id="messages"></div>
         <h1>Tables</h1>
         <h2>Semantic table</h2>
-        <table cellspacing="0" cellpadding="5" rules="groups" frame="box" border="1" id="axis_example" summary="Hugh Laurie made more money than Gregory House in both March and April of 2008.">
+        <table cellspacing="0" data-locator="top table" cellpadding="5" rules="groups" frame="box" border="1" id="axis_example" summary="Hugh Laurie made more money than Gregory House in both March and April of 2008.">
             <caption>Income tax information for Gregory House and Hugh Laurie</caption>
             <colgroup width="25%" align="left"></colgroup>
             <colgroup width="25%" span="3" align="right"></colgroup>
             <thead id="tax_headers">
-                <tr style="border-bottom: 1px solid black;" class="dark" id="thead_row_1">
+                <tr style="border-bottom: 1px solid black;" class="dark" id="thead_row_1" data-locator="thead row">
                     <th></th>
                     <th id="before_tax" axis="cash" abbr="Before tax">Before income tax</th>
                     <th id="tax" axis="cash" abbr="Tax">Income tax</th>
@@ -22,7 +22,7 @@
                 </tr>
             </thead>
             <tfoot id="tax_totals">
-                <tr class="dark" id="tfoot_row_1">
+                <tr class="dark" id="tfoot_row_1" data-locator="tfoot row">
                     <th axis="sum">Sum</th>
                     <td headers="before_tax">24 349</td>
                     <td headers="tax">5 577</td>
@@ -30,20 +30,20 @@
                 </tr>
             </tfoot>
             <tbody id="first">
-                <tr id="march">
+                <tr id="march" data-locator="tbody row">
                     <th id="d1" axis="date" scope="rowgroup">March 2008</th>
                     <th></th>
                     <th></th>
                     <th></th>
                 </tr>
-                <tr id="gregory">
-                    <td id="p1" abbr="Dr. House">Gregory House</td>
-                    <td headers="before_tax p1 d1">5 934</td>
-                    <td headers="tax p1 d1">1 347</td>
-                    <td headers="after_tax p1 d1">4 587</td>
+                <tr id="gregory" class="brick" data-locator="House row">
+                    <td id="p1" abbr="Dr. House"data-locator="first cell">Gregory House</td>
+                    <td headers="before_tax p1 d1" data-locator="before tax">5 934</td>
+                    <td headers="tax p1 d1" data-locator="tax">1 347</td>
+                    <td id="last" headers="after_tax p1 d1" data-locator="after tax">4 587</td>
                 </tr>
                 <tr id="hugh">
-                    <td id="p2" abbr="Laurie">Hugh Laurie</td>
+                    <td id="p2" abbr="Laurie" data-locator="hugh">Hugh Laurie</td>
                     <td headers="before_tax p2 d1">6 300</td>
                     <td headers="tax p2 d1">1 479</td>
                     <td headers="after_tax p2 d1">4 821</td>
@@ -72,7 +72,7 @@
         </table>
         <h2>Table inside a table</h2>
         <table border="1" id="outer">
-            <tr id="outer_first">
+            <tr id="outer_first" data-locator="first row">
                 <td>
                     Table 1, Row 1, Cell 1
                 </td>

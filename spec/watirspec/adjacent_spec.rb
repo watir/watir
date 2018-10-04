@@ -17,13 +17,13 @@ describe 'Adjacent Elements' do
     end
 
     it 'accepts tag_name argument' do
-      expect(browser.div(id: 'first_sibling').parent(tag_name: :div).id).to eq 'parent'
-      expect(browser.div(id: 'first_sibling').parent(tag_name: :div)).to be_a Watir::Div
+      expect(browser.div(id: 'first_sibling').parent(tag_name: 'div').id).to eq 'parent'
+      expect(browser.div(id: 'first_sibling').parent(tag_name: 'div')).to be_a Watir::Div
     end
 
     it 'accepts custom tag_name argument' do
-      expect(browser.div(id: 'regular_child').parent(tag_name: :grandelement).id).to eq 'custom_grandparent'
-      expect(browser.div(id: 'regular_child').parent(tag_name: :grandelement)).to be_a Watir::HTMLElement
+      expect(browser.div(id: 'regular_child').parent(tag_name: 'grandelement').id).to eq 'custom_grandparent'
+      expect(browser.div(id: 'regular_child').parent(tag_name: 'grandelement')).to be_a Watir::HTMLElement
     end
 
     it 'accepts class_name argument' do
@@ -31,8 +31,8 @@ describe 'Adjacent Elements' do
     end
 
     it 'accepts index and tag_name arguments' do
-      expect(browser.div(id: 'first_sibling').parent(tag_name: :div, index: 1).id).to eq 'grandparent'
-      expect(browser.div(id: 'first_sibling').parent(tag_name: :div, index: 1)).to be_a Watir::Div
+      expect(browser.div(id: 'first_sibling').parent(tag_name: 'div', index: 1).id).to eq 'grandparent'
+      expect(browser.div(id: 'first_sibling').parent(tag_name: 'div', index: 1)).to be_a Watir::Div
     end
 
     it 'does not error when no parent element of an index exists' do
@@ -40,7 +40,7 @@ describe 'Adjacent Elements' do
     end
 
     it 'does not error when no parent element of a tag_name exists' do
-      expect(browser.div(id: 'first_sibling').parent(tag_name: :table)).to_not exist
+      expect(browser.div(id: 'first_sibling').parent(tag_name: 'table')).to_not exist
     end
   end
 
@@ -51,13 +51,13 @@ describe 'Adjacent Elements' do
     end
 
     it 'accepts a tag name argument' do
-      siblings = browser.div(id: 'second_sibling').siblings(tag_name: :div)
+      siblings = browser.div(id: 'second_sibling').siblings(tag_name: 'div')
       expect(siblings.size).to eq 3
       expect(siblings.all? { |sib| sib.is_a? Watir::Div }).to eq true
     end
 
     it 'accepts custom tag name argument' do
-      siblings = browser.div(id: 'regular_child').siblings(tag_name: :childelement)
+      siblings = browser.div(id: 'regular_child').siblings(tag_name: 'childelement')
       expect(siblings.size).to eq 3
       expect(siblings.all? { |sib| sib.is_a? Watir::HTMLElement }).to eq true
     end
@@ -83,8 +83,8 @@ describe 'Adjacent Elements' do
     end
 
     it 'accepts tag_name argument' do
-      expect(browser.div(id: 'first_sibling').following_sibling(tag_name: :div).id).to eq 'second_sibling'
-      expect(browser.div(id: 'first_sibling').following_sibling(tag_name: :div)).to be_a Watir::Div
+      expect(browser.div(id: 'first_sibling').following_sibling(tag_name: 'div').id).to eq 'second_sibling'
+      expect(browser.div(id: 'first_sibling').following_sibling(tag_name: 'div')).to be_a Watir::Div
     end
 
     it 'accepts class_name argument' do
@@ -92,16 +92,16 @@ describe 'Adjacent Elements' do
     end
 
     it 'accepts index and tag_name arguments' do
-      expect(browser.div(id: 'first_sibling').following_sibling(tag_name: :div, index: 1).id).to eq 'third_sibling'
-      expect(browser.div(id: 'first_sibling').following_sibling(tag_name: :div, index: 1)).to be_a Watir::Div
+      expect(browser.div(id: 'first_sibling').following_sibling(tag_name: 'div', index: 1).id).to eq 'third_sibling'
+      expect(browser.div(id: 'first_sibling').following_sibling(tag_name: 'div', index: 1)).to be_a Watir::Div
     end
 
     it 'accepts text as Regexp' do
-      expect(browser.div(id: 'first_sibling').following_sibling(text: /t/).id).to eq 'third_sibling'
+      expect(browser.div(id: 'first_sibling').following_sibling(text: /T/).id).to eq 'third_sibling'
     end
 
     it 'accepts text as String' do
-      expect(browser.div(id: 'first_sibling').following_sibling(text: 'text').id).to eq 'third_sibling'
+      expect(browser.div(id: 'first_sibling').following_sibling(text: 'Third').id).to eq 'third_sibling'
     end
 
     it 'does not error when no next sibling of an index exists' do
@@ -109,7 +109,7 @@ describe 'Adjacent Elements' do
     end
 
     it 'does not error when no next sibling of a tag_name exists' do
-      expect(browser.div(id: 'first_sibling').following_sibling(tag_name: :table)).to_not exist
+      expect(browser.div(id: 'first_sibling').following_sibling(tag_name: 'table')).to_not exist
     end
   end
 
@@ -120,8 +120,8 @@ describe 'Adjacent Elements' do
     end
 
     it 'accepts tag_name argument' do
-      expect(browser.div(id: 'second_sibling').following_siblings(tag_name: :div).size).to eq 1
-      expect(browser.div(id: 'second_sibling').following_siblings(tag_name: :div).first).to be_a Watir::Div
+      expect(browser.div(id: 'second_sibling').following_siblings(tag_name: 'div').size).to eq 1
+      expect(browser.div(id: 'second_sibling').following_siblings(tag_name: 'div').first).to be_a Watir::Div
     end
 
     it 'accepts class_name argument for single class' do
@@ -147,8 +147,8 @@ describe 'Adjacent Elements' do
     end
 
     it 'accepts tag_name argument' do
-      expect(browser.div(id: 'third_sibling').previous_sibling(tag_name: :div).id).to eq 'second_sibling'
-      expect(browser.div(id: 'third_sibling').previous_sibling(tag_name: :div)).to be_a Watir::Div
+      expect(browser.div(id: 'third_sibling').previous_sibling(tag_name: 'div').id).to eq 'second_sibling'
+      expect(browser.div(id: 'third_sibling').previous_sibling(tag_name: 'div')).to be_a Watir::Div
     end
 
     it 'accepts class_name argument' do
@@ -156,8 +156,8 @@ describe 'Adjacent Elements' do
     end
 
     it 'accepts index and tag_name arguments' do
-      expect(browser.div(id: 'third_sibling').previous_sibling(tag_name: :div, index: 1).id).to eq 'first_sibling'
-      expect(browser.div(id: 'third_sibling').previous_sibling(tag_name: :div, index: 1)).to be_a Watir::Div
+      expect(browser.div(id: 'third_sibling').previous_sibling(tag_name: 'div', index: 1).id).to eq 'first_sibling'
+      expect(browser.div(id: 'third_sibling').previous_sibling(tag_name: 'div', index: 1)).to be_a Watir::Div
     end
 
     it 'does not error when no next sibling of an index exists' do
@@ -165,7 +165,7 @@ describe 'Adjacent Elements' do
     end
 
     it 'does not error when no next sibling of a tag_name exists' do
-      expect(browser.div(id: 'third_sibling').previous_sibling(tag_name: :table)).to_not exist
+      expect(browser.div(id: 'third_sibling').previous_sibling(tag_name: 'table')).to_not exist
     end
   end
 
@@ -176,8 +176,8 @@ describe 'Adjacent Elements' do
     end
 
     it 'accepts tag_name argument' do
-      expect(browser.div(id: 'second_sibling').previous_siblings(tag_name: :div).size).to eq 1
-      expect(browser.div(id: 'second_sibling').previous_siblings(tag_name: :div).first).to be_a Watir::Div
+      expect(browser.div(id: 'second_sibling').previous_siblings(tag_name: 'div').size).to eq 1
+      expect(browser.div(id: 'second_sibling').previous_siblings(tag_name: 'div').first).to be_a Watir::Div
     end
 
     it 'accepts class_name argument' do
@@ -198,13 +198,13 @@ describe 'Adjacent Elements' do
     end
 
     it 'accepts tag_name argument' do
-      expect(browser.div(id: 'parent').child(tag_name: :span).id).to eq 'between_siblings1'
-      expect(browser.div(id: 'parent').child(tag_name: :span)).to be_a Watir::Span
+      expect(browser.div(id: 'parent').child(tag_name: 'span').id).to eq 'between_siblings1'
+      expect(browser.div(id: 'parent').child(tag_name: 'span')).to be_a Watir::Span
     end
 
     it 'accepts custom tag_name argument' do
-      expect(browser.element(id: 'custom_parent').child(tag_name: :childelement).id).to eq 'custom_child'
-      expect(browser.element(id: 'custom_parent').child(tag_name: :childelement)).to be_a Watir::HTMLElement
+      expect(browser.element(id: 'custom_parent').child(tag_name: 'childelement').id).to eq 'custom_child'
+      expect(browser.element(id: 'custom_parent').child(tag_name: 'childelement')).to be_a Watir::HTMLElement
     end
 
     it 'accepts class_name argument' do
@@ -212,8 +212,8 @@ describe 'Adjacent Elements' do
     end
 
     it 'accepts index and tag_name arguments' do
-      expect(browser.div(id: 'parent').child(tag_name: :div, index: 1).id).to eq 'second_sibling'
-      expect(browser.div(id: 'parent').child(tag_name: :div, index: 1)).to be_a Watir::Div
+      expect(browser.div(id: 'parent').child(tag_name: 'div', index: 1).id).to eq 'second_sibling'
+      expect(browser.div(id: 'parent').child(tag_name: 'div', index: 1)).to be_a Watir::Div
     end
 
     it 'does not error when no next sibling of an index exists' do
@@ -221,7 +221,7 @@ describe 'Adjacent Elements' do
     end
 
     it 'does not error when no next sibling of a tag_name exists' do
-      expect(browser.div(id: 'parent').child(tag_name: :table)).to_not exist
+      expect(browser.div(id: 'parent').child(tag_name: 'table')).to_not exist
     end
   end
 
@@ -232,13 +232,13 @@ describe 'Adjacent Elements' do
     end
 
     it 'accepts tag_name argument' do
-      children = browser.div(id: 'parent').children(tag_name: :div)
+      children = browser.div(id: 'parent').children(tag_name: 'div')
       expect(children.size).to eq 3
       expect(children.all? { |child| child.is_a? Watir::Div }).to eq true
     end
 
     it 'accepts custom tag_name argument' do
-      children = browser.element(id: 'custom_parent').children(tag_name: :childelement)
+      children = browser.element(id: 'custom_parent').children(tag_name: 'childelement')
       expect(children.size).to eq 3
       expect(children.all? { |child| child.is_a? Watir::HTMLElement }).to eq true
     end

@@ -2,15 +2,8 @@ module Watir
   module Locators
     class Element
       class Validator
-        def validate(element, selector)
-          selector_tag_name = selector[:tag_name]
-          element_tag_name = element.tag_name.downcase
-
-          if selector_tag_name
-            return unless element_tag_name =~ /#{selector_tag_name}/
-          end
-
-          element
+        def validate(element, tag_name)
+          element.tag_name.downcase =~ /#{tag_name}/
         end
       end
     end

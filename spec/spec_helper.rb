@@ -4,10 +4,10 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'coveralls'
 require 'simplecov'
 require 'simplecov-console'
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
-    Coveralls::SimpleCov::Formatter,
-    SimpleCov::Formatter::HTMLFormatter,
-    SimpleCov::Formatter::Console,
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new [
+  Coveralls::SimpleCov::Formatter,
+  SimpleCov::Formatter::HTMLFormatter,
+  SimpleCov::Formatter::Console
 ]
 SimpleCov.start do
   add_filter %r{/spec/}

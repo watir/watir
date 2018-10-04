@@ -7,7 +7,7 @@ module Watir
     #
 
     def cell(*args)
-      Cell.new(self, extract_selector(args).merge(tag_name: /^(th|td)$/))
+      Cell.new(self, extract_selector(args))
     end
 
     #
@@ -17,7 +17,7 @@ module Watir
     #
 
     def cells(*args)
-      CellCollection.new(self, extract_selector(args).merge(tag_name: /^(th|td)$/))
+      CellCollection.new(self, extract_selector(args))
     end
   end # CellContainer
 end # Watir

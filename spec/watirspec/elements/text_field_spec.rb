@@ -14,8 +14,6 @@ describe 'TextField' do
       expect(browser.text_field(name: /new_user_email/)).to exist
       expect(browser.text_field(value: 'Developer')).to exist
       expect(browser.text_field(value: /Developer/)).to exist
-      expect(browser.text_field(text: 'Developer')).to exist
-      expect(browser.text_field(text: /Developer/)).to exist
       expect(browser.text_field(class: 'name')).to exist
       expect(browser.text_field(class: /name/)).to exist
       expect(browser.text_field(index: 0)).to exist
@@ -35,6 +33,11 @@ describe 'TextField' do
 
       expect(browser.text_field(visible_label: /With text/)).to exist
       expect(browser.text_field(visible_label: /With hidden text/)).not_to exist
+    end
+
+    it 'locates value of text_field using text locator' do
+      expect(browser.text_field(text: 'Developer')).to exist
+      expect(browser.text_field(text: /Developer/)).to exist
     end
 
     it 'returns the first text field if given no args' do

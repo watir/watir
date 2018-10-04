@@ -53,12 +53,16 @@ Metrics/ModuleLength:
 # Configuration parameters: CountComments.
 Metrics/MethodLength:
   Max: 18
+  Exclude:
+  - 'lib/watir/locators/element/selector_builder.rb'
+  - 'lib/watir/locators/element/selector_builder/xpath.rb'
 
 # Configuration parameters: CountComments.
 Metrics/ClassLength:
   Max: 105
   Exclude:
     - 'lib/watir/locators/element/locator.rb'
+    - 'lib/watir/locators/element/selector_builder.rb'
     - 'lib/watir/locators/element/selector_builder/xpath.rb'
     - 'lib/watir/browser.rb'
     - 'lib/watir/window.rb'
@@ -67,17 +71,21 @@ Metrics/ClassLength:
     - 'lib/watir/generator/base/spec_extractor.rb'
 
 Metrics/PerceivedComplexity:
-  Max: 9
+  Max: 10
 
 Metrics/CyclomaticComplexity:
-  Max: 9
+  Max: 8
+  Exclude:
+  - 'lib/watir/locators/element/selector_builder.rb'
 
 Metrics/AbcSize:
-  Max: 21
+  Max: 20
   Exclude:
     - 'lib/watir/locators/element/selector_builder.rb'
+    - 'lib/watir/locators/element/selector_builder/xpath.rb'
     - 'lib/watir/locators/element/locator.rb'
     - 'lib/watir/generator/base/generator.rb'
+    - 'lib/watir/generator/base/visitor.rb'
 
 # TODO: fix with Watir 7
 # Configuration parameters: CountKeywordArgs.

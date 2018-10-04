@@ -4,23 +4,25 @@
     <title>Forms with input elements</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="description" content="this is a test page for forms with input elements" />
-    <link rel="stylesheet" href="watirspec.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="watirspec.css" type="text/css" media="screen" title="no title" charset="utf-8" data-locator="link">
     <script src="javascript/helpers.js" type="text/javascript" charset="utf-8"></script>
   </head>
-  <body onload="document.user_new.new_user_first_name.focus()">
-    <div id="messages" class="multiple classes here"></div>
+  <body data-locator="body" onload="document.user_new.new_user_first_name.focus()">
+  <div id="messages" class="multiple classes here" random="foo" data-locator="first div"></div>
+  <div id="there" class="multiple classes there" data-locator="second div"></div>
     <h1><a href="">User administration</a></h1>
-    <h2 style="background-color: gray;">Add user</h2>
-    <form enctype="multipart/form-data" action="post_to_me" method="post" name="user_new" id="new_user" class="user" onsubmit="WatirSpec.addMessage('submit'); return false;">
+    <h2 data-locator="add user" style="background-color: gray;">Add user</h2>
+    <form enctype="multipart/form-data" action="post_to_me" method="post" name="user_new" id="new_user" class="user"
+          data-locator="form" onsubmit="WatirSpec.addMessage('submit'); return false;">
         <fieldset>
-            <input type="hidden" /> <!-- Ensure it's not included in #text_field -->
+            <input type="hidden" data-locator="input nameless"/> <!-- Ensure it's not included in #text_field -->
             <legend>Personal information</legend>
             <label for="new_user_first_name" id="first_label" onclick="WatirSpec.addMessage('label')">First name</label>
-            <input name="new_user_first_name" id="new_user_first_name" class="name" /> <br />
+            <input name="new_user_first_name" id="new_user_first_name" class="name" data-locator="input name"/> <br />
             <label for="new_user_last_name">Last name</label>
             <input type="no_such_type" name="new_user_last_name" id="new_user_last_name" class="name" /> <br />
             <label for="new_user_email">Email address</label>
-            <input type="text" name="new_user_email" id="new_user_email" /> <br />
+            <input type="text" name="new_user_email" id="new_user_email" data-locator="first text"/> <br />
             <label for="new_user_email_confirm">Email address (confirmation)</label>
             <input type="Text" name="new_user_email_confirm" id="new_user_email_confirm" /> <br />
             <label for="new_user_country">Country</label>
@@ -33,11 +35,11 @@
                 <optgroup label="other">
                   <option value="4">United Kingdom</option>
                   <option value="5">USA</option>
-                  <option label="Germany" />
+                  <option label="Germany" data-locator="Berliner" />
               </optgroup>
             </select> <br />
             <label for="new_user_occupation">Occupation</label>
-            <input type="text" name="new_user_occupation" id="new_user_occupation" value="Developer" onfocus="document.getElementById('onfocus_test').innerHTML = 'changed by onfocus event'"/> <br />
+            <input type="text" class="c" name="new_user_occupation" data-locator="dev" id="new_user_occupation" value="Developer" onfocus="document.getElementById('onfocus_test').innerHTML = 'changed by onfocus event'"/> <br />
             <label>Without for <input /></label>
             <label>With<span style="display:none;"> hidden</span> text<input /></label>
             <label for="new_user_species">Species</label>
@@ -45,8 +47,8 @@
             <label for="new_user_code">Personal code</label>
             <input type="text" title="Your personal code" name="new_user_code" id="new_user_code" value="HE2FF8" readonly="readonly" /> <br  />
             <label for="good_luck">Good Luck</label>
-            <input type="text" title="Good Luck" name="good_luck" id="good_luck" disabled="disabled" readonly="readonly" /> <br  />
-            <input type="col" id="unknown_text_field" /> <br />
+            <input type="text" title="Good Luck" name="good_luck" id="good_luck" disabled="disabled" readonly="readonly" data-locator="Good Luck" /> <br  />
+            <input type="col" id="unknown_text_field" data-locator="unknown" /> <br />
             <label for="new_user_languages">Languages</label>
             <select name="new_user_languages" id="new_user_languages" multiple="multiple" onchange="WatirSpec.addMessage('changed language');">
                 <option id="danish" value="1">Danish</option>
@@ -79,7 +81,7 @@
             <label for="html5_time">HTML5 Time</label>
             <input type="time" id="html5_time" name="html5_time" />
             <label for="number">Age</label>
-            <input type="number" value="42" name="number" id="number">
+            <input type="number" value="42" name="number" id="number" data-locator="42">
         </fieldset>
         <fieldset>
             <legend>Login information</legend>
@@ -98,7 +100,7 @@
             <legend>Interests</legend>
             <input type="checkbox" tabindex="1" name="new_user_interests" id="new_user_interests_books" value="books" checked="checked" /> <label for="new_user_interests_books">Books</label>
             <input type="checkbox" tabindex="2" name="new_user_interests" value="bowling" /> <label>Bowling</label>
-            <input type="checkbox" tabindex="3" name="new_user_interests" id="new_user_interests_cars" value="cars" /> <label for="new_user_interests_cars">Cars</label>
+            <input type="checkbox" tabindex="3" name="new_user_interests" id="new_user_interests_cars" value="cars" data-locator="cars" /> <label for="new_user_interests_cars">Cars</label>
             <input type="checkbox" tabindex="4" name="new_user_interests" id="new_user_interests_dancing" value="dancing" class="fun" title="Dancing is fun!" /> <label for="new_user_interests_dancing">Dancing</label>
             <input type="checkbox" tabindex="5" name="new_user_interests" id="new_user_interests_dentistry" value="dentistry" disabled="disabled" /> <label for="new_user_interests_dentistry">Dentistry</label>
             <input type="hidden" name="new_user_interests" id="new_user_interests_dolls" value="dolls" class="fun" />
@@ -125,13 +127,13 @@
         </fieldset>
         <fieldset>
             <legend>Actions</legend>
-            <input type="submit" title="Submit the form" name="new_user_submit" id="new_user_submit" value="Submit" />
-            <input type="reset" name="new_user_reset" id="new_user_reset" value="Reset" />
-            <input type="button" name="new_user_button" id="new_user_button" alt="Create a new user" value="Button" onclick="this.value = 'new_value_set_by_onclick_event'" />
-            <input type="BuTTon" name="new_user_button_preview" id="new_user_button_preview" alt="Create a new user" value="Preview" />
-            <button name="new_user_button_2" value="button_2">Button 2</button>
-            <input type="image" class="image" name="new_user_image" src="images/button.png" alt="Submittable button" />
-            <input type="submit" name="new_user_submit_disabled" id="disabled_button" value="Disabled" disabled="disabled" />
+            <input type="submit" title="Submit the form" name="new_user_submit" data-locator="user submit" id="new_user_submit" value="Submit" />
+            <input type="reset" name="new_user_reset" id="new_user_reset" value="Reset" data-locator="reset" />
+            <input type="button" name="new_user_button" id="new_user_button" data-locator="new user" alt="Create a new user" value="Button" onclick="this.value = 'new_value_set_by_onclick_event'" />
+            <input type="BuTTon" name="new_user_button_preview" id="new_user_button_preview" alt="Create a new user" value="Preview" data-locator="preview"/>
+            <button name="new_user_button_2" value="button_2" data-locator="Benjamin">Button 2</button>
+            <input type="image" class="image" name="new_user_image" src="images/button.png" alt="Submittable button" data-locator="submittable button"/>
+            <input type="submit" name="new_user_submit_disabled" id="disabled_button" value="Disabled" disabled="disabled" data-locator="disabled" />
             <input type="checkbox" name="new_user_submit_disabled" id="toggle_button_checkbox" onclick="var elem = document.getElementById('disabled_button'); elem.disabled = !elem.disabled" />
         </fieldset>
     </form>
@@ -163,7 +165,7 @@
   <div id="wants_newsletter" style="display: none;"></div>
   <div id="onfocus_test"></div>
 
-  <div id="contenteditable" contenteditable="true">Foo</div>
+  <div id="contenteditable" contenteditable="true" class="content" data-locator="content">Foo</div>
 
   <!-- option disappears onchange -->
   <select id="obsolete" onchange="this.innerHTML = '';">

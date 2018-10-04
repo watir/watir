@@ -3,31 +3,57 @@ module Watir
     class TextField
       class SelectorBuilder
         class XPath < Element::SelectorBuilder::XPath
-          def add_attributes(selector)
-            input_attr_exp = attribute_expression(:input, selector)
-            xpath = "[(not(@type) or (#{negative_type_expr}))"
-            xpath << " and #{input_attr_exp}" unless input_attr_exp.empty?
-            xpath << ']'
+          def build(selector)
+            return super if selector.key?(:adjacent)
+
+            selector[:tag_name] = 'input'
+
+            type_string = create_type_string(selector)
+            return super(selector) if type_string.nil?
+
+            selector.delete :type
+            wd_locator = super(selector)
+
+            start_string = default_start
+            input_string = "[local-name()='input']"
+            common_string = wd_locator[:xpath].gsub(start_string, '').gsub(input_string, '')
+
+            xpath = "#{start_string}#{input_string}#{type_string}#{common_string}"
+            {xpath: xpath}
           end
 
-          def add_tag_name(selector)
-            selector.delete(:tag_name)
-            "[local-name()='input']"
-          end
+          protected
 
-          def lhs_for(building, key)
-            if building == :input && key == :text
-              '@value'
+          def add_text
+            return '' unless @selector.key?(:text)
+
+            text = @selector.delete :text
+            if !text.is_a?(Regexp)
+              "[@value=#{XpathSupport.escape text}]"
+            elsif simple_regexp?(text)
+              "[contains(@value, '#{text.source}')]"
             else
-              super
+              @selector[:value] = text
+              ''
             end
           end
 
           private
 
-          def negative_type_expr
+          def create_type_string(selector)
+            if selector[:type].eql?(true)
+              "[#{negative_type_text}]"
+            elsif Watir::TextField::NON_TEXT_TYPES.include?(selector[:type])
+              msg = "TextField Elements can not be located by type: #{selector[:type]}"
+              raise LocatorException, msg
+            elsif selector[:type].nil?
+              "[not(@type) or (#{negative_type_text})]"
+            end
+          end
+
+          def negative_type_text
             Watir::TextField::NON_TEXT_TYPES.map { |type|
-              format('%s!=%s', XpathSupport.downcase('@type'), type.inspect)
+              "#{XpathSupport.downcase '@type'}!=#{XpathSupport.escape type}"
             }.join(' and ')
           end
         end

@@ -5,7 +5,6 @@ describe 'Div' do
     browser.goto(WatirSpec.url_for('non_control_elements.html'))
   end
 
-  # Exists method
   describe '#exists?' do
     it 'returns true if the element exists' do
       expect(browser.div(id: 'header')).to exist

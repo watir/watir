@@ -1,6 +1,8 @@
 require 'watirspec'
 require 'spec_helper'
 
+Watir.default_timeout = 8
+
 if ENV['SELENIUM_STATS'] == 'true'
   require 'selenium_statistics'
   at_exit { SeleniumStatistics.print_results }

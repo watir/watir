@@ -103,6 +103,7 @@ describe 'Table' do
 
     it 'finds rows belonging to this table' do
       expect(table.row(id: 'outer_last')).to exist
+      table.row(text: 'Table 1, Row 1, Cell 1').locate
       expect(table.row(text: /Table 1, Row 1, Cell 1/)).to exist
     end
 
