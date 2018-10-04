@@ -91,7 +91,7 @@ module Watir
           selector[:index] = idx
           element = element_class.new(@query_scope, selector)
           if [HTMLElement, Input].include? element.class
-            tag_name = @selector[:tag_name] || element.tag_name.to_sym
+            tag_name = @selector[:tag_name] || element.tag_name
             hash[tag_name] ||= 0
             hash[tag_name] += 1
             selector[:index] = hash[tag_name] - 1

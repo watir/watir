@@ -105,13 +105,13 @@ describe 'Element' do
 
     it 'raises exception unless value is a String or a RegExp' do
       browser.goto WatirSpec.url_for('non_control_elements.html')
-      msg = /expected String or Regexp, got 7\:(Fixnum|Integer)/
+      msg = /expected string_or_regexp, got 7\:(Fixnum|Integer)/
       expect { browser.link(visible_text: 7).exists? }.to raise_exception(TypeError, msg)
     end
 
     it 'raises exception unless key is valid' do
       browser.goto WatirSpec.url_for('non_control_elements.html')
-      msg = 'Unable to build XPath using 7'
+      msg = /Unable to build XPath using 7:(Fixnum|Integer)/
       expect { browser.link(7 => /foo/).exists? }.to raise_exception(Watir::Exception::Error, msg)
     end
   end
@@ -459,23 +459,29 @@ describe 'Element' do
     end
 
     it 'raises if both :xpath and :css are given' do
-      expect { browser.div(xpath: '//div', css: 'div').exists? }.to raise_error(ArgumentError)
+      msg = ':xpath and :css cannot be combined ({:xpath=>"//div", :css=>"div"})'
+      expect { browser.div(xpath: '//div', css: 'div').exists? }
+        .to raise_exception Watir::Exception::LocatorException, msg
     end
 
     it "doesn't raise when selector has with :xpath has :index" do
       expect(browser.div(xpath: '//div', index: 1)).to exist
     end
 
-    it 'raises ArgumentError error if selector hash with :xpath has multiple entries' do
-      expect { browser.div(xpath: '//div', class: 'foo').exists? }.to raise_error(ArgumentError)
+    it 'raises LocatorException error if selector hash with :xpath has multiple entries' do
+      msg = 'xpath cannot be combined with all of these locators ({:class=>"foo", :tag_name=>"div"})'
+      expect { browser.div(xpath: '//div', class: 'foo').exists? }
+        .to raise_exception Watir::Exception::LocatorException, msg
     end
 
     it "doesn't raise when selector has with :css has :index" do
       expect(browser.div(css: 'div', index: 1)).to exist
     end
 
-    it 'raises ArgumentError error if selector hash with :css has multiple entries' do
-      expect { browser.div(css: 'div', class: 'foo').exists? }.to raise_error(ArgumentError)
+    it 'raises LocatorException error if selector hash with :css has multiple entries' do
+      msg = 'css cannot be combined with all of these locators ({:class=>"foo", :tag_name=>"div"})'
+      expect { browser.div(css: 'div', class: 'foo').exists? }
+        .to raise_exception Watir::Exception::LocatorException, msg
     end
 
     it 'finds element by Selenium name locator' do

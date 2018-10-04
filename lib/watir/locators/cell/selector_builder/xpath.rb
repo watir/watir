@@ -3,22 +3,22 @@ module Watir
     class Cell
       class SelectorBuilder
         class XPath < Element::SelectorBuilder::XPath
-          def add_attributes(selector)
-            attr_expr = attribute_expression(nil, selector)
+          def build(selector)
+            return super if selector.key?(:adjacent)
 
-            expressions = %w[./th ./td]
-            expressions.map! { |e| "#{e}[#{attr_expr}]" } unless attr_expr.empty?
+            wd_locator = super(selector)
 
-            expressions.join(' | ')
+            start_string = default_start
+            tag_string = "[local-name()='th' or local-name()='td']"
+            common_string = wd_locator[:xpath].gsub(start_string, '')
+
+            xpath = "#{start_string}#{tag_string}#{common_string}"
+
+            {xpath: xpath}
           end
 
           def default_start
-            ''
-          end
-
-          def add_tag_name(selector)
-            selector.delete(:tag_name)
-            ''
+            @selector.key?(:adjacent) ? './' : './*'
           end
         end
       end

@@ -3,32 +3,37 @@ module Watir
     class Row
       class SelectorBuilder
         class XPath < Element::SelectorBuilder::XPath
-          attr_accessor :scope_tag_name
+          def build(selector, scope_tag_name)
+            return super(selector) if selector.key?(:adjacent)
 
-          def add_attributes(selector)
-            attr_expr = attribute_expression(nil, selector)
+            # Can not locate a Row with Text because all text is in the Cells;
+            # needs to use Locator#locate_matching_elements
+            text = selector.delete(:text)
 
-            expressions = generate_expressions
-            expressions.map! { |e| "#{e}[#{attr_expr}]" } unless attr_expr.empty?
-            expressions.join(' | ')
-          end
+            wd_locator = super(selector)
 
-          def add_tag_name(selector)
-            selector.delete(:tag_name)
-            ''
-          end
+            common_string = wd_locator[:xpath].gsub(default_start, '')
 
-          def default_start
-            ''
+            expressions = generate_expressions(scope_tag_name)
+            expressions.map! { |e| "#{e}#{common_string}" } unless common_string.empty?
+
+            xpath = expressions.join(' | ').to_s
+
+            selector[:text] = text if text
+            {xpath: xpath}
           end
 
           private
 
-          def generate_expressions
-            expressions = %w[./tr]
-            return expressions if scope_tag_name.nil? || %w[tbody tfoot thead].include?(scope_tag_name)
-
-            expressions + %w[./tbody/tr ./thead/tr ./tfoot/tr]
+          def generate_expressions(scope_tag_name)
+            if %w[tbody tfoot thead].include?(scope_tag_name)
+              ["./*[local-name()='tr']"]
+            else
+              ["./*[local-name()='tr']",
+               "./*[local-name()='tbody']/*[local-name()='tr']",
+               "./*[local-name()='thead']/*[local-name()='tr']",
+               "./*[local-name()='tfoot']/*[local-name()='tr']"]
+            end
           end
         end
       end

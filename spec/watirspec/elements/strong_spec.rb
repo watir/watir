@@ -11,11 +11,14 @@ describe 'Strong' do
       expect(browser.strong(id: 'descartes')).to exist
       expect(browser.strong(id: /descartes/)).to exist
       expect(browser.strong(text: 'Dubito, ergo cogito, ergo sum.')).to exist
-      expect(browser.strong(text: /Dubito, ergo cogito, ergo sum/)).to exist
       expect(browser.strong(class: 'descartes')).to exist
       expect(browser.strong(class: /descartes/)).to exist
       expect(browser.strong(index: 0)).to exist
       expect(browser.strong(xpath: "//strong[@id='descartes']")).to exist
+    end
+
+    it 'visible text is found by regular expression with text locator' do
+      expect(browser.strong(text: /Dubito, ergo cogito, ergo sum/)).to exist
     end
 
     it 'returns the first strong if given no args' do

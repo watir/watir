@@ -12,7 +12,7 @@ module Watir
       raise ArgumentError, "invalid argument: #{selector.inspect}" unless selector.is_a? Hash
 
       @source = Radio.new(query_scope, selector)
-      @frame = @source.parent(tag_name: :form)
+      @frame = @source.parent(tag_name: 'form')
     end
 
     #

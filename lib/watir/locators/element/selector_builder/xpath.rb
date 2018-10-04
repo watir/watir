@@ -5,111 +5,116 @@ module Watir
         class XPath
           include Exception
 
-          # Regular expressions that can be reliably converted to xpath `contains`
-          # expressions in order to optimize the locator.
-          CONVERTABLE_REGEXP = /
-            \A
-              ([^\[\]\\^$.|?*+()]*) # leading literal characters
-              [^|]*?                # do not try to convert expressions with alternates
-              (?<!\\)               # skip metacharacters - ie has preceding slash
-              ([^\[\]\\^$.|?*+()]*) # trailing literal characters
-            \z
-          /x
+          CAN_NOT_BUILD = %i[visible visible_text].freeze
+          LITERAL_REGEXP = /\A([^\[\]\\^$.|?*+()]*)\z/
 
-          def initialize(use_label_element)
-            @should_use_label_element = use_label_element
+          def build(selector)
+            @selector = selector
+
+            @requires_matches = (@selector.keys & CAN_NOT_BUILD).each_with_object({}) do |key, hash|
+              hash[key] = @selector.delete(key)
+            end
+
+            index = @selector.delete(:index)
+
+            start_string = default_start
+            adjacent_string = add_adjacent
+            tag_string = add_tag_name
+            class_string = add_class_predicates
+            attribute_string = add_attribute_predicates
+            converted_attribute_string = convert_attribute_predicates
+            text_string = add_text
+            index_string = if !adjacent_string.empty? && !index.nil? && !index.negative?
+                             "[#{index + 1}]"
+                           else
+                             @requires_matches[:index] = index if index
+                             ''
+                           end
+
+            xpath = "#{start_string}#{adjacent_string}#{tag_string}#{class_string}#{attribute_string}" \
+"#{converted_attribute_string}#{text_string}#{index_string}"
+
+            # TODO: Ideally everything gets put into @requires_matches
+            # class Array values make this difficult
+            @selector.merge!(@requires_matches)
+
+            {xpath: xpath}
           end
 
-          def build(selector, values_to_match)
-            adjacent = selector.delete :adjacent
-            xpath = adjacent.nil? ? default_start : process_adjacent(adjacent)
-            xpath << add_tag_name(selector)
-            index = selector.delete(:index)
+          protected
 
-            # the remaining entries should be attributes
-            xpath << add_attributes(selector)
+          def add_text
+            return '' unless @selector.key?(:text)
 
-            xpath << "[#{index + 1}]" if adjacent && index
-
-            xpath = add_regexp_predicates(xpath, values_to_match)
-
-            Watir.logger.debug(xpath: xpath, selector: selector)
-
-            [:xpath, xpath]
+            text = @selector.delete :text
+            if !text.is_a?(Regexp)
+              "[normalize-space()=#{XpathSupport.escape text}]"
+            else
+              @requires_matches[:text] = text
+              ''
+            end
           end
 
           def default_start
-            './/*'
-          end
-
-          def add_tag_name(selector)
-            tag_name = selector.delete(:tag_name).to_s
-            tag_name.empty? ? '' : "[local-name()='#{tag_name}']"
-          end
-
-          def add_attributes(selector)
-            element_attr_exp = attribute_expression(nil, selector)
-            element_attr_exp.empty? ? '' : "[#{element_attr_exp}]"
-          end
-
-          def add_regexp_predicates(what, selector)
-            return what unless convert_regexp_to_contains?
-
-            selector.each do |key, value|
-              next if %i[tag_name text visible_text visible index].include?(key)
-
-              predicates = regexp_selector_to_predicates(key, value)
-              what = "(#{what})[#{predicates.join(' and ')}]" unless predicates.empty?
+            if @selector.key?(:adjacent)
+              './'
+            else
+              './/*'
             end
-            what
           end
 
-          # @todo Get rid of building
-          def attribute_expression(building, selector)
-            f = selector.map do |key, val|
-              if val.is_a?(Array) && key == :class
-                '(' + val.map { |v| build_class_match(v) }.join(' and ') + ')'
-              elsif val.is_a?(Array)
-                '(' + val.map { |v| equal_pair(building, key, v) }.join(' or ') + ')'
-              elsif val.eql? true
-                attribute_presence(key)
-              elsif val.eql? false
-                attribute_absence(key)
-              else
-                equal_pair(building, key, val)
-              end
+          def simple_regexp?(regex)
+            return false if !regex.is_a?(Regexp) || regex.casefold? || regex.source.empty?
+
+            regex.source =~ LITERAL_REGEXP
+          end
+
+          private
+
+          def add_tag_name
+            tag_name = @selector.delete(:tag_name)
+
+            if simple_regexp?(tag_name)
+              "[contains(local-name(), '#{tag_name.source}')]"
+            elsif tag_name.nil?
+              ''
+            else
+              "[local-name()='#{tag_name}']"
             end
-            f.join(' and ')
           end
 
-          # @todo Get rid of building
-          def equal_pair(building, key, value)
-            if key == :class
-              if value.strip.include?(' ')
-                dep = "Using the :class locator to locate multiple classes with a String value (i.e. \"#{value}\")"
-                Watir.logger.deprecate dep,
-                                       "Array (e.g. #{value.split})",
-                                       ids: [:class_array]
-              end
-              build_class_match(value)
-            elsif key == :label && @should_use_label_element
+          def add_attribute_predicates
+            element_attr_exp = attribute_expression
+            if element_attr_exp.empty?
+              ''
+            else
+              "[#{element_attr_exp}]"
+            end
+          end
+
+          def attribute_expression
+            @selector.map { |key, value|
+              next if key == :class || key == :text || value.is_a?(Regexp)
+
+              locator_expression(key, value).tap { @selector.delete(key) }
+            }.compact.join(' and ')
+          end
+
+          def equal_pair(key, value)
+            if key == :label_element
               # we assume :label means a corresponding label element, not the attribute
               text = "normalize-space()=#{XpathSupport.escape value}"
               "(@id=//label[#{text}]/@for or parent::label[#{text}])"
             else
-              "#{lhs_for(building, key)}=#{XpathSupport.escape value}"
+              "#{lhs_for(key)}=#{XpathSupport.escape value}"
             end
           end
 
-          # @todo Get rid of building
-          def lhs_for(_building, key)
+          def lhs_for(key)
             case key
-            when :text, 'text'
-              'normalize-space()'
             when String
               "@#{key}"
             when :href
-              # TODO: change this behaviour?
               'normalize-space(@href)'
             when :type
               # type attributes can be upper case - downcase them
@@ -118,58 +123,118 @@ module Watir
             when ::Symbol
               "@#{key.to_s.tr('_', '-')}"
             else
-              raise LocatorException, "Unable to build XPath using #{key}"
+              raise LocatorException, "Unable to build XPath using #{key}:#{key.class}"
             end
           end
 
-          private
+          def add_class_predicates
+            return '' unless @selector.key?(:class)
 
-          def process_adjacent(adjacent)
-            xpath = './'
-            xpath << case adjacent
-                     when :ancestor
-                       'ancestor::*'
-                     when :preceding
-                       'preceding-sibling::*'
-                     when :following
-                       'following-sibling::*'
-                     when :child
-                       'child::*'
-                     end
-            xpath
+            class_name = @selector[:class]
+            if class_name.is_a?(String) && class_name.strip.include?(' ')
+              dep = "Using the :class locator to locate multiple classes with a String value (i.e. \"#{class_name}\")"
+              Watir.logger.deprecate dep,
+                                     "Array (e.g. #{class_name.split})",
+                                     ids: [:class_array]
+            elsif [TrueClass, FalseClass].include?(class_name.class)
+              @selector.delete :class
+              return "[#{locator_expression(:class, class_name)}]"
+            end
+
+            @selector[:class] = [class_name].flatten
+
+            predicates = @selector[:class].dup.each_with_object([]) do |value, array|
+              predicate, remainder = class_predicate(value)
+              array << predicate
+              @selector[:class].delete(value) unless remainder
+            end
+
+            remaining_values = @selector.delete(:class)
+            @requires_matches[:class] = remaining_values unless remaining_values.empty?
+
+            if predicates.empty?
+              ''
+            else
+              "[#{predicates.join(' and ')}]"
+            end
           end
 
-          def build_class_match(value)
-            if value =~ /^!/
-              klass = XpathSupport.escape " #{value[1..-1]} "
-              "not(contains(concat(' ', @class, ' '), #{klass}))"
+          def class_predicate(value)
+            return convert_predicate(:class, value) if value.is_a?(Regexp)
+
+            negate_xpath = if value =~ /^!/
+                             value.slice!(0)
+                             true
+                           else
+                             false
+                           end
+            xpath = "contains(concat(' ', @class, ' '), #{XpathSupport.escape " #{value} "})"
+            if negate_xpath
+              "not(#{xpath})"
             else
-              klass = XpathSupport.escape " #{value} "
-              "contains(concat(' ', @class, ' '), #{klass})"
+              xpath
+            end
+          end
+
+          def locator_expression(key, val)
+            if val.eql? true
+              attribute_presence(key)
+            elsif val.eql? false
+              attribute_absence(key)
+            else
+              equal_pair(key, val)
+            end
+          end
+
+          def add_adjacent
+            return '' unless @selector.key?(:adjacent)
+
+            adjacent = @selector.delete(:adjacent)
+
+            case adjacent
+            when :ancestor
+              'ancestor::*'
+            when :preceding
+              'preceding-sibling::*'
+            when :following
+              'following-sibling::*'
+            when :child
+              'child::*'
+            else
+              raise LocatorException, "Unable to process adjacent locator with #{adjacent}"
             end
           end
 
           def attribute_presence(attribute)
-            lhs_for(nil, attribute)
+            lhs_for(attribute)
           end
 
           def attribute_absence(attribute)
-            "not(#{lhs_for(nil, attribute)})"
+            "not(#{lhs_for(attribute)})"
           end
 
-          def convert_regexp_to_contains?
-            true
+          def convert_attribute_predicates
+            predicates = @selector.keys.each_with_object([]) do |key, array|
+              predicate, remainder = convert_predicate(key, @selector[key])
+
+              array << predicate
+              @selector.delete(key) unless remainder
+            end
+
+            predicates.compact.empty? ? '' : "[#{predicates.compact.join(' and ')}]"
           end
 
-          def regexp_selector_to_predicates(key, regexp)
-            return [] if regexp.casefold?
+          # TODO: Ideally we leverage @requires_matches to not return multiple values here
+          # class Array values make this difficult
+          def convert_predicate(key, regexp)
+            return [nil, {key => regexp}] if key == :text
 
-            match = regexp.source.match(CONVERTABLE_REGEXP)
-            return [] unless match
+            lhs = lhs_for(key)
 
-            lhs = lhs_for(nil, key)
-            match.captures.reject(&:empty?).map do |literals|
-              "contains(#{lhs}, #{XpathSupport.escape(literals)})"
+            if simple_regexp?(regexp)
+              ["contains(#{lhs}, '#{regexp.source}')", nil]
+            else
+              [lhs, {key => regexp}]
             end
           end
         end

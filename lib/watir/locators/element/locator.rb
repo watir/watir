@@ -18,7 +18,7 @@ module Watir
 
         def initialize(query_scope, selector, selector_builder, element_validator)
           @query_scope = query_scope # either element or browser
-          @selector = selector.dup
+          @selector = selector
           @selector_builder = selector_builder
           @element_validator = element_validator
         end
@@ -38,11 +38,12 @@ module Watir
         private
 
         def using_selenium(filter = :first)
-          tag = @selector[:tag_name].is_a?(::Symbol) ? @selector.delete(:tag_name).to_s : @selector.delete(:tag_name)
-          return if @selector.size > 1
+          selector = @selector.dup
+          tag = selector[:tag_name].is_a?(::Symbol) ? selector.delete(:tag_name).to_s : selector.delete(:tag_name)
+          return if selector.size > 1
 
-          how = @selector.keys.first || :tag_name
-          what = @selector.values.first || tag
+          how = selector.keys.first || :tag_name
+          what = selector.values.first || tag
 
           return unless wd_supported?(how, what, tag)
 
@@ -50,20 +51,32 @@ module Watir
         end
 
         def using_watir(filter = :first)
-          create_normalized_selector(filter)
-          return unless @normalized_selector
+          raise ArgumentError, "can't locate all elements by :index" if @selector.key?(:index) && filter == :all
 
-          how, what = selector_builder.build(@normalized_selector, values_to_match)
-
-          unless how
-            msg = "#{selector_builder.class} was unable to build selector from #{@normalized_selector.inspect}"
-            raise LocatorException, msg
+          begin
+            generate_scope
+          rescue LocatorException
+            return nil
           end
 
-          if filter == :all || !values_to_match.empty?
-            locate_matching_elements(how, what, filter)
+          selector, values_to_match = selector_builder.build(@selector)
+
+          validate_built_selector(selector, values_to_match)
+
+          if filter == :all || values_to_match.any?
+            locate_matching_elements(selector, values_to_match, filter)
           else
-            locate_element(how, what, @driver_scope)
+            locate_element(selector.keys.first, selector.values.first, @driver_scope)
+          end
+        end
+
+        def validate_built_selector(selector, values_to_match)
+          if selector.nil?
+            msg = "#{selector_builder.class} was unable to build selector from #{@selector.inspect}"
+            raise LocatorException, msg
+          elsif values_to_match.nil?
+            msg = "#{selector_builder.class}#build is not returning expected responses for the current version of Watir"
+            raise LocatorException, msg
           end
         end
 
@@ -85,7 +98,7 @@ module Watir
           end
         end
 
-        def matching_elements(elements, filter: :first)
+        def matching_elements(elements, values_to_match, filter: :first)
           if filter == :first
             idx = element_index(elements, values_to_match)
             counter = 0
@@ -111,82 +124,29 @@ module Watir
           idx.abs - 1
         end
 
-        def create_normalized_selector(filter)
-          return @normalized_selector if @normalized_selector
+        def generate_scope
+          return @driver_scope if @driver_scope
 
           @driver_scope = @query_scope.wd
 
-          @normalized_selector = selector_builder.normalized_selector
-
-          if @normalized_selector.key?(:label)
-            label_key = :label
-          elsif @normalized_selector.key?(:visible_label)
-            label_key = :visible_label
+          if @selector.key?(:label)
+            process_label :label
+          elsif @selector.key?(:visible_label)
+            process_label :visible_label
           end
-
-          if label_key
-            process_label(label_key)
-            return if @normalized_selector.nil?
-          end
-
-          if @normalized_selector.key?(:index) && filter == :all
-            raise ArgumentError, "can't locate all elements by :index"
-          end
-
-          @normalized_selector
-        end
-
-        def values_to_match
-          return @values_to_match if @values_to_match
-
-          @values_to_match = {}
-
-          # Remove locators that can never be used in XPath builder
-          %i[visible visible_text].each do |how|
-            next unless @normalized_selector.key?(how)
-
-            @values_to_match[how] = @normalized_selector.delete(how)
-          end
-
-          set_tag_validation if tag_validation_required?(@normalized_selector)
-
-          # Regexp locators currently need to be validated even if they are included in the XPath builder
-          # TODO: Identify Regexp that can have an exact equivalent using XPath contains (ie would not require
-          #  additional matching) vs approximations (ie would still require additional matching)
-          @normalized_selector.each do |how, what|
-            next unless what.is_a?(Regexp)
-
-            @values_to_match[how] = @normalized_selector.delete(how)
-          end
-
-          if @normalized_selector[:index] && !@normalized_selector[:adjacent]
-            idx = @normalized_selector.delete(:index)
-
-            # Do not add {index: 0} if the only value to match
-            # This will allow using #find_element instead of #find_elements.
-            implicit_idx_match = @values_to_match.empty? && idx.zero?
-            @values_to_match[:index] = idx unless implicit_idx_match
-          end
-
-          @values_to_match
-        end
-
-        def set_tag_validation
-          values_to_match[:tag_name] = @normalized_selector[:tag_name].to_s
         end
 
         def process_label(label_key)
-          regexp = @normalized_selector[label_key].is_a?(Regexp)
+          regexp = @selector[label_key].is_a?(Regexp)
           return unless (regexp || label_key == :visible_label) && selector_builder.should_use_label_element?
 
           label = label_from_text(label_key)
-          unless label # label not found, stop looking for element
-            @normalized_selector = nil
-            return
-          end
+          msg = "Unable to locate element with label #{label_key}: #{@selector[label_key]}"
+          raise LocatorException, msg unless label
 
-          if (id = label.attribute('for'))
-            @normalized_selector[:id] = id
+          id = label.attribute('for')
+          if id
+            @selector[:id] = id
           else
             @driver_scope = label
           end
@@ -195,8 +155,8 @@ module Watir
         def label_from_text(label_key)
           # TODO: this won't work correctly if @wd is a sub-element, write spec
           # TODO: Figure out how to do this with find_element
-          label_text = @normalized_selector.delete(label_key)
-          locator_key = label_key.to_s.gsub('label', 'text').to_sym
+          label_text = @selector.delete(label_key)
+          locator_key = label_key.to_s.gsub('label', 'text').gsub('_element', '').to_sym
           locate_elements(:tag_name, 'label', @driver_scope).find do |el|
             matches_values?(el, locator_key => label_text)
           end
@@ -205,7 +165,7 @@ module Watir
         def matches_values?(element, values_to_match)
           matches = values_to_match.all? do |how, what|
             if how == :tag_name && what.is_a?(String)
-              element_validator.validate(element, tag_name: what)
+              element_validator.validate(element, what)
             else
               val = fetch_value(element, how)
               what == val || val =~ /#{what}/
@@ -229,10 +189,6 @@ module Watir
           Watir.logger.deprecate(dep, ":visible_#{key}", ids: [:text_regexp])
         end
 
-        def tag_validation_required?(selector)
-          (selector.key?(:css) || selector.key?(:xpath)) && selector.key?(:tag_name)
-        end
-
         def locate_element(how, what, scope = @query_scope.wd)
           scope.find_element(how, what)
         end
@@ -241,11 +197,11 @@ module Watir
           scope.find_elements(how, what)
         end
 
-        def locate_matching_elements(how, what, filter)
+        def locate_matching_elements(selector, values_to_match, filter)
           retries = 0
           begin
-            elements = locate_elements(how, what, @driver_scope) || []
-            matching_elements(elements, filter: filter)
+            elements = locate_elements(selector.keys.first, selector.values.first, @driver_scope) || []
+            matching_elements(elements, values_to_match, filter: filter)
           rescue Selenium::WebDriver::Error::StaleElementReferenceError
             retries += 1
             sleep 0.5

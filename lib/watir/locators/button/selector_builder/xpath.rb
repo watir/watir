@@ -3,45 +3,68 @@ module Watir
     class Button
       class SelectorBuilder
         class XPath < Element::SelectorBuilder::XPath
-          def add_tag_name(selector)
-            selector.delete(:tag_name)
-            "[local-name()='button']"
+          def build(selector)
+            return super if selector.key?(:adjacent)
+
+            selector[:tag_name] = 'button'
+
+            type = selector.delete :type
+            return super(selector) if type.eql?(false)
+
+            # both :value and :text selectors will locate elements by value attribute or text content
+            selector[:text] = selector.delete(:value) if selector.key?(:value)
+
+            wd_locator = super(selector)
+
+            start_string = default_start
+
+            button_string = "local-name()='button'"
+            common_string = wd_locator[:xpath].gsub(start_string, '').gsub("[#{button_string}]", '')
+
+            input_string = "(local-name()='input' and #{input_types(type)})"
+
+            tag_string = if type.nil?
+                           "[#{button_string} or #{input_string}]"
+                         else
+                           "[#{input_string}]"
+                         end
+
+            xpath = "#{start_string}#{tag_string}#{common_string}"
+
+            {xpath: xpath}
           end
 
-          def add_attributes(selector)
-            button_attr_exp = attribute_expression(:button, selector)
-            xpath = button_attr_exp.empty? ? '' : "[#{button_attr_exp}]"
-            return xpath if selector[:type].eql? false
+          protected
 
-            selector[:type] = Watir::Button::VALID_TYPES if [nil, true].include?(selector[:type])
-            xpath << " | .//*[local-name()='input']"
-            input_attr_exp = attribute_expression(:input, selector)
-            xpath << "[#{input_attr_exp}]" unless input_attr_exp.empty?
-          end
+          # This is special because text locator for buttons match text or value
+          def add_text
+            return '' unless @selector.key?(:text)
 
-          def lhs_for(building, key)
-            if building == :input && key == :text
-              '@value'
+            text = @selector.delete :text
+            if !text.is_a?(Regexp)
+              "[normalize-space()='#{text}' or @value='#{text}']"
+            elsif simple_regexp?(text)
+              "[contains(text(), '#{text.source}') or contains(@value, '#{text.source}')]"
             else
-              super
+              @selector[:text] = text
+              ''
             end
           end
 
           private
 
-          def convert_regexp_to_contains?
-            # regexp conversion won't work with the complex xpath selector
-            false
-          end
-
-          def equal_pair(building, key, value)
-            if building == :button && key == :value
-              # :value should look for both node text and @value attribute
-              text = XpathSupport.escape(value)
-              "(text()=#{text} or @value=#{text})"
-            else
-              super
-            end
+          def input_types(type)
+            types = if [nil, true].include?(type)
+                      Watir::Button::VALID_TYPES
+                    elsif !Watir::Button::VALID_TYPES.include?(type)
+                      msg = "Button Elements can not be located by input type: #{type}"
+                      raise LocatorException, msg
+                    else
+                      [type]
+                    end
+            types.map { |button_type|
+              "#{XpathSupport.downcase '@type'}=#{XpathSupport.escape button_type}"
+            }.compact.join(' or ')
           end
         end
       end

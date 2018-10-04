@@ -72,7 +72,7 @@ describe Watir::Locators::Element::Locator do
 
     it 'raises exception when value is not Boolean' do
       element = browser.body.element(visible: 'true')
-      msg = 'expected TrueClass or FalseClass, got "true":String'
+      msg = 'expected boolean, got "true":String'
       expect { element.exists? }.to raise_exception(TypeError, msg)
     end
   end

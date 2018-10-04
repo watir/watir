@@ -2,74 +2,113 @@ module Watir
   module Locators
     class Element
       class SelectorBuilder
+        include Exception
         attr_reader :custom_attributes
 
-        VALID_WHATS = [Array, String, Regexp, TrueClass, FalseClass, ::Symbol].freeze
+        VALID_WHATS = [String, Regexp, TrueClass, FalseClass].freeze
         WILDCARD_ATTRIBUTE = /^(aria|data)_(.+)$/
 
-        def initialize(query_scope, selector, valid_attributes)
-          @query_scope = query_scope # either element or browser
-          @selector = selector
+        def initialize(valid_attributes)
           @valid_attributes = valid_attributes
           @custom_attributes = []
         end
 
-        def normalized_selector
-          selector = {}
+        def build(selector)
+          inspected = selector.inspect
+          @selector = selector
+          normalize_selector
 
-          @selector.each do |how, what|
-            check_type(how, what)
-
-            how, what = normalize_selector(how, what)
-            selector[how] = what
+          xpath_css = (@selector.keys & %i[xpath css]).each_with_object({}) do |key, hash|
+            hash[key] = @selector.delete(key)
           end
 
-          selector
+          built = if xpath_css.empty?
+                    build_wd_selector(@selector)
+                  else
+                    process_xpath_css(xpath_css)
+                    xpath_css
+                  end
+
+          @selector.delete(:index) if @selector[:index]&.zero?
+
+          Watir.logger.debug "Converted #{inspected} to #{built}, with #{@selector.inspect} to match"
+          [built, @selector]
+        end
+
+        def normalize_selector
+          if @selector.key?(:class) && @selector.key?(:class_name)
+            raise LocatorException, 'Can not use both :class and :class_name locators'
+          end
+
+          if @selector[:adjacent] == :ancestor && @selector.key?(:text)
+            raise LocatorException, 'Can not find parent element with text locator'
+          end
+
+          @selector.keys.each do |key|
+            check_type(key, @selector[key])
+
+            how, what = normalize_locator(key, @selector.delete(key))
+            @selector[how] = what
+          end
         end
 
         def check_type(how, what)
           case how
+          when :adjacent
+            return raise_unless(what, ::Symbol)
+          when :xpath, :css
+            return raise_unless(what, String)
           when :index
-            raise_unless_int(what)
+            return raise_unless(what, Integer)
           when :visible
-            raise_unless_boolean(what)
-          when :visible_text
-            raise_unless_str_regex(what)
-          else
-            if what.is_a?(Array) && !%i[class class_name].include?(how)
-              raise TypeError, 'Only :class locator can have a value of an Array'
-            end
-            raise TypeError, 'Symbol is not a valid value' if what.is_a?(Symbol) && how != :adjacent
-            return if VALID_WHATS.any? { |t| what.is_a? t }
+            return raise_unless(what, :boolean)
+          when :tag_name
+            what = what.to_s if what.is_a?(::Symbol)
+            return raise_unless(what, :string_or_regexp)
+          when :visible_text, :text
+            return raise_unless(what, :string_or_regexp)
+          when :class, :class_name
+            if what.is_a?(Array)
+              raise LocatorException, 'Can not locate elements with an empty Array for :class' if what.empty?
 
-            raise TypeError, "expected one of #{VALID_WHATS.inspect}, got #{what.inspect}:#{what.class}"
+              what.each do |klass|
+                raise_unless(klass, :string_or_regexp)
+              end
+              return
+            end
           end
+
+          return if VALID_WHATS.any? { |t| what.is_a? t }
+
+          raise TypeError, "expected one of #{VALID_WHATS.inspect}, got #{what.inspect}:#{what.class}"
         end
 
         def should_use_label_element?
           !valid_attribute?(:label)
         end
 
-        def build(selector, values_to_match)
-          inspect = selector.inspect
-          return given_xpath_or_css(selector) if selector.key?(:xpath) || selector.key?(:css)
-
-          built = build_wd_selector(selector, values_to_match)
-          Watir.logger.debug "Converted #{inspect} to #{built}"
-          built
-        end
-
         private
 
-        def normalize_selector(how, what)
+        def normalize_locator(how, what)
           case how
-          when :tag_name, :text, :xpath, :index, :class, :label, :css, :visible, :visible_text, :adjacent
+          when 'text'
+            Watir.logger.deprecate "String 'text' as a locator", 'Symbol :text', ids: ['text_string']
+            [:text, what]
+          when :tag_name, :text, :xpath, :index, :class, :css, :visible, :visible_text, :adjacent
             # include :class since the valid attribute is 'class_name'
             # include :for since the valid attribute is 'html_for'
             [how, what]
+          when :label
+            if should_use_label_element?
+              ["#{how}_element".to_sym, what]
+            else
+              [how, what]
+            end
           when :class_name
             [:class, what]
           when :caption
+            # This allows any element to be located with 'caption' instead of 'text'
+            Watir.logger.deprecate('Locating elements with :caption', ':text locator', ids: [:caption])
             [:text, what]
           else
             check_custom_attribute how
@@ -83,30 +122,18 @@ module Watir
           @custom_attributes << attribute.to_s
         end
 
-        def given_xpath_or_css(selector)
-          locator = {}
-          locator[:xpath] = selector.delete(:xpath) if selector.key?(:xpath)
-          locator[:css] = selector.delete(:css) if selector.key?(:css)
+        def process_xpath_css(xpath_css)
+          raise LocatorException, ":xpath and :css cannot be combined (#{xpath_css})" if xpath_css.size > 1
 
-          return if locator.empty?
-          raise ArgumentError, ":xpath and :css cannot be combined (#{selector.inspect})" if locator.size > 1
+          return if combine_with_xpath_or_css?(@selector)
 
-          return locator.first unless selector.any? && !combine_with_xpath_or_css?(selector)
-
-          msg = "#{locator.keys.first} cannot be combined with other locators (#{selector.inspect})"
-          raise ArgumentError, msg
+          msg = "#{xpath_css.keys.first} cannot be combined with all of these locators (#{@selector.inspect})"
+          raise LocatorException, msg
         end
 
-        def build_wd_selector(selector, values_to_match)
-          xpath_builder.build(selector, values_to_match)
-        end
-
-        def xpath_builder
-          @xpath_builder ||= xpath_builder_class.new(should_use_label_element?)
-        end
-
-        def xpath_builder_class
-          Kernel.const_get("#{self.class.name}::XPath")
+        # Implement this method when creating a different selector builder
+        def build_wd_selector(selector)
+          Kernel.const_get("#{self.class.name}::XPath").new.build(selector)
         end
 
         def valid_attribute?(attribute)
@@ -115,29 +142,27 @@ module Watir
 
         def combine_with_xpath_or_css?(selector)
           keys = selector.keys
-          return true if keys == [:tag_name]
-
-          return keys.sort == %i[tag_name type] if selector[:tag_name] == 'input'
-
-          false
+          keys.reject! { |key| %i[visible visible_text index].include? key }
+          if (keys - [:tag_name]).empty?
+            true
+          elsif selector[:tag_name] == 'input' && keys == %i[tag_name type]
+            true
+          else
+            false
+          end
         end
 
-        def raise_unless_int(what)
-          return if what.is_a?(Integer)
+        def raise_unless(what, klass)
+          case klass
+          when :boolean
+            return if [TrueClass, FalseClass].include?(what.class)
+          when :string_or_regexp
+            return if [String, Regexp].include?(what.class)
+          else
+            return if what.is_a?(klass)
+          end
 
-          raise TypeError, "expected Integer, got #{what.inspect}:#{what.class}"
-        end
-
-        def raise_unless_boolean(what)
-          return if what.is_a?(TrueClass) || what.is_a?(FalseClass)
-
-          raise TypeError, "expected TrueClass or FalseClass, got #{what.inspect}:#{what.class}"
-        end
-
-        def raise_unless_str_regex(what)
-          return if what.is_a?(String) || what.is_a?(Regexp)
-
-          raise TypeError, "expected String or Regexp, got #{what.inspect}:#{what.class}"
+          raise TypeError, "expected #{klass}, got #{what.inspect}:#{what.class}"
         end
       end
     end

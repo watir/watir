@@ -7,7 +7,7 @@ describe 'Table' do
 
   # not a selenium bug - IE seems unable to deal with the invalid nesting
   not_compliant_on :internet_explorer do
-    it 'returns the correct number of rows under a table' do
+    it 'returns the correct number of rows under a table element' do
       tables = browser.div(id: 'table-rows-test').tables(id: /^tbl/)
       expect(tables.length).to be > 0
 

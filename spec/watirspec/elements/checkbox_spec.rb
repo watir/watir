@@ -11,6 +11,8 @@ describe 'CheckBox' do
     it 'returns true if the checkbox button exists' do
       expect(browser.checkbox(id: 'new_user_interests_books')).to exist
       expect(browser.checkbox(id: /new_user_interests_books/)).to exist
+      expect(browser.checkbox(label: 'Cars')).to exist
+      expect(browser.checkbox(label: /Cars/)).to exist
       expect(browser.checkbox(name: 'new_user_interests')).to exist
       expect(browser.checkbox(name: /new_user_interests/)).to exist
       expect(browser.checkbox(value: 'books')).to exist
