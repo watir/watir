@@ -163,7 +163,7 @@ module Watir
         end
 
         def matches_values?(element, values_to_match)
-          matches = values_to_match.all? do |how, what|
+          values_to_match.all? do |how, what|
             if how == :tag_name && what.is_a?(String)
               element_validator.validate(element, what)
             else
@@ -171,22 +171,6 @@ module Watir
               what == val || val =~ /#{what}/
             end
           end
-
-          text_regexp_deprecation(element, values_to_match, matches) if values_to_match[:text]
-
-          matches
-        end
-
-        def text_regexp_deprecation(element, selector, matches)
-          new_element = Watir::Element.new(@query_scope, element: element)
-          text_content = new_element.execute_js(:getTextContent, element).strip
-          text_content_matches = text_content =~ /#{selector[:text]}/
-          return if matches == !!text_content_matches
-
-          key = @selector.key?(:text) ? 'text' : 'label'
-          selector_text = selector[:text].inspect
-          dep = "Using :#{key} locator with RegExp #{selector_text} to match an element that includes hidden text"
-          Watir.logger.deprecate(dep, ":visible_#{key}", ids: [:text_regexp])
         end
 
         def locate_element(how, what, scope = @query_scope.wd)

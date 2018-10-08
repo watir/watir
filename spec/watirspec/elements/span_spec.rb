@@ -11,14 +11,11 @@ describe 'Span' do
       expect(browser.span(id: 'lead')).to exist
       expect(browser.span(id: /lead/)).to exist
       expect(browser.span(text: 'Dubito, ergo cogito, ergo sum.')).to exist
+      expect(browser.span(visible_text: /Dubito, ergo cogito, ergo sum/)).to exist
       expect(browser.span(class: 'lead')).to exist
       expect(browser.span(class: /lead/)).to exist
       expect(browser.span(index: 0)).to exist
       expect(browser.span(xpath: "//span[@id='lead']")).to exist
-    end
-
-    it 'visible text is found by regular expression with text locator' do
-      expect(browser.span(text: /Dubito, ergo cogito, ergo sum/)).to exist
     end
 
     it 'returns the first span if given no args' do
