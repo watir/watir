@@ -100,7 +100,7 @@ describe Watir::Locators::Element::SelectorBuilder do
         @data_locator = 'first div'
       end
 
-      it 'with Regexp contains' do
+      it 'with simple Regexp contains' do
         @selector = {tag_name: /div/}
         @wd_locator = {xpath: ".//*[contains(local-name(), 'div')]"}
         @data_locator = 'first div'
@@ -299,6 +299,12 @@ describe Watir::Locators::Element::SelectorBuilder do
       it 'with caption attribute' do
         @selector = {caption: 'Add user'}
         @wd_locator = {xpath: ".//*[normalize-space()='Add user']"}
+        @data_locator = 'add user'
+      end
+
+      it 'with simpleRegexp contains' do
+        @selector = {text: /Add/}
+        @wd_locator = {xpath: ".//*[contains(text(), 'Add')]"}
         @data_locator = 'add user'
       end
 
@@ -502,12 +508,6 @@ describe Watir::Locators::Element::SelectorBuilder do
         @selector = {class: /^her/}
         @wd_locator = {xpath: './/*[@class]'}
         @remaining = {class: [/^her/]}
-      end
-
-      it 'text with any Regexp' do
-        @selector = {text: /Add/}
-        @wd_locator = {xpath: './/*'}
-        @remaining = {text: /Add/}
       end
 
       it 'index' do

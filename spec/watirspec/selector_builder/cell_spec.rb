@@ -33,6 +33,13 @@ describe Watir::Locators::Cell::SelectorBuilder do
       @data_locator = 'first cell'
     end
 
+    it 'with simple Regexp as text' do
+      browser.goto(WatirSpec.url_for('tables.html'))
+      @selector = {text: /934/}
+      @wd_locator = {xpath: "./*[local-name()='th' or local-name()='td'][contains(text(), '934')]"}
+      @data_locator = 'before tax'
+    end
+
     context 'with multiple locators' do
       before(:each) do
         browser.goto(WatirSpec.url_for('tables.html'))
