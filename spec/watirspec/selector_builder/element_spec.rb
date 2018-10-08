@@ -309,6 +309,29 @@ describe Watir::Locators::Element::SelectorBuilder do
       end
     end
 
+    context 'with index' do
+      before(:each) do
+        browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
+      end
+
+      it 'positive' do
+        @selector = {tag_name: 'div', index: 7}
+        @wd_locator = {xpath: "(.//*[local-name()='div'])[8]"}
+        @data_locator = 'content'
+      end
+
+      it 'does not return index if it is zero' do
+        @selector = {tag_name: 'div', index: 0}
+        @wd_locator = {xpath: ".//*[local-name()='div']"}
+      end
+
+      it 'raises exception when index is not an Integer', skip_after: true do
+        selector = {index: 'foo'}
+        msg = 'expected Integer, got "foo":String'
+        expect { selector_builder.build(selector) }.to raise_exception TypeError, msg
+      end
+    end
+
     context 'with labels' do
       before(:each) do
         browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
@@ -504,18 +527,6 @@ describe Watir::Locators::Element::SelectorBuilder do
         @remaining = {class: [/^her/]}
       end
 
-      it 'text with any Regexp' do
-        @selector = {text: /Add/}
-        @wd_locator = {xpath: './/*'}
-        @remaining = {text: /Add/}
-      end
-
-      it 'index' do
-        @selector = {tag_name: 'div', index: 1}
-        @wd_locator = {xpath: ".//*[local-name()='div']"}
-        @remaining = {index: 1}
-      end
-
       it 'visible' do
         @selector = {tag_name: 'div', visible: true}
         @wd_locator = {xpath: ".//*[local-name()='div']"}
@@ -534,15 +545,10 @@ describe Watir::Locators::Element::SelectorBuilder do
         @remaining = {visible_text: 'foo'}
       end
 
-      it 'does not return index if it is zero' do
-        @selector = {tag_name: 'div', index: 0}
-        @wd_locator = {xpath: ".//*[local-name()='div']"}
-      end
-
-      it 'raises exception when index is not an Integer', skip_after: true do
-        selector = {index: 'foo'}
-        msg = 'expected Integer, got "foo":String'
-        expect { selector_builder.build(selector) }.to raise_exception TypeError, msg
+      it 'negative index' do
+        @selector = {tag_name: 'span', index: -1}
+        @wd_locator = {xpath: ".//*[local-name()='span']"}
+        @remaining = {index: -1}
       end
 
       it 'raises exception when visible is not boolean', skip_after: true do

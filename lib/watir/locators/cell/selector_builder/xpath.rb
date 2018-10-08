@@ -20,6 +20,10 @@ module Watir
           def default_start
             @selector.key?(:adjacent) ? './' : './*'
           end
+
+          def use_index?
+            false
+          end
         end
       end
     end
