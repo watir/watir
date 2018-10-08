@@ -4,9 +4,10 @@ module Watir
       class SelectorBuilder
         class XPath < Element::SelectorBuilder::XPath
           def convert_predicate(key, regexp)
-            return [nil, {key => regexp}] if key == :value
+            return super unless key == :value
 
-            super
+            @requires_matches[:value] = regexp
+            nil
           end
         end
       end

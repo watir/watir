@@ -251,12 +251,9 @@ describe Watir::Locators::Element::Locator do
       end
 
       it 'handles :tag_name, :index and a single regexp attribute' do
-        elements = [
-          element(tag_name: 'div', attributes: {class: 'foo'}),
-          element(tag_name: 'div', attributes: {class: 'foo'})
-        ]
+        element = element(tag_name: 'div', attributes: {class: 'foo'})
 
-        expect_all(:xpath, ".//*[local-name()='div'][contains(@class, 'foo')]").and_return(elements)
+        expect_one(:xpath, "(.//*[local-name()='div'][contains(@class, 'foo')])[2]").and_return(element)
 
         selector = {
           tag_name: 'div',
@@ -264,7 +261,7 @@ describe Watir::Locators::Element::Locator do
           index: 1
         }
 
-        expect(locate_one(selector)).to eq elements[1]
+        expect(locate_one(selector)).to eq element
       end
 
       it 'handles :xpath and :index selectors' do
@@ -545,12 +542,9 @@ describe Watir::Locators::Element::Locator do
     end
 
     it 'with :index' do
-      elements = [
-        element(tag_name: 'div'),
-        element(tag_name: 'div')
-      ]
+      element = element(tag_name: 'div')
 
-      expect_all(:xpath, ".//*[local-name()='div'][@dir='foo']").and_return(elements)
+      expect_one(:xpath, "(.//*[local-name()='div'][@dir='foo'])[2]").and_return(element)
 
       selector = {
         tag_name: 'div',
@@ -558,7 +552,7 @@ describe Watir::Locators::Element::Locator do
         index: 1
       }
 
-      expect(locate_one(selector)).to eq elements[1]
+      expect(locate_one(selector)).to eq element
     end
 
     describe 'errors' do

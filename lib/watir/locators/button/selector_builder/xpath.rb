@@ -36,6 +36,10 @@ module Watir
 
           protected
 
+          def use_index?
+            false
+          end
+
           # This is special because text locator for buttons match text or value
           def add_text
             return '' unless @selector.key?(:text)
@@ -46,7 +50,7 @@ module Watir
             elsif XpathSupport.simple_regexp?(text)
               "[contains(text(), '#{text.source}') or contains(@value, '#{text.source}')]"
             else
-              @selector[:text] = text
+              @requires_matches[:text] = text
               ''
             end
           end

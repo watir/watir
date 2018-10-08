@@ -23,24 +23,29 @@ module Watir
             attribute_string = add_attribute_predicates
             converted_attribute_string = convert_attribute_predicates
             text_string = add_text
-            index_string = if !adjacent_string.empty? && !index.nil? && !index.negative?
-                             "[#{index + 1}]"
-                           else
-                             @requires_matches[:index] = index if index
-                             ''
-                           end
 
             xpath = "#{start_string}#{adjacent_string}#{tag_string}#{class_string}#{attribute_string}" \
-"#{converted_attribute_string}#{text_string}#{index_string}"
+"#{converted_attribute_string}#{text_string}"
 
-            # TODO: Ideally everything gets put into @requires_matches
-            # class Array values make this difficult
-            @selector.merge!(@requires_matches)
+            xpath = if index && !adjacent_string.empty?
+                      "#{xpath}[#{index + 1}]"
+                    elsif index&.positive? && @requires_matches.empty? && use_index?
+                      "(#{xpath})[#{index + 1}]"
+                    else
+                      @requires_matches[:index] = index if index
+                      xpath
+                    end
+
+            @selector.merge! @requires_matches
 
             {xpath: xpath}
           end
 
           protected
+
+          def use_index?
+            true
+          end
 
           def add_text
             return '' unless @selector.key?(:text)
@@ -67,12 +72,15 @@ module Watir
           def add_tag_name
             tag_name = @selector.delete(:tag_name)
 
-            if XpathSupport.simple_regexp?(tag_name)
+            if [String, ::Symbol].include?(tag_name.class)
+              "[local-name()='#{tag_name}']"
+            elsif XpathSupport.simple_regexp?(tag_name)
               "[contains(local-name(), '#{tag_name.source}')]"
             elsif tag_name.nil?
               ''
             else
-              "[local-name()='#{tag_name}']"
+              @requires_matches[:tag_name] = tag_name
+              ''
             end
           end
 
@@ -123,27 +131,19 @@ module Watir
           def add_class_predicates
             return '' unless @selector.key?(:class)
 
-            class_name = @selector[:class]
-            if class_name.is_a?(String) && class_name.strip.include?(' ')
-              dep = "Using the :class locator to locate multiple classes with a String value (i.e. \"#{class_name}\")"
-              Watir.logger.deprecate dep,
-                                     "Array (e.g. #{class_name.split})",
-                                     ids: [:class_array]
-            elsif [TrueClass, FalseClass].include?(class_name.class)
-              @selector.delete :class
-              return "[#{locator_expression(:class, class_name)}]"
-            end
+            @requires_matches[:class] = []
 
-            @selector[:class] = [class_name].flatten
+            class_name = @selector.delete(:class)
 
-            predicates = @selector[:class].dup.each_with_object([]) do |value, array|
-              predicate, remainder = class_predicate(value)
-              array << predicate
-              @selector[:class].delete(value) unless remainder
-            end
+            deprecate_class_array(class_name) if class_name.is_a?(String) && class_name.strip.include?(' ')
 
-            remaining_values = @selector.delete(:class)
-            @requires_matches[:class] = remaining_values unless remaining_values.empty?
+            predicates = if [TrueClass, FalseClass].include?(class_name.class)
+                           [locator_expression(:class, class_name)]
+                         else
+                           [class_name].flatten.map { |value| class_predicate(value) }.compact
+                         end
+
+            @requires_matches.delete(:class) if @requires_matches[:class].empty?
 
             if predicates.empty?
               ''
@@ -152,8 +152,19 @@ module Watir
             end
           end
 
+          def deprecate_class_array(class_name)
+            dep = "Using the :class locator to locate multiple classes with a String value (i.e. \"#{class_name}\")"
+            Watir.logger.deprecate dep,
+                                   "Array (e.g. #{class_name.split})",
+                                   ids: [:class_array]
+          end
+
           def class_predicate(value)
-            return convert_predicate(:class, value) if value.is_a?(Regexp)
+            if value.is_a?(Regexp)
+              predicate = convert_predicate(:class, value)
+              @requires_matches[:class] << value if predicate.nil?
+              return predicate
+            end
 
             negate_xpath = if value =~ /^!/
                              value.slice!(0)
@@ -207,27 +218,28 @@ module Watir
           end
 
           def convert_attribute_predicates
-            predicates = @selector.keys.each_with_object([]) do |key, array|
-              predicate, remainder = convert_predicate(key, @selector[key])
+            predicates = @selector.keys.map do |key|
+              next if key == :text
 
-              array << predicate
-              @selector.delete(key) unless remainder
+              predicate = convert_predicate(key, @selector[key])
+              @selector.delete(key)
+              predicate
             end
 
             predicates.compact.empty? ? '' : "[#{predicates.compact.join(' and ')}]"
           end
 
-          # TODO: Ideally we leverage @requires_matches to not return multiple values here
-          # class Array values make this difficult
           def convert_predicate(key, regexp)
-            return [nil, {key => regexp}] if key == :text
-
             lhs = lhs_for(key)
 
             if XpathSupport.simple_regexp?(regexp)
-              ["contains(#{lhs}, '#{regexp.source}')", nil]
+              "contains(#{lhs}, '#{regexp.source}')"
+            elsif key == :class
+              @requires_matches[:class] << regexp
+              lhs
             else
-              [lhs, {key => regexp}]
+              @requires_matches[key] = regexp
+              lhs
             end
           end
         end

@@ -137,6 +137,7 @@ describe Watir::Locators::Button::SelectorBuilder do
     end
 
     it 'delegates adjacent to Element SelectorBuilder' do
+      browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
       @query_scope = browser.element(id: 'new_user_button').locate
 
       @selector = {adjacent: :ancestor, index: 2}

@@ -25,6 +25,10 @@ module Watir
 
           private
 
+          def use_index?
+            false
+          end
+
           def generate_expressions(scope_tag_name)
             if %w[tbody tfoot thead].include?(scope_tag_name)
               ["./*[local-name()='tr']"]

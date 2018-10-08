@@ -24,6 +24,10 @@ module Watir
 
           protected
 
+          def use_index?
+            false
+          end
+
           def add_text
             return '' unless @selector.key?(:text)
 
@@ -33,7 +37,7 @@ module Watir
             elsif XpathSupport.simple_regexp?(text)
               "[contains(@value, '#{text.source}')]"
             else
-              @selector[:value] = text
+              @requires_matches[:value] = text
               ''
             end
           end
