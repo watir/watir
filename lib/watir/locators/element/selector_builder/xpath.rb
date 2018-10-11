@@ -6,7 +6,6 @@ module Watir
           include Exception
 
           CAN_NOT_BUILD = %i[visible visible_text].freeze
-          LITERAL_REGEXP = /\A([^\[\]\\^$.|?*+()]*)\z/
 
           def build(selector)
             @selector = selector
@@ -63,18 +62,12 @@ module Watir
             end
           end
 
-          def simple_regexp?(regex)
-            return false if !regex.is_a?(Regexp) || regex.casefold? || regex.source.empty?
-
-            regex.source =~ LITERAL_REGEXP
-          end
-
           private
 
           def add_tag_name
             tag_name = @selector.delete(:tag_name)
 
-            if simple_regexp?(tag_name)
+            if XpathSupport.simple_regexp?(tag_name)
               "[contains(local-name(), '#{tag_name.source}')]"
             elsif tag_name.nil?
               ''
@@ -231,7 +224,7 @@ module Watir
 
             lhs = lhs_for(key)
 
-            if simple_regexp?(regexp)
+            if XpathSupport.simple_regexp?(regexp)
               ["contains(#{lhs}, '#{regexp.source}')", nil]
             else
               [lhs, {key => regexp}]

@@ -43,7 +43,7 @@ module Watir
             text = @selector.delete :text
             if !text.is_a?(Regexp)
               "[normalize-space()='#{text}' or @value='#{text}']"
-            elsif simple_regexp?(text)
+            elsif XpathSupport.simple_regexp?(text)
               "[contains(text(), '#{text.source}') or contains(@value, '#{text.source}')]"
             else
               @selector[:text] = text
