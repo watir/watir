@@ -113,6 +113,17 @@ module Watir
         if @browser == :safari && @options.delete(:technology_preview)
           @options['safari.options'] = {'technologyPreview' => true}
         end
+      when :ie
+        if @options.key?(:args)
+          browser_options ||= {}
+          browser_options[:args] = @options.delete(:args).dup
+        end
+        unless browser_options.is_a? Selenium::WebDriver::IE::Options
+          ie_caps = browser_options.select { |k| Selenium::WebDriver::IE::Options::CAPABILITIES.include?(k) }
+          browser_options = Selenium::WebDriver::IE::Options.new(browser_options)
+          ie_caps.each { |k, v| browser_options.add_option(k, v) }
+        end
+        @selenium_opts[:options] = browser_options
       end
     end
     # rubocop:enable Metrics/AbcSize
