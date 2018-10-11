@@ -3,6 +3,8 @@ require 'watir/locators/element/selector_builder'
 require 'watir/locators/element/selector_builder/xpath'
 require 'watir/locators/element/validator'
 
+require 'watir/locators/anchor/selector_builder'
+
 require 'watir/locators/button/locator'
 require 'watir/locators/button/selector_builder'
 require 'watir/locators/button/selector_builder/xpath'

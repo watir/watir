@@ -150,4 +150,26 @@ describe 'Link' do
       expect(browser.title).to eq 'definition_lists'
     end
   end
+
+  describe 'visible text' do
+    it 'finds links by visible text' do
+      browser.goto WatirSpec.url_for('non_control_elements.html')
+
+      expect(browser.link(visible_text: 'all visible')).to exist
+      expect(browser.link(visible_text: /all visible/)).to exist
+      expect(browser.link(visible_text: 'some visible')).to exist
+      expect(browser.link(visible_text: /some visible/)).to exist
+      expect(browser.link(visible_text: 'none visible')).not_to exist
+      expect(browser.link(visible_text: /none visible/)).not_to exist
+
+      expect(browser.link(visible_text: 'Link 2', class: 'external')).to exist
+      expect(browser.link(visible_text: /Link 2/, class: 'external')).to exist
+    end
+
+    it 'raises exception unless value is a String or a RegExp' do
+      browser.goto WatirSpec.url_for('non_control_elements.html')
+      msg = /expected string_or_regexp, got 7\:(Fixnum|Integer)/
+      expect { browser.link(visible_text: 7).exists? }.to raise_exception(TypeError, msg)
+    end
+  end
 end
