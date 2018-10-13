@@ -135,13 +135,12 @@ module Watir
           end
 
           # TODO: Remove this on refactor of index
-          # rubocop:disable Metrics/CyclomaticComplexity:
           def add_index(xpath, index)
             if @adjacent
               "#{xpath}[#{index + 1}]"
-            elsif index&.positive? && @requires_matches.empty? && use_index?
+            elsif index&.positive? && @requires_matches.empty?
               "(#{xpath})[#{index + 1}]"
-            elsif index&.negative? && @requires_matches.empty? && use_index?
+            elsif index&.negative? && @requires_matches.empty?
               last_value = 'last()'
               last_value << (index + 1).to_s if index < -1
               "(#{xpath})[#{last_value}]"
@@ -149,11 +148,6 @@ module Watir
               @requires_matches[:index] = index
               xpath
             end
-          end
-          # rubocop:enable Metrics/CyclomaticComplexity:
-
-          def use_index?
-            true
           end
 
           def deprecate_class_array(class_name)

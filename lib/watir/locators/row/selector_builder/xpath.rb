@@ -4,15 +4,19 @@ module Watir
       class SelectorBuilder
         class XPath < Element::SelectorBuilder::XPath
           def build(selector, scope_tag_name)
-            built = super(selector)
+            return super(selector) if selector.key?(:adjacent)
 
-            return built if @adjacent
+            index = selector.delete(:index)
 
-            common_string = built[:xpath]
+            common_string = super(selector)[:xpath]
             expressions = generate_expressions(scope_tag_name)
             expressions.map! { |e| "#{e}#{common_string}" } unless common_string.empty?
 
             xpath = expressions.join(' | ').to_s
+
+            xpath = index ? add_index(xpath, index) : xpath
+
+            @selector.merge! @requires_matches
 
             {xpath: xpath}
           end
@@ -30,10 +34,6 @@ module Watir
             # needs to use Locator#locate_matching_elements
             @requires_matches[:text] = @selector.delete(:text) if @selector.key?(:text)
             ''
-          end
-
-          def use_index?
-            false
           end
 
           def generate_expressions(scope_tag_name)
