@@ -138,7 +138,7 @@ describe Watir::Locators::TextField::SelectorBuilder do
 
       it 'returns complicated Regexp to the locator as a value' do
         @selector = {text: /^foo$/}
-        @wd_locator = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]"}
+        @wd_locator = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})][contains(@value, 'foo')]"}
         @remaining = {text: /^foo$/}
       end
     end

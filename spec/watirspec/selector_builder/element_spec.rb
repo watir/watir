@@ -100,7 +100,7 @@ describe Watir::Locators::Element::SelectorBuilder do
         @data_locator = 'first div'
       end
 
-      it 'with Regexp contains' do
+      it 'with simple Regexp contains' do
         @selector = {tag_name: /div/}
         @wd_locator = {xpath: ".//*[contains(local-name(), 'div')]"}
         @data_locator = 'first div'
@@ -517,6 +517,57 @@ describe Watir::Locators::Element::SelectorBuilder do
         @wd_locator = {xpath: ".//*[local-name()='div'][contains(concat(' ', @class, ' '), ' content ')]" \
 "[normalize-space()='Foo'][@contenteditable='true']"}
         @data_locator = 'content'
+      end
+    end
+
+    context 'with simple Regexp' do
+      before(:each) do
+        browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
+      end
+
+      it 'handles spaces' do
+        @selector = {text: /d u/}
+        @wd_locator = {xpath: ".//*[contains(text(), 'd u')]"}
+        @data_locator = 'add user'
+      end
+
+      it 'handles escaped characters' do
+        @selector = {src: %r{ages\/but}}
+        @wd_locator = {xpath: ".//*[contains(@src, 'ages/but')]"}
+        @data_locator = 'submittable button'
+      end
+    end
+
+    context 'with complex Regexp' do
+      before(:each) do
+        browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
+      end
+
+      it 'handles wildcards' do
+        @selector = {src: /ages.*but/}
+        @wd_locator = {xpath: ".//*[contains(@src, 'ages') and contains(@src, 'but')]"}
+        @data_locator = 'submittable button'
+        @remaining = {src: /ages.*but/}
+      end
+
+      it 'handles optional characters' do
+        @selector = {src: /ages ?but/}
+        @wd_locator = {xpath: ".//*[contains(@src, 'ages') and contains(@src, 'but')]"}
+        @data_locator = 'submittable button'
+        @remaining = {src: /ages ?but/}
+      end
+
+      it 'handles anchors' do
+        @selector = {name: /^new_user_image$/}
+        @wd_locator = {xpath: ".//*[contains(@name, 'new_user_image')]"}
+        @data_locator = 'submittable button'
+        @remaining = {name: /^new_user_image$/}
+      end
+
+      it 'handles beginning anchor' do
+        @selector = {src: /^i/}
+        @wd_locator = {xpath: ".//*[starts-with(@src, 'i')]"}
+        @data_locator = 'submittable button'
       end
     end
 
