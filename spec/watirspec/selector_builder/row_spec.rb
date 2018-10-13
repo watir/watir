@@ -61,6 +61,51 @@ describe Watir::Locators::Row::SelectorBuilder do
       end
     end
 
+    context 'with index' do
+      before(:each) do
+        browser.goto(WatirSpec.url_for('tables.html'))
+      end
+
+      it 'positive' do
+        @query_scope = browser.element(id: 'outer').locate
+        @selector = {index: 1}
+        @wd_locator = {xpath: "(./*[local-name()='tr'] | ./*[local-name()='tbody']/*[local-name()='tr'] | " \
+"./*[local-name()='thead']/*[local-name()='tr'] | ./*[local-name()='tfoot']/*[local-name()='tr'])[2]"}
+        @data_locator = 'middle row'
+      end
+
+      it 'negative' do
+        @query_scope = browser.element(id: 'outer').locate
+        @selector = {index: -3}
+        @wd_locator = {xpath: "(./*[local-name()='tr'] | ./*[local-name()='tbody']/*[local-name()='tr'] | " \
+"./*[local-name()='thead']/*[local-name()='tr'] | ./*[local-name()='tfoot']/*[local-name()='tr'])[last()-2]"}
+        @data_locator = 'first row'
+      end
+
+      it 'last' do
+        @query_scope = browser.element(id: 'outer').locate
+        @selector = {index: -1}
+        @wd_locator = {xpath: "(./*[local-name()='tr'] | ./*[local-name()='tbody']/*[local-name()='tr'] | " \
+"./*[local-name()='thead']/*[local-name()='tr'] | ./*[local-name()='tfoot']/*[local-name()='tr'])[last()]"}
+        @data_locator = 'last row'
+      end
+
+      it 'does not return index if it is zero' do
+        @query_scope = browser.element(id: 'outer').locate
+        @selector = {index: 0}
+        @wd_locator = {xpath: "./*[local-name()='tr'] | ./*[local-name()='tbody']/*[local-name()='tr'] | " \
+"./*[local-name()='thead']/*[local-name()='tr'] | ./*[local-name()='tfoot']/*[local-name()='tr']"}
+        @data_locator = 'first row'
+      end
+
+      it 'raises exception when index is not an Integer', skip_after: true do
+        @query_scope = browser.element(id: 'outer').locate
+        selector = {index: 'foo'}
+        msg = 'expected Integer, got "foo":String'
+        expect { selector_builder.build(selector) }.to raise_exception TypeError, msg
+      end
+    end
+
     context 'with multiple locators' do
       before(:each) do
         browser.goto(WatirSpec.url_for('tables.html'))

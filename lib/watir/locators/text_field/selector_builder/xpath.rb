@@ -21,10 +21,6 @@ module Watir
             super
           end
 
-          def use_index?
-            false
-          end
-
           def type_string(type)
             if type.eql?(true)
               "[#{negative_type_text}]"

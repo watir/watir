@@ -56,10 +56,6 @@ module Watir
             end
           end
 
-          def use_index?
-            false
-          end
-
           def predicate_conversion(key, regexp)
             res = key == :text ? super(:contains_text, regexp) : super
             @requires_matches[key] = @requires_matches.delete(:contains_text) if @requires_matches.key?(:contains_text)

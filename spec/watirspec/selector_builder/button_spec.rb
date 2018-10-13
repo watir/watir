@@ -175,6 +175,44 @@ describe Watir::Locators::Button::SelectorBuilder do
       end
     end
 
+    context 'with index' do
+      before(:each) do
+        browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
+      end
+
+      it 'positive' do
+        @selector = {index: 3}
+        @wd_locator = {xpath: "(.//*[(local-name()='button') or (local-name()='input' and (#{default_types}))])[4]"}
+        @data_locator = 'preview'
+      end
+
+      it 'negative' do
+        @selector = {index: -4}
+        @wd_locator = {xpath: "(.//*[(local-name()='button') or " \
+"(local-name()='input' and (#{default_types}))])[last()-3]"}
+        @data_locator = 'submittable button'
+      end
+
+      it 'last' do
+        @selector = {index: -1}
+        @wd_locator = {xpath: "(.//*[(local-name()='button') or " \
+"(local-name()='input' and (#{default_types}))])[last()]"}
+        @data_locator = 'last button'
+      end
+
+      it 'does not return index if it is zero' do
+        @selector = {index: 0}
+        @wd_locator = {xpath: ".//*[(local-name()='button') or (local-name()='input' and (#{default_types}))]"}
+        @data_locator = 'user submit'
+      end
+
+      it 'raises exception when index is not an Integer', skip_after: true do
+        selector = {index: 'foo'}
+        msg = 'expected Integer, got "foo":String'
+        expect { selector_builder.build(selector) }.to raise_exception TypeError, msg
+      end
+    end
+
     context 'with multiple locators' do
       before(:each) do
         browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
