@@ -353,7 +353,7 @@ describe Watir::Locators::Element::Locator do
 
         allow(elements1.first).to receive(:attribute).and_raise(Selenium::WebDriver::Error::StaleElementReferenceError)
 
-        expect_all(:xpath, './/*[@class]').and_return(elements1, elements2)
+        expect_all(:xpath, ".//*[contains(@class, 'foo')]").and_return(elements1, elements2)
 
         expect(locate_one(class: /^foo/)).to eq elements2[0]
       end
@@ -370,7 +370,7 @@ describe Watir::Locators::Element::Locator do
         allow(elements2.first).to receive(:attribute).and_raise(Selenium::WebDriver::Error::StaleElementReferenceError)
         allow(elements3.first).to receive(:attribute).and_raise(Selenium::WebDriver::Error::StaleElementReferenceError)
 
-        expect_all(:xpath, './/*[@class]').and_return(elements1, elements2, elements3)
+        expect_all(:xpath, ".//*[contains(@class, 'foo')]").and_return(elements1, elements2, elements3)
 
         msg = 'Unable to locate element from {:class=>[/^foo/]} due to changing page'
         expect { locate_one(class: /^foo/) }.to raise_exception(Watir::Exception::LocatorException, msg)
@@ -553,6 +553,64 @@ describe Watir::Locators::Element::Locator do
       }
 
       expect(locate_one(selector)).to eq element
+    end
+
+    context 'and xpath' do
+      it 'converts a leading run of regexp literals to a contains() expression' do
+        elements = [
+          element(tag_name: 'div', attributes: {foo: 'foo'}),
+          element(tag_name: 'div', attributes: {foo: 'foob'}),
+          element(tag_name: 'div', attributes: {foo: 'bar'})
+        ]
+
+        expect_all(:xpath, ".//*[local-name()='div'][contains(@foo, 'fo') and contains(@foo, 'b')]")
+          .and_return(elements.first(2))
+
+        expect(locate_one(tag_name: 'div', foo: /fo.b$/)).to eq elements[1]
+      end
+
+      it 'converts a trailing run of regexp literals to a contains() expression' do
+        elements = [
+          element(tag_name: 'div', attributes: {foo: 'foo'}),
+          element(tag_name: 'div', attributes: {foo: 'foob'})
+        ]
+
+        expect_all(:xpath, ".//*[local-name()='div'][contains(@foo, 'fo') and contains(@foo, 'b')]")
+          .and_return(elements.last(1))
+
+        expect(locate_one(tag_name: 'div', foo: /^fo.b/)).to eq elements[1]
+      end
+
+      it 'converts a leading and a trailing run of regexp literals to a contains() expression' do
+        elements = [
+          element(tag_name: 'div', attributes: {foo: 'foo'}),
+          element(tag_name: 'div', attributes: {foo: 'foob'})
+        ]
+
+        expect_all(:xpath, ".//*[local-name()='div'][contains(@foo, 'fo') and contains(@foo, 'b')]")
+          .and_return(elements.last(1))
+
+        expect(locate_one(tag_name: 'div', foo: /fo.b/)).to eq elements[1]
+      end
+
+      it 'does not try to convert case insensitive expressions' do
+        element = element(tag_name: 'div', attributes: {foo: 'foo'})
+
+        expect_one(:xpath, ".//*[local-name()='div'][contains(@FOO, 'FOOB')]").and_return(element)
+
+        expect(locate_one(tag_name: 'div', foo: /FOOB/i)).to eq element
+      end
+
+      it "does not try to convert expressions containing '|'" do
+        elements = [
+          element(tag_name: 'div', attributes: {foo: 'foo'}),
+          element(tag_name: 'div', attributes: {foo: 'foob'})
+        ]
+
+        expect_all(:xpath, ".//*[local-name()='div'][@foo]").and_return(elements.last(1))
+
+        expect(locate_one(tag_name: 'div', foo: /x|b/)).to eq elements[1]
+      end
     end
 
     describe 'errors' do

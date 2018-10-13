@@ -114,6 +114,20 @@ describe Watir::Locators::Button::SelectorBuilder do
         @data_locator = 'Benjamin'
       end
 
+      it 'Simple Regexp for text' do
+        @selector = {text: /n 2/}
+        @wd_locator = {xpath: ".//*[local-name()='button' or (local-name()='input' and #{default_types})]" \
+"[contains(text(), 'n 2') or contains(@value, 'n 2')]"}
+        @data_locator = 'Benjamin'
+      end
+
+      it 'Simple Regexp for value' do
+        @selector = {text: /Prev/}
+        @wd_locator = {xpath: ".//*[local-name()='button' or (local-name()='input' and #{default_types})]" \
+"[contains(text(), 'Prev') or contains(@value, 'Prev')]"}
+        @data_locator = 'preview'
+      end
+
       it 'returns complex Regexp to the locator' do
         @selector = {text: /^foo$/}
         @wd_locator = {xpath: ".//*[(local-name()='button' and text()) or " \

@@ -1,6 +1,5 @@
 module Watir
   module Container
-    include XpathSupport
     include JSSnippets
 
     #
