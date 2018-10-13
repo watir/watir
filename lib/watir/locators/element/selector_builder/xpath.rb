@@ -27,14 +27,7 @@ module Watir
             xpath = "#{start_string}#{adjacent_string}#{tag_string}#{class_string}#{attribute_string}" \
 "#{converted_attribute_string}#{text_string}"
 
-            xpath = if index && !adjacent_string.empty?
-                      "#{xpath}[#{index + 1}]"
-                    elsif index&.positive? && @requires_matches.empty? && use_index?
-                      "(#{xpath})[#{index + 1}]"
-                    else
-                      @requires_matches[:index] = index if index
-                      xpath
-                    end
+            xpath = index ? add_index(xpath, index, !adjacent_string.empty?) : xpath
 
             @selector.merge! @requires_matches
 
@@ -42,6 +35,24 @@ module Watir
           end
 
           protected
+
+          # TODO: Remove this on refactor of adjacent & index
+          # rubocop:disable Metrics/CyclomaticComplexity:
+          def add_index(xpath, index, adjacent)
+            if adjacent
+              "#{xpath}[#{index + 1}]"
+            elsif index&.positive? && @requires_matches.empty? && use_index?
+              "(#{xpath})[#{index + 1}]"
+            elsif index&.negative? && @requires_matches.empty? && use_index?
+              last_value = 'last()'
+              last_value << (index + 1).to_s if index < -1
+              "(#{xpath})[#{last_value}]"
+            else
+              @requires_matches[:index] = index
+              xpath
+            end
+          end
+          # rubocop:enable Metrics/CyclomaticComplexity:
 
           def use_index?
             true

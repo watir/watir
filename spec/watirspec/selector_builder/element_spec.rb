@@ -320,6 +320,18 @@ describe Watir::Locators::Element::SelectorBuilder do
         @data_locator = 'content'
       end
 
+      it 'negative' do
+        @selector = {tag_name: 'div', index: -7}
+        @wd_locator = {xpath: "(.//*[local-name()='div'])[last()-6]"}
+        @data_locator = 'second div'
+      end
+
+      it 'last' do
+        @selector = {tag_name: 'div', index: -1}
+        @wd_locator = {xpath: "(.//*[local-name()='div'])[last()]"}
+        @data_locator = 'content'
+      end
+
       it 'does not return index if it is zero' do
         @selector = {tag_name: 'div', index: 0}
         @wd_locator = {xpath: ".//*[local-name()='div']"}
@@ -543,12 +555,6 @@ describe Watir::Locators::Element::SelectorBuilder do
         @selector = {tag_name: 'span', visible_text: 'foo'}
         @wd_locator = {xpath: ".//*[local-name()='span']"}
         @remaining = {visible_text: 'foo'}
-      end
-
-      it 'negative index' do
-        @selector = {tag_name: 'span', index: -1}
-        @wd_locator = {xpath: ".//*[local-name()='span']"}
-        @remaining = {index: -1}
       end
 
       it 'raises exception when visible is not boolean', skip_after: true do
