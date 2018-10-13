@@ -5,7 +5,6 @@ if defined?(RSpec)
                             use_capabilities
                             visible_text
                             link_text
-                            text_regexp
                             stale_visible
                             stale_present
                             select_by
