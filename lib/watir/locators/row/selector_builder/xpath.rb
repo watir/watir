@@ -4,26 +4,33 @@ module Watir
       class SelectorBuilder
         class XPath < Element::SelectorBuilder::XPath
           def build(selector, scope_tag_name)
-            return super(selector) if selector.key?(:adjacent)
+            built = super(selector)
 
-            # Can not locate a Row with Text because all text is in the Cells;
-            # needs to use Locator#locate_matching_elements
-            text = selector.delete(:text)
+            return built if @adjacent
 
-            wd_locator = super(selector)
-
-            common_string = wd_locator[:xpath].gsub(default_start, '')
-
+            common_string = built[:xpath]
             expressions = generate_expressions(scope_tag_name)
             expressions.map! { |e| "#{e}#{common_string}" } unless common_string.empty?
 
             xpath = expressions.join(' | ').to_s
 
-            selector[:text] = text if text
             {xpath: xpath}
           end
 
           private
+
+          def start_string
+            @adjacent ? './' : ''
+          end
+
+          def text_string
+            return super if @adjacent
+
+            # Can not directly locate a Row with Text because all text is in the Cells;
+            # needs to use Locator#locate_matching_elements
+            @requires_matches[:text] = @selector.delete(:text) if @selector.key?(:text)
+            ''
+          end
 
           def use_index?
             false

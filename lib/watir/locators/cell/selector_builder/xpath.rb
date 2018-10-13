@@ -3,26 +3,16 @@ module Watir
     class Cell
       class SelectorBuilder
         class XPath < Element::SelectorBuilder::XPath
-          def build(selector)
-            return super if selector.key?(:adjacent)
+          private
 
-            wd_locator = super(selector)
-
-            start_string = default_start
-            tag_string = "[local-name()='th' or local-name()='td']"
-            common_string = wd_locator[:xpath].gsub(start_string, '')
-
-            xpath = "#{start_string}#{tag_string}#{common_string}"
-
-            {xpath: xpath}
+          def start_string
+            @adjacent ? './' : './*'
           end
 
-          def default_start
-            @selector.key?(:adjacent) ? './' : './*'
-          end
+          def tag_string
+            return super if @adjacent
 
-          def use_index?
-            false
+            "[#{process_attribute(:tag_name, 'th')} or #{process_attribute(:tag_name, 'td')}]"
           end
         end
       end
