@@ -41,7 +41,7 @@ describe Watir::Locators::Cell::SelectorBuilder do
       it 'attribute and text' do
         @selector = {headers: /before_tax/, text: '5 934'}
         @wd_locator = {xpath: "./*[local-name()='th' or local-name()='td']" \
-"[contains(@headers, 'before_tax')][normalize-space()='5 934']"}
+"[normalize-space()='5 934'][contains(@headers, 'before_tax')]"}
         @data_locator = 'before tax'
       end
     end

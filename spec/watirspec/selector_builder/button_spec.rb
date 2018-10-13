@@ -35,29 +35,31 @@ describe Watir::Locators::Button::SelectorBuilder do
     it 'without any arguments' do
       browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
       @selector = {}
-      @wd_locator = {xpath: ".//*[local-name()='button' or (local-name()='input' and #{default_types})]"}
+      @wd_locator = {xpath: ".//*[(local-name()='button') or (local-name()='input' and (#{default_types}))]"}
       @data_locator = 'user submit'
     end
 
     context 'with type' do
       before(:each) { browser.goto(WatirSpec.url_for('forms_with_input_elements.html')) }
 
-      it 'false locates button elements' do
+      it 'false only locates with button without a type' do
         @selector = {type: false}
-        @wd_locator = {xpath: ".//*[local-name()='button']"}
-        @data_locator = 'Benjamin'
+        @wd_locator = {xpath: ".//*[(local-name()='button' and not(@type))]"}
+        @data_locator = 'No Type'
       end
 
-      it 'true locates input elements' do
+      it 'true locates button or input with a type' do
         @selector = {type: true}
-        @wd_locator = {xpath: ".//*[(local-name()='input' and #{default_types})]"}
+        @wd_locator = {xpath: ".//*[(local-name()='button' and @type) or " \
+"(local-name()='input' and (#{default_types}))]"}
         @data_locator = 'user submit'
       end
 
-      it 'locates input element with specified type' do
+      it 'locates input or button element with specified type' do
         @selector = {type: 'reset'}
-        reset_only = "translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')='reset'"
-        @wd_locator = {xpath: ".//*[(local-name()='input' and #{reset_only})]"}
+        @wd_locator = {xpath: ".//*[(local-name()='button' and " \
+"translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')='reset') or " \
+"(local-name()='input' and (translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')='reset'))]"}
         @data_locator = 'reset'
       end
 
@@ -84,23 +86,38 @@ describe Watir::Locators::Button::SelectorBuilder do
     context 'with text' do
       before(:each) { browser.goto(WatirSpec.url_for('forms_with_input_elements.html')) }
 
-      it 'String for text' do
+      it 'locates value of input element with String' do
+        @selector = {text: 'Button'}
+        @wd_locator = {xpath: ".//*[(local-name()='button' and normalize-space()='Button') or " \
+"(local-name()='input' and (#{default_types}) and @value='Button')]"}
+        @data_locator = 'new user'
+      end
+
+      it 'locates text of button element with String' do
         @selector = {text: 'Button 2'}
-        @wd_locator = {xpath: ".//*[local-name()='button' or (local-name()='input' and #{default_types})]" \
-"[normalize-space()='Button 2' or @value='Button 2']"}
+        @wd_locator = {xpath: ".//*[(local-name()='button' and normalize-space()='Button 2') or " \
+"(local-name()='input' and (#{default_types}) and @value='Button 2')]"}
         @data_locator = 'Benjamin'
       end
 
-      it 'Simple Regexp for value' do
-        @selector = {text: /Prev/}
-        @wd_locator = {xpath: ".//*[local-name()='button' or (local-name()='input' and #{default_types})]" \
-"[contains(text(), 'Prev') or contains(@value, 'Prev')]"}
-        @data_locator = 'preview'
+      it 'locates value of input element with simple Regexp' do
+        @selector = {text: /Button/}
+        @wd_locator = {xpath: ".//*[(local-name()='button' and contains(text(), 'Button')) or " \
+"(local-name()='input' and (#{default_types}) and contains(@value, 'Button'))]"}
+        @data_locator = 'new user'
       end
 
-      it 'returns complicated Regexp to the locator' do
+      it 'locates text of button element with simple Regexp' do
+        @selector = {text: /Button 2/}
+        @wd_locator = {xpath: ".//*[(local-name()='button' and contains(text(), 'Button 2')) or " \
+"(local-name()='input' and (#{default_types}) and contains(@value, 'Button 2'))]"}
+        @data_locator = 'Benjamin'
+      end
+
+      it 'returns complex Regexp to the locator' do
         @selector = {text: /^foo$/}
-        @wd_locator = {xpath: ".//*[local-name()='button' or (local-name()='input' and #{default_types})]"}
+        @wd_locator = {xpath: ".//*[(local-name()='button' and text()) or " \
+"(local-name()='input' and (#{default_types}) and @value)]"}
         @remaining = {text: /^foo$/}
       end
     end
@@ -108,18 +125,53 @@ describe Watir::Locators::Button::SelectorBuilder do
     context 'with value' do
       before(:each) { browser.goto(WatirSpec.url_for('forms_with_input_elements.html')) }
 
-      it 'String for value' do
+      it 'input element value with String' do
         @selector = {value: 'Preview'}
-        @wd_locator = {xpath: ".//*[local-name()='button' or (local-name()='input' and #{default_types})]" \
+        @wd_locator = {xpath: ".//*[(local-name()='button') or (local-name()='input' and (#{default_types}))]" \
 "[normalize-space()='Preview' or @value='Preview']"}
         @data_locator = 'preview'
       end
 
-      it 'Simple Regexp for text' do
-        @selector = {value: /2/}
-        @wd_locator = {xpath: ".//*[local-name()='button' or (local-name()='input' and #{default_types})]" \
-"[contains(text(), '2') or contains(@value, '2')]"}
+      it 'button element value with String' do
+        @selector = {value: 'button_2'}
+        @wd_locator = {xpath: ".//*[(local-name()='button') or (local-name()='input' and (#{default_types}))]" \
+"[normalize-space()='button_2' or @value='button_2']"}
         @data_locator = 'Benjamin'
+      end
+
+      it 'input element value with simple Regexp' do
+        @selector = {value: /Prev/}
+        @wd_locator = {xpath: ".//*[(local-name()='button') or (local-name()='input' and (#{default_types}))]" \
+"[contains(text(), 'Prev') or contains(@value, 'Prev')]"}
+        @data_locator = 'preview'
+      end
+
+      it 'button element value with simple Regexp' do
+        @selector = {value: /on_2/}
+        @wd_locator = {xpath: ".//*[(local-name()='button') or (local-name()='input' and (#{default_types}))]" \
+"[contains(text(), 'on_2') or contains(@value, 'on_2')]"}
+        @data_locator = 'Benjamin'
+      end
+
+      it 'button element text with String' do
+        @selector = {value: 'Button 2'}
+        @wd_locator = {xpath: ".//*[(local-name()='button') or (local-name()='input' and (#{default_types}))]" \
+"[normalize-space()='Button 2' or @value='Button 2']"}
+        @data_locator = 'Benjamin'
+      end
+
+      it 'button element text with simple Regexp' do
+        @selector = {value: /ton 2/}
+        @wd_locator = {xpath: ".//*[(local-name()='button') or (local-name()='input' and (#{default_types}))]" \
+"[contains(text(), 'ton 2') or contains(@value, 'ton 2')]"}
+        @data_locator = 'Benjamin'
+      end
+
+      it 'returns complex Regexp to the locator' do
+        @selector = {value: /^foo$/}
+        @wd_locator = {xpath: ".//*[(local-name()='button') or (local-name()='input' and (#{default_types}))]" \
+'[text() or @value]'}
+        @remaining = {value: /^foo$/}
       end
     end
 
@@ -130,7 +182,7 @@ describe Watir::Locators::Button::SelectorBuilder do
 
       it 'locates using class and attributes' do
         @selector = {class: 'image', name: 'new_user_image', src: true}
-        @wd_locator = {xpath: ".//*[local-name()='button' or (local-name()='input' and #{default_types})]" \
+        @wd_locator = {xpath: ".//*[(local-name()='button') or (local-name()='input' and (#{default_types}))]" \
 "[contains(concat(' ', @class, ' '), ' image ')][@name='new_user_image' and @src]"}
         @data_locator = 'submittable button'
       end

@@ -299,7 +299,7 @@ describe Watir::Locators::Element::Locator do
       it 'handles mix of string and regexp attributes' do
         element = element(tag_name: 'div', attributes: {dir: 'foo', title: 'baz'})
 
-        expect_one(:xpath, ".//*[local-name()='div'][@dir='foo'][contains(@title, 'baz')]").and_return(element)
+        expect_one(:xpath, ".//*[local-name()='div'][@dir='foo' and contains(@title, 'baz')]").and_return(element)
 
         selector = {
           tag_name: 'div',
@@ -406,8 +406,8 @@ describe Watir::Locators::Element::Locator do
       end
 
       it 'raises a TypeError if selector value is not a String, Regexp or Boolean' do
-        msg = /expected string_or_regexp, got 123:(Integer|Fixnum)/
-        expect { locate_one(tag_name: 123) }.to raise_error TypeError, msg
+        msg = /expected one of \[String, Regexp, TrueClass, FalseClass\], got 123:(Integer|Fixnum)/
+        expect { locate_one(foo: 123) }.to raise_error TypeError, msg
       end
 
       it 'raises a Error if selector key is not a String or a Symbol' do
@@ -529,7 +529,7 @@ describe Watir::Locators::Element::Locator do
           element(tag_name: 'div', attributes: {dir: 'foo', title: 'bazt'})
         ]
 
-        expect_all(:xpath, ".//*[local-name()='div'][@dir='foo'][contains(@title, 'baz')]").and_return(elements)
+        expect_all(:xpath, ".//*[local-name()='div'][@dir='foo' and contains(@title, 'baz')]").and_return(elements)
 
         selector = {
           tag_name: 'div',

@@ -114,7 +114,7 @@ describe Watir::Locators::Element::SelectorBuilder do
 
       it 'raises exception when not a String or Regexp', skip_after: true do
         selector = {tag_name: 7}
-        msg = /expected string_or_regexp, got 7:(Fixnum|Integer)/
+        msg = /expected string_or_regexp_or_symbol, got 7:(Fixnum|Integer)/
         expect { selector_builder.build(selector) }.to raise_exception TypeError, msg
       end
     end
@@ -515,7 +515,7 @@ describe Watir::Locators::Element::SelectorBuilder do
       it 'locates using tag name, class, attributes and text' do
         @selector = {tag_name: 'div', class: 'content', contenteditable: 'true', text: 'Foo'}
         @wd_locator = {xpath: ".//*[local-name()='div'][contains(concat(' ', @class, ' '), ' content ')]" \
-"[@contenteditable='true'][normalize-space()='Foo']"}
+"[normalize-space()='Foo'][@contenteditable='true']"}
         @data_locator = 'content'
       end
     end
@@ -537,6 +537,12 @@ describe Watir::Locators::Element::SelectorBuilder do
         @selector = {class: /^her/}
         @wd_locator = {xpath: './/*[@class]'}
         @remaining = {class: [/^her/]}
+      end
+
+      it 'text with any Regexp' do
+        @selector = {text: /Add/}
+        @wd_locator = {xpath: './/*'}
+        @remaining = {text: /Add/}
       end
 
       it 'visible' do

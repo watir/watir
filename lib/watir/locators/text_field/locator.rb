@@ -9,18 +9,21 @@ module Watir
         end
 
         def matches_values?(element, rx_selector)
-          rx_selector = rx_selector.dup
+          conversions = %i[text value label visible_text] & rx_selector.keys
 
-          tag_name = element.tag_name.downcase
+          tag_name = nil
 
-          %i[text value label].each do |key|
-            next unless rx_selector.key?(key)
-
+          conversions.each do |key|
+            tag_name ||= element.tag_name.downcase
             correct_key = tag_name == 'input' ? :value : :text
             rx_selector[correct_key] = rx_selector.delete(key)
           end
 
           super
+        end
+
+        def text_regexp_deprecation(*)
+          # does not apply to text_field
         end
       end
     end

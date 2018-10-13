@@ -63,8 +63,7 @@ module Watir
           when :visible
             return raise_unless(what, :boolean)
           when :tag_name
-            what = what.to_s if what.is_a?(::Symbol)
-            return raise_unless(what, :string_or_regexp)
+            return raise_unless(what, :string_or_regexp_or_symbol)
           when :visible_text, :text
             return raise_unless(what, :string_or_regexp)
           when :class, :class_name
@@ -94,9 +93,10 @@ module Watir
           when 'text'
             Watir.logger.deprecate "String 'text' as a locator", 'Symbol :text', ids: ['text_string']
             [:text, what]
-          when :tag_name, :text, :xpath, :index, :class, :css, :visible, :visible_text, :adjacent
-            # include :class since the valid attribute is 'class_name'
-            # include :for since the valid attribute is 'html_for'
+          when :tag_name
+            what = what.to_s if what.is_a?(::Symbol)
+            [how, what]
+          when :text, :xpath, :index, :class, :css, :visible, :visible_text, :adjacent
             [how, what]
           when :label
             if should_use_label_element?
@@ -152,17 +152,19 @@ module Watir
           end
         end
 
-        def raise_unless(what, klass)
-          case klass
-          when :boolean
-            return if [TrueClass, FalseClass].include?(what.class)
-          when :string_or_regexp
-            return if [String, Regexp].include?(what.class)
-          else
-            return if what.is_a?(klass)
-          end
+        def raise_unless(what, type)
+          valid = if type == :boolean
+                    [TrueClass, FalseClass].include?(what.class)
+                  elsif type == :string_or_regexp
+                    [String, Regexp].include?(what.class)
+                  elsif type == :string_or_regexp_or_symbol
+                    [String, Regexp, ::Symbol].include?(what.class)
+                  else
+                    what.is_a?(type)
+                  end
+          return if valid
 
-          raise TypeError, "expected #{klass}, got #{what.inspect}:#{what.class}"
+          raise TypeError, "expected #{type}, got #{what.inspect}:#{what.class}"
         end
       end
     end
