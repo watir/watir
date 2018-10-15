@@ -150,7 +150,7 @@ describe Watir::Locators::Element::SelectorBuilder do
         @data_locator = 'first div'
       end
 
-      it 'single Regexp contains' do
+      it 'simple Regexp contains' do
         @selector = {class_name: /use/}
         @wd_locator = {xpath: ".//*[contains(@class, 'use')]"}
         @data_locator = 'form'
@@ -274,6 +274,12 @@ describe Watir::Locators::Element::SelectorBuilder do
       it 'with Regexp' do
         @selector = {name: /user/}
         @wd_locator = {xpath: ".//*[contains(@name, 'user')]"}
+        @data_locator = 'form'
+      end
+
+      it 'with Regexp at beginning' do
+        @selector = {action: /^post/}
+        @wd_locator = {xpath: ".//*[starts-with(@action, 'post')]"}
         @data_locator = 'form'
       end
 
@@ -526,9 +532,9 @@ describe Watir::Locators::Element::SelectorBuilder do
       end
 
       it 'handles spaces' do
-        @selector = {text: /d u/}
-        @wd_locator = {xpath: ".//*[contains(text(), 'd u')]"}
-        @data_locator = 'add user'
+        @selector = {title: /od Lu/}
+        @wd_locator = {xpath: ".//*[contains(@title, 'od Lu')]"}
+        @data_locator = 'Good Luck'
       end
 
       it 'handles escaped characters' do
@@ -569,25 +575,27 @@ describe Watir::Locators::Element::SelectorBuilder do
         @wd_locator = {xpath: ".//*[starts-with(@src, 'i')]"}
         @data_locator = 'submittable button'
       end
+
+      it 'handles case insensitive' do
+        @selector = {action: /me/i}
+        @wd_locator = {xpath: ".//*[contains(translate(@action, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', " \
+"'abcdefghijklmnopqrstuvwxyz'), 'me')]"}
+        @data_locator = 'form'
+      end
     end
 
+    # TODO: These can be moved to unit tests since no browser required
     context 'returns locators that can not be directly translated' do
-      it 'attribute with complicated Regexp at beginning' do
-        @selector = {action: /^post/}
-        @wd_locator = {xpath: './/*[@action]'}
-        @remaining = {action: /^post/}
-      end
-
       it 'attribute with complicated Regexp at end' do
         @selector = {action: /me$/}
-        @wd_locator = {xpath: './/*[@action]'}
+        @wd_locator = {xpath: ".//*[contains(@action, 'me')]"}
         @remaining = {action: /me$/}
       end
 
       it 'class with complicated Regexp' do
-        @selector = {class: /^her/}
-        @wd_locator = {xpath: './/*[@class]'}
-        @remaining = {class: [/^her/]}
+        @selector = {class: /he?r/}
+        @wd_locator = {xpath: ".//*[contains(@class, 'h') and contains(@class, 'r')]"}
+        @remaining = {class: [/he?r/]}
       end
 
       it 'text with any Regexp' do
