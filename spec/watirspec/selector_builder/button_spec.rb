@@ -116,22 +116,22 @@ describe Watir::Locators::Button::SelectorBuilder do
 
       it 'Simple Regexp for text' do
         @selector = {text: /n 2/}
-        @wd_locator = {xpath: ".//*[local-name()='button' or (local-name()='input' and #{default_types})]" \
-"[contains(text(), 'n 2') or contains(@value, 'n 2')]"}
+        @wd_locator = {xpath: ".//*[(local-name()='button' and contains(text(), 'n 2')) or " \
+"(local-name()='input' and (#{default_types}) and contains(@value, 'n 2'))]"}
         @data_locator = 'Benjamin'
       end
 
       it 'Simple Regexp for value' do
         @selector = {text: /Prev/}
-        @wd_locator = {xpath: ".//*[local-name()='button' or (local-name()='input' and #{default_types})]" \
-"[contains(text(), 'Prev') or contains(@value, 'Prev')]"}
+        @wd_locator = {xpath: ".//*[(local-name()='button' and contains(text(), 'Prev')) or " \
+"(local-name()='input' and (#{default_types}) and contains(@value, 'Prev'))]"}
         @data_locator = 'preview'
       end
 
       it 'returns complex Regexp to the locator' do
         @selector = {text: /^foo$/}
-        @wd_locator = {xpath: ".//*[(local-name()='button' and text()) or " \
-"(local-name()='input' and (#{default_types}) and @value)]"}
+        @wd_locator = {xpath: ".//*[(local-name()='button' and contains(text(), 'foo')) or " \
+"(local-name()='input' and (#{default_types}) and contains(@value, 'foo'))]"}
         @remaining = {text: /^foo$/}
       end
     end
@@ -184,7 +184,7 @@ describe Watir::Locators::Button::SelectorBuilder do
       it 'returns complex Regexp to the locator' do
         @selector = {value: /^foo$/}
         @wd_locator = {xpath: ".//*[(local-name()='button') or (local-name()='input' and (#{default_types}))]" \
-'[text() or @value]'}
+"[contains(text(), 'foo') or contains(@value, 'foo')]"}
         @remaining = {value: /^foo$/}
       end
     end

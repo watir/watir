@@ -4,6 +4,7 @@ module Watir
       class SelectorBuilder
         class XPath
           include Exception
+          include XpathSupport
 
           CAN_NOT_BUILD = %i[visible visible_text].freeze
 
@@ -53,7 +54,11 @@ module Watir
           end
 
           def predicate_conversion(key, regexp)
-            lhs = lhs_for(key)
+            # type attributes can be upper case - downcase them
+            # https://github.com/watir/watir/issues/72
+            downcase = key == :type || regexp.casefold?
+
+            lhs = lhs_for(key, downcase)
 
             results = RegexpDisassembler.new(regexp).substrings
 
@@ -167,7 +172,7 @@ module Watir
                                    ids: [:class_array]
           end
 
-          def lhs_for(key)
+          def lhs_for(key, downcase = false)
             case key
             when String
               "@#{key}"
@@ -179,23 +184,20 @@ module Watir
               'normalize-space()'
             when :contains_text
               'text()'
-            when :type
-              # type attributes can be upper case - downcase them
-              # https://github.com/watir/watir/issues/72
-              XpathSupport.downcase('@type')
             when ::Symbol
-              "@#{key.to_s.tr('_', '-')}"
+              lhs = "@#{key.to_s.tr('_', '-')}"
+              downcase ? XpathSupport.downcase(lhs) : lhs
             else
               raise LocatorException, "Unable to build XPath using #{key}:#{key.class}"
             end
           end
 
           def attribute_presence(attribute)
-            attribute == :type ? '@type' : lhs_for(attribute)
+            lhs_for(attribute, false)
           end
 
           def attribute_absence(attribute)
-            lhs = attribute == :type ? '@type' : lhs_for(attribute)
+            lhs = lhs_for(attribute, false)
             "not(#{lhs})"
           end
 
@@ -210,7 +212,7 @@ module Watir
 
               negate_xpath ? "not(#{expression})" : expression
             else
-              "#{lhs_for(key)}=#{XpathSupport.escape value}"
+              "#{lhs_for(key, key == :type)}=#{XpathSupport.escape value}"
             end
           end
         end

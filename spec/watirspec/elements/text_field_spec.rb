@@ -12,6 +12,7 @@ describe 'TextField' do
       expect(browser.text_field(id: /new_user_email/)).to exist
       expect(browser.text_field(name: 'new_user_email')).to exist
       expect(browser.text_field(name: /new_user_email/)).to exist
+      expect(browser.text_field(name: /new_user_occupation/i)).to exist
       expect(browser.text_field(value: 'Developer')).to exist
       expect(browser.text_field(value: /Developer/)).to exist
       expect(browser.text_field(class: 'name')).to exist

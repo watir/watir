@@ -21,15 +21,15 @@ module Watir
         end
 
         def build_partial_link_text(selector)
-          return unless can_convert_to_partial_link_text?(selector)
+          return unless convert_to_partial_link_text?(selector)
 
           selector.delete(:tag_name)
           {partial_link_text: selector.delete(:visible_text).source}
         end
 
-        def can_convert_to_partial_link_text?(selector)
+        def convert_to_partial_link_text?(selector)
           selector.keys.sort == %i[tag_name visible_text] &&
-            XpathSupport.simple_regexp?(selector[:visible_text])
+            RegexpDisassembler.new(selector[:visible_text]).substrings.first == selector[:visible_text].source
         end
       end
     end

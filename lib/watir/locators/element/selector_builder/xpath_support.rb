@@ -3,6 +3,13 @@ module Watir
     class Element
       class SelectorBuilder
         module XpathSupport
+          # TODO: Switch to more comprehensive list
+          UPPERCASE_ALL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'.freeze
+          LOWERCASE_ALL = 'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ'.freeze
+
+          UPPERCASE_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.freeze
+          LOWERCASE_LETTERS = 'abcdefghijklmnopqrstuvwxyz'.freeze
+
           def self.escape(value)
             if value.include? "'"
               parts = value.split("'", -1).map { |part| "'#{part}'" }
@@ -15,7 +22,7 @@ module Watir
           end
 
           def self.downcase(value)
-            "translate(#{value},'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')"
+            "translate(#{value}, '#{UPPERCASE_LETTERS}', '#{LOWERCASE_LETTERS}')"
           end
         end
       end

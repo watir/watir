@@ -34,7 +34,7 @@ module Watir
               return [] if source.include?('|') # can't handle alternation here
 
               strs = source.match(/\A\^?(.*?)\$?\Z/).captures[0].split('.').reject(&:empty?).uniq
-              strs = strs.map(&:upcase) if @regexp.casefold?
+              strs = strs.map(&:downcase) if @regexp.casefold?
               strs
             end
           end
