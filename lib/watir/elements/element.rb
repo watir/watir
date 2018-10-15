@@ -489,6 +489,21 @@ module Watir
     end
 
     #
+    # Returns true if the element's center point is covered by a non-descendant element.
+    #
+    # @return [Boolean]
+    #
+
+    def obscured?
+      element_call do
+        return true unless present?
+
+        scroll_into_view
+        execute_js(:elementObscured, self)
+      end
+    end
+
+    #
     # Returns given style property of this element.
     #
     # @example
