@@ -28,8 +28,9 @@ module Watir
         end
 
         def convert_to_partial_link_text?(selector)
-          selector.keys.sort == %i[tag_name visible_text] &&
-            RegexpDisassembler.new(selector[:visible_text]).substrings.first == selector[:visible_text].source
+          regex = selector[:visible_text]
+          selector.keys.sort == %i[tag_name visible_text] && !regex.casefold? &&
+            RegexpDisassembler.new(regex).substrings.first == regex.source
         end
       end
     end

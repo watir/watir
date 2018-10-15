@@ -538,7 +538,7 @@ describe Watir::Locators::Element::SelectorBuilder do
       end
 
       it 'handles escaped characters' do
-        @selector = {src: %r{ages\/but}}
+        @selector = {src: /ages\/but/}
         @wd_locator = {xpath: ".//*[contains(@src, 'ages/but')]"}
         @data_locator = 'submittable button'
       end
@@ -578,8 +578,8 @@ describe Watir::Locators::Element::SelectorBuilder do
 
       it 'handles case insensitive' do
         @selector = {action: /me/i}
-        @wd_locator = {xpath: './/*[contains(translate(@action, ' \
-"'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ', " \
+        @wd_locator = {xpath: './/*[contains(translate(@action,' \
+"'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'," \
 "'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ'), 'me')]"}
         @data_locator = 'form'
       end
