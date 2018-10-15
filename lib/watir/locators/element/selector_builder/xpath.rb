@@ -69,7 +69,7 @@ module Watir
               return lhs
             elsif results.size == 1 && starts_with && results.first == regexp.source[1..-1]
               return "starts-with(#{lhs}, '#{results.first}')"
-            elsif results.first != regexp.source
+            elsif requires_matching?(results, regexp)
               if key == :class
                 @requires_matches[:class] << regexp
               else
@@ -170,6 +170,10 @@ module Watir
             Watir.logger.deprecate dep,
                                    "Array (e.g. #{class_name.split})",
                                    ids: [:class_array]
+          end
+
+          def requires_matching?(results, regexp)
+            regexp.casefold? ? !results.first.casecmp(regexp.source).zero? : results.first != regexp.source
           end
 
           def lhs_for(key, downcase = false)

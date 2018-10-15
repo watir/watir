@@ -598,7 +598,10 @@ describe Watir::Locators::Element::Locator do
       it 'does not try to convert case insensitive expressions' do
         element = element(tag_name: 'div', attributes: {foo: 'foo'})
 
-        expect_one(:xpath, ".//*[local-name()='div'][contains(@foo, 'FOOB')]").and_return(element)
+        xpath = ".//*[local-name()='div'][contains(translate" \
+"(@foo,'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'," \
+"'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ'), 'foob')]"
+        expect_one(:xpath, xpath).and_return(element)
 
         expect(locate_one(tag_name: 'div', foo: /FOOB/i)).to eq element
       end
