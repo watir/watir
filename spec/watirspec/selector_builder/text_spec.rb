@@ -4,19 +4,21 @@ describe Watir::Locators::TextField::SelectorBuilder do
   let(:attributes) { Watir::HTMLElement.attribute_list }
   let(:scope_tag_name) { nil }
   let(:selector_builder) { described_class.new(attributes) }
+  let(:uppercase) { 'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ' }
+  let(:lowercase) { 'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ' }
   let(:negative_types) do
-    "translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')!='file' and "\
-"translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')!='radio' and " \
-"translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')!='checkbox' and " \
-"translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')!='submit' and " \
-"translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')!='reset' and " \
-"translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')!='image' and " \
-"translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')!='button' and " \
-"translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')!='hidden' and " \
-"translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')!='range' and " \
-"translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')!='color' and " \
-"translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')!='date' and " \
-"translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')!='datetime-local'"
+    "translate(@type,'#{uppercase}','#{lowercase}')!='file' and "\
+"translate(@type,'#{uppercase}','#{lowercase}')!='radio' and " \
+"translate(@type,'#{uppercase}','#{lowercase}')!='checkbox' and " \
+"translate(@type,'#{uppercase}','#{lowercase}')!='submit' and " \
+"translate(@type,'#{uppercase}','#{lowercase}')!='reset' and " \
+"translate(@type,'#{uppercase}','#{lowercase}')!='image' and " \
+"translate(@type,'#{uppercase}','#{lowercase}')!='button' and " \
+"translate(@type,'#{uppercase}','#{lowercase}')!='hidden' and " \
+"translate(@type,'#{uppercase}','#{lowercase}')!='range' and " \
+"translate(@type,'#{uppercase}','#{lowercase}')!='color' and " \
+"translate(@type,'#{uppercase}','#{lowercase}')!='date' and " \
+"translate(@type,'#{uppercase}','#{lowercase}')!='datetime-local'"
   end
 
   describe '#build' do
@@ -54,14 +56,14 @@ describe Watir::Locators::TextField::SelectorBuilder do
       it 'specified text field type that is text' do
         @selector = {type: 'text'}
         @wd_locator = {xpath: ".//*[local-name()='input']" \
-"[translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')='text']"}
+"[translate(@type,'#{uppercase}','#{lowercase}')='text']"}
         @data_locator = 'first text'
       end
 
       it 'specified text field type that is not text' do
         @selector = {type: 'number'}
         @wd_locator = {xpath: ".//*[local-name()='input']" \
-"[translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')='number']"}
+"[translate(@type,'#{uppercase}','#{lowercase}')='number']"}
         @data_locator = '42'
       end
 

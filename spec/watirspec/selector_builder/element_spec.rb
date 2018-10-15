@@ -578,8 +578,9 @@ describe Watir::Locators::Element::SelectorBuilder do
 
       it 'handles case insensitive' do
         @selector = {action: /me/i}
-        @wd_locator = {xpath: ".//*[contains(translate(@action, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', " \
-"'abcdefghijklmnopqrstuvwxyz'), 'me')]"}
+        @wd_locator = {xpath: './/*[contains(translate(@action, ' \
+"'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ', " \
+"'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ'), 'me')]"}
         @data_locator = 'form'
       end
     end
