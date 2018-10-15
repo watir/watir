@@ -874,4 +874,59 @@ describe 'Element' do
       expect { browser.div(id: 'no_such_id').classes }.to raise_unknown_object_exception
     end
   end
+
+  describe '#obscured?' do
+    before { browser.goto WatirSpec.url_for('obscured.html') }
+
+    it 'returns false if element\'s center is not covered' do
+      btn = browser.button(id: 'not_obscured')
+      expect(btn).not_to be_obscured
+      expect { btn.click }.not_to raise_exception
+    end
+
+    it 'returns false if element\'s center is covered by its descendant' do
+      btn = browser.button(id: 'has_descendant')
+      expect(btn).not_to be_obscured
+      expect { btn.click }.not_to raise_exception
+    end
+
+    it 'returns true if element\'s center is covered by a non-descendant' do
+      btn = browser.button(id: 'obscured')
+      expect(btn).to be_obscured
+      not_compliant_on :chrome do
+        expect { btn.click }.to raise_exception(Selenium::WebDriver::Error::ElementClickInterceptedError)
+      end
+      compliant_on :chrome do
+        expect { btn.click }.to raise_exception(Selenium::WebDriver::Error::UnknownError)
+      end
+    end
+
+    it 'returns false if element\'s center is surrounded by non-descendants' do
+      btn = browser.button(id: 'surrounded')
+      expect(btn).not_to be_obscured
+      expect { btn.click }.not_to raise_exception
+    end
+
+    it 'scrolls element into view before checking if obscured' do
+      btn = browser.button(id: 'requires_scrolling')
+      expect(btn).not_to be_obscured
+      expect { btn.click }.not_to raise_exception
+    end
+
+    it 'returns true if element cannot be scrolled into view' do
+      btn = browser.button(id: 'off_screen')
+      expect(btn).to be_obscured
+      expect { btn.click }.to raise_unknown_object_exception
+    end
+
+    it 'returns true if element is hidden' do
+      btn = browser.button(id: 'hidden')
+      expect(btn).to be_obscured
+      expect { btn.click }.to raise_unknown_object_exception
+    end
+
+    it 'raises UnknownObjectException if element does not exist' do
+      expect { browser.button(id: 'does_not_exist').obscured? }.to raise_unknown_object_exception
+    end
+  end
 end
