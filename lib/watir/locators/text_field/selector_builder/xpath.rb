@@ -36,7 +36,7 @@ module Watir
 
           def negative_type_text
             Watir::TextField::NON_TEXT_TYPES.map { |type|
-              "#{lhs_for(:type, false)}!=#{SelectorBuilder::XpathSupport.escape type}"
+              "#{lhs_for(:type, true)}!=#{SelectorBuilder::XpathSupport.escape type}"
             }.join(' and ')
           end
         end

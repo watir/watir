@@ -4,11 +4,13 @@ describe Watir::Locators::Button::SelectorBuilder do
   let(:attributes) { Watir::HTMLElement.attribute_list }
   let(:scope_tag_name) { nil }
   let(:selector_builder) { described_class.new(attributes) }
+  let(:uppercase) { 'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ' }
+  let(:lowercase) { 'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ' }
   let(:default_types) do
-    "translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')='button' or" \
-" translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')='reset' or"\
-" translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')='submit' or"\
-" translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')='image'"
+    "translate(@type,'#{uppercase}','#{lowercase}')='button' or" \
+" translate(@type,'#{uppercase}','#{lowercase}')='reset' or"\
+" translate(@type,'#{uppercase}','#{lowercase}')='submit' or"\
+" translate(@type,'#{uppercase}','#{lowercase}')='image'"
   end
 
   describe '#build' do
@@ -58,8 +60,8 @@ describe Watir::Locators::Button::SelectorBuilder do
       it 'locates input or button element with specified type' do
         @selector = {type: 'reset'}
         @wd_locator = {xpath: ".//*[(local-name()='button' and " \
-"translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')='reset') or " \
-"(local-name()='input' and (translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')='reset'))]"}
+"translate(@type,'#{uppercase}','#{lowercase}')='reset') or " \
+"(local-name()='input' and (translate(@type,'#{uppercase}','#{lowercase}')='reset'))]"}
         @data_locator = 'reset'
       end
 

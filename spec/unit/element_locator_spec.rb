@@ -195,7 +195,8 @@ describe Watir::Locators::Element::Locator do
       end
 
       it 'wraps :type attribute with translate() for upper case values' do
-        translated_type = "translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')"
+        translated_type = "translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'," \
+"'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ')"
         expect_one :xpath, ".//*[local-name()='input'][#{translated_type}='file']"
 
         selector = [
@@ -207,7 +208,8 @@ describe Watir::Locators::Element::Locator do
       end
 
       it "uses the corresponding <label>'s @for attribute or parent::label when locating by label" do
-        translated_type = "translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')"
+        translated_type = "translate(@type,'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'," \
+"'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ')"
         xpath = ".//*[local-name()='input'][#{translated_type}='text' and " \
                 "(@id=//label[normalize-space()='foo']/@for or " \
                 "parent::label[normalize-space()='foo'])]"
