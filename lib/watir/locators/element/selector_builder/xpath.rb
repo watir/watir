@@ -68,7 +68,11 @@ module Watir
               @requires_matches[key] = regexp
               return lhs
             elsif results.size == 1 && starts_with && results.first == regexp.source[1..-1]
-              return "starts-with(#{lhs}, '#{results.first}')"
+              if (@requires_matches.keys & CAN_NOT_BUILD).empty?
+                return "starts-with(#{lhs}, '#{results.first}')"
+              else
+                @requires_matches[key] = regexp
+              end
             elsif requires_matching?(results, regexp)
               if key == :class
                 @requires_matches[:class] << regexp
