@@ -62,24 +62,14 @@ module Watir
 
             results = RegexpDisassembler.new(regexp).substrings
 
-            starts_with = regexp.source[0] == '^'
-
             if results.empty?
-              @requires_matches[key] = regexp
+              add_to_matching(key, regexp)
               return lhs
-            elsif results.size == 1 && starts_with && results.first == regexp.source[1..-1]
-              if (@requires_matches.keys & CAN_NOT_BUILD).empty?
-                return "starts-with(#{lhs}, '#{results.first}')"
-              else
-                @requires_matches[key] = regexp
-              end
-            elsif requires_matching?(results, regexp)
-              if key == :class
-                @requires_matches[:class] << regexp
-              else
-                @requires_matches[key] = regexp
-              end
+            elsif results.size == 1 && starts_with?(results, regexp) && !visible?
+              return "starts-with(#{lhs}, '#{results.first}')"
             end
+
+            add_to_matching(key, regexp, results)
 
             results.map { |substring|
               "contains(#{lhs}, '#{substring}')"
@@ -174,6 +164,24 @@ module Watir
             Watir.logger.deprecate dep,
                                    "Array (e.g. #{class_name.split})",
                                    ids: [:class_array]
+          end
+
+          def visible?
+            !(@requires_matches.keys & CAN_NOT_BUILD).empty?
+          end
+
+          def starts_with?(results, regexp)
+            regexp.source[0] == '^' && results.first == regexp.source[1..-1]
+          end
+
+          def add_to_matching(key, regexp, results = nil)
+            return unless results.nil? || requires_matching?(results, regexp)
+
+            if key == :class
+              @requires_matches[key] << regexp
+            else
+              @requires_matches[key] = regexp
+            end
           end
 
           def requires_matching?(results, regexp)
