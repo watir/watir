@@ -277,12 +277,6 @@ describe Watir::Locators::Element::SelectorBuilder do
         @data_locator = 'form'
       end
 
-      it 'with Regexp at beginning' do
-        @selector = {action: /^post/}
-        @wd_locator = {xpath: ".//*[starts-with(@action, 'post')]"}
-        @data_locator = 'form'
-      end
-
       it 'with multiple Regexp attributes separated by and' do
         @selector = {readonly: /read/, id: /good/}
         @wd_locator = {xpath: ".//*[contains(@readonly, 'read') and contains(@id, 'good')]"}
@@ -574,6 +568,12 @@ describe Watir::Locators::Element::SelectorBuilder do
         @selector = {src: /^i/}
         @wd_locator = {xpath: ".//*[starts-with(@src, 'i')]"}
         @data_locator = 'submittable button'
+      end
+
+      it 'does not use starts-with if visible locator used' do
+        @selector = {id: /^vis/, visible_text: 'shown div'}
+        @wd_locator = {xpath: ".//*[contains(@id, 'vis')]"}
+        @remaining = {id: /^vis/, visible_text: 'shown div'}
       end
 
       it 'handles case insensitive' do
