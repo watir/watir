@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
 
   s.add_dependency 'selenium-webdriver', '~> 3.4', '>= 3.4.1'
+  s.add_runtime_dependency 'regexp_parser', '~>1.2'
 
   s.add_development_dependency 'activesupport', '~> 4.0', '>= 4.1.11' # for pluralization during code generation
   s.add_development_dependency 'coveralls'
