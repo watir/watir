@@ -27,7 +27,6 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
 
   s.add_dependency 'selenium-webdriver', '~> 3.4', '>= 3.4.1'
-  s.add_runtime_dependency 'regexp_parser', '~>1.2'
 
   s.add_development_dependency 'activesupport', '~> 4.0', '>= 4.1.11' # for pluralization during code generation
   s.add_development_dependency 'coveralls'
@@ -41,7 +40,9 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'selenium_statistics'
   s.add_development_dependency 'simplecov'
   s.add_development_dependency 'simplecov-console'
-  s.add_development_dependency 'webdrivers', '~> 3.4'
+  # This forces chromedriver 2.42 since 2.43 breaks some alert / windows things
+  # https://bugs.chromium.org/p/chromedriver/issues/detail?id=2615
+  s.add_development_dependency 'webdrivers', '= 3.4.1'
   s.add_development_dependency 'webidl', '>= 0.2.2'
   s.add_development_dependency 'yard', '> 0.8.2.1'
   s.add_development_dependency 'yard-doctest', '>= 0.1.8'
