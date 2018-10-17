@@ -11,6 +11,7 @@ describe 'Browser::AfterHooks' do
       proc = proc { |browser| output << browser.text }
 
       begin
+        browser.alert.dismiss if browser.alert.exists?
         browser.after_hooks.add(proc)
         browser.goto(WatirSpec.url_for('non_control_elements.html'))
 
@@ -137,6 +138,7 @@ describe 'Browser::AfterHooks' do
     end
 
     not_compliant_on :safari, :headless do
+      bug "chromedriver 2.43 https://bugs.chromium.org/p/chromedriver/issues/detail?id=2615", :chrome do
       it 'does not run error checks with alert present' do
         browser.goto WatirSpec.url_for('alerts.html')
 
@@ -149,44 +151,51 @@ describe 'Browser::AfterHooks' do
         browser.alert.ok
         expect(@yield).to eq true
       end
-    end
-
-    not_compliant_on :headless do
-      it 'does not raise error when running error checks using #after_hooks#without with alert present' do
-        url = WatirSpec.url_for('alerts.html')
-        @page_after_hook = proc { browser.url }
-        browser.after_hooks.add @page_after_hook
-        browser.goto url
-        expect { browser.after_hooks.without { browser.button(id: 'alert').click } }.to_not raise_error
-        browser.alert.ok
       end
     end
 
     not_compliant_on :headless do
-      it 'does not raise error if no error checks are defined with alert present' do
-        url = WatirSpec.url_for('alerts.html')
-        @page_after_hook = proc { browser.url }
-        browser.after_hooks.add @page_after_hook
-        browser.goto url
-        browser.after_hooks.delete @page_after_hook
-        expect { browser.button(id: 'alert').click }.to_not raise_error
-        browser.alert.ok
-      end
-    end
-
-    bug 'https://bugzilla.mozilla.org/show_bug.cgi?id=1223277', :firefox do
-      not_compliant_on :headless do
-        it 'does not raise error when running error checks on closed window' do
-          url = WatirSpec.url_for('window_switching.html')
+      bug "chromedriver 2.43 https://bugs.chromium.org/p/chromedriver/issues/detail?id=2615", :chrome do
+        it 'does not raise error when running error checks using #after_hooks#without with alert present' do
+          url = WatirSpec.url_for('alerts.html')
           @page_after_hook = proc { browser.url }
           browser.after_hooks.add @page_after_hook
           browser.goto url
-          browser.a(id: 'open').click
+          expect { browser.after_hooks.without { browser.button(id: 'alert').click } }.to_not raise_error
+          browser.alert.ok
+        end
+      end
+    end
 
-          window = browser.window(title: 'closeable window')
-          window.use
-          expect { browser.a(id: 'close').click }.to_not raise_error
-          browser.original_window.use
+    bug "chromedriver 2.43 https://bugs.chromium.org/p/chromedriver/issues/detail?id=2615", :chrome do
+      not_compliant_on :headless do
+        it 'does not raise error if no error checks are defined with alert present' do
+          url = WatirSpec.url_for('alerts.html')
+          @page_after_hook = proc { browser.url }
+          browser.after_hooks.add @page_after_hook
+          browser.goto url
+          browser.after_hooks.delete @page_after_hook
+          expect { browser.button(id: 'alert').click }.to_not raise_error
+          browser.alert.ok
+        end
+      end
+    end
+
+    bug "chromedriver 2.43 https://bugs.chromium.org/p/chromedriver/issues/detail?id=2615", :chrome do
+      bug 'https://bugzilla.mozilla.org/show_bug.cgi?id=1223277', :firefox do
+        not_compliant_on :headless do
+          it 'does not raise error when running error checks on closed window' do
+            url = WatirSpec.url_for('window_switching.html')
+            @page_after_hook = proc { browser.url }
+            browser.after_hooks.add @page_after_hook
+            browser.goto url
+            browser.a(id: 'open').click
+
+            window = browser.window(title: 'closeable window')
+            window.use
+            expect { browser.a(id: 'close').click }.to_not raise_error
+            browser.original_window.use
+          end
         end
       end
     end
