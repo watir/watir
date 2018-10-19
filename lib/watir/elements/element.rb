@@ -45,7 +45,14 @@ module Watir
     #
 
     def exists?
-      return false if located? && stale?
+      if located? && stale?
+        Watir.logger.deprecate 'Checking `#exists? == false` to determine a stale element',
+                               '`#stale? == true`',
+                               reference: 'http://watir.com/staleness-changes',
+                               ids: [:stale_exists]
+        # TODO: Change this to `reset!` after removing deprecation
+        return false
+      end
 
       assert_exists
       true

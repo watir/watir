@@ -272,7 +272,9 @@ describe 'Element' do
       browser.refresh
 
       expect(element).to be_stale
-      expect(element).to_not exist
+      expect {
+        expect(element).to_not exist
+      }.to have_deprecated_stale_exists
     end
 
     it 'returns false when tag name does not match id' do

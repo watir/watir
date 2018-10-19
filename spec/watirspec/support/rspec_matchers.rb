@@ -6,6 +6,7 @@ if defined?(RSpec)
                             visible_text
                             link_text
                             text_regexp
+                            stale_exists
                             stale_visible
                             stale_present
                             select_by
