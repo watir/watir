@@ -351,8 +351,8 @@ describe Watir::Locators::Element::SelectorBuilder do
 
       it 'locates the element associated with the label element located by the text of the provided label key' do
         @selector = {label: 'Cars'}
-        @wd_locator = {xpath: ".//*[(@id=//label[normalize-space()='Cars']/@for "\
-"or parent::label[normalize-space()='Cars'])]"}
+        @wd_locator = {xpath: ".//*[@id=//label[normalize-space()='Cars']/@for "\
+"or parent::label[normalize-space()='Cars']]"}
         @data_locator = 'cars'
       end
 

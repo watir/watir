@@ -20,7 +20,7 @@ describe 'TextField' do
       expect(browser.text_field(index: 0)).to exist
       expect(browser.text_field(xpath: "//input[@id='new_user_email']")).to exist
       expect(browser.text_field(label: 'First name')).to exist
-      expect(browser.text_field(label: /(Last|First) name/)).to exist
+      expect(browser.text_field(label: /(q|a)st? name/)).to exist
       expect(browser.text_field(label: 'Without for')).to exist
       expect(browser.text_field(label: /Without for/)).to exist
       expect(browser.text_field(label: 'With hidden text')).to exist

@@ -6,7 +6,7 @@ module Watir
           include Exception
           include XpathSupport
 
-          CAN_NOT_BUILD = %i[visible visible_text].freeze
+          CAN_NOT_BUILD = %i[visible visible_text visible_label_element].freeze
 
           def build(selector)
             @selector = selector
@@ -24,6 +24,7 @@ module Watir
             xpath << class_string
             xpath << text_string
             xpath << additional_string
+            xpath << label_element_string
             xpath << attribute_string
 
             xpath = index ? add_index(xpath, index) : xpath
@@ -131,6 +132,33 @@ module Watir
             end
           end
 
+          def label_element_string
+            label = @selector.delete :label_element
+
+            return '' if label.nil?
+
+            key = label.is_a?(Regexp) ? :contains_text : :text
+
+            value = process_attribute(key, label)
+
+            if @requires_matches.key?(:contains_text)
+              @requires_matches[:label_element] = @requires_matches.delete :contains_text
+            end
+
+            # TODO: This conditional can be removed when we remove this deprecation
+            if label.is_a?(Regexp)
+              if @requires_matches.key?(:label_element)
+                dep = "Using :label locator with RegExp #{label} to match an element that includes hidden text"
+                Watir.logger.deprecate(dep, ":visible_#{key}", ids: [:text_regexp])
+              end
+
+              @requires_matches[:label_element] = label
+              ''
+            else
+              "[@id=//label[#{value}]/@for or parent::label[#{value}]]"
+            end
+          end
+
           def attribute_string
             attributes = @selector.keys.map { |key|
               process_attribute(key, @selector.delete(key))
@@ -218,11 +246,7 @@ module Watir
           end
 
           def equal_pair(key, value)
-            if key == :label_element
-              # we assume :label means a corresponding label element, not the attribute
-              text = "#{lhs_for(:text)}=#{XpathSupport.escape value}"
-              "(@id=//label[#{text}]/@for or parent::label[#{text}])"
-            elsif key == :class
+            if key == :class
               negate_xpath = value =~ /^!/ && value.slice!(0)
               expression = "contains(concat(' ', @class, ' '), #{XpathSupport.escape " #{value} "})"
 

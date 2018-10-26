@@ -53,11 +53,7 @@ module Watir
         def using_watir(filter = :first)
           raise ArgumentError, "can't locate all elements by :index" if @selector.key?(:index) && filter == :all
 
-          begin
-            generate_scope
-          rescue LocatorException
-            return nil
-          end
+          @driver_scope ||= @query_scope.wd
 
           selector, values_to_match = selector_builder.build(@selector)
 
@@ -98,6 +94,19 @@ module Watir
           end
         end
 
+        def matching_labels(elements, values_to_match, scope)
+          label_key = values_to_match.key?(:label_element) ? :label_element : :visible_label_element
+          label_value = values_to_match.delete(:label_element) || values_to_match.delete(:visible_label_element)
+          locator_key = label_key.to_s.gsub('label', 'text').gsub('_element', '').to_sym
+
+          Watir::LabelCollection.new(scope, tag_name: 'label').map { |label|
+            next unless matches_values?(label.wd, locator_key => label_value)
+
+            input = label.for.empty? ? label.input : Watir::Input.new(scope, id: label.for)
+            input.wd if elements.include?(input.wd)
+          }.compact
+        end
+
         def matching_elements(elements, values_to_match, filter: :first)
           if filter == :first
             idx = element_index(elements, values_to_match)
@@ -122,44 +131,6 @@ module Watir
 
           elements.reverse!
           idx.abs - 1
-        end
-
-        def generate_scope
-          return @driver_scope if @driver_scope
-
-          @driver_scope = @query_scope.wd
-
-          if @selector.key?(:label)
-            process_label :label
-          elsif @selector.key?(:visible_label)
-            process_label :visible_label
-          end
-        end
-
-        def process_label(label_key)
-          regexp = @selector[label_key].is_a?(Regexp)
-          return unless (regexp || label_key == :visible_label) && selector_builder.should_use_label_element?
-
-          label = label_from_text(label_key)
-          msg = "Unable to locate element with label #{label_key}: #{@selector[label_key]}"
-          raise LocatorException, msg unless label
-
-          id = label.attribute('for')
-          if id
-            @selector[:id] = id
-          else
-            @driver_scope = label
-          end
-        end
-
-        def label_from_text(label_key)
-          # TODO: this won't work correctly if @wd is a sub-element, write spec
-          # TODO: Figure out how to do this with find_element
-          label_text = @selector.delete(label_key)
-          locator_key = label_key.to_s.gsub('label', 'text').gsub('_element', '').to_sym
-          locate_elements(:tag_name, 'label', @driver_scope).find do |el|
-            matches_values?(el, locator_key => label_text)
-          end
         end
 
         def matches_values?(element, values_to_match)
@@ -201,6 +172,9 @@ module Watir
           retries = 0
           begin
             elements = locate_elements(selector.keys.first, selector.values.first, @driver_scope) || []
+            if values_to_match.key?(:label_element) || values_to_match.key?(:visible_label_element)
+              elements = matching_labels(elements, values_to_match, @query_scope)
+            end
             matching_elements(elements, values_to_match, filter: filter)
           rescue Selenium::WebDriver::Error::StaleElementReferenceError
             retries += 1

@@ -87,7 +87,7 @@ module Watir
             [how, what]
           when :text, :xpath, :index, :class, :css, :visible, :visible_text, :adjacent
             [how, what]
-          when :label
+          when :label, :visible_label
             if should_use_label_element?
               ["#{how}_element".to_sym, what]
             else

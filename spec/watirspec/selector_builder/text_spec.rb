@@ -145,6 +145,41 @@ describe Watir::Locators::TextField::SelectorBuilder do
       end
     end
 
+    context 'with label' do
+      before(:each) { browser.goto(WatirSpec.url_for('forms_with_input_elements.html')) }
+
+      it 'using String' do
+        @selector = {label: 'First name'}
+        @wd_locator = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]" \
+"[@id=//label[normalize-space()='First name']/@for or parent::label[normalize-space()='First name']]"}
+        @data_locator = 'input name'
+      end
+
+      it 'uses String with hidden text' do
+        @selector = {label: 'With hidden text'}
+        @wd_locator = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]" \
+"[@id=//label[normalize-space()='With hidden text']/@for or parent::label[normalize-space()='With hidden text']]"}
+        @data_locator = 'hidden'
+      end
+
+      # Desired Behavior
+      xit 'using simple Regexp' do
+        @selector = {label: /First/}
+        @wd_locator = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]" \
+"[@id=//label[contains(text(), 'First')]/@for or parent::label[contains(text(), 'First')]]"}
+        @data_locator = 'input name'
+      end
+
+      # Desired Behavior
+      xit 'using complex Regexp' do
+        @selector = {label: /(q|a)st? name/}
+        @wd_locator = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]" \
+"[@id=//label[contains(text(), 's') and contains(text(), ' name')]/@for or " \
+"parent::label[contains(text(), 's') and contains(text(), ' name')]]"}
+        @remaining = {label_element: /(q|a)st? name/}
+      end
+    end
+
     context 'with multiple locators' do
       before(:each) do
         browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
