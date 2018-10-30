@@ -27,12 +27,11 @@ describe Watir::Locators::TextField::SelectorBuilder do
 
       @query_scope ||= browser
 
-      built = selector_builder.build(@selector)
-      expect(built).to eq [@wd_locator, (@remaining || {})]
+      expect(selector_builder.build(@selector)).to eq @built
 
       next unless @data_locator || @tag_name
 
-      expect { @located = @query_scope.wd.first(@wd_locator) }.not_to raise_exception
+      expect { @located = @query_scope.wd.first(@built) }.not_to raise_exception
 
       if @data_locator
         expect(@located.attribute('data-locator')).to eq(@data_locator)
@@ -46,7 +45,7 @@ describe Watir::Locators::TextField::SelectorBuilder do
     it 'without any arguments' do
       browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
       @selector = {}
-      @wd_locator = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]"}
+      @built = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]"}
       @data_locator = 'input name'
     end
 
@@ -55,27 +54,27 @@ describe Watir::Locators::TextField::SelectorBuilder do
 
       it 'specified text field type that is text' do
         @selector = {type: 'text'}
-        @wd_locator = {xpath: ".//*[local-name()='input']" \
+        @built = {xpath: ".//*[local-name()='input']" \
 "[translate(@type,'#{uppercase}','#{lowercase}')='text']"}
         @data_locator = 'first text'
       end
 
       it 'specified text field type that is not text' do
         @selector = {type: 'number'}
-        @wd_locator = {xpath: ".//*[local-name()='input']" \
+        @built = {xpath: ".//*[local-name()='input']" \
 "[translate(@type,'#{uppercase}','#{lowercase}')='number']"}
         @data_locator = '42'
       end
 
       it 'true locates text field with a type specified' do
         @selector = {type: true}
-        @wd_locator = {xpath: ".//*[local-name()='input'][#{negative_types}]"}
+        @built = {xpath: ".//*[local-name()='input'][#{negative_types}]"}
         @data_locator = 'input name'
       end
 
       it 'false locates text field without type specified' do
         @selector = {type: false}
-        @wd_locator = {xpath: ".//*[local-name()='input'][not(@type)]"}
+        @built = {xpath: ".//*[local-name()='input'][not(@type)]"}
         @data_locator = 'input name'
       end
 
@@ -94,25 +93,25 @@ describe Watir::Locators::TextField::SelectorBuilder do
 
       it 'positive' do
         @selector = {index: 4}
-        @wd_locator = {xpath: "(.//*[local-name()='input'][not(@type) or (#{negative_types})])[5]"}
+        @built = {xpath: "(.//*[local-name()='input'][not(@type) or (#{negative_types})])[5]"}
         @data_locator = 'dev'
       end
 
       it 'negative' do
         @selector = {index: -3}
-        @wd_locator = {xpath: "(.//*[local-name()='input'][not(@type) or (#{negative_types})])[last()-2]"}
+        @built = {xpath: "(.//*[local-name()='input'][not(@type) or (#{negative_types})])[last()-2]"}
         @data_locator = '42'
       end
 
       it 'last' do
         @selector = {index: -1}
-        @wd_locator = {xpath: "(.//*[local-name()='input'][not(@type) or (#{negative_types})])[last()]"}
+        @built = {xpath: "(.//*[local-name()='input'][not(@type) or (#{negative_types})])[last()]"}
         @data_locator = 'last text'
       end
 
       it 'does not return index if it is zero' do
         @selector = {index: 0}
-        @wd_locator = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]"}
+        @built = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]"}
         @data_locator = 'input name'
       end
 
@@ -128,20 +127,17 @@ describe Watir::Locators::TextField::SelectorBuilder do
 
       it 'String for value' do
         @selector = {text: 'Developer'}
-        @wd_locator = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]"}
-        @remaining = {text: 'Developer'}
+        @built = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]", text: 'Developer'}
       end
 
       it 'Simple Regexp for value' do
         @selector = {text: /Dev/}
-        @wd_locator = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]"}
-        @remaining = {text: /Dev/}
+        @built = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]", text: /Dev/}
       end
 
       it 'returns complicated Regexp to the locator as a value' do
         @selector = {text: /^foo$/}
-        @wd_locator = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]"}
-        @remaining = {text: /^foo$/}
+        @built = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]", text: /^foo$/}
       end
     end
 
@@ -150,14 +146,14 @@ describe Watir::Locators::TextField::SelectorBuilder do
 
       it 'using String' do
         @selector = {label: 'First name'}
-        @wd_locator = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]" \
+        @built = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]" \
 "[@id=//label[normalize-space()='First name']/@for or parent::label[normalize-space()='First name']]"}
         @data_locator = 'input name'
       end
 
       it 'uses String with hidden text' do
         @selector = {label: 'With hidden text'}
-        @wd_locator = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]" \
+        @built = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]" \
 "[@id=//label[normalize-space()='With hidden text']/@for or parent::label[normalize-space()='With hidden text']]"}
         @data_locator = 'hidden'
       end
@@ -165,18 +161,17 @@ describe Watir::Locators::TextField::SelectorBuilder do
       # Desired Behavior
       xit 'using simple Regexp' do
         @selector = {label: /First/}
-        @wd_locator = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]" \
+        @built = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]" \
 "[@id=//label[contains(text(), 'First')]/@for or parent::label[contains(text(), 'First')]]"}
         @data_locator = 'input name'
       end
 
       # Desired Behavior
       xit 'using complex Regexp' do
-        @selector = {label: /(q|a)st? name/}
-        @wd_locator = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]" \
+        @selector = {label: /([qa])st? name/}
+        @built = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]" \
 "[@id=//label[contains(text(), 's') and contains(text(), ' name')]/@for or " \
-"parent::label[contains(text(), 's') and contains(text(), ' name')]]"}
-        @remaining = {label_element: /(q|a)st? name/}
+"parent::label[contains(text(), 's') and contains(text(), ' name')]]", label_element: /([qa])st? name/}
       end
     end
 
@@ -187,9 +182,8 @@ describe Watir::Locators::TextField::SelectorBuilder do
 
       it 'locates using tag name, class, attributes and text' do
         @selector = {text: 'Developer', class: /c/, id: true}
-        @wd_locator = {xpath: ".//*[local-name()='input'][contains(@class, 'c')]" \
-"[not(@type) or (#{negative_types})][@id]"}
-        @remaining = {text: 'Developer'}
+        @built = {xpath: ".//*[local-name()='input'][contains(@class, 'c')]" \
+"[not(@type) or (#{negative_types})][@id]", text: 'Developer'}
       end
 
       it 'delegates adjacent to Element SelectorBuilder' do
@@ -197,7 +191,7 @@ describe Watir::Locators::TextField::SelectorBuilder do
         @query_scope = browser.element(id: 'new_user_email').locate
 
         @selector = {adjacent: :ancestor, index: 1}
-        @wd_locator = {xpath: './ancestor::*[2]'}
+        @built = {xpath: './ancestor::*[2]'}
         @data_locator = 'form'
       end
     end

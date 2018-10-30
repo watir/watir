@@ -465,20 +465,8 @@ describe 'Element' do
       expect(browser.div(xpath: '//div', index: 1)).to exist
     end
 
-    it 'raises LocatorException error if selector hash with :xpath has multiple entries' do
-      msg = 'xpath cannot be combined with all of these locators ({:class=>"foo", :tag_name=>"div"})'
-      expect { browser.div(xpath: '//div', class: 'foo').exists? }
-        .to raise_exception Watir::Exception::LocatorException, msg
-    end
-
     it "doesn't raise when selector has with :css has :index" do
       expect(browser.div(css: 'div', index: 1)).to exist
-    end
-
-    it 'raises LocatorException error if selector hash with :css has multiple entries' do
-      msg = 'css cannot be combined with all of these locators ({:class=>"foo", :tag_name=>"div"})'
-      expect { browser.div(css: 'div', class: 'foo').exists? }
-        .to raise_exception Watir::Exception::LocatorException, msg
     end
 
     it 'finds element by Selenium name locator' do

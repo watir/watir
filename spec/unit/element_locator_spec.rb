@@ -375,7 +375,7 @@ describe Watir::Locators::Element::Locator do
 
         expect_all(:xpath, ".//*[contains(@class, 'foo')]").and_return(elements1, elements2, elements3)
 
-        msg = 'Unable to locate element from {:class=>[/foo$/]} due to changing page'
+        msg = 'Unable to locate element from {:class=>/foo$/} due to changing page'
         expect { locate_one(class: /foo$/) }.to raise_exception(Watir::Exception::LocatorException, msg)
       end
     end
@@ -455,7 +455,7 @@ describe Watir::Locators::Element::Locator do
         selector_builder = Foo::SelectorBuilder.new(Watir::HTMLElement.attributes)
         locator = Watir::Locators::Element::Locator.new(browser, selector, selector_builder, element_validator)
 
-        msg = 'Foo::SelectorBuilder#build is not returning expected responses for the current version of Watir'
+        msg = 'Foo::SelectorBuilder was unable to build selector from {:name=>"foo"}'
         expect { locator.locate }.to raise_exception(Watir::Exception::LocatorException, msg)
       end
     end

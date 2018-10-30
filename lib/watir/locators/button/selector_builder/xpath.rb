@@ -32,7 +32,7 @@ module Watir
             string << " and (#{input_types(type)})"
             if text
               string << " and #{process_attribute(:value, text)}"
-              @requires_matches.delete(:value)
+              @built.delete(:value)
             end
             string
           end
@@ -49,7 +49,7 @@ module Watir
               ''
             when Regexp
               res = "[#{predicate_conversion(:text, value)} or #{predicate_conversion(:value, value)}]"
-              @requires_matches.delete(:text)
+              @built.delete(:text)
               res
             else
               "[#{predicate_expression(:text, value)} or #{predicate_expression(:value, value)}]"
@@ -58,7 +58,7 @@ module Watir
 
           def predicate_conversion(key, regexp)
             res = key == :text ? super(:contains_text, regexp) : super
-            @requires_matches[key] = @requires_matches.delete(:contains_text) if @requires_matches.key?(:contains_text)
+            @built[key] = @built.delete(:contains_text) if @built.key?(:contains_text)
             res
           end
 

@@ -9,7 +9,7 @@ module Watir
           def predicate_conversion(key, regexp)
             return super unless key == :value
 
-            @requires_matches[:value] = regexp
+            @built[:value] = regexp
             nil
           end
         end
