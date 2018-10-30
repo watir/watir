@@ -6,7 +6,7 @@ module Watir
           def text_string
             return super if @adjacent
 
-            @requires_matches[:text] = @selector.delete(:text) if @selector.key?(:text)
+            @built[:text] = @selector.delete(:text) if @selector.key?(:text)
             ''
           end
 

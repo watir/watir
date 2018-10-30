@@ -51,29 +51,30 @@ module Watir
         end
 
         def using_watir(filter = :first)
-          raise ArgumentError, "can't locate all elements by :index" if @selector.key?(:index) && filter == :all
+          selector = @selector.dup
+          raise ArgumentError, "can't locate all elements by :index" if selector.key?(:index) && filter == :all
 
           @driver_scope ||= @query_scope.wd
 
-          selector, values_to_match = selector_builder.build(@selector)
+          built = selector_builder.build(selector)
 
-          validate_built_selector(selector, values_to_match)
+          validate_built_selector(built)
+
+          wd_locator = built.select { |key, _value| %i[css xpath link_text partial_link_text].include? key }
+          values_to_match = built.reject { |key, _value| %i[css xpath link_text partial_link_text].include? key }
 
           if filter == :all || values_to_match.any?
-            locate_matching_elements(selector, values_to_match, filter)
+            locate_matching_elements(wd_locator, values_to_match, filter)
           else
-            locate_element(selector.keys.first, selector.values.first, @driver_scope)
+            locate_element(wd_locator.keys.first, wd_locator.values.first, @driver_scope)
           end
         end
 
-        def validate_built_selector(selector, values_to_match)
-          if selector.nil?
-            msg = "#{selector_builder.class} was unable to build selector from #{@selector.inspect}"
-            raise LocatorException, msg
-          elsif values_to_match.nil?
-            msg = "#{selector_builder.class}#build is not returning expected responses for the current version of Watir"
-            raise LocatorException, msg
-          end
+        def validate_built_selector(built)
+          return unless built.nil? || built.empty?
+
+          msg = "#{selector_builder.class} was unable to build selector from #{@selector.inspect}"
+          raise LocatorException, msg
         end
 
         def fetch_value(element, how)

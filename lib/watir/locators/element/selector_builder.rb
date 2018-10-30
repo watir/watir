@@ -26,21 +26,16 @@ module Watir
           @selector = selector
           normalize_selector
 
-          xpath_css = (@selector.keys & %i[xpath css]).each_with_object({}) do |key, hash|
-            hash[key] = @selector.delete(key)
-          end
+          xpath_css = @selector.select { |key, _value| %i[xpath css].include? key }
 
-          built = if xpath_css.empty?
-                    build_wd_selector(@selector)
-                  else
-                    process_xpath_css(xpath_css)
-                    xpath_css
-                  end
+          raise LocatorException, ":xpath and :css cannot be combined (#{xpath_css})" if xpath_css.size > 1
 
-          @selector.delete(:index) if @selector[:index]&.zero?
+          built = xpath_css.empty? ? build_wd_selector(@selector) : @selector
+
+          built.delete(:index) if built[:index]&.zero?
 
           Watir.logger.debug "Converted #{inspected} to #{built}, with #{@selector.inspect} to match"
-          [built, @selector]
+          built
         end
 
         def normalize_selector
@@ -109,15 +104,6 @@ module Watir
           return if valid_attribute?(attribute) || attribute.to_s =~ WILDCARD_ATTRIBUTE
 
           @custom_attributes << attribute.to_s
-        end
-
-        def process_xpath_css(xpath_css)
-          raise LocatorException, ":xpath and :css cannot be combined (#{xpath_css})" if xpath_css.size > 1
-
-          return if combine_with_xpath_or_css?(@selector)
-
-          msg = "#{xpath_css.keys.first} cannot be combined with all of these locators (#{@selector.inspect})"
-          raise LocatorException, msg
         end
 
         # Implement this method when creating a different selector builder

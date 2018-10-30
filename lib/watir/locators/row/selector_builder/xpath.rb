@@ -8,17 +8,15 @@ module Watir
 
             index = selector.delete(:index)
 
-            common_string = super(selector)[:xpath]
+            super(selector)
+            common_string = @built.delete(:xpath)
             expressions = generate_expressions(scope_tag_name)
             expressions.map! { |e| "#{e}#{common_string}" } unless common_string.empty?
 
             xpath = expressions.join(' | ').to_s
 
-            xpath = index ? add_index(xpath, index) : xpath
-
-            @selector.merge! @requires_matches
-
-            {xpath: xpath}
+            @built[:xpath] = index ? add_index(xpath, index) : xpath
+            @built
           end
 
           private
@@ -32,7 +30,7 @@ module Watir
 
             # Can not directly locate a Row with Text because all text is in the Cells;
             # needs to use Locator#locate_matching_elements
-            @requires_matches[:text] = @selector.delete(:text) if @selector.key?(:text)
+            @built[:text] = @selector.delete(:text) if @selector.key?(:text)
             ''
           end
 

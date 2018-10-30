@@ -11,7 +11,7 @@ module Watir
           def build(selector)
             @selector = selector
 
-            @requires_matches = (@selector.keys & CAN_NOT_BUILD).each_with_object({}) do |key, hash|
+            @built = (@selector.keys & CAN_NOT_BUILD).each_with_object({}) do |key, hash|
               hash[key] = @selector.delete(key)
             end
 
@@ -27,11 +27,8 @@ module Watir
             xpath << label_element_string
             xpath << attribute_string
 
-            xpath = index ? add_index(xpath, index) : xpath
-
-            @selector.merge! @requires_matches
-
-            {xpath: xpath}
+            @built[:xpath] = index ? add_index(xpath, index) : xpath
+            @built
           end
 
           private
@@ -109,11 +106,11 @@ module Watir
 
             deprecate_class_array(class_name) if class_name.is_a?(String) && class_name.strip.include?(' ')
 
-            @requires_matches[:class] = []
+            @built[:class] = []
 
             predicates = [class_name].flatten.map { |value| process_attribute(:class, value) }.compact
 
-            @requires_matches.delete(:class) if @requires_matches[:class].empty?
+            @built.delete(:class) if @built[:class].empty?
 
             predicates.empty? ? '' : "[#{predicates.join(' and ')}]"
           end
@@ -125,7 +122,7 @@ module Watir
             when nil
               ''
             when Regexp
-              @requires_matches[:text] = text
+              @built[:text] = text
               ''
             else
               "[#{predicate_expression(:text, text)}]"
@@ -141,18 +138,16 @@ module Watir
 
             value = process_attribute(key, label)
 
-            if @requires_matches.key?(:contains_text)
-              @requires_matches[:label_element] = @requires_matches.delete :contains_text
-            end
+            @built[:label_element] = @built.delete :contains_text if @built.key?(:contains_text)
 
             # TODO: This conditional can be removed when we remove this deprecation
             if label.is_a?(Regexp)
-              if @requires_matches.key?(:label_element)
+              if @built.key?(:label_element)
                 dep = "Using :label locator with RegExp #{label} to match an element that includes hidden text"
                 Watir.logger.deprecate(dep, ":visible_#{key}", ids: [:text_regexp])
               end
 
-              @requires_matches[:label_element] = label
+              @built[:label_element] = label
               ''
             else
               "[@id=//label[#{value}]/@for or parent::label[#{value}]]"
@@ -171,18 +166,17 @@ module Watir
             ''
           end
 
-          # TODO: Remove this on refactor of index
           def add_index(xpath, index)
             if @adjacent
               "#{xpath}[#{index + 1}]"
-            elsif index&.positive? && @requires_matches.empty?
+            elsif index&.positive? && @built.empty?
               "(#{xpath})[#{index + 1}]"
-            elsif index&.negative? && @requires_matches.empty?
+            elsif index&.negative? && @built.empty?
               last_value = 'last()'
               last_value << (index + 1).to_s if index < -1
               "(#{xpath})[#{last_value}]"
             else
-              @requires_matches[:index] = index
+              @built[:index] = index
               xpath
             end
           end
@@ -195,7 +189,7 @@ module Watir
           end
 
           def visible?
-            !(@requires_matches.keys & CAN_NOT_BUILD).empty?
+            !(@built.keys & CAN_NOT_BUILD).empty?
           end
 
           def starts_with?(results, regexp)
@@ -206,9 +200,9 @@ module Watir
             return unless results.nil? || requires_matching?(results, regexp)
 
             if key == :class
-              @requires_matches[key] << regexp
+              @built[key] << regexp
             else
-              @requires_matches[key] = regexp
+              @built[key] = regexp
             end
           end
 
