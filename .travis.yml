@@ -20,13 +20,13 @@ script: bundle exec rake $RAKE_TASK
 _version:
   three: &three
     language: ruby
-    rvm: 2.3.7
+    rvm: 2.3.8
   four: &four
     language: ruby
-    rvm: 2.4.4
+    rvm: 2.4.5
   five: &five
     language: ruby
-    rvm: 2.5.1
+    rvm: 2.5.3
 
 _browsers:
   firefox: &firefox-latest

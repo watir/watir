@@ -5,8 +5,16 @@ module Watir
         include Exception
         attr_reader :custom_attributes
 
-        VALID_WHATS = [String, Regexp, TrueClass, FalseClass].freeze
-        WILDCARD_ATTRIBUTE = /^(aria|data)_(.+)$/
+        WILDCARD_ATTRIBUTE = /^(aria|data)_(.+)$/.freeze
+        INTEGER_CLASS = Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.4') ? Fixnum : Integer
+        VALID_WHATS = Hash.new([String, Regexp, TrueClass, FalseClass]).merge(adjacent: [::Symbol],
+                                                                              xpath: [String],
+                                                                              css: [String],
+                                                                              index: [INTEGER_CLASS],
+                                                                              visible: [TrueClass, FalseClass],
+                                                                              tag_name: [String, Regexp, ::Symbol],
+                                                                              visible_text: [String, Regexp],
+                                                                              text: [String, Regexp]).freeze
 
         def initialize(valid_attributes)
           @valid_attributes = valid_attributes
@@ -53,33 +61,14 @@ module Watir
         end
 
         def check_type(how, what)
-          case how
-          when :adjacent
-            return raise_unless(what, ::Symbol)
-          when :xpath, :css
-            return raise_unless(what, String)
-          when :index
-            return raise_unless(what, Integer)
-          when :visible
-            return raise_unless(what, :boolean)
-          when :tag_name
-            return raise_unless(what, :string_or_regexp_or_symbol)
-          when :visible_text, :text
-            return raise_unless(what, :string_or_regexp)
-          when :class, :class_name
-            if what.is_a?(Array)
-              raise LocatorException, 'Can not locate elements with an empty Array for :class' if what.empty?
+          if %i[class class_name].include?(how)
+            classes = [what].flatten
+            raise LocatorException, "Can not locate elements with an empty Array for :#{how}" if classes.empty?
 
-              what.each do |klass|
-                raise_unless(klass, :string_or_regexp)
-              end
-              return
-            end
+            classes.each { |value| raise_unless(value, VALID_WHATS[how]) }
+          else
+            raise_unless(what, VALID_WHATS[how])
           end
-
-          return if VALID_WHATS.any? { |t| what.is_a? t }
-
-          raise TypeError, "expected one of #{VALID_WHATS.inspect}, got #{what.inspect}:#{what.class}"
         end
 
         def should_use_label_element?
@@ -91,7 +80,7 @@ module Watir
         def normalize_locator(how, what)
           case how
           when 'text'
-            Watir.logger.deprecate "String 'text' as a locator", 'Symbol :text', ids: ['text_string']
+            Watir.logger.deprecate "String 'text' as a locator", 'Symbol :text', ids: [:text_string]
             [:text, what]
           when :tag_name
             what = what.to_s if what.is_a?(::Symbol)
@@ -152,19 +141,10 @@ module Watir
           end
         end
 
-        def raise_unless(what, type)
-          valid = if type == :boolean
-                    [TrueClass, FalseClass].include?(what.class)
-                  elsif type == :string_or_regexp
-                    [String, Regexp].include?(what.class)
-                  elsif type == :string_or_regexp_or_symbol
-                    [String, Regexp, ::Symbol].include?(what.class)
-                  else
-                    what.is_a?(type)
-                  end
-          return if valid
+        def raise_unless(what, types)
+          return if types.include?(what.class)
 
-          raise TypeError, "expected #{type}, got #{what.inspect}:#{what.class}"
+          raise TypeError, "expected one of #{types}, got #{what.inspect}:#{what.class}"
         end
       end
     end

@@ -403,8 +403,8 @@ describe Watir::Locators::Element::Locator do
 
     describe 'errors' do
       it 'raises a TypeError if :index is not a Integer' do
-        expect { locate_one(tag_name: 'div', index: 'bar') }.to \
-          raise_error(TypeError, %(expected Integer, got "bar":String))
+        msg = /expected one of \[(Integer|Fixnum)\], got "bar":String/
+        expect { locate_one(tag_name: 'div', index: 'bar') }.to raise_error TypeError, msg
       end
 
       it 'raises a TypeError if selector value is not a String, Regexp or Boolean' do
