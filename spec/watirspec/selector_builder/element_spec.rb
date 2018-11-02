@@ -68,7 +68,7 @@ describe Watir::Locators::Element::SelectorBuilder do
 
       it 'raises exception when not a String', skip_after: true do
         selector = {xpath: 7}
-        msg = /expected String, got 7:(Fixnum|Integer)/
+        msg = /expected one of \[String\], got 7:(Fixnum|Integer)/
         expect { selector_builder.build(selector) }.to raise_exception TypeError, msg
       end
 
@@ -114,7 +114,7 @@ describe Watir::Locators::Element::SelectorBuilder do
 
       it 'raises exception when not a String or Regexp', skip_after: true do
         selector = {tag_name: 7}
-        msg = /expected string_or_regexp_or_symbol, got 7:(Fixnum|Integer)/
+        msg = /expected one of \[String, Regexp, Symbol\], got 7:(Fixnum|Integer)/
         expect { selector_builder.build(selector) }.to raise_exception TypeError, msg
       end
     end
@@ -195,7 +195,7 @@ describe Watir::Locators::Element::SelectorBuilder do
 
       it 'raises exception when Array values are not a String or Regexp', skip_after: true do
         selector = {class: [7]}
-        msg = /expected string_or_regexp, got 7:(Fixnum|Integer)/
+        msg = /expected one of \[String, Regexp, TrueClass, FalseClass\], got 7:(Fixnum|Integer)/
         expect { selector_builder.build(selector) }.to raise_exception TypeError, msg
       end
 
@@ -304,7 +304,7 @@ describe Watir::Locators::Element::SelectorBuilder do
 
       it 'raises exception when text is not a String or Regexp', skip_after: true do
         selector = {text: 7}
-        msg = /expected string_or_regexp, got 7:(Fixnum|Integer)/
+        msg = /expected one of \[String, Regexp\], got 7:(Fixnum|Integer)/
         expect { selector_builder.build(selector) }.to raise_exception TypeError, msg
       end
     end
@@ -339,7 +339,7 @@ describe Watir::Locators::Element::SelectorBuilder do
 
       it 'raises exception when index is not an Integer', skip_after: true do
         selector = {index: 'foo'}
-        msg = 'expected Integer, got "foo":String'
+        msg = /expected one of \[(Integer|Fixnum)\], got "foo":String/
         expect { selector_builder.build(selector) }.to raise_exception TypeError, msg
       end
     end
@@ -372,7 +372,7 @@ describe Watir::Locators::Element::SelectorBuilder do
 
       it 'raises exception when not a Symbol', skip_after: true do
         selector = {adjacent: 'foo', index: 0}
-        msg = 'expected Symbol, got "foo":String'
+        msg = 'expected one of [Symbol], got "foo":String'
         expect { selector_builder.build(selector) }.to raise_exception TypeError, msg
       end
 
@@ -625,13 +625,13 @@ describe Watir::Locators::Element::SelectorBuilder do
 
       it 'raises exception when visible is not boolean', skip_after: true do
         selector = {visible: 'foo'}
-        msg = 'expected boolean, got "foo":String'
+        msg = 'expected one of [TrueClass, FalseClass], got "foo":String'
         expect { selector_builder.build(selector) }.to raise_exception TypeError, msg
       end
 
       it 'raises exception when visible text is not a String or Regexp', skip_after: true do
         selector = {visible_text: 7}
-        msg = /expected string_or_regexp, got 7:(Fixnum|Integer)/
+        msg = /expected one of \[String, Regexp\], got 7:(Fixnum|Integer)/
         expect { selector_builder.build(selector) }.to raise_exception TypeError, msg
       end
     end

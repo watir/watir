@@ -101,7 +101,7 @@ describe Watir::Locators::Row::SelectorBuilder do
       it 'raises exception when index is not an Integer', skip_after: true do
         @query_scope = browser.element(id: 'outer').locate
         selector = {index: 'foo'}
-        msg = 'expected Integer, got "foo":String'
+        msg = /expected one of \[(Integer|Fixnum)\], got "foo":String/
         expect { selector_builder.build(selector) }.to raise_exception TypeError, msg
       end
     end

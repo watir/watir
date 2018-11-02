@@ -35,6 +35,10 @@ Lint/HandleExceptions:
   Exclude:
     - 'lib/watirspec.rb'
 
+Lint/UnifiedInteger:
+  Exclude:
+  - 'lib/watir/locators/element/selector_builder.rb'
+
 # Configuration parameters: CountComments, ExcludedMethods.
 # ExcludedMethods: refine
 Metrics/BlockLength:

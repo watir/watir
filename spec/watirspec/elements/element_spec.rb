@@ -100,7 +100,7 @@ describe 'Element' do
 
     it 'raises exception unless value is a String or a RegExp' do
       browser.goto WatirSpec.url_for('non_control_elements.html')
-      msg = /expected string_or_regexp, got 7\:(Fixnum|Integer)/
+      msg = /expected one of \[String, Regexp\], got 7\:(Fixnum|Integer)/
       expect { browser.element(visible_text: 7).exists? }.to raise_exception(TypeError, msg)
     end
 
