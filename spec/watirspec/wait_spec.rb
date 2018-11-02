@@ -167,7 +167,7 @@ describe Watir::Element do
     end
 
     it 'does not error when element goes stale' do
-      element = browser.div(id: 'foo').tap(&:exists?)
+      element = browser.div(id: 'foo').locate
 
       allow(element).to receive(:stale?).and_return(false, true)
 

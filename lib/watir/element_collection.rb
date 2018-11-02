@@ -86,10 +86,11 @@ module Watir
     def to_a
       hash = {}
       @to_a ||=
-        elements.map.with_index do |e, idx|
-          selector = @selector.merge(element: e)
-          selector[:index] = idx
+        elements.map.with_index do |el, idx|
+          selector = @selector.dup
+          selector[:index] = idx unless idx.zero?
           element = element_class.new(@query_scope, selector)
+          element.cache = el
           if [HTMLElement, Input].include? element.class
             tag_name = @selector[:tag_name] || element.tag_name
             hash[tag_name] ||= 0

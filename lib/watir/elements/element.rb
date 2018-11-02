@@ -34,6 +34,11 @@ module Watir
       raise ArgumentError, "invalid argument: #{selector.inspect}" unless selector.is_a? Hash
 
       @element = selector.delete(:element)
+
+      if @element && !(selector.keys - %i[tag_name]).empty?
+        Watir.logger.deprecate(':element locator to initialize a relocatable Element', '#cache=', ids: [:element_cache])
+      end
+
       @selector = selector
     end
 
@@ -556,7 +561,7 @@ module Watir
                 Watir.element_class_for(tag)
               end
 
-      klass.new(@query_scope, @selector.merge(element: wd))
+      klass.new(@query_scope, @selector).tap { |el| el.cache = wd }
     end
 
     #
@@ -614,6 +619,16 @@ module Watir
 
     def located?
       !!@element
+    end
+
+    #
+    # @api private
+    #
+    # Set the cached element. For use when
+    #
+
+    def cache=(element)
+      @element = element
     end
 
     #

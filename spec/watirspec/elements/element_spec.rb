@@ -20,13 +20,19 @@ describe 'Element' do
       expect { Watir::Element.new(container, 1, 2, 3, 4) }.to raise_error(ArgumentError)
       expect { Watir::Element.new(container, 'foo') }.to raise_error(ArgumentError)
     end
+
+    it 'throws deprecation warning when combining element locator with other locators' do
+      element = double Selenium::WebDriver::Element
+      allow(element).to receive(:enabled?).and_return(true)
+      expect { browser.text_field(class_name: 'name', index: 1, element: element) }.to have_deprecated_element_cache
+    end
   end
 
   describe '#element_call' do
     it 'handles exceptions when taking an action on a stale element' do
       browser.goto WatirSpec.url_for('removed_element.html')
 
-      element = browser.div(id: 'text').tap(&:exists?)
+      element = browser.div(id: 'text').locate
 
       browser.refresh
 
@@ -231,7 +237,7 @@ describe 'Element' do
     end
 
     it 'raises UnknownObjectException exception if the element is stale' do
-      element = browser.text_field(id: 'new_user_email').tap(&:exists?)
+      element = browser.text_field(id: 'new_user_email').locate
 
       browser.refresh
 
@@ -268,13 +274,36 @@ describe 'Element' do
     end
   end
 
+  describe '#cache=' do
+    it 'bypasses selector location' do
+      browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
+
+      wd = browser.div.wd
+      element = Watir::Element.new(browser, {id: 'not_valid'})
+      element.cache = wd
+
+      expect(element).to exist
+    end
+
+    it 'can be cleared' do
+      browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
+
+      wd = browser.div.wd
+      element = Watir::Element.new(browser, {id: 'not_valid'})
+      element.cache = wd
+
+      browser.refresh
+      expect(element).to_not exist
+    end
+  end
+
   describe '#exists?' do
     before do
       browser.goto WatirSpec.url_for('removed_element.html')
     end
 
     it 'element from a collection returns false when it becomes stale' do
-      element = browser.divs(id: 'text').first.tap(&:exists?)
+      element = browser.divs(id: 'text').first.locate
 
       browser.refresh
 
@@ -308,7 +337,7 @@ describe 'Element' do
     end
 
     it 'returns false if the element is stale' do
-      element = browser.div(id: 'foo').tap(&:exists?)
+      element = browser.div(id: 'foo').locate
 
       browser.refresh
 
@@ -320,7 +349,7 @@ describe 'Element' do
     end
 
     it 'does not raise staleness deprecation if element no longer exists in DOM' do
-      element = browser.div(id: 'foo').tap(&:exists?)
+      element = browser.div(id: 'foo').locate
       browser.goto(WatirSpec.url_for('iframes.html'))
 
       expect { element.present? }.to_not have_deprecated_stale_present
@@ -328,7 +357,7 @@ describe 'Element' do
 
     # TODO: Documents Current Behavior, but needs to be refactored/removed
     it 'returns true the second time if the element is stale' do
-      element = browser.div(id: 'foo').tap(&:exists?)
+      element = browser.div(id: 'foo').locate
 
       browser.refresh
 
@@ -361,7 +390,7 @@ describe 'Element' do
 
   describe '#stale?' do
     it 'returns true if the element is stale' do
-      element = browser.button(name: 'new_user_submit_disabled').tap(&:exists?)
+      element = browser.button(name: 'new_user_submit_disabled').locate
 
       browser.refresh
 
@@ -369,7 +398,7 @@ describe 'Element' do
     end
 
     it 'returns false if the element is not stale' do
-      element = browser.button(name: 'new_user_submit_disabled').tap(&:exists?)
+      element = browser.button(name: 'new_user_submit_disabled').locate
 
       expect(element).to_not be_stale
     end
@@ -794,7 +823,7 @@ describe 'Element' do
     end
 
     it 'returns false if element has not been located' do
-      expect(browser.form(id: 'new_user').tap(&:exists?)).to be_located
+      expect(browser.form(id: 'new_user').locate).to be_located
     end
   end
 
