@@ -21,7 +21,7 @@ module Watir
           if matches_text
             Watir.logger.deprecate(':value locator key for finding button text',
                                    'use :text locator',
-                                   ids: ['value_button'])
+                                   ids: [:value_button])
           end
 
           everything_except_value && (matches_value || matches_text)
