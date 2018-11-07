@@ -1,3 +1,13 @@
+### 6.15.0 (2018-11-07)
+
+* Add `Element#selected_text`
+* Add `Element#classes`
+* Add `Element#obscured?`
+* Deprecate `#wait_until_present` and `#wait_while_present`
+* Improved Locator classes to reduce wire calls when using multiple/complex locators
+* Fix bug with IE options
+* Allow time values in yaml files for cookies (thanks Ryan Baumann)
+
 ### 6.14.0 (2018-09-13)
 
 * HTML Element attribute support updated to HTML 5.2
