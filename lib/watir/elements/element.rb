@@ -699,7 +699,7 @@ module Watir
 
     # Locates if not previously found; does not check for staleness for performance reasons
     def assert_exists
-      wait_for_exists #Added method for waiting for element to exist
+      
       locate unless located?
       return if located?
 
