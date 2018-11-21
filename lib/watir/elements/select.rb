@@ -159,7 +159,7 @@ module Watir
         return selected_options.first.text if matching_option?(approach.downcase, str_or_rx)
       end
 
-      raise NoValueFoundException, "#{str_or_rx.inspect} not found in #{inspect}"
+      raise_no_value_found(str_or_rx)
     end
 
     def process_str_or_rx(str_or_rx)
@@ -213,8 +213,12 @@ module Watir
       # TODO: Remove conditional when remove relaxed_locate toggle
       return @found unless @found.empty?
 
-      raise NoValueFoundException, "#{str_or_rx.inspect} not found in #{inspect}"
+      raise_no_value_found(str_or_rx)
     rescue Wait::TimeoutError
+      raise_no_value_found(str_or_rx)
+    end
+
+    def raise_no_value_found(str_or_rx)
       raise NoValueFoundException, "#{str_or_rx.inspect} not found in #{inspect}"
     end
 
