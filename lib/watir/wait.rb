@@ -119,8 +119,7 @@ module Watir
       end
       message ||= proc { |obj| "waiting for true condition on #{obj.inspect}" }
 
-      raise ArgumentError, "Unknown keyword(s): #{opt.keys} " if block_given? && !opt.empty?
-
+      # TODO: Consider throwing argument error for mixing block & options
       proc = create_proc(opt, &blk)
 
       Wait.until(timeout: timeout, message: message, interval: interval, object: self, &proc)
@@ -151,6 +150,7 @@ module Watir
       end
       message ||= proc { |obj| "waiting for false condition on #{obj.inspect}" }
 
+      # TODO: Consider throwing argument error for mixing block & options
       proc = create_proc(opt, &blk)
 
       Wait.while(timeout: timeout, message: message, interval: interval, object: self, &proc)
@@ -180,7 +180,7 @@ module Watir
                              ids: [:wait_until_present]
 
       message ||= proc { |obj| "waiting for #{obj.inspect} to become present" }
-      wait_until(timeout: timeout, interval: interval, message: message, &:present?)
+      wait_until(timeout: timeout, interval: interval, message: message, element_reset: true, &:present?)
     end
 
     #
@@ -205,14 +205,14 @@ module Watir
                              ids: [:wait_while_present]
 
       message ||= proc { |obj| "waiting for #{obj.inspect} not to be present" }
-      wait_while(timeout: timeout, interval: interval, message: message, &:present?)
+      wait_while(timeout: timeout, interval: interval, message: message, element_reset: true, &:present?)
     end
 
     private
 
     def create_proc(opt)
       proc do
-        reset! if is_a?(Element)
+        reset! if opt.delete(:element_reset) && is_a?(Element)
         (opt.empty? || match_attributes(opt).call) && (!block_given? || yield(self))
       end
     end
