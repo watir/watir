@@ -6,10 +6,10 @@ module Watir
           private
 
           # value always requires a wire call since we want the property not the attribute
-          def predicate_conversion(key, regexp)
+          def process_attribute(key, value)
             return super unless key == :value
 
-            @built[:value] = regexp
+            @built[:value] = value
             nil
           end
         end
