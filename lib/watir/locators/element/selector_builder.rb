@@ -40,7 +40,7 @@ module Watir
 
         def normalize_selector
           if @selector.key?(:class) && @selector.key?(:class_name)
-            raise LocatorException, 'Can not use both :class and :class_name locators'
+            @selector[:class] = [@selector[:class]].flatten + [@selector.delete(:class_name)].flatten
           end
 
           if @selector[:adjacent] == :ancestor && @selector.key?(:text)

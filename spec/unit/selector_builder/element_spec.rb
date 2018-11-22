@@ -117,6 +117,14 @@ describe Watir::Locators::Element::SelectorBuilder do
         expect(selector_builder.build(selector)).to eq built
       end
 
+      it 'merges values when class and class_name are both used' do
+        selector = {class: 'foo', class_name: 'bar'}
+        built = {xpath: ".//*[contains(concat(' ', @class, ' '), ' foo ') and " \
+"contains(concat(' ', @class, ' '), ' bar ')]"}
+
+        expect(selector_builder.build(selector)).to eq built
+      end
+
       it 'simple Regexp contains' do
         selector = {class_name: /use/}
         built = {xpath: ".//*[contains(@class, 'use')]"}
@@ -172,13 +180,6 @@ describe Watir::Locators::Element::SelectorBuilder do
         msg = /expected one of \[String, Regexp, TrueClass, FalseClass\], got 7:(Fixnum|Integer)/
 
         expect { selector_builder.build(selector) }.to raise_exception TypeError, msg
-      end
-
-      it 'raises exception when class and class_name are both used' do
-        selector = {class: 'foo', class_name: 'bar'}
-        msg = 'Can not use both :class and :class_name locators'
-
-        expect { selector_builder.build(selector) }.to raise_exception Watir::Exception::LocatorException, msg
       end
 
       it 'raises exception when class array is empty' do
