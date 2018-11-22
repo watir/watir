@@ -168,6 +168,20 @@ describe Watir::Locators::Element::SelectorBuilder do
         expect(selector_builder.build(selector)).to eq built
       end
 
+      it 'empty string finds elements without class' do
+        selector = {class_name: ''}
+        built = {xpath: './/*[not(@class)]'}
+
+        expect(selector_builder.build(selector)).to eq built
+      end
+
+      it 'empty Array finds elements without class' do
+        selector = {class_name: []}
+        built = {xpath: './/*[not(@class)]'}
+
+        expect(selector_builder.build(selector)).to eq built
+      end
+
       it 'raises exception when not a String or Regexp or Array' do
         selector = {class: 7}
         msg = /expected one of \[String, Regexp, TrueClass, FalseClass\], got 7:(Fixnum|Integer)/

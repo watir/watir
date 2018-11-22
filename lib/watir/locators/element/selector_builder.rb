@@ -39,8 +39,8 @@ module Watir
         end
 
         def normalize_selector
-          if @selector.key?(:class) && @selector.key?(:class_name)
-            @selector[:class] = [@selector[:class]].flatten + [@selector.delete(:class_name)].flatten
+          if @selector.key?(:class) || @selector.key?(:class_name)
+            @selector[:class] = ([@selector[:class]].flatten + [@selector.delete(:class_name)].flatten).compact
           end
 
           if @selector[:adjacent] == :ancestor && @selector.key?(:text)
@@ -56,14 +56,7 @@ module Watir
         end
 
         def check_type(how, what)
-          if %i[class class_name].include?(how)
-            classes = [what].flatten
-            raise LocatorException, "Can not locate elements with an empty Array for :#{how}" if classes.empty?
-
-            classes.each { |value| raise_unless(value, VALID_WHATS[how]) }
-          else
-            raise_unless(what, VALID_WHATS[how])
-          end
+          [what].flatten.each { |key| raise_unless(key, VALID_WHATS[how]) }
         end
 
         def should_use_label_element?
@@ -80,7 +73,10 @@ module Watir
           when :tag_name
             what = what.to_s if what.is_a?(::Symbol)
             [how, what]
-          when :text, :xpath, :index, :class, :css, :visible, :visible_text, :adjacent
+          when :text, :xpath, :index, :css, :visible, :visible_text, :adjacent
+            [how, what]
+          when :class
+            what = false if what.tap { |arr| arr.delete('') }.empty?
             [how, what]
           when :label, :visible_label
             if should_use_label_element?
@@ -88,8 +84,6 @@ module Watir
             else
               [how, what]
             end
-          when :class_name
-            [:class, what]
           when :caption
             # This allows any element to be located with 'caption' instead of 'text'
             Watir.logger.deprecate('Locating elements with :caption', ':text locator', ids: [:caption])
