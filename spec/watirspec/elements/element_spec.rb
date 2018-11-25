@@ -279,7 +279,7 @@ describe 'Element' do
       browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
 
       wd = browser.div.wd
-      element = Watir::Element.new(browser, {id: 'not_valid'})
+      element = Watir::Element.new(browser, id: 'not_valid')
       element.cache = wd
 
       expect(element).to exist
@@ -289,7 +289,7 @@ describe 'Element' do
       browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
 
       wd = browser.div.wd
-      element = Watir::Element.new(browser, {id: 'not_valid'})
+      element = Watir::Element.new(browser, id: 'not_valid')
       element.cache = wd
 
       browser.refresh
@@ -489,12 +489,6 @@ describe 'Element' do
 
     it "doesn't raise when called on nested elements" do
       expect(browser.div(id: 'no_such_div').link(id: 'no_such_id')).to_not exist
-    end
-
-    it 'raises if both :xpath and :css are given' do
-      msg = ':xpath and :css cannot be combined ({:xpath=>"//div", :css=>"div"})'
-      expect { browser.div(xpath: '//div', css: 'div').exists? }
-        .to raise_exception Watir::Exception::LocatorException, msg
     end
 
     it "doesn't raise when selector has with :xpath has :index" do

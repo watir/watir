@@ -43,7 +43,7 @@ describe Watir::Locators::Element::SelectorBuilder do
 
       it 'raises exception when using xpath & css' do
         selector = {xpath: './/*', css: 'div'}
-        msg = ':xpath and :css cannot be combined ({:xpath=>".//*", :css=>"div"})'
+        msg = 'Can not locate element with [:xpath, :css]'
 
         expect { selector_builder.build(selector) }.to raise_exception Watir::Exception::LocatorException, msg
       end
@@ -195,13 +195,6 @@ describe Watir::Locators::Element::SelectorBuilder do
 
         expect { selector_builder.build(selector) }.to raise_exception TypeError, msg
       end
-
-      it 'raises exception when class array is empty' do
-        selector = {class: []}
-        msg = 'Can not locate elements with an empty Array for :class'
-
-        expect { selector_builder.build(selector) }.to raise_exception Watir::Exception::LocatorException, msg
-      end
     end
 
     context 'with attributes as predicates' do
@@ -212,23 +205,23 @@ describe Watir::Locators::Element::SelectorBuilder do
         expect(selector_builder.build(selector)).to eq built
       end
 
-      it 'with string attribute' do
-        selector = {'name' => 'user_new'}
-        built = {xpath: ".//*[@name='user_new']"}
+      it 'with String attribute key' do
+        selector = {'id' => 'user_new'}
+        built = {xpath: ".//*[@id='user_new']"}
 
         expect(selector_builder.build(selector)).to eq built
       end
 
       it 'with String equals' do
-        selector = {name: 'user_new'}
-        built = {xpath: ".//*[@name='user_new']"}
+        selector = {id: 'user_new'}
+        built = {xpath: ".//*[@id='user_new']"}
 
         expect(selector_builder.build(selector)).to eq built
       end
 
       it 'with TrueClass no equals' do
-        selector = {tag_name: 'input', name: true}
-        built = {xpath: ".//*[local-name()='input'][@name]"}
+        selector = {tag_name: 'input', id: true}
+        built = {xpath: ".//*[local-name()='input'][@id]"}
 
         expect(selector_builder.build(selector)).to eq built
       end
@@ -344,6 +337,20 @@ describe Watir::Locators::Element::SelectorBuilder do
         selector = {label: 'Cars'}
         built = {xpath: ".//*[@id=//label[normalize-space()='Cars']/@for "\
 "or parent::label[normalize-space()='Cars']]"}
+
+        expect(selector_builder.build(selector)).to eq built
+      end
+
+      it 'returns a label_element if complex' do
+        selector = {label: /Ca|rs/}
+        built = {xpath: './/*', label_element: /Ca|rs/}
+
+        expect(selector_builder.build(selector)).to eq built
+      end
+
+      it 'returns a visible_label_element if complex' do
+        selector = {visible_label: /Ca|rs/}
+        built = {xpath: './/*', visible_label_element: /Ca|rs/}
 
         expect(selector_builder.build(selector)).to eq built
       end
@@ -561,10 +568,40 @@ describe Watir::Locators::Element::SelectorBuilder do
       end
 
       it 'handles case insensitive' do
-        selector = {action: /me/i}
+        selector = {action: /ME/i}
         built = {xpath: './/*[contains(translate(@action,' \
 "'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'," \
 "'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ'), 'me')]"}
+
+        expect(selector_builder.build(selector)).to eq built
+      end
+    end
+
+    context 'with special cased selectors' do
+      it 'handles data-* attributes with String' do
+        selector = {data_foo: 'user_new'}
+        built = {xpath: ".//*[@data-foo='user_new']"}
+
+        expect(selector_builder.build(selector)).to eq built
+      end
+
+      it 'handles aria-* attributes' do
+        selector = {aria_foo: 'user_new'}
+        built = {xpath: ".//*[@aria-foo='user_new']"}
+
+        expect(selector_builder.build(selector)).to eq built
+      end
+
+      it "doesn't modify attribute name when the attribute key is a string" do
+        selector = {'_underscore-dash' => 'user_new'}
+        built = {xpath: ".//*[@_underscore-dash='user_new']"}
+
+        expect(selector_builder.build(selector)).to eq built
+      end
+
+      it 'translates ruby attribute names to content attribute names' do
+        selector = {http_equiv: 'foo'}
+        built = {xpath: ".//*[@http-equiv='foo']"}
 
         expect(selector_builder.build(selector)).to eq built
       end

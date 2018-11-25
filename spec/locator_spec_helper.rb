@@ -1,17 +1,28 @@
 module LocatorSpecHelper
   def browser
-    @browser ||= double(Watir::Browser, wd: driver)
+    @browser ||= instance_double(Watir::Browser, wd: driver)
   end
 
   def driver
-    @driver ||= double(Selenium::WebDriver::Driver)
+    @driver ||= instance_double(Selenium::WebDriver::Driver)
   end
 
-  def locator(selector, attrs)
-    attrs ||= Watir::HTMLElement.attributes
-    element_validator = Watir::Locators::Element::Validator.new
-    selector_builder = Watir::Locators::Element::SelectorBuilder.new(attrs)
-    Watir::Locators::Element::Locator.new(browser, selector, selector_builder, element_validator)
+  def selector_builder
+    return @selector_builder if @selector_builder
+
+    @locator ||= {xpath: ''}
+    @selector_builder = instance_double(Watir::Locators::Element::SelectorBuilder)
+    allow(@selector_builder).to receive(:build).and_return(@locator)
+    allow(@selector_builder).to receive(:wd_locators).and_return([:xpath])
+    @selector_builder
+  end
+
+  def element_matcher
+    @element_matcher ||= instance_double(Watir::Locators::Element::Matcher)
+  end
+
+  def locator(selector)
+    Watir::Locators::Element::Locator.new(browser, selector, selector_builder, element_matcher)
   end
 
   def expect_one(*args)
@@ -22,23 +33,36 @@ module LocatorSpecHelper
     expect(driver).to receive(:find_elements).with(*args)
   end
 
-  def locate_one(selector, attrs = nil)
-    locator(ordered_hash(selector), attrs).locate
+  def locate_one(selector = {})
+    locator(ordered_hash(selector)).locate
   end
 
-  def locate_all(selector, attrs = nil)
-    locator(ordered_hash(selector), attrs).locate_all
+  def locate_all(selector = {})
+    locator(ordered_hash(selector)).locate_all
   end
 
   def element(opts = {})
-    attrs = opts.delete(:attributes)
-    el = double(Watir::HTMLElement, opts)
+    raise unless opts.delete(:attributes).nil?
 
+    klass = opts.delete(:watir_element) || Watir::HTMLElement
+    el = instance_double(klass, opts)
+
+    allow(el).to receive(:enabled?).and_return true
+    allow(el).to receive(:wd).and_return wd_element unless opts.key?(:wd)
+    el
+  end
+
+  def wd_element(opts = {})
+    attrs = opts.delete(:attributes)
+    el = instance_double(Selenium::WebDriver::Element, opts)
     attrs&.each do |key, value|
       allow(el).to receive(:attribute).with(key.to_s).and_return(value)
     end
-    allow(el).to receive(:enabled?).and_return true
     el
+  end
+
+  def el
+    @el ||= wd_element
   end
 
   def ordered_hash(selector)

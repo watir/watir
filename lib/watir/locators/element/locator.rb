@@ -4,179 +4,44 @@ module Watir
       class Locator
         include Exception
 
-        attr_reader :selector_builder
-        attr_reader :element_validator
+        attr_reader :selector_builder, :element_matcher
 
-        W3C_FINDERS = %i[
-          css
-          link
-          link_text
-          partial_link_text
-          tag_name
-          xpath
-        ].freeze
-
-        def initialize(query_scope, selector, selector_builder, element_validator)
+        def initialize(query_scope, selector, selector_builder, element_matcher)
           @query_scope = query_scope # either element or browser
           @selector = selector
           @selector_builder = selector_builder
-          @element_validator = element_validator
+          @element_matcher = element_matcher
         end
 
         def locate
-          using_selenium(:first) || using_watir(:first)
-        rescue Selenium::WebDriver::Error::NoSuchElementError, Selenium::WebDriver::Error::StaleElementReferenceError
+          matching_elements(:first)
+        rescue Selenium::WebDriver::Error::NoSuchElementError
           nil
         end
 
         def locate_all
-          return [@selector[:element]] if @selector.key?(:element)
+          raise ArgumentError, "can't locate all elements by :index" if @selector.key?(:index)
 
-          using_selenium(:all) || using_watir(:all)
+          [matching_elements(:all)].flatten
         end
 
         private
 
-        def using_selenium(filter = :first)
-          selector = @selector.dup
-          tag = selector[:tag_name].is_a?(::Symbol) ? selector.delete(:tag_name).to_s : selector.delete(:tag_name)
-          return if selector.size > 1
+        def matching_elements(filter = :first)
+          return @selector[:element] if @selector.key?(:element)
 
-          how = selector.keys.first || :tag_name
-          what = selector.values.first || tag
+          built = selector_builder.build(@selector.dup)
+          wd_locator_key = selector_builder.wd_locators(built.keys).first
+          wd_locator_value = built.delete(wd_locator_key)
 
-          return unless wd_supported?(how, what, tag)
+          return locate_element(wd_locator_key, wd_locator_value, @query_scope.wd) if filter == :first && built.empty?
 
-          filter == :all ? locate_elements(how, what) : locate_element(how, what)
-        end
-
-        def using_watir(filter = :first)
-          selector = @selector.dup
-          raise ArgumentError, "can't locate all elements by :index" if selector.key?(:index) && filter == :all
-
-          @driver_scope ||= @query_scope.wd
-
-          built = selector_builder.build(selector)
-
-          validate_built_selector(built)
-
-          wd_locator = built.select { |key, _value| %i[css xpath link_text partial_link_text].include? key }
-          values_to_match = built.reject { |key, _value| %i[css xpath link_text partial_link_text].include? key }
-
-          if filter == :all || values_to_match.any?
-            locate_matching_elements(wd_locator, values_to_match, filter)
-          else
-            locate_element(wd_locator.keys.first, wd_locator.values.first, @driver_scope)
-          end
-        end
-
-        def validate_built_selector(built)
-          return unless built.nil? || built.empty?
-
-          msg = "#{selector_builder.class} was unable to build selector from #{@selector.inspect}"
-          raise LocatorException, msg
-        end
-
-        def fetch_value(element, how)
-          case how
-          when :text
-            element.text
-          when :visible
-            element.displayed?
-          when :visible_text
-            element.text
-          when :tag_name
-            element.tag_name.downcase
-          when :href
-            element.attribute('href')&.strip
-          else
-            how = how.to_s.tr('_', '-') if how.is_a?(::Symbol)
-            element.attribute(how)
-          end
-        end
-
-        def matching_labels(elements, values_to_match, scope)
-          label_key = values_to_match.key?(:label_element) ? :label_element : :visible_label_element
-          label_value = values_to_match.delete(:label_element) || values_to_match.delete(:visible_label_element)
-          locator_key = label_key.to_s.gsub('label', 'text').gsub('_element', '').to_sym
-
-          Watir::LabelCollection.new(scope, tag_name: 'label').map { |label|
-            next unless matches_values?(label.wd, locator_key => label_value)
-
-            input = label.for.empty? ? label.input : Watir::Input.new(scope, id: label.for)
-            input.wd if elements.include?(input.wd)
-          }.compact
-        end
-
-        def matching_elements(elements, values_to_match, filter: :first)
-          if filter == :first
-            idx = element_index(elements, values_to_match)
-            counter = 0
-
-            # Lazy evaluation to avoid fetching values for elements that will be discarded
-            matches = elements.lazy.select do |el|
-              counter += 1
-              matches_values?(el, values_to_match)
-            end
-            msg = "iterated through #{counter} elements to locate #{@selector.inspect}"
-            matches.take(idx + 1).to_a[idx].tap { Watir.logger.debug msg }
-          else
-            Watir.logger.debug "Iterated through #{elements.size} elements to locate all #{@selector.inspect}"
-            elements.select { |el| matches_values?(el, values_to_match) }
-          end
-        end
-
-        def element_index(elements, values_to_match)
-          idx = values_to_match.delete(:index) || 0
-          return idx unless idx.negative?
-
-          elements.reverse!
-          idx.abs - 1
-        end
-
-        def matches_values?(element, values_to_match)
-          matches = values_to_match.all? do |how, what|
-            if how == :tag_name && what.is_a?(String)
-              element_validator.validate(element, what)
-            else
-              val = fetch_value(element, how)
-              what == val || val =~ /#{what}/
-            end
-          end
-
-          text_regexp_deprecation(element, values_to_match, matches) if values_to_match[:text]
-
-          matches
-        end
-
-        def text_regexp_deprecation(element, selector, matches)
-          new_element = Watir::Element.new(@query_scope, element: element)
-          text_content = new_element.execute_js(:getTextContent, element).strip
-          text_content_matches = text_content =~ /#{selector[:text]}/
-          return if matches == !!text_content_matches
-
-          key = @selector.key?(:text) ? 'text' : 'label'
-          selector_text = selector[:text].inspect
-          dep = "Using :#{key} locator with RegExp #{selector_text} to match an element that includes hidden text"
-          Watir.logger.deprecate(dep, ":visible_#{key}", ids: [:text_regexp])
-        end
-
-        def locate_element(how, what, scope = @query_scope.wd)
-          scope.find_element(how, what)
-        end
-
-        def locate_elements(how, what, scope = @query_scope.wd)
-          scope.find_elements(how, what)
-        end
-
-        def locate_matching_elements(selector, values_to_match, filter)
+          # TODO: Wrap this to continue trying until default timeout
           retries = 0
           begin
-            elements = locate_elements(selector.keys.first, selector.values.first, @driver_scope) || []
-            if values_to_match.key?(:label_element) || values_to_match.key?(:visible_label_element)
-              elements = matching_labels(elements, values_to_match, @query_scope)
-            end
-            matching_elements(elements, values_to_match, filter: filter)
+            elements = locate_elements(wd_locator_key, wd_locator_value, @query_scope.wd)
+
+            element_matcher.match(elements, built, filter)
           rescue Selenium::WebDriver::Error::StaleElementReferenceError
             retries += 1
             sleep 0.5
@@ -186,21 +51,12 @@ module Watir
           end
         end
 
-        def wd_supported?(how, what, tag)
-          return false unless W3C_FINDERS.include? how
-          return false unless what.is_a?(String)
+        def locate_element(how, what, scope = @query_scope.wd)
+          scope.find_element(how, what)
+        end
 
-          if %i[partial_link_text link_text link].include?(how)
-            Watir.logger.deprecate(":#{how} locator", ':visible_text', ids: [:link_text])
-            return true if [:a, :link, nil].include?(tag)
-
-            raise LocatorException, "Can not use #{how} locator to find a #{what} element"
-          elsif how == :tag_name
-            return true
-          else
-            return false unless tag.nil?
-          end
-          true
+        def locate_elements(how, what, scope = @query_scope.wd)
+          scope.find_elements(how, what)
         end
       end
     end

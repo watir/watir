@@ -137,10 +137,10 @@ module Watir
 
       if found_by_value.exist?
         found_by_value.click unless found_by_value.selected?
-        return found_by_value.value
+        found_by_value.value
       elsif found_by_text.exist?
         found_by_text.click unless found_by_text.selected?
-        return found_by_text.text
+        found_by_text.text
       else
         raise UnknownObjectException, "Unable to locate radio matching #{str_or_rx.inspect}"
       end
@@ -156,7 +156,6 @@ module Watir
 
     def selected?(str_or_rx)
       found = frame.radio(label: str_or_rx)
-
       return found.selected? if found.exist?
 
       raise UnknownObjectException, "Unable to locate radio matching #{str_or_rx.inspect}"

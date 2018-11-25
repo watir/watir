@@ -104,8 +104,6 @@ module Watir
             class_name = @selector.delete(:class)
             return '' if class_name.nil?
 
-            deprecate_class_array(class_name) if class_name.is_a?(String) && class_name.strip.include?(' ')
-
             @built[:class] = []
 
             predicates = [class_name].flatten.map { |value| process_attribute(:class, value) }.compact
@@ -179,13 +177,6 @@ module Watir
               @built[:index] = index
               xpath
             end
-          end
-
-          def deprecate_class_array(class_name)
-            dep = "Using the :class locator to locate multiple classes with a String value (i.e. \"#{class_name}\")"
-            Watir.logger.deprecate dep,
-                                   "Array (e.g. #{class_name.split})",
-                                   ids: [:class_array]
           end
 
           def visible?

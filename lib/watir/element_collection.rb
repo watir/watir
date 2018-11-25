@@ -92,12 +92,7 @@ module Watir
           element = element_class.new(@query_scope, selector)
           element.cache = el
           if [HTMLElement, Input].include? element.class
-            tag_name = @selector[:tag_name] || element.tag_name
-            hash[tag_name] ||= 0
-            hash[tag_name] += 1
-            selector[:index] = hash[tag_name] - 1
-            selector[:tag_name] = tag_name
-            Watir.element_class_for(tag_name).new(@query_scope, selector)
+            construct_subtype(element, hash)
           else
             element
           end
@@ -174,6 +169,16 @@ module Watir
 
     def element_class
       Kernel.const_get(self.class.name.sub(/Collection$/, ''))
+    end
+
+    def construct_subtype(element, hash)
+      selector = element.selector
+      tag_name = selector[:tag_name] || element.tag_name
+      hash[tag_name] ||= 0
+      hash[tag_name] += 1
+      selector[:index] = hash[tag_name] - 1
+      selector[:tag_name] = tag_name
+      Watir.element_class_for(tag_name).new(@query_scope, selector)
     end
   end # ElementCollection
 end # Watir

@@ -105,6 +105,16 @@ describe Watir::Locators::TextField::SelectorBuilder do
       end
     end
 
+    context 'with wrong tag name' do
+      # TODO: Should this throw exception?
+      it 'ignores tag name' do
+        selector = {tag_name: 'div'}
+        built = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]"}
+
+        expect(selector_builder.build(selector)).to eq built
+      end
+    end
+
     context 'with text' do
       it 'String for value' do
         selector = {text: 'Developer'}
@@ -145,7 +155,7 @@ describe Watir::Locators::TextField::SelectorBuilder do
         expect(selector_builder.build(selector)).to eq built
       end
 
-      # Desired Behavior
+      # TODO: Can use contains once remove :text_regexp deprecation
       xit 'using simple Regexp' do
         selector = {label: /First/}
         built = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]" \
@@ -154,7 +164,7 @@ describe Watir::Locators::TextField::SelectorBuilder do
         expect(selector_builder.build(selector)).to eq built
       end
 
-      # Desired Behavior
+      # TODO: Can use contains once remove :text_regexp deprecation
       xit 'using complex Regexp' do
         selector = {label: /([qa])st? name/}
         built = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]" \

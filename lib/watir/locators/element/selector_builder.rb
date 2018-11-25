@@ -16,6 +16,14 @@ module Watir
                                                                               visible_text: [String, Regexp],
                                                                               text: [String, Regexp]).freeze
 
+        W3C_FINDERS = %i[
+          css
+          link
+          link_text
+          partial_link_text
+          xpath
+        ].freeze
+
         def initialize(valid_attributes)
           @valid_attributes = valid_attributes
           @custom_attributes = []
@@ -24,23 +32,41 @@ module Watir
         def build(selector)
           inspected = selector.inspect
           @selector = selector
+
+          deprecated_locators
           normalize_selector
 
-          xpath_css = @selector.select { |key, _value| %i[xpath css].include? key }
+          @built = wd_locators(@selector.keys).size.zero? ? build_wd_selector(@selector) : @selector
+          @built.delete(:index) if @built[:index]&.zero?
 
-          raise LocatorException, ":xpath and :css cannot be combined (#{xpath_css})" if xpath_css.size > 1
-
-          built = xpath_css.empty? ? build_wd_selector(@selector) : @selector
-
-          built.delete(:index) if built[:index]&.zero?
-
-          Watir.logger.debug "Converted #{inspected} to #{built}, with #{@selector.inspect} to match"
-          built
+          Watir.logger.debug "Converted #{inspected} to #{@built.inspect}"
+          @built
         end
 
+        def wd_locators(keys)
+          W3C_FINDERS & keys
+        end
+
+        def locator_filters(keys)
+          keys - W3C_FINDERS
+        end
+
+        private
+
         def normalize_selector
+          wd_locators = @selector.keys & W3C_FINDERS
+          raise LocatorException, "Can not locate element with #{wd_locators}" if wd_locators.size > 1
+
           if @selector.key?(:class) || @selector.key?(:class_name)
-            @selector[:class] = ([@selector[:class]].flatten + [@selector.delete(:class_name)].flatten).compact
+            classes = ([@selector[:class]].flatten + [@selector.delete(:class_name)].flatten).compact
+
+            classes.each do |class_name|
+              next unless class_name.is_a?(String) && class_name.strip.include?(' ')
+
+              deprecate_class_array(class_name)
+            end
+
+            @selector[:class] = classes
           end
 
           if @selector[:adjacent] == :ancestor && @selector.key?(:text)
@@ -55,15 +81,24 @@ module Watir
           end
         end
 
+        def deprecate_class_array(class_name)
+          dep = "Using the :class locator to locate multiple classes with a String value (i.e. \"#{class_name}\")"
+          Watir.logger.deprecate dep,
+                                 "Array (e.g. #{class_name.split})",
+                                 ids: [:class_array]
+        end
+
         def check_type(how, what)
-          [what].flatten.each { |key| raise_unless(key, VALID_WHATS[how]) }
+          if %i[class class_name].include? how
+            [what].flatten.each { |value| raise_unless(value, VALID_WHATS[how]) }
+          else
+            raise_unless(what, VALID_WHATS[how])
+          end
         end
 
         def should_use_label_element?
           !valid_attribute?(:label)
         end
-
-        private
 
         def normalize_locator(how, what)
           case how
@@ -78,6 +113,8 @@ module Watir
           when :class
             what = false if what.tap { |arr| arr.delete('') }.empty?
             [how, what]
+          when :link
+            [:link_text, what]
           when :label, :visible_label
             if should_use_label_element?
               ["#{how}_element".to_sym, what]
@@ -125,6 +162,18 @@ module Watir
           return if types.include?(what.class)
 
           raise TypeError, "expected one of #{types}, got #{what.inspect}:#{what.class}"
+        end
+
+        def deprecated_locators
+          %i[partial_link_text link_text link].each do |locator|
+            next unless @selector.key?(locator)
+
+            Watir.logger.deprecate(":#{locator} locator", ':visible_text', ids: [:link_text])
+            tag = @selector[:tag_name]
+            next if tag.nil? || tag == 'a'
+
+            raise LocatorException, "Can not use #{locator} locator to find a #{tag} element"
+          end
         end
       end
     end
