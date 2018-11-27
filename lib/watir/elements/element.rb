@@ -436,8 +436,7 @@ module Watir
     #
 
     def wd
-      assert_exists
-      @element
+      element_call { @element }
     end
 
     #
