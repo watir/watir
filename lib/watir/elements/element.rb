@@ -797,7 +797,7 @@ module Watir
 
       begin
         check_condition(precondition, caller)
-        Watir.logger.info "-> `Executing #{inspect}##{caller}`"
+        Watir.logger.debug "-> `Executing #{inspect}##{caller}`"
         yield
       rescue unknown_exception => ex
         element_call(:wait_for_exists, &block) if precondition.nil?
@@ -822,7 +822,7 @@ module Watir
       rescue Selenium::WebDriver::Error::NoSuchWindowError
         raise NoMatchingWindowFoundException, 'browser window was closed'
       ensure
-        Watir.logger.info "<- `Completed #{inspect}##{caller}`"
+        Watir.logger.debug "<- `Completed #{inspect}##{caller}`"
         Wait.timer.reset! unless already_locked
       end
     end
@@ -832,14 +832,14 @@ module Watir
     # rubocop:enable Metrics/CyclomaticComplexity:
 
     def check_condition(condition, caller)
-      Watir.logger.info "<- `Verifying precondition #{inspect}##{condition} for #{caller}`"
+      Watir.logger.debug "<- `Verifying precondition #{inspect}##{condition} for #{caller}`"
       begin
         condition.nil? ? assert_exists : send(condition)
-        Watir.logger.info "<- `Verified precondition #{inspect}##{condition || 'assert_exists'}`"
+        Watir.logger.debug "<- `Verified precondition #{inspect}##{condition || 'assert_exists'}`"
       rescue unknown_exception
         raise unless condition.nil?
 
-        Watir.logger.info "<- `Unable to satisfy precondition #{inspect}##{condition}`"
+        Watir.logger.debug "<- `Unable to satisfy precondition #{inspect}##{condition}`"
         check_condition(:wait_for_exists, caller)
       end
     end

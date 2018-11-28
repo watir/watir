@@ -32,7 +32,7 @@ module Watir
           @built = wd_locator(@selector.keys).nil? ? build_wd_selector(@selector) : @selector
           @built.delete(:index) if @built[:index]&.zero?
 
-          Watir.logger.debug "Converted #{inspected} to #{@built.inspect}"
+          Watir.logger.info "Converted #{inspected} to #{@built.inspect}"
           @built
         end
 
