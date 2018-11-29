@@ -15,7 +15,7 @@ module Watir
     include Locators::ClassHelpers
 
     attr_accessor :keyword
-    attr_reader :selector
+    attr_reader :selector, :locator
 
     #
     # temporarily add :id and :class_name manually since they're no longer specified in the HTML spec.
@@ -40,6 +40,8 @@ module Watir
       end
 
       @selector = selector
+
+      build unless @element
     end
 
     #
@@ -613,6 +615,14 @@ module Watir
     #
     # @api private
     #
+
+    def build
+      build_locator.build
+    end
+
+    #
+    # @api private
+    #
     # Returns true if element has been previously located.
     #
     # @return [Boolean]
@@ -727,8 +737,7 @@ module Watir
     end
 
     def locate_in_context
-      @locator = build_locator
-      @element = @locator.locate
+      @element = build_locator.locate
     end
 
     private

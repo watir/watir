@@ -1,8 +1,8 @@
 module Watir
   class Radio < Input
-    def initialize(query_scope, selector)
-      super
+    def build
       @selector[:label] = @selector.delete(:text) if @selector.key?(:text)
+      super
     end
 
     #

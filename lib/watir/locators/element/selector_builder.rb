@@ -16,13 +16,11 @@ module Watir
                                                                               visible_text: [String, Regexp],
                                                                               text: [String, Regexp]).freeze
 
-        W3C_FINDERS = %i[
-          css
-          link
-          link_text
-          partial_link_text
-          xpath
-        ].freeze
+        W3C_FINDERS = %i[css
+                         link
+                         link_text
+                         partial_link_text
+                         xpath].freeze
 
         def initialize(valid_attributes)
           @valid_attributes = valid_attributes
@@ -36,15 +34,15 @@ module Watir
           deprecated_locators
           normalize_selector
 
-          @built = wd_locators(@selector.keys).size.zero? ? build_wd_selector(@selector) : @selector
+          @built = wd_locator(@selector.keys).nil? ? build_wd_selector(@selector) : @selector
           @built.delete(:index) if @built[:index]&.zero?
 
           Watir.logger.debug "Converted #{inspected} to #{@built.inspect}"
           @built
         end
 
-        def wd_locators(keys)
-          W3C_FINDERS & keys
+        def wd_locator(keys)
+          (W3C_FINDERS & keys).first
         end
 
         def locator_filters(keys)

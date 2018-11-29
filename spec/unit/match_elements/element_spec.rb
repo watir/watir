@@ -3,7 +3,7 @@ require_relative '../unit_helper'
 describe Watir::Locators::Element::Matcher do
   include LocatorSpecHelper
 
-  let(:query_scope) { @query_scope || instance_double(Watir::Browser) }
+  let(:query_scope) { @query_scope || browser }
   let(:values_to_match) { @values_to_match || {} }
   let(:matcher) { described_class.new(query_scope, values_to_match) }
 

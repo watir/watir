@@ -10,6 +10,8 @@ module Watir
     def initialize(query_scope, selector)
       @query_scope = query_scope
       @selector = selector
+
+      build
     end
 
     #
@@ -32,6 +34,10 @@ module Watir
     alias size count
 
     alias empty? none?
+
+    def build
+      build_locator.build
+    end
 
     #
     # Get the element at the given index or range.

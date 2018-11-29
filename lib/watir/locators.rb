@@ -59,14 +59,17 @@ module Watir
       end
 
       def build_locator
-        selector_builder = if element_class == Watir::Row
-                             scope_tag_name = @query_scope.selector[:tag_name]
-                             selector_builder_class.new(element_class.attribute_list, scope_tag_name)
-                           else
-                             selector_builder_class.new(element_class.attribute_list)
-                           end
+        return @locator if @locator
+
+        args = [element_class.attribute_list]
+        if element_class == Watir::Row
+          scope_tag_name = @query_scope.selector[:tag_name] || @query_scope.tag_name
+          args << scope_tag_name
+        end
+        selector_builder = selector_builder_class.new(*args)
+
         element_matcher = element_matcher_class.new(@query_scope, @selector.dup)
-        locator_class.new(@query_scope, @selector.dup, selector_builder, element_matcher)
+        @locator = locator_class.new(@query_scope, @selector.dup, selector_builder, element_matcher)
       end
     end
   end

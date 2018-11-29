@@ -1,6 +1,9 @@
 module LocatorSpecHelper
   def browser
     @browser ||= instance_double(Watir::Browser, wd: driver)
+    allow(@browser).to receive(:browser).and_return(@browser)
+    allow(@browser).to receive(:locator_namespace).and_return(@locator_namespace || Watir::Locators)
+    @browser
   end
 
   def driver
@@ -13,7 +16,7 @@ module LocatorSpecHelper
     @locator ||= {xpath: ''}
     @selector_builder = instance_double(Watir::Locators::Element::SelectorBuilder)
     allow(@selector_builder).to receive(:build).and_return(@locator)
-    allow(@selector_builder).to receive(:wd_locators).and_return([:xpath])
+    allow(@selector_builder).to receive(:wd_locator).and_return(:xpath)
     @selector_builder
   end
 
