@@ -1,3 +1,3 @@
 module Watir
-  VERSION = '6.15.0'.freeze
+  VERSION = '6.15.1'.freeze
 end

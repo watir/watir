@@ -1,3 +1,11 @@
+### 6.15.1 (2018-12-04)
+
+* Locator value type check error message now returns array of allowed class types
+* Wire calls for `:label` locator happen after Selector is built
+* Improve error message for `Watir::Option` element when not found (#823)
+* Wrap `#wd` with `#element_call` to wait for element to exist (#813)
+* Remove automatic element reset in wait loop (#819)
+
 ### 6.15.0 (2018-11-07)
 
 * Add `Element#selected_text`
