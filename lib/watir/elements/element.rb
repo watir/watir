@@ -133,6 +133,7 @@ module Watir
     #
 
     def click(*modifiers)
+      # TODO: Should wait_for_enabled be default, or `Button` specific behavior?
       element_call(:wait_for_enabled) do
         if modifiers.any?
           action = driver.action
@@ -583,7 +584,7 @@ module Watir
     end
 
     def stale_in_context?
-      @element.enabled? # any wire call will check for staleness
+      @element.css_value('staleness_check') # any wire call will check for staleness
       false
     rescue Selenium::WebDriver::Error::ObsoleteElementError
       true
@@ -646,7 +647,7 @@ module Watir
 
       begin
         @query_scope.wait_for_exists unless @query_scope.is_a? Browser
-        wait_until(&:exists?)
+        wait_until(element_reset: true, &:exists?)
       rescue Wait::TimeoutError
         msg = "timed out after #{Watir.default_timeout} seconds, waiting for #{inspect} to be located"
         raise unknown_exception, msg
