@@ -7,6 +7,7 @@ require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec) do |spec|
   spec.rspec_opts = %w[--color --require fuubar --format Fuubar]
   spec.pattern = 'spec/**/*_spec.rb'
+  spec.exclude_pattern = 'spec/unit/**/*_spec.rb'
 end
 
 require 'rubocop/rake_task'
@@ -153,6 +154,11 @@ namespace :spec do
       ENV['USE_REMOTE'] = 'true'
       Rake::Task[:spec].execute
     end
+  end
+
+  desc 'Run the Unit tests'
+  RSpec::Core::RakeTask.new(:unit) do |spec|
+    spec.pattern = 'spec/unit/**/**_spec.rb'
   end
 
   desc 'Run element location specs and report wire calls'
