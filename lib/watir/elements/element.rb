@@ -624,7 +624,7 @@ module Watir
     #
     # @api private
     #
-    # Set the cached element. For use when
+    # Set the cached element. For use when element can be relocated with the provided selector.
     #
 
     def cache=(element)
