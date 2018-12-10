@@ -5,7 +5,7 @@ describe Watir::Locators::Element::Matcher do
 
   let(:query_scope) { @query_scope || browser }
   let(:values_to_match) { @values_to_match || {} }
-  let(:matcher) { described_class.new(query_scope, values_to_match) }
+  let(:matcher) { described_class.new(query_scope) }
 
   describe '#match' do
     context 'a label element' do

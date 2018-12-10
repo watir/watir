@@ -737,7 +737,7 @@ module Watir
     end
 
     def locate_in_context
-      @element = build_locator.locate
+      @element = locator.locate(selector_builder.built)
     end
 
     private

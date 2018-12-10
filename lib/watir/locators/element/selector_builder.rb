@@ -16,9 +16,10 @@ module Watir
                                                                               visible_text: [String, Regexp],
                                                                               text: [String, Regexp]).freeze
 
-        def initialize(valid_attributes)
+        def initialize(valid_attributes, query_scope)
           @valid_attributes = valid_attributes
           @custom_attributes = []
+          @query_scope = query_scope
         end
 
         def build(selector)

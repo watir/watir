@@ -16,16 +16,18 @@ module LocatorSpecHelper
     @locator ||= {xpath: ''}
     @selector_builder = instance_double(Watir::Locators::Element::SelectorBuilder)
     allow(@selector_builder).to receive(:built).and_return(@locator)
-    allow(@selector_builder).to receive(:wd_locator).and_return(:xpath)
     @selector_builder
   end
 
   def element_matcher
     @element_matcher ||= instance_double(Watir::Locators::Element::Matcher)
+    allow(@element_matcher).to receive(:query_scope).and_return(browser)
+    allow(@element_matcher).to receive(:selector).and_return(@locator || {})
+    @element_matcher
   end
 
-  def locator(selector)
-    Watir::Locators::Element::Locator.new(browser, selector, selector_builder, element_matcher)
+  def locator
+    Watir::Locators::Element::Locator.new(element_matcher)
   end
 
   def expect_one(*args)
@@ -36,12 +38,14 @@ module LocatorSpecHelper
     expect(driver).to receive(:find_elements).with(*args)
   end
 
-  def locate_one(selector = {})
-    locator(ordered_hash(selector)).locate
+  def locate_one(selector = nil)
+    selector ||= @locator || {}
+    locator.locate(ordered_hash(selector))
   end
 
-  def locate_all(selector = {})
-    locator(ordered_hash(selector)).locate_all
+  def locate_all(selector = nil)
+    selector ||= @locator || {}
+    locator.locate_all(ordered_hash(selector))
   end
 
   def element(opts = {})

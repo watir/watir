@@ -2,7 +2,8 @@ require_relative '../unit_helper'
 
 describe Watir::Locators::Element::SelectorBuilder do
   let(:attributes) { @attributes || Watir::HTMLElement.attribute_list }
-  let(:selector_builder) { described_class.new(attributes) }
+  let(:query_scope) { instance_double Watir::Browser }
+  let(:selector_builder) { described_class.new(attributes, query_scope) }
 
   describe '#build' do
     it 'without any arguments' do

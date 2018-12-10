@@ -46,13 +46,12 @@ module Watir
     #
 
     def radio(opt = {})
-      n = name
-      if !n.empty? && (!opt[:name] || opt[:name] == n)
-        frame.radio(opt.merge(name: n))
-      elsif n.empty?
-        return source
+      if !name.empty? && (!opt[:name] || opt[:name] == name)
+        frame.radio(opt.merge(name: name))
+      elsif name.empty?
+        source
       else
-        raise UnknownObjectException, "#{opt[:name]} does not match name of RadioSet: #{n}"
+        raise UnknownObjectException, "#{opt[:name]} does not match name of RadioSet: #{name}"
       end
     end
 
@@ -61,13 +60,12 @@ module Watir
     #
 
     def radios(opt = {})
-      n = name
-      if !n.empty? && (!opt[:name] || opt[:name] == n)
-        element_call(:wait_for_present) { frame.radios(opt.merge(name: n)) }
-      elsif n.empty?
-        RadioCollection.new(frame, element: source.wd)
+      if !name.empty? && (!opt[:name] || opt[:name] == name)
+        element_call(:wait_for_present) { frame.radios(opt.merge(name: name)) }
+      elsif name.empty?
+        single_radio_collection
       else
-        raise UnknownObjectException, "#{opt[:name]} does not match name of RadioSet: #{n}"
+        raise UnknownObjectException, "#{opt[:name]} does not match name of RadioSet: #{name}"
       end
     end
 
@@ -132,18 +130,14 @@ module Watir
     #
 
     def select(str_or_rx)
-      found_by_value = radio(value: str_or_rx)
-      found_by_text = radio(label: str_or_rx)
+      %i[value label].each do |key|
+        radio = radio(key => str_or_rx)
+        next unless radio.exist?
 
-      if found_by_value.exist?
-        found_by_value.click unless found_by_value.selected?
-        found_by_value.value
-      elsif found_by_text.exist?
-        found_by_text.click unless found_by_text.selected?
-        found_by_text.text
-      else
-        raise UnknownObjectException, "Unable to locate radio matching #{str_or_rx.inspect}"
+        radio.click unless radio.selected?
+        return key == :value ? radio.value : radio.text
       end
+      raise UnknownObjectException, "Unable to locate radio matching #{str_or_rx.inspect}"
     end
 
     #
@@ -169,8 +163,7 @@ module Watir
     #
 
     def value
-      sel = selected
-      sel&.value
+      selected&.value
     end
 
     #
@@ -181,8 +174,7 @@ module Watir
     #
 
     def text
-      sel = selected
-      sel&.text
+      selected&.text
     end
 
     #
@@ -205,9 +197,7 @@ module Watir
     #
 
     def ==(other)
-      return false unless other.is_a?(self.class)
-
-      radios == other.radios
+      other.is_a?(self.class) && radios == other.radios
     end
     alias eql? ==
 
@@ -216,6 +206,14 @@ module Watir
       define_method(method) do |*args, &blk|
         source.send(method, *args, &blk)
       end
+    end
+
+    private
+
+    def single_radio_collection
+      collection = RadioCollection.new(frame, source.selector)
+      collection.first.cache = source.wd
+      collection
     end
   end # RadioSet
 

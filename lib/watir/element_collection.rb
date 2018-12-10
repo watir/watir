@@ -96,11 +96,10 @@ module Watir
           selector = @selector.dup
           selector[:index] = idx unless idx.zero?
           element = element_class.new(@query_scope, selector)
-          element.cache = el
           if [HTMLElement, Input].include? element.class
-            construct_subtype(element, hash)
+            construct_subtype(element, hash).tap { |e| e.cache = el }
           else
-            element
+            element.tap { |e| e.cache = el }
           end
         end
     end
@@ -170,7 +169,7 @@ module Watir
     end
 
     def locate_all
-      build_locator.locate_all
+      locator.locate_all(selector_builder.built)
     end
 
     def element_class

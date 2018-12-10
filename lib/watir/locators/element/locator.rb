@@ -4,23 +4,24 @@ module Watir
       class Locator
         include Exception
 
-        attr_reader :selector_builder, :element_matcher
+        attr_reader :element_matcher, :built
 
-        def initialize(query_scope, selector, selector_builder, element_matcher)
-          @query_scope = query_scope
-          @selector = selector
-          @selector_builder = selector_builder
+        def initialize(element_matcher)
+          @query_scope = element_matcher.query_scope
+          @selector = element_matcher.selector
           @element_matcher = element_matcher
         end
 
-        def locate
+        def locate(built)
+          @built = built
           matching_elements(:first)
         rescue Selenium::WebDriver::Error::NoSuchElementError
           nil
         end
 
-        def locate_all
-          raise ArgumentError, "can't locate all elements by :index" if @selector.key?(:index)
+        def locate_all(built)
+          @built = built
+          raise ArgumentError, "can't locate all elements by :index" if built.key?(:index)
 
           [matching_elements(:all)].flatten
         end
@@ -28,12 +29,9 @@ module Watir
         private
 
         def matching_elements(filter = :first)
-          return @selector[:element] if @selector.key?(:element)
-          built = selector_builder.built
-
           return locate_element(*built.to_a.flatten, @query_scope.wd) if built.size == 1 && filter == :first
 
-          wd_locator_key = selector_builder.wd_locator(built.keys)
+          wd_locator_key = (Watir::Locators::W3C_FINDERS & built.keys).first
           wd_locator = built.select { |k, _v| wd_locator_key == k }
           match_values = built.reject { |k, _v| wd_locator_key == k }
 

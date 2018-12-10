@@ -2,7 +2,8 @@ require_relative '../unit_helper'
 
 describe Watir::Locators::TextArea::SelectorBuilder do
   let(:attributes) { Watir::HTMLElement.attribute_list }
-  let(:selector_builder) { described_class.new(attributes) }
+  let(:query_scope) { double Watir::Browser }
+  let(:selector_builder) { described_class.new(attributes, query_scope) }
 
   describe '#build' do
     context 'Always returns value argument' do

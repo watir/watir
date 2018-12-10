@@ -50,7 +50,7 @@ describe Watir::Locators::Element::Locator do
         stale_exception = Selenium::WebDriver::Error::StaleElementReferenceError
         expect(element_matcher).to receive(:match).and_raise(stale_exception).exactly(3).times
 
-        msg = 'Unable to locate element from {} due to changing page'
+        msg = 'Unable to locate element from {:xpath=>".//div", :id=>"foo"} due to changing page'
         expect { locate_one }.to raise_exception Watir::Exception::LocatorException, msg
       end
     end
@@ -73,7 +73,7 @@ describe Watir::Locators::Element::Locator do
       stale_exception = Selenium::WebDriver::Error::StaleElementReferenceError
       expect(element_matcher).to receive(:match).and_raise(stale_exception).exactly(3).times
 
-      msg = 'Unable to locate element collection from {} due to changing page'
+      msg = 'Unable to locate element collection from {:xpath=>".//div", :id=>"foo"} due to changing page'
       expect { locate_all }.to raise_exception Watir::Exception::LocatorException, msg
     end
 

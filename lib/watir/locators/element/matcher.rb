@@ -4,7 +4,9 @@ module Watir
       class Matcher
         include Exception
 
-        def initialize(query_scope, selector)
+        attr_reader :query_scope, :selector
+
+        def initialize(query_scope, selector = {})
           @query_scope = query_scope
           @selector = selector
         end

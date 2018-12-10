@@ -2,7 +2,8 @@ require_relative '../unit_helper'
 
 describe Watir::Locators::TextField::SelectorBuilder do
   let(:attributes) { Watir::HTMLElement.attribute_list }
-  let(:selector_builder) { described_class.new(attributes) }
+  let(:query_scope) { double Watir::Browser }
+  let(:selector_builder) { described_class.new(attributes, query_scope) }
   let(:uppercase) { 'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ' }
   let(:lowercase) { 'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ' }
   let(:negative_types) do
