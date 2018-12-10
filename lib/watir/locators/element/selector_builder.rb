@@ -16,12 +16,6 @@ module Watir
                                                                               visible_text: [String, Regexp],
                                                                               text: [String, Regexp]).freeze
 
-        W3C_FINDERS = %i[css
-                         link
-                         link_text
-                         partial_link_text
-                         xpath].freeze
-
         def initialize(valid_attributes)
           @valid_attributes = valid_attributes
           @custom_attributes = []
@@ -42,17 +36,13 @@ module Watir
         end
 
         def wd_locator(keys)
-          (W3C_FINDERS & keys).first
-        end
-
-        def locator_filters(keys)
-          keys - W3C_FINDERS
+          (Watir::Locators::W3C_FINDERS & keys).first
         end
 
         private
 
         def normalize_selector
-          wd_locators = @selector.keys & W3C_FINDERS
+          wd_locators = @selector.keys & Watir::Locators::W3C_FINDERS
           raise LocatorException, "Can not locate element with #{wd_locators}" if wd_locators.size > 1
 
           if @selector.key?(:class) || @selector.key?(:class_name)
