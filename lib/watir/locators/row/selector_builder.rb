@@ -6,6 +6,10 @@ module Watir
           scope_tag_name = @query_scope.selector[:tag_name] || @query_scope.tag_name
           Kernel.const_get("#{self.class.name}::XPath").new.build(selector, scope_tag_name)
         end
+
+        def use_scope?
+          false
+        end
       end
     end
   end

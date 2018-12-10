@@ -14,6 +14,7 @@ module Watir
                                                                               visible: [TrueClass, FalseClass],
                                                                               tag_name: [String, Regexp, ::Symbol],
                                                                               visible_text: [String, Regexp],
+                                                                              scope: [Hash],
                                                                               text: [String, Regexp]).freeze
 
         def initialize(valid_attributes, query_scope)
@@ -23,14 +24,16 @@ module Watir
         end
 
         def build(selector)
-          inspected = selector.inspect
           @selector = selector
 
           deprecated_locators
           normalize_selector
+          inspected = selector.inspect
+          scope = @query_scope unless @selector.key?(:scope) || @query_scope.is_a?(Watir::Browser)
 
           @built = wd_locator(@selector.keys).nil? ? build_wd_selector(@selector) : @selector
           @built.delete(:index) if @built[:index]&.zero?
+          @built[:scope] = scope if scope
 
           Watir.logger.info "Converted #{inspected} to #{@built.inspect}"
           @built
@@ -45,6 +48,8 @@ module Watir
         def normalize_selector
           wd_locators = @selector.keys & Watir::Locators::W3C_FINDERS
           raise LocatorException, "Can not locate element with #{wd_locators}" if wd_locators.size > 1
+
+          @selector[:scope] = @query_scope.selector_builder.built if use_scope?
 
           if @selector.key?(:class) || @selector.key?(:class_name)
             classes = ([@selector[:class]].flatten + [@selector.delete(:class_name)].flatten).compact
@@ -68,6 +73,15 @@ module Watir
             how, what = normalize_locator(key, @selector.delete(key))
             @selector[how] = what
           end
+        end
+
+        def use_scope?
+          return false if @query_scope.is_a?(Browser)
+
+          !@selector.key?(:adjacent) &&
+            (Watir::Locators::W3C_FINDERS & @selector.keys).empty? &&
+            !(@query_scope.is_a?(Watir::IFrame) || @query_scope.is_a?(Watir::Radio)) &&
+            @query_scope.selector_builder.built&.size == 1
         end
 
         def deprecate_class_array(class_name)

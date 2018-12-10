@@ -218,6 +218,7 @@ module Watir
       raise_no_value_found(str_or_rx)
     end
 
+    # TODO: Consider locating the Select List before throwing the exception
     def raise_no_value_found(str_or_rx)
       raise NoValueFoundException, "#{str_or_rx.inspect} not found in #{inspect}"
     end

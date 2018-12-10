@@ -17,6 +17,7 @@ module Watir
 
             index = @selector.delete(:index)
             @adjacent = @selector.delete(:adjacent)
+            @scope = @selector.delete(:scope)
 
             xpath = start_string
             xpath << adjacent_string
@@ -75,7 +76,8 @@ module Watir
           end
 
           def start_string
-            @adjacent ? './' : './/*'
+            start = @adjacent ? './' : './/*'
+            @scope ? "(#{@scope[:xpath]})[1]#{start.tr('.', '')}" : start
           end
 
           def adjacent_string

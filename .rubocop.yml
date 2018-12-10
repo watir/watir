@@ -93,6 +93,7 @@ Metrics/AbcSize:
     - 'lib/watir/locators/element/locator.rb'
     - 'lib/watir/generator/base/generator.rb'
     - 'lib/watir/generator/base/visitor.rb'
+    - 'spec/locator_spec_helper.rb'
 
 # TODO: fix with Watir 7
 # Configuration parameters: CountKeywordArgs.

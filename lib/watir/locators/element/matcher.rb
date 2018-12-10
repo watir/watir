@@ -41,15 +41,13 @@ module Watir
         def matching_elements(elements, values_to_match, filter: :first)
           if filter == :first
             idx = element_index(elements, values_to_match)
-            counter = 0
 
             # Lazy evaluation to avoid fetching values for elements that will be discarded
             matches = elements.lazy.select do |el|
-              counter += 1
               elements_match?(el, values_to_match)
             end
-            msg = "iterated through #{counter} elements to locate #{@selector.inspect}"
-            matches.take(idx + 1).to_a[idx].tap { Watir.logger.debug msg }
+            Watir.logger.debug "Iterating through #{elements.size} elements to locate #{@selector.inspect}"
+            matches.take(idx + 1).to_a[idx]
           else
             Watir.logger.debug "Iterating through #{elements.size} elements to locate all #{@selector.inspect}"
             elements.select { |el| elements_match?(el, values_to_match) }

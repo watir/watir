@@ -1,8 +1,8 @@
 require_relative '../unit_helper'
 
 describe Watir::Locators::Element::SelectorBuilder do
-  let(:attributes) { @attributes || Watir::HTMLElement.attribute_list }
-  let(:query_scope) { instance_double Watir::Browser }
+  include LocatorSpecHelper
+
   let(:selector_builder) { described_class.new(attributes, query_scope) }
 
   describe '#build' do
@@ -663,6 +663,81 @@ describe Watir::Locators::Element::SelectorBuilder do
         msg = /expected one of \[String, Regexp\], got 7:(Fixnum|Integer)/
 
         expect { selector_builder.build(selector) }.to raise_exception TypeError, msg
+      end
+    end
+
+    context 'with element scope' do
+      let(:query_scope) { instance_double Watir::HTMLElement }
+      let(:scope_built) { @scope_built || {xpath: ".//*[local-name()='div'][@id='table-rows-test']"} }
+
+      before do
+        allow(query_scope).to receive(:selector_builder).and_return(selector_builder)
+        allow(query_scope).to receive(:browser).and_return(browser)
+        allow(selector_builder).to receive(:built).and_return(scope_built)
+      end
+
+      it 'uses scope' do
+        selector = {tag_name: 'div'}
+        built = {xpath: "(#{scope_built[:xpath]})[1]//*[local-name()='div']"}
+
+        expect(selector_builder.build(selector)).to eq built
+      end
+
+      it 'does not use scope if selector is a CSS' do
+        selector = {css: 'div'}
+
+        build_selector = selector_builder.build(selector)
+        expect(build_selector.delete(:scope)).to_not be_nil
+        expect(build_selector).to eq selector
+      end
+
+      it 'does not use scope if selector is a XPath' do
+        selector = {xpath: './/*'}
+
+        build_selector = selector_builder.build(selector)
+        expect(build_selector.delete(:scope)).to_not be_nil
+        expect(build_selector).to eq selector
+      end
+
+      it 'does not use scope if selector has :adjacent' do
+        selector = {adjacent: :ancestor, index: 0}
+        built = {xpath: './ancestor::*[1]'}
+
+        build_selector = selector_builder.build(selector)
+        expect(build_selector.delete(:scope)).to_not be_nil
+        expect(build_selector).to eq built
+      end
+
+      it 'does not use scope if query_scope built has multiple keys' do
+        selector = {tag_name: 'div'}
+        built = {xpath: ".//*[local-name()='div']"}
+        scope_built[:visible] = true
+
+        build_selector = selector_builder.build(selector)
+        expect(build_selector.delete(:scope)).to_not be_nil
+        expect(build_selector).to eq built
+      end
+    end
+
+    context 'with specific scope' do
+      let(:scope_built) { {xpath: ".//*[local-name()='iframe'][@id='one']"} }
+
+      it 'does not use scope if query scope is an IFrame' do
+        query_scope = instance_double Watir::IFrame
+        selector_builder = described_class.new(attributes, query_scope)
+
+        allow(selector_builder).to receive(:built).and_return(scope_built)
+        allow(query_scope).to receive(:selector_builder).and_return(selector_builder)
+        allow(query_scope).to receive(:browser).and_return(browser)
+        allow(query_scope).to receive(:is_a?).with(Watir::Browser).and_return(false)
+        allow(query_scope).to receive(:is_a?).with(Watir::IFrame).and_return(true)
+
+        selector = {tag_name: 'div'}
+        built = {xpath: ".//*[local-name()='div']"}
+
+        build_selector = selector_builder.build(selector)
+        expect(build_selector.delete(:scope)).to_not be_nil
+        expect(build_selector).to eq built
       end
     end
   end

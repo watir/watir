@@ -346,7 +346,7 @@ describe 'SelectList' do
     end
 
     it "raises NoValueFoundException if the option doesn't exist" do
-      message = /#<Watir::Select: located: true; {:name=>"new_user_country", :tag_name=>"select"}>/
+      message = /#<Watir::Select: located: false; {:name=>"new_user_country", :tag_name=>"select"}>/
       expect { browser.select_list(name: 'new_user_country').select('missing_option') }
         .to raise_no_value_found_exception message
       expect { browser.select_list(name: 'new_user_country').select(/missing_option/) }
