@@ -64,18 +64,20 @@ module Watir
         element_class.to_s.split('::').last
       end
 
-      def build_locator
-        return @locator if @locator
-
+      def selector_builder
+        return @selector_builder if @selector_builder
         args = [element_class.attribute_list]
         if element_class == Watir::Row
           scope_tag_name = @query_scope.selector[:tag_name] || @query_scope.tag_name
           args << scope_tag_name
         end
-        selector_builder = selector_builder_class.new(*args)
 
-        element_matcher = element_matcher_class.new(@query_scope, @selector.dup)
-        @locator = locator_class.new(@query_scope, @selector.dup, selector_builder, element_matcher)
+        @selector_builder = selector_builder_class.new(*args)
+      end
+
+      def build_locator
+        @element_matcher ||= element_matcher_class.new(@query_scope, @selector.dup)
+        @locator ||= locator_class.new(@query_scope, @selector.dup, selector_builder, @element_matcher)
       end
     end
   end

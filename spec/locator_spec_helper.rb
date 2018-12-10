@@ -15,7 +15,7 @@ module LocatorSpecHelper
 
     @locator ||= {xpath: ''}
     @selector_builder = instance_double(Watir::Locators::Element::SelectorBuilder)
-    allow(@selector_builder).to receive(:build).and_return(@locator)
+    allow(@selector_builder).to receive(:built).and_return(@locator)
     allow(@selector_builder).to receive(:wd_locator).and_return(:xpath)
     @selector_builder
   end

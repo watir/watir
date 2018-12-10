@@ -15,7 +15,7 @@ module Watir
     include Locators::ClassHelpers
 
     attr_accessor :keyword
-    attr_reader :selector, :locator
+    attr_reader :selector
 
     #
     # temporarily add :id and :class_name manually since they're no longer specified in the HTML spec.
@@ -617,7 +617,7 @@ module Watir
     #
 
     def build
-      build_locator.build
+      selector_builder.build(@selector.dup)
     end
 
     #
@@ -803,7 +803,7 @@ module Watir
         element_call(:wait_for_exists, &block) if precondition.nil?
         msg = ex.message
         msg += '; Maybe look in an iframe?' if @query_scope.iframe.exists?
-        custom_attributes = @locator.nil? ? [] : @locator.selector_builder.custom_attributes
+        custom_attributes = @locator.nil? ? [] : selector_builder.custom_attributes
         unless custom_attributes.empty?
           msg += "; Watir treated #{custom_attributes} as a non-HTML compliant attribute, ensure that was intended"
         end

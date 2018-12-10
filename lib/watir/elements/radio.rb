@@ -51,6 +51,11 @@ module Watir
   class RadioCollection < InputCollection
     private
 
+    def build
+      @selector[:label] = @selector.delete(:text) if @selector.key?(:text)
+      super
+    end
+
     def element_class
       Radio
     end

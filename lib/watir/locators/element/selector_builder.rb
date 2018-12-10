@@ -3,7 +3,7 @@ module Watir
     class Element
       class SelectorBuilder
         include Exception
-        attr_reader :custom_attributes
+        attr_reader :custom_attributes, :built
 
         WILDCARD_ATTRIBUTE = /^(aria|data)_(.+)$/.freeze
         INTEGER_CLASS = Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.4') ? Fixnum : Integer

@@ -11,7 +11,7 @@ module Watir
       @query_scope = query_scope
       @selector = selector
 
-      build
+      build unless @selector.key?(:element)
     end
 
     #
@@ -36,14 +36,14 @@ module Watir
     alias empty? none?
 
     def build
-      build_locator.build
+      selector_builder.build(@selector.dup)
     end
 
     #
     # Get the element at the given index or range.
     #
-    # Any call to an ElementCollection including an adjacent selector
-    # can not be lazy loaded because it must store correct type
+    # Any call to an ElementCollection that includes an adjacent selector
+    # can not be lazy loaded because it must store the correct type
     #
     # Ranges can not be lazy loaded
     #

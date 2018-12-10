@@ -4,20 +4,13 @@ module Watir
       class Locator
         include Exception
 
-        attr_reader :selector_builder, :element_matcher, :built
+        attr_reader :selector_builder, :element_matcher
 
         def initialize(query_scope, selector, selector_builder, element_matcher)
           @query_scope = query_scope
           @selector = selector
           @selector_builder = selector_builder
           @element_matcher = element_matcher
-        end
-
-        def build
-          return if @selector.key?(:element)
-          return @built if @built
-
-          @built = selector_builder.build(@selector.dup)
         end
 
         def locate
@@ -36,8 +29,7 @@ module Watir
 
         def matching_elements(filter = :first)
           return @selector[:element] if @selector.key?(:element)
-
-          build
+          built = selector_builder.built
 
           return locate_element(*built.to_a.flatten, @query_scope.wd) if built.size == 1 && filter == :first
 
