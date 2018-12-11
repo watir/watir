@@ -71,6 +71,11 @@ describe 'Watir#relaxed_locate?' do
         end
       end
 
+      it 'does not wait for parent element to be present when querying child element' do
+        el = browser.element(id: 'not_there').element(id: 'doesnt_matter')
+        expect { el.present? }.to execute_immediately
+      end
+
       it 'waits for parent element to be present before locating a collection' do
         els = browser.element(id: 'not_there').elements(id: 'doesnt_matter')
         expect { els.to_a }.to wait_and_raise_unknown_object_exception
