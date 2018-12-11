@@ -45,7 +45,9 @@ module Watir
     #
 
     def execute_script(script, *args)
-      args.map! { |e| e.is_a?(Element) ? e.wd : e }
+      args.map! do |e|
+        e.is_a?(Element) ? e.wait_until(&:exists?).wd : e
+      end
       returned = driver.execute_script(script, *args)
 
       browser.wrap_elements_in(self, returned)
