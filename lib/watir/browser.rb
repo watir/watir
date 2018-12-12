@@ -9,6 +9,7 @@ module Watir
     include Waitable
     include Navigation
     include Exception
+    include Scrolling
 
     attr_writer :default_context, :original_window, :locator_namespace
     attr_reader :driver, :after_hooks

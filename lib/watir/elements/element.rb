@@ -13,6 +13,7 @@ module Watir
     include Adjacent
     include JSExecution
     include Locators::ClassHelpers
+    include Scrolling
 
     attr_accessor :keyword
     attr_reader :selector

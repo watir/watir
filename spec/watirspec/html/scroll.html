@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <script>
+      function isElementInViewport(el) {
+        var top = el.offsetTop;
+        var left = el.offsetLeft;
+        var width = el.offsetWidth;
+        var height = el.offsetHeight;
+
+        while (el.offsetParent) {
+          el = el.offsetParent;
+          top += el.offsetTop;
+          left += el.offsetLeft;
+        }
+
+        return (
+          top < (window.pageYOffset + window.innerHeight) &&
+          left < (window.pageXOffset + window.innerWidth) &&
+          (top + height) > window.pageYOffset &&
+          (left + width) > window.pageXOffset
+        );
+      }
+    </script>
+  </head>
+  <body>
+    <div style="height: 180%; position: relative;">
+      <button style="position: absolute;">Top</button>
+      <button style="position: absolute; top: 50%;">Center</button>
+      <button style="position: absolute; bottom: 0;">Bottom</button>
+    </div>
+  </body>
+</html>
