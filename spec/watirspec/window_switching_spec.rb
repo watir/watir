@@ -403,16 +403,16 @@ describe 'Window' do
       it 'should get the size of the current window' do
         size = browser.window.size
 
-        expect(size.width).to be > 0
-        expect(size.height).to be > 0
+        expect(size.width).to eq browser.execute_script('return window.outerWidth;')
+        expect(size.height).to eq browser.execute_script('return window.outerHeight;')
       end
     end
 
     it 'should get the position of the current window' do
       pos = browser.window.position
 
-      expect(pos.x).to be >= 0
-      expect(pos.y).to be >= 0
+      expect(pos.x).to eq browser.execute_script('return window.screenX;')
+      expect(pos.y).to eq browser.execute_script('return window.screenY;')
     end
 
     not_compliant_on :headless do
