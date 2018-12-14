@@ -23,7 +23,7 @@ require 'webdrivers'
 require 'locator_spec_helper'
 require 'rspec'
 
-if ENV['TRAVIS']
+if ENV['TRAVIS'] || ENV['APPVEYOR']
   require 'rspec/retry'
   RSpec.configure do |config|
     config.verbose_retry = true
