@@ -5,7 +5,7 @@ Bundler::GemHelper.install_tasks
 
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec) do |spec|
-  spec.rspec_opts = %w[--color --require fuubar --format Fuubar]
+  spec.rspec_opts = %w[--color --format doc]
   spec.pattern = 'spec/**/*_spec.rb'
   spec.exclude_pattern = 'spec/unit/**/*_spec.rb'
 end
