@@ -9,5 +9,4 @@ test_script:
   - bundle exec rake %RAKE_TASK%
 environment:
   matrix:
-    - RAKE_TASK: spec:chrome
     - RAKE_TASK: spec:firefox
