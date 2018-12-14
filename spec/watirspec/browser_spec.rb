@@ -90,18 +90,21 @@ describe 'Browser' do
       expect(browser.text_field(id: 'new_user_first_name').value).to eq 'hello'
     end
 
-    not_compliant_on(:firefox) do
-      it 'sends keys to a frame' do
-        browser.goto WatirSpec.url_for 'frames.html'
-        tf = browser.frame.text_field(id: 'senderElement')
-        tf.clear
+    bug :chrome, "https://bugs.chromium.org/p/chromedriver/issues/detail?id=2704" do
+      not_compliant_on(:firefox) do
+        it 'sends keys to a frame' do
+          browser.goto WatirSpec.url_for 'frames.html'
+          tf = browser.frame.text_field(id: 'senderElement')
+          tf.clear
 
-        browser.frame.send_keys 'hello'
+          browser.frame.send_keys 'hello'
 
-        expect(tf.value).to eq 'hello'
+          expect(tf.value).to eq 'hello'
+        end
       end
     end
   end
+
 
   describe '#text' do
     it 'returns the text of the page' do
