@@ -1,6 +1,11 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
+require 'watir'
+require 'webdrivers'
+require 'locator_spec_helper'
+require 'rspec'
+
 if ENV['TRAVIS'] || ENV['COVERAGE']
   require 'coveralls'
   require 'simplecov'
@@ -16,14 +21,7 @@ if ENV['TRAVIS'] || ENV['COVERAGE']
     add_filter 'lib/watirspec'
     refuse_coverage_drop
   end
-end
 
-require 'watir'
-require 'webdrivers'
-require 'locator_spec_helper'
-require 'rspec'
-
-if ENV['TRAVIS'] || ENV['APPVEYOR']
   require 'rspec/retry'
   RSpec.configure do |config|
     config.verbose_retry = true
