@@ -102,7 +102,6 @@ describe 'Browser' do
     end
   end
 
-
   describe '#text' do
     it 'returns the text of the page' do
       browser.goto(WatirSpec.url_for('non_control_elements.html'))
