@@ -514,7 +514,7 @@ module Watir
       element_call do
         return true unless present?
 
-        scroll_into_view
+        scroll.to
         execute_js(:elementObscured, self)
       end
     end

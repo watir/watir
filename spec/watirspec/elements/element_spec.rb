@@ -927,10 +927,16 @@ describe 'Element' do
       expect { btn.click }.not_to raise_exception
     end
 
-    it 'scrolls element into view before checking if obscured' do
+    it 'scrolls interactive element into view before checking if obscured' do
       btn = browser.button(id: 'requires_scrolling')
       expect(btn).not_to be_obscured
       expect { btn.click }.not_to raise_exception
+    end
+
+    it 'scrolls non-interactive element into view before checking if obscured' do
+      div = browser.div(id: 'requires_scrolling_container')
+      expect(div).not_to be_obscured
+      expect { div.click }.not_to raise_exception
     end
 
     it 'returns true if element cannot be scrolled into view' do
