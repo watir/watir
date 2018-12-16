@@ -774,7 +774,7 @@ module Watir
     end
 
     def assert_is_element(obj)
-      raise TypeError, "execpted Watir::Element, got #{obj.inspect}:#{obj.class}" unless obj.is_a? Element
+      raise TypeError, "expected Watir::Element, got #{obj.inspect}:#{obj.class}" unless obj.is_a? Element
     end
 
     # Removes duplication in #present? & #visible? and makes setting deprecation notice easier
