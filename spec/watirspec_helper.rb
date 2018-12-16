@@ -29,9 +29,13 @@ class LocalConfig
   def load_webdrivers
     case browser
     when :chrome
+      Webdrivers::Chromedriver.version = 2.44 if ENV['APPVEYOR']
       Webdrivers::Chromedriver.update
+      Watir.logger.info "chromedriver version: #{Webdrivers::Chromedriver.current_version.version}"
     when :firefox
+      Webdrivers::Geckodriver.version = '0.20.1' if ENV['APPVEYOR']
       Webdrivers::Geckodriver.update
+      Watir.logger.info "geckodriver version: #{Webdrivers::Geckodriver.current_version.version}"
     end
   end
 
@@ -85,6 +89,8 @@ class LocalConfig
     matching_guards << :relaxed_locate if Watir.relaxed_locate?
     matching_guards << :not_relaxed_locate unless Watir.relaxed_locate?
     matching_guards << :headless if @imp.browser_args.last[:headless]
+    matching_guards << :appveyor if ENV['APPVEYOR']
+    matching_guards << [browser, :appveyor] if ENV['APPVEYOR']
 
     if !Selenium::WebDriver::Platform.linux? || ENV['DESKTOP_SESSION']
       # some specs (i.e. Window#maximize) needs a window manager on linux

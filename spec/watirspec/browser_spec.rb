@@ -151,7 +151,7 @@ describe 'Browser' do
   end
 
   describe '#new' do
-    not_compliant_on :remote do
+    not_compliant_on :remote, :appveyor do
       context 'with parameters' do
         let(:url) { 'http://localhost:4544/wd/hub/' }
 
