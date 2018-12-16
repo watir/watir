@@ -1,3 +1,16 @@
+### 6.16.0 (2018-12-16)
+
+* Fix bug that did not re-locate Stale elements when taking an action on them (#814)
+* Implement `Element#cache=` to assign otherwise located Selenium Element to `Element`
+* Allow `:class` and `:class_name` locators to be used at the same time
+* Allow `:class` locator with empty `Array` value to find all elements without a `class` attribute
+* Fix bug that forced nested elements to wait when calling predicate methods (#827)
+* Locator filtering behavior and Validate class moved into new `Matcher` classes
+* Selector is built on Element initialization rather than during location
+* Allow some nested elements to be located with a single XPath call
+* Merge p0deje's watir-scroll gem functionality directly into Watir
+* Fix bug with `#obscured?` for non-interactive elements (#818)
+
 ### 6.15.1 (2018-12-04)
 
 * Locator value type check error message now returns array of allowed class types
