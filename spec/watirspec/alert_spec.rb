@@ -10,7 +10,7 @@ not_compliant_on :headless do
       browser.alert.ok if browser.alert.exists?
     end
 
-    not_compliant_on :not_relaxed_locate do
+    compliant_on :relaxed_locate do
       context 'Relaxed Waits' do
         context 'when acting on an alert' do
           it 'raises exception after timing out' do

@@ -1,7 +1,7 @@
 require 'watirspec_helper'
 
 describe 'Watir#relaxed_locate?' do
-  not_compliant_on :not_relaxed_locate do
+  compliant_on :relaxed_locate do
     context 'when true' do
       before :each do
         browser.goto(WatirSpec.url_for('wait.html'))
