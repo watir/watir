@@ -40,11 +40,15 @@ describe 'Element' do
       expect { element.text }.to_not raise_error
     end
 
-    it 'relocates stale element when taking an action on it' do
-      browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
-      element = browser.text_field(id: 'new_user_first_name').locate
-      browser.refresh
-      expect { element.click }.not_to raise_exception
+    compliant_on :relaxed_locate do
+      it 'relocates stale element when taking an action on it' do
+        browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
+        element = browser.text_field(id: 'new_user_first_name').locate
+        browser.refresh
+        expect {
+          expect { element.click }.not_to raise_exception
+        }.to have_deprecated_stale_exists
+      end
     end
   end
 
@@ -293,7 +297,9 @@ describe 'Element' do
       element.cache = wd
 
       browser.refresh
-      expect(element).to_not exist
+      expect {
+        expect(element).to_not exist
+      }.to have_deprecated_stale_exists
     end
   end
 

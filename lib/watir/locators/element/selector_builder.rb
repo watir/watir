@@ -126,6 +126,8 @@ module Watir
             end
           when :caption
             # This allows any element to be located with 'caption' instead of 'text'
+            # It is deprecated because caption is a valid attribute on a Table
+            # It is also a valid Element, so it also needs to be removed from the Table attributes list
             Watir.logger.deprecate('Locating elements with :caption', ':text locator', ids: [:caption])
             [:text, what]
           else

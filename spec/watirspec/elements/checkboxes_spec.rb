@@ -13,7 +13,7 @@ describe 'CheckBoxes' do
 
   describe '#length' do
     it 'returns the number of checkboxes' do
-      expect(browser.checkboxes.length).to eq 8
+      expect(browser.checkboxes.length).to eq 11
     end
   end
 

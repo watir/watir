@@ -2,6 +2,7 @@ if defined?(RSpec)
   DEPRECATION_WARNINGS = %i[selector_parameters
                             element_cache
                             ready_state
+                            caption
                             class_array
                             use_capabilities
                             visible_text
@@ -26,6 +27,8 @@ if defined?(RSpec)
       end
 
       failure_message do |_actual|
+        return 'unexpected exception in the custom matcher block' unless @stdout_message
+
         deprecations_found = @stdout_message[/WARN Watir \[DEPRECATION\] ([^.*\ ]*)/, 1]
         but_message = if deprecations_found.nil?
                         'no Warnings were found'

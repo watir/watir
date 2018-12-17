@@ -95,12 +95,13 @@ describe Watir::Locators::Element::SelectorBuilder do
         expect(selector_builder.build(selector)).to eq built
       end
 
-      # TODO: This functionality is deprecated with "class_array"
       it 'values with spaces' do
         selector = {class_name: 'multiple classes here'}
         built = {xpath: ".//*[contains(concat(' ', @class, ' '), ' multiple classes here ')]"}
 
-        expect(selector_builder.build(selector)).to eq built
+        expect {
+          expect(selector_builder.build(selector)).to eq built
+        }.to have_deprecated_class_array
       end
 
       it 'single String concatenates' do
@@ -280,12 +281,13 @@ describe Watir::Locators::Element::SelectorBuilder do
         expect(selector_builder.build(selector)).to eq built
       end
 
-      # Deprecated with :caption
       it 'with caption attribute' do
         selector = {caption: 'Add user'}
         built = {xpath: ".//*[normalize-space()='Add user']"}
 
-        expect(selector_builder.build(selector)).to eq built
+        expect {
+          expect(selector_builder.build(selector)).to eq built
+        }.to have_deprecated_caption
       end
 
       it 'raises exception when text is not a String or Regexp' do

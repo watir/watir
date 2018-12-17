@@ -144,7 +144,7 @@ module Watir
             if label.is_a?(Regexp)
               if @built.key?(:label_element)
                 dep = "Using :label locator with RegExp #{label} to match an element that includes hidden text"
-                Watir.logger.deprecate(dep, ":visible_#{key}", ids: [:text_regexp])
+                Watir.logger.deprecate(dep, ':visible_label', ids: [:text_regexp])
               end
 
               @built[:label_element] = label
