@@ -100,7 +100,10 @@ module Watir
         end
 
         def should_use_label_element?
-          !valid_attribute?(:label)
+          return false if valid_attribute?(:label) # This is only Option, OptGroup & Track
+
+          deprecate_label_location(@selector[:tag_name])
+          true
         end
 
         def normalize_locator(how, what)
@@ -177,6 +180,17 @@ module Watir
 
             raise LocatorException, "Can not use #{locator} locator to find a #{tag} element"
           end
+        end
+
+        def deprecate_label_location(tag_name)
+          return unless tag_name.nil? || !%w[input button meter select textarea].include?(tag_name)
+
+          type = tag_name.nil? ? 'generic' : tag_name
+
+          msg = "Using a :label locator with a #{type} element to find an element based on the values of a " \
+'corresponding label element'
+          replacement_msg = 'a specific and appropriate element type'
+          Watir.logger.deprecate(msg, replacement_msg, ids: [:label_location])
         end
       end
     end

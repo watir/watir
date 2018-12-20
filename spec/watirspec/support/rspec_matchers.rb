@@ -5,6 +5,7 @@ if defined?(RSpec)
                             class_array
                             use_capabilities
                             visible_text
+                            label_location
                             link_text
                             text_regexp
                             stale_exists

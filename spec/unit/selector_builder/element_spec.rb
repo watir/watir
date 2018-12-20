@@ -334,24 +334,42 @@ describe Watir::Locators::Element::SelectorBuilder do
     end
 
     context 'with labels' do
+      it 'has deprecated using invalid element types' do
+        expect {
+          selector_builder.build(label: 'anything')
+        }.to have_deprecated_label_location
+
+        expect {
+          selector_builder.build(label: 'anything', tag_name: 'div')
+        }.to have_deprecated_label_location
+      end
+
+      it 'does not have deprecated valide element types' do
+        %w[input button meter select textarea].each do |tag|
+          expect {
+            selector_builder.build(tag_name: tag, label: 'anything')
+          }.to_not have_deprecated_label_location
+        end
+      end
+
       it 'locates the element associated with the label element located by the text of the provided label key' do
-        selector = {label: 'Cars'}
-        built = {xpath: ".//*[@id=//label[normalize-space()='Cars']/@for "\
+        selector = {label: 'Cars', tag_name: 'input'}
+        built = {xpath: ".//*[local-name()='input'][@id=//label[normalize-space()='Cars']/@for "\
 "or parent::label[normalize-space()='Cars']]"}
 
         expect(selector_builder.build(selector)).to eq built
       end
 
       it 'returns a label_element if complex' do
-        selector = {label: /Ca|rs/}
-        built = {xpath: './/*', label_element: /Ca|rs/}
+        selector = {label: /Ca|rs/, tag_name: 'input'}
+        built = {xpath: ".//*[local-name()='input']", label_element: /Ca|rs/}
 
         expect(selector_builder.build(selector)).to eq built
       end
 
       it 'returns a visible_label_element if complex' do
-        selector = {visible_label: /Ca|rs/}
-        built = {xpath: './/*', visible_label_element: /Ca|rs/}
+        selector = {visible_label: /Ca|rs/, tag_name: 'input'}
+        built = {xpath: ".//*[local-name()='input']", visible_label_element: /Ca|rs/}
 
         expect(selector_builder.build(selector)).to eq built
       end
