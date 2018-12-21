@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.3.0'
 
   s.platform = Gem::Platform::RUBY
-  s.authors = ['Alex Rodionov', 'Titus Fortner']
-  s.email = ['p0deje@gmail.com', 'titusfortner@gmail.com']
+  s.authors = ['Alex Rodionov', 'Titus Fortner', 'Justin Ko']
+  s.email = ['p0deje@gmail.com', 'titusfortner@gmail.com', 'jkotests@gmail.com ']
   s.homepage = 'http://github.com/watir/watir'
   s.summary = 'Watir powered by Selenium'
   s.description = <<~DESCRIPTION_MESSAGE
