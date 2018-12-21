@@ -71,7 +71,7 @@ module Watir
             end
           end
 
-          deprecate_text_regexp(element, values_to_match, matches) if values_to_match[:text]
+          deprecate_text_regexp(element, values_to_match) if values_to_match[:text] && matches
 
           matches
         end
@@ -110,11 +110,11 @@ module Watir
           matches_values?(element.tag_name.downcase, tag_name)
         end
 
-        def deprecate_text_regexp(element, selector, matches)
+        def deprecate_text_regexp(element, selector)
           new_element = Watir::Element.new(@query_scope, element: element)
           text_content = new_element.text_content
-          text_content_matches = text_content =~ /#{selector[:text]}/
-          return if matches == !!text_content_matches
+
+          return if text_content =~ /#{selector[:text]}/
 
           key = @selector.key?(:text) ? 'text' : 'label'
           selector_text = selector[:text].inspect

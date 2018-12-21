@@ -5,7 +5,7 @@ describe Watir::Locators::Element::Matcher do
 
   let(:query_scope) { @query_scope || browser }
   let(:values_to_match) { @values_to_match || {} }
-  let(:matcher) { described_class.new(query_scope) }
+  let(:matcher) { described_class.new(query_scope, values_to_match) }
 
   describe '#match' do
     context 'a label element' do
@@ -362,6 +362,62 @@ describe Watir::Locators::Element::Matcher do
         @values_to_match = {foo: /fo/}
 
         expect(matcher.match(elements, values_to_match, @filter)).to eq [elements[0], elements[2]]
+      end
+    end
+
+    # TODO: These should have the same tests for label locators, but the mocking is more complex
+    # See equivalent tests in checkbox_spec
+    context 'text_regexp deprecations' do
+      let(:filter) { :first }
+      let(:elements) do
+        [wd_element(text: 'all visible'),
+         wd_element(text: 'some visible')]
+      end
+
+      it 'not thrown when still matched by text content' do
+        @values_to_match = {text: /some visible/}
+        allow(browser).to receive(:execute_script).and_return('some visible some hidden')
+
+        expect {
+          expect(matcher.match(elements, values_to_match, filter)).to eq elements[1]
+        }.not_to have_deprecated_text_regexp
+      end
+
+      it 'not thrown with complex regexp matched by text content' do
+        @values_to_match = {text: /some (in|)visible/}
+        allow(browser).to receive(:execute_script).and_return('some visible some hidden')
+
+        expect {
+          expect(matcher.match(elements, values_to_match, filter)).to eq elements[1]
+        }.not_to have_deprecated_text_regexp
+      end
+
+      not_compliant_on :watigiri do
+        it 'thrown when no longer matched by text content' do
+          @values_to_match = {text: /some visible$/}
+          allow(browser).to receive(:execute_script).and_return('some visible some hidden')
+
+          expect {
+            expect(matcher.match(elements, values_to_match, filter)).to eq elements[1]
+          }.to have_deprecated_text_regexp
+        end
+      end
+
+      not_compliant_on :watigiri do
+        it 'not thrown when element does not exist' do
+          @values_to_match = {text: /definitely not there/}
+
+          expect {
+            expect(matcher.match(elements, values_to_match, filter)).to eq elements[1]
+          }.to_not have_deprecated_text_regexp
+        end
+      end
+
+      # Note: This will work after:text_regexp deprecation removed
+      it 'keeps element from being located' do
+        @values_to_match = {text: /some visible some hidden/}
+
+        expect(matcher.match(elements, values_to_match, filter)).to be_nil
       end
     end
   end

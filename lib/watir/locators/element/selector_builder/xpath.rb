@@ -142,11 +142,6 @@ module Watir
 
             # TODO: This conditional can be removed when we remove this deprecation
             if label.is_a?(Regexp)
-              if @built.key?(:label_element)
-                dep = "Using :label locator with RegExp #{label} to match an element that includes hidden text"
-                Watir.logger.deprecate(dep, ':visible_label', ids: [:text_regexp])
-              end
-
               @built[:label_element] = label
               ''
             else

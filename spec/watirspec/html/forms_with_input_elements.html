@@ -178,5 +178,16 @@
   <select id="single-quote">
     <option>'foo'</option>
   </select>
+
+  <fieldset id="visible_label">
+      <label for="all_visible_label">all visible</label>
+      <input type="checkbox" id="all_visible_label">
+
+      <label for="some_visible_label">some visible<span style="display:none;"> some hidden</span></label>
+      <input type="checkbox" id="some_visible_label">
+
+      <label for="no_visible_label" style="display:none;">none visible</label>
+      <input type="checkbox" id="no_visible_label">
+  </fieldset>
   </body>
 </html>
