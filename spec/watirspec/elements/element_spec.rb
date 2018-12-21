@@ -45,9 +45,7 @@ describe 'Element' do
         browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
         element = browser.text_field(id: 'new_user_first_name').locate
         browser.refresh
-        expect {
-          expect { element.click }.not_to raise_exception
-        }.to have_deprecated_stale_exists
+        expect { element.click }.not_to raise_exception
       end
     end
   end
