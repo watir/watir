@@ -670,7 +670,7 @@ module Watir
 
     def wait_for_exists
       return assert_exists unless Watir.relaxed_locate?
-      return if exists? # Performance shortcut
+      return if located? # Performance shortcut
 
       begin
         @query_scope.wait_for_exists unless @query_scope.is_a? Browser
