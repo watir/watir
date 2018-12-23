@@ -1,3 +1,9 @@
+### 6.16.1 (2018-12-23)
+
+* Improve collection performance with JavaScript (thanks Lucas Tierney)
+* Update deprecation warnings
+* Improve performance when using previously located elements
+
 ### 6.16.0 (2018-12-16)
 
 * Fix bug that did not re-locate Stale elements when taking an action on them (#814)
