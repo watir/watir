@@ -76,12 +76,12 @@ module Watir
         end
 
         def use_scope?
-          return false if @query_scope.is_a?(Browser)
+          return false unless (Watir::Locators::W3C_FINDERS + [:adjacent] & @selector.keys).empty?
 
-          !@selector.key?(:adjacent) &&
-            (Watir::Locators::W3C_FINDERS & @selector.keys).empty? &&
-            !(@query_scope.is_a?(Watir::IFrame) || @query_scope.is_a?(Watir::Radio)) &&
-            @query_scope.selector_builder.built&.size == 1
+          return false if [Watir::Browser, Watir::IFrame].any? { |k| @query_scope.is_a?(k) }
+
+          scope_invalid_locators = @query_scope.selector_builder.built.keys.reject {|key| key == implementation_locator}
+          scope_invalid_locators.empty?
         end
 
         def deprecate_class_array(class_name)
@@ -142,9 +142,17 @@ module Watir
           @custom_attributes << attribute.to_s
         end
 
-        # Implement this method when creating a different selector builder
+        # Extensions implement this method when creating a different selector builder
+        def implementation_class
+          Kernel.const_get("#{self.class.name}::XPath")
+        end
+
         def build_wd_selector(selector)
-          Kernel.const_get("#{self.class.name}::XPath").new.build(selector)
+          implementation_class.new.build(selector)
+        end
+
+        def implementation_locator
+          implementation_class::LOCATOR
         end
 
         def valid_attribute?(attribute)

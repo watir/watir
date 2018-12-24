@@ -668,9 +668,9 @@ describe Watir::Locators::Element::SelectorBuilder do
       end
     end
 
-    context 'with element scope' do
+    context 'with generic element scope' do
       let(:query_scope) { instance_double Watir::HTMLElement }
-      let(:scope_built) { @scope_built || {xpath: ".//*[local-name()='div'][@id='table-rows-test']"} }
+      let(:scope_built) { {xpath: ".//*[local-name()='div'][@id='table-rows-test']"} }
 
       before do
         allow(query_scope).to receive(:selector_builder).and_return(selector_builder)
@@ -709,11 +709,31 @@ describe Watir::Locators::Element::SelectorBuilder do
         expect(build_selector.delete(:scope)).to_not be_nil
         expect(build_selector).to eq built
       end
+    end
+
+    context 'with invalid query scopes' do
+      let(:query_scope) { instance_double Watir::HTMLElement }
 
       it 'does not use scope if query_scope built has multiple keys' do
+        scope_built = {xpath: ".//*[local-name()='div']", visible: true}
+        allow(selector_builder).to receive(:built).and_return(scope_built)
+        allow(query_scope).to receive(:selector_builder).and_return(selector_builder)
+
         selector = {tag_name: 'div'}
         built = {xpath: ".//*[local-name()='div']"}
-        scope_built[:visible] = true
+
+        build_selector = selector_builder.build(selector)
+        expect(build_selector.delete(:scope)).to_not be_nil
+        expect(build_selector).to eq built
+      end
+
+      it 'does not use scope if query_scope uses different Selenium Locator' do
+        scope_built = {css: '#foo'}
+        allow(selector_builder).to receive(:built).and_return(scope_built)
+        allow(query_scope).to receive(:selector_builder).and_return(selector_builder)
+
+        selector = {tag_name: 'div'}
+        built = {xpath: ".//*[local-name()='div']"}
 
         build_selector = selector_builder.build(selector)
         expect(build_selector.delete(:scope)).to_not be_nil
@@ -721,7 +741,7 @@ describe Watir::Locators::Element::SelectorBuilder do
       end
     end
 
-    context 'with specific scope' do
+    context 'with specific element scope' do
       let(:scope_built) { {xpath: ".//*[local-name()='iframe'][@id='one']"} }
 
       it 'does not use scope if query scope is an IFrame' do

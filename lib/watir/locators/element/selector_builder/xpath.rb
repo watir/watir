@@ -8,6 +8,8 @@ module Watir
 
           CAN_NOT_BUILD = %i[visible visible_text visible_label_element].freeze
 
+          LOCATOR = :xpath
+
           def build(selector)
             @selector = selector
 
