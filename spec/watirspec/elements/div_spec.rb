@@ -149,8 +149,10 @@ describe 'Div' do
       end
 
       # Note: This will work after:text_regexp deprecation removed
-      it 'does not locate entire content with regular expressions' do
-        expect(browser.div(text: /some visible some hidden/)).to_not exist
+      not_compliant_on :watigiri do
+        it 'does not locate entire content with regular expressions' do
+          expect(browser.div(text: /some visible some hidden/)).to_not exist
+        end
       end
     end
   end
