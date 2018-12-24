@@ -1,3 +1,9 @@
+### 6.16.2 (2018-12-24)
+
+* Fix bug merging scope when locating nested elements with css locator (#841)
+* Fix bug with IFrame#to_subtype
+* Improve performance for nested frames
+
 ### 6.16.1 (2018-12-23)
 
 * Improve collection performance with JavaScript (thanks Lucas Tierney)
