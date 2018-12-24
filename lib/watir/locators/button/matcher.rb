@@ -25,8 +25,8 @@ module Watir
                                  ids: [:value_button])
         end
 
-        def validate_tag(element, _tag_name)
-          tag_name = element.tag_name.downcase
+        def validate_tag(element, _expected)
+          tag_name = fetch_value(element, :tag_name)
           return unless %w[input button].include?(tag_name)
 
           # TODO: - Verify this is desired behavior based on https://bugzilla.mozilla.org/show_bug.cgi?id=1290963

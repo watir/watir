@@ -82,6 +82,8 @@ module Watir
 
         def fetch_value(element, how)
           case how
+          when :tag_name
+            element.tag_name.downcase
           when :text
             element.text
           when :visible
@@ -106,8 +108,9 @@ module Watir
           idx.abs - 1
         end
 
-        def validate_tag(element, tag_name)
-          matches_values?(element.tag_name.downcase, tag_name)
+        def validate_tag(element, expected)
+          tag_name = fetch_value(element, :tag_name)
+          matches_values?(tag_name, expected)
         end
 
         def deprecate_text_regexp(element, selector)

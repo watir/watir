@@ -29,8 +29,9 @@ module Watir
           # does not apply to text_field
         end
 
-        def validate_tag(element, _tag_name)
-          matches_values?(element.tag_name.downcase, 'input')
+        def validate_tag(element, _expected)
+          tag_name = fetch_value(element, :tag_name)
+          matches_values?(tag_name, 'input')
         end
       end
     end
