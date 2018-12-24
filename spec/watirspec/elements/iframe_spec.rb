@@ -111,7 +111,6 @@ describe 'IFrame' do
       expect(browser.iframe(id: 'no_such_id').element).to_not exist
     end
 
-    # TODO: Improve performance so this doesn't recurse nested frame lookups
     bug 'https://bugzilla.mozilla.org/show_bug.cgi?id=1255946', :firefox do
       not_compliant_on :safari do
         it 'handles nested iframes' do

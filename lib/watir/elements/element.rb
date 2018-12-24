@@ -646,19 +646,6 @@ module Watir
     #
     # @api private
     #
-    # This is a performance shortcut for ensuring context
-    # Returns true if ensuring context requires relocating the element.
-    #
-    # @return [Boolean]
-    #
-
-    def relocate?
-      located? && stale?
-    end
-
-    #
-    # @api private
-    #
 
     def selector_string
       return @selector.inspect if @query_scope.is_a?(Browser)
@@ -733,7 +720,7 @@ module Watir
     end
 
     def ensure_context
-      @query_scope.locate if @query_scope.relocate?
+      @query_scope.locate if @query_scope.is_a?(Browser) || @query_scope.located? && @query_scope.stale?
       @query_scope.switch_to! if @query_scope.is_a?(IFrame)
     end
 

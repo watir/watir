@@ -270,18 +270,6 @@ module Watir
       after_hooks.run
     end
 
-    #
-    # @api private
-    #
-    # Always relocate a Browser to ensure proper context switching
-    #
-    # @return [Boolean]
-    #
-
-    def relocate?
-      true
-    end
-
     def browser
       self
     end
