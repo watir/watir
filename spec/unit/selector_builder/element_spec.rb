@@ -44,7 +44,7 @@ describe Watir::Locators::Element::SelectorBuilder do
 
       it 'raises exception when using xpath & css' do
         selector = {xpath: './/*', css: 'div'}
-        msg = 'Can not locate element with [:xpath, :css]'
+        msg = 'Can not locate element with [:css, :xpath]'
 
         expect { selector_builder.build(selector) }.to raise_exception Watir::Exception::LocatorException, msg
       end

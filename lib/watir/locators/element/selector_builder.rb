@@ -31,7 +31,7 @@ module Watir
           inspected = selector.inspect
           scope = @query_scope unless @selector.key?(:scope) || @query_scope.is_a?(Watir::Browser)
 
-          @built = wd_locator(@selector.keys).nil? ? build_wd_selector(@selector) : @selector
+          @built = wd_locators.empty? ? build_wd_selector(@selector) : @selector
           @built.delete(:index) if @built[:index]&.zero?
           @built[:scope] = scope if scope
 
@@ -39,17 +39,16 @@ module Watir
           @built
         end
 
-        def wd_locator(keys)
-          (Watir::Locators::W3C_FINDERS & keys).first
+        def wd_locators
+          Watir::Locators::W3C_FINDERS & @selector.keys
         end
 
         private
 
         def normalize_selector
-          wd_locators = @selector.keys & Watir::Locators::W3C_FINDERS
           raise LocatorException, "Can not locate element with #{wd_locators}" if wd_locators.size > 1
 
-          @selector[:scope] = @query_scope.selector_builder.built if use_scope?
+          @selector[:scope] = @query_scope.selector_builder.built if merge_scope?
 
           if @selector.key?(:class) || @selector.key?(:class_name)
             classes = ([@selector[:class]].flatten + [@selector.delete(:class_name)].flatten).compact
@@ -75,12 +74,12 @@ module Watir
           end
         end
 
-        def use_scope?
+        def merge_scope?
           return false unless (Watir::Locators::W3C_FINDERS + [:adjacent] & @selector.keys).empty?
 
           return false if [Watir::Browser, Watir::IFrame].any? { |k| @query_scope.is_a?(k) }
 
-          scope_invalid_locators = @query_scope.selector_builder.built.keys.reject {|key| key == implementation_locator}
+          scope_invalid_locators = @query_scope.selector_builder.built.keys.reject { |key| key == wd_locator }
           scope_invalid_locators.empty?
         end
 
@@ -151,7 +150,7 @@ module Watir
           implementation_class.new.build(selector)
         end
 
-        def implementation_locator
+        def wd_locator
           implementation_class::LOCATOR
         end
 

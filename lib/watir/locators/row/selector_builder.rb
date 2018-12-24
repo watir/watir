@@ -4,10 +4,10 @@ module Watir
       class SelectorBuilder < Element::SelectorBuilder
         def build_wd_selector(selector)
           scope_tag_name = @query_scope.selector[:tag_name] || @query_scope.tag_name
-          Kernel.const_get("#{self.class.name}::XPath").new.build(selector, scope_tag_name)
+          implementation_class.new.build(selector, scope_tag_name)
         end
 
-        def use_scope?
+        def merge_scope?
           false
         end
       end

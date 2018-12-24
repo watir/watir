@@ -2,7 +2,7 @@ module Watir
   module Locators
     class Cell
       class SelectorBuilder < Element::SelectorBuilder
-        def use_scope?
+        def merge_scope?
           false
         end
       end
