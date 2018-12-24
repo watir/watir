@@ -65,9 +65,12 @@ module Watir
     #
 
     def run
-      return unless @after_hooks.any? && @browser.window.present? && !@browser.alert.exists?
+      # We can't just rescue exception because Firefox automatically closes alert when exception raised
+      return unless @after_hooks.any? && !@browser.alert.exists?
 
       each { |after_hook| after_hook.call(@browser) }
+    rescue Selenium::WebDriver::Error::NoSuchWindowError => ex
+      Watir.logger.info "Could not execute After Hooks because browser window was closed #{ex}"
     end
 
     #

@@ -160,64 +160,56 @@ describe 'Browser::AfterHooks' do
     end
 
     not_compliant_on :safari, :headless do
-      bug 'chromedriver 2.43 https://bugs.chromium.org/p/chromedriver/issues/detail?id=2615', :chrome do
-        it 'does not run error checks with alert present' do
-          browser.goto WatirSpec.url_for('alerts.html')
+      it 'does not run error checks with alert present' do
+        browser.goto WatirSpec.url_for('alerts.html')
 
-          @page_after_hook = proc { @yield = browser.title == 'Alerts' }
-          browser.after_hooks.add @page_after_hook
+        @page_after_hook = proc { @yield = browser.title == 'Alerts' }
+        browser.after_hooks.add @page_after_hook
 
-          browser.button(id: 'alert').click
-          expect(@yield).to be_nil
+        browser.button(id: 'alert').click
+        expect(@yield).to be_nil
 
-          browser.alert.ok
-          expect(@yield).to eq true
-        end
+        browser.alert.ok
+        expect(@yield).to eq true
       end
     end
 
     not_compliant_on :headless do
-      bug 'chromedriver 2.43 https://bugs.chromium.org/p/chromedriver/issues/detail?id=2615', :chrome do
-        it 'does not raise error when running error checks using #after_hooks#without with alert present' do
-          url = WatirSpec.url_for('alerts.html')
-          @page_after_hook = proc { browser.url }
-          browser.after_hooks.add @page_after_hook
-          browser.goto url
-          expect { browser.after_hooks.without { browser.button(id: 'alert').click } }.to_not raise_error
-          browser.alert.ok
-        end
+      it 'does not raise error when running error checks using #after_hooks#without with alert present' do
+        url = WatirSpec.url_for('alerts.html')
+        @page_after_hook = proc { browser.url }
+        browser.after_hooks.add @page_after_hook
+        browser.goto url
+        expect { browser.after_hooks.without { browser.button(id: 'alert').click } }.to_not raise_error
+        browser.alert.ok
       end
     end
 
-    bug 'chromedriver 2.43 https://bugs.chromium.org/p/chromedriver/issues/detail?id=2615', :chrome do
+    not_compliant_on :headless do
+      it 'does not raise error if no error checks are defined with alert present' do
+        url = WatirSpec.url_for('alerts.html')
+        @page_after_hook = proc { browser.url }
+        browser.after_hooks.add @page_after_hook
+        browser.goto url
+        browser.after_hooks.delete @page_after_hook
+        expect { browser.button(id: 'alert').click }.to_not raise_error
+        browser.alert.ok
+      end
+    end
+
+    bug 'https://bugzilla.mozilla.org/show_bug.cgi?id=1223277', :firefox do
       not_compliant_on :headless do
-        it 'does not raise error if no error checks are defined with alert present' do
-          url = WatirSpec.url_for('alerts.html')
+        it 'does not raise error when running error checks on closed window' do
+          url = WatirSpec.url_for('window_switching.html')
           @page_after_hook = proc { browser.url }
           browser.after_hooks.add @page_after_hook
           browser.goto url
-          browser.after_hooks.delete @page_after_hook
-          expect { browser.button(id: 'alert').click }.to_not raise_error
-          browser.alert.ok
-        end
-      end
-    end
+          browser.a(id: 'open').click
 
-    bug 'chromedriver 2.43 https://bugs.chromium.org/p/chromedriver/issues/detail?id=2615', :chrome do
-      bug 'https://bugzilla.mozilla.org/show_bug.cgi?id=1223277', :firefox do
-        not_compliant_on :headless do
-          it 'does not raise error when running error checks on closed window' do
-            url = WatirSpec.url_for('window_switching.html')
-            @page_after_hook = proc { browser.url }
-            browser.after_hooks.add @page_after_hook
-            browser.goto url
-            browser.a(id: 'open').click
-
-            window = browser.window(title: 'closeable window')
-            window.use
-            expect { browser.a(id: 'close').click }.to_not raise_error
-            browser.original_window.use
-          end
+          window = browser.window(title: 'closeable window')
+          window.use
+          expect { browser.a(id: 'close').click }.to_not raise_error
+          browser.original_window.use
         end
       end
     end
