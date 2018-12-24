@@ -151,7 +151,7 @@ describe 'IFrame' do
 
   it 'switches when the frame is created by subtype' do
     subtype = browser.iframe.to_subtype
-    expect { subtype.iframe.locate }.to_not raise_exception
+    expect { subtype.element.locate }.to_not raise_exception
   end
 
   it 'switches back to top level browsing context' do

@@ -65,15 +65,12 @@ module Watir
     end
 
     #
-    # @api private
-    #
-    # Always relocate a FramedDriver to ensure proper context switching
-    #
-    # @return [Boolean]
+    # Cast this Element instance to a more specific subtype.
+    # Cached element needs to be the IFrame element, not the FramedDriver
     #
 
-    def relocate?
-      true
+    def to_subtype
+      super.tap { |el| el.cache = @element }
     end
 
     private
