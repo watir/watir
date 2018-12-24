@@ -14,7 +14,7 @@ module Watir
 
         def locate(built)
           @built = built.dup
-          @driver_scope = (@built.delete(:scope) || @query_scope.browser).wd
+          @driver_scope = locator_scope.wd
           matching_elements(@built, :first)
         rescue Selenium::WebDriver::Error::NoSuchElementError
           nil
@@ -22,7 +22,7 @@ module Watir
 
         def locate_all(built)
           @built = built.dup
-          @driver_scope = (@built.delete(:scope) || @query_scope.browser).wd
+          @driver_scope = locator_scope.wd
           raise ArgumentError, "can't locate all elements by :index" if built.key?(:index)
 
           [matching_elements(@built, :all)].flatten
@@ -50,6 +50,10 @@ module Watir
             target = filter == :all ? 'element collection' : 'element'
             raise LocatorException, "Unable to locate #{target} from #{@selector} due to changing page"
           end
+        end
+
+        def locator_scope
+          @built.delete(:scope) || @query_scope.browser
         end
 
         def locate_element(how, what, scope = driver_scope)

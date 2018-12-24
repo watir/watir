@@ -111,11 +111,11 @@ describe 'IFrame' do
       expect(browser.iframe(id: 'no_such_id').element).to_not exist
     end
 
+    # TODO: Improve performance so this doesn't recurse nested frame lookups
     bug 'https://bugzilla.mozilla.org/show_bug.cgi?id=1255946', :firefox do
       not_compliant_on :safari do
         it 'handles nested iframes' do
           browser.goto(WatirSpec.url_for('nested_iframes.html'))
-
           browser.iframe(id: 'two').iframe(id: 'three').link(id: 'four').click
 
           Watir::Wait.until { browser.title == 'definition_lists' }
@@ -151,7 +151,7 @@ describe 'IFrame' do
 
   it 'switches when the frame is created by subtype' do
     subtype = browser.iframe.to_subtype
-    expect { subtype.iframe.exist? }.to_not raise_exception
+    expect { subtype.iframe.locate }.to_not raise_exception
   end
 
   it 'switches back to top level browsing context' do
