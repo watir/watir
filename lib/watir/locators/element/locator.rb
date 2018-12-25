@@ -36,11 +36,6 @@ module Watir
         def matching_elements
           return locate_element(*@built.to_a.flatten) if @built.size == 1 && @filter == :first
 
-          # SelectorBuilder only allows one of these
-          wd_locator_key = (Watir::Locators::W3C_FINDERS & @built.keys).first
-          wd_locator = @built.select { |k, _v| wd_locator_key == k }
-          match_values = @built.reject { |k, _v| wd_locator_key == k }
-
           # TODO: Wrap this to continue trying until default timeout
           retries = 0
           begin
@@ -54,6 +49,16 @@ module Watir
             target = @filter == :all ? 'element collection' : 'element'
             raise LocatorException, "Unable to locate #{target} from #{@selector} due to changing page"
           end
+        end
+
+        def wd_locator
+          # SelectorBuilder only allows one of these
+          wd_locator_key = (Watir::Locators::W3C_FINDERS & @built.keys).first
+          @wd_locator ||= @built.select { |k, _v| wd_locator_key == k }
+        end
+
+        def match_values
+          @match_values ||= @built.reject { |k, _v| wd_locator.keys.first == k }
         end
 
         def locator_scope
