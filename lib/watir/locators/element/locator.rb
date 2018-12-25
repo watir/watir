@@ -62,7 +62,8 @@ module Watir
         end
 
         def locator_scope
-          @locator_scope ||= @built.delete(:scope) || @query_scope.browser
+          scope = @built.delete(:scope)
+          @locator_scope ||= scope || @query_scope.browser
         end
 
         def locate_element(how, what, scope = driver_scope)
