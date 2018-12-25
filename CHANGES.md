@@ -1,3 +1,7 @@
+### 6.16.4 (2018-12-24)
+
+* Minor adjustments to support locator extensions
+
 ### 6.16.3 (2018-12-24)
 
 * Minor adjustments to support locator extensions
