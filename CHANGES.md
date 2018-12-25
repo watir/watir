@@ -1,3 +1,7 @@
+### 6.16.5 (2018-12-25)
+
+* Fix bug with nested elements using scopes (#842)
+
 ### 6.16.4 (2018-12-24)
 
 * Minor adjustments to support locator extensions
