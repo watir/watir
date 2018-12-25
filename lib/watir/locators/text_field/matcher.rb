@@ -5,7 +5,7 @@ module Watir
         private
 
         def elements_match?(element, values_to_match)
-          case element.tag_name.downcase
+          case fetch_value(element, :tag_name)
           when 'input'
             %i[text label visible_text].each do |key|
               next unless values_to_match.key?(key)
