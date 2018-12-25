@@ -24,7 +24,7 @@ module Watir
   @relaxed_locate = true
 
   class << self
-    attr_writer :relaxed_locate, :always_locate, :default_timeout, :prefer_css
+    attr_writer :relaxed_locate, :default_timeout
 
     #
     # Whether or not Watir should wait for an element to be found or present
@@ -34,37 +34,6 @@ module Watir
 
     def relaxed_locate?
       @relaxed_locate
-    end
-
-    #
-    # Whether or not Watir should re-locate a stale Element on use.
-    #
-
-    def always_locate?
-      always_locate_message
-      true
-    end
-
-    def always_locate_message
-      msg = 'Watir#always_locate'
-      repl_msg = 'Element#stale? or Element#wait_until(&:stale?) if needed for flow control'
-      Watir.logger.deprecate msg, repl_msg, ids: [:always_locate]
-    end
-
-    #
-    # Whether or not Watir should prefer CSS when translating the Watir selector to Selenium.
-    #
-
-    def prefer_css?
-      prefer_css_message
-      false
-    end
-
-    def prefer_css_message
-      msg = 'Watir#prefer_css'
-      repl_msg = 'watir_css gem - https://github.com/watir/watir_css'
-
-      Watir.logger.deprecate msg, repl_msg, ids: [:prefer_css]
     end
 
     #
