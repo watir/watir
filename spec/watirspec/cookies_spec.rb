@@ -123,9 +123,8 @@ describe 'Browser#cookies' do
       browser.cookies.add 'foo', 'bar'
       verify_cookies_count 2
 
-        browser.cookies.clear
-        verify_cookies_count 0
-      end
+      browser.cookies.clear
+      verify_cookies_count 0
     end
   end
 
@@ -150,12 +149,10 @@ describe 'Browser#cookies' do
         expected = browser.cookies.to_a
         actual = YAML.safe_load(IO.read(file), [::Symbol])
 
-          # https://code.google.com/p/selenium/issues/detail?id=6834
-          expected.each { |cookie| cookie.delete(:expires) }
-          actual.each { |cookie| cookie.delete(:expires) }
+        expected.each { |cookie| cookie.delete(:expires) }
+        actual.each { |cookie| cookie.delete(:expires) }
 
-          expect(actual).to eq(expected)
-        end
+        expect(actual).to eq(expected)
       end
     end
   end

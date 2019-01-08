@@ -83,7 +83,7 @@ describe 'Browser::AfterHooks' do
       expect(@yield).to be true
     end
 
-    not_compliant_on :safari do
+    bug 'https://gist.github.com/titusfortner/bd32f27ec2458b3a733d83374d156940', :safari do
       it 'runs after_hooks after Element#submit' do
         browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
         @page_after_hook = proc { @yield = browser.div(id: 'messages').text == 'submit' }
@@ -93,24 +93,24 @@ describe 'Browser::AfterHooks' do
       end
     end
 
-    bug 'MoveTargetOutOfBoundsError', :firefox do
-      it 'runs after_hooks after Element#double_click' do
-        browser.goto(WatirSpec.url_for('non_control_elements.html'))
-        @page_after_hook = proc { @yield = browser.title == 'Non-control elements' }
-        browser.after_hooks.add @page_after_hook
-        browser.div(id: 'html_test').double_click
-        expect(@yield).to be true
-      end
+    it 'runs after_hooks after Element#double_click' do
+      browser.goto(WatirSpec.url_for('non_control_elements.html'))
+      @page_after_hook = proc { @yield = browser.title == 'Non-control elements' }
+      browser.after_hooks.add @page_after_hook
+      div = browser.div(id: 'html_test')
+      div.scroll.to
+      div.double_click
+      expect(@yield).to be true
     end
 
-    not_compliant_on %i[remote firefox] do
-      it 'runs after_hooks after Element#right_click' do
-        browser.goto(WatirSpec.url_for('right_click.html'))
-        @page_after_hook = proc { @yield = browser.title == 'Right Click Test' }
-        browser.after_hooks.add @page_after_hook
-        browser.div(id: 'click').right_click
-        expect(@yield).to be true
-      end
+    it 'runs after_hooks after Element#right_click' do
+      browser.goto(WatirSpec.url_for('right_click.html'))
+      @page_after_hook = proc { @yield = browser.title == 'Right Click Test' }
+      browser.after_hooks.add @page_after_hook
+      div = browser.div(id: 'click')
+      div.scroll.to
+      div.right_click
+      expect(@yield).to be true
     end
 
     it 'runs after_hooks after FramedDriver#switch!' do
@@ -135,82 +135,68 @@ describe 'Browser::AfterHooks' do
       expect(@yield).to be true
     end
 
-    not_compliant_on :headless do
-      it 'runs after_hooks after Alert#ok' do
-        browser.goto(WatirSpec.url_for('alerts.html'))
-        @page_after_hook = proc { @yield = browser.title == 'Alerts' }
-        browser.after_hooks.add @page_after_hook
-        browser.after_hooks.without { browser.button(id: 'alert').click }
-        browser.alert.ok
-        expect(@yield).to be true
-      end
+    it 'runs after_hooks after Alert#ok' do
+      browser.goto(WatirSpec.url_for('alerts.html'))
+      @page_after_hook = proc { @yield = browser.title == 'Alerts' }
+      browser.after_hooks.add @page_after_hook
+      browser.after_hooks.without { browser.button(id: 'alert').click }
+      browser.alert.ok
+      expect(@yield).to be true
     end
 
-    not_compliant_on :headless do
-      bug 'https://code.google.com/p/chromedriver/issues/detail?id=26', [:chrome, :macosx] do
-        it 'runs after_hooks after Alert#close' do
-          browser.goto(WatirSpec.url_for('alerts.html'))
-          @page_after_hook = proc { @yield = browser.title == 'Alerts' }
-          browser.after_hooks.add @page_after_hook
-          browser.after_hooks.without { browser.button(id: 'alert').click }
-          browser.alert.close
-          expect(@yield).to be true
-        end
-      end
+    it 'runs after_hooks after Alert#close' do
+      browser.goto(WatirSpec.url_for('alerts.html'))
+      @page_after_hook = proc { @yield = browser.title == 'Alerts' }
+      browser.after_hooks.add @page_after_hook
+      browser.after_hooks.without { browser.button(id: 'alert').click }
+      browser.alert.close
+      expect(@yield).to be true
     end
 
-    not_compliant_on :safari, :headless do
-      it 'does not run error checks with alert present' do
-        browser.goto WatirSpec.url_for('alerts.html')
+    it 'does not run error checks with alert present' do
+      browser.goto WatirSpec.url_for('alerts.html')
 
-        @page_after_hook = proc { @yield = browser.title == 'Alerts' }
-        browser.after_hooks.add @page_after_hook
+      @page_after_hook = proc { @yield = browser.title == 'Alerts' }
+      browser.after_hooks.add @page_after_hook
 
-        browser.button(id: 'alert').click
-        expect(@yield).to be_nil
+      browser.button(id: 'alert').click
+      expect(@yield).to be_nil
 
-        browser.alert.ok
-        expect(@yield).to eq true
-      end
+      browser.alert.ok
+      expect(@yield).to eq true
     end
 
-    not_compliant_on :headless do
-      it 'does not raise error when running error checks using #after_hooks#without with alert present' do
-        url = WatirSpec.url_for('alerts.html')
+    it 'does not raise error when running error checks using #after_hooks#without with alert present' do
+      url = WatirSpec.url_for('alerts.html')
+      @page_after_hook = proc { browser.url }
+      browser.after_hooks.add @page_after_hook
+      browser.goto url
+      expect { browser.after_hooks.without { browser.button(id: 'alert').click } }.to_not raise_error
+      browser.alert.ok
+    end
+
+    it 'does not raise error if no error checks are defined with alert present' do
+      url = WatirSpec.url_for('alerts.html')
+      @page_after_hook = proc { browser.url }
+      browser.after_hooks.add @page_after_hook
+      browser.goto url
+      browser.after_hooks.delete @page_after_hook
+      expect { browser.button(id: 'alert').click }.to_not raise_error
+      browser.alert.ok
+    end
+
+    bug 'Clicking an Element that Closes a Window is returning NoMatchingWindowFoundException', :safari do
+      it 'does not raise error when running error checks on closed window' do
+        url = WatirSpec.url_for('window_switching.html')
         @page_after_hook = proc { browser.url }
         browser.after_hooks.add @page_after_hook
         browser.goto url
-        expect { browser.after_hooks.without { browser.button(id: 'alert').click } }.to_not raise_error
-        browser.alert.ok
-      end
-    end
+        browser.a(id: 'open').click
 
-    not_compliant_on :headless do
-      it 'does not raise error if no error checks are defined with alert present' do
-        url = WatirSpec.url_for('alerts.html')
-        @page_after_hook = proc { browser.url }
-        browser.after_hooks.add @page_after_hook
-        browser.goto url
-        browser.after_hooks.delete @page_after_hook
-        expect { browser.button(id: 'alert').click }.to_not raise_error
-        browser.alert.ok
-      end
-    end
-
-    bug 'https://bugzilla.mozilla.org/show_bug.cgi?id=1223277', :firefox do
-      not_compliant_on :headless do
-        it 'does not raise error when running error checks on closed window' do
-          url = WatirSpec.url_for('window_switching.html')
-          @page_after_hook = proc { browser.url }
-          browser.after_hooks.add @page_after_hook
-          browser.goto url
-          browser.a(id: 'open').click
-
-          window = browser.window(title: 'closeable window')
-          window.use
-          expect { browser.a(id: 'close').click }.to_not raise_error
-          browser.original_window.use
-        end
+        window = browser.window(title: 'closeable window')
+        window.use
+        expect { browser.a(id: 'close').click }.to_not raise_error
+        browser.original_window.use
       end
     end
   end

@@ -12,17 +12,15 @@ describe 'Browser' do
       expect(browser).to exist
     end
 
-    bug 'https://bugzilla.mozilla.org/show_bug.cgi?id=1223277', :firefox do
-      not_compliant_on :headless do
-        it 'returns false if window is closed' do
-          browser.goto WatirSpec.url_for('window_switching.html')
-          browser.a(id: 'open').click
-          Watir::Wait.until { browser.windows.size == 2 }
-          browser.window(title: 'closeable window').use
-          browser.a(id: 'close').click
-          Watir::Wait.until { browser.windows.size == 1 }
-          expect(browser.exists?).to be false
-        end
+    bug 'Clicking an Element that Closes a Window is returning NoMatchingWindowFoundException', :safari do
+      it 'returns false if window is closed' do
+        browser.goto WatirSpec.url_for('window_switching.html')
+        browser.a(id: 'open').click
+        Watir::Wait.until { browser.windows.size == 2 }
+        browser.window(title: 'closeable window').use
+        browser.a(id: 'close').click
+        Watir::Wait.until { browser.windows.size == 1 }
+        expect(browser.exists?).to be false
       end
     end
 
@@ -74,7 +72,7 @@ describe 'Browser' do
     end
   end
 
-  bug 'Capitalization bug fixed in upcoming release', %i[remote firefox] do
+  bug 'Capitalization issue', :safari do
     describe '#name' do
       it 'returns browser name' do
         expect(browser.name).to eq(WatirSpec.implementation.browser_args.first)
@@ -373,16 +371,19 @@ describe 'Browser' do
     end
   end
 
-  not_compliant_on :headless do
-    describe '#refresh' do
-      it 'refreshes the page' do
-        browser.goto(WatirSpec.url_for('non_control_elements.html'))
-        browser.span(class: 'footer').click
-        expect(browser.span(class: 'footer').text).to include('Javascript')
-        browser.refresh
-        browser.span(class: 'footer').wait_until(&:present?)
-        expect(browser.span(class: 'footer').text).to_not include('Javascript')
+  describe '#refresh' do
+    it 'refreshes the page' do
+      browser.goto(WatirSpec.url_for('non_control_elements.html'))
+
+      compliant_on :headless do
+        browser.div(id: 'best_language').scroll.to
       end
+
+      browser.div(id: 'best_language').click
+      expect(browser.div(id: 'best_language').text).to include('Ruby!')
+      browser.refresh
+      browser.div(id: 'best_language').wait_until(&:present?)
+      expect(browser.div(id: 'best_language').text).to_not include('Ruby!')
     end
   end
 
@@ -509,27 +510,26 @@ describe 'Browser' do
 
   describe '#wait' do
     # The only way to get engage this method is with page load strategy set to "none"
-    # Chrome will be blocking on document ready state because it does not yet support page load strategy
     # This spec is both mocking out the response and demonstrating the necessary settings for it to be meaningful
-    not_compliant_on :chrome do
-      it 'waits for document ready state to be complete' do
-        @original = WatirSpec.implementation.clone
-        browser.close
-        @opts = WatirSpec.implementation.browser_args.last
+    it 'waits for document ready state to be complete' do
+      @original = WatirSpec.implementation.clone
+      browser.close
+      @opts = WatirSpec.implementation.browser_args.last
 
-        @opts[:page_load_strategy] = 'none'
-        browser = WatirSpec.new_browser
+      @opts[:page_load_strategy] = 'none'
+      browser = WatirSpec.new_browser
 
-        start_time = Time.now
-        allow(browser).to receive(:ready_state) { Time.now < start_time + 3 ? 'loading' : 'complete' }
-        expect(browser.ready_state).to eq 'loading'
-        browser.wait(20)
-        expect(browser.ready_state).to eq 'complete'
+      start_time = Time.now
+      allow(browser).to receive(:ready_state) { Time.now < start_time + 3 ? 'loading' : 'complete' }
+      expect(browser.ready_state).to eq 'loading'
 
-        browser.close
-        WatirSpec.implementation = @original.clone
-        $browser = WatirSpec.new_browser
-      end
+      browser.wait(20)
+      expect(Time.now - start_time).to be > 3
+      expect(browser.ready_state).to eq 'complete'
+
+      browser.close
+      WatirSpec.implementation = @original.clone
+      $browser = WatirSpec.new_browser
     end
   end
 
