@@ -61,7 +61,7 @@ module Watir
       cookie[:path] = opts[:path] if opts.key?(:path)
       expires = opts[:expires]
       if expires
-        cookie[:expires] = ::Time.parse(expires) if expires.is_a?(String) else expires
+        cookie[:expires] = expires.is_a?(String) ? ::Time.parse(expires) : expires
       end
       cookie[:domain] = opts[:domain] if opts.key?(:domain)
 
