@@ -13,9 +13,9 @@ module Watir
       all = @driver.window_handles.map { |handle| Window.new(self, handle: handle) }
 
       if args.empty?
-        all
+        WindowCollection.new all
       else
-        filter_windows extract_selector(args), all
+        WindowCollection.new(filter_windows(extract_selector(args), all))
       end
     end
 

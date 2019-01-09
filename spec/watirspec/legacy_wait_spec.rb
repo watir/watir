@@ -191,3 +191,26 @@ describe Watir::Element do
     end
   end
 end
+
+describe Watir::Window do
+  not_compliant_on :relaxed_locate do
+    describe '#wait_until &:present?' do
+      before do
+        browser.goto WatirSpec.url_for('window_switching.html')
+        browser.a(id: 'open').click
+        Watir::Wait.until { browser.windows.size == 2 }
+      end
+
+      after do
+        browser.original_window.use
+        browser.windows.reject(&:current?).each(&:close)
+      end
+
+      it 'times out waiting for a non-present window' do
+        expect {
+          browser.window(title: 'noop').wait_until(timeout: 0.5, &:present?)
+        }.to raise_error(Watir::Wait::TimeoutError)
+      end
+    end
+  end
+end
