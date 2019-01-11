@@ -396,27 +396,23 @@ describe Watir::Locators::Element::Matcher do
         }.not_to have_deprecated_text_regexp
       end
 
-      not_compliant_on :watigiri do
-        it 'thrown when no longer matched by text content' do
-          @values_to_match = {text: /some visible$/}
-          allow(browser).to receive(:execute_script).and_return('some visible some hidden')
-          allow(browser).to receive(:timer).and_return(Watir::Wait::Timer.new)
-          allow(browser).to receive(:timer=).and_return(Watir::Wait::Timer.new)
+      it 'thrown when no longer matched by text content' do
+        @values_to_match = {text: /some visible$/}
+        allow(browser).to receive(:execute_script).and_return('some visible some hidden')
+        allow(browser).to receive(:timer).and_return(Watir::Wait::Timer.new)
+        allow(browser).to receive(:timer=).and_return(Watir::Wait::Timer.new)
 
-          expect {
-            expect(matcher.match(elements, values_to_match, filter)).to eq elements[1]
-          }.to have_deprecated_text_regexp
-        end
+        expect {
+          expect(matcher.match(elements, values_to_match, filter)).to eq elements[1]
+        }.to have_deprecated_text_regexp
       end
 
-      not_compliant_on :watigiri do
-        it 'not thrown when element does not exist' do
-          @values_to_match = {text: /definitely not there/}
+      it 'not thrown when element does not exist' do
+        @values_to_match = {text: /definitely not there/}
 
-          expect {
-            expect(matcher.match(elements, values_to_match, filter)).to eq elements[1]
-          }.to_not have_deprecated_text_regexp
-        end
+        expect {
+          expect(matcher.match(elements, values_to_match, filter)).to eq elements[1]
+        }.to_not have_deprecated_text_regexp
       end
 
       # Note: This will work after:text_regexp deprecation removed

@@ -19,7 +19,6 @@ if ENV['GITHUB_ACTIONS'] || ENV['COVERAGE']
 end
 
 require 'watir'
-require 'webdrivers'
 require 'locator_spec_helper'
 require 'rspec'
 

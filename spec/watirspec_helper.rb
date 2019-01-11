@@ -1,5 +1,6 @@
 require 'watirspec'
 require 'spec_helper'
+require 'webdrivers'
 
 Watir.default_timeout = 8
 
