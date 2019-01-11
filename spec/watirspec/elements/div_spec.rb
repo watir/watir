@@ -199,7 +199,7 @@ describe 'Div' do
     end
   end
 
-  bug 'command correctly received, but action not taken', :safari do
+  bug 'command correctly received, but action not taken', :safari, :w3c do
     describe '#double_click' do
       it 'fires the ondblclick event' do
         div = browser.div(id: 'html_test')

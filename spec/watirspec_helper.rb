@@ -86,6 +86,8 @@ class LocalConfig
     matching_guards << [browser, Selenium::WebDriver::Platform.os]
     matching_guards << :relaxed_locate if Watir.relaxed_locate?
     matching_guards << :headless if @imp.browser_args.last[:headless]
+    matching_guards << :w3c if ENV['W3C']
+
     # TODO: Replace this with Selenium::WebDriver::Platform.ci after next Selenium Release
     if ENV['APPVEYOR']
       matching_guards << :appveyor
@@ -110,7 +112,8 @@ class LocalConfig
   def chrome_args
     opts = {args: ['--disable-translate']}
     opts[:headless] = true if ENV['HEADLESS'] == 'true'
-    opts[:options] = {binary: ENV['CHROME_BINARY']} if ENV['CHROME_BINARY']
+    opts[:options] = {binary: ENV['CHROME_BINARY']} if ENV['CHROME_BINARY'] == 'true'
+    opts[:options] = {options: {w3c: true}} if ENV['W3C'] == 'true'
     opts
   end
 

@@ -577,13 +577,15 @@ describe 'Element' do
 
   describe '#click' do
     bug 'Element has been located but Safari does not recognize it', :safari do
-      it 'accepts modifiers' do
-        begin
-          browser.a.click(:shift)
-          browser.wait_until { |b| b.windows.size > 1 }
-          expect(browser.windows.size).to eq 2
-        ensure
-          browser.windows.reject(&:current?).each(&:close)
+      bug 'https://bugs.chromium.org/p/chromedriver/issues/detail?id=2732', :w3c do
+        it 'accepts modifiers' do
+          begin
+            browser.a.click(:shift)
+            browser.wait_until { |b| b.windows.size > 1 }
+            expect(browser.windows.size).to eq 2
+          ensure
+            browser.windows.reject(&:current?).each(&:close)
+          end
         end
       end
     end

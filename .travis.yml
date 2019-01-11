@@ -68,6 +68,9 @@ matrix:
       - env: RAKE_TASK=spec:chrome RELAXED_LOCATE=false
         <<: *five
         <<: *chrome
+      - env: RAKE_TASK=spec:chrome W3C=true
+        <<: *five
+        <<: *chrome
       - env: RAKE_TASK=spec:chrome HEADLESS=true
         <<: *five
         <<: *chrome

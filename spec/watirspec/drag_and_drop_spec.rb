@@ -13,10 +13,12 @@ describe 'Element' do
       expect(droppable.text).to include 'Dropped!'
     end
 
-    it 'can drag an element by the given offset' do
-      expect(droppable.text).to include 'Drop here'
-      draggable.drag_and_drop_by 200, 50
-      expect(droppable.text).to include 'Dropped!'
+    bug 'Element is getting moved to the wrong spot', :w3c do
+      it 'can drag an element by the given offset' do
+        expect(droppable.text).to include 'Drop here'
+        draggable.drag_and_drop_by 200, 50
+        expect(droppable.text).to include 'Dropped!'
+      end
     end
   end
 end

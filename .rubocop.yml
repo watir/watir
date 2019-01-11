@@ -86,7 +86,7 @@ Metrics/CyclomaticComplexity:
   - 'lib/watir/locators/element/selector_builder.rb'
 
 Metrics/AbcSize:
-  Max: 20
+  Max: 21
   Exclude:
     - 'lib/watir/locators/element/selector_builder.rb'
     - 'lib/watir/locators/element/selector_builder/regexp_disassembler.rb'
