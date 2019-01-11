@@ -5,7 +5,7 @@ describe Watir::UserEditable do
     browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
   end
 
-  not_compliant_on :safari do
+  bug 'incorrectly clears first', :safari do
     describe '#append' do
       it 'appends the text to the text field' do
         browser.text_field(name: 'new_user_occupation').append(' Append This')

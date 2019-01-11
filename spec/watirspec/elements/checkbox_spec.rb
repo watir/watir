@@ -39,12 +39,16 @@ describe 'CheckBox' do
         expect {
           expect(browser.checkbox(label: /this will not match/)).to exist
         }.to_not have_deprecated_text_regexp
+      end
 
-        expect(browser.checkbox(label: /some visible some hidden/)).to_not exist
+      bug 'Safari is not filtering out hidden text', :safari do
+        it 'handles text_regexp deprecation in spite of hidden text' do
+          expect(browser.checkbox(label: /some visible some hidden/)).to_not exist
 
-        expect {
-          expect(browser.checkbox(label: /some visible$/)).to exist
-        }.to have_deprecated_text_regexp
+          expect {
+            expect(browser.checkbox(label: /some visible$/)).to exist
+          }.to have_deprecated_text_regexp
+        end
       end
     end
 

@@ -9,13 +9,11 @@ describe 'Frame' do
     browser.goto(WatirSpec.url_for('frames.html'))
   end
 
-  not_compliant_on :safari do
-    it 'handles crossframe javascript' do
-      expect(browser.frame(id: 'frame_1').text_field(name: 'senderElement').value).to eq 'send_this_value'
-      expect(browser.frame(id: 'frame_2').text_field(name: 'recieverElement').value).to eq 'old_value'
-      browser.frame(id: 'frame_1').button(id: 'send').click
-      expect(browser.frame(id: 'frame_2').text_field(name: 'recieverElement').value).to eq 'send_this_value'
-    end
+  it 'handles crossframe javascript' do
+    expect(browser.frame(id: 'frame_1').text_field(name: 'senderElement').value).to eq 'send_this_value'
+    expect(browser.frame(id: 'frame_2').text_field(name: 'recieverElement').value).to eq 'old_value'
+    browser.frame(id: 'frame_1').button(id: 'send').click
+    expect(browser.frame(id: 'frame_2').text_field(name: 'recieverElement').value).to eq 'send_this_value'
   end
 
   describe '#exist?' do
@@ -50,14 +48,13 @@ describe 'Frame' do
     end
 
     bug 'https://bugzilla.mozilla.org/show_bug.cgi?id=1255946', :firefox do
-      not_compliant_on :safari do
-        it 'handles nested frames' do
-          browser.goto(WatirSpec.url_for('nested_frames.html'))
+      it 'handles nested frames' do
+        browser.goto(WatirSpec.url_for('nested_frames.html'))
 
-          browser.frame(id: 'two').frame(id: 'three').link(id: 'four').click
+        browser.frame(id: 'two').frame(id: 'three').link(id: 'four').click
 
-          Watir::Wait.until { browser.title == 'definition_lists' }
-        end
+        Watir::Wait.until { browser.title == 'definition_lists' }
+        expect { browser.goto(WatirSpec.url_for('nested_frames.html')) }.to_not raise_exception
       end
     end
 

@@ -66,26 +66,24 @@ describe 'Option' do
   end
 
   describe '#select' do
-    not_compliant_on :safari do
-      it 'selects the chosen option (page context)' do
-        browser.option(text: 'Denmark').select
-        expect(browser.select_list(name: 'new_user_country').selected_options.map(&:text)).to eq ['Denmark']
-      end
+    it 'selects the chosen option (page context)' do
+      browser.option(text: 'Denmark').select
+      expect(browser.select_list(name: 'new_user_country').selected_options.map(&:text)).to eq ['Denmark']
+    end
 
-      it 'selects the chosen option (select_list context)' do
-        browser.select_list(name: 'new_user_country').option(text: 'Denmark').select
-        expect(browser.select_list(name: 'new_user_country').selected_options.map(&:text)).to eq ['Denmark']
-      end
+    it 'selects the chosen option (select_list context)' do
+      browser.select_list(name: 'new_user_country').option(text: 'Denmark').select
+      expect(browser.select_list(name: 'new_user_country').selected_options.map(&:text)).to eq ['Denmark']
+    end
 
-      it 'selects the option when found by text (page context)' do
-        browser.option(text: 'Sweden').select
-        expect(browser.option(text: 'Sweden')).to be_selected
-      end
+    it 'selects the option when found by text (page context)' do
+      browser.option(text: 'Sweden').select
+      expect(browser.option(text: 'Sweden')).to be_selected
+    end
 
-      it 'selects the option when found by text (select_list context)' do
-        browser.select_list(name: 'new_user_country').option(text: 'Sweden').select
-        expect(browser.select_list(name: 'new_user_country').option(text: 'Sweden')).to be_selected
-      end
+    it 'selects the option when found by text (select_list context)' do
+      browser.select_list(name: 'new_user_country').option(text: 'Sweden').select
+      expect(browser.select_list(name: 'new_user_country').option(text: 'Sweden')).to be_selected
     end
 
     it 'raises UnknownObjectException if the option does not exist (page context)' do

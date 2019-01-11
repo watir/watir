@@ -104,13 +104,19 @@ describe 'Element' do
 
       expect(browser.element(visible_text: 'all visible')).to exist
       expect(browser.element(visible_text: /all visible/)).to exist
-      expect(browser.element(visible_text: 'some visible')).to exist
       expect(browser.element(visible_text: /some visible/)).to exist
-      expect(browser.element(visible_text: 'none visible')).not_to exist
-      expect(browser.element(visible_text: /none visible/)).not_to exist
-
       expect(browser.element(visible_text: 'Link 2', class: 'external')).to exist
       expect(browser.element(visible_text: /Link 2/, class: 'external')).to exist
+    end
+
+    bug 'Safari is not filtering out hidden text', :safari do
+      it 'finds elements by visible text in spite of hidden text' do
+        browser.goto WatirSpec.url_for('non_control_elements.html')
+
+        expect(browser.element(visible_text: 'some visible')).to exist
+        expect(browser.element(visible_text: 'none visible')).not_to exist
+        expect(browser.element(visible_text: /none visible/)).not_to exist
+      end
     end
 
     it 'raises exception unless value is a String or a RegExp' do
@@ -238,15 +244,17 @@ describe 'Element' do
       }.to output(msg).to_stdout_from_any_process
     end
 
-    it 'raises UnknownObjectException exception if the element is stale' do
-      element = browser.text_field(id: 'new_user_email').locate
+    bug 'Safari returns NoSuchElementError instead of Stale Error', :safari do
+      it 'raises UnknownObjectException exception if the element is stale' do
+        element = browser.text_field(id: 'new_user_email').locate
 
-      browser.refresh
+        browser.refresh
 
-      expect(element).to be_stale
-      expect {
-        expect { element.visible? }.to raise_unknown_object_exception
-      }.to have_deprecated_stale_visible
+        expect(element).to be_stale
+        expect {
+          expect { element.visible? }.to raise_unknown_object_exception
+        }.to have_deprecated_stale_visible
+      end
     end
 
     it "returns true if the element has style='visibility: visible' even if parent has style='visibility: hidden'" do
@@ -340,37 +348,43 @@ describe 'Element' do
       expect(browser.div(id: 'should-not-exist')).to_not be_present
     end
 
-    it 'returns false if the element is stale' do
-      element = browser.div(id: 'foo').locate
+    bug 'Safari returns NoSuchElementError instead of Stale Error', :safari do
+      it 'returns false if the element is stale' do
+        element = browser.div(id: 'foo').locate
 
-      browser.refresh
+        browser.refresh
 
-      expect(element).to be_stale
+        expect(element).to be_stale
 
-      expect {
-        expect(element).to_not be_present
-      }.to have_deprecated_stale_present
+        expect {
+          expect(element).to_not be_present
+        }.to have_deprecated_stale_present
+      end
     end
 
-    it 'does not raise staleness deprecation if element no longer exists in DOM' do
-      element = browser.div(id: 'foo').locate
-      browser.goto(WatirSpec.url_for('iframes.html'))
+    bug 'Safari returns NoSuchElementError instead of Stale Error', :safari do
+      it 'does not raise staleness deprecation if element no longer exists in DOM' do
+        element = browser.div(id: 'foo').locate
+        browser.goto(WatirSpec.url_for('iframes.html'))
 
-      expect { element.present? }.to_not have_deprecated_stale_present
+        expect { element.present? }.to_not have_deprecated_stale_present
+      end
     end
 
     # TODO: Documents Current Behavior, but needs to be refactored/removed
-    it 'returns true the second time if the element is stale' do
-      element = browser.div(id: 'foo').locate
+    bug 'Safari returns NoSuchElementError instead of Stale Error', :safari do
+      it 'returns true the second time if the element is stale' do
+        element = browser.div(id: 'foo').locate
 
-      browser.refresh
+        browser.refresh
 
-      expect(element).to be_stale
+        expect(element).to be_stale
 
-      expect {
-        expect(element).to_not be_present
-      }.to have_deprecated_stale_present
-      expect(element).to be_present
+        expect {
+          expect(element).to_not be_present
+        }.to have_deprecated_stale_present
+        expect(element).to be_present
+      end
     end
   end
 
@@ -535,8 +549,8 @@ describe 'Element' do
       expect(events).to eq 10
     end
 
-    bug 'http://code.google.com/p/chromium/issues/detail?id=93879', :chrome do
-      not_compliant_on :safari, :firefox do
+    bug 'http://code.google.com/p/chromium/issues/detail?id=93879', %i[chrome macosx] do
+      bug 'special keys are not working correctly', :safari, :firefox do
         it 'performs key combinations' do
           receiver.send_keys 'foo'
           receiver.send_keys [@c, 'a']
@@ -562,14 +576,14 @@ describe 'Element' do
   end
 
   describe '#click' do
-    bug 'https://github.com/mozilla/geckodriver/issues/1375', :firefox do
+    bug 'Element has been located but Safari does not recognize it', :safari do
       it 'accepts modifiers' do
         begin
           browser.a.click(:shift)
+          browser.wait_until { |b| b.windows.size > 1 }
           expect(browser.windows.size).to eq 2
         ensure
           browser.windows.reject(&:current?).each(&:close)
-          expect(browser.windows.size).to eq 1
         end
       end
     end
@@ -597,12 +611,13 @@ describe 'Element' do
   end
 
   describe '#hover' do
-    not_compliant_on :internet_explorer, :safari do
+    not_compliant_on :internet_explorer do
       it 'should hover over the element' do
         browser.goto WatirSpec.url_for('hover.html')
         link = browser.a
 
         expect(link.style('font-size')).to eq '10px'
+        link.scroll.to
         link.hover
         link.wait_until { |l| l.style('font-size') == '20px' }
         expect(link.style('font-size')).to eq '20px'
@@ -703,19 +718,17 @@ describe 'Element' do
     end
   end
 
-  not_compliant_on %i[remote firefox] do
-    describe '#scroll_into_view' do
-      it 'scrolls element into view' do
-        el = browser.button(name: 'new_user_image')
-        element_center = el.center['y']
+  describe '#scroll_into_view' do
+    it 'scrolls element into view' do
+      el = browser.button(name: 'new_user_image')
+      element_center = el.center['y']
 
-        bottom_viewport_script = 'return window.pageYOffset + window.innerHeight'
-        expect(browser.execute_script(bottom_viewport_script)).to be < element_center
+      bottom_viewport_script = 'return window.pageYOffset + window.innerHeight'
+      expect(browser.execute_script(bottom_viewport_script)).to be < element_center
 
-        expect(el.scroll_into_view).to be_a Selenium::WebDriver::Point
+      expect(el.scroll_into_view).to be_a Selenium::WebDriver::Point
 
-        expect(browser.execute_script(bottom_viewport_script)).to be > element_center
-      end
+      expect(browser.execute_script(bottom_viewport_script)).to be > element_center
     end
   end
 
@@ -902,31 +915,34 @@ describe 'Element' do
   describe '#obscured?' do
     before { browser.goto WatirSpec.url_for('obscured.html') }
 
-    it 'returns false if element\'s center is not covered' do
+    it 'returns false if element center is not covered' do
       btn = browser.button(id: 'not_obscured')
       expect(btn).not_to be_obscured
       expect { btn.click }.not_to raise_exception
     end
 
-    it 'returns false if element\'s center is covered by its descendant' do
+    it 'returns false if element center is covered by its descendant' do
       btn = browser.button(id: 'has_descendant')
       expect(btn).not_to be_obscured
       expect { btn.click }.not_to raise_exception
     end
 
-    it 'returns true if element\'s center is covered by a non-descendant' do
+    it 'returns true if element center is covered by a non-descendant' do
       btn = browser.button(id: 'obscured')
       expect(btn).to be_obscured
-      not_compliant_on :chrome do
+      not_compliant_on :chrome, :safari do
         expect { btn.click }.to raise_exception(Selenium::WebDriver::Error::ElementClickInterceptedError)
       end
       compliant_on :chrome do
         expect { btn.click }.to raise_exception(Selenium::WebDriver::Error::UnknownError)
       end
+      compliant_on :safari do
+        expect { btn.click }.to raise_exception(Selenium::WebDriver::Error::WebDriverError)
+      end
     end
 
     not_compliant_on %i[firefox appveyor] do
-      it 'returns false if element\'s center is surrounded by non-descendants' do
+      it 'returns false if element center is surrounded by non-descendants' do
         btn = browser.button(id: 'surrounded')
         expect(btn).not_to be_obscured
         expect { btn.click }.not_to raise_exception
@@ -945,10 +961,12 @@ describe 'Element' do
       expect { div.click }.not_to raise_exception
     end
 
-    it 'returns true if element cannot be scrolled into view' do
-      btn = browser.button(id: 'off_screen')
-      expect(btn).to be_obscured
-      expect { btn.click }.to raise_unknown_object_exception
+    bug 'Safari is throwing click intercepted here', :safari do
+      it 'returns true if element cannot be scrolled into view' do
+        btn = browser.button(id: 'off_screen')
+        expect(btn).to be_obscured
+        expect { btn.click }.to raise_unknown_object_exception
+      end
     end
 
     it 'returns true if element is hidden' do

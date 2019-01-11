@@ -16,8 +16,7 @@ describe 'DateTimeField' do
       expect(browser.date_time_field(text: //)).to exist
       expect(browser.date_time_field(index: 0)).to exist
 
-      # Firefox validates attribute "type" as "text" not "datetime-local"
-      not_compliant_on :firefox do
+      bug 'https://github.com/mozilla/geckodriver/issues/1469', :firefox, :safari do
         expect(browser.date_time_field(xpath: "//input[@id='html5_datetime-local']")).to exist
       end
 
@@ -29,7 +28,7 @@ describe 'DateTimeField' do
       expect(browser.date_time_field).to exist
     end
 
-    bug 'https://bugzilla.mozilla.org/show_bug.cgi?id=1424984', :firefox do
+    bug 'https://github.com/mozilla/geckodriver/issues/1469', :firefox, :safari do
       it 'respects date-time fields types' do
         expect(browser.date_time_field.type).to eq('datetime-local')
       end
@@ -79,7 +78,7 @@ describe 'DateTimeField' do
   end
 
   describe '#type' do
-    bug 'https://bugzilla.mozilla.org/show_bug.cgi?id=1424984', :firefox do
+    bug 'https://github.com/mozilla/geckodriver/issues/1469', :firefox, :safari do
       it 'returns the type attribute if the date-time field exists' do
         expect(browser.date_time_field(id: 'html5_datetime-local').type).to eq 'datetime-local'
       end

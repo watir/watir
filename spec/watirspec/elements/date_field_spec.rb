@@ -15,17 +15,24 @@ describe 'DateField' do
       expect(browser.date_field(text: '')).to exist
       expect(browser.date_field(text: //)).to exist
       expect(browser.date_field(index: 0)).to exist
-      expect(browser.date_field(xpath: "//input[@id='html5_date']")).to exist
       expect(browser.date_field(label: 'HTML5 Date')).to exist
       expect(browser.date_field(label: /Date$/)).to exist
+    end
+
+    bug 'Safari does not recognize date type', :safari do
+      it 'returns true when using xpath' do
+        expect(browser.date_field(xpath: "//input[@id='html5_date']")).to exist
+      end
     end
 
     it 'returns the date field if given no args' do
       expect(browser.date_field).to exist
     end
 
-    it 'respects date fields types' do
-      expect(browser.date_field.type).to eq('date')
+    bug 'Safari does not recognize date type', :safari do
+      it 'respects date fields types' do
+        expect(browser.date_field.type).to eq('date')
+      end
     end
 
     it 'returns false if the element does not exist' do
@@ -71,13 +78,15 @@ describe 'DateField' do
     end
   end
 
-  describe '#type' do
-    it 'returns the type attribute if the date field exists' do
-      expect(browser.date_field(id: 'html5_date').type).to eq 'date'
-    end
+  bug 'Safari does not recognize date type', :safari do
+    describe '#type' do
+      it 'returns the type attribute if the date field exists' do
+        expect(browser.date_field(id: 'html5_date').type).to eq 'date'
+      end
 
-    it "raises UnknownObjectException if the date field doesn't exist" do
-      expect { browser.date_field(index: 1337).type }.to raise_unknown_object_exception
+      it "raises UnknownObjectException if the date field doesn't exist" do
+        expect { browser.date_field(index: 1337).type }.to raise_unknown_object_exception
+      end
     end
   end
 

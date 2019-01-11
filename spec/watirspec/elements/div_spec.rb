@@ -97,7 +97,7 @@ describe 'Div' do
       expect(browser.div(index: 0).text.strip).to eq ''
     end
 
-    not_compliant_on :safari do
+    bug 'Safari is not filtering out hidden text', :safari do
       it 'returns an empty string if the div is hidden' do
         expect(browser.div(id: 'hidden').text).to eq ''
       end
@@ -137,8 +137,10 @@ describe 'Div' do
       end
 
       not_compliant_on :watigiri do
-        it 'throws deprecation when no longer matched by text content' do
-          expect { browser.div(text: /some visible$/).locate }.to have_deprecated_text_regexp
+        bug 'Safari is not filtering out hidden text', :safari do
+          it 'throws deprecation when no longer matched by text content' do
+            expect { browser.div(text: /some visible$/).locate }.to have_deprecated_text_regexp
+          end
         end
       end
 
@@ -148,77 +150,77 @@ describe 'Div' do
         end
       end
 
-      # Note: This will work after:text_regexp deprecation removed
       not_compliant_on :watigiri do
-        it 'does not locate entire content with regular expressions' do
-          expect(browser.div(text: /some visible some hidden/)).to_not exist
+        bug 'Safari is not filtering out hidden text', :safari do
+          it 'does not locate entire content with regular expressions' do
+            expect(browser.div(text: /some visible some hidden/)).to_not exist
+          end
         end
       end
     end
   end
 
   # Manipulation methods
-  not_compliant_on :headless do
-    describe '#click' do
-      it 'fires events when clicked' do
-        expect(browser.div(id: 'best_language').text).to_not eq 'Ruby!'
-        browser.div(id: 'best_language').click
-        expect(browser.div(id: 'best_language').text).to eq 'Ruby!'
-      end
+  describe '#click' do
+    it 'fires events when clicked' do
+      expect(browser.div(id: 'best_language').text).to_not eq 'Ruby!'
 
-      it 'raises UnknownObjectException if the element does not exist' do
-        expect { browser.div(id: 'no_such_id').click }.to raise_unknown_object_exception
-        expect { browser.div(title: 'no_such_title').click }.to raise_unknown_object_exception
-        expect { browser.div(index: 1337).click }.to raise_unknown_object_exception
-        expect { browser.div(xpath: "//div[@id='no_such_id']").click }.to raise_unknown_object_exception
-      end
-
-      it 'includes custom message if element with a custom attribute does not exist' do
-        message = /Watir treated \[\"custom_attribute\"\] as a non-HTML compliant attribute, ensure that was intended/
-        expect { browser.div(custom_attribute: 'not_there').click }.to raise_unknown_object_exception(message)
-      end
+      div = browser.div(id: 'best_language')
+      div.scroll.to
+      div.click
+      expect(browser.div(id: 'best_language').text).to eq 'Ruby!'
     end
 
-    describe '#click!' do
-      it 'fires events when clicked' do
-        expect(browser.div(id: 'best_language').text).to_not eq 'Ruby!'
-        browser.div(id: 'best_language').click!
-        expect(browser.div(id: 'best_language').text).to eq 'Ruby!'
-      end
+    it 'raises UnknownObjectException if the element does not exist' do
+      expect { browser.div(id: 'no_such_id').click }.to raise_unknown_object_exception
+      expect { browser.div(title: 'no_such_title').click }.to raise_unknown_object_exception
+      expect { browser.div(index: 1337).click }.to raise_unknown_object_exception
+      expect { browser.div(xpath: "//div[@id='no_such_id']").click }.to raise_unknown_object_exception
+    end
 
-      it 'raises UnknownObjectException if the element does not exist' do
-        expect { browser.div(id: 'no_such_id').click! }.to raise_unknown_object_exception
-        expect { browser.div(title: 'no_such_title').click! }.to raise_unknown_object_exception
-        expect { browser.div(index: 1337).click! }.to raise_unknown_object_exception
-        expect { browser.div(xpath: "//div[@id='no_such_id']").click! }.to raise_unknown_object_exception
-      end
+    it 'includes custom message if element with a custom attribute does not exist' do
+      message = /Watir treated \[\"custom_attribute\"\] as a non-HTML compliant attribute, ensure that was intended/
+      expect { browser.div(custom_attribute: 'not_there').click }.to raise_unknown_object_exception(message)
     end
   end
 
-  not_compliant_on :safari do
-    bug 'MoveTargetOutOfBoundsError', :firefox do
-      describe '#double_click' do
-        it 'fires the ondblclick event' do
-          browser.div(id: 'html_test').double_click
-          expect(messages).to include('double clicked')
-        end
-      end
+  describe '#click!' do
+    it 'fires events when clicked' do
+      expect(browser.div(id: 'best_language').text).to_not eq 'Ruby!'
+      browser.div(id: 'best_language').click!
+      expect(browser.div(id: 'best_language').text).to eq 'Ruby!'
+    end
 
-      describe '#double_click!' do
-        it 'fires the ondblclick event' do
-          browser.div(id: 'html_test').double_click!
-          expect(messages).to include('double clicked')
-        end
+    it 'raises UnknownObjectException if the element does not exist' do
+      expect { browser.div(id: 'no_such_id').click! }.to raise_unknown_object_exception
+      expect { browser.div(title: 'no_such_title').click! }.to raise_unknown_object_exception
+      expect { browser.div(index: 1337).click! }.to raise_unknown_object_exception
+      expect { browser.div(xpath: "//div[@id='no_such_id']").click! }.to raise_unknown_object_exception
+    end
+  end
+
+  bug 'command correctly received, but action not taken', :safari do
+    describe '#double_click' do
+      it 'fires the ondblclick event' do
+        div = browser.div(id: 'html_test')
+        div.scroll.to
+        div.double_click
+        expect(messages).to include('double clicked')
       end
     end
 
-    not_compliant_on :firefox do
-      describe '#right_click' do
-        it 'fires the oncontextmenu event' do
-          browser.goto(WatirSpec.url_for('right_click.html'))
-          browser.div(id: 'click').right_click
-          expect(messages.first).to eq 'right-clicked'
-        end
+    describe '#double_click!' do
+      it 'fires the ondblclick event' do
+        browser.div(id: 'html_test').double_click!
+        expect(messages).to include('double clicked')
+      end
+    end
+
+    describe '#right_click' do
+      it 'fires the oncontextmenu event' do
+        browser.goto(WatirSpec.url_for('right_click.html'))
+        browser.div(id: 'click').right_click
+        expect(messages.first).to eq 'right-clicked'
       end
     end
   end

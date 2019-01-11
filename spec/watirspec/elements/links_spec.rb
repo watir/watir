@@ -46,10 +46,18 @@ describe 'Links' do
       container = browser.div(id: 'visible_text')
       expect(container.links(visible_text: 'all visible').count).to eq(1)
       expect(container.links(visible_text: /all visible/).count).to eq(1)
-      expect(container.links(visible_text: 'some visible').count).to eq(1)
       expect(container.links(visible_text: /some visible/).count).to eq(1)
-      expect(container.links(visible_text: 'none visible').count).to eq(0)
-      expect(container.links(visible_text: /none visible/).count).to eq(0)
+    end
+
+    bug 'Safari is not filtering out hidden text', :safari do
+      it 'finds links in spite of hidden text' do
+        browser.goto WatirSpec.url_for('non_control_elements.html')
+        container = browser.div(id: 'visible_text')
+
+        expect(container.links(visible_text: 'some visible').count).to eq(1)
+        expect(container.links(visible_text: 'none visible').count).to eq(0)
+        expect(container.links(visible_text: /none visible/).count).to eq(0)
+      end
     end
   end
 end

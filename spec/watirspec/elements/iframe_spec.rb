@@ -112,13 +112,11 @@ describe 'IFrame' do
     end
 
     bug 'https://bugzilla.mozilla.org/show_bug.cgi?id=1255946', :firefox do
-      not_compliant_on :safari do
-        it 'handles nested iframes' do
-          browser.goto(WatirSpec.url_for('nested_iframes.html'))
-          browser.iframe(id: 'two').iframe(id: 'three').link(id: 'four').click
+      it 'handles nested iframes' do
+        browser.goto(WatirSpec.url_for('nested_iframes.html'))
+        browser.iframe(id: 'two').iframe(id: 'three').link(id: 'four').click
 
-          Watir::Wait.until { browser.title == 'definition_lists' }
-        end
+        Watir::Wait.until { browser.title == 'definition_lists' }
       end
     end
 
@@ -141,10 +139,12 @@ describe 'IFrame' do
     end
   end
 
-  it 'switches between iframe and parent when needed' do
-    browser.iframe(id: 'iframe_1').elements.each do |element|
-      element.text
-      browser.h1.text
+  bug 'Safari returns NoSuchElementError instead of Stale Error', :safari do
+    it 'switches between iframe and parent when needed' do
+      browser.iframe(id: 'iframe_1').elements.each do |element|
+        element.text
+        browser.h1.text
+      end
     end
   end
 

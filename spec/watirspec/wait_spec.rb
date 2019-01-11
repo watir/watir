@@ -112,11 +112,13 @@ describe Watir::Element do
       }.to have_deprecated_wait_until_present
     end
 
-    it 'waits until the element re-appears' do
-      browser.link(id: 'readd_bar').click
-      expect {
-        expect { browser.div(id: 'bar').wait_until_present }.to_not raise_exception
-      }.to have_deprecated_wait_until_present
+    bug 'Safari does not recognize date type', :safari do
+      it 'waits until the element re-appears' do
+        browser.link(id: 'readd_bar').click
+        expect {
+          expect { browser.div(id: 'bar').wait_until_present }.to_not raise_exception
+        }.to have_deprecated_wait_until_present
+      end
     end
 
     it "times out if the element doesn't appear" do
@@ -269,14 +271,6 @@ describe Watir::Element do
       expect(element.wait_while(&:present?)).to eq element
     end
 
-    not_compliant_on :safari do
-      it 'accepts self in block' do
-        element = browser.div(id: 'foo')
-        browser.a(id: 'hide_foo').click
-        expect { element.wait_while { |el| el.text == 'foo' } }.to_not raise_exception
-      end
-    end
-
     it 'accepts any values in block' do
       element = browser.div(id: 'foo')
       expect { element.wait_while { false } }.to_not raise_exception
@@ -298,10 +292,12 @@ describe Watir::Element do
     end
 
     context 'accepts keywords instead of block' do
-      it 'accepts text keyword' do
-        element = browser.div(id: 'foo')
-        browser.a(id: 'hide_foo').click
-        expect { element.wait_while(text: 'foo') }.to_not raise_exception
+      bug 'Safari does not recognize date type', :safari do
+        it 'accepts text keyword' do
+          element = browser.div(id: 'foo')
+          browser.a(id: 'hide_foo').click
+          expect { element.wait_while(text: 'foo') }.to_not raise_exception
+        end
       end
 
       it 'accepts regular expression value' do

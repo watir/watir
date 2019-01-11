@@ -29,15 +29,6 @@ describe 'TableRow' do
     end
   end
 
-  describe '#click' do
-    not_compliant_on :internet_explorer, :chrome, :firefox do
-      it "fires the row's onclick event" do
-        browser.tr(id: 'inner_first').click
-        expect(messages).to include('tr')
-      end
-    end
-  end
-
   bug 'Safari does not strip text', :safari do
     describe '#[]' do
       let(:table) { browser.table(id: 'outer') }

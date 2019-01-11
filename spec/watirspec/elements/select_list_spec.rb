@@ -75,12 +75,10 @@ describe 'SelectList' do
   end
 
   describe '#value' do
-    not_compliant_on :safari do
-      it 'returns the value of the selected option' do
-        expect(browser.select_list(index: 0).value).to eq '2'
-        browser.select_list(index: 0).select(/Sweden/)
-        expect(browser.select_list(index: 0).value).to eq '3'
-      end
+    it 'returns the value of the selected option' do
+      expect(browser.select_list(index: 0).value).to eq '2'
+      browser.select_list(index: 0).select(/Sweden/)
+      expect(browser.select_list(index: 0).value).to eq '3'
     end
 
     it "raises UnknownObjectException if the select list doesn't exist" do
@@ -89,16 +87,14 @@ describe 'SelectList' do
   end
 
   describe '#text' do
-    not_compliant_on :safari do
-      it 'returns the text of the selected option' do
-        expect(browser.select_list(index: 0).text).to eq 'Norway'
-        browser.select_list(index: 0).select(/Sweden/)
-        expect(browser.select_list(index: 0).text).to eq 'Sweden'
-      end
+    it 'returns the text of the selected option' do
+      expect(browser.select_list(index: 0).text).to eq 'Norway'
+      browser.select_list(index: 0).select(/Sweden/)
+      expect(browser.select_list(index: 0).text).to eq 'Sweden'
+    end
 
-      it "raises UnknownObjectException if the select list doesn't exist" do
-        expect { browser.select_list(index: 1337).text }.to raise_unknown_object_exception
-      end
+    it "raises UnknownObjectException if the select list doesn't exist" do
+      expect { browser.select_list(index: 1337).text }.to raise_unknown_object_exception
     end
   end
 
@@ -168,11 +164,9 @@ describe 'SelectList' do
   end
 
   describe '#clear' do
-    not_compliant_on :safari do
-      it 'clears the selection when possible' do
-        browser.select_list(name: 'new_user_languages').clear
-        expect(browser.select_list(name: 'new_user_languages').selected_options).to be_empty
-      end
+    it 'clears the selection when possible' do
+      browser.select_list(name: 'new_user_languages').clear
+      expect(browser.select_list(name: 'new_user_languages').selected_options).to be_empty
     end
 
     it 'does not clear selections if the select list does not allow multiple selections' do
@@ -187,16 +181,14 @@ describe 'SelectList' do
       expect { browser.select_list(name: 'no_such_name').clear }.to raise_unknown_object_exception
     end
 
-    not_compliant_on :safari do
-      it 'fires onchange event' do
-        browser.select_list(name: 'new_user_languages').clear
-        expect(messages.size).to eq 2
-      end
+    it 'fires onchange event' do
+      browser.select_list(name: 'new_user_languages').clear
+      expect(messages.size).to eq 2
+    end
 
-      it "doesn't fire onchange event for already cleared option" do
-        browser.select_list(name: 'new_user_languages').option.clear
-        expect(messages.size).to eq 0
-      end
+    it "doesn't fire onchange event for already cleared option" do
+      browser.select_list(name: 'new_user_languages').option.clear
+      expect(messages.size).to eq 0
     end
   end
 
@@ -214,30 +206,28 @@ describe 'SelectList' do
     end
   end
 
-  not_compliant_on :safari do
-    describe '#selected?' do
-      it 'returns true if the given option is selected by text' do
-        browser.select_list(name: 'new_user_country').select('Denmark')
-        expect(browser.select_list(name: 'new_user_country')).to be_selected('Denmark')
-      end
+  describe '#selected?' do
+    it 'returns true if the given option is selected by text' do
+      browser.select_list(name: 'new_user_country').select('Denmark')
+      expect(browser.select_list(name: 'new_user_country')).to be_selected('Denmark')
+    end
 
-      it 'returns false if the given option is not selected by text' do
-        expect(browser.select_list(name: 'new_user_country')).to_not be_selected('Sweden')
-      end
+    it 'returns false if the given option is not selected by text' do
+      expect(browser.select_list(name: 'new_user_country')).to_not be_selected('Sweden')
+    end
 
-      it 'returns true if the given option is selected by label' do
-        browser.select_list(name: 'new_user_country').select('Germany')
-        expect(browser.select_list(name: 'new_user_country')).to be_selected('Germany')
-      end
+    it 'returns true if the given option is selected by label' do
+      browser.select_list(name: 'new_user_country').select('Germany')
+      expect(browser.select_list(name: 'new_user_country')).to be_selected('Germany')
+    end
 
-      it 'returns false if the given option is not selected by label' do
-        expect(browser.select_list(name: 'new_user_country')).to_not be_selected('Germany')
-      end
+    it 'returns false if the given option is not selected by label' do
+      expect(browser.select_list(name: 'new_user_country')).to_not be_selected('Germany')
+    end
 
-      it "raises UnknownObjectException if the option doesn't exist" do
-        expect { browser.select_list(name: 'new_user_country').selected?('missing_option') }
-          .to raise_unknown_object_exception
-      end
+    it "raises UnknownObjectException if the option doesn't exist" do
+      expect { browser.select_list(name: 'new_user_country').selected?('missing_option') }
+        .to raise_unknown_object_exception
     end
   end
 
@@ -301,7 +291,7 @@ describe 'SelectList' do
       expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq %w[Danish Swedish]
     end
 
-    bug 'https://bugzilla.mozilla.org/show_bug.cgi?id=1255957', :firefox do
+    bug 'Safari is returning click intercepted error', :safari do
       it 'selects empty options' do
         browser.select_list(id: 'delete_user_username').select('')
         expect(browser.select_list(id: 'delete_user_username').selected_options.map(&:text)).to eq ['']
@@ -312,21 +302,21 @@ describe 'SelectList' do
       expect(browser.select_list(name: 'new_user_languages').select('Danish')).to eq 'Danish'
     end
 
-    not_compliant_on :safari do
-      it 'fires onchange event when selecting an item' do
-        browser.select_list(id: 'new_user_languages').select('Danish')
-        expect(messages).to eq ['changed language']
-      end
+    it 'fires onchange event when selecting an item' do
+      browser.select_list(id: 'new_user_languages').select('Danish')
+      expect(messages).to eq ['changed language']
+    end
 
-      it "doesn't fire onchange event when selecting an already selected item" do
-        browser.select_list(id: 'new_user_languages').clear # removes the two pre-selected options
-        browser.select_list(id: 'new_user_languages').select('English')
-        expect(messages.size).to eq 3
+    it "doesn't fire onchange event when selecting an already selected item" do
+      browser.select_list(id: 'new_user_languages').clear # removes the two pre-selected options
+      browser.select_list(id: 'new_user_languages').select('English')
+      expect(messages.size).to eq 3
 
-        browser.select_list(id: 'new_user_languages').select('English')
-        expect(messages.size).to eq 3
-      end
+      browser.select_list(id: 'new_user_languages').select('English')
+      expect(messages.size).to eq 3
+    end
 
+    bug 'Safari is returning click intercepted error', :safari do
       it 'returns an empty string when selecting an option that disappears when selected' do
         expect(browser.select_list(id: 'obsolete').select('sweden')).to eq ''
       end
@@ -353,9 +343,11 @@ describe 'SelectList' do
         .to raise_no_value_found_exception message
     end
 
-    it 'raises ObjectDisabledException if the option is disabled' do
-      expect { browser.select_list(name: 'new_user_languages').select('Russian') }
-        .to raise_object_disabled_exception
+    bug 'Safari is returning object enabled instead of disabled', :safari do
+      it 'raises ObjectDisabledException if the option is disabled' do
+        expect { browser.select_list(name: 'new_user_languages').select('Russian') }
+          .to raise_object_disabled_exception
+      end
     end
 
     it 'raises a TypeError if argument is not a String, Regexp or Numeric' do
@@ -423,11 +415,9 @@ describe 'SelectList' do
       expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq %w[Danish Swedish]
     end
 
-    bug 'https://bugzilla.mozilla.org/show_bug.cgi?id=1255957', :firefox do
-      it 'selects empty options' do
-        browser.select_list(id: 'delete_user_username').select!('')
-        expect(browser.select_list(id: 'delete_user_username').selected_options.map(&:text)).to eq ['']
-      end
+    it 'selects empty options' do
+      browser.select_list(id: 'delete_user_username').select!('')
+      expect(browser.select_list(id: 'delete_user_username').selected_options.map(&:text)).to eq ['']
     end
 
     it 'returns the value selected' do
@@ -454,10 +444,12 @@ describe 'SelectList' do
         .to raise_no_value_found_exception
     end
 
-    it 'raises ObjectDisabledException if the option is disabled' do
-      browser.select_list(id: 'new_user_languages').clear
-      expect { browser.select_list(id: 'new_user_languages').select!('Russian') }
-        .to raise_object_disabled_exception
+    bug 'Safari is returning object enabled instead of disabled', :safari do
+      it 'raises ObjectDisabledException if the option is disabled' do
+        browser.select_list(id: 'new_user_languages').clear
+        expect { browser.select_list(id: 'new_user_languages').select!('Russian') }
+          .to raise_object_disabled_exception
+      end
     end
 
     it 'raises a TypeError if argument is not a String, Regexp or Numeric' do
@@ -538,12 +530,6 @@ describe 'SelectList' do
 
     it 'returns the first matching value if there are multiple matches' do
       expect(browser.select_list(name: 'new_user_languages').select_all!(/ish/)).to eq 'Danish'
-    end
-  end
-
-  # deprecate?
-  not_compliant_on :safari do
-    describe '#select_value' do
     end
   end
 end
