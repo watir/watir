@@ -9,6 +9,19 @@ module Watir
 
       selected_options.each(&:click)
     end
+    
+    #
+    # Remove an exact amount of text from a highlighted area.
+    # 
+    # @example
+    #   backspace(4)
+    # 
+    
+    def backspace(amount)
+      amount.times do
+        Browser.instance.send_keys :backspace
+      end
+    end
 
     #
     # Returns true if the select list has one or more options where text or label matches the given value.
