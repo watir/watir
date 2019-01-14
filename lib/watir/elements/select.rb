@@ -19,7 +19,7 @@ module Watir
     
     def backspace(amount)
       amount.times do
-        Browser.instance.send_keys :backspace
+        browser.send_keys :backspace
       end
     end
 
