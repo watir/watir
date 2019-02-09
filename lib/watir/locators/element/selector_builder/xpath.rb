@@ -12,6 +12,7 @@ module Watir
 
           def build(selector)
             @selector = selector
+            @valid_attributes = build_valid_attributes
 
             @built = (@selector.keys & CAN_NOT_BUILD).each_with_object({}) do |key, hash|
               hash[key] = @selector.delete(key)
@@ -55,10 +56,7 @@ module Watir
           end
 
           def predicate_conversion(key, regexp)
-            # type attributes can be upper case - downcase them
-            # https://github.com/watir/watir/issues/72
-            downcase = key == :type || regexp.casefold?
-
+            downcase = case_insensitive_attribute?(key) || regexp.casefold?
             lhs = lhs_for(key, downcase)
 
             results = RegexpDisassembler.new(regexp).substrings
@@ -72,8 +70,10 @@ module Watir
 
             add_to_matching(key, regexp, results)
 
-            results.map { |substring|
-              "contains(#{lhs}, '#{substring}')"
+            results.map { |rhs|
+              rhs = "'#{rhs}'"
+              rhs = XpathSupport.downcase(rhs) if downcase
+              "contains(#{lhs}, #{rhs})"
             }.flatten.compact.join(' and ')
           end
 
@@ -236,8 +236,33 @@ module Watir
 
               negate_xpath ? "not(#{expression})" : expression
             else
-              "#{lhs_for(key, key == :type)}=#{XpathSupport.escape value}"
+              downcase = case_insensitive_attribute?(key)
+
+              lhs = lhs_for(key, downcase)
+              rhs = XpathSupport.escape(value)
+              rhs = XpathSupport.downcase(rhs) if downcase
+
+              "#{lhs}=#{rhs}"
             end
+          end
+
+          def build_valid_attributes
+            tag_name = @selector[:tag_name]
+            if tag_name.is_a?(String) && Watir.tag_to_class[tag_name.to_sym]
+              Watir.tag_to_class[tag_name.to_sym].attribute_list
+            else
+              Watir::HTMLElement.attribute_list
+            end
+          end
+
+          def case_insensitive_attribute?(attribute)
+            # type attributes can be upper case - downcase them
+            # https://github.com/watir/watir/issues/72
+            return true if attribute == :type
+            return true if Watir::Element::CASE_INSENSITIVE_ATTRIBUTES.include?(attribute) &&
+                           @valid_attributes.include?(attribute)
+
+            false
           end
         end
       end

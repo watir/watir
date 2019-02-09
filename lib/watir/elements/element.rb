@@ -18,6 +18,17 @@ module Watir
     attr_accessor :keyword
     attr_reader :selector
 
+    # https://www.w3.org/TR/html52/single-page.html#casesensitivity
+    CASE_INSENSITIVE_ATTRIBUTES = %i[accept accept_charset align alink axis
+                                     bgcolor charset checked clear codetype
+                                     color compact declare defer dir direction
+                                     disabled enctype face frame hreflang
+                                     http_equiv lang language link media
+                                     method multiple nohref noresize noshade
+                                     nowrap readonly rel rev rules scope
+                                     scrolling selected shape target text
+                                     type valign valuetype vlink].freeze
+
     #
     # temporarily add :id and :class_name manually since they're no longer specified in the HTML spec.
     #
