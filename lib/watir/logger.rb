@@ -97,7 +97,7 @@ module Watir
     end
 
     def selenium=(val)
-      Selenium::WebDriver.logger.level=(val)
+      Selenium::WebDriver.logger.level = val
     end
 
     private
