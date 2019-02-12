@@ -96,6 +96,10 @@ module Watir
       warn "[DEPRECATION] #{msg}#{old} is deprecated. Use #{new} instead#{ref_msg}"
     end
 
+    def selenium=(val)
+      Selenium::WebDriver.logger.level=(val)
+    end
+
     private
 
     def create_logger(output)
