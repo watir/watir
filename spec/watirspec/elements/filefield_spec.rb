@@ -95,13 +95,11 @@ describe 'FileField' do
     it 'is able to set a file path in the field and click the upload button and fire the onchange event' do
       browser.goto WatirSpec.url_for('forms_with_input_elements.html')
 
-      path = File.expand_path(__FILE__)
       element = browser.file_field(name: 'new_user_portrait')
+      element.upload __FILE__
 
-      element.set path
-
-      expect(element.value).to include(File.basename(path)) # only some browser will return the full path
-      expect(messages.first).to include(File.basename(path))
+      expect(element.value).to include(File.basename(__FILE__)) # only some browser will return the full path
+      expect(messages.first).to include(File.basename(__FILE__))
 
       browser.button(name: 'new_user_submit').click
     end
