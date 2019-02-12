@@ -54,12 +54,9 @@ module Watir
 
     def exists?
       if located? && stale?
-        Watir.logger.deprecate 'Checking `#exists? == false` to determine a stale element',
-                               '`#stale? == true`',
-                               reference: 'http://watir.com/staleness-changes',
-                               ids: [:stale_exists]
-        # TODO: Change this to `reset!` after removing deprecation
-        return false
+        reset!
+      elsif located?
+        return true
       end
 
       assert_exists
@@ -460,16 +457,7 @@ module Watir
       msg = '#visible? behavior will be changing slightly, consider switching to #present? ' \
             '(more details: http://watir.com/element-existentialism/)'
       Watir.logger.warn msg, ids: [:visible_element]
-      displayed = display_check
-      if displayed.nil? && display_check
-        Watir.logger.deprecate 'Checking `#visible? == false` to determine a stale element',
-                               '`#stale? == true`',
-                               reference: 'http://watir.com/staleness-changes',
-                               ids: [:stale_visible]
-      end
-      raise unknown_exception if displayed.nil?
-
-      displayed
+      display_check
     end
 
     #
@@ -492,14 +480,7 @@ module Watir
     #
 
     def present?
-      displayed = display_check
-      if displayed.nil? && display_check
-        Watir.logger.deprecate 'Checking `#present? == false` to determine a stale element',
-                               '`#stale? == true`',
-                               reference: 'http://watir.com/staleness-changes',
-                               ids: [:stale_present]
-      end
-      displayed
+      display_check
     rescue UnknownObjectException, UnknownFrameException
       false
     end
@@ -770,7 +751,7 @@ module Watir
       @element.displayed?
     rescue Selenium::WebDriver::Error::StaleElementReferenceError
       reset!
-      nil
+      retry
     end
 
     # TODO: - this will get addressed with Watir::Executor implementation
