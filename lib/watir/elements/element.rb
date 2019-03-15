@@ -193,15 +193,34 @@ module Watir
     end
 
     #
-    # Right clicks the element.
-    # Note that browser support may vary.
+    # Right clicks the element, optionally while pressing the given modifier keys.
+    # Note that support for holding a modifier key is currently experimental,
+    # and may not work at all. Also, the browser support may vary.
     #
     # @example
     #   browser.element(name: "new_user_button").right_click
     #
+    # @example Right click an element with shift key pressed
+    #   browser.element(name: "new_user_button").right_click(:shift)
+    #
+    # @example Click an element with several modifier keys pressed
+    #   browser.element(name: "new_user_button").right_click(:shift, :alt)
+    #
+    # @param [:shift, :alt, :control, :command, :meta] modifiers to press while right clicking.
+    #
 
-    def right_click
-      element_call(:wait_for_present) { driver.action.context_click(@element).perform }
+    def right_click(*modifiers)
+      element_call(:wait_for_present) do
+        action = driver.action
+        if modifiers.any?
+          modifiers.each { |mod| action.key_down mod }
+          action.context_click(@element).perform
+          modifiers.each { |mod| action.key_up mod }
+        else
+          action.context_click(@element).perform
+        end
+      end
+
       browser.after_hooks.run
     end
 

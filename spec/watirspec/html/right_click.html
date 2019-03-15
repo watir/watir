@@ -3,9 +3,21 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <title>Right Click Test</title>
     <script src="javascript/helpers.js" type="text/javascript" charset="utf-8"></script>
+    <script src="javascript/jquery-1.7.1.min.js" type="text/javascript" charset="utf-8"></script>
   </head>
+  <script>
+    $(document).ready(function() {
+      $(document).on("contextmenu", "#click-logger", function(evt){
+        $("#log").append("<p>shift=" + evt.shiftKey + " alt=" + evt.altKey + "</p>");
+        return false;
+      });
+    });
+  </script>
   <body>
     <div id="messages"></div>
     <div id="click" oncontextmenu='WatirSpec.addMessage("right-clicked"); return false'>Right click!</div>
+    <br />
+    <div id="click-logger">Right click with modifiers!</div>
+    <div id="log"></div>
   </body>
 </html>

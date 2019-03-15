@@ -222,6 +222,12 @@ describe 'Div' do
         browser.div(id: 'click').right_click
         expect(messages.first).to eq 'right-clicked'
       end
+
+      it 'accepts modifiers' do
+        browser.goto(WatirSpec.url_for('right_click.html'))
+        browser.div(id: 'click-logger').right_click(:shift, :alt)
+        expect(event_log.first).to eq('shift=true alt=true')
+      end
     end
   end
 
