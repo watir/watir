@@ -595,7 +595,7 @@ module Watir
     def stale_in_context?
       @element.css_value('staleness_check') # any wire call will check for staleness
       false
-    rescue Selenium::WebDriver::Error::ObsoleteElementError
+    rescue Selenium::WebDriver::Error::StaleElementReferenceError
       true
     end
 
@@ -799,13 +799,9 @@ module Watir
       rescue Selenium::WebDriver::Error::StaleElementReferenceError
         reset!
         retry
-      rescue Selenium::WebDriver::Error::ElementNotVisibleError, Selenium::WebDriver::Error::ElementNotInteractableError
+      rescue Selenium::WebDriver::Error::ElementNotInteractableError
         raise_present unless Wait.timer.remaining_time.positive?
         raise_present unless %i[wait_for_present wait_for_enabled wait_for_writable].include?(precondition)
-        retry
-      rescue Selenium::WebDriver::Error::InvalidElementStateError
-        raise_disabled unless Wait.timer.remaining_time.positive?
-        raise_disabled unless %i[wait_for_present wait_for_enabled wait_for_writable].include?(precondition)
         retry
       rescue Selenium::WebDriver::Error::NoSuchWindowError
         raise NoMatchingWindowFoundException, 'browser window was closed'
