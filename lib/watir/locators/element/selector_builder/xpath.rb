@@ -212,7 +212,7 @@ module Watir
             when :text
               'normalize-space()'
             when :contains_text
-              'text()'
+              'normalize-space()'
             when ::Symbol
               lhs = "@#{key.to_s.tr('_', '-')}"
               downcase ? XpathSupport.downcase(lhs) : lhs
