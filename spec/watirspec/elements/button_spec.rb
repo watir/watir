@@ -37,6 +37,8 @@ describe 'Button' do
       expect(browser.button(text: /Button 2/)).to exist
       expect(browser.button(value: 'Button 2')).to exist
       expect(browser.button(value: /Button 2/)).to exist
+      expect(browser.button(value: 'Button 4 With Child Text')).to exist
+      expect(browser.button(value: /Button 4 With Child Text/)).to exist
     end
 
     it 'returns true if the button exists (how = :caption)' do
