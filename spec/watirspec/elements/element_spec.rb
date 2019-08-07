@@ -895,7 +895,7 @@ describe 'Element' do
         expect { btn.click }.to raise_exception(Selenium::WebDriver::Error::ElementClickInterceptedError)
       end
       compliant_on :chrome do
-        expect { btn.click }.to raise_exception(Selenium::WebDriver::Error::UnknownError)
+        expect { btn.click }.to raise_exception(Selenium::WebDriver::Error::ElementClickInterceptedError)
       end
       compliant_on :safari do
         expect { btn.click }.to raise_exception(Selenium::WebDriver::Error::WebDriverError)
