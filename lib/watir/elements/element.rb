@@ -787,9 +787,9 @@ module Watir
         check_condition(precondition, caller)
         Watir.logger.debug "-> `Executing #{inspect}##{caller}`"
         yield
-      rescue unknown_exception => ex
+      rescue unknown_exception => e
         element_call(:wait_for_exists, &block) if precondition.nil?
-        msg = ex.message
+        msg = e.message
         msg += '; Maybe look in an iframe?' if @query_scope.iframe.exists?
         custom_attributes = @locator.nil? ? [] : selector_builder.custom_attributes
         unless custom_attributes.empty?

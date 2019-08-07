@@ -109,8 +109,8 @@ module Watir
             begin
               intf = fetch_interface(implementor_name).first
               intf.implements << fetch_interface(implementee_name).first
-            rescue InterfaceNotFound => ex
-              puts ex.message
+            rescue InterfaceNotFound => e
+              puts e.message
             end
           end
         end
@@ -123,8 +123,8 @@ module Watir
             begin
               intf = fetch_interface(includer_name).first
               intf.includes << fetch_interface(includee_name).first
-            rescue InterfaceNotFound => ex
-              puts ex.message
+            rescue InterfaceNotFound => e
+              puts e.message
             end
           end
         end
