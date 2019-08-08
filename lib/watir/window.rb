@@ -226,6 +226,7 @@ module Watir
       nil
     end
 
+    # rubocop:disable Lint/ShadowedException
     def matches?(handle)
       @driver.switch_to.window(handle) do
         matches_title = @selector[:title].nil? || @browser.title =~ /#{@selector[:title]}/
@@ -237,6 +238,7 @@ module Watir
       # the window may disappear while we're iterating.
       false
     end
+    # rubocop:enable Lint/ShadowedException
 
     def wait_for_exists
       return assert_exists unless Watir.relaxed_locate?
