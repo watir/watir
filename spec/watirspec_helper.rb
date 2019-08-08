@@ -29,11 +29,9 @@ class LocalConfig
   def load_webdrivers
     case browser
     when :chrome
-      Webdrivers::Chromedriver.version = 2.44 if ENV['APPVEYOR']
       Webdrivers::Chromedriver.update
       Watir.logger.info "chromedriver version: #{Webdrivers::Chromedriver.current_version.version}"
     when :firefox
-      Webdrivers::Geckodriver.version = '0.20.1' if ENV['APPVEYOR']
       Webdrivers::Geckodriver.update
       Watir.logger.info "geckodriver version: #{Webdrivers::Geckodriver.current_version.version}"
     end
@@ -144,8 +142,8 @@ class RemoteConfig < LocalConfig
       require 'watirspec/remote_server'
 
       remote_server = WatirSpec::RemoteServer.new
-      args = ["-Dwebdriver.chrome.driver=#{Webdrivers::Chromedriver.binary}",
-              "-Dwebdriver.gecko.driver=#{Webdrivers::Geckodriver.binary}"]
+      args = ["-Dwebdriver.chrome.driver=#{Webdrivers::Chromedriver.driver_path}",
+              "-Dwebdriver.gecko.driver=#{Webdrivers::Geckodriver.driver_path}"]
       remote_server.start(4444, args: args)
       remote_server.server.webdriver_url
     end
