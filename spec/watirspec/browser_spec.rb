@@ -157,8 +157,8 @@ describe 'Browser' do
           @original = WatirSpec.implementation.clone
 
           require 'watirspec/remote_server'
-          args = ["-Dwebdriver.chrome.driver=#{Webdrivers::Chromedriver.binary}",
-                  "-Dwebdriver.gecko.driver=#{Webdrivers::Geckodriver.binary}"]
+          args = ["-Dwebdriver.chrome.driver=#{Webdrivers::Chromedriver.driver_path}",
+                  "-Dwebdriver.gecko.driver=#{Webdrivers::Geckodriver.driver_path}"]
           WatirSpec::RemoteServer.new.start(4544, args: args)
           browser.close
         end
