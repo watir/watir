@@ -244,7 +244,7 @@ module Watir
     # Note that browser support may vary.
     #
     # @example
-    #   browser.div(id: "draggable").drag_and_drop_by 100, -200
+    #   browser.div(id: "draggable").drag_and_drop_by 100, 25
     #
     # @param [Integer] right_by
     # @param [Integer] down_by
