@@ -795,8 +795,8 @@ module Watir
     # rubocop:disable Metrics/CyclomaticComplexity:
     def element_call(precondition = nil, &block)
       caller = caller_locations(1, 1)[0].label
-      already_locked = Wait.timer.locked?
-      Wait.timer = Wait::Timer.new(timeout: Watir.default_timeout) unless already_locked
+      already_locked = browser.timer.locked?
+      browser.timer = Wait::Timer.new(timeout: Watir.default_timeout) unless already_locked
 
       begin
         check_condition(precondition, caller)
@@ -817,14 +817,14 @@ module Watir
         # TODO: - InvalidElementStateError is deprecated, so no longer calling `raise_disabled`
         # need a better way to handle this
       rescue Selenium::WebDriver::Error::ElementNotInteractableError
-        raise_present unless Wait.timer.remaining_time.positive?
+        raise_present unless browser.timer.remaining_time.positive?
         raise_present unless %i[wait_for_present wait_for_enabled wait_for_writable].include?(precondition)
         retry
       rescue Selenium::WebDriver::Error::NoSuchWindowError
         raise NoMatchingWindowFoundException, 'browser window was closed'
       ensure
         Watir.logger.debug "<- `Completed #{inspect}##{caller}`"
-        Wait.timer.reset! unless already_locked
+        browser.timer.reset! unless already_locked
       end
     end
     # rubocop:enable Metrics/AbcSize

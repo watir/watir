@@ -11,7 +11,7 @@ module Watir
     include Exception
     include Scrolling
 
-    attr_writer :default_context, :original_window, :locator_namespace
+    attr_writer :default_context, :original_window, :locator_namespace, :timer
     attr_reader :driver, :after_hooks
     alias wd driver # ensures duck typing with Watir::Element
 
@@ -298,6 +298,10 @@ module Watir
       else
         obj
       end
+    end
+
+    def timer
+      @timer ||= Wait::Timer.new
     end
 
     private
