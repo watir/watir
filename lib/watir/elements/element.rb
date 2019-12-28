@@ -803,6 +803,10 @@ module Watir
         raise_present unless Wait.timer.remaining_time.positive?
         raise_present unless %i[wait_for_present wait_for_enabled wait_for_writable].include?(precondition)
         retry
+      rescue Selenium::WebDriver::Error::InvalidElementStateError
+        raise_disabled unless Wait.timer.remaining_time.positive?
+        raise_disabled unless %i[wait_for_present wait_for_enabled wait_for_writable].include?(precondition)
+        retry
       rescue Selenium::WebDriver::Error::NoSuchWindowError
         raise NoMatchingWindowFoundException, 'browser window was closed'
       ensure
