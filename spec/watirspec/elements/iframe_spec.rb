@@ -78,12 +78,12 @@ describe 'IFrame' do
       expect(browser.iframe(xpath: "//iframe[@id='no_such_id']")).to_not exist
     end
 
-    it 'returns false if an element in an iframe does exist' do
+    it 'returns true if an element in an iframe does exist' do
       expect(browser.iframe.element(css: '#senderElement')).to exist
       expect(browser.iframe.element(id: 'senderElement')).to exist
     end
 
-    it 'returns true if an element in an iframe does not exist' do
+    it 'returns false if an element in an iframe does not exist' do
       expect(browser.iframe.element(css: '#no_such_id')).to_not exist
       expect(browser.iframe.element(id: 'no_such_id')).to_not exist
     end
