@@ -83,6 +83,11 @@ describe 'IFrame' do
       expect(browser.iframe.element(id: 'senderElement')).to exist
     end
 
+    it 'returns true for multiple elements that exist in an iframe with a parent selector' do
+      expect(browser.div(class: 'wrapper').iframe.element(id: 'first_grandson')).to exist
+      expect(browser.div(class: 'wrapper').iframe.element(id: 'second_grandson')).to exist
+    end
+
     it 'returns false if an element in an iframe does not exist' do
       expect(browser.iframe.element(css: '#no_such_id')).to_not exist
       expect(browser.iframe.element(id: 'no_such_id')).to_not exist
