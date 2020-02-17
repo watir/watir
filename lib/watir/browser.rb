@@ -300,6 +300,12 @@ module Watir
       end
     end
 
+    attr_writer :timer
+
+    def timer
+      @timer ||= Wait::Timer.new
+    end
+
     private
 
     def wrap_element(scope, element)
