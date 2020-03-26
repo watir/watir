@@ -31,7 +31,7 @@ Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
 
 # Offense count: 1
-Lint/HandleExceptions:
+Lint/SuppressedException:
   Exclude:
     - 'lib/watirspec.rb'
 
@@ -104,7 +104,7 @@ Metrics/ParameterLists:
 
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
 # URISchemes: http, https
-Metrics/LineLength:
+Layout/LineLength:
   Max: 120
 
 # Cop supports --auto-correct.
