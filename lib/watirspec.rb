@@ -31,7 +31,7 @@ module WatirSpec
 
     def load_support
       root = File.expand_path('../spec/watirspec', __dir__)
-      Dir.glob("#{root}/support/**/*.rb").each do |file|
+      Dir.glob("#{root}/support/**/*.rb").sort.each do |file|
         require file
       end
     end

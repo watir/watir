@@ -22,6 +22,11 @@ Layout/EmptyLinesAroundModuleBody:
     - 'lib/watir/elements/html_elements.rb'
     - 'lib/watir/elements/svg_elements.rb'
 
+# Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
+# URISchemes: http, https
+Layout/LineLength:
+  Max: 120
+
 # Offense count: 85
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, EnforcedStyleForEmptyBraces.
@@ -101,11 +106,6 @@ Metrics/AbcSize:
 Metrics/ParameterLists:
   Exclude:
     - 'lib/watir/wait.rb'
-
-# Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
-# URISchemes: http, https
-Layout/LineLength:
-  Max: 120
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, ProceduralMethods, FunctionalMethods, IgnoredMethods.
