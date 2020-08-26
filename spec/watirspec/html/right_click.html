@@ -8,7 +8,7 @@
   <script>
     $(document).ready(function() {
       $(document).on("contextmenu", "#click-logger", function(evt){
-        $("#log").append("<p>shift=" + evt.shiftKey + " alt=" + evt.altKey + "</p>");
+        $("#log").append("<p>control=" + evt.ctrlKey + " alt=" + evt.altKey + "</p>");
         return false;
       });
     });
