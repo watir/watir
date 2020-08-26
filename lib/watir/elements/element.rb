@@ -214,8 +214,9 @@ module Watir
         action = driver.action
         if modifiers.any?
           modifiers.each { |mod| action.key_down mod }
-          action.context_click(@element).perform
+          action.context_click(@element)
           modifiers.each { |mod| action.key_up mod }
+          action.perform
         else
           action.context_click(@element).perform
         end
