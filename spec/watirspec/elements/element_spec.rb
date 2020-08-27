@@ -688,7 +688,9 @@ describe 'Element' do
       bottom_viewport_script = 'return window.pageYOffset + window.innerHeight'
       expect(browser.execute_script(bottom_viewport_script)).to be < element_center
 
-      expect(el.scroll_into_view).to be_a Selenium::WebDriver::Point
+      expect {
+        expect(el.scroll_into_view).to be_a Selenium::WebDriver::Point
+      }.to have_deprecated_scroll_into_view
 
       expect(browser.execute_script(bottom_viewport_script)).to be > element_center
     end

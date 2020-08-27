@@ -386,6 +386,8 @@ module Watir
     #
 
     def scroll_into_view
+      Watir.logger.deprecate 'Element#scroll_into_view', 'Element#scroll methods', ids: [:scroll_into_view]
+
       element_call { @element.location_once_scrolled_into_view }
     end
 

@@ -8,6 +8,7 @@ if defined?(RSpec)
                             visible_text
                             link_text
                             text_regexp
+                            scroll_into_view
                             stale_exists
                             stale_visible
                             stale_present
