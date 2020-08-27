@@ -121,13 +121,13 @@ describe 'Element' do
 
     it 'raises exception unless value is a String or a RegExp' do
       browser.goto WatirSpec.url_for('non_control_elements.html')
-      msg = /expected one of \[String, Regexp\], got 7\:(Fixnum|Integer)/
+      msg = /expected one of \[String, Regexp\], got 7:Integer/
       expect { browser.element(visible_text: 7).exists? }.to raise_exception(TypeError, msg)
     end
 
     it 'raises exception unless key is valid' do
       browser.goto WatirSpec.url_for('non_control_elements.html')
-      msg = /Unable to build XPath using 7:(Fixnum|Integer)/
+      msg = /Unable to build XPath using 7:Integer/
       expect { browser.element(7 => /foo/).exists? }.to raise_exception(Watir::Exception::Error, msg)
     end
   end
@@ -231,34 +231,29 @@ describe 'Element' do
 
   describe '#visible?' do
     it 'returns true if the element is visible' do
-      msg = /WARN Watir \[\"visible_element\"\]/
+      msg = /WARN Watir \["visible_element"\]/
       expect {
         expect(browser.text_field(id: 'new_user_email')).to be_visible
       }.to output(msg).to_stdout_from_any_process
     end
 
     it 'raises UnknownObjectException exception if the element does not exist' do
-      msg = /WARN Watir \[\"visible_element\"\]/
+      msg = /WARN Watir \["visible_element"\]/
       expect {
         expect { browser.text_field(id: 'no_such_id').visible? }.to raise_unknown_object_exception
       }.to output(msg).to_stdout_from_any_process
     end
 
-    bug 'Safari returns NoSuchElementError instead of Stale Error', :safari do
-      it 'raises UnknownObjectException exception if the element is stale' do
-        element = browser.text_field(id: 'new_user_email').locate
+    it 'handles staleness' do
+      element = browser.text_field(id: 'new_user_email').locate
 
-        browser.refresh
+      allow(element).to receive(:stale?).and_return(true)
 
-        expect(element).to be_stale
-        expect {
-          expect { element.visible? }.to raise_unknown_object_exception
-        }.to have_deprecated_stale_visible
-      end
+      expect(element).to be_visible
     end
 
     it "returns true if the element has style='visibility: visible' even if parent has style='visibility: hidden'" do
-      msg = /WARN Watir \[\"visible_element\"\]/
+      msg = /WARN Watir \["visible_element"\]/
       expect {
         expect(browser.div(id: 'visible_child')).to be_visible
       }.to output(msg).to_stdout_from_any_process
@@ -269,7 +264,7 @@ describe 'Element' do
     end
 
     it "returns false if the element has style='display: none;'" do
-      msg = /WARN Watir \[\"visible_element\"\]/
+      msg = /WARN Watir \["visible_element"\]/
       expect {
         expect(browser.div(id: 'changed_language')).to_not be_visible
       }.to output(msg).to_stdout_from_any_process
@@ -303,9 +298,7 @@ describe 'Element' do
       element.cache = wd
 
       browser.refresh
-      expect {
-        expect(element).to_not exist
-      }.to have_deprecated_stale_exists
+      expect(element).to_not exist
     end
   end
 
@@ -314,15 +307,12 @@ describe 'Element' do
       browser.goto WatirSpec.url_for('removed_element.html')
     end
 
-    it 'element from a collection returns false when it becomes stale' do
+    it 'handles staleness in a collection' do
       element = browser.divs(id: 'text').first.locate
 
-      browser.refresh
+      allow(element).to receive(:stale?).and_return(true)
 
-      expect(element).to be_stale
-      expect {
-        expect(element).to_not exist
-      }.to have_deprecated_stale_exists
+      expect(element).to exist
     end
 
     it 'returns false when tag name does not match id' do
@@ -348,43 +338,12 @@ describe 'Element' do
       expect(browser.div(id: 'should-not-exist')).to_not be_present
     end
 
-    bug 'Safari returns NoSuchElementError instead of Stale Error', :safari do
-      it 'returns false if the element is stale' do
-        element = browser.div(id: 'foo').locate
+    it 'handles staleness' do
+      element = browser.div(id: 'foo').locate
 
-        browser.refresh
+      allow(element).to receive(:stale?).and_return(true)
 
-        expect(element).to be_stale
-
-        expect {
-          expect(element).to_not be_present
-        }.to have_deprecated_stale_present
-      end
-    end
-
-    bug 'Safari returns NoSuchElementError instead of Stale Error', :safari do
-      it 'does not raise staleness deprecation if element no longer exists in DOM' do
-        element = browser.div(id: 'foo').locate
-        browser.goto(WatirSpec.url_for('iframes.html'))
-
-        expect { element.present? }.to_not have_deprecated_stale_present
-      end
-    end
-
-    # TODO: Documents Current Behavior, but needs to be refactored/removed
-    bug 'Safari returns NoSuchElementError instead of Stale Error', :safari do
-      it 'returns true the second time if the element is stale' do
-        element = browser.div(id: 'foo').locate
-
-        browser.refresh
-
-        expect(element).to be_stale
-
-        expect {
-          expect(element).to_not be_present
-        }.to have_deprecated_stale_present
-        expect(element).to be_present
-      end
+      expect(element).to be_present
     end
   end
 
@@ -579,13 +538,11 @@ describe 'Element' do
     bug 'Element has been located but Safari does not recognize it', :safari do
       bug 'https://bugs.chromium.org/p/chromedriver/issues/detail?id=2732', :w3c do
         it 'accepts modifiers' do
-          begin
-            browser.a.click(:shift)
-            browser.wait_until { |b| b.windows.size > 1 }
-            expect(browser.windows.size).to eq 2
-          ensure
-            browser.windows.reject(&:current?).each(&:close)
-          end
+          browser.a.click(:shift)
+          browser.wait_until { |b| b.windows.size > 1 }
+          expect(browser.windows.size).to eq 2
+        ensure
+          browser.windows.reject(&:current?).each(&:close)
         end
       end
     end
@@ -722,6 +679,9 @@ describe 'Element' do
 
   describe '#scroll_into_view' do
     it 'scrolls element into view' do
+      initial_size = browser.window.size
+      browser.window.resize_to(initial_size.width, 800)
+
       el = browser.button(name: 'new_user_image')
       element_center = el.center['y']
 
@@ -936,7 +896,7 @@ describe 'Element' do
         expect { btn.click }.to raise_exception(Selenium::WebDriver::Error::ElementClickInterceptedError)
       end
       compliant_on :chrome do
-        expect { btn.click }.to raise_exception(Selenium::WebDriver::Error::UnknownError)
+        expect { btn.click }.to raise_exception(Selenium::WebDriver::Error::ElementClickInterceptedError)
       end
       compliant_on :safari do
         expect { btn.click }.to raise_exception(Selenium::WebDriver::Error::WebDriverError)

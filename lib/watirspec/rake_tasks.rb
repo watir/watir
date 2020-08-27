@@ -3,6 +3,8 @@ require 'rake/tasklib'
 module WatirSpec
   class RakeTasks < Rake::TaskLib
     def initialize
+      super
+
       namespace :watirspec do
         desc 'Initialize WatirSpec'
         task :init do

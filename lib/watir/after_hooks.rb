@@ -69,8 +69,8 @@ module Watir
       return unless @after_hooks.any? && !@browser.alert.exists?
 
       each { |after_hook| after_hook.call(@browser) }
-    rescue Selenium::WebDriver::Error::NoSuchWindowError => ex
-      Watir.logger.info "Could not execute After Hooks because browser window was closed #{ex}"
+    rescue Selenium::WebDriver::Error::NoSuchWindowError => e
+      Watir.logger.info "Could not execute After Hooks because browser window was closed #{e}"
     end
 
     #
@@ -99,8 +99,8 @@ module Watir
     # @yieldparam [#call] after_hook Object responding to call
     #
 
-    def each
-      @after_hooks.each { |after_hook| yield after_hook }
+    def each(&blk)
+      @after_hooks.each { |after_hook| blk.call(after_hook) }
     end
 
     #

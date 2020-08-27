@@ -114,7 +114,6 @@ require 'watir/elements/element'
 require 'watir/elements/html_elements'
 require 'watir/elements/svg_elements'
 
-require 'watir/elements/area'
 require 'watir/elements/button'
 require 'watir/elements/cell'
 require 'watir/elements/checkbox'

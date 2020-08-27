@@ -33,7 +33,7 @@ module Watir
     #
 
     def text
-      l = label()
+      l = label
       l.exist? ? l.text : ''
     end
   end # Radio

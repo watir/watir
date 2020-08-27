@@ -13,7 +13,7 @@ describe 'Buttons' do
 
   describe '#length' do
     it 'returns the number of buttons' do
-      expect(browser.buttons.length).to eq 10
+      expect(browser.buttons.length).to eq 11
     end
   end
 

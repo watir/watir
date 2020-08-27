@@ -65,12 +65,9 @@ module Watir
 
     def exists?
       if located? && stale?
-        Watir.logger.deprecate 'Checking `#exists? == false` to determine a stale element',
-                               '`#stale? == true`',
-                               reference: 'http://watir.com/staleness-changes',
-                               ids: [:stale_exists]
-        # TODO: Change this to `reset!` after removing deprecation
-        return false
+        reset!
+      elsif located?
+        return true
       end
 
       assert_exists
@@ -207,15 +204,35 @@ module Watir
     end
 
     #
-    # Right clicks the element.
-    # Note that browser support may vary.
+    # Right clicks the element, optionally while pressing the given modifier keys.
+    # Note that support for holding a modifier key is currently experimental,
+    # and may not work at all. Also, the browser support may vary.
     #
     # @example
     #   browser.element(name: "new_user_button").right_click
     #
+    # @example Right click an element with shift key pressed
+    #   browser.element(name: "new_user_button").right_click(:shift)
+    #
+    # @example Click an element with several modifier keys pressed
+    #   browser.element(name: "new_user_button").right_click(:shift, :alt)
+    #
+    # @param [:shift, :alt, :control, :command, :meta] modifiers to press while right clicking.
+    #
 
-    def right_click
-      element_call(:wait_for_present) { driver.action.context_click(@element).perform }
+    def right_click(*modifiers)
+      element_call(:wait_for_present) do
+        action = driver.action
+        if modifiers.any?
+          modifiers.each { |mod| action.key_down mod }
+          action.context_click(@element)
+          modifiers.each { |mod| action.key_up mod }
+          action.perform
+        else
+          action.context_click(@element).perform
+        end
+      end
+
       browser.after_hooks.run
     end
 
@@ -258,7 +275,7 @@ module Watir
     # Note that browser support may vary.
     #
     # @example
-    #   browser.div(id: "draggable").drag_and_drop_by 100, -200
+    #   browser.div(id: "draggable").drag_and_drop_by 100, 25
     #
     # @param [Integer] right_by
     # @param [Integer] down_by
@@ -471,16 +488,7 @@ module Watir
       msg = '#visible? behavior will be changing slightly, consider switching to #present? ' \
             '(more details: http://watir.com/element-existentialism/)'
       Watir.logger.warn msg, ids: [:visible_element]
-      displayed = display_check
-      if displayed.nil? && display_check
-        Watir.logger.deprecate 'Checking `#visible? == false` to determine a stale element',
-                               '`#stale? == true`',
-                               reference: 'http://watir.com/staleness-changes',
-                               ids: [:stale_visible]
-      end
-      raise unknown_exception if displayed.nil?
-
-      displayed
+      display_check
     end
 
     #
@@ -503,14 +511,7 @@ module Watir
     #
 
     def present?
-      displayed = display_check
-      if displayed.nil? && display_check
-        Watir.logger.deprecate 'Checking `#present? == false` to determine a stale element',
-                               '`#stale? == true`',
-                               reference: 'http://watir.com/staleness-changes',
-                               ids: [:stale_present]
-      end
-      displayed
+      display_check
     rescue UnknownObjectException, UnknownFrameException
       false
     end
@@ -558,7 +559,7 @@ module Watir
     #
 
     def to_subtype
-      tag = tag_name()
+      tag = tag_name
       klass = if tag == 'input'
                 case attribute_value(:type)
                 when 'checkbox'
@@ -606,7 +607,7 @@ module Watir
     def stale_in_context?
       @element.css_value('staleness_check') # any wire call will check for staleness
       false
-    rescue Selenium::WebDriver::Error::ObsoleteElementError
+    rescue Selenium::WebDriver::Error::StaleElementReferenceError
       true
     end
 
@@ -781,13 +782,12 @@ module Watir
       @element.displayed?
     rescue Selenium::WebDriver::Error::StaleElementReferenceError
       reset!
-      nil
+      retry
     end
 
     # TODO: - this will get addressed with Watir::Executor implementation
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
-    # rubocop:disable Metrics/PerceivedComplexity
     # rubocop:disable Metrics/CyclomaticComplexity:
     def element_call(precondition = nil, &block)
       caller = caller_locations(1, 1)[0].label
@@ -798,9 +798,9 @@ module Watir
         check_condition(precondition, caller)
         Watir.logger.debug "-> `Executing #{inspect}##{caller}`"
         yield
-      rescue unknown_exception => ex
+      rescue unknown_exception => e
         element_call(:wait_for_exists, &block) if precondition.nil?
-        msg = ex.message
+        msg = e.message
         msg += '; Maybe look in an iframe?' if @query_scope.iframe.exists?
         custom_attributes = @locator.nil? ? [] : selector_builder.custom_attributes
         unless custom_attributes.empty?
@@ -810,13 +810,11 @@ module Watir
       rescue Selenium::WebDriver::Error::StaleElementReferenceError
         reset!
         retry
-      rescue Selenium::WebDriver::Error::ElementNotVisibleError, Selenium::WebDriver::Error::ElementNotInteractableError
+        # TODO: - InvalidElementStateError is deprecated, so no longer calling `raise_disabled`
+        # need a better way to handle this
+      rescue Selenium::WebDriver::Error::ElementNotInteractableError
         raise_present unless Wait.timer.remaining_time.positive?
         raise_present unless %i[wait_for_present wait_for_enabled wait_for_writable].include?(precondition)
-        retry
-      rescue Selenium::WebDriver::Error::InvalidElementStateError
-        raise_disabled unless Wait.timer.remaining_time.positive?
-        raise_disabled unless %i[wait_for_present wait_for_enabled wait_for_writable].include?(precondition)
         retry
       rescue Selenium::WebDriver::Error::NoSuchWindowError
         raise NoMatchingWindowFoundException, 'browser window was closed'
@@ -827,7 +825,7 @@ module Watir
     end
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
-    # rubocop:enable Metrics/PerceivedComplexity
+
     # rubocop:enable Metrics/CyclomaticComplexity:
 
     def check_condition(condition, caller)

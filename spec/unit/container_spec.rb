@@ -17,7 +17,7 @@ describe Watir::Container do
     end
 
     it 'returns the hash given' do
-      expect(@container.public_extract_selector([how: 'what'])).to eq Hash[how: 'what']
+      expect(@container.public_extract_selector([{how: 'what'}])).to eq Hash[how: 'what']
     end
 
     it 'returns an empty hash if given no args' do

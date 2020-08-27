@@ -51,7 +51,7 @@ describe Watir::Locators::Element::SelectorBuilder do
 
       it 'raises exception when not a String' do
         selector = {xpath: 7}
-        msg = /expected one of \[String\], got 7:(Fixnum|Integer)/
+        msg = /expected one of \[String\], got 7:Integer/
 
         expect { selector_builder.build(selector) }.to raise_exception TypeError, msg
       end
@@ -81,7 +81,7 @@ describe Watir::Locators::Element::SelectorBuilder do
 
       it 'raises exception when not a String or Regexp' do
         selector = {tag_name: 7}
-        msg = /expected one of \[String, Regexp, Symbol\], got 7:(Fixnum|Integer)/
+        msg = /expected one of \[String, Regexp, Symbol\], got 7:Integer/
 
         expect { selector_builder.build(selector) }.to raise_exception TypeError, msg
       end
@@ -186,14 +186,14 @@ describe Watir::Locators::Element::SelectorBuilder do
 
       it 'raises exception when not a String or Regexp or Array' do
         selector = {class: 7}
-        msg = /expected one of \[String, Regexp, TrueClass, FalseClass\], got 7:(Fixnum|Integer)/
+        msg = /expected one of \[String, Regexp, TrueClass, FalseClass\], got 7:Integer/
 
         expect { selector_builder.build(selector) }.to raise_exception TypeError, msg
       end
 
       it 'raises exception when Array values are not a String or Regexp' do
         selector = {class: [7]}
-        msg = /expected one of \[String, Regexp, TrueClass, FalseClass\], got 7:(Fixnum|Integer)/
+        msg = /expected one of \[String, Regexp, TrueClass, FalseClass\], got 7:Integer/
 
         expect { selector_builder.build(selector) }.to raise_exception TypeError, msg
       end
@@ -244,14 +244,14 @@ describe Watir::Locators::Element::SelectorBuilder do
 
       it 'raises exception when attribute value is not a Boolean, String or Regexp' do
         selector = {foo: 7}
-        msg = /expected one of \[String, Regexp, TrueClass, FalseClass\], got 7:(Fixnum|Integer)/
+        msg = /expected one of \[String, Regexp, TrueClass, FalseClass\], got 7:Integer/
 
         expect { selector_builder.build(selector) }.to raise_exception TypeError, msg
       end
 
       it 'raises exception when attribute key is not a String or Regexp' do
         selector = {7 => 'foo'}
-        msg = /Unable to build XPath using 7:(Fixnum|Integer)/
+        msg = /Unable to build XPath using 7:Integer/
 
         expect { selector_builder.build(selector) }.to raise_exception Watir::Exception::LocatorException, msg
       end
@@ -292,7 +292,7 @@ describe Watir::Locators::Element::SelectorBuilder do
 
       it 'raises exception when text is not a String or Regexp' do
         selector = {text: 7}
-        msg = /expected one of \[String, Regexp\], got 7:(Fixnum|Integer)/
+        msg = /expected one of \[String, Regexp\], got 7:Integer/
 
         expect { selector_builder.build(selector) }.to raise_exception TypeError, msg
       end
@@ -665,7 +665,7 @@ describe Watir::Locators::Element::SelectorBuilder do
 
       it 'raises exception when visible text is not a String or Regexp' do
         selector = {visible_text: 7}
-        msg = /expected one of \[String, Regexp\], got 7:(Fixnum|Integer)/
+        msg = /expected one of \[String, Regexp\], got 7:Integer/
 
         expect { selector_builder.build(selector) }.to raise_exception TypeError, msg
       end

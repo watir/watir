@@ -12,6 +12,7 @@ module Watir
 
       self.value = path
     end
+    alias upload set
 
     #
     # Sets the file field to the given path

@@ -61,7 +61,7 @@ end
 
       if extractor.errors.any?
         puts "\n\n<======================= ERRORS =======================>\n\n"
-        puts extractor.errors.join("\n" + '=' * 80 + "\n")
+        puts extractor.errors.join("\n#{'=' * 80}\n")
       end
     end
 
@@ -115,7 +115,7 @@ namespace :changes do
 
   desc 'Print latest diff'
   task print: :differ do
-    VersionDiffer.new.print_latest(STDOUT)
+    VersionDiffer.new.print_latest($stdout)
   end
 end
 

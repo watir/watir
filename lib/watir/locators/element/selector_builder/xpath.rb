@@ -46,9 +46,10 @@ module Watir
           end
 
           def predicate_expression(key, val)
-            if val.eql? true
+            case val
+            when true
               attribute_presence(key)
-            elsif val.eql? false
+            when false
               attribute_absence(key)
             else
               equal_pair(key, val)
@@ -57,7 +58,8 @@ module Watir
 
           def predicate_conversion(key, regexp)
             downcase = case_insensitive_attribute?(key) || regexp.casefold?
-            lhs = lhs_for(key, downcase)
+
+            lhs = lhs_for(key, downcase: downcase)
 
             results = RegexpDisassembler.new(regexp).substrings
 
@@ -200,7 +202,7 @@ module Watir
             regexp.casefold? ? !results.first.casecmp(regexp.source).zero? : results.first != regexp.source
           end
 
-          def lhs_for(key, downcase = false)
+          def lhs_for(key, downcase: false)
             case key
             when String
               "@#{key}"
@@ -211,7 +213,7 @@ module Watir
             when :text
               'normalize-space()'
             when :contains_text
-              'text()'
+              'normalize-space()'
             when ::Symbol
               lhs = "@#{key.to_s.tr('_', '-')}"
               downcase ? XpathSupport.downcase(lhs) : lhs
@@ -221,11 +223,11 @@ module Watir
           end
 
           def attribute_presence(attribute)
-            lhs_for(attribute, false)
+            lhs_for(attribute)
           end
 
           def attribute_absence(attribute)
-            lhs = lhs_for(attribute, false)
+            lhs = lhs_for(attribute)
             "not(#{lhs})"
           end
 
@@ -238,7 +240,7 @@ module Watir
             else
               downcase = case_insensitive_attribute?(key)
 
-              lhs = lhs_for(key, downcase)
+              lhs = lhs_for(key, downcase: downcase)
               rhs = XpathSupport.escape(value)
               rhs = XpathSupport.downcase(rhs) if downcase
 

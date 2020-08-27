@@ -134,8 +134,8 @@ module Watir
       @element
     end
 
-    def respond_to_missing?(meth, _include_private = false)
-      @driver.respond_to?(meth) || @element.respond_to?(meth) || super
+    def respond_to_missing?(meth, _include_private)
+      @driver.respond_to?(meth) || @element.respond_to?(meth) || super(meth, false)
     end
 
     def method_missing(meth, *args, &blk)

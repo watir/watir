@@ -10,6 +10,10 @@ module WatirSpec
       def messages
         browser.div(id: 'messages').divs.map(&:text)
       end
+
+      def event_log
+        browser.div(id: 'log').wait_until(&:present?).ps.map(&:text)
+      end
     end
 
     module_function

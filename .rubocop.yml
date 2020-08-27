@@ -1,46 +1,36 @@
-# Offense count: 144
-# Cop supports --auto-correct.
-# Configuration parameters: AllowAdjacentOneLineDefs, NumberOfEmptyLines.
-Layout/EmptyLineBetweenDefs:
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  TargetRubyVersion: 2.5.8
+  NewCops: enable
   Exclude:
     - 'lib/watir/elements/html_elements.rb'
     - 'lib/watir/elements/svg_elements.rb'
 
-# Offense count: 2
-# Cop supports --auto-correct.
-Layout/EmptyLines:
-  Exclude:
-    - 'lib/watir/elements/html_elements.rb'
-    - 'lib/watir/elements/svg_elements.rb'
+Layout/LineLength:
+  Max: 120
 
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: empty_lines, empty_lines_except_namespace, empty_lines_special, no_empty_lines
-Layout/EmptyLinesAroundModuleBody:
-  Exclude:
-    - 'lib/watir/elements/html_elements.rb'
-    - 'lib/watir/elements/svg_elements.rb'
-
-# Offense count: 85
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, EnforcedStyleForEmptyBraces.
-# SupportedStyles: space, no_space, compact
-# SupportedStylesForEmptyBraces: space, no_space
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
-
-# Offense count: 1
-Lint/HandleExceptions:
-  Exclude:
-    - 'lib/watirspec.rb'
 
 Lint/UnifiedInteger:
   Exclude:
   - 'lib/watir/locators/element/selector_builder.rb'
 
-# Configuration parameters: CountComments, ExcludedMethods.
-# ExcludedMethods: refine
+# Default: 17
+Metrics/AbcSize:
+  Max: 20
+  Exclude:
+    - 'lib/watir/capabilities.rb'
+    - 'lib/watir/locators/element/selector_builder.rb'
+    - 'lib/watir/locators/element/selector_builder/regexp_disassembler.rb'
+    - 'lib/watir/locators/element/selector_builder/xpath.rb'
+    - 'lib/watir/locators/element/locator.rb'
+    - 'lib/watir/generator/base/generator.rb'
+    - 'lib/watir/generator/base/visitor.rb'
+    - 'spec/locator_spec_helper.rb'
+    - 'spec/watirspec_helper.rb'
+
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
@@ -48,21 +38,6 @@ Metrics/BlockLength:
     - 'watir.gemspec'
     - 'Rakefile'
 
-## Configuration parameters: CountComments.
-Metrics/ModuleLength:
-  Exclude:
-    - 'lib/watir/elements/html_elements.rb'
-    - 'lib/watir/elements/svg_elements.rb'
-
-# Configuration parameters: CountComments.
-Metrics/MethodLength:
-  Max: 18
-  Exclude:
-  - 'lib/watir/locators/element/selector_builder.rb'
-  - 'lib/watir/locators/element/selector_builder/xpath.rb'
-  - 'lib/watir/locators/element/selector_builder/regexp_disassembler.rb'
-
-# Configuration parameters: CountComments.
 Metrics/ClassLength:
   Max: 93
   Exclude:
@@ -77,42 +52,24 @@ Metrics/ClassLength:
     - 'lib/watir/generator/base/spec_extractor.rb'
     - 'lib/watir/element_collection.rb'
 
+# Default: 7
+Metrics/CyclomaticComplexity:
+  Max: 9
+  Exclude:
+    - 'lib/watir/locators/element/selector_builder.rb'
+
+# Configuration parameters: CountComments.
+Metrics/MethodLength:
+  Max: 18
+  Exclude:
+    - 'lib/watir/locators/element/selector_builder.rb'
+    - 'lib/watir/locators/element/selector_builder/xpath.rb'
+    - 'lib/watir/locators/element/selector_builder/regexp_disassembler.rb'
+
+# Default: 8
 Metrics/PerceivedComplexity:
   Max: 10
 
-Metrics/CyclomaticComplexity:
-  Max: 8
-  Exclude:
-  - 'lib/watir/locators/element/selector_builder.rb'
-
-Metrics/AbcSize:
-  Max: 21
-  Exclude:
-    - 'lib/watir/locators/element/selector_builder.rb'
-    - 'lib/watir/locators/element/selector_builder/regexp_disassembler.rb'
-    - 'lib/watir/locators/element/selector_builder/xpath.rb'
-    - 'lib/watir/locators/element/locator.rb'
-    - 'lib/watir/generator/base/generator.rb'
-    - 'lib/watir/generator/base/visitor.rb'
-    - 'spec/locator_spec_helper.rb'
-
-# TODO: fix with Watir 7
-# Configuration parameters: CountKeywordArgs.
-Metrics/ParameterLists:
-  Exclude:
-    - 'lib/watir/wait.rb'
-
-# Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
-# URISchemes: http, https
-Metrics/LineLength:
-  Max: 120
-
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, ProceduralMethods, FunctionalMethods, IgnoredMethods.
-# SupportedStyles: line_count_based, semantic, braces_for_chaining
-# ProceduralMethods: benchmark, bm, bmbm, create, each_with_object, measure, new, realtime, tap, with_object
-# FunctionalMethods: let, let!, subject, watch
-# IgnoredMethods: lambda, proc, it
 Style/BlockDelimiters:
   EnforcedStyle: braces_for_chaining
 
@@ -122,44 +79,12 @@ Style/CommentedKeyword:
 Style/DoubleNegation:
   Enabled: false
 
-## Configuration parameters: AllowedVariables.
 Style/GlobalVars:
   AllowedVariables:
     - $browser
 
-Style/RegexpLiteral:
-  Exclude:
-    - 'spec/watirspec/selector_builder/element_spec.rb'
-
-### Cop supports --auto-correct.
-### Configuration parameters: EnforcedStyle, ConsistentQuotesInMultiline.
-## SupportedStyles: single_quotes, double_quotes
-Style/StringLiterals:
-  Exclude:
-    - 'lib/watir/elements/html_elements.rb'
-    - 'lib/watir/elements/svg_elements.rb'
-
-Style/MethodCallWithoutArgsParentheses:
+Style/HashEachMethods:
   Enabled: false
 
-# TODO: I can't tell if this applies
-## Configuration parameters: EnforcedStyle.
-## SupportedStyles: annotated, template, unannotated
-Style/FormatStringToken:
-  Exclude:
-    - 'lib/watir/browser.rb'
-    - 'lib/watir/locators/text_field/selector_builder/xpath.rb'
-    - 'lib/watir/window.rb'
-
-Style/Documentation:
+Style/OptionalBooleanParameter:
   Enabled: false
-
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: when_needed, always, never
-Style/FrozenStringLiteralComment:
-  Enabled: false
-
-Naming/FileName:
-  Exclude:
-    - 'lib/watir-webdriver.rb'

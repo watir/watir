@@ -233,7 +233,7 @@ module Watir
 
         matches_title && matches_url
       end
-    rescue Selenium::WebDriver::Error::NoSuchWindowError, Selenium::WebDriver::Error::NoSuchDriverError
+    rescue Selenium::WebDriver::Error::NoSuchWindowError
       # the window may disappear while we're iterating.
       false
     end

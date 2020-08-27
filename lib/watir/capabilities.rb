@@ -25,7 +25,11 @@ module Watir
 
     def process_arguments
       url = @options.delete(:url)
-      @selenium_opts[:url] = url if url
+      if url
+        @selenium_opts[:url] = url
+      elsif @options.key?(:service)
+        @selenium_opts[:service] = options.delete(:service)
+      end
 
       create_http_client
 
@@ -63,7 +67,6 @@ module Watir
     end
 
     # TODO: - this will get addressed with Capabilities Update
-    # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/PerceivedComplexity:
     # rubocop:disable Metrics/CyclomaticComplexity::
@@ -82,7 +85,7 @@ module Watir
           browser_options[:args] += ['--headless', '--disable-gpu']
         end
         @selenium_opts[:options] = browser_options if browser_options.is_a? Selenium::WebDriver::Chrome::Options
-        @selenium_opts[:options] ||= Selenium::WebDriver::Chrome::Options.new(browser_options)
+        @selenium_opts[:options] ||= Selenium::WebDriver::Chrome::Options.new(**browser_options)
       when :firefox
         profile = @options.delete(:profile)
         if browser_options.is_a? Selenium::WebDriver::Firefox::Options
@@ -97,7 +100,7 @@ module Watir
           browser_options[:args] ||= []
           browser_options[:args] += ['--headless']
         end
-        @selenium_opts[:options] ||= Selenium::WebDriver::Firefox::Options.new(browser_options)
+        @selenium_opts[:options] ||= Selenium::WebDriver::Firefox::Options.new(**browser_options)
         @selenium_opts[:options].profile = profile if profile
       when :safari
         Selenium::WebDriver::Safari.technology_preview! if @options.delete(:technology_preview)
@@ -120,13 +123,13 @@ module Watir
         end
         unless browser_options.is_a? Selenium::WebDriver::IE::Options
           ie_caps = browser_options.select { |k| Selenium::WebDriver::IE::Options::CAPABILITIES.include?(k) }
-          browser_options = Selenium::WebDriver::IE::Options.new(browser_options)
+          browser_options = Selenium::WebDriver::IE::Options.new(**browser_options)
           ie_caps.each { |k, v| browser_options.add_option(k, v) }
         end
         @selenium_opts[:options] = browser_options
       end
     end
-    # rubocop:enable Metrics/AbcSize
+
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/PerceivedComplexity:
     # rubocop:enable Metrics/CyclomaticComplexity::

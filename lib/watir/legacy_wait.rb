@@ -10,7 +10,7 @@ module Watir
     end
 
     def respond_to_missing?(*args)
-      @element.respond_to?(*args)
+      @element.respond_to?(*args) || super
     end
 
     def method_missing(method, *args, &block)

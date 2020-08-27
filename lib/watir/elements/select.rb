@@ -170,8 +170,8 @@ module Watir
         str_or_rx.inspect.sub('\\A', '^')
                  .sub('\\Z', '$')
                  .sub('\\z', '$')
-                 .sub(%r{^\/}, '')
-                 .sub(%r{\/[a-z]*$}, '')
+                 .sub(%r{^/}, '')
+                 .sub(%r{/[a-z]*$}, '')
                  .gsub(/\(\?#.+\)/, '')
                  .gsub(/\(\?-\w+:/, '(')
       else
