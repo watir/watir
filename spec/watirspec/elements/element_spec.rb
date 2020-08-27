@@ -121,13 +121,13 @@ describe 'Element' do
 
     it 'raises exception unless value is a String or a RegExp' do
       browser.goto WatirSpec.url_for('non_control_elements.html')
-      msg = /expected one of \[String, Regexp\], got 7\:(Fixnum|Integer)/
+      msg = /expected one of \[String, Regexp\], got 7:Integer/
       expect { browser.element(visible_text: 7).exists? }.to raise_exception(TypeError, msg)
     end
 
     it 'raises exception unless key is valid' do
       browser.goto WatirSpec.url_for('non_control_elements.html')
-      msg = /Unable to build XPath using 7:(Fixnum|Integer)/
+      msg = /Unable to build XPath using 7:Integer/
       expect { browser.element(7 => /foo/).exists? }.to raise_exception(Watir::Exception::Error, msg)
     end
   end
@@ -231,14 +231,14 @@ describe 'Element' do
 
   describe '#visible?' do
     it 'returns true if the element is visible' do
-      msg = /WARN Watir \[\"visible_element\"\]/
+      msg = /WARN Watir \["visible_element"\]/
       expect {
         expect(browser.text_field(id: 'new_user_email')).to be_visible
       }.to output(msg).to_stdout_from_any_process
     end
 
     it 'raises UnknownObjectException exception if the element does not exist' do
-      msg = /WARN Watir \[\"visible_element\"\]/
+      msg = /WARN Watir \["visible_element"\]/
       expect {
         expect { browser.text_field(id: 'no_such_id').visible? }.to raise_unknown_object_exception
       }.to output(msg).to_stdout_from_any_process
@@ -253,7 +253,7 @@ describe 'Element' do
     end
 
     it "returns true if the element has style='visibility: visible' even if parent has style='visibility: hidden'" do
-      msg = /WARN Watir \[\"visible_element\"\]/
+      msg = /WARN Watir \["visible_element"\]/
       expect {
         expect(browser.div(id: 'visible_child')).to be_visible
       }.to output(msg).to_stdout_from_any_process
@@ -264,7 +264,7 @@ describe 'Element' do
     end
 
     it "returns false if the element has style='display: none;'" do
-      msg = /WARN Watir \[\"visible_element\"\]/
+      msg = /WARN Watir \["visible_element"\]/
       expect {
         expect(browser.div(id: 'changed_language')).to_not be_visible
       }.to output(msg).to_stdout_from_any_process
@@ -538,13 +538,11 @@ describe 'Element' do
     bug 'Element has been located but Safari does not recognize it', :safari do
       bug 'https://bugs.chromium.org/p/chromedriver/issues/detail?id=2732', :w3c do
         it 'accepts modifiers' do
-          begin
-            browser.a.click(:shift)
-            browser.wait_until { |b| b.windows.size > 1 }
-            expect(browser.windows.size).to eq 2
-          ensure
-            browser.windows.reject(&:current?).each(&:close)
-          end
+          browser.a.click(:shift)
+          browser.wait_until { |b| b.windows.size > 1 }
+          expect(browser.windows.size).to eq 2
+        ensure
+          browser.windows.reject(&:current?).each(&:close)
         end
       end
     end
@@ -681,6 +679,9 @@ describe 'Element' do
 
   describe '#scroll_into_view' do
     it 'scrolls element into view' do
+      initial_size = browser.window.size
+      browser.window.resize_to(initial_size.width, 800)
+
       el = browser.button(name: 'new_user_image')
       element_center = el.center['y']
 

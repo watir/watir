@@ -45,9 +45,10 @@ module Watir
           end
 
           def predicate_expression(key, val)
-            if val.eql? true
+            case val
+            when true
               attribute_presence(key)
-            elsif val.eql? false
+            when false
               attribute_absence(key)
             else
               equal_pair(key, val)
@@ -59,7 +60,7 @@ module Watir
             # https://github.com/watir/watir/issues/72
             downcase = key == :type || regexp.casefold?
 
-            lhs = lhs_for(key, downcase)
+            lhs = lhs_for(key, downcase: downcase)
 
             results = RegexpDisassembler.new(regexp).substrings
 
@@ -200,7 +201,7 @@ module Watir
             regexp.casefold? ? !results.first.casecmp(regexp.source).zero? : results.first != regexp.source
           end
 
-          def lhs_for(key, downcase = false)
+          def lhs_for(key, downcase: false)
             case key
             when String
               "@#{key}"
@@ -221,11 +222,11 @@ module Watir
           end
 
           def attribute_presence(attribute)
-            lhs_for(attribute, false)
+            lhs_for(attribute)
           end
 
           def attribute_absence(attribute)
-            lhs = lhs_for(attribute, false)
+            lhs = lhs_for(attribute)
             "not(#{lhs})"
           end
 
@@ -236,7 +237,7 @@ module Watir
 
               negate_xpath ? "not(#{expression})" : expression
             else
-              "#{lhs_for(key, key == :type)}=#{XpathSupport.escape value}"
+              "#{lhs_for(key, downcase: key == :type)}=#{XpathSupport.escape value}"
             end
           end
         end

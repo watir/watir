@@ -34,8 +34,7 @@ module Watir
     end
 
     def ignore(ids)
-      ids = [ids] unless ids.is_a? Array
-      @ignored.concat ids.map(&:to_s)
+      @ignored.concat Array(ids).map(&:to_s)
     end
 
     def output=(io)

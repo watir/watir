@@ -6,11 +6,10 @@ module Watir
         attr_reader :custom_attributes, :built
 
         WILDCARD_ATTRIBUTE = /^(aria|data)_(.+)$/.freeze
-        INTEGER_CLASS = Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.4') ? Fixnum : Integer
         VALID_WHATS = Hash.new([String, Regexp, TrueClass, FalseClass]).merge(adjacent: [::Symbol],
                                                                               xpath: [String],
                                                                               css: [String],
-                                                                              index: [INTEGER_CLASS],
+                                                                              index: [Integer],
                                                                               visible: [TrueClass, FalseClass],
                                                                               tag_name: [String, Regexp, ::Symbol],
                                                                               visible_text: [String, Regexp],
@@ -53,11 +52,7 @@ module Watir
           if @selector.key?(:class) || @selector.key?(:class_name)
             classes = ([@selector[:class]].flatten + [@selector.delete(:class_name)].flatten).compact
 
-            classes.each do |class_name|
-              next unless class_name.is_a?(String) && class_name.strip.include?(' ')
-
-              deprecate_class_array(class_name)
-            end
+            deprecate_class_array(classes)
 
             @selector[:class] = classes
           end
@@ -83,11 +78,15 @@ module Watir
           scope_invalid_locators.empty?
         end
 
-        def deprecate_class_array(class_name)
-          dep = "Using the :class locator to locate multiple classes with a String value (i.e. \"#{class_name}\")"
-          Watir.logger.deprecate dep,
-                                 "Array (e.g. #{class_name.split})",
-                                 ids: [:class_array]
+        def deprecate_class_array(class_array)
+          class_array.each do |class_name|
+            next unless class_name.is_a?(String) && class_name.strip.include?(' ')
+
+            dep = "Using the :class locator to locate multiple classes with a String value (i.e. \"#{class_name}\")"
+            Watir.logger.deprecate dep,
+                                   "Array (e.g. #{class_name.split})",
+                                   ids: [:class_array]
+          end
         end
 
         def check_type(how, what)

@@ -117,6 +117,7 @@ class LocalConfig
 
   class SelectorListener < Selenium::WebDriver::Support::AbstractEventListener
     def initialize
+      super
       @counts = Hash.new(0)
     end
 

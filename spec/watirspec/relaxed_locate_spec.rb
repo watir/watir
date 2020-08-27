@@ -61,12 +61,10 @@ describe 'Watir#relaxed_locate?' do
       end
 
       it 'ensures all checks happen once even if time has expired' do
-        begin
-          Watir.default_timeout = -1
-          expect { browser.link.click }.to_not raise_exception
-        ensure
-          Watir.default_timeout = 30
-        end
+        Watir.default_timeout = -1
+        expect { browser.link.click }.to_not raise_exception
+      ensure
+        Watir.default_timeout = 30
       end
 
       it 'does not wait for parent element to be present when querying child element' do

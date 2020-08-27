@@ -548,7 +548,7 @@ module Watir
     #
 
     def to_subtype
-      tag = tag_name()
+      tag = tag_name
       klass = if tag == 'input'
                 case attribute_value(:type)
                 when 'checkbox'
@@ -777,9 +777,7 @@ module Watir
     # TODO: - this will get addressed with Watir::Executor implementation
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
-    # rubocop:disable Metrics/PerceivedComplexity
     # rubocop:disable Metrics/CyclomaticComplexity:
-    # rubocop:disable Lint/ShadowedException
     def element_call(precondition = nil, &block)
       caller = caller_locations(1, 1)[0].label
       already_locked = Wait.timer.locked?
@@ -801,7 +799,7 @@ module Watir
       rescue Selenium::WebDriver::Error::StaleElementReferenceError
         reset!
         retry
-        # TODO - InvalidElementStateError is deprecated, so no longer calling `raise_disabled`
+        # TODO: - InvalidElementStateError is deprecated, so no longer calling `raise_disabled`
         # need a better way to handle this
       rescue Selenium::WebDriver::Error::ElementNotInteractableError
         raise_present unless Wait.timer.remaining_time.positive?
@@ -816,9 +814,8 @@ module Watir
     end
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
-    # rubocop:enable Metrics/PerceivedComplexity
+
     # rubocop:enable Metrics/CyclomaticComplexity:
-    # rubocop:enable Lint/ShadowedException
 
     def check_condition(condition, caller)
       Watir.logger.debug "<- `Verifying precondition #{inspect}##{condition} for #{caller}`"

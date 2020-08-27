@@ -179,7 +179,7 @@ describe 'Div' do
     end
 
     it 'includes custom message if element with a custom attribute does not exist' do
-      message = /Watir treated \[\"custom_attribute\"\] as a non-HTML compliant attribute, ensure that was intended/
+      message = /Watir treated \["custom_attribute"\] as a non-HTML compliant attribute, ensure that was intended/
       expect { browser.div(custom_attribute: 'not_there').click }.to raise_unknown_object_exception(message)
     end
   end

@@ -99,8 +99,8 @@ module Watir
     # @yieldparam [#call] after_hook Object responding to call
     #
 
-    def each
-      @after_hooks.each { |after_hook| yield after_hook }
+    def each(&blk)
+      @after_hooks.each { |after_hook| blk.call(after_hook) }
     end
 
     #
