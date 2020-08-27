@@ -13,13 +13,13 @@ describe 'IFrames' do
 
   describe 'eql?' do
     it 'matches equality of iframe with that from a collection' do
-      expect(browser.iframes.last).to eq browser.iframe(id: 'iframe_2')
+      expect(browser.iframes.last).to eq browser.iframe(id: 'iframe_3')
     end
   end
 
   describe '#length' do
     it 'returns the correct number of iframes' do
-      expect(browser.iframes.length).to eq 2
+      expect(browser.iframes.length).to eq 3
     end
   end
 
