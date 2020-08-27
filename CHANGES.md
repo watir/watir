@@ -1,3 +1,19 @@
+### 6.17.0 (2020-08-27)
+* Require Ruby > 2.5
+* Implement Logger#selenium= to set selenium level from Watir
+* Implement FileField#upload
+* Fix bug with staleness handling in #exist and #present? (#853 & #852)
+* Fix bug when locating elements by text with RegExp (#866 #871)
+* Implement modifiers for `Element#right_click` (thanks Lakshya Kapoor #861)
+* Updated locator code to adhere to spec on what attributes are case sensitive (#507 #856)
+* Fix locating bug when iframe is nested under another element (thanks Matthew Mazaika #885 #886)
+* Deprecate Element#scroll_into_view in favor of the new Scroll methods (#884)
+* Fix threading bugs by allowing each Browser instance its own Timer (#881)
+* Allow adjacent locators to return Input subtype when applicable (#878)
+* Removed unnecessary reference to rubyforge (thanks olleolleolle #874)
+* Removed deprecated Selenium classes (thanks joesho112358 #867)
+* Add support for :service parameter for initializing Browser
+
 ### 6.16.5 (2018-12-25)
 
 * Fix bug with nested elements using scopes (#842)
