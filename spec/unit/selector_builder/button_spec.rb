@@ -7,10 +7,10 @@ describe Watir::Locators::Button::SelectorBuilder do
   let(:uppercase) { 'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ' }
   let(:lowercase) { 'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ' }
   let(:default_types) do
-    "translate(@type,'#{uppercase}','#{lowercase}')='button' or" \
-" translate(@type,'#{uppercase}','#{lowercase}')='reset' or"\
-" translate(@type,'#{uppercase}','#{lowercase}')='submit' or"\
-" translate(@type,'#{uppercase}','#{lowercase}')='image'"
+    "translate(@type,'#{uppercase}','#{lowercase}')=translate('button','#{uppercase}','#{lowercase}') or " \
+    "translate(@type,'#{uppercase}','#{lowercase}')=translate('reset','#{uppercase}','#{lowercase}') or "\
+    "translate(@type,'#{uppercase}','#{lowercase}')=translate('submit','#{uppercase}','#{lowercase}') or "\
+    "translate(@type,'#{uppercase}','#{lowercase}')=translate('image','#{uppercase}','#{lowercase}')"
   end
 
   describe '#build' do
@@ -36,9 +36,10 @@ describe Watir::Locators::Button::SelectorBuilder do
 
       it 'locates input or button element with specified type' do
         selector = {type: 'reset'}
+        type = "translate('reset','#{uppercase}','#{lowercase}')"
         built = {xpath: ".//*[(local-name()='button' and " \
-"translate(@type,'#{uppercase}','#{lowercase}')='reset') or " \
-"(local-name()='input' and (translate(@type,'#{uppercase}','#{lowercase}')='reset'))]"}
+"translate(@type,'#{uppercase}','#{lowercase}')=#{type}) or " \
+"(local-name()='input' and (translate(@type,'#{uppercase}','#{lowercase}')=#{type}))]"}
         expect(selector_builder.build(selector)).to eq built
       end
 

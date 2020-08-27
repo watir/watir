@@ -574,7 +574,10 @@ describe Watir::Locators::Element::SelectorBuilder do
         selector = {action: /ME/i}
         built = {xpath: './/*[contains(translate(@action,' \
 "'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'," \
-"'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ'), 'me')]"}
+"'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ'), " \
+"translate('me'," \
+"'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'," \
+"'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ'))]"}
 
         expect(selector_builder.build(selector)).to eq built
       end
@@ -760,6 +763,52 @@ describe Watir::Locators::Element::SelectorBuilder do
         build_selector = selector_builder.build(selector)
         expect(build_selector.delete(:scope)).to_not be_nil
         expect(build_selector).to eq built
+      end
+    end
+
+    context 'with case-insensitive attributes' do
+      it 'respects case when locating uknown element with uknown attribute' do
+        expect(selector_builder.build(hreflang: 'en')).to eq(xpath: ".//*[@hreflang='en']")
+        expect(selector_builder.build(hreflang: /en/)).to eq(xpath: ".//*[contains(@hreflang, 'en')]")
+      end
+
+      it 'ignores case when locating uknown element with defined attribute' do
+        lhs = 'translate(@lang,' \
+  "'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'," \
+  "'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ')"
+        rhs = "translate('en'," \
+  "'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'," \
+  "'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ')"
+        expect(selector_builder.build(lang: 'en')).to eq(xpath: ".//*[#{lhs}=#{rhs}]")
+        expect(selector_builder.build(lang: /en/)).to eq(xpath: ".//*[contains(#{lhs}, #{rhs})]")
+        expect(selector_builder.build(tag_name: /a/, lang: 'en'))
+          .to eq(xpath: ".//*[contains(local-name(), 'a')][#{lhs}=#{rhs}]")
+        expect(selector_builder.build(tag_name: /a/, lang: /en/))
+          .to eq(xpath: ".//*[contains(local-name(), 'a')][contains(#{lhs}, #{rhs})]")
+      end
+
+      it 'ignores case when attribute is defined for element' do
+        lhs = 'translate(@hreflang,' \
+  "'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'," \
+  "'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ')"
+        rhs = "translate('en'," \
+  "'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'," \
+  "'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ')"
+        expect(selector_builder.build(tag_name: 'a', hreflang: 'en'))
+          .to eq(xpath: ".//*[local-name()='a'][#{lhs}=#{rhs}]")
+        expect(selector_builder.build(tag_name: 'a', hreflang: /en/))
+          .to eq(xpath: ".//*[local-name()='a'][contains(#{lhs}, #{rhs})]")
+      end
+
+      it 'respects case when attribute is not defined for element' do
+        expect(selector_builder.build(tag_name: 'table', hreflang: 'en'))
+          .to eq(xpath: ".//*[local-name()='table'][@hreflang='en']")
+        expect(selector_builder.build(tag_name: 'table', hreflang: /en/))
+          .to eq(xpath: ".//*[local-name()='table'][contains(@hreflang, 'en')]")
+        expect(selector_builder.build(tag_name: /a/, hreflang: 'en'))
+          .to eq(xpath: ".//*[contains(local-name(), 'a')][@hreflang='en']")
+        expect(selector_builder.build(tag_name: /a/, hreflang: /en/))
+          .to eq(xpath: ".//*[contains(local-name(), 'a')][contains(@hreflang, 'en')]")
       end
     end
   end
