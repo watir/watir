@@ -54,7 +54,7 @@ matrix:
         <<: *six
         <<: *firefox-latest
       - env: RAKE_TASK=spec:firefox
-        <<: *three
+        <<: *five
         <<: *firefox-latest
       - env: RAKE_TASK=spec:chrome
         <<: *seven

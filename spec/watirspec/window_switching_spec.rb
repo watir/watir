@@ -305,27 +305,29 @@ describe 'Window' do
       end
     end
 
-    it 'raises an exception when locating a window closed during lookup' do
-      browser.window(title: 'closeable window').use
-      browser.a(id: 'close-delay').click
+    bug 'https://github.com/mozilla/geckodriver/issues/1770', :firefox do
+      it 'raises an exception when locating a window closed during lookup' do
+        browser.window(title: 'closeable window').use
+        browser.a(id: 'close-delay').click
 
-      begin
-        module Watir
-          class Browser
-            alias title_old title
+        begin
+          module Watir
+            class Browser
+              alias title_old title
 
-            def title
-              sleep 0.5
-              title_old
+              def title
+                sleep 0.5
+                title_old
+              end
             end
           end
-        end
 
-        expect { browser.window(title: 'closeable window').use }.to raise_no_matching_window_exception
-      ensure
-        module Watir
-          class Browser
-            alias title title_old
+          expect { browser.window(title: 'closeable window').use }.to raise_no_matching_window_exception
+        ensure
+          module Watir
+            class Browser
+              alias title title_old
+            end
           end
         end
       end
