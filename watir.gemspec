@@ -33,7 +33,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'fuubar'
   s.add_development_dependency 'nokogiri'
   s.add_development_dependency 'pry'
-  s.add_development_dependency 'rake', '~> 0.9.2'
+  s.add_development_dependency 'rake', '>= 12.3.3'
   s.add_development_dependency 'rspec', '~> 3.0'
   s.add_development_dependency 'rspec-retry'
   s.add_development_dependency 'rubocop', '~> 0.59'
