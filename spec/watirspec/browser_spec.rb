@@ -285,13 +285,15 @@ describe 'Browser' do
 
       compliant_on :chrome do
         not_compliant_on :watigiri do
-          it 'takes port and driver_opt as arguments' do
+          it 'takes service as argument' do
             @original = WatirSpec.implementation.clone
             browser.close
             @opts = WatirSpec.implementation.browser_args.last
+            browser_name = WatirSpec.implementation.browser_args.first
 
-            @opts.merge!(port: '2314',
-                         driver_opts: {args: ['foo']},
+            service = Selenium::WebDriver::Service.send(browser_name, port: '2314', args: ['foo'])
+
+            @opts.merge!(service: service,
                          listener: LocalConfig::SelectorListener.new)
 
             @new_browser = WatirSpec.new_browser

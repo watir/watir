@@ -25,7 +25,11 @@ module Watir
 
     def process_arguments
       url = @options.delete(:url)
-      @selenium_opts[:url] = url if url
+      if url
+        @selenium_opts[:url] = url
+      else
+        @selenium_opts[:service] = options.delete(:service) if @options.key?(:service)
+      end
 
       create_http_client
 
