@@ -113,16 +113,14 @@ module Watir
     def xpath_adjacent(opt = {})
       plural = opt.delete(:plural)
       opt[:index] ||= 0 unless plural || opt.values.any? { |e| e.is_a? Regexp }
-      klass = if !plural && opt[:tag_name]
-                Watir.element_class_for(opt[:tag_name])
-              elsif !plural
-                HTMLElement
-              elsif opt[:tag_name]
-                Object.const_get("#{Watir.element_class_for(opt[:tag_name])}Collection")
-              else
-                HTMLElementCollection
-              end
-      klass.new(self, opt)
+      if !plural
+        el = Watir.element_class_for(opt[:tag_name] || '').new(self, opt)
+        el.is_a?(Input) ? el.to_subtype : el
+      elsif opt[:tag_name]
+        Object.const_get("#{Watir.element_class_for(opt[:tag_name])}Collection").new(self, opt)
+      else
+        HTMLElementCollection.new(self, opt)
+      end
     end
   end # Adjacent
 end # Watir
