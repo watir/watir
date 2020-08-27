@@ -1,4 +1,4 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
 gem 'webidl', path: File.expand_path('../webidl') if ENV['LOCAL_WEBIDL']
 
