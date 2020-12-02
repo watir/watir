@@ -1,3 +1,7 @@
+### Unreleased
+
+* Less strict version check for `regexp_parser` gem
+
 ### 6.17.0 (2020-08-27)
 * Require Ruby > 2.5
 * Implement Logger#selenium= to set selenium level from Watir
