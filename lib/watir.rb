@@ -99,5 +99,6 @@ require 'watir/elements/text_area'
 require 'watir/elements/text_field'
 require 'watir/elements/input'
 require 'watir/radio_set'
+require 'watir/shadow_root'
 
 require 'watir/aliases'

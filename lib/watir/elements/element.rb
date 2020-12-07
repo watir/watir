@@ -491,6 +491,16 @@ module Watir
     end
 
     #
+    # Returns shadow root of element
+    #
+    # @return [Watir::ShadowRoot]
+    #
+
+    def shadow_root
+      ShadowRoot.new(self, {})
+    end
+
+    #
     # Returns true if this element is present and enabled on the page.
     #
     # @return [Boolean]
