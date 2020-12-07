@@ -31,7 +31,15 @@ module Watir
           inspected = selector.inspect
           scope = @query_scope unless @selector.key?(:scope) || @query_scope.is_a?(Watir::Browser)
 
-          @built = wd_locators.empty? ? build_wd_selector(@selector) : @selector
+          @built =
+              if scope.kind_of? Watir::ShadowRoot
+                raise ArgumentError, ":xpath not supported when locating elements from shadow root" if @selector[:xpath]
+
+                @selector[:css] ||= '*'
+                @selector
+              else
+                wd_locators.empty? ? build_wd_selector(@selector) : @selector
+              end
           @built.delete(:index) if @built[:index]&.zero?
           @built[:scope] = scope if scope
 
@@ -70,7 +78,7 @@ module Watir
         def merge_scope?
           return false unless ((Watir::Locators::W3C_FINDERS + [:adjacent]) & @selector.keys).empty?
 
-          return false if [Watir::Browser, Watir::IFrame].any? { |k| @query_scope.is_a?(k) }
+          return false if [Watir::Browser, Watir::IFrame, Watir::ShadowRoot].any? { |k| @query_scope.is_a?(k) }
 
           scope_invalid_locators = @query_scope.selector_builder.built.keys.reject { |key| key == wd_locator }
           scope_invalid_locators.empty?
