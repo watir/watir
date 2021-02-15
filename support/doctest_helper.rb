@@ -97,5 +97,3 @@ YARD::Doctest.configure do |doctest|
     end
   end
 end
-
-ENV['DISPLAY'] = ':99.0' if ENV['TRAVIS']
