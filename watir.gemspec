@@ -1,7 +1,6 @@
-lib = File.expand_path('lib', __dir__)
-$LOAD_PATH.unshift lib unless $LOAD_PATH.include?(lib)
+# frozen_string_literal: true
 
-require 'watir/version'
+require_relative 'lib/watir/version'
 
 Gem::Specification.new do |s|
   s.name = 'watir'
@@ -10,22 +9,25 @@ Gem::Specification.new do |s|
 
   s.platform = Gem::Platform::RUBY
   s.authors = ['Alex Rodionov', 'Titus Fortner', 'Justin Ko']
-  s.email = ['p0deje@gmail.com', 'titusfortner@gmail.com', 'jkotests@gmail.com ']
-  s.homepage = 'http://github.com/watir/watir'
+  s.email = %w[p0deje@gmail.com titusfortner@gmail.com jkotests@gmail.com]
+
+  s.homepage = 'http://watir.com'
   s.summary = 'Watir powered by Selenium'
-  s.description = <<~DESCRIPTION_MESSAGE
+  s.description = <<~DESCRIPTION
     Watir stands for Web Application Testing In Ruby
     It facilitates the writing of automated tests by mimicing the behavior of a user interacting with a website.
-  DESCRIPTION_MESSAGE
+  DESCRIPTION
 
   s.license = 'MIT'
-
-  s.files = `git ls-files`.split("\n")
-  s.test_files = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.executables = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
+  s.metadata = {
+    'changelog_uri' => 'https://github.com/watir/watir/blob/main/rb/CHANGES.md',
+    'source_code_uri' => 'https://github.com/watir/watir/tree/main/rb'
+  }
+  s.extra_rdoc_files = %w[LICENSE README.md CHANGES.md]
+  s.files = Dir.glob('{lib/**/*}')
   s.require_paths = ['lib']
 
-  s.add_dependency 'selenium-webdriver', '~> 3.6'
+  s.add_dependency 'selenium-webdriver', '~> 4.0.0.beta1'
   s.add_runtime_dependency 'regexp_parser', '>= 1.2', '< 3'
 
   s.add_development_dependency 'activesupport', '~> 4.0', '>= 4.1.11' # for pluralization during code generation
