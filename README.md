@@ -3,8 +3,10 @@
 Watir Powered By Selenium!
 
 [![Gem Version](https://badge.fury.io/rb/watir.svg)](http://badge.fury.io/rb/watir)
-[![Travis Status](https://travis-ci.org/watir/watir.svg?branch=master)](https://travis-ci.org/watir/watir)
-[![AppVeyor status](https://ci.appveyor.com/api/projects/status/9vbb7pp5p4uyoott/branch/master?svg=true)](https://ci.appveyor.com/project/p0deje/watir)
+[![Unit Tests](https://github.com/titusfortner/watir/workflows/Unit%20Tests/badge.svg)](https://github.com/watir/watir/actions?query=workflow%3A%22Unit+Tests%22)
+[![Mac Tests](https://github.com/titusfortner/watir/workflows/Mac%20Tests/badge.svg)](https://github.com/watir/watir/actions?query=workflow%3A%22Mac+Tests%22)
+[![Windows Tests](https://github.com/titusfortner/watir/workflows/Windows%20Tests/badge.svg)](https://github.com/watir/watir/actions?query=workflow%3A%22Windows+Tests%22)
+[![Linux Tests](https://github.com/titusfortner/watir/workflows/Linux%20Tests/badge.svg)](https://github.com/watir/watir/actions?query=workflow%3A%22Linux+Tests%22)
 [![Code Climate](https://codeclimate.com/github/watir/watir.svg)](https://codeclimate.com/github/watir/watir)
 [![Coverage Status](https://coveralls.io/repos/github/watir/watir/badge.svg?branch=master)](https://coveralls.io/github/watir/watir?branch=master)
 
@@ -69,11 +71,11 @@ $ bundle exec rake svg:update
 
 ## Specs
 
-#### Travis CI
+#### Github Actions
 
-Watir specs are run on [Travis CI](https://travis-ci.org/watir/watir).
+Watir specs are run with [Github Actions](https://github.com/watir/watir/workflows).
 
-Watir code is tested with 2.3, 2.4 and 2.5 versions in multiple browsers and with multiple configurations.
+Watir code is tested on Linux with latest versions of supported browsers and all active Ruby versions.
 
 #### Doctests
 
