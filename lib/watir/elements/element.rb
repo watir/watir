@@ -712,9 +712,7 @@ module Watir
 
     def wait_for_writable
       wait_for_enabled
-      unless Watir.relaxed_locate?
-        raise_writable unless !respond_to?(:readonly?) || !readonly?
-      end
+      raise_writable unless Watir.relaxed_locate? || (!respond_to?(:readonly?) || !readonly?)
 
       return if !respond_to?(:readonly?) || !readonly?
 

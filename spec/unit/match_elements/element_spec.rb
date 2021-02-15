@@ -377,6 +377,8 @@ describe Watir::Locators::Element::Matcher do
       it 'not thrown when still matched by text content' do
         @values_to_match = {text: /some visible/}
         allow(browser).to receive(:execute_script).and_return('some visible some hidden')
+        allow(browser).to receive(:timer).and_return(Watir::Wait::Timer.new)
+        allow(browser).to receive(:timer=).and_return(Watir::Wait::Timer.new)
 
         expect {
           expect(matcher.match(elements, values_to_match, filter)).to eq elements[1]
@@ -386,6 +388,8 @@ describe Watir::Locators::Element::Matcher do
       it 'not thrown with complex regexp matched by text content' do
         @values_to_match = {text: /some (in|)visible/}
         allow(browser).to receive(:execute_script).and_return('some visible some hidden')
+        allow(browser).to receive(:timer).and_return(Watir::Wait::Timer.new)
+        allow(browser).to receive(:timer=).and_return(Watir::Wait::Timer.new)
 
         expect {
           expect(matcher.match(elements, values_to_match, filter)).to eq elements[1]
@@ -396,6 +400,8 @@ describe Watir::Locators::Element::Matcher do
         it 'thrown when no longer matched by text content' do
           @values_to_match = {text: /some visible$/}
           allow(browser).to receive(:execute_script).and_return('some visible some hidden')
+          allow(browser).to receive(:timer).and_return(Watir::Wait::Timer.new)
+          allow(browser).to receive(:timer=).and_return(Watir::Wait::Timer.new)
 
           expect {
             expect(matcher.match(elements, values_to_match, filter)).to eq elements[1]

@@ -148,7 +148,8 @@ describe 'Browser' do
     end
   end
 
-  describe '#new' do
+  # TODO: Temporarily disabling this before moving it to unit tests
+  xdescribe '#new' do
     not_compliant_on :remote, :appveyor do
       context 'with parameters' do
         let(:url) { 'http://localhost:4544/wd/hub/' }
