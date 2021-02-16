@@ -72,21 +72,6 @@ module Watir
     end
 
     #
-    # Selects the option(s) whose value attribute matches the given string.
-    #
-    # @see +select+
-    #
-    # @param [String, Regexp] str_or_rx
-    # @raise [Watir::Exception::NoValueFoundException] if the value does not exist.
-    # @return [String] The option selected. If multiple options match, returns the first match
-    #
-
-    def select_value(str_or_rx)
-      Watir.logger.deprecate '#select_value', '#select', ids: [:select_value]
-      select_by str_or_rx
-    end
-
-    #
     # Returns true if any of the selected options' text or label matches the given value.
     #
     # @param [String, Regexp] str_or_rx

@@ -272,7 +272,7 @@ describe 'SelectList' do
       end
     end
 
-    it 'selects multiple options successiveley' do
+    it 'selects multiple options successively' do
       browser.select_list(name: 'new_user_languages').clear
       browser.select_list(name: 'new_user_languages').select('Danish')
       browser.select_list(name: 'new_user_languages').select('Swedish')
@@ -471,7 +471,13 @@ describe 'SelectList' do
       expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq list
     end
 
-    it 'selects all options in an Array' do
+    it 'selects all options matching Regexp' do
+      browser.select_list(name: 'new_user_languages').clear
+      browser.select_list(name: 'new_user_languages').select_all(/ish/)
+      expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq %w[Danish EN Swedish]
+    end
+
+    it 'selects all options matching Regexp in an Array' do
       browser.select_list(name: 'new_user_languages').clear
       browser.select_list(name: 'new_user_languages').select_all([/ish/, /Latin/])
       list = ['Danish', 'EN', 'Swedish', 'Azeri - Latin', 'Latin']
@@ -512,7 +518,13 @@ describe 'SelectList' do
       expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq list
     end
 
-    it 'selects all options in an Array' do
+    it 'selects all options matching Regexp' do
+      browser.select_list(name: 'new_user_languages').clear
+      browser.select_list(name: 'new_user_languages').select_all!(/ish/)
+      expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq %w[Danish EN Swedish]
+    end
+
+    it 'selects all options matching Regexp in an Array' do
       browser.select_list(name: 'new_user_languages').clear
       browser.select_list(name: 'new_user_languages').select_all!([/ish/, /Latin/])
       list = ['Danish', 'EN', 'Swedish', 'Azeri - Latin', 'Latin']
