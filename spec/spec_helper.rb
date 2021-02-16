@@ -31,5 +31,3 @@ if ENV['AUTOMATIC_RETRY']
     config.exceptions_to_retry = [IOError, Net::ReadTimeout]
   end
 end
-
-SELENIUM_SELECTORS = %i[css tag_name xpath link_text partial_link_text link].freeze
