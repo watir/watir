@@ -14,9 +14,11 @@ describe Watir::Locators::Element::Matcher do
                      wd_element(tag_name: 'input', attributes: {id: 'bfoo_id'}),
                      wd_element(tag_name: 'input', attributes: {id: 'foo_id'})]
 
-        label_wds = [wd_element(tag_name: 'label', text: 'foob'),
-                     wd_element(tag_name: 'label', text: 'bfoo'),
-                     wd_element(tag_name: 'label', text: 'foo')]
+        label_wds = [wd_element(tag_name: 'label'),
+                     wd_element(tag_name: 'label'),
+                     wd_element(tag_name: 'label')]
+
+        allow(browser).to receive(:execute_script).and_return('foob', 'Foo', 'foo')
 
         labels = [element(watir_element: Watir::Label, wd: label_wds[0], for: 'foob_id'),
                   element(watir_element: Watir::Label, wd: label_wds[1], for: 'bfoo_id'),
@@ -27,7 +29,6 @@ describe Watir::Locators::Element::Matcher do
         expect(labels[1]).not_to receive(:for)
 
         allow(query_scope).to receive(:labels).and_return(labels)
-        allow(matcher).to receive(:deprecate_text_regexp).exactly(3).times
         allow_any_instance_of(Watir::Input).to receive(:wd).and_return(input_wds[2], input_wds[2])
 
         values_to_match = {label_element: 'foo'}
@@ -44,9 +45,11 @@ describe Watir::Locators::Element::Matcher do
                   element(watir_element: Watir::Input, wd: input_wds[1]),
                   element(watir_element: Watir::Input, wd: input_wds[2])]
 
-        label_wds = [wd_element(tag_name: 'label', text: 'foob'),
-                     wd_element(tag_name: 'label', text: 'Foo'),
-                     wd_element(tag_name: 'label', text: 'foo')]
+        label_wds = [wd_element(tag_name: 'label'),
+                     wd_element(tag_name: 'label'),
+                     wd_element(tag_name: 'label')]
+
+        allow(browser).to receive(:execute_script).and_return('foob', 'Foo', 'foo')
 
         labels = [element(watir_element: Watir::Label, wd: label_wds[0], for: '', input: inputs[0]),
                   element(watir_element: Watir::Label, wd: label_wds[1], for: '', input: inputs[1]),
@@ -57,7 +60,6 @@ describe Watir::Locators::Element::Matcher do
         expect(labels[1]).not_to receive(:for)
 
         allow(query_scope).to receive(:labels).and_return(labels)
-        allow(matcher).to receive(:deprecate_text_regexp).exactly(3).times
 
         values_to_match = {label_element: 'foo'}
 
@@ -71,14 +73,16 @@ describe Watir::Locators::Element::Matcher do
         inputs = [element(watir_element: Watir::Input, wd: wd_element(tag_name: 'input')),
                   element(watir_element: Watir::Input, wd: input_wds[1])]
 
-        label_wds = [wd_element(tag_name: 'label', text: 'foo'),
-                     wd_element(tag_name: 'label', text: 'foo')]
+        label_wds = [wd_element(tag_name: 'label'),
+                     wd_element(tag_name: 'label'),
+                     wd_element(tag_name: 'label')]
+
+        allow(browser).to receive(:execute_script).and_return('foo', 'foo')
 
         labels = [element(watir_element: Watir::Label, wd: label_wds[0], for: '', input: inputs[0]),
                   element(watir_element: Watir::Label, wd: label_wds[1], for: '', input: inputs[1])]
 
         allow(query_scope).to receive(:labels).and_return(labels)
-        allow(matcher).to receive(:deprecate_text_regexp).exactly(2).times
 
         values_to_match = {label_element: 'foo'}
 
@@ -89,14 +93,16 @@ describe Watir::Locators::Element::Matcher do
         input_wds = [wd_element(tag_name: 'input', attributes: {id: 'foo'}),
                      wd_element(tag_name: 'input', attributes: {id: 'bfoo'})]
 
-        label_wds = [wd_element(tag_name: 'label', text: 'Not this'),
-                     wd_element(tag_name: 'label', text: 'Or This')]
+        label_wds = [wd_element(tag_name: 'label'),
+                     wd_element(tag_name: 'label'),
+                     wd_element(tag_name: 'label')]
+
+        allow(browser).to receive(:execute_script).and_return('Not this', 'or this')
 
         labels = [element(watir_element: Watir::Label, wd: label_wds[0], for: 'foo'),
                   element(watir_element: Watir::Label, wd: label_wds[1], for: 'bfoo')]
 
         allow(query_scope).to receive(:labels).and_return(labels)
-        allow(matcher).to receive(:deprecate_text_regexp).exactly(2).times
 
         values_to_match = {label_element: 'foo'}
 
@@ -110,14 +116,15 @@ describe Watir::Locators::Element::Matcher do
         inputs = [element(watir_element: Watir::Input, wd: wd_element(tag_name: 'input')),
                   element(watir_element: Watir::Input, wd: wd_element(tag_name: 'input'))]
 
-        label_wds = [wd_element(tag_name: 'label', text: 'foob'),
-                     wd_element(tag_name: 'label', text: 'foo')]
+        label_wds = [wd_element(tag_name: 'label'),
+                     wd_element(tag_name: 'label')]
+
+        allow(browser).to receive(:execute_script).and_return('foob', 'foo')
 
         labels = [element(watir_element: Watir::Label, wd: label_wds[0], for: '', input: inputs[0]),
                   element(watir_element: Watir::Label, wd: label_wds[1], for: '', input: inputs[1])]
 
         allow(query_scope).to receive(:labels).and_return(labels)
-        allow(matcher).to receive(:deprecate_text_regexp).exactly(2).times
 
         values_to_match = {label_element: 'foo'}
 
@@ -191,11 +198,10 @@ describe Watir::Locators::Element::Matcher do
       end
 
       it 'by text' do
-        elements = [wd_element(text: 'foo'),
-                    wd_element(text: 'Foob')]
+        elements = [wd_element, wd_element]
         @values_to_match = {text: 'Foob'}
 
-        allow(matcher).to receive(:deprecate_text_regexp).exactly(3).times
+        allow(browser).to receive(:execute_script).and_return('foo', 'Foob')
 
         expect(matcher.match(elements, values_to_match, @filter)).to eq elements[1]
       end
@@ -290,12 +296,10 @@ describe Watir::Locators::Element::Matcher do
       end
 
       it 'by text' do
-        elements = [wd_element(text: 'foo'),
-                    wd_element(text: 'Foob'),
-                    wd_element(text: 'bBarb')]
+        elements = [wd_element, wd_element, wd_element]
         @values_to_match = {text: /Foo|Bar/}
 
-        allow(matcher).to receive(:deprecate_text_regexp).exactly(3).times
+        allow(browser).to receive(:execute_script).and_return('foo', 'Foob', 'bBarb')
 
         expect(matcher.match(elements, values_to_match, @filter)).to eq [elements[1], elements[2]]
       end
@@ -369,59 +373,44 @@ describe Watir::Locators::Element::Matcher do
     # See equivalent tests in checkbox_spec
     context 'text_regexp deprecations' do
       let(:filter) { :first }
-      let(:elements) do
-        [wd_element(text: 'all visible'),
-         wd_element(text: 'some visible')]
-      end
+      let(:elements) { [wd_element, wd_element] }
 
       it 'not thrown when still matched by text content' do
         @values_to_match = {text: /some visible/}
-        allow(browser).to receive(:execute_script).and_return('some visible some hidden')
-        allow(browser).to receive(:timer).and_return(Watir::Wait::Timer.new)
-        allow(browser).to receive(:timer=).and_return(Watir::Wait::Timer.new)
+        allow(browser).to receive(:execute_script).and_return('all visible', 'some visible')
 
-        expect {
-          expect(matcher.match(elements, values_to_match, filter)).to eq elements[1]
-        }.not_to have_deprecated_text_regexp
+        expect(matcher.match(elements, values_to_match, filter)).to eq elements[1]
       end
 
       it 'not thrown with complex regexp matched by text content' do
         @values_to_match = {text: /some (in|)visible/}
-        allow(browser).to receive(:execute_script).and_return('some visible some hidden')
-        allow(browser).to receive(:timer).and_return(Watir::Wait::Timer.new)
-        allow(browser).to receive(:timer=).and_return(Watir::Wait::Timer.new)
+        allow(browser).to receive(:execute_script).and_return('all visible', 'some visible')
 
-        expect {
-          expect(matcher.match(elements, values_to_match, filter)).to eq elements[1]
-        }.not_to have_deprecated_text_regexp
+        expect(matcher.match(elements, values_to_match, filter)).to eq elements[1]
       end
 
       not_compliant_on :watigiri do
         it 'thrown when no longer matched by text content' do
           @values_to_match = {text: /some visible$/}
-          allow(browser).to receive(:execute_script).and_return('some visible some hidden')
-          allow(browser).to receive(:timer).and_return(Watir::Wait::Timer.new)
-          allow(browser).to receive(:timer=).and_return(Watir::Wait::Timer.new)
+          allow(browser).to receive(:execute_script).and_return('all visible', 'some visible')
 
-          expect {
-            expect(matcher.match(elements, values_to_match, filter)).to eq elements[1]
-          }.to have_deprecated_text_regexp
+          expect(matcher.match(elements, values_to_match, filter)).to eq elements[1]
         end
       end
 
       not_compliant_on :watigiri do
         it 'not thrown when element does not exist' do
           @values_to_match = {text: /definitely not there/}
+          allow(browser).to receive(:execute_script).and_return('all visible', 'some visible')
 
-          expect {
-            expect(matcher.match(elements, values_to_match, filter)).to eq elements[1]
-          }.to_not have_deprecated_text_regexp
+          expect(matcher.match(elements, values_to_match, filter)).to eq nil
         end
       end
 
       # Note: This will work after:text_regexp deprecation removed
       it 'keeps element from being located' do
         @values_to_match = {text: /some visible some hidden/}
+        allow(browser).to receive(:execute_script).and_return('all visible', 'some visible')
 
         expect(matcher.match(elements, values_to_match, filter)).to be_nil
       end

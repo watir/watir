@@ -26,29 +26,17 @@ describe 'CheckBox' do
       expect(browser.checkbox(xpath: "//input[@id='new_user_interests_books']")).to exist
     end
 
-    not_compliant_on :watigiri do
-      it 'handles text_regexp deprecations for label locators' do
-        expect {
-          expect(browser.checkbox(label: /some visible/)).to exist
-        }.to_not have_deprecated_text_regexp
+    # TODO: More of this for text & labels somewhere central
+    it 'handles text_regexp deprecations for label locators' do
+      expect(browser.checkbox(label: /some visible/)).to exist
+      expect(browser.checkbox(label: /some (visible|Jeff)/)).to exist
+      expect(browser.checkbox(label: /none visible/)).to exist
+      expect(browser.checkbox(label: /this will not match/)).to_not exist
+    end
 
-        expect {
-          expect(browser.checkbox(label: /some (visible|Jeff)/)).to exist
-        }.to_not have_deprecated_text_regexp
-
-        expect {
-          expect(browser.checkbox(label: /this will not match/)).to exist
-        }.to_not have_deprecated_text_regexp
-      end
-
-      bug 'Safari is not filtering out hidden text', :safari do
-        it 'handles text_regexp deprecation in spite of hidden text' do
-          expect(browser.checkbox(label: /some visible some hidden/)).to_not exist
-
-          expect {
-            expect(browser.checkbox(label: /some visible$/)).to exist
-          }.to have_deprecated_text_regexp
-        end
+    bug 'Safari is not filtering out hidden text', :safari do
+      it 'handles text_regexp deprecation in spite of hidden text' do
+        expect(browser.checkbox(label: /some visible some hidden/)).to exist
       end
     end
 

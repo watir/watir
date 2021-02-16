@@ -156,21 +156,20 @@ describe Watir::Locators::TextField::SelectorBuilder do
         expect(selector_builder.build(selector)).to eq built
       end
 
-      # TODO: Can use contains once remove :text_regexp deprecation
-      xit 'using simple Regexp' do
+      it 'using simple Regexp' do
         selector = {label: /First/}
         built = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]" \
-"[@id=//label[contains(text(), 'First')]/@for or parent::label[contains(text(), 'First')]]"}
+"[@id=//label[contains(normalize-space(), 'First')]/@for or parent::label[contains(normalize-space(), 'First')]]"}
 
         expect(selector_builder.build(selector)).to eq built
       end
 
-      # TODO: Can use contains once remove :text_regexp deprecation
-      xit 'using complex Regexp' do
+      it 'using complex Regexp' do
         selector = {label: /([qa])st? name/}
         built = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]" \
-"[@id=//label[contains(text(), 's') and contains(text(), ' name')]/@for or " \
-"parent::label[contains(text(), 's') and contains(text(), ' name')]]", label_element: /([qa])st? name/}
+"[@id=//label[contains(normalize-space(), 's') and contains(normalize-space(), ' name')]/@for or " \
+"parent::label[contains(normalize-space(), 's') and contains(normalize-space(), ' name')]]",
+                 label_element: /([qa])st? name/}
 
         expect(selector_builder.build(selector)).to eq built
       end

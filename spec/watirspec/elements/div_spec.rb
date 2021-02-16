@@ -19,6 +19,9 @@ describe 'Div' do
       expect(browser.div(xpath: "//div[@id='header']")).to exist
       expect(browser.div(custom_attribute: 'custom')).to exist
       expect(browser.div(custom_attribute: /custom/)).to exist
+      expect(browser.div(text: /some visible/)).to exist
+      expect(browser.div(text: /some (visible|Jeff)/)).to exist
+      expect(browser.div(text: /none visible/)).to exist
     end
 
     it 'returns the first div if given no args' do
@@ -34,6 +37,7 @@ describe 'Div' do
       expect(browser.div(text: /no_such_text/)).to_not exist
       expect(browser.div(class: 'no_such_class')).to_not exist
       expect(browser.div(class: /no_such_class/)).to_not exist
+      expect(browser.div(text: /some visible some hidden/)).to exist
       expect(browser.div(index: 1337)).to_not exist
       expect(browser.div(xpath: "//div[@id='no_such_id']")).to_not exist
     end
@@ -123,40 +127,6 @@ describe 'Div' do
       expect(browser.div(index: 0)).to respond_to(:id)
       expect(browser.div(index: 0)).to respond_to(:style)
       expect(browser.div(index: 0)).to respond_to(:text)
-    end
-  end
-
-  describe 'Deprecation Warnings' do
-    describe 'text locator with RegExp values' do
-      it 'does not throw deprecation when still matched by text content' do
-        expect { browser.div(text: /some visible/).locate }.not_to have_deprecated_text_regexp
-      end
-
-      it 'does not throw deprecation with complex regexp matched by text content' do
-        expect { browser.div(text: /some (in|)visible/).locate }.not_to have_deprecated_text_regexp
-      end
-
-      not_compliant_on :watigiri do
-        bug 'Safari is not filtering out hidden text', :safari do
-          it 'throws deprecation when no longer matched by text content' do
-            expect { browser.div(text: /some visible$/).locate }.to have_deprecated_text_regexp
-          end
-        end
-      end
-
-      not_compliant_on :watigiri do
-        it 'does not throw deprecation when element does not exist' do
-          expect { browser.div(text: /definitely not there/).locate }.not_to have_deprecated_text_regexp
-        end
-      end
-
-      not_compliant_on :watigiri do
-        bug 'Safari is not filtering out hidden text', :safari do
-          it 'does not locate entire content with regular expressions' do
-            expect(browser.div(text: /some visible some hidden/)).to_not exist
-          end
-        end
-      end
     end
   end
 

@@ -1,8 +1,6 @@
 if defined?(RSpec)
   DEPRECATION_WARNINGS = %i[selector_parameters
                             use_capabilities
-                            visible_text
-                            text_regexp
                             select_by].freeze
 
   DEPRECATION_WARNINGS.each do |deprecation|
