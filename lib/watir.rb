@@ -21,20 +21,8 @@ require 'watir/after_hooks'
 require 'watir/logger'
 
 module Watir
-  @relaxed_locate = true
-
   class << self
-    attr_writer :relaxed_locate, :default_timeout
-
-    #
-    # Whether or not Watir should wait for an element to be found or present
-    # before taking an action.
-    # Defaults to true.
-    #
-
-    def relaxed_locate?
-      @relaxed_locate
-    end
+    attr_writer :default_timeout
 
     #
     # Default wait time for wait methods.

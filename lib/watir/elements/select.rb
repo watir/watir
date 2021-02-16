@@ -199,21 +199,16 @@ module Watir
     end
 
     def find_options(how, str_or_rx)
-      wait_while do
-        case str_or_rx
-        when String, Numeric, Regexp
-          @found = how == :value ? options(value: str_or_rx) : []
-          @found = options(text: str_or_rx) if @found.empty?
-          @found = options(label: str_or_rx) if @found.empty?
-          @found.empty? && Watir.relaxed_locate?
-        else
-          raise TypeError, "expected String or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
-        end
-      end
-      # TODO: Remove conditional when remove relaxed_locate toggle
-      return @found unless @found.empty?
+      msg = "expected String, Numberic or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
+      raise TypeError, msg unless [String, Numeric, Regexp].any? { |k| str_or_rx.is_a?(k) }
 
-      raise_no_value_found(str_or_rx)
+      wait_while do
+        @found = how == :value ? options(value: str_or_rx) : []
+        @found = options(text: str_or_rx) if @found.empty?
+        @found = options(label: str_or_rx) if @found.empty?
+        @found.empty?
+      end
+      @found
     rescue Wait::TimeoutError
       raise_no_value_found(str_or_rx)
     end

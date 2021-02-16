@@ -195,16 +195,6 @@ describe 'Window' do
         expect(win1).to_not eq win2
       end
     end
-
-    not_compliant_on :relaxed_locate do
-      describe '#wait_until &:present?' do
-        it 'times out waiting for a non-present window' do
-          expect {
-            browser.window(title: 'noop').wait_until(timeout: 0.5, &:present?)
-          }.to raise_error(Watir::Wait::TimeoutError)
-        end
-      end
-    end
   end
 
   context 'with a closed window' do

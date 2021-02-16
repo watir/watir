@@ -239,13 +239,9 @@ module Watir
     end
 
     def wait_for_exists
-      return assert_exists unless Watir.relaxed_locate?
-
-      begin
-        wait_until(&:exists?)
-      rescue Wait::TimeoutError
-        raise NoMatchingWindowFoundException, selector_string
-      end
+      wait_until(&:exists?)
+    rescue Wait::TimeoutError
+      raise NoMatchingWindowFoundException, selector_string
     end
   end # Window
 end # Watir

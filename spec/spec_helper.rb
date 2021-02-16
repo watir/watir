@@ -34,5 +34,3 @@ if ENV['GITHUB_ACTIONS']
 end
 
 SELENIUM_SELECTORS = %i[css tag_name xpath link_text partial_link_text link].freeze
-
-Watir.relaxed_locate = false if ENV['RELAXED_LOCATE'] == 'false'
