@@ -650,25 +650,6 @@ describe 'Element' do
     end
   end
 
-  describe '#scroll_into_view' do
-    it 'scrolls element into view' do
-      initial_size = browser.window.size
-      browser.window.resize_to(initial_size.width, 800)
-
-      el = browser.button(name: 'new_user_image')
-      element_center = el.center['y']
-
-      bottom_viewport_script = 'return window.pageYOffset + window.innerHeight'
-      expect(browser.execute_script(bottom_viewport_script)).to be < element_center
-
-      expect {
-        expect(el.scroll_into_view).to be_a Selenium::WebDriver::Point
-      }.to have_deprecated_scroll_into_view
-
-      expect(browser.execute_script(bottom_viewport_script)).to be > element_center
-    end
-  end
-
   describe '#location' do
     it 'returns coordinates for element location' do
       location = browser.button(name: 'new_user_image').location
