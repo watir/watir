@@ -11,8 +11,8 @@ module Watir
     # @return [HTMLElement]
     #
 
-    def element(*args)
-      HTMLElement.new(self, extract_selector(args))
+    def element(opts = {})
+      HTMLElement.new(self, opts)
     end
 
     #
@@ -24,30 +24,8 @@ module Watir
     # @return [HTMLElementCollection]
     #
 
-    def elements(*args)
-      HTMLElementCollection.new(self, extract_selector(args))
-    end
-
-    #
-    # @api private
-    #
-
-    def extract_selector(selector)
-      case selector.size
-      when 2
-        msg = "Using ordered parameters to locate elements (:#{selector.first}, #{selector.last.inspect})"
-        Watir.logger.deprecate msg,
-                               "{#{selector.first}: #{selector.last.inspect}}",
-                               ids: [:selector_parameters]
-        return {selector[0] => selector[1]}
-      when 1
-        obj = selector.first
-        return obj if obj.is_a? Hash
-      when 0
-        return {}
-      end
-
-      raise ArgumentError, "expected Hash, got #{selector.inspect}"
+    def elements(opts = {})
+      HTMLElementCollection.new(self, opts)
     end
   end # Container
 end # Watir

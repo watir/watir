@@ -9,14 +9,10 @@ module Watir
     # @return [Array<Window>]
     #
 
-    def windows(*args)
+    def windows(opts = {})
       all = @driver.window_handles.map { |handle| Window.new(self, handle: handle) }
 
-      if args.empty?
-        all
-      else
-        filter_windows extract_selector(args), all
-      end
+      opts.empty? ? all : filter_windows(opts, all)
     end
 
     #
@@ -28,8 +24,8 @@ module Watir
     # @return [Window]
     #
 
-    def window(*args, &blk)
-      win = Window.new self, extract_selector(args)
+    def window(opts = {}, &blk)
+      win = Window.new self, opts
 
       win.use(&blk) if block_given?
 

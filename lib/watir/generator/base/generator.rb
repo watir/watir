@@ -84,12 +84,12 @@ module Watir
           @io.puts indent(<<~CODE, 2)
 
             # @return [#{element_class}]
-            def #{singular}(*args)
-              #{element_class}.new(self, extract_selector(args).merge(tag_name: #{tag_string}))
+            def #{singular}(opts = {})
+              #{element_class}.new(self, opts.merge(tag_name: #{tag_string}))
             end
             # @return [#{collection_class}]
-            def #{plural}(*args)
-              #{collection_class}.new(self, extract_selector(args).merge(tag_name: #{tag_string}))
+            def #{plural}(opts = {})
+              #{collection_class}.new(self, opts.merge(tag_name: #{tag_string}))
             end
             Watir.tag_to_class[#{tag.to_sym.inspect}] = #{element_class}
 

@@ -218,8 +218,8 @@ module Watir
   end # RadioSet
 
   module Container
-    def radio_set(*args)
-      RadioSet.new(self, extract_selector(args).merge(tag_name: 'input', type: 'radio'))
+    def radio_set(opts = {})
+      RadioSet.new(self, opts.merge(tag_name: 'input', type: 'radio'))
     end
 
     Watir.tag_to_class[:radio_set] = RadioSet

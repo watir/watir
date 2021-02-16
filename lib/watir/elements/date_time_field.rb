@@ -18,12 +18,12 @@ module Watir
   end # DateTimeField
 
   module Container
-    def date_time_field(*args)
-      DateTimeField.new(self, extract_selector(args).merge(tag_name: 'input', type: 'datetime-local'))
+    def date_time_field(opts = {})
+      DateTimeField.new(self, opts.merge(tag_name: 'input', type: 'datetime-local'))
     end
 
-    def date_time_fields(*args)
-      DateTimeFieldCollection.new(self, extract_selector(args).merge(tag_name: 'input', type: 'datetime-local'))
+    def date_time_fields(opts = {})
+      DateTimeFieldCollection.new(self, opts.merge(tag_name: 'input', type: 'datetime-local'))
     end
   end # Container
 
