@@ -54,35 +54,6 @@ module Watir
           # ignored
         end
 
-        # TODO: do everything in the visitor somehow?
-        # problem is we lack the tag name info while walking the interface AST
-        # #
-        # # Watir generator visitor interface
-        # #
-        #
-        # def visit_tag(tag_name, interface_name)
-        #   tag_string       = tag.inspect
-        #   singular         = Util.paramify(classify_regexp, tag)
-        #   plural           = singular.pluralize
-        #   element_class    = Util.classify(classify_regexp, interfaces.first.name)
-        #   collection_class = "#{element_class}Collection"
-        #
-        #   [:defn,
-        #    :a,
-        #    [:args, :"*args"],
-        #    [:scope,
-        #     [:block,
-        #      [:call,
-        #       [:const, :Anchor],
-        #       :new,
-        #       [:arglist,
-        #        [:self],
-        #        [:call,
-        #         [:call, nil, :extract_selector, [:arglist, [:lvar, :args]]],
-        #         :merge,
-        #         [:arglist, [:hash, [:lit, :tag_name], [:str, "a"]]]]]]]]]
-        # end
-
         private
 
         def element_class(name, attributes, parent)

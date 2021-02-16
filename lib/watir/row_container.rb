@@ -4,16 +4,16 @@ module Watir
     # Returns table row.
     #
 
-    def row(*args)
-      Row.new(self, extract_selector(args))
+    def row(opts)
+      Row.new(self, opts)
     end
 
     #
     # Returns table rows collection.
     #
 
-    def rows(*args)
-      RowCollection.new(self, extract_selector(args))
+    def rows(opts = {})
+      RowCollection.new(self, opts)
     end
 
     #

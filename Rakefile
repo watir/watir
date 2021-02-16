@@ -25,7 +25,7 @@ end
 
 {
   html: 'https://www.w3.org/TR/html52/single-page.html',
-  svg: 'http://www.w3.org/TR/SVG2/single-page.html'
+  svg: 'https://www.w3.org/TR/2018/CR-SVG2-20180807/single-page.html'
 }.each do |type, spec_uri|
   namespace type do
     spec_path = "support/#{type}.html"

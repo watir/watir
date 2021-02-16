@@ -9,8 +9,8 @@ module Watir
     # @return [Array<Window>]
     #
 
-    def windows(*args)
-      WindowCollection.new self, extract_selector(args)
+    def windows(opts = {})
+      WindowCollection.new self, opts
     end
 
     #
@@ -22,8 +22,8 @@ module Watir
     # @return [Window]
     #
 
-    def window(*args, &blk)
-      win = Window.new self, extract_selector(args)
+    def window(opts = {}, &blk)
+      win = Window.new self, opts
 
       win.use(&blk) if block_given?
 

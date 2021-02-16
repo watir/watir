@@ -91,12 +91,12 @@ module Watir
   end # FrameCollection
 
   module Container
-    def frame(*args)
-      Frame.new(self, extract_selector(args).merge(tag_name: 'frame'))
+    def frame(opts = {})
+      Frame.new(self, opts.merge(tag_name: 'frame'))
     end
 
-    def frames(*args)
-      FrameCollection.new(self, extract_selector(args).merge(tag_name: 'frame'))
+    def frames(opts = {})
+      FrameCollection.new(self, opts.merge(tag_name: 'frame'))
     end
   end # Container
 

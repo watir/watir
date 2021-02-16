@@ -39,12 +39,12 @@ module Watir
   end # Radio
 
   module Container
-    def radio(*args)
-      Radio.new(self, extract_selector(args).merge(tag_name: 'input', type: 'radio'))
+    def radio(opts = {})
+      Radio.new(self, opts.merge(tag_name: 'input', type: 'radio'))
     end
 
-    def radios(*args)
-      RadioCollection.new(self, extract_selector(args).merge(tag_name: 'input', type: 'radio'))
+    def radios(opts = {})
+      RadioCollection.new(self, opts.merge(tag_name: 'input', type: 'radio'))
     end
   end # Container
 

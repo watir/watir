@@ -6,8 +6,8 @@ module Watir
     # @return [Cell]
     #
 
-    def cell(*args)
-      Cell.new(self, extract_selector(args))
+    def cell(opts = {})
+      Cell.new(self, opts)
     end
 
     #
@@ -16,8 +16,8 @@ module Watir
     # @return [Cell]
     #
 
-    def cells(*args)
-      CellCollection.new(self, extract_selector(args))
+    def cells(opts = {})
+      CellCollection.new(self, opts)
     end
   end # CellContainer
 end # Watir

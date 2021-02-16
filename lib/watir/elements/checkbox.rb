@@ -40,12 +40,12 @@ module Watir
   end # CheckBox
 
   module Container
-    def checkbox(*args)
-      CheckBox.new(self, extract_selector(args).merge(tag_name: 'input', type: 'checkbox'))
+    def checkbox(opts = {})
+      CheckBox.new(self, opts.merge(tag_name: 'input', type: 'checkbox'))
     end
 
-    def checkboxes(*args)
-      CheckBoxCollection.new(self, extract_selector(args).merge(tag_name: 'input', type: 'checkbox'))
+    def checkboxes(opts = {})
+      CheckBoxCollection.new(self, opts.merge(tag_name: 'input', type: 'checkbox'))
     end
   end # Container
 

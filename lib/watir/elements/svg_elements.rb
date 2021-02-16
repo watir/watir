@@ -255,242 +255,242 @@ module Watir
   module Container
 
     # @return [Circle]
-    def circle(*args)
-      Circle.new(self, extract_selector(args).merge(tag_name: "circle"))
+    def circle(opts = {})
+      Circle.new(self, opts.merge(tag_name: "circle"))
     end
     # @return [CircleCollection]
-    def circles(*args)
-      CircleCollection.new(self, extract_selector(args).merge(tag_name: "circle"))
+    def circles(opts = {})
+      CircleCollection.new(self, opts.merge(tag_name: "circle"))
     end
     Watir.tag_to_class[:circle] = Circle
 
     # @return [Defs]
-    def defs(*args)
-      Defs.new(self, extract_selector(args).merge(tag_name: "defs"))
+    def defs(opts = {})
+      Defs.new(self, opts.merge(tag_name: "defs"))
     end
     # @return [DefsCollection]
-    def defss(*args)
-      DefsCollection.new(self, extract_selector(args).merge(tag_name: "defs"))
+    def defss(opts = {})
+      DefsCollection.new(self, opts.merge(tag_name: "defs"))
     end
     Watir.tag_to_class[:defs] = Defs
 
     # @return [Desc]
-    def desc(*args)
-      Desc.new(self, extract_selector(args).merge(tag_name: "desc"))
+    def desc(opts = {})
+      Desc.new(self, opts.merge(tag_name: "desc"))
     end
     # @return [DescCollection]
-    def descs(*args)
-      DescCollection.new(self, extract_selector(args).merge(tag_name: "desc"))
+    def descs(opts = {})
+      DescCollection.new(self, opts.merge(tag_name: "desc"))
     end
     Watir.tag_to_class[:desc] = Desc
 
     # @return [Ellipse]
-    def ellipse(*args)
-      Ellipse.new(self, extract_selector(args).merge(tag_name: "ellipse"))
+    def ellipse(opts = {})
+      Ellipse.new(self, opts.merge(tag_name: "ellipse"))
     end
     # @return [EllipseCollection]
-    def ellipses(*args)
-      EllipseCollection.new(self, extract_selector(args).merge(tag_name: "ellipse"))
+    def ellipses(opts = {})
+      EllipseCollection.new(self, opts.merge(tag_name: "ellipse"))
     end
     Watir.tag_to_class[:ellipse] = Ellipse
 
     # @return [ForeignObject]
-    def foreign_object(*args)
-      ForeignObject.new(self, extract_selector(args).merge(tag_name: "foreignObject"))
+    def foreign_object(opts = {})
+      ForeignObject.new(self, opts.merge(tag_name: "foreignObject"))
     end
     # @return [ForeignObjectCollection]
-    def foreign_objects(*args)
-      ForeignObjectCollection.new(self, extract_selector(args).merge(tag_name: "foreignObject"))
+    def foreign_objects(opts = {})
+      ForeignObjectCollection.new(self, opts.merge(tag_name: "foreignObject"))
     end
     Watir.tag_to_class[:foreignObject] = ForeignObject
 
     # @return [G]
-    def g(*args)
-      G.new(self, extract_selector(args).merge(tag_name: "g"))
+    def g(opts = {})
+      G.new(self, opts.merge(tag_name: "g"))
     end
     # @return [GCollection]
-    def gs(*args)
-      GCollection.new(self, extract_selector(args).merge(tag_name: "g"))
+    def gs(opts = {})
+      GCollection.new(self, opts.merge(tag_name: "g"))
     end
     Watir.tag_to_class[:g] = G
 
     # @return [Line]
-    def line(*args)
-      Line.new(self, extract_selector(args).merge(tag_name: "line"))
+    def line(opts = {})
+      Line.new(self, opts.merge(tag_name: "line"))
     end
     # @return [LineCollection]
-    def lines(*args)
-      LineCollection.new(self, extract_selector(args).merge(tag_name: "line"))
+    def lines(opts = {})
+      LineCollection.new(self, opts.merge(tag_name: "line"))
     end
     Watir.tag_to_class[:line] = Line
 
     # @return [LinearGradient]
-    def linear_gradient(*args)
-      LinearGradient.new(self, extract_selector(args).merge(tag_name: "linearGradient"))
+    def linear_gradient(opts = {})
+      LinearGradient.new(self, opts.merge(tag_name: "linearGradient"))
     end
     # @return [LinearGradientCollection]
-    def linear_gradients(*args)
-      LinearGradientCollection.new(self, extract_selector(args).merge(tag_name: "linearGradient"))
+    def linear_gradients(opts = {})
+      LinearGradientCollection.new(self, opts.merge(tag_name: "linearGradient"))
     end
     Watir.tag_to_class[:linearGradient] = LinearGradient
 
     # @return [Marker]
-    def marker(*args)
-      Marker.new(self, extract_selector(args).merge(tag_name: "marker"))
+    def marker(opts = {})
+      Marker.new(self, opts.merge(tag_name: "marker"))
     end
     # @return [MarkerCollection]
-    def markers(*args)
-      MarkerCollection.new(self, extract_selector(args).merge(tag_name: "marker"))
+    def markers(opts = {})
+      MarkerCollection.new(self, opts.merge(tag_name: "marker"))
     end
     Watir.tag_to_class[:marker] = Marker
 
     # @return [Metadata]
-    def metadata(*args)
-      Metadata.new(self, extract_selector(args).merge(tag_name: "metadata"))
+    def metadata(opts = {})
+      Metadata.new(self, opts.merge(tag_name: "metadata"))
     end
     # @return [MetadataCollection]
-    def metadatas(*args)
-      MetadataCollection.new(self, extract_selector(args).merge(tag_name: "metadata"))
+    def metadatas(opts = {})
+      MetadataCollection.new(self, opts.merge(tag_name: "metadata"))
     end
     Watir.tag_to_class[:metadata] = Metadata
 
     # @return [Path]
-    def path(*args)
-      Path.new(self, extract_selector(args).merge(tag_name: "path"))
+    def path(opts = {})
+      Path.new(self, opts.merge(tag_name: "path"))
     end
     # @return [PathCollection]
-    def paths(*args)
-      PathCollection.new(self, extract_selector(args).merge(tag_name: "path"))
+    def paths(opts = {})
+      PathCollection.new(self, opts.merge(tag_name: "path"))
     end
     Watir.tag_to_class[:path] = Path
 
     # @return [Pattern]
-    def pattern(*args)
-      Pattern.new(self, extract_selector(args).merge(tag_name: "pattern"))
+    def pattern(opts = {})
+      Pattern.new(self, opts.merge(tag_name: "pattern"))
     end
     # @return [PatternCollection]
-    def patterns(*args)
-      PatternCollection.new(self, extract_selector(args).merge(tag_name: "pattern"))
+    def patterns(opts = {})
+      PatternCollection.new(self, opts.merge(tag_name: "pattern"))
     end
     Watir.tag_to_class[:pattern] = Pattern
 
     # @return [Polygon]
-    def polygon(*args)
-      Polygon.new(self, extract_selector(args).merge(tag_name: "polygon"))
+    def polygon(opts = {})
+      Polygon.new(self, opts.merge(tag_name: "polygon"))
     end
     # @return [PolygonCollection]
-    def polygons(*args)
-      PolygonCollection.new(self, extract_selector(args).merge(tag_name: "polygon"))
+    def polygons(opts = {})
+      PolygonCollection.new(self, opts.merge(tag_name: "polygon"))
     end
     Watir.tag_to_class[:polygon] = Polygon
 
     # @return [Polyline]
-    def polyline(*args)
-      Polyline.new(self, extract_selector(args).merge(tag_name: "polyline"))
+    def polyline(opts = {})
+      Polyline.new(self, opts.merge(tag_name: "polyline"))
     end
     # @return [PolylineCollection]
-    def polylines(*args)
-      PolylineCollection.new(self, extract_selector(args).merge(tag_name: "polyline"))
+    def polylines(opts = {})
+      PolylineCollection.new(self, opts.merge(tag_name: "polyline"))
     end
     Watir.tag_to_class[:polyline] = Polyline
 
     # @return [RadialGradient]
-    def radial_gradient(*args)
-      RadialGradient.new(self, extract_selector(args).merge(tag_name: "radialGradient"))
+    def radial_gradient(opts = {})
+      RadialGradient.new(self, opts.merge(tag_name: "radialGradient"))
     end
     # @return [RadialGradientCollection]
-    def radial_gradients(*args)
-      RadialGradientCollection.new(self, extract_selector(args).merge(tag_name: "radialGradient"))
+    def radial_gradients(opts = {})
+      RadialGradientCollection.new(self, opts.merge(tag_name: "radialGradient"))
     end
     Watir.tag_to_class[:radialGradient] = RadialGradient
 
     # @return [Rect]
-    def rect(*args)
-      Rect.new(self, extract_selector(args).merge(tag_name: "rect"))
+    def rect(opts = {})
+      Rect.new(self, opts.merge(tag_name: "rect"))
     end
     # @return [RectCollection]
-    def rects(*args)
-      RectCollection.new(self, extract_selector(args).merge(tag_name: "rect"))
+    def rects(opts = {})
+      RectCollection.new(self, opts.merge(tag_name: "rect"))
     end
     Watir.tag_to_class[:rect] = Rect
 
     # @return [Stop]
-    def stop(*args)
-      Stop.new(self, extract_selector(args).merge(tag_name: "stop"))
+    def stop(opts = {})
+      Stop.new(self, opts.merge(tag_name: "stop"))
     end
     # @return [StopCollection]
-    def stops(*args)
-      StopCollection.new(self, extract_selector(args).merge(tag_name: "stop"))
+    def stops(opts = {})
+      StopCollection.new(self, opts.merge(tag_name: "stop"))
     end
     Watir.tag_to_class[:stop] = Stop
 
     # @return [SVG]
-    def svg(*args)
-      SVG.new(self, extract_selector(args).merge(tag_name: "svg"))
+    def svg(opts = {})
+      SVG.new(self, opts.merge(tag_name: "svg"))
     end
     # @return [SVGCollection]
-    def svgs(*args)
-      SVGCollection.new(self, extract_selector(args).merge(tag_name: "svg"))
+    def svgs(opts = {})
+      SVGCollection.new(self, opts.merge(tag_name: "svg"))
     end
     Watir.tag_to_class[:svg] = SVG
 
     # @return [Switch]
-    def switch(*args)
-      Switch.new(self, extract_selector(args).merge(tag_name: "switch"))
+    def switch(opts = {})
+      Switch.new(self, opts.merge(tag_name: "switch"))
     end
     # @return [SwitchCollection]
-    def switches(*args)
-      SwitchCollection.new(self, extract_selector(args).merge(tag_name: "switch"))
+    def switches(opts = {})
+      SwitchCollection.new(self, opts.merge(tag_name: "switch"))
     end
     Watir.tag_to_class[:switch] = Switch
 
     # @return [Symbol]
-    def symbol(*args)
-      Symbol.new(self, extract_selector(args).merge(tag_name: "symbol"))
+    def symbol(opts = {})
+      Symbol.new(self, opts.merge(tag_name: "symbol"))
     end
     # @return [SymbolCollection]
-    def symbols(*args)
-      SymbolCollection.new(self, extract_selector(args).merge(tag_name: "symbol"))
+    def symbols(opts = {})
+      SymbolCollection.new(self, opts.merge(tag_name: "symbol"))
     end
     Watir.tag_to_class[:symbol] = Symbol
 
     # @return [TextPath]
-    def text_path(*args)
-      TextPath.new(self, extract_selector(args).merge(tag_name: "textPath"))
+    def text_path(opts = {})
+      TextPath.new(self, opts.merge(tag_name: "textPath"))
     end
     # @return [TextPathCollection]
-    def text_paths(*args)
-      TextPathCollection.new(self, extract_selector(args).merge(tag_name: "textPath"))
+    def text_paths(opts = {})
+      TextPathCollection.new(self, opts.merge(tag_name: "textPath"))
     end
     Watir.tag_to_class[:textPath] = TextPath
 
     # @return [TSpan]
-    def tspan(*args)
-      TSpan.new(self, extract_selector(args).merge(tag_name: "tspan"))
+    def tspan(opts = {})
+      TSpan.new(self, opts.merge(tag_name: "tspan"))
     end
     # @return [TSpanCollection]
-    def tspans(*args)
-      TSpanCollection.new(self, extract_selector(args).merge(tag_name: "tspan"))
+    def tspans(opts = {})
+      TSpanCollection.new(self, opts.merge(tag_name: "tspan"))
     end
     Watir.tag_to_class[:tspan] = TSpan
 
     # @return [Use]
-    def use(*args)
-      Use.new(self, extract_selector(args).merge(tag_name: "use"))
+    def use(opts = {})
+      Use.new(self, opts.merge(tag_name: "use"))
     end
     # @return [UseCollection]
-    def uses(*args)
-      UseCollection.new(self, extract_selector(args).merge(tag_name: "use"))
+    def uses(opts = {})
+      UseCollection.new(self, opts.merge(tag_name: "use"))
     end
     Watir.tag_to_class[:use] = Use
 
     # @return [View]
-    def view(*args)
-      View.new(self, extract_selector(args).merge(tag_name: "view"))
+    def view(opts = {})
+      View.new(self, opts.merge(tag_name: "view"))
     end
     # @return [ViewCollection]
-    def views(*args)
-      ViewCollection.new(self, extract_selector(args).merge(tag_name: "view"))
+    def views(opts = {})
+      ViewCollection.new(self, opts.merge(tag_name: "view"))
     end
     Watir.tag_to_class[:view] = View
   end # Container
