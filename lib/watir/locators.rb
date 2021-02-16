@@ -26,11 +26,7 @@ require 'watir/locators/text_field/matcher'
 
 module Watir
   module Locators
-    W3C_FINDERS = %i[css
-                     link
-                     link_text
-                     partial_link_text
-                     xpath].freeze
+    W3C_FINDERS = %i[css xpath].freeze
 
     module ClassHelpers
       def locator_class

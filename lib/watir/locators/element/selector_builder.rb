@@ -25,7 +25,6 @@ module Watir
         def build(selector)
           @selector = selector
 
-          deprecated_locators
           normalize_selector
           inspected = selector.inspect
           scope = @query_scope unless @selector.key?(:scope) || @query_scope.is_a?(Watir::Browser)
@@ -99,8 +98,6 @@ module Watir
           when :class
             what = false if what.tap { |arr| arr.delete('') }.empty?
             [how, what]
-          when :link
-            [:link_text, what]
           when :label, :visible_label
             if should_use_label_element?
               ["#{how}_element".to_sym, what]
@@ -152,18 +149,6 @@ module Watir
           return if types.include?(what.class)
 
           raise TypeError, "expected one of #{types}, got #{what.inspect}:#{what.class}"
-        end
-
-        def deprecated_locators
-          %i[partial_link_text link_text link].each do |locator|
-            next unless @selector.key?(locator)
-
-            Watir.logger.deprecate(":#{locator} locator", ':visible_text', ids: [:link_text])
-            tag = @selector[:tag_name]
-            next if tag.nil? || tag == 'a'
-
-            raise LocatorException, "Can not use #{locator} locator to find a #{tag} element"
-          end
         end
       end
     end
