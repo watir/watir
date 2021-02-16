@@ -13,7 +13,7 @@ describe 'Spans' do
 
   describe '#length' do
     it 'returns the number of spans' do
-      expect(browser.spans.length).to eq 7
+      expect(browser.spans.length).to eq 8
     end
   end
 

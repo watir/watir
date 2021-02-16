@@ -44,6 +44,7 @@ module Watir
         private
 
         def normalize_selector
+          # TODO: This can be more specific now that only 2
           raise LocatorException, "Can not locate element with #{wd_locators}" if wd_locators.size > 1
 
           @selector[:scope] = @query_scope.selector_builder.built if merge_scope?

@@ -44,25 +44,25 @@ describe Watir::Locators::TextField::Matcher do
 
     context 'when label element' do
       it 'converts value to text' do
-        elements = [wd_element(tag_name: 'label', text: 'foo'),
-                    wd_element(tag_name: 'label', text: 'Foob')]
+        elements = [wd_element(tag_name: 'label'),
+                    wd_element(tag_name: 'label')]
         values_to_match = {value: 'Foob'}
 
+        allow(query_scope).to receive(:execute_script).and_return('foo', 'Foob')
         expect(elements[0]).not_to receive(:attribute).with(values_to_match)
         expect(elements[1]).not_to receive(:attribute).with(values_to_match)
-        allow(matcher).to receive(:deprecate_text_regexp).exactly(2).times
 
         expect(matcher.match(elements, values_to_match, :all)).to eq [elements[1]]
       end
 
       it 'converts label to text' do
-        elements = [wd_element(tag_name: 'label', text: 'foo'),
-                    wd_element(tag_name: 'label', text: 'Foob')]
+        elements = [wd_element(tag_name: 'label'),
+                    wd_element(tag_name: 'label')]
         values_to_match = {label: 'Foob'}
 
+        allow(query_scope).to receive(:execute_script).and_return('foo', 'Foob')
         expect(elements[0]).not_to receive(:attribute).with(values_to_match)
         expect(elements[1]).not_to receive(:attribute).with(values_to_match)
-        allow(matcher).to receive(:deprecate_text_regexp).exactly(2).times
 
         expect(matcher.match(elements, values_to_match, :all)).to eq [elements[1]]
       end

@@ -44,22 +44,11 @@ module Watir
             # :text locator is already dealt with in #tag_name_string
             value = @selector.delete(:value)
 
-            case value
-            when nil
-              ''
-            when Regexp
-              res = "[#{predicate_conversion(:text, value)} or #{predicate_conversion(:value, value)}]"
-              @built.delete(:text)
-              res
-            else
-              "[#{predicate_expression(:text, value)} or #{predicate_expression(:value, value)}]"
-            end
-          end
+            return '' if value.nil?
 
-          def predicate_conversion(key, regexp)
-            res = key == :text ? super(:contains_text, regexp) : super
-            @built[key] = @built.delete(:contains_text) if @built.key?(:contains_text)
-            res
+            result = value.nil? ? '' : "[#{process_attribute(:text, value)} or #{process_attribute(:value, value)}]"
+            @built.delete(:text)
+            result
           end
 
           def input_types(type = nil)

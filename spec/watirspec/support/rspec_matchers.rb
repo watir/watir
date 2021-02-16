@@ -1,8 +1,6 @@
 if defined?(RSpec)
   DEPRECATION_WARNINGS = %i[selector_parameters
                             use_capabilities
-                            visible_text
-                            text_regexp
                             select_all
                             select_by
                             window_index].freeze

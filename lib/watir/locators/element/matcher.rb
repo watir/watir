@@ -3,6 +3,7 @@ module Watir
     class Element
       class Matcher
         include Exception
+        include JSSnippets
 
         attr_reader :query_scope, :selector
 
@@ -55,10 +56,10 @@ module Watir
         end
 
         def elements_match?(element, values_to_match)
-          matches = values_to_match.all? do |how, expected|
+          values_to_match.all? do |how, expected|
             if how == :tag_name
               validate_tag(element, expected)
-            # TODO: Can this be class_name here or does that get converted?
+              # TODO: Can this be class_name here or does that get converted?
             elsif %i[class class_name].include?(how)
               value = fetch_value(element, how)
               [expected].flatten.all? do |match|
@@ -70,10 +71,6 @@ module Watir
               matches_values?(fetch_value(element, how), expected)
             end
           end
-
-          deprecate_text_regexp(element, values_to_match) if values_to_match[:text] && matches
-
-          matches
         end
 
         def matches_values?(found, expected)
@@ -85,7 +82,7 @@ module Watir
           when :tag_name
             element.tag_name.downcase
           when :text
-            element.text
+            execute_js(:getTextContent, element)
           when :visible
             element.displayed?
           when :visible_text
@@ -111,18 +108,6 @@ module Watir
         def validate_tag(element, expected)
           tag_name = fetch_value(element, :tag_name)
           matches_values?(tag_name, expected)
-        end
-
-        def deprecate_text_regexp(element, selector)
-          new_element = Watir::Element.new(@query_scope, element: element)
-          text_content = new_element.text_content
-
-          return if text_content =~ /#{selector[:text]}/
-
-          key = @selector.key?(:text) ? 'text' : 'label'
-          selector_text = selector[:text].inspect
-          dep = "Using :#{key} locator with RegExp #{selector_text} to match an element that includes hidden text"
-          Watir.logger.deprecate(dep, ":visible_#{key}", ids: [:text_regexp])
         end
       end
     end

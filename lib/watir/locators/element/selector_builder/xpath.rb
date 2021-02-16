@@ -120,37 +120,24 @@ module Watir
           end
 
           def text_string
-            text = @selector.delete :text
-
-            case text
-            when nil
-              ''
-            when Regexp
-              @built[:text] = text
-              ''
-            else
-              "[#{predicate_expression(:text, text)}]"
-            end
+            result = equal_or_contains(@selector.delete(:text))
+            result.nil? ? '' : "[#{result}]"
           end
 
           def label_element_string
-            label = @selector.delete :label_element
+            text = @selector.delete(:label_element)
+            return '' if text.nil?
 
-            return '' if label.nil?
+            result = equal_or_contains(text)
+            @built[:label_element] = @built.delete(:text) if @built.key?(:text)
 
-            key = label.is_a?(Regexp) ? :contains_text : :text
+            result.nil? ? '' : "[@id=//label[#{result}]/@for or parent::label[#{result}]]"
+          end
 
-            value = process_attribute(key, label)
+          def equal_or_contains(value)
+            return nil if value.nil? || value.is_a?(String) && value.empty? || value.inspect == '//'
 
-            @built[:label_element] = @built.delete :contains_text if @built.key?(:contains_text)
-
-            # TODO: This conditional can be removed when we remove this deprecation
-            if label.is_a?(Regexp)
-              @built[:label_element] = label
-              ''
-            else
-              "[@id=//label[#{value}]/@for or parent::label[#{value}]]"
-            end
+            process_attribute(:text, value)
           end
 
           def attribute_string
@@ -203,23 +190,21 @@ module Watir
           end
 
           def lhs_for(key, downcase: false)
-            case key
-            when String
-              process_string key
-            when :tag_name
-              'local-name()'
-            when :href
-              'normalize-space(@href)'
-            when :text
-              'normalize-space()'
-            when :contains_text
-              'normalize-space()'
-            when ::Symbol
-              lhs = process_string key.to_s.tr('_', '-')
-              downcase ? XpathSupport.downcase(lhs) : lhs
-            else
-              raise LocatorException, "Unable to build XPath using #{key}:#{key.class}"
-            end
+            lhs = case key
+                  when String
+                    process_string key
+                  when :tag_name
+                    'local-name()'
+                  when :href
+                    'normalize-space(@href)'
+                  when :text
+                    'normalize-space()'
+                  when ::Symbol
+                    process_string key.to_s.tr('_', '-')
+                  else
+                    raise LocatorException, "Unable to build XPath using #{key}:#{key.class}"
+                  end
+            downcase ? XpathSupport.downcase(lhs) : lhs
           end
 
           def attribute_presence(attribute)

@@ -13,7 +13,7 @@ describe 'Divs' do
 
   describe '#length' do
     it 'returns the number of divs' do
-      expect(browser.divs.length).to eq 16
+      expect(browser.divs.length).to eq 20
     end
   end
 
@@ -29,7 +29,7 @@ describe 'Divs' do
     end
 
     it 'returns an array of divs with a given range including negative values' do
-      divs = browser.divs[11..-3]
+      divs = browser.divs[11..-7]
       ids = divs.map(&:id)
       expect(ids).to eq %w[messages ins_tag_test del_tag_test]
     end
