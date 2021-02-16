@@ -3,7 +3,6 @@ if defined?(RSpec)
                             use_capabilities
                             visible_text
                             text_regexp
-                            scroll_into_view
                             select_by].freeze
 
   DEPRECATION_WARNINGS.each do |deprecation|

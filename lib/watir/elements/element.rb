@@ -375,21 +375,6 @@ module Watir
     end
 
     #
-    # Scroll until the element is in the view screen
-    #
-    # @example
-    #   browser.button(name: "new_user_button").scroll_into_view
-    #
-    # @return [Selenium::WebDriver::Point]
-    #
-
-    def scroll_into_view
-      Watir.logger.deprecate 'Element#scroll_into_view', 'Element#scroll methods', ids: [:scroll_into_view]
-
-      element_call { @element.location_once_scrolled_into_view }
-    end
-
-    #
     # location of element (x, y)
     #
     # @example
