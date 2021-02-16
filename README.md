@@ -8,7 +8,7 @@ Watir Powered By Selenium!
 [![Windows Tests](https://github.com/titusfortner/watir/workflows/Windows%20Tests/badge.svg)](https://github.com/watir/watir/actions?query=workflow%3A%22Windows+Tests%22)
 [![Linux Tests](https://github.com/titusfortner/watir/workflows/Linux%20Tests/badge.svg)](https://github.com/watir/watir/actions?query=workflow%3A%22Linux+Tests%22)
 [![Code Climate](https://codeclimate.com/github/watir/watir.svg)](https://codeclimate.com/github/watir/watir)
-[![Coverage Status](https://coveralls.io/repos/github/watir/watir/badge.svg?branch=master)](https://coveralls.io/github/watir/watir?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/watir/watir/badge.svg?branch=main)](https://coveralls.io/github/watir/watir?branch=master)
 
 ## Using Watir
 
@@ -97,7 +97,7 @@ to ensure all paths in their code have tests associated with them.
 
 Watir is using [Rubocop](https://github.com/rubocop-hq/rubocop) to ensure a consistent style across the
 code base. It is run with our minimum supported Ruby version (2.3) 
-We have some [established exceptions](https://github.com/watir/watir/blob/master/.rubocop.yml) 
+We have some [established exceptions](https://github.com/watir/watir/blob/main/.rubocop.yml) 
 that might need to be tweaked for new code submissions. This can be addressed in the PR as necessary.
 
 #### Statistics

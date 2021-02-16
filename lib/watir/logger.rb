@@ -2,7 +2,7 @@ require 'forwardable'
 require 'logger'
 
 # Code adapted from Selenium Implementation
-# https://github.com/SeleniumHQ/selenium/blob/master/rb/lib/selenium/webdriver/common/logger.rb
+# https://github.com/SeleniumHQ/selenium/blob/trunk/rb/lib/selenium/webdriver/common/logger.rb
 
 module Watir
   #
