@@ -48,9 +48,7 @@ module Watir
       selector[:index] = 0 if selector.empty?
       @element = selector.delete(:element)
 
-      if @element && !(selector.keys - %i[tag_name]).empty?
-        Watir.logger.deprecate(':element locator to initialize a relocatable Element', '#cache=', ids: [:element_cache])
-      end
+      selector = {} if @element && !(selector.keys - [:tag_name]).empty?
 
       @selector = selector
 
