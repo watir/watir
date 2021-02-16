@@ -11,7 +11,7 @@ describe 'IFrame' do
 
   not_compliant_on :safari do
     bug 'Firefox 58 broke this, appears to be working in Nightly',
-        %i[firefox linux], %i[firefox appveyor] do
+        %i[firefox linux] do
       it 'handles crossframe javascript' do
         browser.goto WatirSpec.url_for('iframes.html')
 

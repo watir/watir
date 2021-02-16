@@ -905,12 +905,10 @@ describe 'Element' do
       end
     end
 
-    not_compliant_on %i[firefox appveyor] do
-      it 'returns false if element center is surrounded by non-descendants' do
-        btn = browser.button(id: 'surrounded')
-        expect(btn).not_to be_obscured
-        expect { btn.click }.not_to raise_exception
-      end
+    it 'returns false if element center is surrounded by non-descendants' do
+      btn = browser.button(id: 'surrounded')
+      expect(btn).not_to be_obscured
+      expect { btn.click }.not_to raise_exception
     end
 
     it 'scrolls interactive element into view before checking if obscured' do

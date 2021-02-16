@@ -86,12 +86,6 @@ class LocalConfig
     matching_guards << :headless if @imp.browser_args.last[:headless]
     matching_guards << :w3c if ENV['W3C']
 
-    # TODO: Replace this with Selenium::WebDriver::Platform.ci after next Selenium Release
-    if ENV['APPVEYOR']
-      matching_guards << :appveyor
-      matching_guards << [browser, :appveyor]
-    end
-
     if !Selenium::WebDriver::Platform.linux? || ENV['DESKTOP_SESSION']
       # some specs (i.e. Window#maximize) needs a window manager on linux
       matching_guards << :window_manager
