@@ -272,15 +272,6 @@ describe Watir::Locators::Element::SelectorBuilder do
         expect(selector_builder.build(selector)).to eq built
       end
 
-      it 'with caption attribute' do
-        selector = {caption: 'Add user'}
-        built = {xpath: ".//*[normalize-space()='Add user']"}
-
-        expect {
-          expect(selector_builder.build(selector)).to eq built
-        }.to have_deprecated_caption
-      end
-
       it 'raises exception when text is not a String or Regexp' do
         selector = {text: 7}
         msg = /expected one of \[String, Regexp\], got 7:Integer/
