@@ -9,12 +9,10 @@ describe 'Alert API' do
     browser.alert.ok if browser.alert.exists?
   end
 
-  compliant_on :relaxed_locate do
-    context 'Relaxed Waits' do
-      context 'when acting on an alert' do
-        it 'raises exception after timing out' do
-          expect { browser.alert.text }.to wait_and_raise_unknown_object_exception
-        end
+  context 'Waits' do
+    context 'when acting on an alert' do
+      it 'raises exception after timing out' do
+        expect { browser.alert.text }.to wait_and_raise_unknown_object_exception
       end
     end
   end
@@ -51,21 +49,6 @@ describe 'Alert API' do
         browser.button(id: 'alert').click
         browser.alert.close
         expect(browser.alert).to_not exist
-      end
-    end
-
-    not_compliant_on :relaxed_locate do
-      describe 'wait_until_present' do
-        it 'waits until alert is present and goes on' do
-          browser.button(id: 'timeout-alert').click
-          browser.alert.wait_until_present.ok
-
-          expect(browser.alert).to_not exist
-        end
-
-        it 'raises error if alert is not present after timeout' do
-          expect { browser.alert.wait_until_present.ok }.to raise_timeout_exception
-        end
       end
     end
   end

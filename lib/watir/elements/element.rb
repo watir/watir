@@ -664,7 +664,6 @@ module Watir
     protected
 
     def wait_for_exists
-      return assert_exists unless Watir.relaxed_locate?
       return if located? # Performance shortcut
 
       begin
@@ -677,8 +676,7 @@ module Watir
     end
 
     def wait_for_present
-      p = present?
-      return p if !Watir.relaxed_locate? || p
+      return true if present?
 
       begin
         @query_scope.wait_for_present unless @query_scope.is_a? Browser
@@ -691,8 +689,6 @@ module Watir
     end
 
     def wait_for_enabled
-      return assert_enabled unless Watir.relaxed_locate?
-
       wait_for_exists
       return unless [Input, Button, Select, Option].any? { |c| is_a? c } || content_editable
       return if enabled?
@@ -706,7 +702,6 @@ module Watir
 
     def wait_for_writable
       wait_for_enabled
-      raise_writable unless Watir.relaxed_locate? || (!respond_to?(:readonly?) || !readonly?)
 
       return if !respond_to?(:readonly?) || !readonly?
 

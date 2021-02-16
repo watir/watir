@@ -40,13 +40,11 @@ describe 'Element' do
       expect { element.text }.to_not raise_error
     end
 
-    compliant_on :relaxed_locate do
-      it 'relocates stale element when taking an action on it' do
-        browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
-        element = browser.text_field(id: 'new_user_first_name').locate
-        browser.refresh
-        expect { element.click }.not_to raise_exception
-      end
+    it 'relocates stale element when taking an action on it' do
+      browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
+      element = browser.text_field(id: 'new_user_first_name').locate
+      browser.refresh
+      expect { element.click }.not_to raise_exception
     end
   end
 
