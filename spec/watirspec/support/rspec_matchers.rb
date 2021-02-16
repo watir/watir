@@ -9,9 +9,6 @@ if defined?(RSpec)
                             link_text
                             text_regexp
                             scroll_into_view
-                            stale_exists
-                            stale_visible
-                            stale_present
                             select_all
                             select_by
                             value_button

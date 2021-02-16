@@ -45,6 +45,7 @@ module Watir
 
       raise ArgumentError, "invalid argument: #{selector.inspect}" unless selector.is_a? Hash
 
+      selector[:index] = 0 if selector.empty?
       @element = selector.delete(:element)
 
       if @element && !(selector.keys - %i[tag_name]).empty?
@@ -479,20 +480,6 @@ module Watir
     end
 
     #
-    # Returns true if this element is visible on the page.
-    # Raises exception if element does not exist
-    #
-    # @return [Boolean]
-    #
-
-    def visible?
-      msg = '#visible? behavior will be changing slightly, consider switching to #present? ' \
-            '(more details: http://watir.com/element-existentialism/)'
-      Watir.logger.warn msg, ids: [:visible_element]
-      display_check
-    end
-
-    #
     # Returns true if this element is present and enabled on the page.
     #
     # @return [Boolean]
@@ -512,10 +499,15 @@ module Watir
     #
 
     def present?
-      display_check
+      assert_exists
+      @element.displayed?
     rescue UnknownObjectException, UnknownFrameException
       false
+    rescue Selenium::WebDriver::Error::StaleElementReferenceError
+      reset!
+      retry
     end
+    alias visible? present?
 
     #
     # Returns true if the element's center point is covered by a non-descendant element.
@@ -621,6 +613,9 @@ module Watir
     #
 
     def locate
+      msg = 'Can not relocate a Watir element initialized by a Selenium element'
+      raise LocatorException, msg if @selector.empty?
+
       ensure_context
       locate_in_context
       self
@@ -777,15 +772,6 @@ module Watir
 
     def assert_is_element(obj)
       raise TypeError, "expected Watir::Element, got #{obj.inspect}:#{obj.class}" unless obj.is_a? Element
-    end
-
-    # Removes duplication in #present? & #visible? and makes setting deprecation notice easier
-    def display_check
-      assert_exists
-      @element.displayed?
-    rescue Selenium::WebDriver::Error::StaleElementReferenceError
-      reset!
-      retry
     end
 
     # TODO: - this will get addressed with Watir::Executor implementation

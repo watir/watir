@@ -229,56 +229,6 @@ describe 'Element' do
     end
   end
 
-  describe '#visible?' do
-    it 'returns true if the element is visible' do
-      msg = /WARN Watir \["visible_element"\]/
-      expect {
-        expect(browser.text_field(id: 'new_user_email')).to be_visible
-      }.to output(msg).to_stdout_from_any_process
-    end
-
-    it 'raises UnknownObjectException exception if the element does not exist' do
-      msg = /WARN Watir \["visible_element"\]/
-      expect {
-        expect { browser.text_field(id: 'no_such_id').visible? }.to raise_unknown_object_exception
-      }.to output(msg).to_stdout_from_any_process
-    end
-
-    it 'handles staleness' do
-      element = browser.text_field(id: 'new_user_email').locate
-
-      allow(element).to receive(:stale?).and_return(true)
-
-      expect(element).to be_visible
-    end
-
-    it "returns true if the element has style='visibility: visible' even if parent has style='visibility: hidden'" do
-      msg = /WARN Watir \["visible_element"\]/
-      expect {
-        expect(browser.div(id: 'visible_child')).to be_visible
-      }.to output(msg).to_stdout_from_any_process
-    end
-
-    it "returns false if the element is input element where type eq 'hidden'" do
-      expect(browser.hidden(id: 'new_user_interests_dolls')).to_not be_visible
-    end
-
-    it "returns false if the element has style='display: none;'" do
-      msg = /WARN Watir \["visible_element"\]/
-      expect {
-        expect(browser.div(id: 'changed_language')).to_not be_visible
-      }.to output(msg).to_stdout_from_any_process
-    end
-
-    it "returns false if the element has style='visibility: hidden;" do
-      expect { expect(browser.div(id: 'wants_newsletter')).to_not be_visible }
-    end
-
-    it 'returns false if one of the parent elements is hidden' do
-      expect { expect(browser.div(id: 'hidden_parent')).to_not be_visible }
-    end
-  end
-
   describe '#cache=' do
     it 'bypasses selector location' do
       browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
@@ -307,12 +257,24 @@ describe 'Element' do
       browser.goto WatirSpec.url_for('removed_element.html')
     end
 
-    it 'handles staleness in a collection' do
+    it 'element from a collection is re-looked up after it becomes stale' do
       element = browser.divs(id: 'text').first.locate
 
-      allow(element).to receive(:stale?).and_return(true)
+      browser.refresh
 
+      expect(element).to be_stale
       expect(element).to exist
+    end
+
+    it 'element from a selenium element throws an exception when relocated' do
+      div = browser.div.locate
+      element = browser.element(element: div.wd)
+
+      browser.refresh
+      expect(element).to be_stale
+
+      msg = 'Can not relocate a Watir element initialized by a Selenium element'
+      expect { element.exists? }.to raise_exception(Watir::Exception::LocatorException, msg)
     end
 
     it 'returns false when tag name does not match id' do
@@ -371,6 +333,15 @@ describe 'Element' do
 
       browser.refresh
 
+      expect(element).to be_stale
+    end
+
+    it 'returns true the second time if the element is stale' do
+      element = browser.div.locate
+
+      browser.refresh
+
+      expect(element).to be_stale
       expect(element).to be_stale
     end
 

@@ -241,8 +241,7 @@ module Watir
     def select_matching(elements)
       elements = [elements.first] unless multiple?
       elements.each { |e| e.click unless e.selected? }
-      # TODO: this can go back to #exist? after `:stale_exists` deprecation removed
-      elements.first.stale? ? '' : elements.first.text
+      elements.first.exists? ? elements.first.text : ''
     end
   end # Select
 
