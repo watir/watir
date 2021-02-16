@@ -20,12 +20,6 @@ describe 'Element' do
       expect { Watir::Element.new(container, 1, 2, 3, 4) }.to raise_error(ArgumentError)
       expect { Watir::Element.new(container, 'foo') }.to raise_error(ArgumentError)
     end
-
-    it 'throws deprecation warning when combining element locator with other locators' do
-      element = double Selenium::WebDriver::Element
-      allow(element).to receive(:enabled?).and_return(true)
-      expect { browser.text_field(class_name: 'name', index: 1, element: element) }.to have_deprecated_element_cache
-    end
   end
 
   describe '#element_call' do
@@ -270,6 +264,16 @@ describe 'Element' do
 
       browser.refresh
       expect(element).to be_stale
+
+      msg = 'Can not relocate a Watir element initialized by a Selenium element'
+      expect { element.exists? }.to raise_exception(Watir::Exception::LocatorException, msg)
+    end
+
+    it 'element from a selenium element with other locators throws an exception' do
+      div = browser.div.locate
+      element = browser.element(element: div.wd, id: 'foo')
+
+      browser.refresh
 
       msg = 'Can not relocate a Watir element initialized by a Selenium element'
       expect { element.exists? }.to raise_exception(Watir::Exception::LocatorException, msg)
