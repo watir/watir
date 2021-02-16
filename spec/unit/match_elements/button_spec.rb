@@ -16,19 +16,6 @@ describe Watir::Locators::Button::Matcher do
       expect(matcher.match(elements, values_to_match, :all)).to eq [elements[2]]
     end
 
-    it 'value attribute matches text' do
-      elements = [wd_element(text: 'foo', attributes: {value: 'foo'}),
-                  wd_element(text: 'bar', attributes: {value: 'bar'}),
-                  wd_element(text: 'foobar')]
-      values_to_match = {value: 'foobar'}
-
-      expect(elements[2]).not_to receive(:attribute)
-
-      expect {
-        expect(matcher.match(elements, values_to_match, :all)).to eq [elements[2]]
-      }.to have_deprecated_value_button
-    end
-
     it 'returns empty array if neither value nor text match' do
       elements = [wd_element(text: 'foo', attributes: {value: 'foo'}),
                   wd_element(text: 'bar', attributes: {value: 'bar'}),

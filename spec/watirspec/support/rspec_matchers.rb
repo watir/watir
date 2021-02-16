@@ -6,7 +6,6 @@ if defined?(RSpec)
                             scroll_into_view
                             select_all
                             select_by
-                            value_button
                             window_index].freeze
 
   DEPRECATION_WARNINGS.each do |deprecation|
