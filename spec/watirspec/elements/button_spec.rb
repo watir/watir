@@ -41,16 +41,6 @@ describe 'Button' do
       expect(browser.button(value: /Button 4 With Child Text/)).to exist
     end
 
-    it 'returns true if the button exists (how = :caption)' do
-      expect {
-        expect(browser.button(caption: 'Button 2')).to exist
-      }.to have_deprecated_caption
-
-      expect {
-        expect(browser.button(caption: /Button 2/)).to exist
-      }.to have_deprecated_caption
-    end
-
     it 'returns the first button if given no args' do
       expect(browser.button).to exist
     end

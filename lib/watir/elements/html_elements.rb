@@ -467,7 +467,6 @@ module Watir
   end
 
   class Table < HTMLElement
-    attribute(String, :caption, :caption)
     attribute(String, :tbodies, :tBodies)
     attribute(String, :align, :align)
     attribute(String, :border, :border)
