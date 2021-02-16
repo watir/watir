@@ -50,11 +50,7 @@ module Watir
           @selector[:scope] = @query_scope.selector_builder.built if merge_scope?
 
           if @selector.key?(:class) || @selector.key?(:class_name)
-            classes = ([@selector[:class]].flatten + [@selector.delete(:class_name)].flatten).compact
-
-            deprecate_class_array(classes)
-
-            @selector[:class] = classes
+            @selector[:class] = ([@selector[:class]].flatten + [@selector.delete(:class_name)].flatten).compact
           end
 
           if @selector[:adjacent] == :ancestor && @selector.key?(:text)
@@ -76,17 +72,6 @@ module Watir
 
           scope_invalid_locators = @query_scope.selector_builder.built.keys.reject { |key| key == wd_locator }
           scope_invalid_locators.empty?
-        end
-
-        def deprecate_class_array(class_array)
-          class_array.each do |class_name|
-            next unless class_name.is_a?(String) && class_name.strip.include?(' ')
-
-            dep = "Using the :class locator to locate multiple classes with a String value (i.e. \"#{class_name}\")"
-            Watir.logger.deprecate dep,
-                                   "Array (e.g. #{class_name.split})",
-                                   ids: [:class_array]
-          end
         end
 
         def check_type(how, what)

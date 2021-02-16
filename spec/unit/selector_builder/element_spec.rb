@@ -95,15 +95,6 @@ describe Watir::Locators::Element::SelectorBuilder do
         expect(selector_builder.build(selector)).to eq built
       end
 
-      it 'values with spaces' do
-        selector = {class_name: 'multiple classes here'}
-        built = {xpath: ".//*[contains(concat(' ', @class, ' '), ' multiple classes here ')]"}
-
-        expect {
-          expect(selector_builder.build(selector)).to eq built
-        }.to have_deprecated_class_array
-      end
-
       it 'single String concatenates' do
         selector = {class: 'user'}
         built = {xpath: ".//*[contains(concat(' ', @class, ' '), ' user ')]"}
