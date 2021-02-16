@@ -4,8 +4,7 @@ if defined?(RSpec)
                             visible_text
                             text_regexp
                             scroll_into_view
-                            select_by
-                            value_button].freeze
+                            select_by].freeze
 
   DEPRECATION_WARNINGS.each do |deprecation|
     RSpec::Matchers.define "have_deprecated_#{deprecation}" do
