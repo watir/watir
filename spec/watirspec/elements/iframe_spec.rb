@@ -144,14 +144,10 @@ describe 'IFrame' do
     end
   end
 
-  bug 'Safari returns NoSuchElementError instead of Stale Error', :safari do
-    bug 'https://github.com/mozilla/geckodriver/issues/1843', :firefox do
-      it 'switches between iframe and parent when needed' do
-        browser.iframe(id: 'iframe_1').elements.each do |element|
-          element.text
-          browser.h1.text
-        end
-      end
+  it 'switches between iframe and parent when needed' do
+    browser.iframe(id: 'iframe_1').elements.each do |element|
+      element.text
+      browser.h1.text
     end
   end
 

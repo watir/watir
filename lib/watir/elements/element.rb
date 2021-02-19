@@ -811,7 +811,7 @@ module Watir
           msg += "; Watir treated #{custom_attributes} as a non-HTML compliant attribute, ensure that was intended"
         end
         raise unknown_exception, msg
-      rescue Selenium::WebDriver::Error::StaleElementReferenceError
+      rescue Selenium::WebDriver::Error::StaleElementReferenceError, Selenium::WebDriver::Error::NoSuchElementError
         reset!
         retry
         # TODO: - InvalidElementStateError is deprecated, so no longer calling `raise_disabled`
