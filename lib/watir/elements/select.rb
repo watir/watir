@@ -33,7 +33,8 @@ module Watir
       if str_or_rx.size > 1 || str_or_rx.first.is_a?(Array)
         str_or_rx.flatten.map { |v| select_all_by v }.first
       else
-        str_or_rx.flatten.map { |v| select_by v }.first
+        found = find_options(:value, str_or_rx.flatten.first).first
+        select_matching([found])
       end
     end
 
@@ -140,17 +141,6 @@ module Watir
 
     private
 
-    def select_by(str_or_rx)
-      found = find_options(:value, str_or_rx)
-
-      if found.size > 1
-        Watir.logger.deprecate 'Selecting multiple options with #select using a String or Regexp value',
-                               '#select with the desired values in an Array instance',
-                               ids: [:select_by]
-      end
-      select_matching(found)
-    end
-
     def select_by!(str_or_rx, number)
       js_rx = process_str_or_rx(str_or_rx)
 
@@ -199,7 +189,7 @@ module Watir
     end
 
     def find_options(how, str_or_rx)
-      msg = "expected String, Numberic or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
+      msg = "expected String, Numeric or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
       raise TypeError, msg unless [String, Numeric, Regexp].any? { |k| str_or_rx.is_a?(k) }
 
       wait_while do

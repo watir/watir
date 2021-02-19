@@ -1,7 +1,6 @@
 if defined?(RSpec)
   DEPRECATION_WARNINGS = %i[use_capabilities
                             select_all
-                            select_by
                             window_index].freeze
 
   DEPRECATION_WARNINGS.each do |deprecation|
