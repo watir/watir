@@ -89,12 +89,10 @@ describe 'Frame' do
   end
 
   bug 'Safari does not strip text', :safari do
-    bug 'https://github.com/mozilla/geckodriver/issues/1843', :firefox do
-      it "can access the frame's parent element after use" do
-        el = browser.frameset
-        el.frame.text_field.value
-        expect(el.attribute_value('cols')).to be_kind_of(String)
-      end
+    it "can access the frame's parent element after use" do
+      el = browser.frameset
+      el.frame.text_field.value
+      expect(el.attribute_value('cols')).to be_kind_of(String)
     end
   end
 
