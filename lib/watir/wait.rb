@@ -32,12 +32,7 @@ module Watir
       # @raise [TimeoutError] if timeout is exceeded
       #
 
-      def until(depr_timeout = nil, depr_message = nil, timeout: nil, message: nil, interval: nil, object: nil)
-        if depr_message || depr_timeout
-          Watir.logger.deprecate 'Using arguments for Wait#until', 'keywords', ids: %i[until timeout_arguments]
-          timeout = depr_timeout
-          message = depr_message
-        end
+      def until(timeout: nil, message: nil, interval: nil, object: nil)
         timeout ||= Watir.default_timeout
         run_with_timer(timeout, interval) do
           result = yield(object)
@@ -58,12 +53,7 @@ module Watir
       # @raise [TimeoutError] if timeout is exceeded
       #
 
-      def while(depr_timeout = nil, depr_message = nil, timeout: nil, message: nil, interval: nil, object: nil)
-        if depr_message || depr_timeout
-          Watir.logger.deprecate 'Using arguments for Wait#while', 'keywords', ids: %i[while timeout_arguments]
-          timeout = depr_timeout
-          message = depr_message
-        end
+      def while(timeout: nil, message: nil, interval: nil, object: nil)
         timeout ||= Watir.default_timeout
         run_with_timer(timeout, interval) { return unless yield(object) }
         raise TimeoutError, message_for(timeout, object, message)
@@ -111,12 +101,7 @@ module Watir
     # @param [String] message error message for when times out
     #
 
-    def wait_until(depr_timeout = nil, depr_message = nil, timeout: nil, message: nil, interval: nil, **opt, &blk)
-      if depr_message || depr_timeout
-        Watir.logger.deprecate 'Using arguments for #wait_until', 'keywords', ids: [:timeout_arguments]
-        timeout = depr_timeout
-        message = depr_message
-      end
+    def wait_until(timeout: nil, message: nil, interval: nil, **opt, &blk)
       message ||= proc { |obj| "waiting for true condition on #{obj.inspect}" }
 
       # TODO: Consider throwing argument error for mixing block & options
@@ -142,12 +127,7 @@ module Watir
     # @param [String] message error message for when times out
     #
 
-    def wait_while(depr_timeout = nil, depr_message = nil, timeout: nil, message: nil, interval: nil, **opt, &blk)
-      if depr_message || depr_timeout
-        Watir.logger.deprecate 'Using arguments for #wait_while', 'keywords', ids: [:timeout_arguments]
-        timeout = depr_timeout
-        message = depr_message
-      end
+    def wait_while(timeout: nil, message: nil, interval: nil, **opt, &blk)
       message ||= proc { |obj| "waiting for false condition on #{obj.inspect}" }
 
       # TODO: Consider throwing argument error for mixing block & options
