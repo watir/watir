@@ -1,6 +1,5 @@
 module Watir
   class Alert
-    include EventuallyPresent
     include Waitable
     include Exception
 

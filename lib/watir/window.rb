@@ -1,6 +1,5 @@
 module Watir
   class Window
-    include EventuallyPresent
     include Waitable
     include Exception
 
@@ -189,8 +188,6 @@ module Watir
 
     #
     # @api private
-    #
-    # Referenced in EventuallyPresent
     #
 
     def selector_string
