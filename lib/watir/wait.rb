@@ -138,56 +138,6 @@ module Watir
       self
     end
 
-    #
-    # Waits until the element is present.
-    # Element is always relocated, so this can be used in the case of an element going away and returning
-    #
-    # @example
-    #   browser.text_field(name: "new_user_first_name").wait_until_present
-    #
-    # @param [Integer] timeout seconds to wait before timing out
-    # @param [Float] interval seconds to wait before each try
-    # @param [String] message error message for when times out
-    #
-    # @see Watir::Wait
-    # @see Watir::Element#present?
-    #
-
-    def wait_until_present(depr_timeout = nil, timeout: nil, interval: nil, message: nil)
-      timeout = depr_timeout if depr_timeout
-      Watir.logger.deprecate "#{self.class}#wait_until_present",
-                             "#{self.class}#wait_until(&:present?)",
-                             ids: [:wait_until_present]
-
-      message ||= proc { |obj| "waiting for #{obj.inspect} to become present" }
-      wait_until(timeout: timeout, interval: interval, message: message, element_reset: true, &:present?)
-    end
-
-    #
-    # Waits while the element is present.
-    # Element is always relocated, so this can be used in the case of the element changing attributes
-    #
-    # @example
-    #   browser.text_field(name: "abrakadbra").wait_while_present
-    #
-    # @param [Integer] timeout seconds to wait before timing out
-    # @param [Float] interval seconds to wait before each try
-    # @param [String] message error message for when times out
-    #
-    # @see Watir::Wait
-    # @see Watir::Element#present?
-    #
-
-    def wait_while_present(depr_timeout = nil, timeout: nil, interval: nil, message: nil)
-      timeout = depr_timeout if depr_timeout
-      Watir.logger.deprecate "#{self.class}#wait_while_present",
-                             "#{self.class}#wait_while(&:present?)",
-                             ids: [:wait_while_present]
-
-      message ||= proc { |obj| "waiting for #{obj.inspect} not to be present" }
-      wait_while(timeout: timeout, interval: interval, message: message, element_reset: true, &:present?)
-    end
-
     private
 
     def create_proc(opt)

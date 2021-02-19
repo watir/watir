@@ -19,90 +19,6 @@ describe Watir::Element do
     expect { browser.button(id: 'btn').click }.to raise_object_disabled_exception
   end
 
-  describe '#wait_until_present' do
-    it 'waits until the element appears' do
-      browser.a(id: 'show_bar').click
-      expect {
-        expect { browser.div(id: 'bar').wait_until_present(timeout: 5) }.to_not raise_exception
-      }.to have_deprecated_wait_until_present
-    end
-
-    bug 'Safari does not recognize date type', :safari do
-      it 'waits until the element re-appears' do
-        browser.link(id: 'readd_bar').click
-        expect {
-          expect { browser.div(id: 'bar').wait_until_present }.to_not raise_exception
-        }.to have_deprecated_wait_until_present
-      end
-    end
-
-    it "times out if the element doesn't appear" do
-      inspected = '#<Watir::Div: located: true; {:id=>"bar", :tag_name=>"div"}>'
-      error = Watir::Wait::TimeoutError
-      message = "timed out after 1 seconds, waiting for #{inspected} to become present"
-
-      expect {
-        expect { browser.div(id: 'bar').wait_until_present(timeout: 1) }.to raise_error(error, message)
-      }.to have_deprecated_wait_until_present
-    end
-
-    it 'uses provided interval' do
-      element = browser.div(id: 'bar')
-      expect(element).to receive(:present?).twice
-
-      expect {
-        expect { element.wait_until_present(timeout: 0.4, interval: 0.2) }.to raise_timeout_exception
-      }.to have_deprecated_wait_until_present
-    end
-  end
-
-  describe '#wait_while_present' do
-    it 'waits until the element disappears' do
-      browser.a(id: 'hide_foo').click
-      expect {
-        expect { browser.div(id: 'foo').wait_while_present(timeout: 2) }.to_not raise_exception
-      }.to have_deprecated_wait_while_present
-    end
-
-    it "times out if the element doesn't disappear" do
-      error = Watir::Wait::TimeoutError
-      inspected = '#<Watir::Div: located: true; {:id=>"foo", :tag_name=>"div"}>'
-      message = "timed out after 1 seconds, waiting for #{inspected} not to be present"
-      expect {
-        expect { browser.div(id: 'foo').wait_while_present(timeout: 1) }.to raise_error(error, message)
-      }.to have_deprecated_wait_while_present
-    end
-
-    it 'uses provided interval' do
-      error = Watir::Wait::TimeoutError
-      element = browser.div(id: 'foo')
-      expect(element).to receive(:present?).and_return(true).twice
-
-      expect {
-        expect { element.wait_while_present(timeout: 0.4, interval: 0.2) }.to raise_error(error)
-      }.to have_deprecated_wait_while_present
-    end
-
-    it 'does not error when element goes stale' do
-      element = browser.div(id: 'foo').locate
-
-      allow(element).to receive(:stale?).and_return(false, true)
-
-      browser.a(id: 'hide_foo').click
-      expect {
-        expect { element.wait_while_present(timeout: 1) }.to_not raise_exception
-      }.to have_deprecated_wait_while_present
-    end
-
-    it 'waits until the selector no longer matches' do
-      element = browser.link(name: 'add_select').wait_until(&:exists?)
-      browser.link(id: 'change_select').click
-      expect {
-        expect { element.wait_while_present }.not_to raise_error
-      }.to have_deprecated_wait_while_present
-    end
-  end
-
   describe '#wait_until' do
     it 'returns element for additional actions' do
       element = browser.div(id: 'foo')
@@ -293,18 +209,6 @@ describe Watir do
 
       it 'is used by Wait#while' do
         expect { Watir::Wait.while { true } }.to wait_and_raise_timeout_exception(timeout: 1)
-      end
-
-      it 'is used by Element#wait_until_present' do
-        expect {
-          expect { browser.div(id: 'bar').wait_until_present }.to wait_and_raise_timeout_exception(timeout: 1)
-        }.to have_deprecated_wait_until_present
-      end
-
-      it 'is used by Element#wait_while_present' do
-        expect {
-          expect { browser.div(id: 'foo').wait_while_present }.to wait_and_raise_timeout_exception(timeout: 1)
-        }.to have_deprecated_wait_while_present
       end
     end
   end
