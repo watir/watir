@@ -195,7 +195,7 @@ module Watir
     end
 
     def element_class
-      Kernel.const_get(self.class.name.sub(/Collection$/, ''))
+      Watir.const_get(self.class.name.sub(/Collection$/, ''))
     end
 
     def construct_subtype(element, hash, tag_name)

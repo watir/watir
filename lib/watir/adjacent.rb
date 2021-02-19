@@ -117,7 +117,7 @@ module Watir
         el = Watir.element_class_for(opt[:tag_name] || '').new(self, opt)
         el.is_a?(Input) ? el.to_subtype : el
       elsif opt[:tag_name]
-        Object.const_get("#{Watir.element_class_for(opt[:tag_name])}Collection").new(self, opt)
+        Watir.const_get("#{Watir.element_class_for(opt[:tag_name])}Collection").new(self, opt)
       else
         HTMLElementCollection.new(self, opt)
       end
