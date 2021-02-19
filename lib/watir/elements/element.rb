@@ -8,7 +8,6 @@ module Watir
 
     include Exception
     include Container
-    include EventuallyPresent
     include Waitable
     include Adjacent
     include JSExecution

@@ -12,7 +12,6 @@ if ENV['GITHUB_ACTIONS'] || ENV['COVERAGE']
     add_filter %r{/spec/}
     add_filter 'lib/watir/elements/html_elements.rb'
     add_filter 'lib/watir/elements/svg_elements.rb'
-    add_filter 'lib/watir/legacy_wait.rb'
     add_filter 'lib/watirspec'
     refuse_coverage_drop
   end
