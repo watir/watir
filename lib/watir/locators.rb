@@ -51,9 +51,7 @@ module Watir
       end
 
       def class_from_string(string)
-        Kernel.const_get(string)
-      rescue NameError
-        nil
+        Watir.const_get(string) if Watir.const_defined?(string)
       end
 
       def element_class_name

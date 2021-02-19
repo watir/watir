@@ -119,7 +119,7 @@ module Watir
 
         # Extensions implement this method when creating a different selector builder
         def implementation_class
-          Kernel.const_get("#{self.class.name}::XPath")
+          Watir.const_get("#{self.class.name}::XPath")
         end
 
         def build_wd_selector(selector)
