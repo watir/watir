@@ -30,8 +30,15 @@ module Watir
     #
 
     def select(*str_or_rx)
-      results = str_or_rx.flatten.map { |v| select_by v }
-      results.first
+      value = str_or_rx.flatten
+      if value.size > 1 && multiple?
+        value.map { |v| select_all_by v }.first
+      elsif value.size > 1
+        raise Error, 'too many arguments used for #select, use #select_all'
+      else
+        found = find_options(:value, value.first).first
+        select_matching([found])
+      end
     end
 
     #
@@ -125,16 +132,6 @@ module Watir
     end
 
     private
-
-    def select_by(str_or_rx)
-      found = find_options(:value, str_or_rx)
-
-      if found.size > 1
-        Watir.logger.deprecate 'Selecting Multiple Options with #select', '#select_all',
-                               ids: [:select_by]
-      end
-      select_matching(found)
-    end
 
     def select_by!(str_or_rx, number)
       js_rx = process_str_or_rx(str_or_rx)

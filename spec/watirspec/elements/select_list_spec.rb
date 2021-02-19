@@ -241,8 +241,8 @@ describe 'SelectList' do
 
       it 'selects an option with a Regexp' do
         browser.select_list(name: 'new_user_languages').clear
-        expect { browser.select_list(name: 'new_user_languages').select(/1|3/) }.to have_deprecated_select_by
-        expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq %w[Danish NO]
+        browser.select_list(name: 'new_user_languages').select(/2|3/)
+        expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq %w[EN]
       end
     end
 
