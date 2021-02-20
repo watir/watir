@@ -2,7 +2,7 @@ module Watir
   module Wait
     class Timer
       def initialize(timeout: nil)
-        @end_time = current_time + timeout if timeout
+        @end_time = timeout ? current_time + timeout : nil
         @remaining_time = @end_time - current_time if @end_time
       end
 

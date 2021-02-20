@@ -50,6 +50,8 @@ describe 'Browser::AfterHooks' do
   end
 
   describe '#run' do
+    before { @yield = nil }
+
     after(:each) do
       browser.original_window.use
       browser.after_hooks.delete @page_after_hook

@@ -13,6 +13,7 @@ module Watir
     def initialize(query_scope, selector)
       @query_scope = query_scope
       @selector = selector
+      @to_a = nil
 
       build unless @selector.key?(:element)
     end

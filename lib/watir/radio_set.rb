@@ -4,7 +4,7 @@ module Watir
     include Exception
     include Enumerable
 
-    delegate %i[exists? present? visible? browser] => :source
+    delegate %i[exist? exists? present? visible? browser] => :source
 
     attr_reader :source, :frame
 

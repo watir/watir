@@ -150,7 +150,7 @@ if defined?(RSpec)
 
   RSpec::Matchers.define :exist do |*args|
     match do |actual|
-      actual.exists?(*args)
+      actual.exist?(*args)
     end
 
     failure_message do |obj|

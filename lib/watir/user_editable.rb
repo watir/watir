@@ -21,13 +21,17 @@ module Watir
     # @param [String, Symbol] args
     #
 
+    def content_editable
+      defined?(@content_editable) && content_editable?
+    end
+
     def set!(*args)
       msg = '#set! does not support special keys, use #set instead'
       raise ArgumentError, msg if args.any? { |v| v.is_a?(::Symbol) }
 
       input_value = args.join
       set input_value[0]
-      return content_editable_set!(*args) if @content_editable
+      return content_editable_set!(*args) if content_editable
 
       element_call { execute_js(:setValue, @element, input_value[0..-2]) }
       append(input_value[-1])
@@ -43,7 +47,7 @@ module Watir
     #
 
     def append(*args)
-      raise NotImplementedError, '#append method is not supported with contenteditable element' if @content_editable
+      raise NotImplementedError, '#append method is not supported with contenteditable element' if content_editable
 
       send_keys(*args)
     end
