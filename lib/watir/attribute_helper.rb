@@ -46,6 +46,8 @@ module Watir
     #  @return [$1] value of $3 property
     #
     def attribute(type, method, attr)
+      return if method_defined?(method)
+
       typed_attributes[type] << [method, attr]
       define_attribute(type, method, attr)
     end

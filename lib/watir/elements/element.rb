@@ -673,7 +673,7 @@ module Watir
 
     def wait_for_enabled
       wait_for_exists
-      return unless [Input, Button, Select, Option].any? { |c| is_a? c } || @content_editable
+      return unless [Input, Button, Select, Option].any? { |c| is_a? c } || content_editable
       return if enabled?
 
       begin
@@ -754,6 +754,7 @@ module Watir
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/CyclomaticComplexity:
+    # rubocop:disable Metrics/PerceivedComplexity::
     def element_call(precondition = nil, &block)
       caller = caller_locations(1, 1)[0].label
       already_locked = browser.timer.locked?
@@ -767,7 +768,7 @@ module Watir
         element_call(:wait_for_exists, &block) if precondition.nil?
         msg = e.message
         msg += '; Maybe look in an iframe?' if @query_scope.iframe.exists?
-        custom_attributes = @locator.nil? ? [] : selector_builder.custom_attributes
+        custom_attributes = !defined?(@locator) || @locator.nil? ? [] : selector_builder.custom_attributes
         unless custom_attributes.empty?
           msg += "; Watir treated #{custom_attributes} as a non-HTML compliant attribute, ensure that was intended"
         end
@@ -790,8 +791,8 @@ module Watir
     end
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
-
-    # rubocop:enable Metrics/CyclomaticComplexity:
+    # rubocop:enable Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/PerceivedComplexity
 
     def check_condition(condition, caller)
       Watir.logger.debug "<- `Verifying precondition #{inspect}##{condition} for #{caller}`"

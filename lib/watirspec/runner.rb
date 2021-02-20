@@ -33,7 +33,7 @@ module WatirSpec
     end
 
     def execute_if_necessary
-      execute if !@executed && @execute
+      execute if (!defined?(@executed) || !@executed) && @execute
     end
 
     def configure

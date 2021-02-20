@@ -106,6 +106,8 @@ module Watir
     end
 
     #
+    # TODO: Use :permitted_classes keyword when minimum supported Ruby is 2.6
+    #
     # Load cookies from file
     #
     # @example

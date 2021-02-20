@@ -83,6 +83,7 @@ module Watir
       false
     end
     alias present? exists?
+    alias exist? exists?
 
     #
     # @api private

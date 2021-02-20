@@ -83,10 +83,10 @@ describe 'SelectList' do
 
     it 'returns the value of the selected options' do
       browser.select_list(name: 'new_user_languages').select('1')
-      expect(browser.select_list(name: 'new_user_languages').value).to eq "1"
+      expect(browser.select_list(name: 'new_user_languages').value).to eq '1'
       browser.select_list(name: 'new_user_languages').clear
       browser.select_list(name: 'new_user_languages').select('NO')
-      expect(browser.select_list(name: 'new_user_languages').value).to eq "3"
+      expect(browser.select_list(name: 'new_user_languages').value).to eq '3'
     end
 
     it "raises UnknownObjectException if the select list doesn't exist" do

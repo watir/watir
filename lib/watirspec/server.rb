@@ -24,7 +24,7 @@ module WatirSpec
       private
 
       def running?
-        @running
+        defined?(@running) && @running
       end
 
       def run_server
