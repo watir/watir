@@ -99,18 +99,6 @@ module Watir
     end
 
     #
-    # Returns the value of the first selected option in the select list.
-    # Returns nil if no option is selected.
-    #
-    # @return [String, nil]
-    #
-
-    def value
-      option = selected_options.first
-      option&.value
-    end
-
-    #
     # Returns the text of the first selected option in the select list.
     # Returns nil if no option is selected.
     #

@@ -34,16 +34,6 @@ module Watir
     end
 
     #
-    # Is this option selected?
-    #
-    # @return [Boolean]
-    #
-
-    def selected?
-      element_call { @element.selected? }
-    end
-
-    #
     # Returns the text of option.
     #
     # getAttribute atom pulls the text value if the label does not exist
