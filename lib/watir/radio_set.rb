@@ -201,7 +201,7 @@ module Watir
     end
     alias eql? ==
 
-    # Ruby 2.4+ complains about using #delegate to do this
+    # Delegating to Private Methods
     %i[assert_exists element_call].each do |method|
       define_method(method) do |*args, &blk|
         source.send(method, *args, &blk)

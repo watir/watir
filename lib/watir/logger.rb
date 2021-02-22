@@ -25,7 +25,7 @@ module Watir
                    :warn?,
                    :error, :error?,
                    :fatal, :fatal?,
-                   :level
+                   :level, :level=
 
     def initialize(progname = 'Watir')
       @logger = create_logger($stdout)
@@ -48,22 +48,6 @@ module Watir
       msg = ids.empty? ? '' : "[#{ids.map!(&:to_s).map(&:inspect).join(', ')}] "
       msg += message
       @logger.warn(msg, &block) unless (@ignored & ids).any?
-    end
-
-    #
-    # For Ruby < 2.4 compatibility
-    # Based on https://github.com/ruby/ruby/blob/ruby_2_3/lib/logger.rb#L250
-    #
-
-    def level=(severity)
-      if severity.is_a?(Integer)
-        @logger.level = severity
-      else
-        levels = %w[debug info warn error fatal unknown]
-        raise ArgumentError, "invalid log level: #{severity}" unless levels.include? severity.to_s.downcase
-
-        @logger.level = severity.to_s.upcase
-      end
     end
 
     #
