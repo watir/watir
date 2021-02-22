@@ -1,7 +1,7 @@
 module WatirSpec
   class Implementation
     attr_writer :name, :guard_proc, :browser_class
-    attr_accessor :browser_args
+    attr_accessor :browser_args, :driver_info
 
     def initialize
       @guard_proc = nil

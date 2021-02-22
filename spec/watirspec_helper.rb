@@ -27,14 +27,14 @@ class LocalConfig
   private
 
   def load_webdrivers
-    case browser
-    when :chrome
-      Webdrivers::Chromedriver.update
-      Watir.logger.info "chromedriver version: #{Webdrivers::Chromedriver.current_version.version}"
-    when :firefox
-      Webdrivers::Geckodriver.update
-      Watir.logger.info "geckodriver version: #{Webdrivers::Geckodriver.current_version.version}"
-    end
+    @imp.driver_info = case browser
+                       when :chrome
+                         Webdrivers::Chromedriver.update
+                         "chromedriver version: #{Webdrivers::Chromedriver.current_version.version}"
+                       when :firefox
+                         Webdrivers::Geckodriver.update
+                         "geckodriver version: #{Webdrivers::Geckodriver.current_version.version}"
+                       end
   end
 
   def set_webdriver
