@@ -182,7 +182,11 @@ module Watir
     end
 
     def ensure_context
-      @query_scope.locate if @query_scope.is_a?(Browser) || @query_scope.located? && @query_scope.stale?
+      if @query_scope.is_a?(Browser) || !@query_scope.located? && @query_scope.is_a?(IFrame)
+        @query_scope.browser.locate
+      elsif @query_scope.located? && @query_scope.stale?
+        @query_scope.locate
+      end
       @query_scope.switch_to! if @query_scope.is_a?(IFrame)
     end
 
