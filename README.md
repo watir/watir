@@ -109,7 +109,4 @@ on wire calls.
 
 ## Copyright
 
-Copyright (c) 2009-2015 Jari Bakken
-Copyright (c) 2015-2018 Alex Rodionov, Titus Fortner
-Copyright (c) 2018 Justin Ko
 See LICENSE for details
