@@ -5,7 +5,7 @@ module Watir
     #
 
     def clear
-      raise Exception::Error, 'you can only clear multi-selects' unless multiple?
+      raise Exception::Error, 'you can only clear multi-selects' unless multiple_select_list?
 
       selected_options.each(&:click)
     end
@@ -33,8 +33,7 @@ module Watir
       if str_or_rx.size > 1 || str_or_rx.first.is_a?(Array)
         str_or_rx.flatten.map { |v| select_all_by v }.first
       else
-        found = find_options(:value, str_or_rx.flatten.first).first
-        select_matching([found])
+        select_matching([find_option(str_or_rx.flatten.first)])
       end
     end
     alias set select
@@ -82,8 +81,7 @@ module Watir
     #
 
     def value
-      option = selected_options.first
-      option&.value
+      selected_options.first&.value
     end
 
     #
@@ -93,9 +91,9 @@ module Watir
     # @return [String, nil]
     #
 
+    # TODO: What is default behavior without #first ?
     def text
-      option = selected_options.first
-      option&.text
+      selected_options.first&.text
     end
 
     # Returns an array of currently selected options.
@@ -109,7 +107,13 @@ module Watir
 
     private
 
+    def multiple_select_list?
+      @multiple_select = @multiple_select.nil? ? multiple? : @multiple_select
+    end
+
     def select_by!(str_or_rx, number)
+      str_or_rx = type_check(str_or_rx)
+
       js_rx = process_str_or_rx(str_or_rx)
 
       %w[Text Label Value].each do |approach|
@@ -149,24 +153,37 @@ module Watir
     end
 
     def select_all_by(str_or_rx)
-      raise Error, 'you can only use #select_all on multi-selects' unless multiple?
+      raise Error, 'you can only use #select_all on multi-selects' unless multiple_select_list?
 
-      select_matching(find_options(:text, str_or_rx))
+      val = type_check(str_or_rx)
+
+      select_matching(find_options(val))
     end
 
-    def find_options(how, str_or_rx)
-      msg = "expected String, Numeric or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
-      raise TypeError, msg unless [String, Numeric, Regexp].any? { |k| str_or_rx.is_a?(k) }
+    def find_option(str_or_rx)
+      val = type_check(str_or_rx)
 
-      wait_while do
-        @found = how == :value ? options(value: str_or_rx) : []
-        @found = options(text: str_or_rx) if @found.empty?
-        @found = options(label: str_or_rx) if @found.empty?
-        @found.empty?
-      end
-      @found
+      option(any: val).wait_until(&:exists?)
     rescue Wait::TimeoutError
-      raise_no_value_found(str_or_rx)
+      raise_no_value_found(val)
+    end
+
+    def find_options(str_or_rx)
+      val = type_check(str_or_rx)
+
+      opts = options(any: val)
+      wait_until { opts.size.positive? }
+      opts
+    rescue Wait::TimeoutError
+      raise_no_value_found(val)
+    end
+
+    def type_check(str_or_rx)
+      str_or_rx = str_or_rx.to_s if str_or_rx.is_a?(Numeric)
+      msg = "expected String, Numeric or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
+      raise TypeError, msg unless [String, Regexp].any? { |k| str_or_rx.is_a?(k) }
+
+      str_or_rx
     end
 
     # TODO: Consider locating the Select List before throwing the exception
@@ -175,7 +192,6 @@ module Watir
     end
 
     def select_matching(elements)
-      elements = [elements.first] unless multiple?
       elements.each { |e| e.click unless e.selected? }
       elements.first.exists? ? elements.first.text : ''
     end

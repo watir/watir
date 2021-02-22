@@ -14,6 +14,10 @@ require 'watir/locators/button/matcher'
 require 'watir/locators/cell/selector_builder'
 require 'watir/locators/cell/selector_builder/xpath'
 
+require 'watir/locators/option/matcher'
+require 'watir/locators/option/selector_builder'
+require 'watir/locators/option/selector_builder/xpath'
+
 require 'watir/locators/row/selector_builder'
 require 'watir/locators/row/selector_builder/xpath'
 

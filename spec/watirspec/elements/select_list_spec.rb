@@ -244,77 +244,93 @@ describe 'SelectList' do
     end
   end
 
-  describe '#select' do
-    context 'when finding by value' do
-      it 'selects an option with a String' do
-        browser.select_list(name: 'new_user_languages').clear
-        browser.select_list(name: 'new_user_languages').select('2')
-        expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq %w[EN]
+  describe '#select method' do
+    context 'working with multiple select list' do
+      before do
+        @select_list = browser.select_list(name: 'new_user_languages')
+        @select_list.clear
       end
 
-      it 'selects an option with a Regexp' do
-        browser.select_list(name: 'new_user_languages').clear
-        browser.select_list(name: 'new_user_languages').select(/2|3/)
-        expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq %w[EN]
-      end
-    end
+      context 'when finding by value' do
+        it 'selects an option with a String' do
+          @select_list.select('2')
+          expect(@select_list.selected_options.first.text).to eq 'EN'
+        end
 
-    context 'when finding by text' do
-      it 'selects an option with a String' do
-        browser.select_list(name: 'new_user_country').select('Denmark')
-        expect(browser.select_list(name: 'new_user_country').selected_options.map(&:text)).to eq ['Denmark']
-      end
+        it 'selects an option with a Number' do
+          @select_list.select(2)
+          expect(@select_list.selected_options.first.text).to eq 'EN'
+        end
 
-      it 'selects an option with a Regexp' do
-        browser.select_list(name: 'new_user_country').select(/Denmark/)
-        expect(browser.select_list(name: 'new_user_country').selected_options.map(&:text)).to eq ['Denmark']
-      end
-    end
-
-    context 'when finding by label' do
-      it 'selects an option with a String' do
-        browser.select_list(name: 'new_user_languages').clear
-        browser.select_list(name: 'new_user_languages').select('NO')
-        expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq ['NO']
+        it 'selects an option with a Regexp' do
+          @select_list.select(/2|3/)
+          expect(@select_list.selected_options.first.text).to eq 'EN'
+        end
       end
 
-      it 'selects an option with a Regexp' do
-        browser.select_list(name: 'new_user_languages').clear
-        browser.select_list(name: 'new_user_languages').select(/^N/)
-        expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq ['NO']
+      context 'when finding by text' do
+        it 'selects an option with a String' do
+          @select_list.select('Norwegian')
+          expect(@select_list.selected_options.first.value).to eq '3'
+        end
+
+        it 'selects an option with a Regexp' do
+          @select_list.select(/wegia/)
+          expect(@select_list.selected_options.first.value).to eq '3'
+        end
       end
-    end
 
-    it 'selects multiple options successively' do
-      browser.select_list(name: 'new_user_languages').clear
-      browser.select_list(name: 'new_user_languages').select('Danish')
-      browser.select_list(name: 'new_user_languages').select('Swedish')
-      expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq %w[Danish Swedish]
-    end
+      context 'when finding by label' do
+        it 'selects an option with a String' do
+          @select_list.select('NO')
+          expect(@select_list.selected_options.first.value).to eq '3'
+        end
 
-    bug 'Safari is returning click intercepted error', :safari do
-      it 'selects empty options' do
-        browser.select_list(id: 'delete_user_username').select('')
-        expect(browser.select_list(id: 'delete_user_username').selected_options.map(&:text)).to eq ['']
+        it 'selects an option with a Regexp' do
+          @select_list.select(/^N/)
+          expect(@select_list.selected_options.first.value).to eq '3'
+        end
       end
-    end
 
-    it 'returns the value selected' do
-      expect(browser.select_list(name: 'new_user_languages').select('Danish')).to eq 'Danish'
-    end
+      it 'selects multiple options successively' do
+        @select_list.select('Danish')
+        @select_list.select('Swedish')
+        expect(@select_list.selected_options.map(&:text)).to eq %w[Danish Swedish]
+      end
 
-    it 'fires onchange event when selecting an item' do
-      browser.select_list(id: 'new_user_languages').select('Danish')
-      expect(messages).to eq ['changed language']
-    end
+      it 'selects each item in an Array' do
+        @select_list.select(%w[Danish Swedish])
+        expect(@select_list.selected_options.map(&:text)).to eq %w[Danish Swedish]
+      end
 
-    it "doesn't fire onchange event when selecting an already selected item" do
-      browser.select_list(id: 'new_user_languages').clear # removes the two pre-selected options
-      browser.select_list(id: 'new_user_languages').select('English')
-      expect(messages.size).to eq 3
+      it 'selects each item in a parameter list' do
+        @select_list.select('Danish', 'Swedish')
+        expect(@select_list.selected_options.map(&:text)).to eq %w[Danish Swedish]
+      end
 
-      browser.select_list(id: 'new_user_languages').select('English')
-      expect(messages.size).to eq 3
+      bug 'Safari is returning click intercepted error', :safari do
+        it 'selects empty options' do
+          browser.select_list(id: 'delete_user_username').select('')
+          expect(browser.select_list(id: 'delete_user_username').selected_options.map(&:text)).to eq ['']
+        end
+      end
+
+      it 'returns the value selected' do
+        expect(@select_list.select('Danish')).to eq 'Danish'
+      end
+
+      it 'fires onchange event when selecting or deselecting an item' do
+        @select_list.select('Danish')
+        expect(messages).to eq ['changed language', 'changed language', 'changed language']
+      end
+
+      it "doesn't fire onchange event when selecting an already selected item" do
+        @select_list.select('English')
+        expect(messages.size).to eq 3
+
+        @select_list.select('English')
+        expect(messages.size).to eq 3
+      end
     end
 
     bug 'Safari is returning click intercepted error', :safari do
@@ -408,61 +424,77 @@ describe 'SelectList' do
   end
 
   describe '#select!' do
-    context 'when finding by value' do
-      it 'selects an option with a String' do
-        browser.select_list(name: 'new_user_languages').clear
-        browser.select_list(name: 'new_user_languages').select!('2')
-        expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq %w[EN]
+    context 'working with multiple select list' do
+      before do
+        @select_list = browser.select_list(name: 'new_user_languages')
+        @select_list.clear
       end
 
-      it 'selects an option with a Regex' do
-        browser.select_list(name: 'new_user_languages').clear
-        browser.select_list(name: 'new_user_languages').select!(/2/)
-        expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq %w[EN]
-      end
-    end
+      context 'when finding by value' do
+        it 'selects an option with a String' do
+          @select_list.select!('2')
+          expect(@select_list.selected_options.first.text).to eq 'EN'
+        end
 
-    context 'when finding by text' do
-      it 'selects an option with a String' do
-        browser.select_list(name: 'new_user_country').select!('Denmark')
-        expect(browser.select_list(name: 'new_user_country').selected_options.map(&:text)).to eq ['Denmark']
-      end
+        it 'selects an option with a Number' do
+          @select_list.select!(2)
+          expect(@select_list.selected_options.first.text).to eq 'EN'
+        end
 
-      it 'selects an option with a Regexp' do
-        browser.select_list(name: 'new_user_country').select!(/Denmark/)
-        expect(browser.select_list(name: 'new_user_country').selected_options.map(&:text)).to eq ['Denmark']
-      end
-    end
-
-    context 'when finding by label' do
-      it 'selects an option with a String' do
-        browser.select_list(name: 'new_user_languages').clear
-        browser.select_list(name: 'new_user_languages').select!('NO')
-        expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq ['NO']
+        it 'selects an option with a Regexp' do
+          @select_list.select!(/2|3/)
+          expect(@select_list.selected_options.first.text).to eq 'EN'
+        end
       end
 
-      it 'selects an option with a Regexp' do
-        browser.select_list(name: 'new_user_languages').clear
-        browser.select_list(name: 'new_user_languages').select!(/NO/)
-        expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq ['NO']
+      context 'when finding by text' do
+        it 'selects an option with a String' do
+          @select_list.select!('Danish')
+          expect(@select_list.selected_options.first.value).to eq '1'
+        end
+
+        it 'selects an option with a Regexp' do
+          @select_list.select!(/ani/)
+          expect(@select_list.selected_options.first.value).to eq '1'
+        end
       end
-    end
 
-    it 'selects multiple items successively' do
-      browser.select_list(name: 'new_user_languages').clear
-      browser.select_list(name: 'new_user_languages').select!('Danish')
-      browser.select_list(name: 'new_user_languages').select!('Swedish')
-      expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq %w[Danish Swedish]
-    end
+      context 'when finding by label' do
+        it 'selects an option with a String' do
+          @select_list.select!('NO')
+          expect(@select_list.selected_options.first.value).to eq '3'
+        end
 
-    it 'selects empty options' do
-      browser.select_list(id: 'delete_user_username').select!('')
-      expect(browser.select_list(id: 'delete_user_username').selected_options.map(&:text)).to eq ['']
-    end
+        it 'selects an option with a Regexp' do
+          @select_list.select!(/^N/)
+          expect(@select_list.selected_options.first.value).to eq '3'
+        end
+      end
 
-    it 'returns the value selected' do
-      browser.select_list(name: 'new_user_languages').clear
-      expect(browser.select_list(name: 'new_user_languages').select!('Danish')).to eq 'Danish'
+      it 'selects multiple options successively' do
+        @select_list.select!('Danish')
+        @select_list.select!('Swedish')
+        expect(@select_list.selected_options.map(&:text)).to eq %w[Danish Swedish]
+      end
+
+      it 'selects each item in an Array' do
+        @select_list.select!(%w[Danish Swedish])
+        expect(@select_list.selected_options.map(&:text)).to eq %w[Danish Swedish]
+      end
+
+      it 'selects each item in a parameter list' do
+        @select_list.select!('Danish', 'Swedish')
+        expect(@select_list.selected_options.map(&:text)).to eq %w[Danish Swedish]
+      end
+
+      it 'selects empty options' do
+        browser.select_list(id: 'delete_user_username').select!('')
+        expect(browser.select_list(id: 'delete_user_username').selected_options.map(&:text)).to eq ['']
+      end
+
+      it 'returns the value selected' do
+        expect(@select_list.select!('Danish')).to eq 'Danish'
+      end
     end
 
     it 'selects options with a single-quoted value' do
@@ -486,14 +518,12 @@ describe 'SelectList' do
 
     bug 'Safari is returning object enabled instead of disabled', :safari do
       it 'raises ObjectDisabledException if the option is disabled' do
-        browser.select_list(id: 'new_user_languages').clear
-        expect { browser.select_list(id: 'new_user_languages').select!('Russian') }
+        expect { browser.select_list(name: 'new_user_languages').select!('Russian') }
           .to raise_object_disabled_exception
       end
     end
 
     it 'raises a TypeError if argument is not a String, Regexp or Numeric' do
-      browser.select_list(id: 'new_user_languages').clear
       expect { browser.select_list(id: 'new_user_languages').select!({}) }.to raise_error(TypeError)
     end
 
