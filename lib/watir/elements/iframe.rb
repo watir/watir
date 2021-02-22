@@ -44,8 +44,9 @@ module Watir
     # @see Watir::Browser#execute_script
     #
 
-    def execute_script(script, *args)
+    def execute_script(script, *args, function_name: nil)
       args.map! do |e|
+        Watir.logger.info "Executing Script on Frame: #{function_name}" if function_name
         e.is_a?(Element) ? e.wait_until(&:exists?).wd : e
       end
       returned = driver.execute_script(script, *args)

@@ -10,7 +10,7 @@ module Watir
 
       js = File.read(file)
       script = "return (#{js}).apply(null, arguments)"
-      @query_scope.execute_script(script, *arguments)
+      @query_scope.execute_script(script, *arguments, function_name: function_name)
     end
   end # JSSnippets
 end # Watir

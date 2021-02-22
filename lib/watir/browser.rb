@@ -213,11 +213,11 @@ module Watir
     # @param args Arguments will be available in the given script in the 'arguments' pseudo-array
     #
 
-    def execute_script(script, *args)
+    def execute_script(script, *args, function_name: nil)
       args.map! do |e|
         e.is_a?(Element) ? e.wait_until(&:exists?).wd : e
       end
-
+      Watir.logger.info "Executing Script on Browser: #{function_name}" if function_name
       wrap_elements_in(self, @driver.execute_script(script, *args))
     end
 

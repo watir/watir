@@ -3,8 +3,8 @@ module Watir
     #
     # Delegates script execution to Browser or IFrame.
     #
-    def execute_script(script, *args)
-      @query_scope.execute_script(script, *args)
+    def execute_script(script, *args, function_name: nil)
+      @query_scope.execute_script(script, *args, function_name: function_name)
     end
 
     #
