@@ -5,7 +5,7 @@ module Watir
     #
 
     def clear
-      raise Exception::Error, 'you can only clear multi-selects' unless multiple?
+      raise Exception::Error, 'you can only clear multi-selects' unless multiple_select_list?
 
       selected_options.each(&:click)
     end
@@ -31,13 +31,12 @@ module Watir
 
     def select(*str_or_rx)
       value = str_or_rx.flatten
-      if value.size > 1 && multiple?
+      if value.size > 1 && multiple_select_list?
         value.map { |v| select_all_by v }.first
       elsif value.size > 1
         raise Error, 'too many arguments used for #select, use #select_all'
       else
-        found = find_options(:value, value.first).first
-        select_matching([found])
+        select_matching([find_option(value.first)])
       end
     end
 
@@ -50,8 +49,9 @@ module Watir
     #
 
     def select_all(*str_or_rx)
-      results = str_or_rx.flatten.map { |v| select_all_by v }
-      results.first
+      raise Error, 'you can only use #select_all on multi-selects' unless multiple_select_list?
+
+      str_or_rx.flatten.map { |v| select_all_by v }.first
     end
 
     #
@@ -62,8 +62,10 @@ module Watir
     #
 
     def select!(*str_or_rx)
-      results = str_or_rx.flatten.map { |v| select_by!(v, :single) }
-      results.first
+      val = str_or_rx.flatten
+      return select_all!(val) if val.size > 1 && multiple_select_list?
+
+      select_by!(val.first, :single)
     end
 
     #
@@ -74,8 +76,7 @@ module Watir
     #
 
     def select_all!(*str_or_rx)
-      results = str_or_rx.flatten.map { |v| select_by!(v, :multiple) }
-      results.first
+      str_or_rx.flatten.map { |v| select_by!(v, :multiple) }.first
     end
 
     #
@@ -106,8 +107,7 @@ module Watir
     #
 
     def value
-      option = selected_options.first
-      option&.value
+      selected_options.first&.value
     end
 
     #
@@ -118,8 +118,7 @@ module Watir
     #
 
     def text
-      option = selected_options.first
-      option&.text
+      selected_options.first&.text
     end
 
     # Returns an array of currently selected options.
@@ -133,7 +132,13 @@ module Watir
 
     private
 
+    def multiple_select_list?
+      @multiple_select = @multiple_select.nil? ? multiple? : @multiple_select
+    end
+
     def select_by!(str_or_rx, number)
+      str_or_rx = type_check(str_or_rx)
+
       js_rx = process_str_or_rx(str_or_rx)
 
       %w[Text Label Value].each do |approach|
@@ -173,35 +178,42 @@ module Watir
     end
 
     def select_all_by(str_or_rx)
-      raise Error, 'you can only use #select_all on multi-selects' unless multiple?
+      val = type_check(str_or_rx)
 
-      found = find_options :text, str_or_rx
-
-      select_matching(found)
+      select_matching(find_options(val))
     end
 
-    def find_options(how, str_or_rx)
-      msg = "expected String, Numberic or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
-      raise TypeError, msg unless [String, Numeric, Regexp].any? { |k| str_or_rx.is_a?(k) }
+    def find_option(str_or_rx)
+      val = type_check(str_or_rx)
 
-      wait_while do
-        @found = how == :value ? options(value: str_or_rx) : []
-        @found = options(text: str_or_rx) if @found.empty?
-        @found = options(label: str_or_rx) if @found.empty?
-        @found.empty?
-      end
-      @found
+      option(any: val).wait_until(&:exists?)
     rescue Wait::TimeoutError
-      raise_no_value_found(str_or_rx)
+      raise_no_value_found(val)
     end
 
-    # TODO: Consider locating the Select List before throwing the exception
+    def find_options(str_or_rx)
+      val = type_check(str_or_rx)
+
+      opts = options(any: val)
+      wait_until { opts.size.positive? }
+      opts
+    rescue Wait::TimeoutError
+      raise_no_value_found(val)
+    end
+
+    def type_check(str_or_rx)
+      str_or_rx = str_or_rx.to_s if str_or_rx.is_a?(Numeric)
+      msg = "expected String, Numeric or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
+      raise TypeError, msg unless [String, Regexp].any? { |k| str_or_rx.is_a?(k) }
+
+      str_or_rx
+    end
+
     def raise_no_value_found(str_or_rx)
       raise NoValueFoundException, "#{str_or_rx.inspect} not found in #{inspect}"
     end
 
     def select_matching(elements)
-      elements = [elements.first] unless multiple?
       elements.each { |e| e.click unless e.selected? }
       elements.first.exists? ? elements.first.text : ''
     end
