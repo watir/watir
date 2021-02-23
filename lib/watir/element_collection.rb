@@ -7,6 +7,7 @@ module Watir
     include Enumerable
     include Exception
     include JSSnippets
+    include Waitable
     include Locators::ClassHelpers
 
     def initialize(query_scope, selector)
@@ -17,7 +18,7 @@ module Watir
     end
 
     #
-    # Yields each element in collection.
+    # Relocates elements then yields each element in resulting collection.
     #
     # @example
     #   divs = browser.divs(class: 'kls')
@@ -29,6 +30,7 @@ module Watir
     #
 
     def each(&blk)
+      reset!
       to_a.each(&blk)
     end
 
@@ -36,6 +38,9 @@ module Watir
     alias size count
 
     alias empty? none?
+
+    alias exist? any?
+    alias exists? any?
 
     def build
       selector_builder.build(@selector.dup)
@@ -145,13 +150,18 @@ module Watir
     alias eql? ==
 
     #
-    # Creates a Collection containing elements of two collections.
+    # Removes cache of previously located elements in the collection.
     #
     # @example
     #   options = browser.select_list(name: "new_user_languages").options
-    #   (options + browser.select_list(id: "new_user_role").options).size
-    #   #=> 8
+    #   options.reset!
+    #   options[0]
+    #   #=> nil
     #
+
+    def reset!
+      @to_a = nil
+    end
 
     private
 

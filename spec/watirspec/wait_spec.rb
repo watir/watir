@@ -280,4 +280,64 @@ compliant_on :relaxed_locate do
       end
     end
   end
+
+  describe Watir::ElementCollection do
+    before do
+      browser.goto WatirSpec.url_for('wait.html')
+    end
+
+    describe '#wait_until' do
+      it 'returns collection' do
+        elements = browser.divs
+        expect(elements.wait_until(&:exist?)).to eq elements
+      end
+
+      it 'times out when waiting for non-empty collection' do
+        expect { browser.divs.wait_until(&:empty?) }.to raise_timeout_exception
+      end
+
+      it 'provides matching collection when exists' do
+        expect {
+          browser.a(id: 'add_foobar').click
+          browser.divs(id: 'foobar').wait_until(&:exists?)
+        }.to execute_when_satisfied(min: 1)
+      end
+
+      it 'accepts self in block' do
+        expect {
+          browser.a(id: 'add_foobar').click
+          browser.divs.wait_until { |els| els.size == 7 }
+        }.to execute_when_satisfied(min: 1)
+      end
+    end
+
+    describe '#wait_while' do
+      it 'returns collection' do
+        elements = browser.divs
+        expect(elements.wait_while(&:empty?)).to eq elements
+      end
+
+      it 'times out when waiting for non-empty collection' do
+        elements = browser.divs
+        expect { elements.wait_while(&:exists?) }.to raise_timeout_exception
+      end
+
+      it 'provides matching collection when exists' do
+        expect {
+          browser.a(id: 'remove_foo').click
+          browser.divs(id: 'foo').wait_while(&:exists?)
+        }.to execute_when_satisfied(min: 1)
+      end
+
+      it 'accepts self in block' do
+        browser.a(id: 'add_foobar').click
+        expect { browser.divs.wait_while { |els| els.size == 6 } }.to execute_when_satisfied(min: 1)
+      end
+    end
+
+    it 'waits for parent element to be present before locating' do
+      els = browser.element(id: /not|there/).elements(id: 'doesnt_matter')
+      expect { els.to_a }.to wait_and_raise_unknown_object_exception
+    end
+  end
 end
