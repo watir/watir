@@ -14,7 +14,7 @@ module Watir
       end
 
       def ignored_attributes
-        %w[cells elements hash rows span text size selected? style width height tHead tFoot link options]
+        %w[cells elements hash rows span text size selected? style width height tHead tFoot link options selected]
       end
 
       def generator_implementation

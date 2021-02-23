@@ -272,7 +272,6 @@ module Watir
     attribute(String, :form, :form)
     attribute(String, :label, :label)
     attribute("Boolean", :defaultselected?, :defaultSelected)
-    attribute("Boolean", :selected?, :selected)
     attribute(String, :value, :value)
     attribute(Integer, :index, :index)
   end
