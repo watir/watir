@@ -58,14 +58,14 @@
   <body>
     <div id="foo" custom="" style="display:block;">foo</div>
     <div id="bar" style="display:none;" onclick='this.innerHTML = "changed"'>bar</div>
-    <a id="show_bar" href="#" onclick="setTimeoutDisplay('bar', 'block', 500);">show bar</a>
-    <a id="hide_foo" href="#" onclick="setTimeoutDisplay('foo', 'none', 500);">hide foo</a>
+    <a id="show_bar" href="#" onclick="setTimeoutDisplay('bar', 'block', 1000);">show bar</a>
+    <a id="hide_foo" href="#" onclick="setTimeoutDisplay('foo', 'none', 1000);">hide foo</a>
     <a id="remove_foo" href="#" onclick="setTimeoutRemove('foo', 1000);">remove foo</a>
     <a id="add_foobar" href="#" onclick="setTimeoutAddDisplay('foobar', 'bar', 1000);">add foobar</a>
     <a id="readd_bar" href="#" onclick="setTimeoutRemove('bar', 500); setTimeoutAddDisplay('bar', 'foo', 1000);">re-add bar</a>
     <div id="buttons">
       <button id="btn" type="button" onclick="setDisabled('btn', true, 0);" disabled>Click To Disable!</button>
-      <a id="enable_btn" href="#" onclick="setDisabled('btn', false, 500);">enable btn</a>
+      <a id="enable_btn" href="#" onclick="setDisabled('btn', false, 1000);">enable btn</a>
       <button id="btn2" style="display:none;" type="button" disabled>Hidden and Disabled</button>
       <a id="show_and_enable_btn" href="#" onclick="setTimeoutDisplay('btn2', 'block', 500); setDisabled('btn2', false, 1000);">
         show and enable btn
@@ -78,10 +78,10 @@
     <form>
       <label for="textfield">Not Displayed Yet</label>
       <input type="textfield" title="Text Displayed" name="textfield" id="textfield" style="display:none;" /> <br  />
-      <a id="show_textfield" href="#" onclick="setTimeoutDisplay('textfield', 'block', 2000);">show textfield</a>
+      <a id="show_textfield" href="#" onclick="setTimeoutDisplay('textfield', 'block', 1000);">show textfield</a>
       <label for="writable">Not Writable</label>
       <input type="text" title="Not Writable" name="writable" id="writable" readonly/> <br  />
-      <a id="make-writable" onclick="makeWritable('writable', 2000);">Make Writable</a>
+      <a id="make-writable" onclick="makeWritable('writable', 1000);">Make Writable</a>
       <fieldset>
         <select name="languages" id="languages", style="display: none">
           <option id="danish" value="1">Danish</option>
