@@ -241,7 +241,9 @@ describe 'SelectList' do
 
       it 'selects an option with a Regexp' do
         browser.select_list(name: 'new_user_languages').clear
-        expect { browser.select_list(name: 'new_user_languages').select(/1|3/) }.to have_deprecated_select_by
+        expect {
+          browser.select_list(name: 'new_user_languages').select(/1|3/)
+        }.to have_deprecated_select_by
         expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq %w[Danish NO]
       end
     end
@@ -272,22 +274,10 @@ describe 'SelectList' do
       end
     end
 
-    it 'selects multiple options successiveley' do
+    it 'selects multiple options successively' do
       browser.select_list(name: 'new_user_languages').clear
       browser.select_list(name: 'new_user_languages').select('Danish')
       browser.select_list(name: 'new_user_languages').select('Swedish')
-      expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq %w[Danish Swedish]
-    end
-
-    it 'selects each item in an Array' do
-      browser.select_list(name: 'new_user_languages').clear
-      browser.select_list(name: 'new_user_languages').select(%w[Danish Swedish])
-      expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq %w[Danish Swedish]
-    end
-
-    it 'selects each item in a parameter list' do
-      browser.select_list(name: 'new_user_languages').clear
-      browser.select_list(name: 'new_user_languages').select('Danish', 'Swedish')
       expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq %w[Danish Swedish]
     end
 
@@ -353,6 +343,59 @@ describe 'SelectList' do
     it 'raises a TypeError if argument is not a String, Regexp or Numeric' do
       expect { browser.select_list(id: 'new_user_languages').select({}) }.to raise_error(TypeError)
     end
+
+    context 'multiple options' do
+      it 'in an Array' do
+        browser.select_list(name: 'new_user_languages').clear
+        browser.select_list(name: 'new_user_languages').select(%w[Danish Swedish])
+        expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq %w[Danish Swedish]
+      end
+
+      it 'in a parameter list' do
+        browser.select_list(name: 'new_user_languages').clear
+        browser.select_list(name: 'new_user_languages').select('Danish', 'Swedish')
+        expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq %w[Danish Swedish]
+      end
+
+      it 'based on text' do
+        browser.select_list(name: 'new_user_languages').clear
+        browser.select_list(name: 'new_user_languages').select([/ish/])
+        list = %w[Danish EN Swedish]
+        expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq list
+      end
+
+      it 'based on label and single regexp' do
+        browser.select_list(name: 'new_user_languages').clear
+        browser.select_list(name: 'new_user_languages').select([/NO|EN/])
+        list = %w[EN NO]
+        expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq list
+      end
+
+      it 'based on label and multiple regexp' do
+        browser.select_list(name: 'new_user_languages').clear
+        browser.select_list(name: 'new_user_languages').select([/NO/, /EN/])
+        list = %w[EN NO]
+        expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq list
+      end
+
+      it 'from an Array' do
+        browser.select_list(name: 'new_user_languages').clear
+        browser.select_list(name: 'new_user_languages').select([/ish/, /Latin/])
+        list = ['Danish', 'EN', 'Swedish', 'Azeri - Latin', 'Latin']
+        expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq list
+      end
+
+      it 'from multiple arguments' do
+        browser.select_list(name: 'new_user_languages').clear
+        browser.select_list(name: 'new_user_languages').select(/ish/, /Latin/)
+        list = ['Danish', 'EN', 'Swedish', 'Azeri - Latin', 'Latin']
+        expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq list
+      end
+
+      it 'returns the first matching value if there are multiple matches' do
+        expect(browser.select_list(name: 'new_user_languages').select([/ish/])).to eq 'Danish'
+      end
+    end
   end
 
   describe '#select!' do
@@ -403,18 +446,6 @@ describe 'SelectList' do
       expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq %w[Danish Swedish]
     end
 
-    it 'selects each item in an Array' do
-      browser.select_list(name: 'new_user_languages').clear
-      browser.select_list(name: 'new_user_languages').select!(%w[Danish Swedish])
-      expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq %w[Danish Swedish]
-    end
-
-    it 'selects each item in a parameter list' do
-      browser.select_list(name: 'new_user_languages').clear
-      browser.select_list(name: 'new_user_languages').select!('Danish', 'Swedish')
-      expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq %w[Danish Swedish]
-    end
-
     it 'selects empty options' do
       browser.select_list(id: 'delete_user_username').select!('')
       expect(browser.select_list(id: 'delete_user_username').selected_options.map(&:text)).to eq ['']
@@ -456,80 +487,155 @@ describe 'SelectList' do
       browser.select_list(id: 'new_user_languages').clear
       expect { browser.select_list(id: 'new_user_languages').select!({}) }.to raise_error(TypeError)
     end
+
+    context 'multiple options' do
+      it 'in an Array' do
+        browser.select_list(name: 'new_user_languages').clear
+        browser.select_list(name: 'new_user_languages').select!(%w[Danish Swedish])
+        expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq %w[Danish Swedish]
+      end
+
+      it 'in a parameter list' do
+        browser.select_list(name: 'new_user_languages').clear
+        browser.select_list(name: 'new_user_languages').select!('Danish', 'Swedish')
+        expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq %w[Danish Swedish]
+      end
+
+      it 'based on text' do
+        browser.select_list(name: 'new_user_languages').clear
+        browser.select_list(name: 'new_user_languages').select!([/ish/])
+        list = %w[Danish EN Swedish]
+        expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq list
+      end
+
+      it 'based on label and single regexp' do
+        browser.select_list(name: 'new_user_languages').clear
+        browser.select_list(name: 'new_user_languages').select!([/NO|EN/])
+        list = %w[EN NO]
+        expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq list
+      end
+
+      it 'based on label and multiple regexp' do
+        browser.select_list(name: 'new_user_languages').clear
+        browser.select_list(name: 'new_user_languages').select!([/NO/, /EN/])
+        list = %w[EN NO]
+        expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq list
+      end
+
+      it 'from an Array' do
+        browser.select_list(name: 'new_user_languages').clear
+        browser.select_list(name: 'new_user_languages').select!([/ish/, /Latin/])
+        list = ['Danish', 'EN', 'Swedish', 'Azeri - Latin', 'Latin']
+        expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq list
+      end
+
+      it 'from multiple arguments' do
+        browser.select_list(name: 'new_user_languages').clear
+        browser.select_list(name: 'new_user_languages').select!(/ish/, /Latin/)
+        list = ['Danish', 'EN', 'Swedish', 'Azeri - Latin', 'Latin']
+        expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq list
+      end
+
+      it 'returns the first matching value if there are multiple matches' do
+        expect(browser.select_list(name: 'new_user_languages').select!([/ish/])).to eq 'Danish'
+      end
+    end
   end
 
   describe '#select_all' do
     it 'selects multiple options based on text' do
       browser.select_list(name: 'new_user_languages').clear
-      browser.select_list(name: 'new_user_languages').select_all(/ish/)
+      expect {
+        browser.select_list(name: 'new_user_languages').select_all(/ish/)
+      }.to have_deprecated_select_all
       list = %w[Danish EN Swedish]
       expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq list
     end
 
     it 'selects multiple options based on labels' do
       browser.select_list(name: 'new_user_languages').clear
-      browser.select_list(name: 'new_user_languages').select_all(/NO|EN/)
+      expect {
+        browser.select_list(name: 'new_user_languages').select_all(/NO|EN/)
+      }.to have_deprecated_select_all
       list = %w[EN NO]
       expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq list
     end
 
     it 'selects all options in an Array' do
       browser.select_list(name: 'new_user_languages').clear
-      browser.select_list(name: 'new_user_languages').select_all([/ish/, /Latin/])
+      expect {
+        browser.select_list(name: 'new_user_languages').select_all([/ish/, /Latin/])
+      }.to have_deprecated_select_all
       list = ['Danish', 'EN', 'Swedish', 'Azeri - Latin', 'Latin']
       expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq list
     end
 
     it 'selects all options in a parameter list' do
       browser.select_list(name: 'new_user_languages').clear
-      browser.select_list(name: 'new_user_languages').select_all(/ish/, /Latin/)
+      expect {
+        browser.select_list(name: 'new_user_languages').select_all(/ish/, /Latin/)
+      }.to have_deprecated_select_all
       list = ['Danish', 'EN', 'Swedish', 'Azeri - Latin', 'Latin']
       expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq list
     end
 
     it 'returns the first matching value if there are multiple matches' do
-      expect(browser.select_list(name: 'new_user_languages').select_all(/ish/)).to eq 'Danish'
+      expect {
+        expect(browser.select_list(name: 'new_user_languages').select_all(/ish/)).to eq 'Danish'
+      }.to have_deprecated_select_all
     end
   end
 
   describe '#select_all!' do
     it 'selects multiple options based on value' do
       browser.select_list(name: 'new_user_languages').clear
-      browser.select_list(name: 'new_user_languages').select_all!(/\d+/)
+      expect {
+        browser.select_list(name: 'new_user_languages').select_all!(/\d+/)
+      }.to have_deprecated_select_all
       list = %w[Danish EN NO Russian]
       expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq list
     end
 
     it 'selects multiple options based on text' do
       browser.select_list(name: 'new_user_languages').clear
-      browser.select_list(name: 'new_user_languages').select_all!(/ish/)
+      expect {
+        browser.select_list(name: 'new_user_languages').select_all!(/ish/)
+      }.to have_deprecated_select_all
       list = %w[Danish EN Swedish]
       expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq list
     end
 
     it 'selects multiple options based on labels' do
       browser.select_list(name: 'new_user_languages').clear
-      browser.select_list(name: 'new_user_languages').select_all!(/NO|EN/)
+      expect {
+        browser.select_list(name: 'new_user_languages').select_all!(/NO|EN/)
+      }.to have_deprecated_select_all
       list = %w[EN NO]
       expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq list
     end
 
     it 'selects all options in an Array' do
       browser.select_list(name: 'new_user_languages').clear
-      browser.select_list(name: 'new_user_languages').select_all!([/ish/, /Latin/])
+      expect {
+        browser.select_list(name: 'new_user_languages').select_all!([/ish/, /Latin/])
+      }.to have_deprecated_select_all
       list = ['Danish', 'EN', 'Swedish', 'Azeri - Latin', 'Latin']
       expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq list
     end
 
     it 'selects all options in a parameter list' do
       browser.select_list(name: 'new_user_languages').clear
-      browser.select_list(name: 'new_user_languages').select_all!(/ish/, /Latin/)
+      expect {
+        browser.select_list(name: 'new_user_languages').select_all!(/ish/, /Latin/)
+      }.to have_deprecated_select_all
       list = ['Danish', 'EN', 'Swedish', 'Azeri - Latin', 'Latin']
       expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq list
     end
 
     it 'returns the first matching value if there are multiple matches' do
-      expect(browser.select_list(name: 'new_user_languages').select_all!(/ish/)).to eq 'Danish'
+      expect {
+        expect(browser.select_list(name: 'new_user_languages').select_all!(/ish/)).to eq 'Danish'
+      }.to have_deprecated_select_all
     end
   end
 end

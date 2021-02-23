@@ -30,8 +30,11 @@ module Watir
     #
 
     def select(*str_or_rx)
-      results = str_or_rx.flatten.map { |v| select_by v }
-      results.first
+      if str_or_rx.size > 1 || str_or_rx.first.is_a?(Array)
+        str_or_rx.flatten.map { |v| select_all_by v }.first
+      else
+        str_or_rx.flatten.map { |v| select_by v }.first
+      end
     end
 
     #
@@ -43,6 +46,10 @@ module Watir
     #
 
     def select_all(*str_or_rx)
+      Watir.logger.deprecate('#select_all',
+                             '#select with an Array instance',
+                             ids: [:select_all])
+
       results = str_or_rx.flatten.map { |v| select_all_by v }
       results.first
     end
@@ -55,8 +62,11 @@ module Watir
     #
 
     def select!(*str_or_rx)
-      results = str_or_rx.flatten.map { |v| select_by!(v, :single) }
-      results.first
+      if str_or_rx.size > 1 || str_or_rx.first.is_a?(Array)
+        str_or_rx.flatten.map { |v| select_by! v, :multiple }.first
+      else
+        str_or_rx.flatten.map { |v| select_by! v, :single }.first
+      end
     end
 
     #
@@ -67,6 +77,10 @@ module Watir
     #
 
     def select_all!(*str_or_rx)
+      Watir.logger.deprecate('#select_all!',
+                             '#select! with an Array instance',
+                             ids: [:select_all])
+
       results = str_or_rx.flatten.map { |v| select_by!(v, :multiple) }
       results.first
     end
@@ -145,7 +159,8 @@ module Watir
       found = find_options(:value, str_or_rx)
 
       if found.size > 1
-        Watir.logger.deprecate 'Selecting Multiple Options with #select', '#select_all',
+        Watir.logger.deprecate 'Selecting multiple options with #select using a String or Regexp value',
+                               '#select with the desired values in an Array instance',
                                ids: [:select_by]
       end
       select_matching(found)

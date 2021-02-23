@@ -12,6 +12,7 @@ if defined?(RSpec)
                             stale_exists
                             stale_visible
                             stale_present
+                            select_all
                             select_by
                             value_button
                             wait_until_present
