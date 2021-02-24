@@ -286,12 +286,14 @@ describe 'Window' do
     end
 
     bug 'Clicking an Element that Closes a Window is returning NoMatchingWindowFoundException', :safari do
-      it 'raises an exception when using an element on a closed window' do
-        window = browser.window(title: 'closeable window')
-        window.use
-        browser.a(id: 'close').click
-        msg = 'browser window was closed'
-        expect { browser.a.text }.to raise_exception(Watir::Exception::NoMatchingWindowFoundException, msg)
+      bug 'https://github.com/mozilla/geckodriver/issues/1847', :firefox do
+        it 'raises an exception when using an element on a closed window' do
+          window = browser.window(title: 'closeable window')
+          window.use
+          browser.a(id: 'close').click
+          msg = 'browser window was closed'
+          expect { browser.a.text }.to raise_exception(Watir::Exception::NoMatchingWindowFoundException, msg)
+        end
       end
     end
 
