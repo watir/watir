@@ -1,9 +1,15 @@
 module Watir
   class WindowCollection
     include Enumerable
+    include Waitable
 
-    def initialize(windows)
-      @windows = windows
+    def initialize(browser, selector = {})
+      unless selector.keys.all? { |k| %i[title url].include? k }
+        raise ArgumentError, "invalid window selector: #{selector.inspect}"
+      end
+
+      @browser = browser
+      @selector = selector
     end
 
     #
@@ -13,7 +19,8 @@ module Watir
     #
 
     def each(&blk)
-      @windows.each(&blk)
+      reset!
+      to_a.each(&blk)
     end
 
     alias length count
@@ -55,7 +62,7 @@ module Watir
 
     def [](value)
       old = 'using indexing with windows'
-      new = 'Browser#switch_window or Browser#window with :title, :url or :element selectors'
+      new = 'Browser#switch_window or Browser#window with :title, :url selectors'
       reference = 'http://watir.com/window_indexes'
       Watir.logger.deprecate old, new, reference: reference, ids: [:window_index]
 
@@ -66,5 +73,22 @@ module Watir
       to_a == other.to_a
     end
     alias eql? ==
+
+    def to_a
+      @to_a ||= begin
+        all = @browser.driver.window_handles.map { |wh| Window.new(@browser, handle: wh) }
+        if @selector.empty?
+          all
+        else
+          all.select do |win|
+            @selector.all? { |key, value| win.send(key) =~ /#{value}/ }
+          end
+        end
+      end
+    end
+
+    def reset!
+      @to_a = nil
+    end
   end # Window
 end # Watir

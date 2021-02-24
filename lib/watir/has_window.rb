@@ -10,13 +10,7 @@ module Watir
     #
 
     def windows(*args)
-      all = @driver.window_handles.map { |handle| Window.new(self, handle: handle) }
-
-      if args.empty?
-        WindowCollection.new all
-      else
-        WindowCollection.new(filter_windows(extract_selector(args), all))
-      end
+      WindowCollection.new self, extract_selector(args)
     end
 
     #
@@ -69,18 +63,6 @@ module Watir
 
       wins.find { |w| w != current_window }.use
       window
-    end
-
-    private
-
-    def filter_windows(selector, windows)
-      unless selector.keys.all? { |k| %i[title url].include? k }
-        raise ArgumentError, "invalid window selector: #{selector.inspect}"
-      end
-
-      windows.select do |win|
-        selector.all? { |key, value| win.send(key) =~ /#{value}/ }
-      end
     end
   end # HasWindow
 end # Watir
