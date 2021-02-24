@@ -330,8 +330,10 @@ compliant_on :relaxed_locate do
       end
 
       it 'accepts self in block' do
-        browser.a(id: 'add_foobar').click
-        expect { browser.divs.wait_while { |els| els.size == 6 } }.to execute_when_satisfied(min: 1)
+        expect {
+          browser.a(id: 'add_foobar').click
+          browser.divs.wait_while { |els| els.size == 6 }
+        }.to execute_when_satisfied(min: 1)
       end
     end
 
