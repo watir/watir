@@ -229,6 +229,8 @@ module Watir
           case expected
           when Regexp
             expected =~ actual
+          when Numeric
+            expected == actual
           else
             expected.to_s == actual
           end

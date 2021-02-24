@@ -309,6 +309,13 @@ compliant_on :relaxed_locate do
           browser.divs.wait_until { |els| els.size == 7 }
         }.to execute_when_satisfied(min: 1)
       end
+
+      it 'accepts attributes to evaluate' do
+        expect {
+          browser.a(id: 'add_foobar').click
+          browser.divs.wait_until(size: 7)
+        }.to execute_when_satisfied(min: 1)
+      end
     end
 
     describe '#wait_while' do
