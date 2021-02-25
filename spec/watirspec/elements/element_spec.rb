@@ -709,10 +709,13 @@ describe 'Element' do
   describe '#size' do
     it 'returns size of element' do
       size = browser.button(name: 'new_user_image').size
-
       expect(size).to be_a Selenium::WebDriver::Dimension
-      expect(size['width']).to eq 104.0
-      expect(size['height']).to eq 70.0
+
+      expected_width = browser.name == :safari ? 105 : 104
+      expected_height = browser.name == :safari ? 71 : 70
+
+      expect(size['width']).to eq expected_width
+      expect(size['height']).to eq expected_height
     end
   end
 
@@ -720,7 +723,8 @@ describe 'Element' do
     it 'returns height of element' do
       height = browser.button(name: 'new_user_image').height
 
-      expect(height).to eq 70.0
+      expected_height = browser.name == :safari ? 71 : 70
+      expect(height).to eq expected_height
     end
   end
 
@@ -728,7 +732,8 @@ describe 'Element' do
     it 'returns width of element' do
       width = browser.button(name: 'new_user_image').width
 
-      expect(width).to eq 104.0
+      expected_width = browser.name == :safari ? 105 : 104
+      expect(width).to eq expected_width
     end
   end
 

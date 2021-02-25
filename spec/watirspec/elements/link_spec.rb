@@ -134,9 +134,11 @@ describe 'Link' do
       expect(browser.text.include?('User administration')).to be true
     end
 
-    it 'finds an existing link by (index: Integer) and clicks it' do
-      browser.link(index: 2).click
-      expect(browser.text.include?('User administration')).to be true
+    bug 'sometimes safari does not work on the first click', :safari do
+      it 'finds an existing link by (index: Integer) and clicks it' do
+        browser.link(index: 2).click
+        expect(browser.text.include?('User administration')).to be true
+      end
     end
 
     it "raises an UnknownObjectException if the link doesn't exist" do
