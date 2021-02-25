@@ -1,0 +1,8 @@
+name: 'Setup Linux'
+description: 'Run Linux in Virtual Desktop'
+runs:
+  using: "composite"
+  steps:
+    - shell: bash
+      run: |
+        Xvfb :99 &

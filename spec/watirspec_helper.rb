@@ -32,9 +32,15 @@ class LocalConfig
                        when :chrome
                          Webdrivers::Chromedriver.update
                          "chromedriver version: #{Webdrivers::Chromedriver.current_version.version}"
+                       when :edge
+                         Webdrivers::Edgedriver.update
+                         "edgedriver version: #{Webdrivers::Edgedriver.current_version.version}"
                        when :firefox
                          Webdrivers::Geckodriver.update
                          "geckodriver version: #{Webdrivers::Geckodriver.current_version.version}"
+                       when :ie
+                         Webdrivers::IEdriver.update
+                         "iedriver version: #{Webdrivers::IEdriver.current_version.version}"
                        end
   end
 

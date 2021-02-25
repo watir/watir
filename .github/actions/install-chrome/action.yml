@@ -1,4 +1,5 @@
 name: 'Install Chrome'
+description: 'Install Chrome Stable'
 runs:
   using: "composite"
   steps:
