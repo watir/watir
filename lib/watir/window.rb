@@ -16,7 +16,7 @@ module Watir
       elsif selector.key? :handle
         @handle = selector.delete :handle
       else
-        return if selector.keys.all? { |k| %i[title url index].include? k }
+        return if selector.keys.all? { |k| %i[title url index element].include? k }
 
         raise ArgumentError, "invalid window selector: #{selector_string}"
       end
@@ -207,7 +207,7 @@ module Watir
       if @selector.empty?
         nil
       elsif @selector.key?(:index)
-        Watir.logger.deprecate 'Using :index as a selector for Window', ':title or :url',
+        Watir.logger.deprecate 'Using :index as a selector for Window', ':title or :url or :element',
                                reference: 'http://watir.com/window_indexes',
                                ids: [:window_index]
         @driver.window_handles[Integer(@selector[:index])]
@@ -233,8 +233,9 @@ module Watir
       @driver.switch_to.window(handle) do
         matches_title = @selector[:title].nil? || @browser.title =~ /#{@selector[:title]}/
         matches_url = @selector[:url].nil? || @browser.url =~ /#{@selector[:url]}/
+        matches_element = @selector[:element].nil? || @selector[:element].exists?
 
-        matches_title && matches_url
+        matches_title && matches_url && matches_element
       end
     rescue Selenium::WebDriver::Error::NoSuchWindowError
       # the window may disappear while we're iterating.

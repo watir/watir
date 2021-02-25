@@ -47,6 +47,10 @@ describe Watir::Browser do
       }.to have_deprecated_window_index
     end
 
+    it 'finds window by :element' do
+      expect(browser.window(element: browser.a(id: 'close')).use).to be_kind_of(Watir::Window)
+    end
+
     it 'finds window by multiple values' do
       w = browser.window(url: /closeable\.html/, title: 'closeable window').use
       expect(w).to be_kind_of(Watir::Window)
@@ -228,6 +232,34 @@ describe Watir::Window do
         expect(win1).to_not eq win2
       end
     end
+
+    describe '#handle' do
+      it 'does not find if not matching' do
+        expect(browser.window(title: 'noop').handle).to be_nil
+      end
+
+      it 'finds window by :url' do
+        expect(browser.window(url: /closeable\.html/).handle).to_not be_nil
+      end
+
+      it 'finds window by :title' do
+        expect(browser.window(title: 'closeable window').handle).to_not be_nil
+      end
+
+      it 'finds window by :index' do
+        expect {
+          expect(browser.window(index: 1).handle).to_not be_nil
+        }.to have_deprecated_window_index
+      end
+
+      it 'finds window by :element' do
+        expect(browser.window(element: browser.a(id: 'close')).handle).to_not be_nil
+      end
+
+      it 'finds window by multiple values' do
+        expect(browser.window(url: /closeable\.html/, title: 'closeable window').handle).to_not be_nil
+      end
+    end
   end
 
   bug 'Clicking an Element that Closes a Window is returning NoMatchingWindowFoundException', :safari do
@@ -361,6 +393,10 @@ describe Watir::Window do
         it 'should find window by title' do
           expect(browser.window(title: 'window switching')).to be_present
         end
+
+        it 'should find window by element' do
+          expect(browser.window(element: browser.link(id: 'open'))).to be_present
+        end
       end
 
       describe '#use' do
@@ -379,6 +415,11 @@ describe Watir::Window do
             browser.window(title: 'window switching').use
             expect(browser.url).to match(/window_switching\.html/)
           end
+
+          it 'by element' do
+            browser.window(element: browser.link(id: 'open')).use
+            expect(browser.url).to match(/window_switching\.html/)
+          end
         end
 
         context 'Switching windows with blocks' do
@@ -394,6 +435,11 @@ describe Watir::Window do
 
           it 'by title' do
             browser.window(title: 'window switching').use { expect(browser.url).to match(/window_switching\.html/) }
+          end
+
+          it 'by element' do
+            element = browser.link(id: 'open')
+            browser.window(element: element).use { expect(browser.url).to match(/window_switching\.html/) }
           end
         end
       end

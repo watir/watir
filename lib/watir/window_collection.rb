@@ -64,7 +64,8 @@ module Watir
 
       if array.size > 1
         old = 'using indexing with windows'
-        new = 'Browser#switch_window, or Browser#window with :title or :url parameters if more than two windows'
+        new = 'Browser#switch_window if only 2 windows, ' \
+'or Browser#window with :title, :url or :element parameters if more than two windows'
         reference = 'http://watir.com/window_indexes'
         Watir.logger.deprecate old, new, reference: reference, ids: [:window_index]
       end
