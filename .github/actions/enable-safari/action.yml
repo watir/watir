@@ -1,0 +1,11 @@
+name: 'Enable Safari Driver'
+description: 'Set safaridriver to run in automation mode'
+runs:
+  using: composite
+  steps:
+    - run: |
+        defaults write com.apple.Safari IncludeDevelopMenu YES
+        defaults write com.apple.Safari AllowRemoteAutomation 1
+        sudo safaridriver --enable
+        safaridriver -p 0 &
+      shell: bash

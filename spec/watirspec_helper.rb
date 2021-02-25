@@ -98,7 +98,7 @@ class LocalConfig
     ENV['FIREFOX_BINARY'] ? {options: {binary: ENV['FIREFOX_BINARY']}} : {}
   end
 
-  def safari_args
+  def safari_preview_args
     {technology_preview: true}
   end
 

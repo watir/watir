@@ -36,3 +36,20 @@ jobs:
       - run: bundle install
       - run: |
           bundle exec rake spec:${{ matrix.task }}
+
+  safari-test:
+    name: Safari Test
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        task: [ 'safari' ]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.5
+      - run: bundle install
+      - uses: ./.github/actions/enable-safari
+      - run: |
+          bundle exec rake spec:${{ matrix.task }}
