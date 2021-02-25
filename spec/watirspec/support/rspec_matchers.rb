@@ -17,6 +17,7 @@ if defined?(RSpec)
                             value_button
                             wait_until_present
                             wait_while_present
+                            window_args
                             window_index].freeze
 
   DEPRECATION_WARNINGS.each do |deprecation|

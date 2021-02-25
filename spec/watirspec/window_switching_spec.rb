@@ -13,6 +13,20 @@ describe Watir::Browser do
   end
 
   describe '#windows' do
+    it 'passing in ordered arguments is deprecated' do
+      expect {
+        expect(browser.windows(:title, 'closeable window')).to exist
+      }.to have_deprecated_window_args
+    end
+
+    # Deprecation is only thrown in Ruby 3+
+    xit 'passing in Hash is deprecated' do
+      hash = {title: 'closeable window'}
+      expect {
+        expect(browser.windows(hash)).to exist
+      }.to have_deprecated_window_args
+    end
+
     it 'returns a WindowCollection' do
       expect(browser.windows).to be_kind_of(Watir::WindowCollection)
     end
@@ -31,6 +45,19 @@ describe Watir::Browser do
   end
 
   describe '#window' do
+    it 'passing in ordered arguments is deprecated' do
+      expect { browser.window(:title, 'closeable window').use }.to have_deprecated_window_args
+      expect(browser.title).to eq 'closeable window'
+    end
+
+    # Deprecation is only thrown in Ruby 3+
+    xit 'passing in Hash is deprecated' do
+      hash = {title: 'closeable window'}
+      expect {
+        expect(browser.window(hash)).to exist
+      }.to have_deprecated_window_args
+    end
+
     it 'finds window by :url' do
       w = browser.window(url: /closeable\.html/).use
       expect(w).to be_kind_of(Watir::Window)
@@ -219,7 +246,7 @@ describe Watir::Window do
 
     describe '#eql?' do
       it 'knows when two windows are equal' do
-        win1 = Watir::Window.new browser, {}
+        win1 = Watir::Window.new browser, url: /window_switching\.html/
         win2 = Watir::Window.new browser, title: 'window switching'
 
         expect(win1).to eq win2

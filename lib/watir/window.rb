@@ -6,21 +6,31 @@ module Watir
 
     attr_reader :browser
 
-    def initialize(browser, selector = {})
+    # TODO: Remove cop disable when remove selector & index
+    # rubocop:disable Metrics/ParameterLists
+    def initialize(browser, selector = {}, index: nil, title: nil, url: nil, element: nil, handle: nil)
       @browser = browser
       @driver = browser.driver
-      @selector = selector
+      @selector = if selector.empty?
+                    {title: title,
+                     url: url,
+                     index: index,
+                     element: element}.delete_if { |_k, v| v.nil? }
+                  else
+                    Watir.logger.deprecate('passing in Hash instance to Window#new',
+                                           'keywords for allowed selectors instead',
+                                           ids: [:window_args])
+                    handle ||= selector.delete(:handle)
+                    unless selector.keys.all? { |k| %i[title url index element].include? k }
+                      raise ArgumentError, "invalid window selector: #{selector_string}"
+                    end
 
-      if selector.empty?
-        @handle = current_window
-      elsif selector.key? :handle
-        @handle = selector.delete :handle
-      else
-        return if selector.keys.all? { |k| %i[title url index element].include? k }
+                    selector
+                  end
 
-        raise ArgumentError, "invalid window selector: #{selector_string}"
-      end
+      @handle = handle || current_window if handle || @selector.empty?
     end
+    # rubocop:enable Metrics/ParameterLists
 
     def inspect
       format('#<%s:0x%x located=%s>', self.class, hash * 2, !!@handle)
@@ -124,6 +134,7 @@ module Watir
 
       handle == other.handle
     end
+
     alias eql? ==
 
     def hash

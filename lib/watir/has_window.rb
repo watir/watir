@@ -9,8 +9,17 @@ module Watir
     # @return [Array<Window>]
     #
 
-    def windows(*args)
-      WindowCollection.new self, extract_selector(args)
+    def windows(*args, title: nil, url: nil, element: nil)
+      selector = if args.empty?
+                   {title: title, url: url, element: element}.delete_if { |_k, v| v.nil? }
+                 else
+                   Watir.logger.deprecate('passing in arguments or Hashes to Browser#windows',
+                                          'keywords for allowed selectors instead',
+                                          ids: [:window_args])
+                   extract_selector(args)
+                 end
+
+      WindowCollection.new self, **selector
     end
 
     #
@@ -22,13 +31,29 @@ module Watir
     # @return [Window]
     #
 
-    def window(*args, &blk)
-      win = Window.new self, extract_selector(args)
+    # TODO: Remove cop disable when remove args & index
+    # rubocop:disable Metrics/ParameterLists
+    def window(*args, index: nil, title: nil, url: nil, handle: nil, element: nil, &blk)
+      selector = if args.empty?
+                   {index: index,
+                    title: title,
+                    url: url,
+                    element: element,
+                    handle: handle}.delete_if { |_k, v| v.nil? }
+                 else
+                   Watir.logger.deprecate('passing in argument pairs to Browser#window',
+                                          'keywords for allowed selectors instead',
+                                          ids: [:window_args])
+                   extract_selector(args)
+                 end
+
+      win = Window.new self, **selector
 
       win.use(&blk) if block_given?
 
       win
     end
+    # rubocop:enable Metrics/ParameterLists
 
     #
     # Returns original window if defined, current window if not

@@ -3,13 +3,9 @@ module Watir
     include Enumerable
     include Waitable
 
-    def initialize(browser, selector = {})
-      unless selector.keys.all? { |k| %i[title url].include? k }
-        raise ArgumentError, "invalid window selector: #{selector.inspect}"
-      end
-
+    def initialize(browser, title: nil, url: nil, element: nil)
       @browser = browser
-      @selector = selector
+      @selector = {title: title, url: url, element: element}.delete_if { |_k, v| v.nil? }
     end
 
     #
@@ -26,6 +22,8 @@ module Watir
     alias length count
     alias size count
     alias empty? none?
+    alias exists? any?
+    alias exist? any?
 
     #
     # First window of the collection
