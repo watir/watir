@@ -3,12 +3,12 @@
 Watir Powered By Selenium!
 
 [![Gem Version](https://badge.fury.io/rb/watir.svg)](http://badge.fury.io/rb/watir)
-[![Unit Tests](https://github.com/titusfortner/watir/workflows/Unit%20Tests/badge.svg)](https://github.com/watir/watir/actions?query=workflow%3A%22Unit+Tests%22)
-[![Mac Tests](https://github.com/titusfortner/watir/workflows/Mac%20Tests/badge.svg)](https://github.com/watir/watir/actions?query=workflow%3A%22Mac+Tests%22)
-[![Windows Tests](https://github.com/titusfortner/watir/workflows/Windows%20Tests/badge.svg)](https://github.com/watir/watir/actions?query=workflow%3A%22Windows+Tests%22)
-[![Linux Tests](https://github.com/titusfortner/watir/workflows/Linux%20Tests/badge.svg)](https://github.com/watir/watir/actions?query=workflow%3A%22Linux+Tests%22)
+[![Unit Tests](https://github.com/watir/watir/workflows/Unit%20Tests/badge.svg)](https://github.com/watir/watir/actions?query=workflow%3A%22Unit+Tests%22)
+[![Mac Tests](https://github.com/watir/watir/workflows/Mac%20Tests/badge.svg)](https://github.com/watir/watir/actions?query=workflow%3A%22Mac+Tests%22)
+[![Windows Tests](https://github.com/watir/watir/workflows/Windows%20Tests/badge.svg)](https://github.com/watir/watir/actions?query=workflow%3A%22Windows+Tests%22)
+[![Linux Tests](https://github.com/watir/watir/workflows/Linux%20Tests/badge.svg)](https://github.com/watir/watir/actions?query=workflow%3A%22Linux+Tests%22)
 [![Code Climate](https://codeclimate.com/github/watir/watir.svg)](https://codeclimate.com/github/watir/watir)
-[![Coverage Status](https://coveralls.io/repos/github/watir/watir/badge.svg?branch=main)](https://coveralls.io/github/watir/watir?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/watir/watir/badge.svg?branch=main)](https://coveralls.io/github/watir/watir?branch=main)
 
 ## Using Watir
 
