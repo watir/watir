@@ -4,7 +4,7 @@ module Watir
     include Waitable
 
     def initialize(browser, selector = {})
-      unless selector.keys.all? { |k| %i[title url].include? k }
+      unless selector.keys.all? { |k| %i[title url element].include? k }
         raise ArgumentError, "invalid window selector: #{selector.inspect}"
       end
 
@@ -62,7 +62,7 @@ module Watir
 
     def [](value)
       old = 'using indexing with windows'
-      new = 'Browser#switch_window or Browser#window with :title, :url selectors'
+      new = 'Browser#switch_window or Browser#window with :title, :url or :element selectors'
       reference = 'http://watir.com/window_indexes'
       Watir.logger.deprecate old, new, reference: reference, ids: [:window_index]
 
@@ -76,19 +76,30 @@ module Watir
 
     def to_a
       @to_a ||= begin
-        all = @browser.driver.window_handles.map { |wh| Window.new(@browser, handle: wh) }
-        if @selector.empty?
-          all
-        else
-          all.select do |win|
-            @selector.all? { |key, value| win.send(key) =~ /#{value}/ }
-          end
-        end
+        handles = @browser.driver.window_handles.select { |wh| matches?(wh) }
+        handles.map { |wh| Window.new(@browser, handle: wh) }
       end
     end
 
     def reset!
       @to_a = nil
+    end
+
+    private
+
+    # NOTE: This is the exact same code from `Window#matches?`
+    # TODO: Move this code into a separate WindowLocator class
+    def matches?(handle)
+      @selector.empty? || @browser.driver.switch_to.window(handle) do
+        matches_title = @selector[:title].nil? || @browser.title =~ /#{@selector[:title]}/
+        matches_url = @selector[:url].nil? || @browser.url =~ /#{@selector[:url]}/
+        matches_element = @selector[:element].nil? || @selector[:element].exists?
+
+        matches_title && matches_url && matches_element
+      end
+    rescue Selenium::WebDriver::Error::NoSuchWindowError
+      # the window may disappear while we're iterating.
+      false
     end
   end # Window
 end # Watir

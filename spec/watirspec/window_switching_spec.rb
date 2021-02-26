@@ -14,7 +14,11 @@ describe Watir::Browser do
 
   describe '#windows' do
     it 'returns a WindowCollection' do
-      expect(browser.windows).to be_kind_of(Watir::WindowCollection)
+      expect(browser.windows).to be_a(Watir::WindowCollection)
+    end
+
+    it 'stores Window instances' do
+      expect(browser.windows(title: 'closeable window')).to all(be_a(Watir::Window))
     end
 
     it 'filters windows to match the given selector' do
@@ -32,28 +36,25 @@ describe Watir::Browser do
 
   describe '#window' do
     it 'finds window by :url' do
-      w = browser.window(url: /closeable\.html/).use
-      expect(w).to be_kind_of(Watir::Window)
+      expect(browser.window(url: /closeable\.html/).use).to be_a(Watir::Window)
     end
 
     it 'finds window by :title' do
-      w = browser.window(title: 'closeable window').use
-      expect(w).to be_kind_of(Watir::Window)
+      expect(browser.window(title: 'closeable window').use).to be_a(Watir::Window)
     end
 
     it 'finds window by :index' do
       expect {
-        expect(browser.window(index: 1).use).to be_kind_of(Watir::Window)
+        expect(browser.window(index: 1).use).to be_a(Watir::Window)
       }.to have_deprecated_window_index
     end
 
     it 'finds window by :element' do
-      expect(browser.window(element: browser.a(id: 'close')).use).to be_kind_of(Watir::Window)
+      expect(browser.window(element: browser.a(id: 'close')).use).to be_a(Watir::Window)
     end
 
     it 'finds window by multiple values' do
-      w = browser.window(url: /closeable\.html/, title: 'closeable window').use
-      expect(w).to be_kind_of(Watir::Window)
+      expect(browser.window(title: 'closeable window', url: /closeable\.html/).use).to be_a(Watir::Window)
     end
 
     it 'should not find incorrect handle' do
@@ -78,7 +79,7 @@ describe Watir::Browser do
           link.click
         end
 
-        expect { browser.windows.wait_until(size: 1) }.to_not raise_timeout_exception
+        expect { browser.windows.wait_until(size: 1) }.to_not raise_error
       end
     end
 
@@ -527,6 +528,12 @@ describe Watir::WindowCollection do
   end
 
   describe '#new' do
+    it 'returns all windows by default' do
+      windows = Watir::WindowCollection.new(browser)
+
+      expect(windows.size).to eq 2
+    end
+
     it 'filters available windows by url' do
       windows = Watir::WindowCollection.new(browser, url: /closeable\.html/)
 
@@ -535,6 +542,12 @@ describe Watir::WindowCollection do
 
     it 'filters available windows by title' do
       windows = Watir::WindowCollection.new(browser, title: /closeable/)
+
+      expect(windows.size).to eq 1
+    end
+
+    it 'filters available windows by element' do
+      windows = Watir::WindowCollection.new(browser, element: browser.element(id: 'close'))
 
       expect(windows.size).to eq 1
     end
@@ -548,9 +561,7 @@ describe Watir::WindowCollection do
 
   describe '#size' do
     it 'counts the number of matching windows' do
-      windows = Watir::WindowCollection.new(browser)
-
-      expect(windows.size).to eq 2
+      expect(Watir::WindowCollection.new(browser).size).to eq 2
     end
   end
 
@@ -571,6 +582,7 @@ describe Watir::WindowCollection do
       windows2 = Watir::WindowCollection.new(browser, url: //)
 
       expect(windows1).to eq windows2
+      expect(windows1.to_a.map(&:handle)).to eq windows2.to_a.map(&:handle)
     end
   end
 end

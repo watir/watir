@@ -15,7 +15,7 @@ class LocalConfig
   end
 
   def browser
-    @browser ||= (ENV['WATIR_BROWSER'] || :safari).to_sym
+    @browser ||= (ENV['WATIR_BROWSER'] || :chrome).to_sym
   end
 
   def configure
