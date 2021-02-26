@@ -1,6 +1,16 @@
-### Unreleased
+### 6.18.0 (2021-02-26)
 
-* Less strict version check for `regexp_parser` gem
+* Implement `WindowCollection` to manage multiple `Window` objects
+* Add support for locating `Window` by `:element`
+* Deprecate locating `Window` by `:index`
+* Deprecate `Select#select_all` in favor of `#select` and an `Array`
+* Implement `Browser#switch_window` (#849)
+* Add support for `Numeric` attribute values to `Waitable`
+* Allow users to specify Selenium 4 in their projects
+* Update stale element handling behavior to match webdriver spec (#905 #909)
+* Implement `Waitable` for `ElementCollection` (#853 #857)
+* Improve performance for nested elements (#843)
+* Less strict version check for `regexp_parser` gem (thanks Pavel Lobashov)
 
 ### 6.17.0 (2020-08-27)
 * Require Ruby > 2.5
