@@ -39,23 +39,6 @@ module Watir
     end
 
     #
-    # Select all options whose text or label matches the given string.
-    #
-    # @param [String, Regexp] str_or_rx
-    # @raise [Watir::Exception::NoValueFoundException] if the value does not exist.
-    # @return [String] The text of the first option selected.
-    #
-
-    def select_all(*str_or_rx)
-      Watir.logger.deprecate('#select_all',
-                             '#select with an Array instance',
-                             ids: [:select_all])
-
-      results = str_or_rx.flatten.map { |v| select_all_by v }
-      results.first
-    end
-
-    #
     # Uses JavaScript to select the option whose text matches the given string.
     #
     # @param [String, Regexp] str_or_rx
@@ -68,22 +51,6 @@ module Watir
       else
         str_or_rx.flatten.map { |v| select_by! v, :single }.first
       end
-    end
-
-    #
-    # Uses JavaScript to select all options whose text matches the given string.
-    #
-    # @param [String, Regexp] str_or_rx
-    # @raise [Watir::Exception::NoValueFoundException] if the value does not exist.
-    #
-
-    def select_all!(*str_or_rx)
-      Watir.logger.deprecate('#select_all!',
-                             '#select! with an Array instance',
-                             ids: [:select_all])
-
-      results = str_or_rx.flatten.map { |v| select_by!(v, :multiple) }
-      results.first
     end
 
     #
@@ -183,9 +150,7 @@ module Watir
     def select_all_by(str_or_rx)
       raise Error, 'you can only use #select_all on multi-selects' unless multiple?
 
-      found = find_options :text, str_or_rx
-
-      select_matching(found)
+      select_matching(find_options(:text, str_or_rx))
     end
 
     def find_options(how, str_or_rx)
