@@ -8,8 +8,7 @@ describe Watir::Browser do
   end
 
   after do
-    browser.original_window.use
-    browser.windows.reject(&:current?).each(&:close)
+    browser.windows.restore!
   end
 
   describe '#windows' do
@@ -114,7 +113,7 @@ describe Watir::Browser do
     end
 
     it 'times out if there is no second window' do
-      browser.windows.reject(&:current?).each(&:close)
+      browser.windows.restore!
       message = /waiting for true condition on (.*) title="window switching">$/
       expect { browser.switch_window }.to raise_timeout_exception(message)
     end
@@ -125,7 +124,7 @@ describe Watir::Browser do
     end
 
     it 'waits for second window' do
-      browser.windows.reject(&:current?).each(&:close)
+      browser.windows.restore!
       expect {
         browser.a(id: 'delayed').click
         browser.switch_window
@@ -135,16 +134,15 @@ describe Watir::Browser do
 end
 
 describe Watir::Window do
+  after do
+    browser.windows.restore!
+  end
+
   context 'multiple windows' do
     before do
       browser.goto WatirSpec.url_for('window_switching.html')
       browser.a(id: 'open').click
       browser.windows.wait_until(size: 2)
-    end
-
-    after do
-      browser.original_window.use
-      browser.windows.reject(&:current?).each(&:close)
     end
 
     bug 'Focus is on newly opened window instead of the first', :safari do
@@ -267,11 +265,6 @@ describe Watir::Window do
         browser.windows.wait_until(size: 1)
       end
 
-      after do
-        browser.original_window.use
-        browser.windows.reject(&:current?).each(&:close)
-      end
-
       describe '#exists?' do
         it 'returns false if previously referenced window is closed' do
           expect(@closed_window).to_not be_present
@@ -320,11 +313,6 @@ describe Watir::Window do
   end
 
   context 'with a closed window on a delay' do
-    after do
-      browser.original_window.use
-      browser.windows.reject(&:current?).each(&:close)
-    end
-
     it 'raises an exception when locating a window closed during lookup' do
       browser.goto WatirSpec.url_for('window_switching.html')
       browser.a(id: 'open').click
@@ -364,11 +352,6 @@ describe Watir::Window do
         browser.window(title: 'closeable window').use
         browser.a(id: 'close').click
         browser.windows.wait_until(size: 1)
-      end
-
-      after do
-        browser.original_window.use
-        browser.windows.reject(&:current?).each(&:close)
       end
 
       describe '#present?' do
@@ -497,8 +480,7 @@ describe Watir::WindowCollection do
   end
 
   after do
-    browser.original_window.use
-    browser.windows.reject(&:current?).each(&:close)
+    browser.windows.restore!
   end
 
   it '#to_a raises exception' do
@@ -551,6 +533,33 @@ describe Watir::WindowCollection do
       windows2 = Watir::WindowCollection.new(browser, url: //)
 
       expect(windows1).to eq windows2
+    end
+  end
+
+  it '#reset!' do
+    wins = browser.windows
+    expect(wins.size).to eq 2
+    wins.reset!
+    expect(wins.instance_variable_get('@window_list')).to be_nil
+  end
+
+  describe '#restore!' do
+    bug 'Focus is on newly opened window instead of the first', :safari do
+      it 'when on other window' do
+        browser.a(id: 'open').click
+        browser.windows.wait_until(size: 3)
+        browser.window(title: 'closeable window').use
+
+        browser.windows.restore!
+        expect(browser.windows.size).to eq 1
+        expect(browser.title).to eq 'window switching'
+      end
+    end
+
+    it 'when browser closed does not raise exception' do
+      browser.close
+
+      expect { browser.windows.restore! }.not_to raise_exception
     end
   end
 end
