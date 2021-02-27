@@ -22,7 +22,7 @@ require 'watir'
 require 'locator_spec_helper'
 require 'rspec'
 
-if ENV['GITHUB_ACTIONS']
+if ENV['AUTOMATIC_RETRY']
   require 'rspec/retry'
   RSpec.configure do |config|
     config.verbose_retry = true
