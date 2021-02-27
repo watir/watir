@@ -29,7 +29,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'regexp_parser', '>= 1.2', '< 3'
 
   s.add_development_dependency 'activesupport', '~> 4.0', '>= 4.1.11' # for pluralization during code generation
-  s.add_development_dependency 'coveralls'
+  s.add_development_dependency 'coveralls_reborn'
   s.add_development_dependency 'fuubar'
   s.add_development_dependency 'nokogiri'
   s.add_development_dependency 'pry'
@@ -38,7 +38,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec-retry'
   s.add_development_dependency 'rubocop', '~> 0.59'
   s.add_development_dependency 'selenium_statistics'
-  s.add_development_dependency 'simplecov'
   s.add_development_dependency 'simplecov-console'
   s.add_development_dependency 'webdrivers', '~> 4.6'
   s.add_development_dependency 'webidl', '>= 0.2.2'

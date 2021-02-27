@@ -1,7 +1,7 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
-if ENV['GITHUB_ACTIONS'] || ENV['COVERAGE']
+if ENV['COVERAGE']
   require 'coveralls'
   require 'simplecov'
   require 'simplecov-console'

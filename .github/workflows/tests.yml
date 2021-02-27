@@ -85,6 +85,11 @@ jobs:
         if: matrix.task == 'firefox'
       - uses: ./.github/actions/enable-safari
         if: matrix.task == 'safari'
+      - run: |
+          echo "COVERAGE=true" >> $GITHUB_ENV
+        if: |
+          matrix.os == 'ubuntu-latest' ||
+          matrix.os == 'macos-latest'
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
