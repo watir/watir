@@ -27,47 +27,12 @@ module Watir
     alias size count
     alias empty? none?
 
-    #
-    # First window of the collection
-    #
-    # @note windows in a collection are not ordered so this is not reliably
-    # @deprecated use Browser#switch_window or a better Window locator
-    # @return [Watir::Window] Returns an instance of a Watir::Window
-    #
-
-    def first
-      self[0]
+    def [](*)
+      raise NoMethodError, 'indexing not reliable on WindowCollection'
     end
-
-    #
-    # Last window of the collection
-    #
-    # @note windows in a collection are not ordered so this is not reliably
-    # @deprecated use Browser#switch_window or a better Window locator
-    # @return [Watir::Window] Returns an instance of a Watir::Window
-    #
-
-    def last
-      self[-1]
-    end
-
-    #
-    # Get the window at the given index or range.
-    #
-    # @note windows in a collection are not ordered so this is not reliably
-    # @deprecated use Browser#switch_window or a better Window locator
-    # @param [Integer, Range] value Index (0-based) or Range of desired window(s)
-    # @return [Watir::Window] Returns an instance of a Watir::Window
-    #
-
-    def [](value)
-      old = 'using indexing with windows'
-      new = 'Browser#switch_window or Browser#window with :title, :url or :element selectors'
-      reference = 'http://watir.com/window_indexes'
-      Watir.logger.deprecate old, new, reference: reference, ids: [:window_index]
-
-      window_list[value]
-    end
+    alias first []
+    alias last []
+    alias to_a []
 
     def ==(other)
       window_list == other.send(:window_list)
@@ -76,15 +41,6 @@ module Watir
 
     def reset!
       @window_list = nil
-    end
-
-    def to_a
-      old = 'WindowCollection#to_a to interact with indexed windows'
-      new = 'Enumerable methods to iterate over windows'
-      reference = 'http://watir.com/window_indexes'
-      Watir.logger.deprecate old, new, reference: reference, ids: [:window_index]
-
-      window_list
     end
 
     private

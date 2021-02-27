@@ -43,12 +43,6 @@ describe Watir::Browser do
       expect(browser.window(title: 'closeable window').use).to be_a(Watir::Window)
     end
 
-    it 'finds window by :index' do
-      expect {
-        expect(browser.window(index: 1).use).to be_a(Watir::Window)
-      }.to have_deprecated_window_index
-    end
-
     it 'finds window by :element' do
       expect(browser.window(element: browser.a(id: 'close')).use).to be_a(Watir::Window)
     end
@@ -89,12 +83,6 @@ describe Watir::Browser do
 
     it 'raises a NoMatchingWindowFoundException error if no window matches the selector' do
       expect { browser.window(title: 'noop').use }.to raise_no_matching_window_exception
-    end
-
-    it "raises a NoMatchingWindowFoundException error if there's no window at the given index" do
-      expect {
-        expect { browser.window(index: 100).use }.to raise_no_matching_window_exception
-      }.to have_deprecated_window_index
     end
 
     it 'raises NoMatchingWindowFoundException error when attempting to use a window with an incorrect handle' do
@@ -256,12 +244,6 @@ describe Watir::Window do
         expect(browser.window(title: 'closeable window').handle).to_not be_nil
       end
 
-      it 'finds window by :index' do
-        expect {
-          expect(browser.window(index: 1).handle).to_not be_nil
-        }.to have_deprecated_window_index
-      end
-
       it 'finds window by :element' do
         expect(browser.window(element: browser.a(id: 'close')).handle).to_not be_nil
       end
@@ -390,12 +372,6 @@ describe Watir::Window do
       end
 
       describe '#present?' do
-        it 'should find window by index' do
-          expect {
-            expect(browser.window(index: 0)).to be_present
-          }.to have_deprecated_window_index
-        end
-
         it 'should find window by url' do
           expect(browser.window(url: /window_switching\.html/)).to be_present
         end
@@ -411,11 +387,6 @@ describe Watir::Window do
 
       describe '#use' do
         context 'switching windows without blocks' do
-          it 'by index' do
-            expect { browser.window(index: 0).use }.to have_deprecated_window_index
-            expect(browser.title).to be == 'window switching'
-          end
-
           it 'by url' do
             browser.window(url: /window_switching\.html/).use
             expect(browser.title).to be == 'window switching'
@@ -433,12 +404,6 @@ describe Watir::Window do
         end
 
         context 'Switching windows with blocks' do
-          it 'by index' do
-            expect {
-              browser.window(index: 0).use { expect(browser.title).to be == 'window switching' }
-            }.to have_deprecated_window_index
-          end
-
           it 'by url' do
             browser.window(url: /window_switching\.html/).use { expect(browser.title).to be == 'window switching' }
           end
@@ -536,10 +501,10 @@ describe Watir::WindowCollection do
     browser.windows.reject(&:current?).each(&:close)
   end
 
-  it '#to_a' do
+  it '#to_a raises exception' do
     expect {
       Watir::WindowCollection.new(browser).to_a
-    }.to have_deprecated_window_index
+    }.to raise_exception(NoMethodError, 'indexing not reliable on WindowCollection')
   end
 
   describe '#new' do
@@ -580,24 +545,12 @@ describe Watir::WindowCollection do
     end
   end
 
-  describe '#[]' do
-    it 'returns window instance at provided index' do
-      windows = Watir::WindowCollection.new(browser)
-
-      expect {
-        expect(windows).to all(be_an(Watir::Window))
-        expect(windows.first).to_not eq windows.last
-      }.to have_deprecated_window_index
-    end
-  end
-
   describe '#eq?' do
     it 'compares the equivalence of window handles' do
       windows1 = Watir::WindowCollection.new(browser, title: //)
       windows2 = Watir::WindowCollection.new(browser, url: //)
 
       expect(windows1).to eq windows2
-      expect(windows1.to_a.map(&:handle)).to eq windows2.to_a.map(&:handle)
     end
   end
 end

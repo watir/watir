@@ -15,7 +15,7 @@ module Watir
       elsif selector.key? :handle
         @handle = selector.delete :handle
       else
-        return if selector.keys.all? { |k| %i[title url index element].include? k }
+        return if selector.keys.all? { |k| %i[title url element].include? k }
 
         raise ArgumentError, "invalid window selector: #{selector_string}"
       end
@@ -112,7 +112,7 @@ module Watir
     # Returns true if two windows are equal.
     #
     # @example
-    #   browser.window(index: 0) == browser.window(index: 1)
+    #   browser.window(title: /window_switching/) == browser.window(/closeable/)
     #   #=> false
     #
     # @param [Window] other
@@ -201,16 +201,7 @@ module Watir
     private
 
     def locate
-      if @selector.empty?
-        nil
-      elsif @selector.key?(:index)
-        Watir.logger.deprecate 'Using :index as a selector for Window', ':title or :url or :element',
-                               reference: 'http://watir.com/guides/windows/#locating-by-index-is-no-longer-supported',
-                               ids: [:window_index]
-        @driver.window_handles[Integer(@selector[:index])]
-      else
-        @driver.window_handles.find { |wh| matches?(wh) }
-      end
+      @selector.empty? ? nil : @driver.window_handles.find { |wh| matches?(wh) }
     end
 
     def assert_exists
