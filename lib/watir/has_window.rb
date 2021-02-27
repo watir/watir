@@ -1,5 +1,7 @@
 module Watir
   module HasWindow
+    attr_writer :original_window
+
     #
     # Returns browser windows array.
     #

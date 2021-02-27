@@ -179,10 +179,21 @@ module Watir
     #   end
     #
 
-    def use(&blk)
-      @browser.original_window ||= current_window
+    def use
       wait_for_exists
-      @driver.switch_to.window(handle, &blk)
+      cache_current = current_window
+      @browser.original_window ||= cache_current
+      restore_to = unless cache_current == handle
+                     @driver.switch_to.window(handle)
+                     cache_current
+                   end
+      if block_given?
+        begin
+          yield
+        ensure
+          @driver.switch_to.window(restore_to) if restore_to
+        end
+      end
       self
     end
 
@@ -205,7 +216,7 @@ module Watir
     end
 
     def assert_exists
-      return if @driver.window_handles.include?(handle)
+      return if !handle.nil? && @driver.window_handles.include?(handle)
 
       raise(NoMatchingWindowFoundException, selector_string)
     end
