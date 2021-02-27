@@ -93,7 +93,7 @@ describe 'Browser#cookies' do
     expect((cookie[:expires]).to_i).to be_within(2).of(expires.to_i)
   end
 
-  bug 'https://bugs.chromium.org/p/chromedriver/issues/detail?id=2727', :chrome, :safari do
+  bug 'https://bugs.chromium.org/p/chromedriver/issues/detail?id=2727', :chrome, :safari, :edge do
     it 'adds a cookie with security' do
       browser.goto set_cookie_url
 

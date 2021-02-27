@@ -19,6 +19,10 @@ module WatirSpec
       @name || raise('implementation name not set')
     end
 
+    def browser_name
+      browser_args.first == :ie ? :internet_explorer : browser_args.first
+    end
+
     def matches_guard?(args)
       return @guard_proc.call(args) if @guard_proc
 

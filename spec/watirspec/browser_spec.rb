@@ -75,7 +75,7 @@ describe 'Browser' do
   bug 'Capitalization issue', :safari do
     describe '#name' do
       it 'returns browser name' do
-        expect(browser.name).to eq(WatirSpec.implementation.browser_args.first)
+        expect(browser.name).to eq(WatirSpec.implementation.browser_name)
       end
     end
   end
