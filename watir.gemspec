@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
   s.executables = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
   s.require_paths = ['lib']
 
-  s.add_dependency 'selenium-webdriver', '>= 3.8'
+  s.add_dependency 'selenium-webdriver', '= 3.142.7'
   s.add_runtime_dependency 'regexp_parser', '>= 1.2', '< 3'
 
   s.add_development_dependency 'activesupport', '~> 4.0', '>= 4.1.11' # for pluralization during code generation
