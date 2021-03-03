@@ -85,6 +85,7 @@ class LocalConfig
     matching_guards << [browser, Selenium::WebDriver::Platform.os]
     matching_guards << :relaxed_locate if Watir.relaxed_locate?
     matching_guards << :headless if @imp.browser_args.last[:headless]
+    matching_guards << "v#{Watir::VERSION.tr('.', '_')[/.*(?=_)/]}".to_sym
     matching_guards << :w3c if ENV['W3C']
 
     if !Selenium::WebDriver::Platform.linux? || ENV['DESKTOP_SESSION']
