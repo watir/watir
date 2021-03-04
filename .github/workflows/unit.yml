@@ -18,7 +18,13 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
       - run: bundle install
-      - run: bundle exec rake spec:unit
+      - uses: ./.github/actions/install-chrome
+      - run: Xvfb :99 &
+      - run: |
+          bundle exec rake spec:unit
+        env:
+          DISPLAY: :99
+
   linter-test:
     name: Rubocop Tests
     runs-on: ubuntu-latest

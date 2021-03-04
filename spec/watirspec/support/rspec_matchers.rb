@@ -1,5 +1,18 @@
 if defined?(RSpec)
   DEPRECATION_WARNINGS = %i[selector_parameters
+                            options_capabilities
+                            firefox_profile
+                            remote_keyword
+                            desired_capabilities
+                            port_keyword
+                            switches_keyword
+                            args_keyword
+                            url_service
+                            driver_opts_keyword
+                            http_open_timeout
+                            http_read_timeout
+                            http_client_timeout
+                            unknown_keyword
                             element_cache
                             ready_state
                             caption
@@ -22,7 +35,9 @@ if defined?(RSpec)
   DEPRECATION_WARNINGS.each do |deprecation|
     RSpec::Matchers.define "have_deprecated_#{deprecation}" do
       match do |actual|
-        warning = /\[DEPRECATION\] \["#{deprecation}"\]/
+        return actual.call if ENV['IGNORE_DEPRECATIONS']
+
+        warning = /\[DEPRECATION\] \["#{deprecation}"/
         expect {
           actual.call
           @stdout_message = File.read $stdout if $stdout.is_a?(File)
