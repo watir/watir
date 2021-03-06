@@ -71,73 +71,22 @@ module Watir
       @selenium_opts[:http_client] = http_client
     end
 
-    # TODO: - this will get addressed with Capabilities Update
-    # rubocop:disable Metrics/MethodLength
-    # rubocop:disable Metrics/PerceivedComplexity:
-    # rubocop:disable Metrics/CyclomaticComplexity::
     def process_browser_options
       browser_options = @options.delete(:options) || {}
 
       case @selenium_browser
       when :chrome
-        if @options.key?(:args) || @options.key?(:switches)
-          browser_options ||= {}
-          browser_options[:args] = (@options.delete(:args) || @options.delete(:switches)).dup
-        end
-        if @options.delete(:headless)
-          browser_options ||= {}
-          browser_options[:args] ||= []
-          browser_options[:args] += ['--headless', '--disable-gpu']
-        end
-        @selenium_opts[:options] = browser_options if browser_options.is_a? Selenium::WebDriver::Chrome::Options
-        @selenium_opts[:options] ||= Selenium::WebDriver::Chrome::Options.new(**browser_options)
+        process_chrome_options(browser_options)
       when :firefox
-        profile = @options.delete(:profile)
-        if browser_options.is_a? Selenium::WebDriver::Firefox::Options
-          @selenium_opts[:options] = browser_options
-          if profile
-            msg = 'Initializing Browser with both :profile and :option', ':profile as a key inside :option'
-            Watir.logger.deprecate msg, ids: [:firefox_profile]
-          end
-        end
-        if @options.delete(:headless)
-          browser_options ||= {}
-          browser_options[:args] ||= []
-          browser_options[:args] += ['--headless']
-        end
-        @selenium_opts[:options] ||= Selenium::WebDriver::Firefox::Options.new(**browser_options)
-        @selenium_opts[:options].profile = profile if profile
+        process_firefox_options(browser_options)
       when :safari
-        Selenium::WebDriver::Safari.technology_preview! if @options.delete(:technology_preview)
+        process_safari_options
       when :remote
-        if @browser == :chrome && @options.delete(:headless)
-          args = @options.delete(:args) || @options.delete(:switches) || []
-          @options['chromeOptions'] = {'args' => args + ['--headless', '--disable-gpu']}
-        end
-        if @browser == :firefox && @options.delete(:headless)
-          args = @options.delete(:args) || @options.delete(:switches) || []
-          @options[Selenium::WebDriver::Firefox::Options::KEY] = {'args' => args + ['--headless']}
-        end
-        if @browser == :safari && @options.delete(:technology_preview)
-          @options['safari.options'] = {'technologyPreview' => true}
-        end
+        process_remote_options
       when :ie
-        if @options.key?(:args)
-          browser_options ||= {}
-          browser_options[:args] = @options.delete(:args).dup
-        end
-        unless browser_options.is_a? Selenium::WebDriver::IE::Options
-          ie_caps = browser_options.select { |k| Selenium::WebDriver::IE::Options::CAPABILITIES.include?(k) }
-          browser_options = Selenium::WebDriver::IE::Options.new(**browser_options)
-          ie_caps.each { |k, v| browser_options.add_option(k, v) }
-        end
-        @selenium_opts[:options] = browser_options
+        process_ie_options(browser_options)
       end
     end
-
-    # rubocop:enable Metrics/MethodLength
-    # rubocop:enable Metrics/PerceivedComplexity:
-    # rubocop:enable Metrics/CyclomaticComplexity::
 
     def process_capabilities
       caps = @options.delete(:desired_capabilities)
@@ -152,6 +101,69 @@ module Watir
       end
 
       @selenium_opts[:desired_capabilities] = caps
+    end
+
+    def process_chrome_options(browser_options)
+      if @options.key?(:args) || @options.key?(:switches)
+        browser_options ||= {}
+        browser_options[:args] = (@options.delete(:args) || @options.delete(:switches)).dup
+      end
+      if @options.delete(:headless)
+        browser_options ||= {}
+        browser_options[:args] ||= []
+        browser_options[:args] += ['--headless', '--disable-gpu']
+      end
+      @selenium_opts[:options] = browser_options if browser_options.is_a? Selenium::WebDriver::Chrome::Options
+      @selenium_opts[:options] ||= Selenium::WebDriver::Chrome::Options.new(**browser_options)
+    end
+
+    def process_firefox_options(browser_options)
+      profile = @options.delete(:profile)
+      if browser_options.is_a? Selenium::WebDriver::Firefox::Options
+        @selenium_opts[:options] = browser_options
+        if profile
+          msg = 'Initializing Browser with both :profile and :option', ':profile as a key inside :option'
+          Watir.logger.deprecate msg, ids: [:firefox_profile]
+        end
+      end
+      if @options.delete(:headless)
+        browser_options ||= {}
+        browser_options[:args] ||= []
+        browser_options[:args] += ['--headless']
+      end
+      @selenium_opts[:options] ||= Selenium::WebDriver::Firefox::Options.new(**browser_options)
+      @selenium_opts[:options].profile = profile if profile
+    end
+
+    def process_remote_options
+      if @browser == :chrome && @options.delete(:headless)
+        args = @options.delete(:args) || @options.delete(:switches) || []
+        @options['chromeOptions'] = {'args' => args + ['--headless', '--disable-gpu']}
+      end
+      if @browser == :firefox && @options.delete(:headless)
+        args = @options.delete(:args) || @options.delete(:switches) || []
+        @options[Selenium::WebDriver::Firefox::Options::KEY] = {'args' => args + ['--headless']}
+      end
+      if @browser == :safari && @options.delete(:technology_preview)
+        @options['safari.options'] = {'technologyPreview' => true}
+      end
+    end
+
+    def process_safari_options
+      Selenium::WebDriver::Safari.technology_preview! if @options.delete(:technology_preview)
+    end
+
+    def process_ie_options(browser_options)
+      if @options.key?(:args)
+        browser_options ||= {}
+        browser_options[:args] = @options.delete(:args).dup
+      end
+      unless browser_options.is_a? Selenium::WebDriver::IE::Options
+        ie_caps = browser_options.select { |k| Selenium::WebDriver::IE::Options::CAPABILITIES.include?(k) }
+        browser_options = Selenium::WebDriver::IE::Options.new(**browser_options)
+        ie_caps.each { |k, v| browser_options.add_option(k, v) }
+      end
+      @selenium_opts[:options] = browser_options
     end
   end
 end
