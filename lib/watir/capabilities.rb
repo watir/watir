@@ -80,7 +80,7 @@ module Watir
       when :firefox
         process_firefox_options(browser_options)
       when :safari
-        process_safari_options
+        process_safari_options(browser_options)
       when :remote
         process_remote_options
       when :ie
@@ -152,7 +152,9 @@ module Watir
       end
     end
 
-    def process_safari_options
+    def process_safari_options(browser_options)
+      @selenium_opts[:options] = browser_options if browser_options.is_a? Selenium::WebDriver::Safari::Options
+      @selenium_opts[:options] ||= Selenium::WebDriver::Safari::Options.new(**browser_options)
       Selenium::WebDriver::Safari.technology_preview! if @options.delete(:technology_preview)
     end
 
