@@ -118,21 +118,24 @@ module Watir
     end
 
     def process_firefox_options(browser_options)
-      profile = @options.delete(:profile)
       if browser_options.is_a? Selenium::WebDriver::Firefox::Options
         @selenium_opts[:options] = browser_options
-        if profile
-          msg = 'Initializing Browser with both :profile and :option', ':profile as a key inside :option'
-          Watir.logger.deprecate msg, ids: [:firefox_profile]
-        end
       end
+
       if @options.delete(:headless)
         browser_options ||= {}
         browser_options[:args] ||= []
         browser_options[:args] += ['--headless']
       end
+
       @selenium_opts[:options] ||= Selenium::WebDriver::Firefox::Options.new(**browser_options)
-      @selenium_opts[:options].profile = profile if profile
+      if @options.key?(:profile)
+        new = 'Initializing Browser with both :profile and :option'
+        old = ':profile as a key inside :option'
+        Watir.logger.deprecate new, old, ids: [:firefox_profile]
+
+        @selenium_opts[:options].profile = @options.delete(:profile)
+      end
     end
 
     def process_remote_options
