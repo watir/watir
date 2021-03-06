@@ -81,6 +81,13 @@ module Watir
     def process_capabilities
       caps = @options.delete(:capabilities)
 
+      unless @options.empty?
+        Watir.logger.deprecate('passing unrecognized arguments into Browser constructor',
+                               'appropriate keyword to nest all arguments',
+                               ids: %i[unknown_keyword capabilities],
+                               reference: 'http://watir.com/guides/capabilities.html')
+      end
+
       if caps
         @selenium_opts.merge!(@options)
       else
