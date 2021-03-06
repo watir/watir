@@ -147,13 +147,10 @@ module Watir
     end
 
     def process_chrome_options(browser_options)
-      if @options.key?(:args) || @options.key?(:switches)
-        browser_options ||= {}
-        browser_options[:args] = (@options.delete(:args) || @options.delete(:switches)).dup
-      end
-
       @selenium_opts[:options] = browser_options if browser_options.is_a? Selenium::WebDriver::Chrome::Options
       @selenium_opts[:options] ||= Selenium::WebDriver::Chrome::Options.new(**browser_options)
+
+      process_args
 
       return unless @options.delete(:headless)
 
@@ -199,16 +196,13 @@ module Watir
     end
 
     def process_ie_options(browser_options)
-      if @options.key?(:args)
-        browser_options ||= {}
-        browser_options[:args] = @options.delete(:args).dup
-      end
       unless browser_options.is_a? Selenium::WebDriver::IE::Options
         ie_caps = browser_options.select { |k| Selenium::WebDriver::IE::Options::CAPABILITIES.include?(k) }
         browser_options = Selenium::WebDriver::IE::Options.new(**browser_options)
         ie_caps.each { |k, v| browser_options.add_option(k, v) }
       end
       @selenium_opts[:options] = browser_options
+      process_args
     end
 
     def process_service(service)
@@ -243,6 +237,33 @@ module Watir
         service[:args] = @options.delete(:driver_opts)
       end
       service
+    end
+
+    def process_args
+      args = if @options.key?(:args)
+               deprecate_args
+               @options.delete(:args)
+             elsif @options.key?(:switches)
+               deprecate_switches
+               @options.delete(:switches)
+             else
+               []
+             end
+      args.each { |arg| @selenium_opts[:options].args << arg }
+    end
+
+    def deprecate_args
+      Watir.logger.deprecate(':args to initialize Browser',
+                             ':args inside Hash with :options key',
+                             ids: %i[args_keyword capabilities],
+                             reference: 'http://watir.com/guides/capabilities.html')
+    end
+
+    def deprecate_switches
+      Watir.logger.deprecate(':switches to initialize Browser',
+                             ':switches inside Hash with :options key',
+                             ids: %i[switches_keyword capabilities],
+                             reference: 'http://watir.com/guides/capabilities.html')
     end
   end
 end

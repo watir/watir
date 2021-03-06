@@ -104,10 +104,9 @@ class LocalConfig
   end
 
   def chrome_args
-    opts = {args: ['--disable-translate']}
+    opts = {options: {args: ['--disable-translate']}}
     opts[:headless] = true if ENV['HEADLESS'] == 'true'
-    opts[:options] = {binary: ENV['CHROME_BINARY']} if ENV['CHROME_BINARY'] == 'true'
-    opts[:options] = {options: {w3c: true}} if ENV['W3C'] == 'true'
+    opts[:options][:binary] = ENV['CHROME_BINARY'] if ENV['CHROME_BINARY']
     opts
   end
 
