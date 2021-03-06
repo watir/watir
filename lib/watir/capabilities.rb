@@ -28,18 +28,15 @@ module Watir
     private
 
     def process_arguments
+      @selenium_opts[:listener] = @options.delete(:listener) if @options.key?(:listener)
+
       if @options.key?(:url)
         @selenium_opts[:url] = @options.delete(:url)
-      elsif @options.key?(:service)
-        @selenium_opts[:service] = options.delete(:service)
+      else
+        process_service(@options.delete(:service))
       end
 
       create_http_client
-
-      @selenium_opts[:port] = @options.delete(:port) if @options.key?(:port)
-      @selenium_opts[:driver_opts] = @options.delete(:driver_opts) if @options.key?(:driver_opts)
-      @selenium_opts[:listener] = @options.delete(:listener) if @options.key?(:listener)
-
       process_browser_options
       process_capabilities
       Watir.logger.info "Creating Browser instance with Watir processed options: #{@selenium_opts.inspect}"
@@ -114,8 +111,8 @@ module Watir
     end
 
     def deprecate_url_service
-      Watir.logger.deprecate("allowing Browser initialization with both :url & :service",
-                             "just :service",
+      Watir.logger.deprecate('allowing Browser initialization with both :url & :service',
+                             'just :service',
                              ids: [:url_service],
                              reference: 'http://watir.com/guides/capabilities.html')
     end
@@ -186,6 +183,40 @@ module Watir
         ie_caps.each { |k, v| browser_options.add_option(k, v) }
       end
       @selenium_opts[:options] = browser_options
+    end
+
+    def process_service(service)
+      service = deprecate_service_keywords if service.nil?
+
+      @selenium_opts[:service] = case service
+                                 when Hash
+                                   return if service.empty?
+
+                                   Selenium::WebDriver::Service.send(@browser, service)
+                                 when Selenium::WebDriver::Service
+                                   service
+                                 else
+                                   raise TypeError, "#{service} needs to be Selenium Service or Hash instance"
+                                 end
+    end
+
+    def deprecate_service_keywords
+      service = {}
+      if @options.key?(:port)
+        Watir.logger.deprecate(':port to initialize Browser',
+                               ':port in a Hash with :service key',
+                               ids: %i[port_keyword capabilities],
+                               reference: 'http://watir.com/guides/capabilities.html')
+        service[:port] = @options.delete(:port)
+      end
+      if @options.key?(:driver_opts)
+        Watir.logger.deprecate(':driver_opts to initialize Browser',
+                               ':args as Array in a Hash with :service key',
+                               ids: %i[driver_opts_keyword capabilities],
+                               reference: 'http://watir.com/guides/capabilities.html')
+        service[:args] = @options.delete(:driver_opts)
+      end
+      service
     end
   end
 end
