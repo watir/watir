@@ -144,24 +144,19 @@ module Watir
         browser_options ||= {}
         browser_options[:args] = (@options.delete(:args) || @options.delete(:switches)).dup
       end
-      if @options.delete(:headless)
-        browser_options ||= {}
-        browser_options[:args] ||= []
-        browser_options[:args] += ['--headless', '--disable-gpu']
-      end
+
       @selenium_opts[:options] = browser_options if browser_options.is_a? Selenium::WebDriver::Chrome::Options
       @selenium_opts[:options] ||= Selenium::WebDriver::Chrome::Options.new(**browser_options)
+
+      return unless @options.delete(:headless)
+
+      @selenium_opts[:options].args << '--headless'
+      @selenium_opts[:options].args << '--disable-gpu'
     end
 
     def process_firefox_options(browser_options)
       if browser_options.is_a? Selenium::WebDriver::Firefox::Options
         @selenium_opts[:options] = browser_options
-      end
-
-      if @options.delete(:headless)
-        browser_options ||= {}
-        browser_options[:args] ||= []
-        browser_options[:args] += ['--headless']
       end
 
       @selenium_opts[:options] ||= Selenium::WebDriver::Firefox::Options.new(**browser_options)
@@ -172,6 +167,8 @@ module Watir
 
         @selenium_opts[:options].profile = @options.delete(:profile)
       end
+
+      @selenium_opts[:options].args << '--headless' if @options.delete(:headless)
     end
 
     def process_remote_options
