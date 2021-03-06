@@ -58,7 +58,12 @@ module Watir
         Watir.logger.warn msg, ids: %i[http_client use_capabilities]
       end
 
-      http_client ||= Selenium::WebDriver::Remote::Http::Default.new
+      unless http_client
+        Watir.logger.warn 'Check out the new Watir::HttpClient and let us know if there are missing features you need',
+                          ids: [:watir_client]
+
+        http_client = Watir::HttpClient.new
+      end
 
       http_client.timeout = client_timeout if client_timeout
       http_client.open_timeout = open_timeout if open_timeout
