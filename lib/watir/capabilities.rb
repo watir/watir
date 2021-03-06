@@ -36,7 +36,7 @@ module Watir
         process_service(@options.delete(:service))
       end
 
-      create_http_client
+      process_http_client
       process_browser_options
       process_capabilities
       Watir.logger.info "Creating Browser instance with Watir processed options: #{@selenium_opts.inspect}"
@@ -44,30 +44,20 @@ module Watir
       @selenium_opts
     end
 
-    def create_http_client
-      client_timeout = @options.delete(:client_timeout)
-      open_timeout = @options.delete(:open_timeout)
-      read_timeout = @options.delete(:read_timeout)
-
-      http_client = @options.delete(:http_client)
-
-      %i[open_timeout read_timeout client_timeout].each do |t|
-        next if http_client.nil? || !respond_to?(t)
-
-        msg = "You can pass #{t} value directly into Watir::Browser opt without needing to use :http_client"
-        Watir.logger.warn msg, ids: %i[http_client use_capabilities]
+    def process_http_client
+      http_client = @options.delete(:http_client) || Watir::HttpClient.new
+      if http_client.is_a?(Hash)
+        http_client = Watir::HttpClient.new(http_client)
+      elsif !http_client.is_a?(Selenium::WebDriver::Remote::Http::Common)
+        raise TypeError, ':http_client must be a Hash or a Selenium HTTP Client instance'
       end
 
-      unless http_client
+      unless http_client.is_a?(Watir::HttpClient)
         Watir.logger.warn 'Check out the new Watir::HttpClient and let us know if there are missing features you need',
                           ids: [:watir_client]
-
-        http_client = Watir::HttpClient.new
       end
 
-      http_client.timeout = client_timeout if client_timeout
-      http_client.open_timeout = open_timeout if open_timeout
-      http_client.read_timeout = read_timeout if read_timeout
+      process_http_client_timeouts(http_client)
       @selenium_opts[:http_client] = http_client
     end
 
@@ -115,6 +105,38 @@ module Watir
                              'just :service',
                              ids: [:url_service],
                              reference: 'http://watir.com/guides/capabilities.html')
+    end
+
+    def process_http_client_timeouts(http_client)
+      deprecate_client_timeout(http_client) if @options.key? :client_timeout
+      deprecate_open_timeout(http_client) if @options.key? :open_timeout
+      deprecate_read_timeout(http_client) if @options.key? :read_timeout
+    end
+
+    def deprecate_client_timeout(http_client)
+      Watir.logger.deprecate(':client_timeout to initialize Browser',
+                             ':open_timeout and/or :read_timeout in a Hash with :http_client key',
+                             ids: [:http_client_timeout],
+                             reference: 'http://watir.com/guides/capabilities.html')
+      timeout = @options.delete(:client_timeout)
+      http_client.open_timeout = timeout
+      http_client.read_timeout = timeout
+    end
+
+    def deprecate_open_timeout(http_client)
+      Watir.logger.deprecate(':open_timeout to initialize Browser',
+                             ':open_timeout in a Hash with :http_client key',
+                             ids: %i[http_open_timeout capabilities],
+                             reference: 'http://watir.com/guides/capabilities.html')
+      http_client.open_timeout = @options.delete(:open_timeout)
+    end
+
+    def deprecate_read_timeout(http_client)
+      Watir.logger.deprecate(':read_timeout to initialize Browser',
+                             ':read_timeout in a Hash with :http_client key',
+                             ids: %i[http_read_timeout capabilities],
+                             reference: 'http://watir.com/guides/capabilities.html')
+      http_client.read_timeout = @options.delete(:read_timeout)
     end
 
     def process_chrome_options(browser_options)
