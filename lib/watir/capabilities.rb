@@ -5,10 +5,13 @@ module Watir
     def initialize(browser, options = {})
       @options = options.dup
       Watir.logger.info "Creating Browser instance of #{browser} with user provided options: #{@options.inspect}"
+
+      deprecate_desired_capabilities
+
       @browser = if browser == :remote && @options.key?(:browser)
                    @options.delete(:browser)
-                 elsif browser == :remote && @options.key?(:desired_capabilities)
-                   @options[:desired_capabilities].browser_name.to_sym
+                 elsif browser == :remote && @options.key?(:capabilities)
+                   @options[:capabilities].browser_name.to_sym
                  else
                    browser.to_sym
                  end
@@ -89,18 +92,25 @@ module Watir
     end
 
     def process_capabilities
-      caps = @options.delete(:desired_capabilities)
+      caps = @options.delete(:capabilities)
 
       if caps
-        msg = 'You can pass values directly into Watir::Browser opt without needing to use :desired_capabilities'
-        Watir.logger.warn msg,
-                          ids: [:use_capabilities]
         @selenium_opts.merge!(@options)
       else
         caps = Selenium::WebDriver::Remote::Capabilities.send @browser, @options
       end
 
       @selenium_opts[:desired_capabilities] = caps
+    end
+
+    def deprecate_desired_capabilities
+      return unless @options.key?(:desired_capabilities)
+
+      Watir.logger.deprecate(':desired_capabilities to initialize Browser',
+                             ':capabilities or preferably :options',
+                             ids: [:desired_capabilities],
+                             reference: 'http://watir.com/guides/capabilities.html')
+      @options[:capabilities] = @options.delete(:desired_capabilities)
     end
 
     def process_chrome_options(browser_options)
