@@ -7,6 +7,7 @@ module Watir
       Watir.logger.info "Creating Browser instance of #{browser} with user provided options: #{@options.inspect}"
 
       deprecate_desired_capabilities
+      deprecate_url_service if @options.key?(:service) && @options.key?(:url)
 
       @browser = if browser == :remote && @options.key?(:browser)
                    @options.delete(:browser)
@@ -27,9 +28,8 @@ module Watir
     private
 
     def process_arguments
-      url = @options.delete(:url)
-      if url
-        @selenium_opts[:url] = url
+      if @options.key?(:url)
+        @selenium_opts[:url] = @options.delete(:url)
       elsif @options.key?(:service)
         @selenium_opts[:service] = options.delete(:service)
       end
@@ -111,6 +111,13 @@ module Watir
                              ids: [:desired_capabilities],
                              reference: 'http://watir.com/guides/capabilities.html')
       @options[:capabilities] = @options.delete(:desired_capabilities)
+    end
+
+    def deprecate_url_service
+      Watir.logger.deprecate("allowing Browser initialization with both :url & :service",
+                             "just :service",
+                             ids: [:url_service],
+                             reference: 'http://watir.com/guides/capabilities.html')
     end
 
     def process_chrome_options(browser_options)
