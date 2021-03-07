@@ -349,22 +349,6 @@ describe Watir::Capabilities do
       expect(args.last).not_to include(:service)
     end
 
-    # 6.18 works
-    # 6.19 deprecate :remote_keyword
-    # 7.0  remove
-    it 'remote keyword with url and browser name' do
-      expect {
-        capabilities = Watir::Capabilities.new(:remote,
-                                               {browser: :firefox,
-                                                url: 'https://example.com'})
-        args = capabilities.to_args
-        expect(args.first).to eq :remote
-        actual_capabilities = args.last[:capabilities]
-        expect(actual_capabilities).to be_a(Selenium::WebDriver::Remote::Capabilities)
-        expect(actual_capabilities.browser_name).to eq 'firefox'
-      }.to have_deprecated_remote_keyword
-    end
-
     # 6.18 not implemented; just ignores them
     # 6.19 throw error
     # 7.0  throw error
@@ -452,22 +436,6 @@ describe Watir::Capabilities do
     end
 
     # 6.18 works
-    # 6.19 deprecate :remote_keyword
-    # 7.0  remove
-    it 'remote keyword with url and capabilities' do
-      expect {
-        caps = Watir::Capabilities.new(:remote,
-                                       url: 'https://example.com/wd/hub',
-                                       capabilities: Selenium::WebDriver::Remote::Capabilities.chrome)
-        args = caps.to_args
-        expect(args.first).to eq :remote
-        actual_capabilities = args.last[:capabilities]
-        expect(actual_capabilities).to be_a(Selenium::WebDriver::Remote::Capabilities)
-        expect(actual_capabilities.browser_name).to eq 'chrome'
-      }.to have_deprecated_remote_keyword
-    end
-
-    # 6.18 works
     # 6.19 nothing
     # 7.0  valid
     it 'browser name with url and capabilities' do
@@ -479,26 +447,6 @@ describe Watir::Capabilities do
       actual_capabilities = args.last[:capabilities]
       expect(actual_capabilities).to be_a(Selenium::WebDriver::Remote::Capabilities)
       expect(actual_capabilities.browser_name).to eq 'chrome'
-    end
-
-    # 6.18 works
-    # 6.19 deprecate :remote_keyword
-    # 7.0  remove
-    it 'remote keyword with http client & capabilities' do
-      expect {
-        client = Watir::HttpClient.new
-        caps = Watir::Capabilities.new(:remote,
-                                       url: 'https://example.com/wd/hub',
-                                       capabilities: Selenium::WebDriver::Remote::Capabilities.chrome,
-                                       http_client: client)
-
-        args = caps.to_args
-        expect(args.first).to eq :remote
-        expect(args.last[:http_client]).to eq client
-        actual_capabilities = args.last[:capabilities]
-        expect(actual_capabilities).to be_a(Selenium::WebDriver::Remote::Capabilities)
-        expect(actual_capabilities.browser_name).to eq 'chrome'
-      }.to have_deprecated_remote_keyword
     end
 
     # 6.18 works

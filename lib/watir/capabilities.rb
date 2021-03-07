@@ -14,7 +14,7 @@ module Watir
       deprecate_options_capabilities
       deprecate_url_service if @options.key?(:service) && @options.key?(:url)
 
-      @browser = deprecate_remote(browser) || browser.nil? && infer_browser || browser.to_sym
+      @browser = browser.nil? && infer_browser || browser.to_sym
 
       @selenium_browser = options[:url] ? :remote : @browser
       @selenium_opts = {}
@@ -75,6 +75,8 @@ module Watir
         process_safari_options(browser_options)
       when :ie, :internet_explorer
         process_ie_options(browser_options)
+      else
+        raise ArgumentError, "#{@browser} is not a recognized Browser type"
       end
     end
 
@@ -237,16 +239,6 @@ module Watir
                              ':switches inside Hash with :options key',
                              ids: %i[switches_keyword capabilities],
                              reference: 'http://watir.com/guides/capabilities.html')
-    end
-
-    def deprecate_remote(browser)
-      return unless browser == :remote
-
-      Watir.logger.deprecate(':remote to initialize Browser',
-                             'browser key along with remote url',
-                             ids: %i[remote_keyword capabilities],
-                             reference: 'http://watir.com/guides/capabilities.html')
-      infer_browser
     end
 
     def infer_browser

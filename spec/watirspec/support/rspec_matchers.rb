@@ -1,7 +1,6 @@
 if defined?(RSpec)
   DEPRECATION_WARNINGS = %i[selector_parameters
                             options_capabilities
-                            remote_keyword
                             port_keyword
                             switches_keyword
                             args_keyword
