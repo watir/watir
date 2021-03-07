@@ -62,6 +62,7 @@ module Watir
 
     def process_browser_options
       browser_options = @options.delete(:options) || {}
+      process_w3c_capabilities(browser_options)
 
       case @browser
       when :chrome
@@ -88,7 +89,7 @@ module Watir
       if caps
         @selenium_opts.merge!(@options)
       else
-        caps = Selenium::WebDriver::Remote::Capabilities.send @browser, @options
+        caps = Selenium::WebDriver::Remote::Capabilities.send @browser, @options.merge(@w3c_caps)
       end
 
       @selenium_opts[:desired_capabilities] = caps
@@ -265,6 +266,19 @@ module Watir
         @options[:options].class.to_s.split("::")[-2].downcase.to_sym
       else
         :chrome
+      end
+    end
+
+    def process_w3c_capabilities(opts)
+      @w3c_caps = {}
+      return unless opts.is_a?(Hash)
+
+      w3c_keys = %i[browser_version platform_name accept_insecure_certs page_load_strategy proxy set_window_rect
+      timeouts unhandled_prompt_behavior strict_file_interactibility]
+
+      opts.each do |key, _val|
+        next unless key.to_s.include?(':') || w3c_keys.include?(key)
+        @w3c_caps[key] = opts.delete(key)
       end
     end
   end
