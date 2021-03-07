@@ -195,17 +195,6 @@ describe Watir::Capabilities do
         end
       end
 
-      # 6.18 broken: puts it in desired capabilities (neither ":path" nor ":driver_path" work)
-      # 6.19 do nothing
-      # 7.0  remove
-      xit 'creates when :path specified' do
-        halt_service(browser_symbol)
-        capabilities = Watir::Capabilities.new(browser_symbol, path: '/path/to/driver')
-
-        args = capabilities.to_args
-        expect(args.last[:path]).to eq '/path/to/driver'
-      end
-
       # 6.18 works - puts them at top level in selenium opts, which Selenium 3 can read
       # 6.19 deprecate - put inside :service keyword
       # 7.0  remove
@@ -406,23 +395,6 @@ describe Watir::Capabilities do
       end
     end
 
-    # 6.18 does not work
-    # 6.19 do nothing
-    # 7.0  remove
-    xit ':remote keyword with url has options, chrome and client but not service' do
-      capabilities = Watir::Capabilities.new(:remote,
-                                             url: 'https://example.com/wd/hub/')
-      args = capabilities.to_args
-      expect(args.first).to eq :remote
-      expect(args.last[:url]).to eq 'https://example.com/wd/hub'
-      expect(args.last[:http_client]).to be_a default_client
-      expect(args.last[:options]).to be_a Selenium::WebDriver::Chrome::Options
-      desired_capabilities = args.last[:desired_capabilities]
-      expect(desired_capabilities).to be_a(Selenium::WebDriver::Remote::Capabilities)
-      expect(desired_capabilities.browser_name).to eq 'chrome'
-      expect(args.last).not_to include(:service)
-    end
-
     # 6.18 works
     # 6.19 this should use options instead of capabilities
     # 7.0  valid
@@ -463,17 +435,6 @@ describe Watir::Capabilities do
       }.to have_deprecated_remote_keyword
     end
 
-    # 6.18 not implemented
-    # 6.19 do nothing
-    # 7.0  remove
-    xit 'remote keyword errors when given a service' do
-      capabilities = Watir::Capabilities.new(:remote,
-                                             url: 'http://example.com',
-                                             service: Selenium::WebDriver::Chrome::Service.new)
-
-      capabilities.to_args
-    end
-
     # 6.18 not implemented; just ignores them
     # 6.19 throw error
     # 7.0  throw error
@@ -499,22 +460,6 @@ describe Watir::Capabilities do
       expect(args.last[:listener]).to eq listener
     end
 
-    # 6.18 not implemented (should have defaulted to chrome)
-    # 6.19 do nothing; it never worked
-    # 7.0  remove
-    xit 'remote keyword with url and http client object' do
-      client = default_client.new
-      capabilities = Watir::Capabilities.new(:remote,
-                                             url: 'https://example.com/wd/hub',
-                                             http_client: client)
-      args = capabilities.to_args
-      expect(args.first).to eq :remote
-      expect(args.last[:http_client]).to eq client
-      desired_capabilities = args.last[:desired_capabilities]
-      expect(desired_capabilities).to be_a(Selenium::WebDriver::Remote::Capabilities)
-      expect(desired_capabilities.browser_name).to eq 'chrome'
-    end
-
     # 6.18 works
     # 6.19 nothing
     # 7.0  valid
@@ -526,21 +471,6 @@ describe Watir::Capabilities do
       args = capabilities.to_args
       expect(args.first).to eq :remote
       expect(args.last[:http_client]).to eq client
-      desired_capabilities = args.last[:desired_capabilities]
-      expect(desired_capabilities).to be_a(Selenium::WebDriver::Remote::Capabilities)
-      expect(desired_capabilities.browser_name).to eq 'chrome'
-    end
-
-    # 6.18 not implemented (should have defaulted to chrome)
-    # 6.19 do nothing; never worked
-    # 7.0  remove
-    xit 'remote keyword with url and http client Hash' do
-      capabilities = Watir::Capabilities.new(:remote,
-                                             url: 'https://example.com/wd/hub',
-                                             client: {read_timeout: 30})
-      args = capabilities.to_args
-      expect(args.first).to eq :remote
-      expect(args.last[:http_client].instance_variable_get('@read_timeout')).to eq 30
       desired_capabilities = args.last[:desired_capabilities]
       expect(desired_capabilities).to be_a(Selenium::WebDriver::Remote::Capabilities)
       expect(desired_capabilities.browser_name).to eq 'chrome'
@@ -563,20 +493,6 @@ describe Watir::Capabilities do
       end
     end
 
-    # 6.18 Broken
-    # 6.19 do nothing; never worked
-    # 7.0  remove
-    xit 'remote keyword with url and options object' do
-      capabilities = Watir::Capabilities.new(:remote,
-                                             url: 'https://example.com/wd/hub',
-                                             options: Selenium::WebDriver::Chrome::Options.new)
-      args = capabilities.to_args
-      expect(args.first).to eq :remote
-      desired_capabilities = args.last[:desired_capabilities]
-      expect(desired_capabilities).to be_a(Selenium::WebDriver::Remote::Capabilities)
-      expect(desired_capabilities.browser_name).to eq 'chrome'
-    end
-
     # 6.18 broken; options eaten
     # 6.19 fix
     # 7.0  valid
@@ -593,20 +509,6 @@ describe Watir::Capabilities do
         options = args.last[:options]
         expect(options.args).to include('--foo')
       end
-    end
-
-    # 6.18 not implemented - can't figure out options
-    # 6.19 do nothing; never worked
-    # 7.0  remove
-    xit 'remote keyword with url and options hash' do
-      capabilities = Watir::Capabilities.new(:remote,
-                                             url: 'http://example.com',
-                                             options: {prefs: {foo: 'bar'}})
-      args = capabilities.to_args
-      expect(args.first).to eq :remote
-      expect(args.last[:url]).to eq 'http://example.com'
-      options = args.last[:options]
-      expect(options).to be_a(Selenium::WebDriver::Chrome::Options)
     end
 
     # 6.18 does not work; options got dropped
@@ -852,31 +754,6 @@ describe Watir::Capabilities do
         actual_options = args.last[:options]
         expect(actual_options.args).to include '--foo'
       }.to have_deprecated_args_keyword
-    end
-
-    # 6.18 broken because assumes args is empty and overrides
-    # 6.19 do nothing; never worked
-    # 7.0  remove
-    xit 'places args when paired with options Hash' do
-      capabilities = Watir::Capabilities.new(:chrome,
-                                             args: ['--foo'],
-                                             options: {args: ['--bar']})
-      args = capabilities.to_args
-      actual_options = args.last[:options]
-      expect(actual_options.args).to include '--foo', '--bar'
-    end
-
-    # 6.18 broken because assumes options is a Hash
-    # 6.19 do nothing; never worked
-    # 7.0  remove
-    xit 'places args when paired with options object' do
-      options = Selenium::WebDriver::Chrome::Options.new(args: ['--bar'])
-      capabilities = Watir::Capabilities.new(:chrome,
-                                             args: ['--foo'],
-                                             options: options)
-      args = capabilities.to_args
-      actual_options = args.last[:options]
-      expect(actual_options.args).to include '--foo', '--bar'
     end
 
     # 6.18 works
@@ -1183,31 +1060,6 @@ describe Watir::Capabilities do
       actual_options = args.last[:options]
       expect(actual_options).to be_a Selenium::WebDriver::IE::Options
       expect(actual_options.options[:browser_attach_timeout]).to eq true
-    end
-
-    # 6.18 broken; assumes options is a hash
-    # 6.19 Do nothing; never worked
-    # 7.0  Remove
-    xit 'adds args to existing options instance' do
-      args = %w[--foo --bar]
-      options = Selenium::WebDriver::IE::Options.new
-      capabilities = Watir::Capabilities.new(:ie, options: options, args: args)
-      args = capabilities.to_args
-      actual_options = args.last[:options]
-      expect(actual_options).to be_a Selenium::WebDriver::IE::Options
-      expect(actual_options.args).to include '--foo', '--bar'
-    end
-
-    # 6.18 broken; overwrites args in options
-    # 6.19 do nothing; never worked
-    # 7.0  Remove
-    xit 'adds args to existing options hash' do
-      options = {args: ['--foo']}
-      capabilities = Watir::Capabilities.new(:ie, options: options, args: ['--bar'])
-      args = capabilities.to_args
-      actual_options = args.last[:options]
-      expect(actual_options).to be_a Selenium::WebDriver::IE::Options
-      expect(actual_options.args).to include '--foo', '--bar'
     end
 
     # 6.18 Never implemented
