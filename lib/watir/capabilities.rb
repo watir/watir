@@ -9,15 +9,9 @@ module Watir
       deprecate_desired_capabilities
       deprecate_url_service if @options.key?(:service) && @options.key?(:url)
 
-      @browser = if browser == :remote && @options.key?(:browser)
-                   @options.delete(:browser)
-                 elsif browser == :remote && @options.key?(:capabilities)
-                   @options[:capabilities].browser_name.to_sym
-                 else
-                   browser.to_sym
-                 end
-      @selenium_browser = browser == :remote || options[:url] ? :remote : browser
+      @browser = deprecate_remote(browser) || browser.nil? && infer_browser || browser.to_sym
 
+      @selenium_browser = options[:url] ? :remote : @browser
       @selenium_opts = {}
     end
 
@@ -73,7 +67,7 @@ module Watir
         process_safari_options(browser_options)
       when :remote
         process_remote_options
-      when :ie
+      when :ie, :internet_explorer
         process_ie_options(browser_options)
       end
     end
@@ -264,6 +258,28 @@ module Watir
                              ':switches inside Hash with :options key',
                              ids: %i[switches_keyword capabilities],
                              reference: 'http://watir.com/guides/capabilities.html')
+    end
+
+    def deprecate_remote(browser)
+      return unless browser == :remote
+
+      Watir.logger.deprecate(":remote to initialize Browser",
+                             "browser key along with remote url",
+                             ids: [:remote_keyword, :capabilities],
+                             reference: 'http://watir.com/guides/capabilities.html')
+      infer_browser
+    end
+
+    def infer_browser
+      if @options.key?(:browser)
+        @options.delete(:browser)
+      elsif @options.key?(:capabilities)
+        @options[:capabilities].browser_name.tr(' ', '_').to_sym
+      elsif @options.key?(:options)
+        @options[:options].class.to_s.split("::")[-2].downcase.to_sym
+      else
+        :chrome
+      end
     end
   end
 end
