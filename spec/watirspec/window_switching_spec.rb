@@ -527,6 +527,12 @@ describe Watir::WindowCollection do
     browser.windows.reject(&:current?).each(&:close)
   end
 
+  it '#to_a' do
+    expect {
+      Watir::WindowCollection.new(browser).to_a
+    }.to have_deprecated_window_index
+  end
+
   describe '#new' do
     it 'returns all windows by default' do
       windows = Watir::WindowCollection.new(browser)
