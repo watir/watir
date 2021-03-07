@@ -6,9 +6,6 @@ if defined?(RSpec)
                             args_keyword
                             url_service
                             driver_opts_keyword
-                            http_open_timeout
-                            http_read_timeout
-                            http_client_timeout
                             unknown_keyword
                             element_cache
                             ready_state

@@ -187,38 +187,6 @@ describe Watir::Capabilities do
           Watir::Capabilities.new(browser_symbol, http_client: 7).to_args
         }.to raise_exception(TypeError, ':http_client must be a Hash or a Selenium HTTP Client instance')
       end
-
-      # 6.18 works
-      # 6.19 deprecate --> client_timeout isn't a thing any more
-      # 7.0  remove
-      it 'builds a client from client_timeout' do
-        expect {
-          opt = {client_timeout: 10}
-          capabilities = Watir::Capabilities.new(browser_symbol, opt)
-          args = capabilities.to_args
-          actual_client = args.last[:http_client]
-          expect(actual_client).to be_a Watir::HttpClient
-          expect(actual_client.instance_variable_get('@read_timeout')).to eq 10
-          expect(actual_client.instance_variable_get('@open_timeout')).to eq 10
-        }.to have_deprecated_http_client_timeout
-      end
-
-      # 6.18 works
-      # 6.19 deprecate --> timeouts inside http_client key
-      # 7.0  remove
-      %i[open_timeout read_timeout].each do |timeout|
-        it "builds a client from #{timeout}" do
-          expect {
-            opt = {timeout => 10}
-
-            capabilities = Watir::Capabilities.new(browser_symbol, opt)
-            args = capabilities.to_args
-            actual_client = args.last[:http_client]
-            expect(actual_client).to be_a Watir::HttpClient
-            expect(actual_client.instance_variable_get("@#{timeout}")).to eq 10
-          }.to send("have_deprecated_http_#{timeout}")
-        end
-      end
     end
 
     # 6.18 works
