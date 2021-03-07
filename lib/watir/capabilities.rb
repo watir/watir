@@ -2,7 +2,12 @@ module Watir
   class Capabilities
     attr_reader :options
 
-    def initialize(browser, options = {})
+    def initialize(browser = nil, options = {})
+      if browser.is_a?(Hash)
+        options = browser
+        browser = nil
+      end
+
       @options = options.dup
       Watir.logger.info "Creating Browser instance of #{browser} with user provided options: #{@options.inspect}"
 
@@ -190,12 +195,9 @@ module Watir
     end
 
     def process_ie_options(browser_options)
-      unless browser_options.is_a? Selenium::WebDriver::IE::Options
-        ie_caps = browser_options.select { |k| Selenium::WebDriver::IE::Options::CAPABILITIES.include?(k) }
-        browser_options = Selenium::WebDriver::IE::Options.new(**browser_options)
-        ie_caps.each { |k, v| browser_options.add_option(k, v) }
-      end
-      @selenium_opts[:options] = browser_options
+      @selenium_opts[:options] = browser_options if browser_options.is_a? Selenium::WebDriver::IE::Options
+      @selenium_opts[:options] ||= Selenium::WebDriver::IE::Options.new(**browser_options)
+
       process_args
     end
 
