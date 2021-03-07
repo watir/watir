@@ -20,7 +20,7 @@ module Watir
 
     def each(&blk)
       reset!
-      to_a.each(&blk)
+      window_list.each(&blk)
     end
 
     alias length count
@@ -66,26 +66,35 @@ module Watir
       reference = 'http://watir.com/window_indexes'
       Watir.logger.deprecate old, new, reference: reference, ids: [:window_index]
 
-      to_a[value]
+      window_list[value]
     end
 
     def ==(other)
-      to_a == other.to_a
+      window_list == other.send(:window_list)
     end
     alias eql? ==
 
-    def to_a
-      @to_a ||= begin
-        handles = @browser.driver.window_handles.select { |wh| matches?(wh) }
-        handles.map { |wh| Window.new(@browser, handle: wh) }
-      end
+    def reset!
+      @window_list = nil
     end
 
-    def reset!
-      @to_a = nil
+    def to_a
+      old = 'WindowCollection#to_a to interact with indexed windows'
+      new = 'Enumerable methods to iterate over windows'
+      reference = 'http://watir.com/window_indexes'
+      Watir.logger.deprecate old, new, reference: reference, ids: [:window_index]
+
+      window_list
     end
 
     private
+
+    def window_list
+      @window_list ||= begin
+                         handles = @browser.driver.window_handles.select { |wh| matches?(wh) }
+                         handles.map { |wh| Window.new(@browser, handle: wh) }
+                       end
+    end
 
     # NOTE: This is the exact same code from `Window#matches?`
     # TODO: Move this code into a separate WindowLocator class
