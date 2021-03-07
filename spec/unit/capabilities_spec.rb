@@ -7,12 +7,6 @@ describe Watir::Capabilities do
     end
   end
 
-  before do
-    compliant_on :v6_18 do
-      ENV['IGNORE_DEPRECATIONS'] = 'true'
-    end
-  end
-
   after(:all) { ENV['IGNORE_DEPRECATIONS'] = nil }
 
   def expected_browser(browser)
@@ -45,25 +39,7 @@ describe Watir::Capabilities do
     service_class(browser).driver_path = nil
   end
 
-  def default_client
-    compliant_on :v6_18 do
-      return Selenium::WebDriver::Remote::Http::Default
-    end
-    Watir::HttpClient
-  end
-
-  def capabilities_key
-    compliant_on :v6_18 do
-      return :desired_capabilities
-    end
-    :capabilities
-  end
-
-  supported_browsers = %i[chrome firefox ie safari]
-
-  not_compliant_on :v6_18, :v6_19 do
-    supported_browsers << :edge
-  end
+  supported_browsers = %i[chrome edge firefox ie safari]
 
   # Options:
   # :listener
@@ -77,13 +53,10 @@ describe Watir::Capabilities do
     # 6.19 fix safari
     # 7.0  remove Capabilities requirement
     it 'just browser has client, options & capabilities but not service' do
-      compliant_on :v6_18 do
-        skip if browser_symbol == :safari # No extra processing needed
-      end
       capabilities = Watir::Capabilities.new(browser_symbol)
 
       args = capabilities.to_args
-      expect(args.last[:http_client]).to be_a default_client
+      expect(args.last[:http_client]).to be_a Watir::HttpClient
       expect(args.last[:options]).to be_a options_class(browser_symbol)
       expect(args.last[:desired_capabilities]).to be_a(Selenium::WebDriver::Remote::Capabilities)
       expect(args.last).not_to include(:service)
@@ -92,36 +65,32 @@ describe Watir::Capabilities do
     # 6.18 never implemented
     # 6.19 implement
     # 7.0  valid
-    not_compliant_on :v6_18 do
-      it 'just options has client, options & capabilities but not service' do
-        capabilities = Watir::Capabilities.new(options: options_class(browser_symbol).new)
+    it 'just options has client, options & capabilities but not service' do
+      capabilities = Watir::Capabilities.new(options: options_class(browser_symbol).new)
 
-        args = capabilities.to_args
+      args = capabilities.to_args
 
-        expect(args.last[:http_client]).to be_a default_client
-        expect(args.last[:options]).to be_a options_class(browser_symbol)
-        expect(args.last[:desired_capabilities]).to be_a(Selenium::WebDriver::Remote::Capabilities)
-        expect(args.last[:desired_capabilities].browser_name).to eq expected_browser(browser_symbol)
-        expect(args.last).not_to include(:service)
-      end
+      expect(args.last[:http_client]).to be_a Watir::HttpClient
+      expect(args.last[:options]).to be_a options_class(browser_symbol)
+      expect(args.last[:desired_capabilities]).to be_a(Selenium::WebDriver::Remote::Capabilities)
+      expect(args.last[:desired_capabilities].browser_name).to eq expected_browser(browser_symbol)
+      expect(args.last).not_to include(:service)
     end
 
     # 6.18 never implemented
     # 6.19 implement
     # 7.0  valid
-    not_compliant_on :v6_18 do
-      it 'just capabilities has client, options & capabilities but not service' do
-        caps = Selenium::WebDriver::Remote::Capabilities.send(browser_symbol)
-        capabilities = Watir::Capabilities.new(capabilities_key => caps)
+    it 'just capabilities has client, options & capabilities but not service' do
+      caps = Selenium::WebDriver::Remote::Capabilities.send(browser_symbol)
+      capabilities = Watir::Capabilities.new(capabilities: caps)
 
-        args = capabilities.to_args
+      args = capabilities.to_args
 
-        expect(args.last[:http_client]).to be_a default_client
-        expect(args.last[:options]).to be_a options_class(browser_symbol)
-        expect(args.last[:desired_capabilities]).to be_a(Selenium::WebDriver::Remote::Capabilities)
-        expect(args.last[:desired_capabilities].browser_name).to eq expected_browser(browser_symbol)
-        expect(args.last).not_to include(:service)
-      end
+      expect(args.last[:http_client]).to be_a Watir::HttpClient
+      expect(args.last[:options]).to be_a options_class(browser_symbol)
+      expect(args.last[:desired_capabilities]).to be_a(Selenium::WebDriver::Remote::Capabilities)
+      expect(args.last[:desired_capabilities].browser_name).to eq expected_browser(browser_symbol)
+      expect(args.last).not_to include(:service)
     end
 
     # 6.18 works
@@ -174,25 +143,23 @@ describe Watir::Capabilities do
       # 6.18 never implemented
       # 6.19 implement!
       # 7.0  valid
-      not_compliant_on :v6_18 do
-        it 'builds service from a Hash' do
-          halt_service(browser_symbol)
+      it 'builds service from a Hash' do
+        halt_service(browser_symbol)
 
-          service = {port: 1234, path: '/path/to/driver', args: %w[--foo --bar]}
-          capabilities = Watir::Capabilities.new(browser_symbol, service: service)
-          args = capabilities.to_args
-          expect(args.first).to eq browser_symbol
-          actual_service = args.last[:service]
-          expect(actual_service.instance_variable_get('@port')).to eq 1234
-          expect(actual_service.instance_variable_get('@executable_path')).to eq '/path/to/driver'
-          expect(actual_service.instance_variable_get('@extra_args')).to include '--foo', '--bar'
-        end
+        service = {port: 1234, path: '/path/to/driver', args: %w[--foo --bar]}
+        capabilities = Watir::Capabilities.new(browser_symbol, service: service)
+        args = capabilities.to_args
+        expect(args.first).to eq browser_symbol
+        actual_service = args.last[:service]
+        expect(actual_service.instance_variable_get('@port')).to eq 1234
+        expect(actual_service.instance_variable_get('@executable_path')).to eq '/path/to/driver'
+        expect(actual_service.instance_variable_get('@extra_args')).to include '--foo', '--bar'
+      end
 
-        it 'is a bad argument to service' do
-          capabilities = Watir::Capabilities.new(browser_symbol, service: 7)
+      it 'is a bad argument to service' do
+        capabilities = Watir::Capabilities.new(browser_symbol, service: 7)
 
-          expect { capabilities.to_args }.to raise_exception(TypeError)
-        end
+        expect { capabilities.to_args }.to raise_exception(TypeError)
       end
 
       # 6.18 works - puts them at top level in selenium opts, which Selenium 3 can read
@@ -207,13 +174,7 @@ describe Watir::Capabilities do
           @args = capabilities.to_args
         }.to have_deprecated_port_keyword
 
-        compliant_on :v6_18 do
-          expect(@args.last[:port]).to eq 1234
-        end
-
-        not_compliant_on :v6_18 do
-          expect(@args.last[:service].instance_variable_get('@port')).to eq 1234
-        end
+        expect(@args.last[:service].instance_variable_get('@port')).to eq 1234
       end
     end
 
@@ -224,7 +185,7 @@ describe Watir::Capabilities do
       it 'uses default HTTP Client' do
         capabilities = Watir::Capabilities.new(browser_symbol)
         args = capabilities.to_args
-        expect(args.last[:http_client]).to be_a default_client
+        expect(args.last[:http_client]).to be_a Watir::HttpClient
       end
 
       # 6.18 works
@@ -240,27 +201,23 @@ describe Watir::Capabilities do
       # 6.18 Not implemented
       # 6.19 implement!
       # 7.0  valid
-      not_compliant_on :v6_18 do
-        it 'builds an HTTP Client from Hash' do
-          client_opts = {open_timeout: 10, read_timeout: 10}
-          capabilities = Watir::Capabilities.new(browser_symbol, http_client: client_opts)
-          args = capabilities.to_args
-          actual_client = args.last[:http_client]
-          expect(actual_client).to be_a default_client
-          expect(actual_client.instance_variable_get('@read_timeout')).to eq 10
-          expect(actual_client.instance_variable_get('@open_timeout')).to eq 10
-        end
+      it 'builds an HTTP Client from Hash' do
+        client_opts = {open_timeout: 10, read_timeout: 10}
+        capabilities = Watir::Capabilities.new(browser_symbol, http_client: client_opts)
+        args = capabilities.to_args
+        actual_client = args.last[:http_client]
+        expect(actual_client).to be_a Watir::HttpClient
+        expect(actual_client.instance_variable_get('@read_timeout')).to eq 10
+        expect(actual_client.instance_variable_get('@open_timeout')).to eq 10
       end
 
       # 6.18 Not implemented
       # 6.19 implement!
       # 7.0  valid
-      not_compliant_on :v6_18 do
-        it 'raises an exception if :client receives something other than Hash or Client object' do
-          expect {
-            Watir::Capabilities.new(browser_symbol, http_client: 7).to_args
-          }.to raise_exception(TypeError, ':http_client must be a Hash or a Selenium HTTP Client instance')
-        end
+      it 'raises an exception if :client receives something other than Hash or Client object' do
+        expect {
+          Watir::Capabilities.new(browser_symbol, http_client: 7).to_args
+        }.to raise_exception(TypeError, ':http_client must be a Hash or a Selenium HTTP Client instance')
       end
 
       # 6.18 works
@@ -272,7 +229,7 @@ describe Watir::Capabilities do
           capabilities = Watir::Capabilities.new(browser_symbol, opt)
           args = capabilities.to_args
           actual_client = args.last[:http_client]
-          expect(actual_client).to be_a default_client
+          expect(actual_client).to be_a Watir::HttpClient
           expect(actual_client.instance_variable_get('@read_timeout')).to eq 10
           expect(actual_client.instance_variable_get('@open_timeout')).to eq 10
         }.to have_deprecated_http_client_timeout
@@ -289,7 +246,7 @@ describe Watir::Capabilities do
             capabilities = Watir::Capabilities.new(browser_symbol, opt)
             args = capabilities.to_args
             actual_client = args.last[:http_client]
-            expect(actual_client).to be_a default_client
+            expect(actual_client).to be_a Watir::HttpClient
             expect(actual_client.instance_variable_get("@#{timeout}")).to eq 10
           }.to send("have_deprecated_http_#{timeout}")
         end
@@ -315,11 +272,12 @@ describe Watir::Capabilities do
 
       expect {
         @capabilities = Watir::Capabilities.new(browser_symbol,
-                                                capabilities_key => caps,
+                                                capabilities: caps,
                                                 options: opts)
       }.to have_deprecated_options_capabilities
 
       args = @capabilities.to_args
+      expect(args.last[:desired_capabilities]).to eq caps
       expect(args.last[:desired_capabilities]).to eq caps
 
       # Safari never implemented to accept options
@@ -348,7 +306,7 @@ describe Watir::Capabilities do
       it 'puts in top level when Capabilities specified' do
         caps = Selenium::WebDriver::Remote::Capabilities.send(browser_symbol)
         capabilities = Watir::Capabilities.new(browser_symbol,
-                                               capabilities_key => caps,
+                                               capabilities: caps,
                                                foo: 'bar')
         expect {
           expect(capabilities.to_args.last[:foo]).to eq 'bar'
@@ -362,7 +320,7 @@ describe Watir::Capabilities do
         expect {
           caps = Selenium::WebDriver::Remote::Capabilities.send(browser_symbol)
           capabilities = Watir::Capabilities.new(browser_symbol,
-                                                 capabilities_key => caps,
+                                                 capabilities: caps,
                                                  options: options_class(browser_symbol).new,
                                                  foo: 'bar')
           args = capabilities.to_args
@@ -384,15 +342,13 @@ describe Watir::Capabilities do
     # 6.18 Was not implemented
     # 6.19 Implement
     # 7.0  Valid
-    not_compliant_on :v6_18 do
-      it 'with just url' do
-        capabilities = Watir::Capabilities.new(url: 'http://example.com')
-        args = capabilities.to_args
-        expect(args.first).to eq :remote
-        desired_capabilities = args.last[:desired_capabilities]
-        expect(desired_capabilities).to be_a(Selenium::WebDriver::Remote::Capabilities)
-        expect(desired_capabilities.browser_name).to eq 'chrome'
-      end
+    it 'with just url' do
+      capabilities = Watir::Capabilities.new(url: 'http://example.com')
+      args = capabilities.to_args
+      expect(args.first).to eq :remote
+      desired_capabilities = args.last[:desired_capabilities]
+      expect(desired_capabilities).to be_a(Selenium::WebDriver::Remote::Capabilities)
+      expect(desired_capabilities.browser_name).to eq 'chrome'
     end
 
     # 6.18 works
@@ -404,18 +360,9 @@ describe Watir::Capabilities do
       args = capabilities.to_args
       expect(args.first).to eq :remote
       expect(args.last[:url]).to eq 'https://example.com/wd/hub/'
-      expect(args.last[:http_client]).to be_a default_client
+      expect(args.last[:http_client]).to be_a Watir::HttpClient
 
-      not_compliant_on :v6_18 do
-        expect(args.last[:options]).to be_a Selenium::WebDriver::Firefox::Options
-      end
-
-      not_compliant_on :v6_19 do
-        desired_capabilities = args.last[:desired_capabilities]
-        expect(desired_capabilities).to be_a(Selenium::WebDriver::Remote::Capabilities)
-        expect(desired_capabilities.browser_name).to eq 'firefox'
-      end
-
+      expect(args.last[:options]).to be_a Selenium::WebDriver::Firefox::Options
       expect(args.last).not_to include(:service)
     end
 
@@ -438,14 +385,12 @@ describe Watir::Capabilities do
     # 6.18 not implemented; just ignores them
     # 6.19 throw error
     # 7.0  throw error
-    not_compliant_on :v6_18 do
-      it 'browser name errors when given a service' do
-        expect {
-          Watir::Capabilities.new(:chrome,
-                                  url: 'http://example.com',
-                                  service: Selenium::WebDriver::Chrome::Service.new)
-        }.to have_deprecated_url_service
-      end
+    it 'browser name errors when given a service' do
+      expect {
+        Watir::Capabilities.new(:chrome,
+                                url: 'http://example.com',
+                                service: Selenium::WebDriver::Chrome::Service.new)
+      }.to have_deprecated_url_service
     end
 
     # 6.18 works
@@ -464,7 +409,7 @@ describe Watir::Capabilities do
     # 6.19 nothing
     # 7.0  valid
     it 'browser name with url and http client object' do
-      client = default_client.new
+      client = Watir::HttpClient.new
       capabilities = Watir::Capabilities.new(:chrome,
                                              url: 'https://example.com/wd/hub',
                                              http_client: client)
@@ -479,54 +424,48 @@ describe Watir::Capabilities do
     # 6.18 not implemented - does not build from Hash
     # 6.19 build from hash
     # 7.0  valid
-    not_compliant_on :v6_18 do
-      it 'browser name with url and http client Hash' do
-        capabilities = Watir::Capabilities.new(:chrome,
-                                               url: 'https://example.com/wd/hub',
-                                               http_client: {read_timeout: 30})
-        args = capabilities.to_args
-        expect(args.first).to eq :remote
-        expect(args.last[:http_client].instance_variable_get('@read_timeout')).to eq 30
-        desired_capabilities = args.last[:desired_capabilities]
-        expect(desired_capabilities).to be_a(Selenium::WebDriver::Remote::Capabilities)
-        expect(desired_capabilities.browser_name).to eq 'chrome'
-      end
+    it 'browser name with url and http client Hash' do
+      capabilities = Watir::Capabilities.new(:chrome,
+                                             url: 'https://example.com/wd/hub',
+                                             http_client: {read_timeout: 30})
+      args = capabilities.to_args
+      expect(args.first).to eq :remote
+      expect(args.last[:http_client].instance_variable_get('@read_timeout')).to eq 30
+      desired_capabilities = args.last[:desired_capabilities]
+      expect(desired_capabilities).to be_a(Selenium::WebDriver::Remote::Capabilities)
+      expect(desired_capabilities.browser_name).to eq 'chrome'
     end
 
     # 6.18 broken; options eaten
     # 6.19 fix
     # 7.0  valid
-    not_compliant_on :v6_18 do
-      it 'browser name with url and options object' do
-        capabilities = Watir::Capabilities.new(:chrome,
-                                               url: 'https://example.com/wd/hub',
-                                               options: Selenium::WebDriver::Chrome::Options.new(args: ['--foo']))
-        args = capabilities.to_args
-        expect(args.first).to eq :remote
-        desired_capabilities = args.last[:desired_capabilities]
-        expect(desired_capabilities).to be_a(Selenium::WebDriver::Remote::Capabilities)
-        expect(desired_capabilities.browser_name).to eq 'chrome'
-        options = args.last[:options]
-        expect(options.args).to include('--foo')
-      end
+    it 'browser name with url and options object' do
+      capabilities = Watir::Capabilities.new(:chrome,
+                                             url: 'https://example.com/wd/hub',
+                                             options: Selenium::WebDriver::Chrome::Options.new(args: ['--foo']))
+      args = capabilities.to_args
+      expect(args.first).to eq :remote
+      desired_capabilities = args.last[:desired_capabilities]
+      expect(desired_capabilities).to be_a(Selenium::WebDriver::Remote::Capabilities)
+      expect(desired_capabilities.browser_name).to eq 'chrome'
+      options = args.last[:options]
+      expect(options.args).to include('--foo')
     end
 
     # 6.18 does not work; options got dropped
     # 6.19 fix
     # 7.0  valid
-    not_compliant_on :v6_18 do
-      it 'browser name with url and options hash' do
-        options = {prefs: {foo: 'bar'}}
-        capabilities = Watir::Capabilities.new(:chrome,
-                                               url: 'http://example.com',
-                                               options: options)
-        args = capabilities.to_args
-        expect(args.first).to eq :remote
-        expect(args.last[:url]).to eq 'http://example.com'
-        actual_options = args.last[:options]
-        expect(actual_options).to be_a(Selenium::WebDriver::Chrome::Options)
-        expect(actual_options.prefs).to eq(foo: 'bar')
-      end
+    it 'browser name with url and options hash' do
+      options = {prefs: {foo: 'bar'}}
+      capabilities = Watir::Capabilities.new(:chrome,
+                                             url: 'http://example.com',
+                                             options: options)
+      args = capabilities.to_args
+      expect(args.first).to eq :remote
+      expect(args.last[:url]).to eq 'http://example.com'
+      actual_options = args.last[:options]
+      expect(actual_options).to be_a(Selenium::WebDriver::Chrome::Options)
+      expect(actual_options.prefs).to eq(foo: 'bar')
     end
 
     # 6.18 works
@@ -536,7 +475,7 @@ describe Watir::Capabilities do
       expect {
         caps = Watir::Capabilities.new(:remote,
                                        url: 'https://example.com/wd/hub',
-                                       capabilities_key => Selenium::WebDriver::Remote::Capabilities.chrome)
+                                       capabilities: Selenium::WebDriver::Remote::Capabilities.chrome)
         args = caps.to_args
         expect(args.first).to eq :remote
         desired_capabilities = args.last[:desired_capabilities]
@@ -551,7 +490,7 @@ describe Watir::Capabilities do
     it 'browser name with url and capabilities' do
       caps = Watir::Capabilities.new(:chrome,
                                      url: 'https://example.com/wd/hub',
-                                     capabilities_key => Selenium::WebDriver::Remote::Capabilities.chrome)
+                                     capabilities: Selenium::WebDriver::Remote::Capabilities.chrome)
       args = caps.to_args
       expect(args.first).to eq :remote
       desired_capabilities = args.last[:desired_capabilities]
@@ -564,10 +503,10 @@ describe Watir::Capabilities do
     # 7.0  remove
     it 'remote keyword with http client & capabilities' do
       expect {
-        client = default_client.new
+        client = Watir::HttpClient.new
         caps = Watir::Capabilities.new(:remote,
                                        url: 'https://example.com/wd/hub',
-                                       capabilities_key => Selenium::WebDriver::Remote::Capabilities.chrome,
+                                       capabilities: Selenium::WebDriver::Remote::Capabilities.chrome,
                                        http_client: client)
 
         args = caps.to_args
@@ -583,10 +522,10 @@ describe Watir::Capabilities do
     # 6.19 nothing
     # 7.0  valid
     it 'browser name with http client & capabilities' do
-      client = default_client.new
+      client = Watir::HttpClient.new
       caps = Watir::Capabilities.new(:chrome,
                                      url: 'https://example.com/wd/hub',
-                                     capabilities_key => Selenium::WebDriver::Remote::Capabilities.chrome,
+                                     capabilities: Selenium::WebDriver::Remote::Capabilities.chrome,
                                      http_client: client)
 
       args = caps.to_args
@@ -600,61 +539,55 @@ describe Watir::Capabilities do
     # 6.18 broken; options is eaten
     # 6.19 fix
     # 7.0  valid
-    not_compliant_on :v6_18 do
-      it 'browser name with http client & options object' do
-        client = default_client.new
-        options = Selenium::WebDriver::Chrome::Options.new(prefs: {foo: 'bar'})
-        caps = Watir::Capabilities.new(:chrome,
-                                       url: 'https://example.com/wd/hub',
-                                       options: options,
-                                       http_client: client)
+    it 'browser name with http client & options object' do
+      client = Watir::HttpClient.new
+      options = Selenium::WebDriver::Chrome::Options.new(prefs: {foo: 'bar'})
+      caps = Watir::Capabilities.new(:chrome,
+                                     url: 'https://example.com/wd/hub',
+                                     options: options,
+                                     http_client: client)
 
-        args = caps.to_args
-        expect(args.first).to eq :remote
-        expect(args.last[:http_client]).to eq client
-        actual_options = args.last[:options]
-        expect(actual_options).to be_a(Selenium::WebDriver::Chrome::Options)
-        expect(actual_options.prefs).to eq(foo: 'bar')
-      end
+      args = caps.to_args
+      expect(args.first).to eq :remote
+      expect(args.last[:http_client]).to eq client
+      actual_options = args.last[:options]
+      expect(actual_options).to be_a(Selenium::WebDriver::Chrome::Options)
+      expect(actual_options.prefs).to eq(foo: 'bar')
     end
 
     # 6.18 broken; options is eaten
     # 6.19 do nothing
     # 7.0  raise exception
-    not_compliant_on :v6_18 do
-      it 'browser name with options & capabilities' do
-        options = {prefs: {foo: 'bar'}}
+    it 'browser name with options & capabilities' do
+      options = {prefs: {foo: 'bar'}}
 
-        expect {
-          @caps = Watir::Capabilities.new(:chrome,
-                                          url: 'https://example.com/wd/hub',
-                                          capabilities_key => Selenium::WebDriver::Remote::Capabilities.chrome,
-                                          options: options)
-        }.to have_deprecated_options_capabilities
+      expect {
+        @caps = Watir::Capabilities.new(:chrome,
+                                        url: 'https://example.com/wd/hub',
+                                        capabilities: Selenium::WebDriver::Remote::Capabilities.chrome,
+                                        options: options)
+      }.to have_deprecated_options_capabilities
 
-        args = @caps.to_args
-        expect(args.first).to eq :remote
-        desired_capabilities = args.last[:desired_capabilities]
-        expect(desired_capabilities).to be_a(Selenium::WebDriver::Remote::Capabilities)
-        expect(desired_capabilities.browser_name).to eq 'chrome'
-        actual_options = args.last[:options]
-        expect(actual_options).to be_a(Selenium::WebDriver::Chrome::Options)
-        expect(actual_options.prefs).to eq(foo: 'bar')
-      end
+      args = @caps.to_args
+      expect(args.first).to eq :remote
+      desired_capabilities = args.last[:desired_capabilities]
+      expect(desired_capabilities).to be_a(Selenium::WebDriver::Remote::Capabilities)
+      expect(desired_capabilities.browser_name).to eq 'chrome'
+      actual_options = args.last[:options]
+      expect(actual_options).to be_a(Selenium::WebDriver::Chrome::Options)
+      expect(actual_options.prefs).to eq(foo: 'bar')
     end
 
     # 6.18 broken - Selenium doesn't support "chromeOptions" in Capabilities. Did it even at one point?
     # 6.19 fix! allow to stay in top level
     # 7.0  valid
-    not_compliant_on :v6_18 do
-      it 'allows headless to be set in chrome' do
-        capabilities = Watir::Capabilities.new(:chrome,
-                                               headless: true,
-                                               url: 'http://example.com')
-        args = capabilities.to_args
-        actual_options = args.last[:options]
-        expect(actual_options.args).to include '--headless', '--disable-gpu'
-      end
+    it 'allows headless to be set in chrome' do
+      capabilities = Watir::Capabilities.new(:chrome,
+                                             headless: true,
+                                             url: 'http://example.com')
+      args = capabilities.to_args
+      actual_options = args.last[:options]
+      expect(actual_options.args).to include '--headless', '--disable-gpu'
     end
 
     # 6.18 works - Putting it straight into Desired Capabilities. Bold move Watir 6.6. Bold move.
@@ -666,14 +599,7 @@ describe Watir::Capabilities do
                                              url: 'http://example.com')
       args = capabilities.to_args
 
-      compliant_on :v6_18 do
-        actual_capabilities = args.last[:desired_capabilities]
-        expect(actual_capabilities['moz:firefoxOptions']['args']).to include '--headless'
-      end
-
-      not_compliant_on :v6_18 do
-        expect(args.last[:options].args).to include '--headless'
-      end
+      expect(args.last[:options].args).to include '--headless'
     end
 
     # 6.18 works - Putting it into desired capabilities
@@ -695,15 +621,13 @@ describe Watir::Capabilities do
     # 6.19 Fix it
     # 7.0  valid
     it 'allows sending to Browser Service Provider via options' do
-      not_compliant_on :v6_18 do
-        capabilities = Watir::Capabilities.new(:chrome,
-                                               options: {'sauce:options' => {username: ENV['SAUCE_USERNAME'],
-                                                                             access_key: ENV['SAUCE_ACCESS_KEY']}},
-                                               url: 'https://ondemand.us-west-1.saucelabs.com')
-        args = capabilities.to_args
-        actual_capabilities = args.last[:desired_capabilities]
-        expect(actual_capabilities['sauce:options']&.keys).to include :username, :access_key
-      end
+      capabilities = Watir::Capabilities.new(:chrome,
+                                             options: {'sauce:options' => {username: ENV['SAUCE_USERNAME'],
+                                                                           access_key: ENV['SAUCE_ACCESS_KEY']}},
+                                             url: 'https://ondemand.us-west-1.saucelabs.com')
+      args = capabilities.to_args
+      actual_capabilities = args.last[:desired_capabilities]
+      expect(actual_capabilities['sauce:options']&.keys).to include :username, :access_key
     end
   end
 
@@ -711,15 +635,13 @@ describe Watir::Capabilities do
     # 6.18 never implemented
     # 6.19 implement
     # 7.0  valid
-    not_compliant_on :v6_18 do
-      it 'by default uses chrome, has client, options & capabilities' do
-        capabilities = Watir::Capabilities.new
-        args = capabilities.to_args
-        expect(args.last[:http_client]).to be_a default_client
-        expect(args.last[:options]).to be_a Selenium::WebDriver::Chrome::Options
-        expect(args.last[:desired_capabilities]).to be_a(Selenium::WebDriver::Remote::Capabilities)
-        expect(args.last).not_to include(:service)
-      end
+    it 'by default uses chrome, has client, options & capabilities' do
+      capabilities = Watir::Capabilities.new
+      args = capabilities.to_args
+      expect(args.last[:http_client]).to be_a Watir::HttpClient
+      expect(args.last[:options]).to be_a Selenium::WebDriver::Chrome::Options
+      expect(args.last[:desired_capabilities]).to be_a(Selenium::WebDriver::Remote::Capabilities)
+      expect(args.last).not_to include(:service)
     end
 
     # 6.18 works - puts them at top level in selenium opts, which Selenium 3 can read
@@ -734,13 +656,7 @@ describe Watir::Capabilities do
         @args = capabilities.to_args
       }.to have_deprecated_driver_opts_keyword
 
-      compliant_on :v6_18 do
-        expect(@args.last[:driver_opts]).to eq(verbose: true)
-      end
-
-      not_compliant_on :v6_18 do
-        expect(@args.last[:service].instance_variable_get('@extra_args')).to eq ['--verbose']
-      end
+      expect(@args.last[:service].instance_variable_get('@extra_args')).to eq ['--verbose']
     end
 
     # 6.18 works
@@ -782,15 +698,13 @@ describe Watir::Capabilities do
     # 6.18 broken because assumes options is a Hash
     # 6.19 fix
     # 7.0  valid
-    not_compliant_on :v6_18 do
-      it 'sets headless in existing options class' do
-        capabilities = Watir::Capabilities.new(:chrome,
-                                               options: Selenium::WebDriver::Chrome::Options.new,
-                                               headless: true)
-        args = capabilities.to_args
-        actual_options = args.last[:options]
-        expect(actual_options.args).to include '--headless', '--disable-gpu'
-      end
+    it 'sets headless in existing options class' do
+      capabilities = Watir::Capabilities.new(:chrome,
+                                             options: Selenium::WebDriver::Chrome::Options.new,
+                                             headless: true)
+      args = capabilities.to_args
+      actual_options = args.last[:options]
+      expect(actual_options.args).to include '--headless', '--disable-gpu'
     end
 
     # 6.18 works
@@ -821,18 +735,16 @@ describe Watir::Capabilities do
     # 6.18 Never implemented
     # 6.19 Implement
     # 7.0  Valid
-    not_compliant_on :v6_18 do
-      it 'accepts browser and w3c capabilities in options Hash' do
-        opts = {page_load_strategy: 'eager',
-                args: %w[--foo --bar]}
-        capabilities = Watir::Capabilities.new(:chrome,
-                                               options: opts)
-        args = capabilities.to_args
-        actual_capabilities = args.last[:desired_capabilities]
-        expect(actual_capabilities[:page_load_strategy]).to eq 'eager'
-        actual_options = args.last[:options]
-        expect(actual_options.args).to include '--foo', '--bar'
-      end
+    it 'accepts browser and w3c capabilities in options Hash' do
+      opts = {page_load_strategy: 'eager',
+              args: %w[--foo --bar]}
+      capabilities = Watir::Capabilities.new(:chrome,
+                                             options: opts)
+      args = capabilities.to_args
+      actual_capabilities = args.last[:desired_capabilities]
+      expect(actual_capabilities[:page_load_strategy]).to eq 'eager'
+      actual_options = args.last[:options]
+      expect(actual_options.args).to include '--foo', '--bar'
     end
   end
 
@@ -849,13 +761,7 @@ describe Watir::Capabilities do
         @args = capabilities.to_args
       }.to have_deprecated_driver_opts_keyword
 
-      compliant_on :v6_18 do
-        expect(@args.last[:driver_opts]).to eq(log: 'foo.log')
-      end
-
-      not_compliant_on :v6_18 do
-        expect(@args.last[:service].instance_variable_get('@extra_args')).to include '--log=foo.log'
-      end
+      expect(@args.last[:service].instance_variable_get('@extra_args')).to include '--log=foo.log'
     end
 
     # 6.18 Works; supposed to be deprecated already
@@ -917,15 +823,13 @@ describe Watir::Capabilities do
     # 6.18 broken; assumes options is a Hash
     # 6.19 fix!
     # 7.0  valid
-    not_compliant_on :v6_18 do
-      it 'sets headless in existing options class' do
-        capabilities = Watir::Capabilities.new(:firefox,
-                                               options: Selenium::WebDriver::Firefox::Options.new,
-                                               headless: true)
-        args = capabilities.to_args
-        actual_options = args.last[:options]
-        expect(actual_options.args).to include '--headless'
-      end
+    it 'sets headless in existing options class' do
+      capabilities = Watir::Capabilities.new(:firefox,
+                                             options: Selenium::WebDriver::Firefox::Options.new,
+                                             headless: true)
+      args = capabilities.to_args
+      actual_options = args.last[:options]
+      expect(actual_options.args).to include '--headless'
     end
 
     # 6.18 works
@@ -956,18 +860,16 @@ describe Watir::Capabilities do
     # 6.18 Never implemented
     # 6.19 Implement
     # 7.0  Valid
-    not_compliant_on :v6_18 do
-      it 'accepts browser and w3c capabilities in options Hash' do
-        opts = {page_load_strategy: 'eager',
-                args: %w[--foo --bar]}
-        capabilities = Watir::Capabilities.new(:firefox,
-                                               options: opts)
-        args = capabilities.to_args
-        actual_capabilities = args.last[:desired_capabilities]
-        expect(actual_capabilities[:page_load_strategy]).to eq 'eager'
-        actual_options = args.last[:options]
-        expect(actual_options.args).to include '--foo', '--bar'
-      end
+    it 'accepts browser and w3c capabilities in options Hash' do
+      opts = {page_load_strategy: 'eager',
+              args: %w[--foo --bar]}
+      capabilities = Watir::Capabilities.new(:firefox,
+                                             options: opts)
+      args = capabilities.to_args
+      actual_capabilities = args.last[:desired_capabilities]
+      expect(actual_capabilities[:page_load_strategy]).to eq 'eager'
+      actual_options = args.last[:options]
+      expect(actual_options.args).to include '--foo', '--bar'
     end
   end
 
@@ -987,32 +889,28 @@ describe Watir::Capabilities do
     # 6.18 broken because doesn't handle generic Safari browser options
     # 6.19 Fix
     # 7.0  Valid
-    not_compliant_on :v6_18 do
-      it 'generates options from Hash' do
-        options = {automatic_inspection: true}
-        capabilities = Watir::Capabilities.new(:safari, options: options)
-        args = capabilities.to_args
-        actual_options = args.last[:options]
-        expect(actual_options).to be_a Selenium::WebDriver::Safari::Options
-        expect(actual_options.automatic_inspection).to eq true
-      end
+    it 'generates options from Hash' do
+      options = {automatic_inspection: true}
+      capabilities = Watir::Capabilities.new(:safari, options: options)
+      args = capabilities.to_args
+      actual_options = args.last[:options]
+      expect(actual_options).to be_a Selenium::WebDriver::Safari::Options
+      expect(actual_options.automatic_inspection).to eq true
     end
 
     # 6.18 Never implemented
     # 6.19 Implement
     # 7.0  Valid
-    not_compliant_on :v6_18 do
-      it 'accepts browser and w3c capabilities in options Hash' do
-        opts = {page_load_strategy: 'eager',
-                automatic_inspection: true}
-        capabilities = Watir::Capabilities.new(:safari,
-                                               options: opts)
-        args = capabilities.to_args
-        actual_capabilities = args.last[:desired_capabilities]
-        expect(actual_capabilities[:page_load_strategy]).to eq 'eager'
-        actual_options = args.last[:options]
-        expect(actual_options.automatic_inspection).to eq true
-      end
+    it 'accepts browser and w3c capabilities in options Hash' do
+      opts = {page_load_strategy: 'eager',
+              automatic_inspection: true}
+      capabilities = Watir::Capabilities.new(:safari,
+                                             options: opts)
+      args = capabilities.to_args
+      actual_capabilities = args.last[:desired_capabilities]
+      expect(actual_capabilities[:page_load_strategy]).to eq 'eager'
+      actual_options = args.last[:options]
+      expect(actual_options.automatic_inspection).to eq true
     end
   end
 
@@ -1029,13 +927,7 @@ describe Watir::Capabilities do
         @args = capabilities.to_args
       }.to have_deprecated_driver_opts_keyword
 
-      compliant_on :v6_18 do
-        expect(@args.last[:driver_opts]).to eq(silent: true)
-      end
-
-      not_compliant_on :v6_18 do
-        expect(@args.last[:service].instance_variable_get('@extra_args')).to include '--silent'
-      end
+      expect(@args.last[:service].instance_variable_get('@extra_args')).to include '--silent'
     end
 
     # 6.18 Working
@@ -1065,18 +957,16 @@ describe Watir::Capabilities do
     # 6.18 Never implemented
     # 6.19 Implement
     # 7.0  Valid
-    not_compliant_on :v6_18 do
-      it 'accepts browser and w3c capabilities in options Hash' do
-        opts = {page_load_strategy: 'eager',
-                args: ['--foo']}
-        capabilities = Watir::Capabilities.new(:ie,
-                                               options: opts)
-        args = capabilities.to_args
-        actual_capabilities = args.last[:desired_capabilities]
-        expect(actual_capabilities[:page_load_strategy]).to eq 'eager'
-        actual_options = args.last[:options]
-        expect(actual_options.args).to include '--foo'
-      end
+    it 'accepts browser and w3c capabilities in options Hash' do
+      opts = {page_load_strategy: 'eager',
+              args: ['--foo']}
+      capabilities = Watir::Capabilities.new(:ie,
+                                             options: opts)
+      args = capabilities.to_args
+      actual_capabilities = args.last[:desired_capabilities]
+      expect(actual_capabilities[:page_load_strategy]).to eq 'eager'
+      actual_options = args.last[:options]
+      expect(actual_options.args).to include '--foo'
     end
 
     # 6.18 Works
