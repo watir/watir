@@ -1,3 +1,20 @@
+### 6.19.0 (2021-03-12)
+
+* Create custom Watir HTTP Client
+* Require minimum of Selenium 3.142.7
+* Add support for starting browser with :http_client and :service hashes
+* Allow inferring desired browser from Capabilities or Options if browser not specified
+* Deprecate WindowCollection#to_a method
+* Deprecate starting browser with both Capabilities and Options
+* Deprecate starting browser with both URL and Service
+* Deprecate using :desired_capabilities
+* Deprecate starting browser service keywords in top level Hash
+* Deprecate using :remote to start a browser; browser name must be specified
+* Deprecate sending unknown keywords into the top level
+* Fix bug preventing Safari Options from being recognized
+* Fix bug preventing options provided without :remote keyword from being properly recognized (#812, #870)
+* Fix bug preventing :headless from being recognized when :options specified (#692)
+
 ### 6.18.0 (2021-02-26)
 
 * Implement `WindowCollection` to manage multiple `Window` objects
