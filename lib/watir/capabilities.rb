@@ -12,7 +12,6 @@ module Watir
       Watir.logger.info "Creating Browser instance of #{browser} with user provided options: #{@options.inspect}"
 
       deprecate_options_capabilities
-      deprecate_desired_capabilities
       deprecate_url_service if @options.key?(:service) && @options.key?(:url)
 
       @browser = deprecate_remote(browser) || browser.nil? && infer_browser || browser.to_sym
@@ -95,17 +94,7 @@ module Watir
         caps = Selenium::WebDriver::Remote::Capabilities.send @browser, @options.merge(@w3c_caps)
       end
 
-      @selenium_opts[:desired_capabilities] = caps
-    end
-
-    def deprecate_desired_capabilities
-      return unless @options.key?(:desired_capabilities)
-
-      Watir.logger.deprecate(':desired_capabilities to initialize Browser',
-                             ':capabilities or preferably :options',
-                             ids: [:desired_capabilities],
-                             reference: 'http://watir.com/guides/capabilities.html')
-      @options[:capabilities] = @options.delete(:desired_capabilities)
+      @selenium_opts[:capabilities] = caps
     end
 
     def deprecate_url_service
