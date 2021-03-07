@@ -93,22 +93,6 @@ describe Watir::Capabilities do
       expect(args.last).not_to include(:service)
     end
 
-    # 6.18 broken; puts service in desired capabilities so of course not there
-    # 6.19 fix with deprecation
-    # 7.0  raise exception
-    it 'service not allowed when url specified' do
-      halt_service(browser_symbol)
-
-      expect {
-        capabilities = Watir::Capabilities.new(browser_symbol,
-                                               url: 'http://example.com',
-                                               service: service_class(browser_symbol).new)
-        args = capabilities.to_args
-        expect(args.first).to eq :remote
-        expect(args.last).not_to include(:service)
-      }.to have_deprecated_url_service
-    end
-
     context 'service' do
       # 6.18 never implemented
       # 6.19 implement
@@ -347,17 +331,6 @@ describe Watir::Capabilities do
 
       expect(args.last[:options]).to be_a Selenium::WebDriver::Firefox::Options
       expect(args.last).not_to include(:service)
-    end
-
-    # 6.18 not implemented; just ignores them
-    # 6.19 throw error
-    # 7.0  throw error
-    it 'browser name errors when given a service' do
-      expect {
-        Watir::Capabilities.new(:chrome,
-                                url: 'http://example.com',
-                                service: Selenium::WebDriver::Chrome::Service.new)
-      }.to have_deprecated_url_service
     end
 
     # 6.18 works

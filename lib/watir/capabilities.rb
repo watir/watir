@@ -12,7 +12,7 @@ module Watir
       Watir.logger.info "Creating Browser instance of #{browser} with user provided options: #{@options.inspect}"
 
       deprecate_options_capabilities
-      deprecate_url_service if @options.key?(:service) && @options.key?(:url)
+      raise(ArgumentError, ':url and :service are not both allowed') if @options.key?(:service) && @options.key?(:url)
 
       @browser = browser.nil? && infer_browser || browser.to_sym
 
@@ -97,13 +97,6 @@ module Watir
       end
 
       @selenium_opts[:capabilities] = caps
-    end
-
-    def deprecate_url_service
-      Watir.logger.deprecate('allowing Browser initialization with both :url & :service',
-                             'just :service',
-                             ids: [:url_service],
-                             reference: 'http://watir.com/guides/capabilities.html')
     end
 
     def process_http_client_timeouts(http_client)
