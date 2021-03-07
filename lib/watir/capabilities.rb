@@ -63,15 +63,13 @@ module Watir
     def process_browser_options
       browser_options = @options.delete(:options) || {}
 
-      case @selenium_browser
+      case @browser
       when :chrome
         process_chrome_options(browser_options)
       when :firefox
         process_firefox_options(browser_options)
       when :safari
         process_safari_options(browser_options)
-      when :remote
-        process_remote_options
       when :ie, :internet_explorer
         process_ie_options(browser_options)
       end
@@ -172,20 +170,6 @@ module Watir
       end
 
       @selenium_opts[:options].args << '--headless' if @options.delete(:headless)
-    end
-
-    def process_remote_options
-      if @browser == :chrome && @options.delete(:headless)
-        args = @options.delete(:args) || @options.delete(:switches) || []
-        @options['chromeOptions'] = {'args' => args + ['--headless', '--disable-gpu']}
-      end
-      if @browser == :firefox && @options.delete(:headless)
-        args = @options.delete(:args) || @options.delete(:switches) || []
-        @options[Selenium::WebDriver::Firefox::Options::KEY] = {'args' => args + ['--headless']}
-      end
-      if @browser == :safari && @options.delete(:technology_preview)
-        @options['safari.options'] = {'technologyPreview' => true}
-      end
     end
 
     def process_safari_options(browser_options)
