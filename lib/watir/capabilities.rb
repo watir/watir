@@ -141,9 +141,9 @@ module Watir
     end
 
     def process_service(service)
-      service = deprecate_service_keywords if service.nil?
-
       @selenium_opts[:service] = case service
+                                 when nil
+                                   return
                                  when Hash
                                    return if service.empty?
 
@@ -153,25 +153,6 @@ module Watir
                                  else
                                    raise TypeError, "#{service} needs to be Selenium Service or Hash instance"
                                  end
-    end
-
-    def deprecate_service_keywords
-      service = {}
-      if @options.key?(:port)
-        Watir.logger.deprecate(':port to initialize Browser',
-                               ':port in a Hash with :service key',
-                               ids: %i[port_keyword capabilities],
-                               reference: 'http://watir.com/guides/capabilities.html')
-        service[:port] = @options.delete(:port)
-      end
-      if @options.key?(:driver_opts)
-        Watir.logger.deprecate(':driver_opts to initialize Browser',
-                               ':args as Array in a Hash with :service key',
-                               ids: %i[driver_opts_keyword capabilities],
-                               reference: 'http://watir.com/guides/capabilities.html')
-        service[:args] = @options.delete(:driver_opts)
-      end
-      service
     end
 
     def process_args

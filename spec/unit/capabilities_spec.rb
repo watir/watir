@@ -129,21 +129,6 @@ describe Watir::Capabilities do
 
         expect { capabilities.to_args }.to raise_exception(TypeError)
       end
-
-      # 6.18 works - puts them at top level in selenium opts, which Selenium 3 can read
-      # 6.19 deprecate - put inside :service keyword
-      # 7.0  remove
-      it 'creates when service port specified' do
-        halt_service(browser_symbol)
-
-        expect {
-          capabilities = Watir::Capabilities.new(browser_symbol,
-                                                 port: 1234)
-          @args = capabilities.to_args
-        }.to have_deprecated_port_keyword
-
-        expect(@args.last[:service].instance_variable_get('@port')).to eq 1234
-      end
     end
 
     context 'http_client' do
@@ -516,21 +501,6 @@ describe Watir::Capabilities do
       expect(args.last).not_to include(:service)
     end
 
-    # 6.18 works - puts them at top level in selenium opts, which Selenium 3 can read
-    # 6.19 deprecate - put inside :service keyword
-    # 7.0  remove
-    it 'creates when service driver opts specified' do
-      halt_service(:chrome)
-
-      expect {
-        capabilities = Watir::Capabilities.new(:chrome,
-                                               driver_opts: {verbose: true})
-        @args = capabilities.to_args
-      }.to have_deprecated_driver_opts_keyword
-
-      expect(@args.last[:service].instance_variable_get('@extra_args')).to eq ['--verbose']
-    end
-
     # 6.18 works
     # 6.19 deprecate --> put in options
     # 7.0  remove
@@ -621,21 +591,6 @@ describe Watir::Capabilities do
   end
 
   describe 'firefox' do
-    # 6.18 works - puts them at top level in selenium opts, which Selenium 3 can read
-    # 6.19 deprecate - put inside :service keyword
-    # 7.0  remove
-    it 'creates when service driver opts specified' do
-      halt_service(:firefox)
-
-      expect {
-        capabilities = Watir::Capabilities.new(:firefox,
-                                               driver_opts: {log: 'foo.log'})
-        @args = capabilities.to_args
-      }.to have_deprecated_driver_opts_keyword
-
-      expect(@args.last[:service].instance_variable_get('@extra_args')).to include '--log=foo.log'
-    end
-
     it 'puts Profile inside Options as Hash' do
       profile = Selenium::WebDriver::Firefox::Profile.new
       options = {args: ['--foo'], profile: profile}
@@ -766,21 +721,6 @@ describe Watir::Capabilities do
   end
 
   describe 'ie' do
-    # 6.18 works - puts them at top level in selenium opts, which Selenium 3 can read
-    # 6.19 deprecate - put inside :service keyword
-    # 7.0  remove
-    it 'creates when service driver opts specified' do
-      halt_service(:ie)
-
-      expect {
-        capabilities = Watir::Capabilities.new(:ie,
-                                               driver_opts: {silent: true})
-        @args = capabilities.to_args
-      }.to have_deprecated_driver_opts_keyword
-
-      expect(@args.last[:service].instance_variable_get('@extra_args')).to include '--silent'
-    end
-
     # 6.18 Working
     # 6.19 Keep
     # 7.0  Valid

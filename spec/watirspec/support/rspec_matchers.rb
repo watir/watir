@@ -1,11 +1,9 @@
 if defined?(RSpec)
   DEPRECATION_WARNINGS = %i[selector_parameters
                             options_capabilities
-                            port_keyword
                             switches_keyword
                             args_keyword
                             url_service
-                            driver_opts_keyword
                             unknown_keyword
                             element_cache
                             ready_state
