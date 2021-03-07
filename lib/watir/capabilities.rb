@@ -173,14 +173,6 @@ module Watir
       @selenium_opts[:options] = browser_options if browser_options.is_a? Selenium::WebDriver::Firefox::Options
 
       @selenium_opts[:options] ||= Selenium::WebDriver::Firefox::Options.new(**browser_options)
-      if @options.key?(:profile)
-        new = 'Initializing Browser with both :profile and :option'
-        old = ':profile as a key inside :option'
-        Watir.logger.deprecate new, old, ids: [:firefox_profile]
-
-        @selenium_opts[:options].profile = @options.delete(:profile)
-      end
-
       @selenium_opts[:options].args << '--headless' if @options.delete(:headless)
     end
 

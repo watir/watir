@@ -1,7 +1,6 @@
 if defined?(RSpec)
   DEPRECATION_WARNINGS = %i[selector_parameters
                             options_capabilities
-                            firefox_profile
                             remote_keyword
                             desired_capabilities
                             port_keyword

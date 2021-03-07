@@ -764,36 +764,15 @@ describe Watir::Capabilities do
       expect(@args.last[:service].instance_variable_get('@extra_args')).to include '--log=foo.log'
     end
 
-    # 6.18 Works; supposed to be deprecated already
-    # 6.19 Fix deprecation
-    # 7.0  Remove
-    not_compliant_on :v6_18 do
-      it 'puts Profile inside Options as object' do
-        profile = Selenium::WebDriver::Firefox::Profile.new
-        options = Selenium::WebDriver::Firefox::Options.new
-
-        capabilities = Watir::Capabilities.new(:firefox, options: options, profile: profile)
-        expect {
-          actual_options = capabilities.to_args.last[:options]
-          expect(actual_options.profile).to eq profile
-        }.to have_deprecated_firefox_profile
-      end
-    end
-
-    # 6.18 Works; supposed to be deprecated already
-    # 6.19 Fix deprecation
-    # 7.0  Remove
     it 'puts Profile inside Options as Hash' do
       profile = Selenium::WebDriver::Firefox::Profile.new
-      options = {args: ['--foo']}
+      options = {args: ['--foo'], profile: profile}
 
-      capabilities = Watir::Capabilities.new(:firefox, options: options, profile: profile)
+      capabilities = Watir::Capabilities.new(:firefox, options: options)
 
-      expect {
-        actual_options = capabilities.to_args.last[:options]
-        expect(actual_options.args).to include '--foo'
-        expect(actual_options.profile).to eq profile
-      }.to have_deprecated_firefox_profile
+      actual_options = capabilities.to_args.last[:options]
+      expect(actual_options.args).to include '--foo'
+      expect(actual_options.profile).to eq profile
     end
 
     # 6.18 Works
