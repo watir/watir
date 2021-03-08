@@ -519,7 +519,7 @@ describe 'Browser' do
       browser.close
       @opts = WatirSpec.implementation.browser_args.last
 
-      @opts[:page_load_strategy] = 'none'
+      @opts[:options] = {page_load_strategy: :none}
       browser = WatirSpec.new_browser
 
       start_time = Time.now

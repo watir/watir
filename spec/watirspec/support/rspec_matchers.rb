@@ -1,7 +1,6 @@
 if defined?(RSpec)
   DEPRECATION_WARNINGS = %i[selector_parameters
                             options_capabilities
-                            unknown_keyword
                             element_cache
                             ready_state
                             caption

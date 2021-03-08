@@ -83,10 +83,7 @@ module Watir
       caps = @options.delete(:capabilities)
 
       unless @options.empty?
-        Watir.logger.deprecate('passing unrecognized arguments into Browser constructor',
-                               'appropriate keyword to nest all arguments',
-                               ids: %i[unknown_keyword capabilities],
-                               reference: 'http://watir.com/guides/capabilities.html')
+        raise ArgumentError, "#{@options} are unrecognized arguments for Browser constructor"
       end
 
       if caps
