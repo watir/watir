@@ -11,6 +11,7 @@ module Watir
       @options = options.dup
       Watir.logger.info "Creating Browser instance of #{browser} with user provided options: #{@options.inspect}"
 
+      deprecate_options_capabilities
       deprecate_desired_capabilities
       deprecate_url_service if @options.key?(:service) && @options.key?(:url)
 
@@ -280,6 +281,18 @@ module Watir
         next unless key.to_s.include?(':') || w3c_keys.include?(key)
         @w3c_caps[key] = opts.delete(key)
       end
+    end
+
+    def deprecate_options_capabilities
+      return unless @options.key?(:capabilities) && @options.key?(:options)
+
+      old = 'initializing Browser with both options and capabilities'
+      new = 'Hash with :options, Selenium Options instance with :options or' \
+'Selenium Capabilities instance with :capabilities'
+      Watir.logger.deprecate(old,
+                             new,
+                             ids: %i[options_capabilities capabilities],
+                             reference: 'http://watir.com/guides/capabilities.html')
     end
   end
 end
