@@ -502,32 +502,6 @@ describe Watir::Capabilities do
     end
 
     # 6.18 works
-    # 6.19 deprecate --> put in options
-    # 7.0  remove
-    it 'places args by creating options' do
-      expect {
-        capabilities = Watir::Capabilities.new(:chrome,
-                                               args: ['--foo'])
-        args = capabilities.to_args
-        actual_options = args.last[:options]
-        expect(actual_options.args).to include '--foo'
-      }.to have_deprecated_args_keyword
-    end
-
-    # 6.18 works
-    # 6.19 deprecate --> no more "switches"
-    # 7.0  remove
-    it 'places switches as args by creating options' do
-      expect {
-        capabilities = Watir::Capabilities.new(:chrome,
-                                               switches: ['--foo'])
-        args = capabilities.to_args
-        actual_options = args.last[:options]
-        expect(actual_options.args).to include '--foo'
-      }.to have_deprecated_switches_keyword
-    end
-
-    # 6.18 works
     # 6.19 allow to stay in top level
     # 7.0  valid
     it 'sets headless by creating options' do
@@ -758,17 +732,6 @@ describe Watir::Capabilities do
       expect(actual_capabilities[:page_load_strategy]).to eq 'eager'
       actual_options = args.last[:options]
       expect(actual_options.args).to include '--foo'
-    end
-
-    # 6.18 Works
-    # 6.19 Deprecate
-    # 7.0 Remove
-    it 'adds args by itself' do
-      caps = Watir::Capabilities.new(:ie, args: %w[foo bar])
-      expect {
-        opts = caps.to_args.last[:options]
-        expect(opts.args).to eq Set.new(%w[foo bar])
-      }.to have_deprecated_args_keyword
     end
   end
 end

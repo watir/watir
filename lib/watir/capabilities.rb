@@ -102,8 +102,6 @@ module Watir
       @selenium_opts[:options] = browser_options if browser_options.is_a? Selenium::WebDriver::Chrome::Options
       @selenium_opts[:options] ||= Selenium::WebDriver::Chrome::Options.new(**browser_options)
 
-      process_args
-
       return unless @options.delete(:headless)
 
       @selenium_opts[:options].args << '--headless'
@@ -136,8 +134,6 @@ module Watir
     def process_ie_options(browser_options)
       @selenium_opts[:options] = browser_options if browser_options.is_a? Selenium::WebDriver::IE::Options
       @selenium_opts[:options] ||= Selenium::WebDriver::IE::Options.new(**browser_options)
-
-      process_args
     end
 
     def process_service(service)
@@ -153,33 +149,6 @@ module Watir
                                  else
                                    raise TypeError, "#{service} needs to be Selenium Service or Hash instance"
                                  end
-    end
-
-    def process_args
-      args = if @options.key?(:args)
-               deprecate_args
-               @options.delete(:args)
-             elsif @options.key?(:switches)
-               deprecate_switches
-               @options.delete(:switches)
-             else
-               []
-             end
-      args.each { |arg| @selenium_opts[:options].args << arg }
-    end
-
-    def deprecate_args
-      Watir.logger.deprecate(':args to initialize Browser',
-                             ':args inside Hash with :options key',
-                             ids: %i[args_keyword capabilities],
-                             reference: 'http://watir.com/guides/capabilities.html')
-    end
-
-    def deprecate_switches
-      Watir.logger.deprecate(':switches to initialize Browser',
-                             ':switches inside Hash with :options key',
-                             ids: %i[switches_keyword capabilities],
-                             reference: 'http://watir.com/guides/capabilities.html')
     end
 
     def infer_browser
