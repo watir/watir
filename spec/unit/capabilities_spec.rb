@@ -479,9 +479,10 @@ describe Watir::Capabilities do
     # 7.0  throw error
     not_compliant_on :v6_18 do
       it 'browser name errors when given a service' do
-        expect { Watir::Capabilities.new(:chrome,
-                                         url: 'http://example.com',
-                                         service: Selenium::WebDriver::Chrome::Service.new)
+        expect {
+          Watir::Capabilities.new(:chrome,
+                                  url: 'http://example.com',
+                                  service: Selenium::WebDriver::Chrome::Service.new)
         }.to have_deprecated_url_service
       end
     end
