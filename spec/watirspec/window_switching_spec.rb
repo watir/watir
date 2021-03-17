@@ -103,6 +103,15 @@ describe Watir::Browser do
   end
 
   describe '#switch_window' do
+    it 'stays on the same window when matches single window' do
+      browser.switch_window
+      browser.window.close
+      browser.original_window.use
+
+      title = browser.title
+      expect { browser.window(title: title).use }.not_to raise_exception(TimeoutError)
+    end
+
     it 'switches to second window' do
       original_window = browser.window
       browser.switch_window
