@@ -8,4 +8,9 @@ describe Watir::Browser do
   it 'finds elements with single quotes' do
     expect(browser.div(text: "single 'quotes'")).to exist
   end
+
+  it 'finds elements with non-standard character locators' do
+    expect(browser.div('we{ird' => 'foo')).to exist
+    expect(browser.div('we{ird': 'foo')).to exist
+  end
 end

@@ -205,7 +205,7 @@ module Watir
           def lhs_for(key, downcase: false)
             case key
             when String
-              "@#{key}"
+              process_string key
             when :tag_name
               'local-name()'
             when :href
@@ -215,7 +215,7 @@ module Watir
             when :contains_text
               'normalize-space()'
             when ::Symbol
-              lhs = "@#{key.to_s.tr('_', '-')}"
+              lhs = process_string key.to_s.tr('_', '-')
               downcase ? XpathSupport.downcase(lhs) : lhs
             else
               raise LocatorException, "Unable to build XPath using #{key}:#{key.class}"
@@ -265,6 +265,14 @@ module Watir
                            @valid_attributes.include?(attribute)
 
             false
+          end
+
+          def process_string(name)
+            if name =~ /^[a-zA-Z_:][a-zA-Z0-9_:.\-]*$/
+              "@#{name}"
+            else
+              "(attribute::*[local-name(.) = '#{name}'])"
+            end
           end
         end
       end
