@@ -13,4 +13,9 @@ describe Watir::Browser do
     expect(browser.div('we{ird' => 'foo')).to exist
     expect(browser.div('we{ird': 'foo')).to exist
   end
+
+  it 'finds element with underscored attribute' do
+    expect(browser.div('underscored_attribute' => 'true')).to exist
+    expect(browser.div('underscored_attribute' => true)).to exist
+  end
 end
