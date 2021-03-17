@@ -1,3 +1,8 @@
+### 6.19.1 (2021-03-17)
+
+* Fix bug preventing using Selenium 4
+* Fix bug preventing non-xml characters in attributes (#787)
+
 ### 6.19.0 (2021-03-12)
 
 * Create custom Watir HTTP Client
