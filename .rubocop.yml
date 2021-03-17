@@ -19,17 +19,12 @@ Lint/UnifiedInteger:
 
 # Default: 17
 Metrics/AbcSize:
-  Max: 20
+  Max: 22
   Exclude:
-    - 'lib/watir/capabilities.rb'
     - 'lib/watir/locators/element/selector_builder.rb'
-    - 'lib/watir/locators/element/selector_builder/regexp_disassembler.rb'
-    - 'lib/watir/locators/element/selector_builder/xpath.rb'
-    - 'lib/watir/locators/element/locator.rb'
+    - 'lib/watir/locators/element/selector_builder/*.rb'
     - 'lib/watir/generator/base/generator.rb'
-    - 'lib/watir/generator/base/visitor.rb'
     - 'spec/locator_spec_helper.rb'
-    - 'spec/watirspec_helper.rb'
 
 Metrics/BlockLength:
   Exclude:
