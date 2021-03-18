@@ -582,10 +582,9 @@ describe Watir::Capabilities do
     # 7.0  valid
     not_compliant_on :v6_18 do
       it 'browser name with url and options object' do
-        opts = {args: ['--foo']}
         capabilities = Watir::Capabilities.new(:chrome,
                                                url: 'https://example.com/wd/hub',
-                                               options: Selenium::WebDriver::Chrome::Options.new(opts))
+                                               options: Selenium::WebDriver::Chrome::Options.new(args: ['--foo']))
         args = capabilities.to_args
         expect(args.first).to eq :remote
         desired_capabilities = args.last[:desired_capabilities]
@@ -702,8 +701,7 @@ describe Watir::Capabilities do
     not_compliant_on :v6_18 do
       it 'browser name with http client & options object' do
         client = default_client.new
-        opts = {prefs: {foo: 'bar'}}
-        options = Selenium::WebDriver::Chrome::Options.new(opts)
+        options = Selenium::WebDriver::Chrome::Options.new(prefs: {foo: 'bar'})
         caps = Watir::Capabilities.new(:chrome,
                                        url: 'https://example.com/wd/hub',
                                        options: options,

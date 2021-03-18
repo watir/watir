@@ -47,7 +47,7 @@ module Watir
     def process_http_client
       http_client = @options.delete(:http_client) || Watir::HttpClient.new
       if http_client.is_a?(Hash)
-        http_client = Watir::HttpClient.new(http_client)
+        http_client = Watir::HttpClient.new(**http_client)
       elsif !http_client.is_a?(Selenium::WebDriver::Remote::Http::Common)
         raise TypeError, ':http_client must be a Hash or a Selenium HTTP Client instance'
       end
@@ -192,7 +192,7 @@ module Watir
                                  when Hash
                                    return if service.empty?
 
-                                   Selenium::WebDriver::Service.send(@browser, service)
+                                   Selenium::WebDriver::Service.send(@browser, **service)
                                  when Selenium::WebDriver::Service
                                    service
                                  else
