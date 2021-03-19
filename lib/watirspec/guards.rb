@@ -21,7 +21,7 @@ module WatirSpec
             guard_name = "#{guard[:name]}:".ljust(15)
             str << " \t#{guard_name} #{guard[:data].inspect}\n"
           end
-          Watir.logger.warn str, ids: [:guard_names]
+          Watir.logger.warn str, id: [:guard_names]
         end
       end
     end # class << self

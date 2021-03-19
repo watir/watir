@@ -80,7 +80,7 @@ module WatirSpec
       info << @implementation.driver_info
 
       Watir.logger.warn "running watirspec against #{info.join ' '} using:\n#{WatirSpec.implementation.inspect_args}",
-                        ids: [:browser_info]
+                        id: [:browser_info]
     rescue StandardError
       # ignored
     end

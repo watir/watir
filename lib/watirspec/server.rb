@@ -56,7 +56,7 @@ module WatirSpec
 
         client.write(response(status, headers, body))
       rescue Errno::ECONNRESET
-        Watir.logger.warn 'Client reset connection, skipping.', ids: [:reset_connection]
+        Watir.logger.warn 'Client reset connection, skipping.', id: [:reset_connection]
       ensure
         client.close
       end

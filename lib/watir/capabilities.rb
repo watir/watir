@@ -55,7 +55,7 @@ module Watir
         http_client
       when Selenium::WebDriver::Remote::Http::Common
         Watir.logger.warn 'Check out the new Watir::HttpClient and let us know if there are missing features you need',
-                          ids: [:watir_client]
+                          id: [:watir_client]
         http_client
       else
         raise TypeError, ':http_client must be a Hash or a Selenium HTTP Client instance'
