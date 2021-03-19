@@ -1,3 +1,10 @@
+### 7.0.0.beta1 (2021-03-18)
+
+* Requires Selenium 4
+* Supports Ruby 3
+* Add support for Microsoft Edge Chromium
+* Remove support for all deprecated functionality
+
 ### 6.19.1 (2021-03-17)
 
 * Fix bug preventing using Selenium 4
