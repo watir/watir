@@ -37,6 +37,7 @@ module Watir
         select_matching([found])
       end
     end
+    alias set select
 
     #
     # Uses JavaScript to select the option whose text matches the given string.

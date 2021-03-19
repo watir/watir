@@ -816,6 +816,8 @@ module Watir
         @content_editable = true
         extend UserEditable
         send(meth, *args, &blk)
+      elsif method == :set
+        click(*args, &blk)
       else
         super
       end

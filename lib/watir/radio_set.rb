@@ -139,6 +139,7 @@ module Watir
       end
       raise UnknownObjectException, "Unable to locate radio matching #{str_or_rx.inspect}"
     end
+    alias set select
 
     #
     # Returns true if any of the radio button label matches the given value.

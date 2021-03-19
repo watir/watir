@@ -9,8 +9,8 @@ module Watir
     # Selects this radio button.
     #
 
-    def set
-      click unless set?
+    def set(bool = true)
+      click if bool && !set?
     end
     alias select set
 
