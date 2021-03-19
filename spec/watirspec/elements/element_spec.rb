@@ -521,6 +521,93 @@ describe 'Element' do
     end
   end
 
+  describe '#set' do
+    it 'clicks an element by default that does not define #set' do
+      browser.goto(WatirSpec.url_for('non_control_elements.html'))
+      browser.element(id: 'best_language').set
+      expect(browser.div(id: 'best_language').text).to eq 'Ruby!'
+    end
+
+    bug 'Element has been located but Safari does not recognize it', :safari do
+      it 'clicks an element that does not define #set with provided modifiers' do
+        browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
+        browser.a.set(:shift)
+        browser.wait_until { |b| b.windows.size > 1 }
+        expect(browser.windows.size).to eq 2
+      ensure
+        browser.windows.reject(&:current?).each(&:close)
+      end
+    end
+
+    it 'does not click an element that does not define #set when passed false' do
+      browser.goto(WatirSpec.url_for('non_control_elements.html'))
+      browser.element(id: 'best_language').set(false)
+      expect(browser.div(id: 'best_language').text).not_to eq 'Ruby!'
+    end
+
+    it 'clicks a Button' do
+      browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
+      browser.button(id: 'delete_user_submit').set
+      browser.wait_until { |b| !b.url.include? 'forms_with_input_elements.html' }
+      expect(browser.text).to include('Semantic table')
+    end
+
+    it 'sends keys to text element' do
+      browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
+      browser.element(id: 'new_user_email').set('Bye Cruel World')
+      expect(browser.text_field(id: 'new_user_email').value).to eq 'Bye Cruel World'
+    end
+
+    it 'sends keys to text area' do
+      browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
+      browser.element(id: 'delete_user_comment').set('Hello Cruel World')
+      expect(browser.textarea(id: 'delete_user_comment').value).to eq 'Hello Cruel World'
+    end
+
+    it 'checks a checkbox' do
+      browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
+      browser.element(id: 'new_user_interests_cars').set
+      expect(browser.checkbox(id: 'new_user_interests_cars')).to be_set
+    end
+
+    it 'unchecks a checkbox' do
+      browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
+      browser.element(id: 'new_user_interests_books').set(false)
+      expect(browser.checkbox(id: 'new_user_interests_books')).to_not be_set
+    end
+
+    it 'clicks a Radio' do
+      browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
+      browser.radio(id: 'new_user_newsletter_no').set
+      expect(browser.radio(id: 'new_user_newsletter_no')).to be_set
+      expect(messages.size).to eq 1
+    end
+
+    it 'does not click a Radio when false or already clicked' do
+      browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
+      browser.element(id: 'new_user_newsletter_no').set(false)
+      browser.element(id: 'new_user_newsletter_yes').set(true)
+      expect(messages.size).to eq 0
+    end
+
+    it 'uploads a file' do
+      browser.element(name: 'new_user_portrait').set __FILE__
+
+      expect(browser.file_field(name: 'new_user_portrait').value).to include(File.basename(__FILE__))
+    end
+
+    it 'selects an option' do
+      browser.select_list(name: 'new_user_languages').clear
+      browser.element(name: 'new_user_languages').set('2')
+      expect(browser.select_list(name: 'new_user_languages').selected_options.map(&:text)).to eq %w[EN]
+    end
+
+    it 'sends keys to content editable element' do
+      browser.element(id: 'contenteditable').set('Bar')
+      expect(browser.div(id: 'contenteditable').text).to eq 'Bar'
+    end
+  end
+
   describe '#flash' do
     let(:h2) { browser.h2(text: 'Add user') }
     let(:h1) { browser.h1(text: 'User administration') }

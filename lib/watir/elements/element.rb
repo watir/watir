@@ -164,6 +164,26 @@ module Watir
     end
 
     #
+    # Determines the correct action based on subtype and takes it.
+    # Default is to click element
+    #
+
+    def set(*args)
+      subtype = to_subtype
+      if subtype.is_a?(Radio) && [String, Regexp].include?(args.first.class)
+        RadioSet.new(@query_scope, selector).set(*args)
+      elsif subtype.class.included_modules.include?(UserEditable) || subtype.public_methods(false).include?(:set)
+        subtype.set(*args)
+      elsif @content_editable || content_editable?
+        @content_editable = true
+        extend UserEditable
+        set(*args)
+      elsif args.empty? || args.first
+        click(*args)
+      end
+    end
+
+    #
     # Simulates JavaScript click event on element.
     #
     # @example Click an element
@@ -816,8 +836,6 @@ module Watir
         @content_editable = true
         extend UserEditable
         send(meth, *args, &blk)
-      elsif method == :set
-        click(*args, &blk)
       else
         super
       end
