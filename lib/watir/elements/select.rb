@@ -18,7 +18,7 @@ module Watir
     #
 
     def include?(str_or_rx)
-      option(text: str_or_rx).exist? || option(label: str_or_rx).exist?
+      option(text: str_or_rx).exist? || option(label: str_or_rx).exist? || option(value: str_or_rx).exist?
     end
 
     #
@@ -29,11 +29,13 @@ module Watir
     # @return [String] The text of the option selected. If multiple options match, returns the first match.
     #
 
-    def select(*str_or_rx)
-      if str_or_rx.size > 1 || str_or_rx.first.is_a?(Array)
-        str_or_rx.flatten.map { |v| select_all_by v }.first
+    def select(*str_or_rx, text: nil, value: nil, label: nil)
+      key, value = parse_select_args(str_or_rx, text, value, label)
+
+      if value.size > 1 || value.first.is_a?(Array)
+        value.flatten.map { |v| select_all_by key, v }.first
       else
-        select_matching([find_option(str_or_rx.flatten.first)])
+        select_matching([find_option(key, value.flatten.first)])
       end
     end
     alias set select
@@ -45,11 +47,13 @@ module Watir
     # @raise [Watir::Exception::NoValueFoundException] if the value does not exist.
     #
 
-    def select!(*str_or_rx)
-      if str_or_rx.size > 1 || str_or_rx.first.is_a?(Array)
-        str_or_rx.flatten.map { |v| select_by! v, :multiple }.first
+    def select!(*str_or_rx, text: nil, value: nil, label: nil)
+      key, value = parse_select_args(str_or_rx, text, value, label)
+
+      if value.size > 1 || value.first.is_a?(Array)
+        value.flatten.map { |v| select_by! key, v, :multiple }.first
       else
-        str_or_rx.flatten.map { |v| select_by! v, :single }.first
+        value.flatten.map { |v| select_by! key, v, :single }.first
       end
     end
 
@@ -111,12 +115,25 @@ module Watir
       @multiple_select = @multiple_select.nil? ? multiple? : @multiple_select
     end
 
-    def select_by!(str_or_rx, number)
+    def parse_select_args(str_or_rx, text, value, label)
+      selectors = {}
+      selectors[:any] = str_or_rx unless str_or_rx.empty?
+      selectors[:text] = Array[text] if text
+      selectors[:value] = Array[value] if value
+      selectors[:label] = Array[label] if label
+
+      raise ArgumentError, "too many arguments used for Select#select: #{selectors}" if selectors.size > 1
+
+      selectors.first
+    end
+
+    def select_by!(key, str_or_rx, number)
       str_or_rx = type_check(str_or_rx)
 
       js_rx = process_str_or_rx(str_or_rx)
+      approaches = key == :any ? %w[Text Label Value] : [key.to_s.capitalize]
 
-      %w[Text Label Value].each do |approach|
+      approaches.each do |approach|
         element_call { execute_js("selectOptions#{approach}", self, js_rx, number.to_s) }
         return selected_options.first.text if matching_option?(approach.downcase, str_or_rx)
       end
@@ -152,38 +169,33 @@ module Watir
       false
     end
 
-    def select_all_by(str_or_rx)
+    def select_all_by(key, str_or_rx)
       raise Error, 'you can only use #select_all on multi-selects' unless multiple_select_list?
 
-      val = type_check(str_or_rx)
-
-      select_matching(find_options(val))
+      select_matching(find_options(key, str_or_rx))
     end
 
-    def find_option(str_or_rx)
+    def find_option(key, str_or_rx)
       val = type_check(str_or_rx)
 
-      option(any: val).wait_until(&:exists?)
+      option(key => val).wait_until(&:exists?)
     rescue Wait::TimeoutError
-      raise_no_value_found(val)
+      raise_no_value_found(str_or_rx)
     end
 
-    def find_options(str_or_rx)
+    def find_options(key, str_or_rx)
       val = type_check(str_or_rx)
 
-      opts = options(any: val)
-      wait_until { opts.size.positive? }
-      opts
+      options(key => val).wait_until(&:exists?)
     rescue Wait::TimeoutError
-      raise_no_value_found(val)
+      raise_no_value_found(str_or_rx)
     end
 
     def type_check(str_or_rx)
       str_or_rx = str_or_rx.to_s if str_or_rx.is_a?(Numeric)
-      msg = "expected String, Numeric or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
-      raise TypeError, msg unless [String, Regexp].any? { |k| str_or_rx.is_a?(k) }
+      return str_or_rx if [String, Regexp].any? { |k| str_or_rx.is_a?(k) }
 
-      str_or_rx
+      raise TypeError, "expected String, Numeric or Regexp, got #{str_or_rx.inspect}:#{str_or_rx.class}"
     end
 
     # TODO: Consider locating the Select List before throwing the exception

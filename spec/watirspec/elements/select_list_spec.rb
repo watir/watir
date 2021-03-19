@@ -266,6 +266,21 @@ describe 'SelectList' do
           @select_list.select(/2|3/)
           expect(@select_list.selected_options.first.text).to eq 'EN'
         end
+
+        it 'uses keyword with a String' do
+          @select_list.select(value: '2')
+          expect(@select_list.selected_options.first.text).to eq 'EN'
+        end
+
+        it 'uses keyword with a Number' do
+          @select_list.select(value: 2)
+          expect(@select_list.selected_options.first.text).to eq 'EN'
+        end
+
+        it 'uses keyword with a Regexp' do
+          @select_list.select(value: /2|3/)
+          expect(@select_list.selected_options.first.text).to eq 'EN'
+        end
       end
 
       context 'when finding by text' do
@@ -278,6 +293,16 @@ describe 'SelectList' do
           @select_list.select(/wegia/)
           expect(@select_list.selected_options.first.value).to eq '3'
         end
+
+        it 'uses keyword with a String' do
+          @select_list.select(text: 'Norwegian')
+          expect(@select_list.selected_options.first.value).to eq '3'
+        end
+
+        it 'uses keyword with a Regexp' do
+          @select_list.select(text: /wegia/)
+          expect(@select_list.selected_options.first.value).to eq '3'
+        end
       end
 
       context 'when finding by label' do
@@ -288,6 +313,16 @@ describe 'SelectList' do
 
         it 'selects an option with a Regexp' do
           @select_list.select(/^N/)
+          expect(@select_list.selected_options.first.value).to eq '3'
+        end
+
+        it 'uses keyword with a String' do
+          @select_list.select(label: 'NO')
+          expect(@select_list.selected_options.first.value).to eq '3'
+        end
+
+        it 'uses keyword with a Regexp' do
+          @select_list.select(label: /^N/)
           expect(@select_list.selected_options.first.value).to eq '3'
         end
       end
@@ -366,7 +401,7 @@ describe 'SelectList' do
     end
 
     it 'raises a TypeError if argument is not a String, Regexp or Numeric' do
-      expect { browser.select_list(id: 'new_user_languages').select({}) }.to raise_error(TypeError)
+      expect { browser.select_list(id: 'new_user_languages').select(true) }.to raise_error(TypeError)
     end
 
     context 'multiple options' do
@@ -445,6 +480,21 @@ describe 'SelectList' do
           @select_list.select!(/2|3/)
           expect(@select_list.selected_options.first.text).to eq 'EN'
         end
+
+        it 'uses keyword with a String' do
+          @select_list.select!(value: '2')
+          expect(@select_list.selected_options.first.text).to eq 'EN'
+        end
+
+        it 'uses keyword with a Number' do
+          @select_list.select!(value: 2)
+          expect(@select_list.selected_options.first.text).to eq 'EN'
+        end
+
+        it 'uses keyword with a Regexp' do
+          @select_list.select!(value: /2|3/)
+          expect(@select_list.selected_options.first.text).to eq 'EN'
+        end
       end
 
       context 'when finding by text' do
@@ -457,6 +507,16 @@ describe 'SelectList' do
           @select_list.select!(/ani/)
           expect(@select_list.selected_options.first.value).to eq '1'
         end
+
+        it 'uses keyword with a String' do
+          @select_list.select!(text: 'Danish')
+          expect(@select_list.selected_options.first.value).to eq '1'
+        end
+
+        it 'uses keyword with a Regexp' do
+          @select_list.select!(text: /ani/)
+          expect(@select_list.selected_options.first.value).to eq '1'
+        end
       end
 
       context 'when finding by label' do
@@ -467,6 +527,16 @@ describe 'SelectList' do
 
         it 'selects an option with a Regexp' do
           @select_list.select!(/^N/)
+          expect(@select_list.selected_options.first.value).to eq '3'
+        end
+
+        it 'uses keyword with a String' do
+          @select_list.select!(label: 'NO')
+          expect(@select_list.selected_options.first.value).to eq '3'
+        end
+
+        it 'uses keyword with a Regexp' do
+          @select_list.select!(label: /^N/)
           expect(@select_list.selected_options.first.value).to eq '3'
         end
       end
@@ -524,7 +594,7 @@ describe 'SelectList' do
     end
 
     it 'raises a TypeError if argument is not a String, Regexp or Numeric' do
-      expect { browser.select_list(id: 'new_user_languages').select!({}) }.to raise_error(TypeError)
+      expect { browser.select_list(id: 'new_user_languages').select!(true) }.to raise_error(TypeError)
     end
 
     context 'multiple options' do
