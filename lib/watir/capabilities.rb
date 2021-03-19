@@ -30,7 +30,6 @@ module Watir
     def process_arguments
       selenium_opts = {}
       selenium_opts[:listener] = @options.delete(:listener) if @options.key?(:listener)
-      selenium_opts[:capabilities] = @options.delete(:capabilities) if @options.key?(:capabilities)
 
       if @options.key?(:url)
         selenium_opts[:url] = @options.delete(:url)
@@ -40,7 +39,7 @@ module Watir
       end
 
       selenium_opts[:http_client] = process_http_client
-      selenium_opts[:options] = process_browser_options
+      selenium_opts[:capabilities] = @options.delete(:capabilities) || process_browser_options
 
       Watir.logger.info "Creating Browser instance with Watir processed options: #{selenium_opts.inspect}"
       selenium_opts
