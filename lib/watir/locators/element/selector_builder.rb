@@ -88,9 +88,6 @@ module Watir
 
         def normalize_locator(how, what)
           case how
-          when 'text'
-            Watir.logger.deprecate "String 'text' as a locator", 'Symbol :text', ids: [:text_string]
-            [:text, what]
           when :tag_name
             what = what.to_s if what.is_a?(::Symbol)
             [how, what]
