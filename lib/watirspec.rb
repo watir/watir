@@ -53,7 +53,9 @@ module WatirSpec
       @implementation = imp
     end
 
-    def new_browser
+    def new_browser(pause = 1)
+      sleep pause
+
       klass = WatirSpec.implementation.browser_class
       args = Array(WatirSpec.implementation.browser_args).map { |e| e.is_a?(Hash) ? e.dup : e }
 

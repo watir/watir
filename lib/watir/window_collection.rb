@@ -40,8 +40,12 @@ module Watir
     alias eql? ==
 
     def restore!
+      return if @browser.closed?
+
       window_list.reject { |win| win.handle == @browser.original_window.handle }.each(&:close)
       @browser.original_window.use
+    rescue StandardError
+      @browser.close
     end
 
     def reset!

@@ -2,11 +2,6 @@ require 'watirspec_helper'
 
 describe 'Browser' do
   describe '#exists?' do
-    after do
-      browser.original_window.use
-      browser.windows.reject(&:current?).each(&:close)
-    end
-
     it 'returns true if we are at a page' do
       browser.goto(WatirSpec.url_for('non_control_elements.html'))
       expect(browser).to exist
@@ -21,13 +16,14 @@ describe 'Browser' do
         browser.a(id: 'close').click
         Watir::Wait.until { browser.windows.size == 1 }
         expect(browser.exists?).to be false
+      ensure
+        browser.windows.restore!
       end
     end
 
     it 'returns false after Browser#close' do
       browser.close
       expect(browser).to_not exist
-      $browser = WatirSpec.new_browser
     end
   end
 
@@ -53,7 +49,6 @@ describe 'Browser' do
     it 'returns false after Browser#close' do
       browser.close
       expect(browser).to be_closed
-      $browser = WatirSpec.new_browser
     end
   end
 
@@ -199,10 +194,6 @@ describe 'Browser' do
           WatirSpec.implementation = @original.clone
         end
 
-        after(:all) do
-          $browser = WatirSpec.new_browser
-        end
-
         it 'uses remote client based on provided url' do
           @opts[:url] = url
           @new_browser = WatirSpec.new_browser
@@ -332,8 +323,8 @@ describe 'Browser' do
             expect(service.instance_variable_get('@port')).to eq 2314
 
             @new_browser.close
+          ensure
             WatirSpec.implementation = @original.clone
-            $browser = WatirSpec.new_browser
           end
         end
       end
@@ -359,7 +350,6 @@ describe 'Browser' do
       expect(b).to be_instance_of(Watir::Browser)
       expect(b.title).to eq 'Non-control elements'
       b.close
-      $browser = WatirSpec.new_browser
     end
   end
 
@@ -527,7 +517,6 @@ describe 'Browser' do
     browser.close
 
     expect { browser.dl(id: 'experience-list').id }.to raise_error(Watir::Exception::Error, 'browser was closed')
-    $browser = WatirSpec.new_browser
   end
 
   describe '#ready_state' do
@@ -557,8 +546,8 @@ describe 'Browser' do
       expect(browser.ready_state).to eq 'complete'
 
       browser.close
+    ensure
       WatirSpec.implementation = @original.clone
-      $browser = WatirSpec.new_browser
     end
   end
 
