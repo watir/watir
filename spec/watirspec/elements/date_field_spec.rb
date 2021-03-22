@@ -20,7 +20,7 @@ describe 'DateField' do
     end
 
     it 'returns true when using xpath',
-       except: {browser: :safari, reason: 'Safari does not recognize date type'} do
+       except: {browser: %i[ie safari], reason: 'Date type not recognized'} do
       expect(browser.date_field(xpath: "//input[@id='html5_date']")).to exist
     end
 
@@ -29,7 +29,7 @@ describe 'DateField' do
     end
 
     it 'respects date fields types',
-       except: {browser: :safari, reason: 'Safari does not recognize date type'} do
+       except: {browser: %i[ie safari], reason: 'Date type not recognized'} do
       expect(browser.date_field.type).to eq('date')
     end
 
@@ -78,7 +78,7 @@ describe 'DateField' do
 
   describe '#type' do
     it 'returns the type attribute if the date field exists',
-       except: {browser: :safari, reason: 'Safari does not recognize date type'} do
+       except: {browser: %i[ie safari], reason: 'Date type not recognized'} do
       expect(browser.date_field(id: 'html5_date').type).to eq 'date'
     end
 

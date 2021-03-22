@@ -75,7 +75,7 @@ describe 'Div' do
   end
 
   describe '#style' do
-    it 'returns the style attribute if the element exists', except: {browser: :ie} do
+    it 'returns the style attribute if the element exists' do
       expect(browser.div(id: 'best_language').style).to eq 'color: red; text-decoration: underline; cursor: pointer;'
     end
 
@@ -190,7 +190,7 @@ describe 'Div' do
       expect(messages.first).to eq 'right-clicked'
     end
 
-    it 'accepts modifiers' do
+    it 'accepts modifiers', except: {browser: :ie} do
       browser.goto(WatirSpec.url_for('right_click.html'))
       browser.div(id: 'click-logger').right_click(:control, :alt)
       expect(event_log.first).to eq('control=true alt=true')
@@ -198,7 +198,7 @@ describe 'Div' do
   end
 
   describe '#html' do
-    it 'returns the HTML of the element', except: {browser: :ie} do
+    it 'returns the HTML of the element' do
       html = browser.div(id: 'footer').html.downcase
       expect(html).to include('id="footer"')
       expect(html).to include('title="closing remarks"')

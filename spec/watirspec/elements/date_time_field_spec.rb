@@ -21,7 +21,7 @@ describe 'DateTimeField' do
 
     it 'returns true if the datetime-local element exists',
        except: [{browser: :firefox, reason: 'https://github.com/mozilla/geckodriver/issues/1469'},
-                {browser: :safari}] do
+                {browser: %i[ie safari], reason: 'Date type not recognized'}] do
       expect(browser.date_time_field(xpath: "//input[@id='html5_datetime-local']")).to exist
     end
 
@@ -31,7 +31,7 @@ describe 'DateTimeField' do
 
     it 'respects date-time fields types',
        except: [{browser: :firefox, reason: 'https://github.com/mozilla/geckodriver/issues/1469'},
-                {browser: :safari}] do
+                {browser: %i[ie safari], reason: 'Date type not recognized'}] do
       expect(browser.date_time_field.type).to eq('datetime-local')
     end
 
@@ -81,7 +81,7 @@ describe 'DateTimeField' do
   describe '#type' do
     it 'returns the type attribute if the date-time field exists',
        except: [{browser: :firefox, reason: 'https://github.com/mozilla/geckodriver/issues/1469'},
-                {browser: :safari}] do
+                {browser: %i[ie safari], reason: 'Date type not recognized'}] do
       expect(browser.date_time_field(id: 'html5_datetime-local').type).to eq 'datetime-local'
     end
 

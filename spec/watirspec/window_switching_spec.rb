@@ -123,7 +123,7 @@ describe Watir::Browser do
       expect(browser.original_window).to_not be_nil
     end
 
-    it 'waits for second window' do
+    it 'waits for second window', except: {browser: :ie} do
       browser.windows.restore!
       expect {
         browser.a(id: 'delayed').click
@@ -146,14 +146,13 @@ describe Watir::Window do
     end
 
     it 'allows actions on first window after opening second',
-       except: {browser: :safari},
-       reason: 'Focus is on newly opened window instead of the first' do
+       except: {browser: %i[ie safari]}, reason: 'Focus is on newly opened window instead of the first' do
       browser.a(id: 'open').click
 
       expect { browser.windows.wait_until(size: 3) }.to_not raise_timeout_exception
     end
 
-    describe '#close' do
+    describe '#close', except: {browser: :ie, reason: 'Click is not opening window'} do
       it 'closes a window' do
         browser.window(title: 'window switching').use
         browser.a(id: 'open').click
@@ -165,7 +164,7 @@ describe Watir::Window do
       end
 
       it 'closes the current window',
-         except: {browser: :safari},
+         except: {browser: %i[ie safari]},
          reason: 'Focus is on newly opened window instead of the first' do
         browser.a(id: 'open').click
         browser.windows.wait_until(size: 3)
@@ -537,7 +536,7 @@ describe Watir::WindowCollection do
 
   describe '#restore!' do
     it 'when on other window',
-       except: {browser: :safari, reason: 'Focus is on newly opened window instead of the first'} do
+       except: {browser: %i[ie safari], reason: 'Focus is on newly opened window instead of the first'} do
       browser.a(id: 'open').click
       browser.windows.wait_until(size: 3)
       browser.window(title: 'closeable window').use

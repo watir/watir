@@ -111,7 +111,7 @@ describe 'FileField' do
     end
   end
 
-  describe '#value=' do
+  describe '#value=', exclude: {browser: :ie} do
     it 'is able to set a file path in the field and click the upload button and fire the onchange event' do
       browser.goto WatirSpec.url_for('forms_with_input_elements.html')
 
@@ -122,7 +122,7 @@ describe 'FileField' do
       expect(element.value).to include(File.basename(path)) # only some browser will return the full path
     end
 
-    it 'does not alter its argument', except: {browser: :ie} do
+    it 'does not alter its argument' do
       value = File.expand_path '.rubocop.yml'
       browser.file_field.value = value
       expect(value).to match(/\.rubocop\.yml$/)

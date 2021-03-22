@@ -41,7 +41,7 @@ describe 'Browser#cookies' do
     end
   end
 
-  it 'adds a cookie without options', except: {browser: :ie} do
+  it 'adds a cookie without options' do
     browser.goto set_cookie_url
     verify_cookies_count 1
 
@@ -49,7 +49,7 @@ describe 'Browser#cookies' do
     verify_cookies_count 2
   end
 
-  it 'adds a cookie with a string expires value', except: {browser: :ie} do
+  it 'adds a cookie with a string expires value' do
     browser.goto set_cookie_url
     verify_cookies_count 1
 
@@ -103,7 +103,7 @@ describe 'Browser#cookies' do
     expect(cookie).to be_nil
   end
 
-  it 'removes a cookie', except: {browser: :ie} do
+  it 'removes a cookie' do
     browser.goto set_cookie_url
     verify_cookies_count 1
 
@@ -111,7 +111,7 @@ describe 'Browser#cookies' do
     verify_cookies_count 0
   end
 
-  it 'clears all cookies', except: {browser: :ie} do
+  it 'clears all cookies' do
     browser.goto set_cookie_url
     browser.cookies.add 'foo', 'bar'
     verify_cookies_count 2
@@ -120,7 +120,7 @@ describe 'Browser#cookies' do
     verify_cookies_count 0
   end
 
-  context 'cookie file', except: {browser: :ie} do
+  context 'cookie file' do
     let(:file) { "#{Dir.tmpdir}/cookies" }
 
     before do
@@ -134,7 +134,7 @@ describe 'Browser#cookies' do
       end
     end
 
-    describe '#load' do
+    describe '#load', except: {browser: :ie} do
       it 'loads cookies from file' do
         browser.cookies.clear
         browser.cookies.load file

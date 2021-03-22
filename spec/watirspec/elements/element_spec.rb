@@ -248,7 +248,8 @@ describe 'Element' do
       browser.goto WatirSpec.url_for('removed_element.html')
     end
 
-    it 'element from a collection is re-looked up after it becomes stale' do
+    it 'element from a collection is re-looked up after it becomes stale',
+       except: {browser: :ie, reason: 'throwing NoSuchElement instead'} do
       element = browser.divs(id: 'text').first.locate
 
       browser.refresh
@@ -257,7 +258,8 @@ describe 'Element' do
       expect(element).to exist
     end
 
-    it 'element from a selenium element throws an exception when relocated' do
+    it 'element from a selenium element throws an exception when relocated',
+       except: {browser: :ie, reason: 'throwing NoSuchElement instead'} do
       div = browser.div.locate
       element = browser.element(element: div.wd)
 
@@ -337,7 +339,8 @@ describe 'Element' do
       expect(element).to be_stale
     end
 
-    it 'returns true the second time if the element is stale' do
+    it 'returns true the second time if the element is stale',
+       except: {browser: :ie, reason: 'throwing NoSuchElement instead'} do
       element = browser.div.locate
 
       browser.refresh
@@ -506,10 +509,9 @@ describe 'Element' do
   end
 
   describe '#click' do
-    it 'accepts modifiers' do
+    it 'accepts modifiers', except: {browser: :ie} do
       browser.a.click(@c)
-      browser.wait_until { |b| b.windows.size > 1 }
-      expect(browser.windows.size).to eq 2
+      expect { browser.windows.wait_until(size: 2) }.to_not raise_exception
     ensure
       browser.windows.restore!
     end
@@ -522,7 +524,7 @@ describe 'Element' do
       expect(browser.div(id: 'best_language').text).to eq 'Ruby!'
     end
 
-    it 'clicks an element that does not define #set with provided modifiers' do
+    it 'clicks an element that does not define #set with provided modifiers', except: {browser: :ie} do
       browser.a.set(@c)
       browser.wait_until { |b| b.windows.size > 1 }
       expect(browser.windows.size).to eq 2
@@ -692,7 +694,8 @@ describe 'Element' do
   end
 
   describe '#inner_text' do
-    it 'returns inner HTML code of element' do
+    it 'returns inner HTML code of element',
+       except: {browser: :ie, reason: 'also returning explicitly hidden results'} do
       browser.goto WatirSpec.url_for('non_control_elements.html')
       div = browser.div(id: 'shown')
       expect(div.inner_text).to eq('Not hidden')
@@ -718,7 +721,8 @@ describe 'Element' do
   end
 
   describe '#select_text and #selected_text' do
-    it 'selects text and returns selected text' do
+    it 'selects text and returns selected text',
+       except: {browser: :ie, reason: 'Select Text atom appears broken in IE 11'} do
       browser.goto WatirSpec.url_for('non_control_elements.html')
       element = browser.element(visible_text: 'all visible')
       element.select_text('all visible')
@@ -856,7 +860,8 @@ describe 'Element' do
   end
 
   describe 'Numeric Attribute' do
-    it 'returns Float value' do
+    it 'returns Float value',
+       except: {browser: :ie, reason: 'not recognizing the value of the element'} do
       element = browser.text_field(id: 'number')
       expect(element.valueasnumber).to be_a Float
     end

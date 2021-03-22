@@ -5,8 +5,7 @@ describe 'Table' do
     browser.goto(WatirSpec.url_for('nested_tables.html'))
   end
 
-  it 'returns the correct number of rows under a table element',
-     except: {browser: :ie, reason: 'IE seems unable to deal with the invalid nesting'} do
+  it 'returns the correct number of rows under a table element' do
     tables = browser.div(id: 'table-rows-test').tables(id: /^tbl/)
     expect(tables.length).to be > 0
 

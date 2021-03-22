@@ -205,9 +205,7 @@ describe 'Radio' do
       expect(messages).to eq ['clicked: new_user_newsletter_no', 'clicked: new_user_newsletter_yes']
     end
 
-    it 'fires the onchange event',
-       except: {browser: :ie,
-                reason: 'http://webbugtrack.blogspot.com/2007/11/bug-193-onchange-does-not-fire-properly.html'} do
+    it 'fires the onchange event' do
       browser.radio(value: 'certainly').set
       expect(messages).to eq ['changed: new_user_newsletter']
 

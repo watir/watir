@@ -72,12 +72,8 @@ describe 'Browser' do
   end
 
   describe '#status' do
-    # for Firefox, this needs to be enabled in
-    # Preferences -> Content -> Advanced -> Change status bar text
-    #
-    # for IE9, this needs to be enabled in
-    # View => Toolbars -> Status bar
-    it 'returns the current value of window.status' do
+    it 'returns the current value of window.status',
+       except: {browser: :ie, reason: 'Status bar not enabled by default'} do
       browser.goto(WatirSpec.url_for('non_control_elements.html'))
 
       browser.execute_script "window.status = 'All done!';"
@@ -319,7 +315,7 @@ describe 'Browser' do
   describe '.start' do
     it 'goes to the given URL and return an instance of itself' do
       browser.close
-      sleep 0.5
+      sleep 1
       driver, args = WatirSpec.implementation.browser_args
       b = Watir::Browser.start(WatirSpec.url_for('non_control_elements.html'), driver, args.dup)
 
@@ -330,8 +326,7 @@ describe 'Browser' do
   end
 
   describe '#goto' do
-    it 'adds http:// to URLs with no URL scheme specified',
-       except: {browser: :ie} do
+    it 'adds http:// to URLs with no URL scheme specified' do
       url = WatirSpec.host[%r{http://(.*)}, 1]
       expect(url).to_not be_nil
       browser.goto(url)
@@ -346,8 +341,7 @@ describe 'Browser' do
       expect { browser.goto('about:blank') }.to_not raise_error
     end
 
-    it 'goes to a data URL scheme address without raising errors',
-       except: {browser: :ie} do
+    it 'goes to a data URL scheme address without raising errors' do
       expect { browser.goto('data:text/html;content-type=utf-8,foobar') }.to_not raise_error
     end
 
