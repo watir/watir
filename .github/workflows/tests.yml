@@ -61,13 +61,17 @@ jobs:
         task: [ chrome, firefox, edge ]
         include:
           - os: 'macos-latest'
-            task: 'safari'
             ruby: 2.6
-          - os: 'macos-latest'
             task: 'safari'
+          - os: 'macos-latest'
             ruby: 3.0
-#          - os: 'windows-latest'
-#            task: 'ie'
+            task: 'safari'
+          - os: 'windows-latest'
+            ruby: 2.6
+            task: 'ie'
+          - os: 'windows-latest'
+            ruby: 3.0
+            task: 'ie'
         exclude:
           - os: 'ubuntu-latest'
             task: 'edge'

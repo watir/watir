@@ -621,7 +621,7 @@ describe 'Element' do
   end
 
   describe '#hover' do
-    it 'should hover over the element', except: {browser: :internet_explorer} do
+    it 'should hover over the element', except: {browser: :ie} do
       browser.goto WatirSpec.url_for('hover.html')
       link = browser.a
 

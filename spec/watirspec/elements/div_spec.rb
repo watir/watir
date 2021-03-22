@@ -75,7 +75,7 @@ describe 'Div' do
   end
 
   describe '#style' do
-    it 'returns the style attribute if the element exists', except: {browser: :internet_explorer} do
+    it 'returns the style attribute if the element exists', except: {browser: :ie} do
       expect(browser.div(id: 'best_language').style).to eq 'color: red; text-decoration: underline; cursor: pointer;'
     end
 
@@ -198,7 +198,7 @@ describe 'Div' do
   end
 
   describe '#html' do
-    it 'returns the HTML of the element', except: {browser: :internet_explorer} do
+    it 'returns the HTML of the element', except: {browser: :ie} do
       html = browser.div(id: 'footer').html.downcase
       expect(html).to include('id="footer"')
       expect(html).to include('title="closing remarks"')

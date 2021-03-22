@@ -6,7 +6,7 @@ describe 'Table' do
   end
 
   it 'returns the correct number of rows under a table element',
-     except: {browser: :internet_explorer, reason: 'IE seems unable to deal with the invalid nesting'} do
+     except: {browser: :ie, reason: 'IE seems unable to deal with the invalid nesting'} do
     tables = browser.div(id: 'table-rows-test').tables(id: /^tbl/)
     expect(tables.length).to be > 0
 

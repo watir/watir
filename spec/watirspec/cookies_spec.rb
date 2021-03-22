@@ -41,7 +41,7 @@ describe 'Browser#cookies' do
     end
   end
 
-  it 'adds a cookie without options', except: {browser: :internet_explorer} do
+  it 'adds a cookie without options', except: {browser: :ie} do
     browser.goto set_cookie_url
     verify_cookies_count 1
 
@@ -49,7 +49,7 @@ describe 'Browser#cookies' do
     verify_cookies_count 2
   end
 
-  it 'adds a cookie with a string expires value', except: {browser: :internet_explorer} do
+  it 'adds a cookie with a string expires value', except: {browser: :ie} do
     browser.goto set_cookie_url
     verify_cookies_count 1
 
@@ -62,7 +62,7 @@ describe 'Browser#cookies' do
   end
 
   it 'adds a cookie with path',
-     except: {browser: :internet_explorer, reason: 'path contains two slashes'} do
+     except: {browser: :ie, reason: 'path contains two slashes'} do
     browser.goto set_cookie_url
 
     options = {path: '/set_cookie'}
@@ -103,7 +103,7 @@ describe 'Browser#cookies' do
     expect(cookie).to be_nil
   end
 
-  it 'removes a cookie', except: {browser: :internet_explorer} do
+  it 'removes a cookie', except: {browser: :ie} do
     browser.goto set_cookie_url
     verify_cookies_count 1
 
@@ -111,7 +111,7 @@ describe 'Browser#cookies' do
     verify_cookies_count 0
   end
 
-  it 'clears all cookies', except: {browser: :internet_explorer} do
+  it 'clears all cookies', except: {browser: :ie} do
     browser.goto set_cookie_url
     browser.cookies.add 'foo', 'bar'
     verify_cookies_count 2
@@ -120,7 +120,7 @@ describe 'Browser#cookies' do
     verify_cookies_count 0
   end
 
-  context 'cookie file', except: {browser: :internet_explorer} do
+  context 'cookie file', except: {browser: :ie} do
     let(:file) { "#{Dir.tmpdir}/cookies" }
 
     before do

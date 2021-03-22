@@ -331,7 +331,7 @@ describe 'Browser' do
 
   describe '#goto' do
     it 'adds http:// to URLs with no URL scheme specified',
-       except: {browser: :internet_explorer} do
+       except: {browser: :ie} do
       url = WatirSpec.host[%r{http://(.*)}, 1]
       expect(url).to_not be_nil
       browser.goto(url)
@@ -347,7 +347,7 @@ describe 'Browser' do
     end
 
     it 'goes to a data URL scheme address without raising errors',
-       except: {browser: :internet_explorer} do
+       except: {browser: :ie} do
       expect { browser.goto('data:text/html;content-type=utf-8,foobar') }.to_not raise_error
     end
 
