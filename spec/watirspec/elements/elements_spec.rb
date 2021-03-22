@@ -43,15 +43,14 @@ describe 'Elements' do
       expect(container.elements(visible_text: /some visible/).count).to eq(1)
     end
 
-    bug 'Safari is not filtering out hidden text', :safari do
-      it 'finds elements in spite of hidden text' do
-        browser.goto WatirSpec.url_for('non_control_elements.html')
-        container = browser.div(id: 'visible_text')
+    it 'finds elements in spite of hidden text',
+       except: {browser: :safari, reason: 'Safari is not filtering out hidden text'} do
+      browser.goto WatirSpec.url_for('non_control_elements.html')
+      container = browser.div(id: 'visible_text')
 
-        expect(container.elements(visible_text: 'some visible').count).to eq(1)
-        expect(container.elements(visible_text: 'none visible').count).to eq(0)
-        expect(container.elements(visible_text: /none visible/).count).to eq(0)
-      end
+      expect(container.elements(visible_text: 'some visible').count).to eq(1)
+      expect(container.elements(visible_text: 'none visible').count).to eq(0)
+      expect(container.elements(visible_text: /none visible/).count).to eq(0)
     end
   end
 end

@@ -55,10 +55,9 @@ describe 'Dl' do
       expect(browser.dl(id: 'experience-list').text).to include('11 years')
     end
 
-    bug 'Safari does not strip text', :safari do
-      it 'returns an empty string if the element exists but contains no text' do
-        expect(browser.dl(id: 'noop').text).to eq ''
-      end
+    it 'returns an empty string if the element exists but contains no text',
+       except: {browser: :safari, reason: 'Safari does not strip text'} do
+      expect(browser.dl(id: 'noop').text).to eq ''
     end
 
     it 'raises UnknownObjectException if the element does not exist' do
@@ -98,14 +97,7 @@ describe 'Dl' do
   describe '#html' do
     it 'returns the HTML of the element' do
       html = browser.dl(id: 'experience-list').html.downcase
-      not_compliant_on :internet_explorer do
-        expect(html).to include('<dt class="current-industry">')
-      end
-
-      deviates_on :internet_explorer do
-        expect(html).to include('<dt class=current-industry>')
-      end
-
+      expect(html).to match(/<dt class=?"current-industry?">/)
       expect(html).to_not include('</body>')
     end
   end

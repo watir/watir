@@ -15,23 +15,24 @@ describe 'DateTimeField' do
       expect(browser.date_time_field(text: '')).to exist
       expect(browser.date_time_field(text: //)).to exist
       expect(browser.date_time_field(index: 0)).to exist
-
-      bug 'https://github.com/mozilla/geckodriver/issues/1469', :firefox, :safari do
-        expect(browser.date_time_field(xpath: "//input[@id='html5_datetime-local']")).to exist
-      end
-
       expect(browser.date_time_field(label: 'HTML5 Datetime Local')).to exist
       expect(browser.date_time_field(label: /Local$/)).to exist
+    end
+
+    it 'returns true if the datetime-local element exists',
+       except: [{browser: :firefox, reason: 'https://github.com/mozilla/geckodriver/issues/1469'},
+                {browser: :safari}] do
+      expect(browser.date_time_field(xpath: "//input[@id='html5_datetime-local']")).to exist
     end
 
     it 'returns the date-time field if given no args' do
       expect(browser.date_time_field).to exist
     end
 
-    bug 'https://github.com/mozilla/geckodriver/issues/1469', :firefox, :safari do
-      it 'respects date-time fields types' do
-        expect(browser.date_time_field.type).to eq('datetime-local')
-      end
+    it 'respects date-time fields types',
+       except: [{browser: :firefox, reason: 'https://github.com/mozilla/geckodriver/issues/1469'},
+                {browser: :safari}] do
+      expect(browser.date_time_field.type).to eq('datetime-local')
     end
 
     it 'returns false if the element does not exist' do
@@ -78,10 +79,10 @@ describe 'DateTimeField' do
   end
 
   describe '#type' do
-    bug 'https://github.com/mozilla/geckodriver/issues/1469', :firefox, :safari do
-      it 'returns the type attribute if the date-time field exists' do
-        expect(browser.date_time_field(id: 'html5_datetime-local').type).to eq 'datetime-local'
-      end
+    it 'returns the type attribute if the date-time field exists',
+       except: [{browser: :firefox, reason: 'https://github.com/mozilla/geckodriver/issues/1469'},
+                {browser: :safari}] do
+      expect(browser.date_time_field(id: 'html5_datetime-local').type).to eq 'datetime-local'
     end
 
     it "raises UnknownObjectException if the date-time field doesn't exist" do

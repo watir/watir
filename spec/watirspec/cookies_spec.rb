@@ -41,29 +41,28 @@ describe 'Browser#cookies' do
     end
   end
 
-  not_compliant_on :internet_explorer do
-    it 'adds a cookie without options' do
-      browser.goto set_cookie_url
-      verify_cookies_count 1
+  it 'adds a cookie without options', except: {browser: :internet_explorer} do
+    browser.goto set_cookie_url
+    verify_cookies_count 1
 
-      browser.cookies.add 'foo', 'bar'
-      verify_cookies_count 2
-    end
-
-    it 'adds a cookie with a string expires value' do
-      browser.goto set_cookie_url
-      verify_cookies_count 1
-
-      expire_time = Time.now + 10_000
-
-      browser.cookies.add 'foo', 'bar', expires: expire_time.to_s
-
-      cookie = browser.cookies[:foo]
-      expect(cookie[:expires]).to be_kind_of(Time)
-    end
+    browser.cookies.add 'foo', 'bar'
+    verify_cookies_count 2
   end
 
-  it 'adds a cookie with path' do
+  it 'adds a cookie with a string expires value', except: {browser: :internet_explorer} do
+    browser.goto set_cookie_url
+    verify_cookies_count 1
+
+    expire_time = Time.now + 10_000
+
+    browser.cookies.add 'foo', 'bar', expires: expire_time.to_s
+
+    cookie = browser.cookies[:foo]
+    expect(cookie[:expires]).to be_kind_of(Time)
+  end
+
+  it 'adds a cookie with path',
+     except: {browser: :internet_explorer, reason: 'path contains two slashes'} do
     browser.goto set_cookie_url
 
     options = {path: '/set_cookie'}
@@ -93,42 +92,35 @@ describe 'Browser#cookies' do
     expect((cookie[:expires]).to_i).to be_within(2).of(expires.to_i)
   end
 
-  bug 'https://bugs.chromium.org/p/chromedriver/issues/detail?id=2727', :chrome, :safari, :edge do
-    it 'adds a cookie with security' do
-      browser.goto set_cookie_url
+  # 'https://bugs.chromium.org/p/chromedriver/issues/detail?id=2727'
+  it 'adding cookie with security does not raise exception but can not be retrieved' do
+    browser.goto set_cookie_url
 
-      options = {secure: true}
+    options = {secure: true}
 
-      browser.cookies.add 'secure', 'b', options
-      cookie = browser.cookies.to_a.find { |e| e[:name] == 'secure' }
-      expect(cookie).to_not be_nil
-
-      expect(cookie[:name]).to eq 'secure'
-      expect(cookie[:value]).to eq 'b'
-      expect(cookie[:secure]).to be true
-    end
+    browser.cookies.add 'secure', 'b', options
+    cookie = browser.cookies.to_a.find { |e| e[:name] == 'secure' }
+    expect(cookie).to be_nil
   end
 
-  not_compliant_on :internet_explorer do
-    it 'removes a cookie' do
-      browser.goto set_cookie_url
-      verify_cookies_count 1
+  it 'removes a cookie', except: {browser: :internet_explorer} do
+    browser.goto set_cookie_url
+    verify_cookies_count 1
 
-      browser.cookies.delete 'monster'
-      verify_cookies_count 0
-    end
-
-    it 'clears all cookies' do
-      browser.goto set_cookie_url
-      browser.cookies.add 'foo', 'bar'
-      verify_cookies_count 2
-
-      browser.cookies.clear
-      verify_cookies_count 0
-    end
+    browser.cookies.delete 'monster'
+    verify_cookies_count 0
   end
 
-  not_compliant_on :internet_explorer do
+  it 'clears all cookies', except: {browser: :internet_explorer} do
+    browser.goto set_cookie_url
+    browser.cookies.add 'foo', 'bar'
+    verify_cookies_count 2
+
+    browser.cookies.clear
+    verify_cookies_count 0
+  end
+
+  context 'cookie file', except: {browser: :internet_explorer} do
     let(:file) { "#{Dir.tmpdir}/cookies" }
 
     before do

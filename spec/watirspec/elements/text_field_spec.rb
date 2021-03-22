@@ -26,18 +26,16 @@ describe 'TextField' do
       expect(browser.text_field(label: 'With hidden text')).to exist
       expect(browser.text_field(label: 'With text')).not_to exist
 
-      # These will work after text is deprecated for visible_text
-      # expect(browser.text_field(label: /With hidden text/)).to exist
-      # expect(browser.text_field(label: /With text/)).not_to exist
+      expect(browser.text_field(label: /With hidden text/)).to exist
+      expect(browser.text_field(label: /With text/)).not_to exist
     end
 
-    bug 'Safari is not filtering out hidden text', :safari do
-      it 'returns true in spite of hidden text' do
-        expect(browser.text_field(visible_label: 'With hidden text')).not_to exist
-        expect(browser.text_field(visible_label: 'With text')).to exist
-        expect(browser.text_field(visible_label: /With text/)).to exist
-        expect(browser.text_field(visible_label: /With hidden text/)).not_to exist
-      end
+    it 'returns true in spite of hidden text',
+       except: {browser: :safari, reason: 'Safari is not filtering out hidden text'} do
+      expect(browser.text_field(visible_label: 'With hidden text')).not_to exist
+      expect(browser.text_field(visible_label: 'With text')).to exist
+      expect(browser.text_field(visible_label: /With text/)).to exist
+      expect(browser.text_field(visible_label: /With hidden text/)).not_to exist
     end
 
     it 'locates value of text_field using text locators' do

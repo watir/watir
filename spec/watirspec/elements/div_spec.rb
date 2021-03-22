@@ -75,10 +75,8 @@ describe 'Div' do
   end
 
   describe '#style' do
-    not_compliant_on :internet_explorer do
-      it 'returns the style attribute if the element exists' do
-        expect(browser.div(id: 'best_language').style).to eq 'color: red; text-decoration: underline; cursor: pointer;'
-      end
+    it 'returns the style attribute if the element exists', except: {browser: :internet_explorer} do
+      expect(browser.div(id: 'best_language').style).to eq 'color: red; text-decoration: underline; cursor: pointer;'
     end
 
     it "returns an empty string if the element exists but the attribute doesn't" do
@@ -101,10 +99,9 @@ describe 'Div' do
       expect(browser.div(index: 0).text.strip).to eq ''
     end
 
-    bug 'Safari is not filtering out hidden text', :safari do
-      it 'returns an empty string if the div is hidden' do
-        expect(browser.div(id: 'hidden').text).to eq ''
-      end
+    it 'returns an empty string if the div is hidden',
+       except: {browser: :safari, reason: 'Safari is not filtering out hidden text'} do
+      expect(browser.div(id: 'hidden').text).to eq ''
     end
 
     it 'raises UnknownObjectException if the element does not exist' do
@@ -169,57 +166,46 @@ describe 'Div' do
     end
   end
 
-  bug 'command correctly received, but action not taken', :safari, :w3c do
-    describe '#double_click' do
-      it 'fires the ondblclick event' do
-        div = browser.div(id: 'html_test')
-        div.scroll.to
-        div.double_click
-        expect(messages).to include('double clicked')
-      end
+  describe '#double_click',
+           except: {browser: :safari, reason: 'command correctly received, but action not taken'} do
+    it 'fires the ondblclick event' do
+      div = browser.div(id: 'html_test')
+      div.scroll.to
+      div.double_click
+      expect(messages).to include('double clicked')
+    end
+  end
+
+  describe '#double_click!' do
+    it 'fires the ondblclick event' do
+      browser.div(id: 'html_test').double_click!
+      expect(messages).to include('double clicked')
+    end
+  end
+
+  describe '#right_click' do
+    it 'fires the oncontextmenu event' do
+      browser.goto(WatirSpec.url_for('right_click.html'))
+      browser.div(id: 'click').right_click
+      expect(messages.first).to eq 'right-clicked'
     end
 
-    describe '#double_click!' do
-      it 'fires the ondblclick event' do
-        browser.div(id: 'html_test').double_click!
-        expect(messages).to include('double clicked')
-      end
-    end
-
-    describe '#right_click' do
-      it 'fires the oncontextmenu event' do
-        browser.goto(WatirSpec.url_for('right_click.html'))
-        browser.div(id: 'click').right_click
-        expect(messages.first).to eq 'right-clicked'
-      end
-
-      it 'accepts modifiers' do
-        browser.goto(WatirSpec.url_for('right_click.html'))
-        browser.div(id: 'click-logger').right_click(:control, :alt)
-        expect(event_log.first).to eq('control=true alt=true')
-      end
+    it 'accepts modifiers' do
+      browser.goto(WatirSpec.url_for('right_click.html'))
+      browser.div(id: 'click-logger').right_click(:control, :alt)
+      expect(event_log.first).to eq('control=true alt=true')
     end
   end
 
   describe '#html' do
-    not_compliant_on :internet_explorer do
-      it 'returns the HTML of the element' do
-        html = browser.div(id: 'footer').html.downcase
-        expect(html).to include('id="footer"')
-        expect(html).to include('title="closing remarks"')
-        expect(html).to include('class="profile"')
+    it 'returns the HTML of the element', except: {browser: :internet_explorer} do
+      html = browser.div(id: 'footer').html.downcase
+      expect(html).to include('id="footer"')
+      expect(html).to include('title="closing remarks"')
+      expect(html).to include('class="profile"')
 
-        expect(html).to_not include('<div id="content">')
-        expect(html).to_not include('</body>')
-      end
-    end
-
-    deviates_on :internet_explorer do
-      it 'returns the HTML of the element' do
-        html = browser.div(id: 'footer').html.downcase
-        expect(html).to include('title="closing remarks"')
-        expect(html).to_not include('</body>')
-      end
+      expect(html).to_not include('<div id="content">')
+      expect(html).to_not include('</body>')
     end
   end
 end

@@ -205,20 +205,19 @@ describe 'Radio' do
       expect(messages).to eq ['clicked: new_user_newsletter_no', 'clicked: new_user_newsletter_yes']
     end
 
-    # http://webbugtrack.blogspot.com/2007/11/bug-193-onchange-does-not-fire-properly.html
-    not_compliant_on :internet_explorer do
-      it 'fires the onchange event' do
-        browser.radio(value: 'certainly').set
-        expect(messages).to eq ['changed: new_user_newsletter']
+    it 'fires the onchange event',
+       except: {browser: :internet_explorer,
+                reason: 'http://webbugtrack.blogspot.com/2007/11/bug-193-onchange-does-not-fire-properly.html'} do
+      browser.radio(value: 'certainly').set
+      expect(messages).to eq ['changed: new_user_newsletter']
 
-        browser.radio(value: 'certainly').set
-        expect(messages).to eq ['changed: new_user_newsletter'] # no event fired here - didn't change
+      browser.radio(value: 'certainly').set
+      expect(messages).to eq ['changed: new_user_newsletter'] # no event fired here - didn't change
 
-        browser.radio(value: 'yes').set
-        browser.radio(value: 'certainly').set
-        list = ['changed: new_user_newsletter', 'clicked: new_user_newsletter_yes', 'changed: new_user_newsletter']
-        expect(messages).to eq list
-      end
+      browser.radio(value: 'yes').set
+      browser.radio(value: 'certainly').set
+      list = ['changed: new_user_newsletter', 'clicked: new_user_newsletter_yes', 'changed: new_user_newsletter']
+      expect(messages).to eq list
     end
 
     it "raises UnknownObjectException if the radio button doesn't exist" do

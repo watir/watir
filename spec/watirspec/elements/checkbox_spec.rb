@@ -34,10 +34,8 @@ describe 'CheckBox' do
       expect(browser.checkbox(label: /this will not match/)).to_not exist
     end
 
-    bug 'Safari is not filtering out hidden text', :safari do
-      it 'handles text_regexp deprecation in spite of hidden text' do
-        expect(browser.checkbox(label: /some visible some hidden/)).to exist
-      end
+    it 'handles text_regexp deprecation in spite of hidden text' do
+      expect(browser.checkbox(label: /some visible some hidden/)).to exist
     end
 
     it 'returns true if the checkbox button exists (search by name and value)' do

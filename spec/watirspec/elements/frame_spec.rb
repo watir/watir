@@ -47,15 +47,13 @@ describe 'Frame' do
       expect(browser.frame(xpath: "//frame[@id='no_such_id']")).to_not exist
     end
 
-    bug 'https://bugzilla.mozilla.org/show_bug.cgi?id=1255946', :firefox do
-      it 'handles nested frames' do
-        browser.goto(WatirSpec.url_for('nested_frames.html'))
+    it 'handles nested frames' do
+      browser.goto(WatirSpec.url_for('nested_frames.html'))
 
-        browser.frame(id: 'two').frame(id: 'three').link(id: 'four').click
+      browser.frame(id: 'two').frame(id: 'three').link(id: 'four').click
 
-        Watir::Wait.until { browser.title == 'definition_lists' }
-        expect { browser.goto(WatirSpec.url_for('nested_frames.html')) }.to_not raise_exception
-      end
+      Watir::Wait.until { browser.title == 'definition_lists' }
+      expect { browser.goto(WatirSpec.url_for('nested_frames.html')) }.to_not raise_exception
     end
 
     it "raises TypeError when 'what' argument is invalid" do
@@ -88,24 +86,21 @@ describe 'Frame' do
     expect(browser.frame(index: 0).text_field(name: 'senderElement').value).to eq 'new value'
   end
 
-  bug 'Safari does not strip text', :safari do
-    it "can access the frame's parent element after use" do
-      el = browser.frameset
-      el.frame.text_field.value
-      expect(el.attribute_value('cols')).to be_kind_of(String)
-    end
+  it "can access the frame's parent element after use" do
+    el = browser.frameset
+    el.frame.text_field.value
+    expect(el.attribute_value('cols')).to be_kind_of(String)
   end
 
   describe '#execute_script' do
-    bug 'Safari does not strip text', :safari do
-      it 'executes the given javascript in the specified frame' do
-        frame = browser.frame(index: 0)
-        expect(frame.div(id: 'set_by_js').text).to eq ''
-        inner_html = 'Art consists of limitation. The most beautiful part of every picture is the frame.'
-        frame.execute_script(%{document.getElementById('set_by_js').innerHTML = '#{inner_html}'})
-        text = 'Art consists of limitation. The most beautiful part of every picture is the frame.'
-        expect(frame.div(id: 'set_by_js').text).to eq text
-      end
+    it 'executes the given javascript in the specified frame',
+       except: {browser: :safari, reason: 'Safari does not strip text'} do
+      frame = browser.frame(index: 0)
+      expect(frame.div(id: 'set_by_js').text).to eq ''
+      inner_html = 'Art consists of limitation. The most beautiful part of every picture is the frame.'
+      frame.execute_script(%{document.getElementById('set_by_js').innerHTML = '#{inner_html}'})
+      text = 'Art consists of limitation. The most beautiful part of every picture is the frame.'
+      expect(frame.div(id: 'set_by_js').text).to eq text
     end
   end
 

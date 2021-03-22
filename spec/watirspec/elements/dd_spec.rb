@@ -55,10 +55,9 @@ describe 'Dd' do
       expect(browser.dd(id: 'someone').text).to eq 'John Doe'
     end
 
-    bug 'Safari does not strip text', :safari do
-      it 'returns an empty string if the element exists but contains no text' do
-        expect(browser.dd(class: 'noop').text).to eq ''
-      end
+    it 'returns an empty string if the element exists but contains no text',
+       except: {browser: :safari, reason: 'Safari does not strip text'} do
+      expect(browser.dd(class: 'noop').text).to eq ''
     end
 
     it 'raises UnknownObjectException if the element does not exist' do

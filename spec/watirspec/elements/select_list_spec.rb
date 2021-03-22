@@ -343,11 +343,10 @@ describe 'SelectList' do
         expect(@select_list.selected_options.map(&:text)).to eq %w[Danish Swedish]
       end
 
-      bug 'Safari is returning click intercepted error', :safari do
-        it 'selects empty options' do
-          browser.select_list(id: 'delete_user_username').select('')
-          expect(browser.select_list(id: 'delete_user_username').selected_options.map(&:text)).to eq ['']
-        end
+      it 'selects empty options',
+         except: {browser: :safari, reason: 'Safari throwing ElementNotInteractableError'} do
+        browser.select_list(id: 'delete_user_username').select('')
+        expect(browser.select_list(id: 'delete_user_username').selected_options.map(&:text)).to eq ['']
       end
 
       it 'returns the value selected' do
@@ -368,10 +367,9 @@ describe 'SelectList' do
       end
     end
 
-    bug 'Safari is returning click intercepted error', :safari do
-      it 'returns an empty string when selecting an option that disappears when selected' do
-        expect(browser.select_list(id: 'obsolete').select('sweden')).to eq ''
-      end
+    it 'returns an empty string when selecting an option that disappears when selected',
+       except: {browser: :safari, reason: 'Safari throwing ElementNotInteractableError'} do
+      expect(browser.select_list(id: 'obsolete').select('sweden')).to eq ''
     end
 
     it 'selects options with a single-quoted value' do
@@ -393,11 +391,9 @@ describe 'SelectList' do
         .to raise_no_value_found_exception message
     end
 
-    bug 'Safari is returning object enabled instead of disabled', :safari do
-      it 'raises ObjectDisabledException if the option is disabled' do
-        expect { browser.select_list(name: 'new_user_languages').select('Russian') }
-          .to raise_object_disabled_exception
-      end
+    it 'raises ObjectDisabledException if the option is disabled', except: {browser: :safari} do
+      expect { browser.select_list(name: 'new_user_languages').select('Russian') }
+        .to raise_object_disabled_exception
     end
 
     it 'raises a TypeError if argument is not a String, Regexp or Numeric' do
@@ -586,11 +582,10 @@ describe 'SelectList' do
         .to raise_no_value_found_exception
     end
 
-    bug 'Safari is returning object enabled instead of disabled', :safari do
-      it 'raises ObjectDisabledException if the option is disabled' do
-        expect { browser.select_list(name: 'new_user_languages').select!('Russian') }
-          .to raise_object_disabled_exception
-      end
+    it 'raises ObjectDisabledException if the option is disabled', except: {browser: :safari} do
+      browser.select_list(id: 'new_user_languages').clear
+      expect { browser.select_list(name: 'new_user_languages').select!('Russian') }
+        .to raise_object_disabled_exception
     end
 
     it 'raises a TypeError if argument is not a String, Regexp or Numeric' do

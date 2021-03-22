@@ -14,9 +14,7 @@ describe 'Button' do
       expect(browser.button(name: /new_user_reset/)).to exist
       expect(browser.button(value: 'Button')).to exist
       expect(browser.button(value: /Button/)).to exist
-      not_compliant_on :internet_explorer do
-        expect(browser.button(src: 'images/button.png')).to exist
-      end
+      expect(browser.button(src: 'images/button.png')).to exist
       expect(browser.button(src: /button\.png/)).to exist
       expect(browser.button(text: 'Button 2')).to exist
       expect(browser.button(text: /Button 2/)).to exist
@@ -127,10 +125,8 @@ describe 'Button' do
   end
 
   describe '#style' do
-    not_compliant_on :internet_explorer do
-      it 'returns the style attribute if the button exists' do
-        expect(browser.button(id: 'delete_user_submit').style).to eq 'border: 4px solid red;'
-      end
+    it 'returns the style attribute if the button exists' do
+      expect(browser.button(id: 'delete_user_submit').style).to include 'border: 4px solid red;'
     end
 
     it "returns an empty string if the element exists and the attribute doesn't exist" do

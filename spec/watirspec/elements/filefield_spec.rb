@@ -122,12 +122,10 @@ describe 'FileField' do
       expect(element.value).to include(File.basename(path)) # only some browser will return the full path
     end
 
-    not_compliant_on :internet_explorer, %i[chrome windows] do
-      it 'does not alter its argument' do
-        value = File.expand_path '.rubocop.yml'
-        browser.file_field.value = value
-        expect(value).to match(/\.rubocop\.yml$/)
-      end
+    it 'does not alter its argument', except: {browser: :internet_explorer} do
+      value = File.expand_path '.rubocop.yml'
+      browser.file_field.value = value
+      expect(value).to match(/\.rubocop\.yml$/)
     end
   end
 end

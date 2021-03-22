@@ -9,18 +9,13 @@ describe 'IFrame' do
     browser.goto(WatirSpec.url_for('iframes.html'))
   end
 
-  not_compliant_on :safari do
-    bug 'Firefox 58 broke this, appears to be working in Nightly',
-        %i[firefox linux] do
-      it 'handles crossframe javascript' do
-        browser.goto WatirSpec.url_for('iframes.html')
+  it 'handles crossframe javascript' do
+    browser.goto WatirSpec.url_for('iframes.html')
 
-        expect(browser.iframe(id: 'iframe_1').text_field(name: 'senderElement').value).to eq 'send_this_value'
-        expect(browser.iframe(id: 'iframe_2').text_field(name: 'recieverElement').value).to eq 'old_value'
-        browser.iframe(id: 'iframe_1').button(id: 'send').click
-        expect(browser.iframe(id: 'iframe_2').text_field(name: 'recieverElement').value).to eq 'send_this_value'
-      end
-    end
+    expect(browser.iframe(id: 'iframe_1').text_field(name: 'senderElement').value).to eq 'send_this_value'
+    expect(browser.iframe(id: 'iframe_2').text_field(name: 'recieverElement').value).to eq 'old_value'
+    browser.iframe(id: 'iframe_1').button(id: 'send').click
+    expect(browser.iframe(id: 'iframe_2').text_field(name: 'recieverElement').value).to eq 'send_this_value'
   end
 
   it 'locates an element defined by Selenium Element' do
@@ -116,13 +111,13 @@ describe 'IFrame' do
       expect(browser.iframe(id: 'no_such_id').element).to_not exist
     end
 
-    bug 'https://bugzilla.mozilla.org/show_bug.cgi?id=1255946', :firefox do
-      it 'handles nested iframes' do
-        browser.goto(WatirSpec.url_for('nested_iframes.html'))
-        browser.iframe(id: 'two').iframe(id: 'three').link(id: 'four').click
+    it 'handles nested iframes' do
+      browser.goto(WatirSpec.url_for('nested_iframes.html'))
+      browser.iframe(id: 'two').iframe(id: 'three').link(id: 'four').click
 
-        Watir::Wait.until { browser.title == 'definition_lists' }
-      end
+      expect {
+        browser.wait_until { |b| b.title == 'definition_lists' }
+      }.not_to raise_exception
     end
 
     it "raises TypeError when 'what' argument is invalid" do
@@ -200,16 +195,15 @@ describe 'IFrame' do
   end
 
   describe '#execute_script' do
-    bug 'Safari does not strip text', :safari do
-      it 'executes the given javascript in the specified frame' do
-        frame = browser.iframe(index: 0)
-        expect(frame.div(id: 'set_by_js').text).to eq ''
-        inner_html = 'Art consists of limitation. The most beautiful part of every picture is the frame.'
-        script = "document.getElementById('set_by_js').innerHTML = '#{inner_html}'"
-        frame.execute_script script
-        text = 'Art consists of limitation. The most beautiful part of every picture is the frame.'
-        expect(frame.div(id: 'set_by_js').text).to eq text
-      end
+    it 'executes the given javascript in the specified frame',
+       except: {browser: :safari, reason: 'Safari does not strip text'} do
+      frame = browser.iframe(index: 0)
+      expect(frame.div(id: 'set_by_js').text).to eq ''
+      inner_html = 'Art consists of limitation. The most beautiful part of every picture is the frame.'
+      script = "document.getElementById('set_by_js').innerHTML = '#{inner_html}'"
+      frame.execute_script script
+      text = 'Art consists of limitation. The most beautiful part of every picture is the frame.'
+      expect(frame.div(id: 'set_by_js').text).to eq text
     end
   end
 

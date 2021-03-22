@@ -94,18 +94,16 @@ describe 'Del' do
   end
 
   # Other
-  not_compliant_on :headless do
-    describe '#click' do
-      it 'fires events' do
-        expect(browser.del(class: 'footer').text).to_not include('Javascript')
-        browser.del(class: 'footer').click
-        expect(browser.del(class: 'footer').text).to include('Javascript')
-      end
+  describe '#click', except: {headless: true} do
+    it 'fires events' do
+      expect(browser.del(class: 'footer').text).to_not include('Javascript')
+      browser.del(class: 'footer').click
+      expect(browser.del(class: 'footer').text).to include('Javascript')
+    end
 
-      it "raises UnknownObjectException if the del doesn't exist" do
-        expect { browser.del(id: 'no_such_id').click }.to raise_unknown_object_exception
-        expect { browser.del(title: 'no_such_title').click }.to raise_unknown_object_exception
-      end
+    it "raises UnknownObjectException if the del doesn't exist" do
+      expect { browser.del(id: 'no_such_id').click }.to raise_unknown_object_exception
+      expect { browser.del(title: 'no_such_title').click }.to raise_unknown_object_exception
     end
   end
 end

@@ -101,14 +101,13 @@ describe 'Element' do
       expect(browser.element(visible_text: /Link 2/, class: 'external')).to exist
     end
 
-    bug 'Safari is not filtering out hidden text', :safari do
-      it 'finds elements by visible text in spite of hidden text' do
-        browser.goto WatirSpec.url_for('non_control_elements.html')
+    it 'finds elements by visible text in spite of hidden text',
+       except: {browser: :safari, reason: 'Safari is not filtering out hidden text'} do
+      browser.goto WatirSpec.url_for('non_control_elements.html')
 
-        expect(browser.element(visible_text: 'some visible')).to exist
-        expect(browser.element(visible_text: 'none visible')).not_to exist
-        expect(browser.element(visible_text: /none visible/)).not_to exist
-      end
+      expect(browser.element(visible_text: 'some visible')).to exist
+      expect(browser.element(visible_text: 'none visible')).not_to exist
+      expect(browser.element(visible_text: /none visible/)).not_to exist
     end
 
     it 'raises exception unless value is a String or a RegExp' do
@@ -202,14 +201,13 @@ describe 'Element' do
     end
   end
 
-  bug 'https://github.com/SeleniumHQ/selenium/issues/2555', %i[remote firefox] do
-    bug 'https://github.com/SeleniumHQ/selenium/issues/1795', %i[remote edge] do
-      describe '#focused?' do
-        it 'knows if the element is focused' do
-          expect(browser.element(id: 'new_user_first_name')).to be_focused
-          expect(browser.element(id: 'new_user_last_name')).to_not be_focused
-        end
-      end
+  describe '#focused?',
+           except: {browser: :firefox,
+                    remote: true,
+                    reason: 'https://github.com/SeleniumHQ/selenium/issues/2555'} do
+    it 'knows if the element is focused' do
+      expect(browser.element(id: 'new_user_first_name')).to be_focused
+      expect(browser.element(id: 'new_user_last_name')).to_not be_focused
     end
   end
 
@@ -481,28 +479,28 @@ describe 'Element' do
       expect(events).to eq 10
     end
 
-    bug 'http://code.google.com/p/chromium/issues/detail?id=93879', %i[chrome macosx] do
-      bug 'special keys are not working correctly', :safari, :firefox do
-        it 'performs key combinations' do
-          receiver.send_keys 'foo'
-          receiver.send_keys [@c, 'a']
-          receiver.send_keys :backspace
-          expect(receiver.value).to be_empty
-          expect(events).to eq 6
-        end
+    context 'with key combinations',
+            except: [{browser: :firefox, reason: 'https://github.com/mozilla/geckodriver/issues/245'},
+                     {browser: :safari}] do
+      it 'performs from array' do
+        receiver.send_keys 'foo'
+        receiver.send_keys [@c, 'a']
+        receiver.send_keys :backspace
+        expect(receiver.value).to be_empty
+        expect(events).to eq 6
+      end
 
-        it 'performs arbitrary list of key combinations' do
-          receiver.send_keys 'foo'
-          receiver.send_keys [@c, 'a'], [@c, 'x']
-          expect(receiver.value).to be_empty
-          expect(events).to eq 7
-        end
+      it 'performs from multiple arrays' do
+        receiver.send_keys 'foo'
+        receiver.send_keys [@c, 'a'], [@c, 'x']
+        expect(receiver.value).to be_empty
+        expect(events).to eq 7
+      end
 
-        it 'supports combination of strings and arrays' do
-          receiver.send_keys 'foo', [@c, 'a'], :backspace
-          expect(receiver.value).to be_empty
-          expect(events).to eq 6
-        end
+      it 'supports combination of strings and arrays' do
+        receiver.send_keys 'foo', [@c, 'a'], :backspace
+        expect(receiver.value).to be_empty
+        expect(events).to eq 6
       end
     end
   end
@@ -630,17 +628,15 @@ describe 'Element' do
   end
 
   describe '#hover' do
-    not_compliant_on :internet_explorer do
-      it 'should hover over the element' do
-        browser.goto WatirSpec.url_for('hover.html')
-        link = browser.a
+    it 'should hover over the element', except: {browser: :internet_explorer} do
+      browser.goto WatirSpec.url_for('hover.html')
+      link = browser.a
 
-        expect(link.style('font-size')).to eq '10px'
-        link.scroll.to
-        link.hover
-        link.wait_until { |l| l.style('font-size') == '20px' }
-        expect(link.style('font-size')).to eq '20px'
-      end
+      expect(link.style('font-size')).to eq '10px'
+      link.scroll.to
+      link.hover
+      link.wait_until { |l| l.style('font-size') == '20px' }
+      expect(link.style('font-size')).to eq '20px'
     end
   end
 
@@ -937,18 +933,12 @@ describe 'Element' do
       expect { btn.click }.not_to raise_exception
     end
 
-    it 'returns true if element center is covered by a non-descendant' do
+    it 'returns true if element center is covered by a non-descendant',
+       except: {browser: :safari, reason: 'not getting element click intercepted'} do
       btn = browser.button(id: 'obscured')
       expect(btn).to be_obscured
-      not_compliant_on :chrome, :safari do
-        expect { btn.click }.to raise_exception(Selenium::WebDriver::Error::ElementClickInterceptedError)
-      end
-      compliant_on :chrome do
-        expect { btn.click }.to raise_exception(Selenium::WebDriver::Error::ElementClickInterceptedError)
-      end
-      compliant_on :safari do
-        expect { btn.click }.to raise_exception(Selenium::WebDriver::Error::WebDriverError)
-      end
+
+      expect { btn.click }.to raise_exception(Selenium::WebDriver::Error::ElementClickInterceptedError)
     end
 
     it 'returns false if element center is surrounded by non-descendants' do
@@ -969,12 +959,10 @@ describe 'Element' do
       expect { div.click }.not_to raise_exception
     end
 
-    bug 'Safari is throwing click intercepted here', :safari do
-      it 'returns true if element cannot be scrolled into view' do
-        btn = browser.button(id: 'off_screen')
-        expect(btn).to be_obscured
-        expect { btn.click }.to raise_unknown_object_exception
-      end
+    it 'returns true if element cannot be scrolled into view' do
+      btn = browser.button(id: 'off_screen')
+      expect(btn).to be_obscured
+      expect { btn.click }.to raise_unknown_object_exception
     end
 
     it 'returns true if element is hidden' do

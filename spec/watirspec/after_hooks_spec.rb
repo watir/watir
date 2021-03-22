@@ -85,14 +85,12 @@ describe 'Browser::AfterHooks' do
       expect(@yield).to be true
     end
 
-    bug 'https://gist.github.com/titusfortner/bd32f27ec2458b3a733d83374d156940', :safari do
-      it 'runs after_hooks after Element#submit' do
-        browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
-        @page_after_hook = proc { @yield = browser.div(id: 'messages').text == 'submit' }
-        browser.after_hooks.add @page_after_hook
-        browser.form(id: 'new_user').submit
-        expect(@yield).to be true
-      end
+    it 'runs after_hooks after Element#submit' do
+      browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
+      @page_after_hook = proc { @yield = browser.div(id: 'messages').text == 'submit' }
+      browser.after_hooks.add @page_after_hook
+      browser.form(id: 'new_user').submit
+      expect(@yield).to be true
     end
 
     it 'runs after_hooks after Element#double_click' do
@@ -187,21 +185,19 @@ describe 'Browser::AfterHooks' do
       browser.alert.ok
     end
 
-    bug 'Clicking an Element that Closes a Window is returning NoMatchingWindowFoundException', :safari do
-      bug 'https://github.com/mozilla/geckodriver/issues/1847', :firefox do
-        it 'does not raise error when running error checks on closed window' do
-          url = WatirSpec.url_for('window_switching.html')
-          @page_after_hook = proc { browser.url }
-          browser.after_hooks.add @page_after_hook
-          browser.goto url
-          browser.a(id: 'open').click
+    it 'does not raise error when running error checks on closed window',
+       except: {browser: :safari,
+                reason: 'Clicking an Element that Closes a Window is returning NoMatchingWindowFoundException'} do
+      url = WatirSpec.url_for('window_switching.html')
+      @page_after_hook = proc { browser.url }
+      browser.after_hooks.add @page_after_hook
+      browser.goto url
+      browser.a(id: 'open').click
 
-          window = browser.window(title: 'closeable window')
-          window.use
-          expect { browser.a(id: 'close').click }.to_not raise_error
-          browser.original_window.use
-        end
-      end
+      window = browser.window(title: 'closeable window')
+      window.use
+      expect { browser.a(id: 'close').click }.to_not raise_error
+      browser.original_window.use
     end
   end
 

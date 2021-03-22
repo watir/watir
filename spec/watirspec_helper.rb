@@ -3,7 +3,7 @@ require 'spec_helper'
 require 'webdrivers'
 require 'selenium/webdriver/support/guards'
 
-Watir.default_timeout = 8
+Watir.default_timeout = 5
 
 if ENV['SELENIUM_STATS'] == 'true'
   require 'selenium_statistics'
