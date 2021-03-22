@@ -55,16 +55,21 @@ module Watir
       @default_context = true
     end
 
+    # rubocop:disable Metrics/AbcSize
+    # TODO: w3c default behavior does not like checking if alert exists
     def inspect
       if alert.exists?
         format('#<%s:0x%x alert=true>', self.class, hash * 2)
       else
         format('#<%s:0x%x url=%s title=%s>', self.class, hash * 2, url.inspect, title.inspect)
       end
+    rescue Selenium::WebDriver::Error::NoSuchWindowError
+      format('#<%s:0x%x closed=%s>', self.class, hash * 2, closed?)
     rescue Errno::ECONNREFUSED
       format('#<%s:0x%x closed=true>', self.class, hash * 2)
     end
     alias selector_string inspect
+    # rubocop:enable Metrics/AbcSize
 
     #
     # Returns URL of current page.
@@ -101,12 +106,22 @@ module Watir
     #
 
     def close
-      return if @closed
+      return if closed?
 
       @driver.quit
       @closed = true
     end
     alias quit close
+
+    #
+    # Returns true if browser is closed and false otherwise.
+    #
+    # @return [Boolean]
+    #
+
+    def closed?
+      @closed
+    end
 
     #
     # Handles cookies.
@@ -252,12 +267,12 @@ module Watir
     #
 
     def exist?
-      !@closed && window.present?
+      !closed? && window.present?
     end
     alias exists? exist?
 
     def locate
-      raise Error, 'browser was closed' if @closed
+      raise Error, 'browser was closed' if closed?
 
       ensure_context
     end

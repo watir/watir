@@ -515,7 +515,7 @@ describe 'Element' do
           browser.wait_until { |b| b.windows.size > 1 }
           expect(browser.windows.size).to eq 2
         ensure
-          browser.windows.reject(&:current?).each(&:close)
+          browser.windows.restore!
         end
       end
     end
@@ -535,7 +535,7 @@ describe 'Element' do
         browser.wait_until { |b| b.windows.size > 1 }
         expect(browser.windows.size).to eq 2
       ensure
-        browser.windows.reject(&:current?).each(&:close)
+        browser.windows.restore!
       end
     end
 

@@ -31,6 +31,32 @@ describe 'Browser' do
     end
   end
 
+  describe '#closed?' do
+    it 'returns false if not closed' do
+      expect(browser).to_not be_closed
+    end
+
+    bug 'Clicking an Element that Closes a Window is returning NoMatchingWindowFoundException', :safari do
+      it 'returns false if window is closed but browser is not' do
+        browser.goto WatirSpec.url_for('window_switching.html')
+        browser.a(id: 'open').click
+        Watir::Wait.until { browser.windows.size == 2 }
+        browser.window(title: 'closeable window').use
+        browser.a(id: 'close').click
+        Watir::Wait.until { browser.windows.size == 1 }
+        expect(browser).to_not be_closed
+      ensure
+        browser.windows.restore!
+      end
+    end
+
+    it 'returns false after Browser#close' do
+      browser.close
+      expect(browser).to be_closed
+      $browser = WatirSpec.new_browser
+    end
+  end
+
   # this should be rewritten - the actual string returned varies a lot between implementations
   describe '#html' do
     it 'returns the DOM of the page as an HTML string' do
