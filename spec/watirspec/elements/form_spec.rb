@@ -47,7 +47,7 @@ describe 'Form' do
   describe '#submit' do
     it 'submits the form' do
       browser.form(id: 'delete_user').submit
-      Watir::Wait.until { !browser.url.include? 'forms_with_input_elements.html' }
+      browser.wait_while(url: /forms_with_input_elements\.html$/)
       expect(browser.text).to include('Semantic table')
     end
 

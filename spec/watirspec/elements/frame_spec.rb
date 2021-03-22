@@ -52,7 +52,7 @@ describe 'Frame' do
 
       browser.frame(id: 'two').frame(id: 'three').link(id: 'four').click
 
-      Watir::Wait.until { browser.title == 'definition_lists' }
+      browser.wait_until(title: 'definition_lists')
       expect { browser.goto(WatirSpec.url_for('nested_frames.html')) }.to_not raise_exception
     end
 

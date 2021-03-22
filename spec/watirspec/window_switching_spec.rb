@@ -195,9 +195,9 @@ describe Watir::Window do
 
     describe '#title' do
       it 'returns the title of the window' do
+        browser.wait_while { |b| b.window(title: /^$/).exists? }
         titles = browser.windows.map(&:title)
 
-        expect(titles.size).to eq 2
         expect(titles).to include 'window switching', 'closeable window'
       end
     end
@@ -206,7 +206,6 @@ describe Watir::Window do
       it 'returns the url of the window' do
         urls = browser.windows.map(&:url)
 
-        expect(urls.size).to eq 2
         expect(urls).to(include(/window_switching\.html/, /closeable\.html$/))
       end
     end
@@ -296,7 +295,9 @@ describe Watir::Window do
       end
     end
 
-    it 'raises an exception when using an element on a closed window' do
+    it 'raises an exception when using an element on a closed window',
+       except: {browser: :firefox,
+                reason: 'https://github.com/mozilla/geckodriver/issues/1847'} do
       msg = 'browser window was closed'
       expect { browser.a.text }.to raise_exception(Watir::Exception::NoMatchingWindowFoundException, msg)
     end

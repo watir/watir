@@ -19,7 +19,7 @@ describe Watir do
         Watir.default_timeout = -1
         expect { browser.link.click }.to_not raise_exception
       ensure
-        Watir.default_timeout = 30
+        Watir.default_timeout = 5
       end
     end
   end

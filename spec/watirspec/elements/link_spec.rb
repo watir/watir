@@ -145,7 +145,7 @@ describe 'Link' do
        except: {browser: :safari, reason: 'Safari throws a not interactable error'} do
       browser.goto WatirSpec.url_for('images.html')
       browser.link(href: /definition_lists.html/).click
-      Watir::Wait.while { browser.title == 'Images' || browser.title == '' }
+      browser.wait_while(title: /^(Images|)$/)
       expect(browser.title).to eq 'definition_lists'
     end
   end

@@ -12,10 +12,10 @@ describe 'Browser' do
                 reason: 'Clicking an Element that Closes a Window is returning NoMatchingWindowFoundException'} do
       browser.goto WatirSpec.url_for('window_switching.html')
       browser.a(id: 'open').click
-      Watir::Wait.until { browser.windows.size == 2 }
+      browser.windows.wait_until(size: 2)
       browser.window(title: 'closeable window').use
       browser.a(id: 'close').click
-      Watir::Wait.until { browser.windows.size == 1 }
+      browser.windows.wait_until(size: 1)
       expect(browser.exists?).to be false
     ensure
       browser.windows.restore!
@@ -37,10 +37,10 @@ describe 'Browser' do
                 reason: 'Clicking an Element that Closes a Window is returning NoMatchingWindowFoundException'} do
       browser.goto WatirSpec.url_for('window_switching.html')
       browser.a(id: 'open').click
-      Watir::Wait.until { browser.windows.size == 2 }
+      browser.windows.wait_until(size: 2)
       browser.window(title: 'closeable window').use
       browser.a(id: 'close').click
-      Watir::Wait.until { browser.windows.size == 1 }
+      browser.windows.wait_until(size: 1)
       expect(browser).to_not be_closed
     ensure
       browser.windows.restore!
