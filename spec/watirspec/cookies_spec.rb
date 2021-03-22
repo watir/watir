@@ -4,7 +4,7 @@ describe 'Browser#cookies' do
   after { browser.cookies.clear }
 
   it 'gets an empty list of cookies' do
-    browser.goto WatirSpec.url_for 'collections.html' # no cookie set.
+    browser.goto WatirSpec.url_for 'index.html'
     expect(browser.cookies.to_a).to eq []
   end
 
@@ -42,16 +42,15 @@ describe 'Browser#cookies' do
   end
 
   it 'adds a cookie without options' do
-    browser.goto set_cookie_url
-    verify_cookies_count 1
+    browser.goto WatirSpec.url_for 'index.html'
+    verify_cookies_count 0
 
     browser.cookies.add 'foo', 'bar'
-    verify_cookies_count 2
+    verify_cookies_count 1
   end
 
   it 'adds a cookie with a string expires value' do
-    browser.goto set_cookie_url
-    verify_cookies_count 1
+    browser.goto WatirSpec.url_for 'index.html'
 
     expire_time = Time.now + 10_000
 
@@ -63,38 +62,42 @@ describe 'Browser#cookies' do
 
   it 'adds a cookie with path',
      except: {browser: :ie, reason: 'path contains two slashes'} do
-    browser.goto set_cookie_url
+    browser.goto WatirSpec.url_for 'index.html'
 
     options = {path: '/set_cookie'}
-
     browser.cookies.add 'path', 'b', options
+
+    expect(browser.cookies.to_a).to be_empty
+
+    browser.goto set_cookie_url
     cookie = browser.cookies.to_a.find { |e| e[:name] == 'path' }
 
-    expect(cookie).to_not be_nil
     expect(cookie[:name]).to eq 'path'
     expect(cookie[:value]).to eq 'b'
     expect(cookie[:path]).to eq '/set_cookie'
   end
 
   it 'adds a cookie with expiration' do
-    browser.goto set_cookie_url
+    browser.goto WatirSpec.url_for 'index.html'
 
     expires = Time.now + 10_000
     options = {expires: expires}
 
     browser.cookies.add 'expiration', 'b', options
-    cookie = browser.cookies.to_a.find { |e| e[:name] == 'expiration' }
+    cookie = browser.cookies.to_a.first
 
-    expect(cookie).to_not be_nil
     expect(cookie[:name]).to eq 'expiration'
     expect(cookie[:value]).to eq 'b'
-    # a few ms slack
+
     expect((cookie[:expires]).to_i).to be_within(2).of(expires.to_i)
   end
 
-  # 'https://bugs.chromium.org/p/chromedriver/issues/detail?id=2727'
-  it 'adding cookie with security does not raise exception but can not be retrieved' do
-    browser.goto set_cookie_url
+  # Pending resolution of https://github.com/w3c/webdriver/issues/1571
+  it 'adding cookie with security does not raise exception but can not be retrieved',
+     except: [{browser: :firefox,
+               reason: 'https://github.com/mozilla/geckodriver/issues/1840'},
+              {browser: %i[chrome edge], platform: :windows}] do
+    browser.goto WatirSpec.url_for 'index.html'
 
     options = {secure: true}
 
