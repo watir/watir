@@ -1,4 +1,4 @@
-require 'watirspec_helper'
+require_relative 'unit_helper'
 
 describe Watir::Capabilities do
   before(:all) { Watir.logger.ignore(:watir_client) }

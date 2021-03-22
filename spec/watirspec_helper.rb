@@ -1,6 +1,7 @@
 require 'watirspec'
 require 'spec_helper'
 require 'webdrivers'
+require 'selenium/webdriver/support/guards'
 
 Watir.default_timeout = 8
 
@@ -21,7 +22,6 @@ class LocalConfig
   def configure
     set_webdriver
     set_browser_args
-    set_guard_proc
     load_webdrivers
   end
 
@@ -69,35 +69,6 @@ class LocalConfig
     end
 
     args
-  end
-
-  def set_guard_proc
-    matching_guards = add_guards
-
-    @imp.guard_proc = lambda { |args|
-      args.any? { |arg| matching_guards.include?(arg) }
-    }
-  end
-
-  def add_guards
-    matching_guards = common_guards
-    matching_guards << :local
-    matching_guards << [:local, browser]
-    matching_guards
-  end
-
-  def common_guards
-    matching_guards = [browser]
-    matching_guards << [browser, Selenium::WebDriver::Platform.os]
-    matching_guards << :headless if @imp.browser_args.last[:headless]
-    matching_guards << "v#{Watir::VERSION.tr('.', '_')[/.*(?=_)/]}".to_sym
-    matching_guards << :w3c if ENV['W3C']
-
-    if !Selenium::WebDriver::Platform.linux? || ENV['DESKTOP_SESSION']
-      # some specs (i.e. Window#maximize) needs a window manager on linux
-      matching_guards << :window_manager
-    end
-    matching_guards
   end
 
   def firefox_args
@@ -172,3 +143,35 @@ else
 end
 
 WatirSpec.run!
+
+RSpec.configure do |config|
+  config.before do |example|
+    guards = Selenium::WebDriver::Support::Guards.new(example,
+                                                      bug_tracker: 'https://github.com/watir/watir/issues')
+
+    guards.add_condition(:browser, WatirSpec.implementation.browser_args.first)
+    guards.add_condition(:platform, Selenium::WebDriver::Platform.os)
+
+    headless = WatirSpec.implementation.browser_args.last[:headless]
+    guards.add_condition(:headless, headless)
+
+    window_manager = !Selenium::WebDriver::Platform.linux? || !ENV['DESKTOP_SESSION'].nil?
+    guards.add_condition(:window_manager, window_manager)
+
+    remote = ENV['USE_REMOTE'] == 'true'
+    guards.add_condition(:remote, remote)
+
+    results = guards.disposition
+    send(*results) if results
+
+    $browser = WatirSpec.new_browser if $browser.nil? || $browser.closed?
+  end
+
+  if ENV['AUTOMATIC_RETRY']
+    require 'rspec/retry'
+    config.verbose_retry = true
+    config.display_try_failure_messages = true
+    config.default_retry_count = 3
+    config.exceptions_to_retry = [IOError, Net::ReadTimeout]
+  end
+end

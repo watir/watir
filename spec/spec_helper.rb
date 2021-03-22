@@ -20,13 +20,3 @@ end
 require 'watir'
 require 'locator_spec_helper'
 require 'rspec'
-
-if ENV['AUTOMATIC_RETRY']
-  require 'rspec/retry'
-  RSpec.configure do |config|
-    config.verbose_retry = true
-    config.display_try_failure_messages = true
-    config.default_retry_count = 3
-    config.exceptions_to_retry = [IOError, Net::ReadTimeout]
-  end
-end
