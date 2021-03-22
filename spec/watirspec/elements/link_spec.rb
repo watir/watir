@@ -121,20 +121,24 @@ describe 'Link' do
   end
 
   # Manipulation methods
+  # Note: the #wait_until calls are hacks for Safari specifically
   describe '#click' do
     it 'finds an existing link by (text: String) and clicks it' do
-      browser.link(text: 'Link 3').click
-      expect(browser.text.include?('User administration')).to be true
+      element = browser.link(text: 'Link 3')
+      element.wait_until { |link| !link.exist? || link.click }
+      expect(browser.h1(text: 'User administration')).to exist
     end
 
     it 'finds an existing link by (text: Regexp) and clicks it' do
-      browser.link(href: /forms_with_input_elements/).click
-      expect(browser.text.include?('User administration')).to be true
+      element = browser.link(href: /forms_with_input_elements/)
+      element.wait_until { |link| !link.exist? || link.click }
+      expect(browser.h1(text: 'User administration')).to exist
     end
 
     it 'finds an existing link by (index: Integer) and clicks it' do
-      browser.link(index: 2).click
-      expect(browser.text.include?('User administration')).to be true
+      element = browser.link(index: 2)
+      element.wait_until { |link| !link.exist? || link.click }
+      expect(browser.h1(text: 'User administration')).to exist
     end
 
     it "raises an UnknownObjectException if the link doesn't exist" do

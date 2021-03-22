@@ -186,10 +186,11 @@ describe 'Browser::AfterHooks' do
     end
 
     it 'does not raise error when running error checks on closed window',
-       except: [{browser: :safari,
-                 reason: 'Clicking an Element that Closes a Window is returning NoMatchingWindowFoundException'},
-                {browser: :firefox,
-                 reason: 'https://github.com/mozilla/geckodriver/issues/1847 (intermittent)'}] do
+       except: {browser: :safari,
+                reason: 'Clicking an Element that Closes a Window is returning NoMatchingWindowFoundException'},
+       exclude: {browser: :firefox,
+                 platform: :windows,
+                 reason: 'https://github.com/mozilla/geckodriver/issues/1847'} do
       url = WatirSpec.url_for('window_switching.html')
       @page_after_hook = proc { browser.url }
       browser.after_hooks.add @page_after_hook

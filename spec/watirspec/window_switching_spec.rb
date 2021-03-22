@@ -296,8 +296,9 @@ describe Watir::Window do
     end
 
     it 'raises an exception when using an element on a closed window',
-       except: {browser: :firefox,
-                reason: 'https://github.com/mozilla/geckodriver/issues/1847'} do
+       exclude: {browser: :firefox,
+                 platform: :windows,
+                 reason: 'https://github.com/mozilla/geckodriver/issues/1847'} do
       msg = 'browser window was closed'
       expect { browser.a.text }.to raise_exception(Watir::Exception::NoMatchingWindowFoundException, msg)
     end

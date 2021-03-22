@@ -319,6 +319,7 @@ describe 'Browser' do
   describe '.start' do
     it 'goes to the given URL and return an instance of itself' do
       browser.close
+      sleep 0.5
       driver, args = WatirSpec.implementation.browser_args
       b = Watir::Browser.start(WatirSpec.url_for('non_control_elements.html'), driver, args.dup)
 

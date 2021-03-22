@@ -2,6 +2,7 @@ require 'watirspec_helper'
 
 describe 'Element' do
   before :each do
+    @c = Selenium::WebDriver::Platform.mac? ? :command : :control
     browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
   end
 
@@ -460,7 +461,6 @@ describe 'Element' do
 
   describe '#send_keys' do
     before(:each) do
-      @c = Selenium::WebDriver::Platform.mac? ? :command : :control
       browser.goto(WatirSpec.url_for('keylogger.html'))
     end
 
@@ -506,16 +506,12 @@ describe 'Element' do
   end
 
   describe '#click' do
-    bug 'Element has been located but Safari does not recognize it', :safari do
-      bug 'https://bugs.chromium.org/p/chromedriver/issues/detail?id=2732', :w3c do
-        it 'accepts modifiers' do
-          browser.a.click(:shift)
-          browser.wait_until { |b| b.windows.size > 1 }
-          expect(browser.windows.size).to eq 2
-        ensure
-          browser.windows.restore!
-        end
-      end
+    it 'accepts modifiers' do
+      browser.a.click(@c)
+      browser.wait_until { |b| b.windows.size > 1 }
+      expect(browser.windows.size).to eq 2
+    ensure
+      browser.windows.restore!
     end
   end
 
@@ -526,15 +522,12 @@ describe 'Element' do
       expect(browser.div(id: 'best_language').text).to eq 'Ruby!'
     end
 
-    bug 'Element has been located but Safari does not recognize it', :safari do
-      it 'clicks an element that does not define #set with provided modifiers' do
-        browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
-        browser.a.set(:shift)
-        browser.wait_until { |b| b.windows.size > 1 }
-        expect(browser.windows.size).to eq 2
-      ensure
-        browser.windows.restore!
-      end
+    it 'clicks an element that does not define #set with provided modifiers' do
+      browser.a.set(@c)
+      browser.wait_until { |b| b.windows.size > 1 }
+      expect(browser.windows.size).to eq 2
+    ensure
+      browser.windows.restore!
     end
 
     it 'does not click an element that does not define #set when passed false' do
@@ -862,27 +855,20 @@ describe 'Element' do
     end
   end
 
-  describe 'Float Attribute' do
-    it 'returns Float value of applicable element' do
+  describe 'Numeric Attribute' do
+    it 'returns Float value' do
       element = browser.text_field(id: 'number')
       expect(element.valueasnumber).to be_a Float
     end
 
-    it 'returns nil value for an inapplicable Element' do
+    it 'returns nil for unspecified value' do
       element = browser.input
       expect(element.valueasnumber).to be_nil
     end
-  end
 
-  describe 'Integer Attribute' do
-    it 'returns Float value of applicable element' do
+    it 'returns Integer value' do
       element = browser.form
       expect(element.length).to be_a Integer
-    end
-
-    it 'returns -1 for an inapplicable Element' do
-      element = browser.input
-      expect(element.maxlength).to eq(-1)
     end
   end
 

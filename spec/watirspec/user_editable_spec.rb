@@ -5,13 +5,13 @@ describe Watir::UserEditable do
     browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
   end
 
-  describe '#append', except: {browser: :safari, reason: 'incorrectly clears first'} do
-    it 'appends the text to the text field' do
+  describe '#append' do
+    it 'appends the text to the text field', except: {browser: :safari, reason: 'incorrectly clears first'} do
       browser.text_field(name: 'new_user_occupation').append(' Append This')
       expect(browser.text_field(name: 'new_user_occupation').value).to eq 'Developer Append This'
     end
 
-    it 'appends multi-byte characters' do
+    it 'appends multi-byte characters', except: {browser: :safari, reason: 'incorrectly clears first'} do
       browser.text_field(name: 'new_user_occupation').append(' ĳĳ')
       expect(browser.text_field(name: 'new_user_occupation').value).to eq 'Developer ĳĳ'
     end
