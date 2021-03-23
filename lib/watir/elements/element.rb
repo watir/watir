@@ -692,7 +692,7 @@ module Watir
 
     def wait_for_enabled
       wait_for_exists
-      return unless [Input, Button, Select, Option].any? { |c| is_a? c } || content_editable
+      return unless [Input, Button, Select, Option].any? { |c| is_a? c } || @content_editable
       return if enabled?
 
       begin
