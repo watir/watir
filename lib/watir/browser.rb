@@ -179,6 +179,16 @@ module Watir
     end
 
     #
+    # Allows using Selenium Actions Class like Selenium
+    #
+    # @return [Selenium::WebDriver::ActionBuilder]
+    #
+
+    def action
+      wd.action
+    end
+
+    #
     # Waits until readyState of document is complete.
     #
     # @example

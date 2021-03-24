@@ -149,7 +149,7 @@ module Watir
     def click(*modifiers)
       element_call(:wait_for_enabled) do
         if modifiers.any?
-          action = driver.action
+          action = browser.action
           modifiers.each { |mod| action.key_down mod }
           action.click @element
           modifiers.each { |mod| action.key_up mod }
@@ -204,7 +204,7 @@ module Watir
     #
 
     def double_click
-      element_call(:wait_for_present) { driver.action.double_click(@element).perform }
+      element_call(:wait_for_present) { browser.action.double_click(@element).perform }
       browser.after_hooks.run
     end
 
@@ -239,7 +239,7 @@ module Watir
 
     def right_click(*modifiers)
       element_call(:wait_for_present) do
-        action = driver.action
+        action = browser.action
         if modifiers.any?
           modifiers.each { |mod| action.key_down mod }
           action.context_click(@element)
@@ -262,7 +262,7 @@ module Watir
     #
 
     def hover
-      element_call(:wait_for_present) { driver.action.move_to(@element).perform }
+      element_call(:wait_for_present) { browser.action.move_to(@element).perform }
     end
 
     #
@@ -279,9 +279,9 @@ module Watir
       assert_is_element other
 
       value = element_call(:wait_for_present) do
-        driver.action
-              .drag_and_drop(@element, other.wd)
-              .perform
+        browser.action
+               .drag_and_drop(@element, other.wd)
+               .perform
       end
       browser.after_hooks.run
       value
@@ -300,9 +300,9 @@ module Watir
 
     def drag_and_drop_by(right_by, down_by)
       element_call(:wait_for_present) do
-        driver.action
-              .drag_and_drop_by(@element, right_by, down_by)
-              .perform
+        browser.action
+               .drag_and_drop_by(@element, right_by, down_by)
+               .perform
       end
     end
 
