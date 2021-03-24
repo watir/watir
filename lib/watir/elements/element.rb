@@ -204,7 +204,10 @@ module Watir
     #
 
     def double_click
-      element_call(:wait_for_present) { driver.action.double_click(@element).perform }
+      element_call(:wait_for_present) do
+        scroll.to
+        driver.action.double_click(@element).perform
+      end
       browser.after_hooks.run
     end
 
@@ -239,6 +242,7 @@ module Watir
 
     def right_click(*modifiers)
       element_call(:wait_for_present) do
+        scroll.to
         action = driver.action
         if modifiers.any?
           modifiers.each { |mod| action.key_down mod }
@@ -262,7 +266,10 @@ module Watir
     #
 
     def hover
-      element_call(:wait_for_present) { driver.action.move_to(@element).perform }
+      element_call(:wait_for_present) do
+        scroll.to
+        driver.action.move_to(@element).perform
+      end
     end
 
     #
@@ -279,6 +286,7 @@ module Watir
       assert_is_element other
 
       value = element_call(:wait_for_present) do
+        scroll.to
         driver.action
               .drag_and_drop(@element, other.wd)
               .perform
@@ -300,6 +308,7 @@ module Watir
 
     def drag_and_drop_by(right_by, down_by)
       element_call(:wait_for_present) do
+        scroll.to
         driver.action
               .drag_and_drop_by(@element, right_by, down_by)
               .perform

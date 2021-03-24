@@ -195,6 +195,11 @@ describe 'Div' do
       browser.div(id: 'click-logger').right_click(:control, :alt)
       expect(event_log.first).to eq('control=true alt=true')
     end
+
+    it 'scrolls' do
+      browser.del(class: 'footer').double_click
+      puts 'yes?'
+    end
   end
 
   describe '#html' do
