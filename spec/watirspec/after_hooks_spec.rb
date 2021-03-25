@@ -113,28 +113,6 @@ describe 'Browser::AfterHooks' do
       expect(@yield).to be true
     end
 
-    it 'runs after_hooks after FramedDriver#switch!' do
-      browser.goto(WatirSpec.url_for('iframes.html'))
-      @page_after_hook = proc { @yield = browser.title == 'Iframes' }
-      browser.after_hooks.add @page_after_hook
-
-      browser.iframe.element(css: '#senderElement').exists?
-
-      expect(@yield).to be true
-    end
-
-    it 'runs after_hooks after Browser#ensure_context if not @default_context' do
-      browser.goto(WatirSpec.url_for('iframes.html'))
-      browser.iframe.element(css: '#senderElement').locate
-
-      @page_after_hook = proc { @yield = browser.title == 'Iframes' }
-      browser.after_hooks.add @page_after_hook
-
-      browser.locate
-
-      expect(@yield).to be true
-    end
-
     it 'runs after_hooks after Alert#ok' do
       browser.goto(WatirSpec.url_for('alerts.html'))
       @page_after_hook = proc { @yield = browser.title == 'Alerts' }

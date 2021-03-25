@@ -282,7 +282,6 @@ module Watir
 
       driver.switch_to.default_content
       @default_context = true
-      after_hooks.run
     end
 
     def browser
