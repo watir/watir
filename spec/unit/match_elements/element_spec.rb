@@ -332,6 +332,17 @@ describe Watir::Locators::Element::Matcher do
     end
 
     context 'when matching Regular Expressions' do
+      it 'with white space' do
+        allow(browser).to receive(:execute_script).and_return("\n matching \n", 'no', 'matching')
+
+        elements = [wd_element,
+                    wd_element,
+                    wd_element]
+        @values_to_match = {text: /^matching$/}
+
+        expect(matcher.match(elements, values_to_match, @filter)).to eq [elements[0], elements[2]]
+      end
+
       it 'with tag_name' do
         elements = [wd_element(tag_name: 'div'),
                     wd_element(tag_name: 'span'),
