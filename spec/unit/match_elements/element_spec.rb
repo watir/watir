@@ -333,12 +333,12 @@ describe Watir::Locators::Element::Matcher do
 
     context 'when matching Regular Expressions' do
       it 'with white space' do
-        allow(browser).to receive(:execute_script).and_return("\n matching \n", 'no', 'matching')
+        allow(browser).to receive(:execute_script).and_return("\n match this \n", 'no', 'match  this')
 
         elements = [wd_element,
                     wd_element,
                     wd_element]
-        @values_to_match = {text: /^matching$/}
+        @values_to_match = {text: /^match this$/}
 
         expect(matcher.match(elements, values_to_match, @filter)).to eq [elements[0], elements[2]]
       end
