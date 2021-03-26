@@ -82,7 +82,7 @@ module Watir
           when :tag_name
             element.tag_name.downcase
           when :text
-            execute_js(:getTextContent, element).strip
+            execute_js(:getTextContent, element).gsub(/\s+/, ' ').strip
           when :visible
             element.displayed?
           when :visible_text

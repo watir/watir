@@ -6,7 +6,7 @@ module Watir
           case how
           when :any
             [element.attribute(:value),
-             execute_js(:getTextContent, element),
+             execute_js(:getTextContent, element).gsub(/\s+/, ' ').strip,
              element.attribute(:label)]
           else
             super
