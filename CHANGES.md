@@ -1,3 +1,19 @@
+### 7.0.0.beta2 (2021-03-28)
+
+* Replace Watir Logger implementation with Selenium Logger subclass
+* Change Watir Guards to use Selenium's new Guards. Tests run as pending when guarded.
+* Implement `#set` as standard interface for each Input Element (#405)
+* Implement `Element#set` to take correct `#set` behavior based on evaluated element (#664)
+* Optimize Performance for Select Lists (#846)
+* Allow user to set values on Select List exclusively by `:label`, `:text`, or `:value` (#846)
+* Allow user to check if option selected in Select List by `:label`, `:text`, or `:value` (#929)
+* Implement `Window#restore!` to return to original Window and close all others (#923)
+* Minor performance improvement for iterating over windows (#923)
+* Implement `Browser#closed?`; same as `Browser#exists?` without the Windows checks (#923)
+* Update methods that use Selenium's Actions class to scroll element into view before acting (#847)
+* Fix bug for `:text` locator with `Regexp` value based on whitespace (#924)
+* Remove executing after hooks when changing frames (#888)
+
 ### 7.0.0.beta1 (2021-03-18)
 
 * Requires Selenium 4
