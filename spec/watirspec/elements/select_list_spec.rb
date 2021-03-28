@@ -220,27 +220,63 @@ describe 'SelectList' do
   end
 
   describe '#selected?' do
-    it 'returns true if the given option is selected by text' do
-      browser.select_list(name: 'new_user_country').select('Denmark')
+    it 'evaluates true by text' do
+      browser.select_list(name: 'new_user_country').select('1')
       expect(browser.select_list(name: 'new_user_country')).to be_selected('Denmark')
     end
 
-    it 'returns false if the given option is not selected by text' do
+    it 'evaluates false by text' do
       expect(browser.select_list(name: 'new_user_country')).to_not be_selected('Sweden')
     end
 
-    it 'returns true if the given option is selected by label' do
+    it 'evaluates true exclusively by text' do
+      browser.select_list(name: 'new_user_country').select('1')
+      expect(browser.select_list(name: 'new_user_country')).to be_selected(text: 'Denmark')
+    end
+
+    it 'evaluates false exclusively by text' do
+      expect(browser.select_list(name: 'new_user_country')).to_not be_selected(text: 'Sweden')
+    end
+
+    it 'evaluates true by label' do
       browser.select_list(name: 'new_user_country').select('Germany')
       expect(browser.select_list(name: 'new_user_country')).to be_selected('Germany')
     end
 
-    it 'returns false if the given option is not selected by label' do
+    it 'evaluates false by label' do
       expect(browser.select_list(name: 'new_user_country')).to_not be_selected('Germany')
     end
 
-    it "raises UnknownObjectException if the option doesn't exist" do
+    it 'evaluates true exclusively by label' do
+      browser.select_list(name: 'new_user_country').select('Germany')
+      expect(browser.select_list(name: 'new_user_country')).to be_selected(label: 'Germany')
+    end
+
+    it 'evaluates false exclusively by label' do
+      expect(browser.select_list(name: 'new_user_country')).to_not be_selected(label: 'Germany')
+    end
+
+    it 'evaluates true by value' do
+      browser.select_list(name: 'new_user_country').select('USA')
+      expect(browser.select_list(name: 'new_user_country')).to be_selected('5')
+    end
+
+    it 'evaluates false by value' do
+      expect(browser.select_list(name: 'new_user_country')).to_not be_selected('5')
+    end
+
+    it 'evaluates true exclusively by value' do
+      browser.select_list(name: 'new_user_country').select('USA')
+      expect(browser.select_list(name: 'new_user_country')).to be_selected(value: '5')
+    end
+
+    it 'evaluates false exclusively by value' do
+      expect(browser.select_list(name: 'new_user_country')).to_not be_selected(value: '5')
+    end
+
+    it "raises NoValueFoundException if the option doesn't exist" do
       expect { browser.select_list(name: 'new_user_country').selected?('missing_option') }
-        .to raise_unknown_object_exception
+        .to raise_no_value_found_exception
     end
   end
 

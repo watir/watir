@@ -65,16 +65,10 @@ module Watir
     # @return [Boolean]
     #
 
-    def selected?(str_or_rx)
-      by_text = options(text: str_or_rx)
-      return true if by_text.find(&:selected?)
+    def selected?(*str_or_rx, text: nil, value: nil, label: nil)
+      key, value = parse_select_args(str_or_rx, text, value, label)
 
-      by_label = options(label: str_or_rx)
-      return true if by_label.find(&:selected?)
-
-      return false unless (by_text.size + by_label.size).zero?
-
-      raise(UnknownObjectException, "Unable to locate option matching #{str_or_rx.inspect}")
+      find_option(key, value.first).selected?
     end
 
     #
