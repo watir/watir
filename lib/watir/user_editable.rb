@@ -15,15 +15,22 @@ module Watir
     alias value= set
 
     #
-    # Uses JavaScript to enter most of the given value.
-    # Selenium is used to enter the first and last characters
+    # Returns true if element is user_editable because it has a content_editable attribute set
     #
-    # @param [String, Symbol] args
+    # @return [Boolean]
     #
 
     def content_editable
       defined?(@content_editable) && content_editable?
     end
+
+    #
+    # Uses JavaScript to enter most of the given value.
+    # Selenium is used to enter the first and last characters
+    # This might provide a performance improvement when entering a lot of text on a local machine
+    #
+    # @param [String, Symbol] args
+    #
 
     def set!(*args)
       msg = '#set! does not support special keys, use #set instead'

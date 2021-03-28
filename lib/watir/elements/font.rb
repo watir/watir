@@ -2,6 +2,7 @@ module Watir
   class Font < HTMLElement
     #
     # size of font
+    # This is in the whatwg spec was not generated: https://html.spec.whatwg.org/#htmlfontelement
     #
     # @return [Integer]
     #
