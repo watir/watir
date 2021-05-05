@@ -63,15 +63,26 @@ module Watir
     end
 
     def process_browser_options
-      browser_options = @options.delete(:options) || {}
+      browser_options = @options.delete(:options).dup || {}
+      vendor_caps = process_vendor_capabilities(browser_options)
 
-      options = browser_options if browser_options.is_a? Selenium::WebDriver::Options
-      options ||= Selenium::WebDriver::Options.send(@browser, **browser_options)
+      options = if browser_options.is_a? Selenium::WebDriver::Options
+                  browser_options
+                else
+                  Selenium::WebDriver::Options.send(@browser, **browser_options)
+                end
 
       browser_specific_options(options)
       raise ArgumentError, "#{@options} are unrecognized arguments for Browser constructor" unless @options.empty?
 
-      options
+      vendor_caps << options
+    end
+
+    def process_vendor_capabilities(opts)
+      return [] unless opts.is_a? Hash
+
+      vendor = opts.select { |key, _val| key.to_s.include?(':') && opts.delete(key) }
+      vendor.map { |k, v| Selenium::WebDriver::Remote::Capabilities.new(k => v) }
     end
 
     def browser_specific_options(options)

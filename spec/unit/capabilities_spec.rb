@@ -48,7 +48,7 @@ describe Watir::Capabilities do
 
       args = capabilities.to_args
       expect(args.last[:http_client]).to be_a Watir::HttpClient
-      expect(args.last[:capabilities]).to be_a options_class(browser_symbol)
+      expect(args.last[:capabilities].first).to be_a options_class(browser_symbol)
       expect(args.last).not_to include(:service)
     end
 
@@ -58,7 +58,7 @@ describe Watir::Capabilities do
       args = capabilities.to_args
 
       expect(args.last[:http_client]).to be_a Watir::HttpClient
-      expect(args.last[:capabilities]).to be_a options_class(browser_symbol)
+      expect(args.last[:capabilities].first).to be_a options_class(browser_symbol)
       expect(args.last).not_to include(:service)
     end
 
@@ -167,7 +167,7 @@ describe Watir::Capabilities do
       capabilities = Watir::Capabilities.new(url: 'http://example.com')
       args = capabilities.to_args
       expect(args.first).to eq :remote
-      actual_options = args.last[:capabilities]
+      actual_options = args.last[:capabilities].first
       expect(actual_options.browser_name).to eq 'chrome'
     end
 
@@ -179,7 +179,7 @@ describe Watir::Capabilities do
       expect(args.last[:url]).to eq 'https://example.com/wd/hub/'
       expect(args.last[:http_client]).to be_a Watir::HttpClient
 
-      expect(args.last[:capabilities]).to be_a Selenium::WebDriver::Firefox::Options
+      expect(args.last[:capabilities].first).to be_a Selenium::WebDriver::Firefox::Options
       expect(args.last).not_to include(:service)
     end
 
@@ -200,7 +200,7 @@ describe Watir::Capabilities do
       args = capabilities.to_args
       expect(args.first).to eq :remote
       expect(args.last[:http_client]).to eq client
-      actual_options = args.last[:capabilities]
+      actual_options = args.last[:capabilities].first
       expect(actual_options.browser_name).to eq 'chrome'
     end
 
@@ -211,7 +211,7 @@ describe Watir::Capabilities do
       args = capabilities.to_args
       expect(args.first).to eq :remote
       expect(args.last[:http_client].instance_variable_get('@read_timeout')).to eq 30
-      actual_options = args.last[:capabilities]
+      actual_options = args.last[:capabilities].first
       expect(actual_options.browser_name).to eq 'chrome'
     end
 
@@ -221,7 +221,7 @@ describe Watir::Capabilities do
                                              options: Selenium::WebDriver::Chrome::Options.new(args: ['--foo']))
       args = capabilities.to_args
       expect(args.first).to eq :remote
-      actual_options = args.last[:capabilities]
+      actual_options = args.last[:capabilities].first
       expect(actual_options.browser_name).to eq 'chrome'
       expect(actual_options.args).to include('--foo')
     end
@@ -234,7 +234,7 @@ describe Watir::Capabilities do
       args = capabilities.to_args
       expect(args.first).to eq :remote
       expect(args.last[:url]).to eq 'http://example.com'
-      actual_options = args.last[:capabilities]
+      actual_options = args.last[:capabilities].first
       expect(actual_options).to be_a(Selenium::WebDriver::Chrome::Options)
       expect(actual_options.prefs).to eq(foo: 'bar')
     end
@@ -276,7 +276,7 @@ describe Watir::Capabilities do
       args = caps.to_args
       expect(args.first).to eq :remote
       expect(args.last[:http_client]).to eq client
-      actual_options = args.last[:capabilities]
+      actual_options = args.last[:capabilities].first
       expect(actual_options).to be_a(Selenium::WebDriver::Chrome::Options)
       expect(actual_options.prefs).to eq(foo: 'bar')
     end
@@ -297,7 +297,7 @@ describe Watir::Capabilities do
                                              headless: true,
                                              url: 'http://example.com')
       args = capabilities.to_args
-      actual_options = args.last[:capabilities]
+      actual_options = args.last[:capabilities].first
       expect(actual_options.args).to include '--headless', '--disable-gpu'
     end
 
@@ -307,17 +307,22 @@ describe Watir::Capabilities do
                                              url: 'http://example.com')
       args = capabilities.to_args
 
-      expect(args.last[:capabilities].args).to include '-headless'
+      expect(args.last[:capabilities].first.args).to include '-headless'
     end
 
-    it 'allows sending to Browser Service Provider via options' do
+    it 'supports multiple vendor capabilities' do
+      sauce_options = {'sauce:options': {username: ENV['SAUCE_USERNAME'],
+                                         access_key: ENV['SAUCE_ACCESS_KEY']}}
+      other_options = {'other:options': {foo: 'bar'}}
+
       capabilities = Watir::Capabilities.new(:chrome,
-                                             options: {'sauce:options': {username: ENV['SAUCE_USERNAME'],
-                                                                         access_key: ENV['SAUCE_ACCESS_KEY']}},
+                                             options: sauce_options.merge(other_options),
                                              url: 'https://ondemand.us-west-1.saucelabs.com')
-      args = capabilities.to_args
-      actual_options = args.last[:capabilities].instance_variable_get('@options')
-      expect(actual_options[:'sauce:options']).to include :username, :access_key
+
+      se_caps = capabilities.to_args.last[:capabilities]
+      expect(se_caps).to include(Selenium::WebDriver::Chrome::Options.new)
+      expect(se_caps).to include(Selenium::WebDriver::Remote::Capabilities.new(sauce_options))
+      expect(se_caps).to include(Selenium::WebDriver::Remote::Capabilities.new(other_options))
     end
   end
 
@@ -326,14 +331,14 @@ describe Watir::Capabilities do
       capabilities = Watir::Capabilities.new
       args = capabilities.to_args
       expect(args.last[:http_client]).to be_a Watir::HttpClient
-      expect(args.last[:capabilities]).to be_a Selenium::WebDriver::Chrome::Options
+      expect(args.last[:capabilities].first).to be_a Selenium::WebDriver::Chrome::Options
       expect(args.last).not_to include(:service)
     end
 
     it 'sets headless by creating options' do
       capabilities = Watir::Capabilities.new(:chrome, headless: true)
       args = capabilities.to_args
-      actual_options = args.last[:capabilities]
+      actual_options = args.last[:capabilities].first
       expect(actual_options.args).to include '--headless', '--disable-gpu'
     end
 
@@ -342,7 +347,7 @@ describe Watir::Capabilities do
                                              options: Selenium::WebDriver::Chrome::Options.new,
                                              headless: true)
       args = capabilities.to_args
-      actual_options = args.last[:capabilities]
+      actual_options = args.last[:capabilities].first
       expect(actual_options.args).to include '--headless', '--disable-gpu'
     end
 
@@ -352,7 +357,7 @@ describe Watir::Capabilities do
                                              options: options,
                                              headless: true)
       args = capabilities.to_args
-      actual_options = args.last[:capabilities]
+      actual_options = args.last[:capabilities].first
       expect(actual_options.args).to include '--headless', '--disable-gpu', '--foo'
     end
 
@@ -360,7 +365,7 @@ describe Watir::Capabilities do
       options = {args: %w[--foo --bar]}
       capabilities = Watir::Capabilities.new(:chrome, options: options)
       args = capabilities.to_args
-      actual_options = args.last[:capabilities]
+      actual_options = args.last[:capabilities].first
       expect(actual_options).to be_a Selenium::WebDriver::Chrome::Options
       expect(actual_options.args).to include '--foo', '--bar'
     end
@@ -371,7 +376,7 @@ describe Watir::Capabilities do
       capabilities = Watir::Capabilities.new(:chrome,
                                              options: opts)
       args = capabilities.to_args
-      actual_options = args.last[:capabilities]
+      actual_options = args.last[:capabilities].first
       expect(actual_options.page_load_strategy).to eq 'eager'
       expect(actual_options.args).to include '--foo', '--bar'
     end
@@ -384,7 +389,7 @@ describe Watir::Capabilities do
 
       capabilities = Watir::Capabilities.new(:firefox, options: options)
 
-      actual_options = capabilities.to_args.last[:capabilities]
+      actual_options = capabilities.to_args.last[:capabilities].first
       expect(actual_options.args).to include '--foo'
       expect(actual_options.profile).to eq profile
     end
@@ -395,7 +400,7 @@ describe Watir::Capabilities do
 
       capabilities = Watir::Capabilities.new(:firefox, options: options)
 
-      actual_options = capabilities.to_args.last[:capabilities]
+      actual_options = capabilities.to_args.last[:capabilities].first
       expect(actual_options.args).to include '--foo'
       expect(actual_options.profile).to eq profile
     end
@@ -403,7 +408,7 @@ describe Watir::Capabilities do
     it 'sets headless by creating options' do
       capabilities = Watir::Capabilities.new(:firefox, headless: true)
       args = capabilities.to_args
-      actual_options = args.last[:capabilities]
+      actual_options = args.last[:capabilities].first
       expect(actual_options.args).to include '-headless'
     end
 
@@ -412,7 +417,7 @@ describe Watir::Capabilities do
                                              options: Selenium::WebDriver::Firefox::Options.new,
                                              headless: true)
       args = capabilities.to_args
-      actual_options = args.last[:capabilities]
+      actual_options = args.last[:capabilities].first
       expect(actual_options.args).to include '-headless'
     end
 
@@ -422,7 +427,7 @@ describe Watir::Capabilities do
                                              options: options,
                                              headless: true)
       args = capabilities.to_args
-      actual_options = args.last[:capabilities]
+      actual_options = args.last[:capabilities].first
       expect(actual_options.args).to include '-headless', '-foo'
     end
 
@@ -430,7 +435,7 @@ describe Watir::Capabilities do
       options = {args: %w[--foo --bar]}
       capabilities = Watir::Capabilities.new(:firefox, options: options)
       args = capabilities.to_args
-      actual_options = args.last[:capabilities]
+      actual_options = args.last[:capabilities].first
       expect(actual_options).to be_a Selenium::WebDriver::Firefox::Options
       expect(actual_options.args).to include '--foo', '--bar'
     end
@@ -441,7 +446,7 @@ describe Watir::Capabilities do
       capabilities = Watir::Capabilities.new(:firefox,
                                              options: opts)
       args = capabilities.to_args
-      actual_options = args.last[:capabilities]
+      actual_options = args.last[:capabilities].first
       expect(actual_options.args).to include '--foo', '--bar'
       expect(actual_options.page_load_strategy).to eq 'eager'
     end
@@ -460,7 +465,7 @@ describe Watir::Capabilities do
       options = {automatic_inspection: true}
       capabilities = Watir::Capabilities.new(:safari, options: options)
       args = capabilities.to_args
-      actual_options = args.last[:capabilities]
+      actual_options = args.last[:capabilities].first
       expect(actual_options).to be_a Selenium::WebDriver::Safari::Options
       expect(actual_options.automatic_inspection).to eq true
     end
@@ -471,7 +476,7 @@ describe Watir::Capabilities do
       capabilities = Watir::Capabilities.new(:safari,
                                              options: opts)
       args = capabilities.to_args
-      actual_options = args.last[:capabilities]
+      actual_options = args.last[:capabilities].first
       expect(actual_options.automatic_inspection).to eq true
       expect(actual_options.page_load_strategy).to eq 'eager'
     end
@@ -482,7 +487,7 @@ describe Watir::Capabilities do
       options = {args: %w[--foo --bar]}
       capabilities = Watir::Capabilities.new(:ie, options: options)
       args = capabilities.to_args
-      actual_options = args.last[:capabilities]
+      actual_options = args.last[:capabilities].first
       expect(actual_options).to be_a Selenium::WebDriver::IE::Options
       expect(actual_options.args).to include '--foo', '--bar'
     end
@@ -491,7 +496,7 @@ describe Watir::Capabilities do
       options = {browser_attach_timeout: true}
       capabilities = Watir::Capabilities.new(:ie, options: options)
       args = capabilities.to_args
-      actual_options = args.last[:capabilities]
+      actual_options = args.last[:capabilities].first
       expect(actual_options).to be_a Selenium::WebDriver::IE::Options
       expect(actual_options.options[:browser_attach_timeout]).to eq true
     end
@@ -502,7 +507,7 @@ describe Watir::Capabilities do
       capabilities = Watir::Capabilities.new(:ie,
                                              options: opts)
       args = capabilities.to_args
-      actual_options = args.last[:capabilities]
+      actual_options = args.last[:capabilities].first
       expect(actual_options.args).to include '--foo'
       expect(actual_options.page_load_strategy).to eq 'eager'
     end
