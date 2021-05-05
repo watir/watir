@@ -73,6 +73,7 @@ module Watir
                   Selenium::WebDriver::Options.send(@browser, **browser_options)
                 end
 
+      options.unhandled_prompt_behavior ||= :ignore
       browser_specific_options(options)
       raise ArgumentError, "#{@options} are unrecognized arguments for Browser constructor" unless @options.empty?
 

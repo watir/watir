@@ -189,6 +189,20 @@ describe Watir::Capabilities do
         }.to raise_exception(ArgumentError, 'do not set implicit wait, Watir handles waiting automatically')
       end
     end
+
+    it 'unhandled prompt behavior defaults to ignore' do
+      capabilities = Watir::Capabilities.new(browser_symbol)
+      args = capabilities.to_args
+      actual_options = args.last[:capabilities].first
+      expect(actual_options.unhandled_prompt_behavior).to eq :ignore
+    end
+
+    it 'unhandled prompt behavior can be overridden' do
+      capabilities = Watir::Capabilities.new(browser_symbol, options: {unhandled_prompt_behavior: :accept_and_notify})
+      args = capabilities.to_args
+      actual_options = args.last[:capabilities].first
+      expect(actual_options.unhandled_prompt_behavior).to eq :accept_and_notify
+    end
   end
 
   # Options:
@@ -357,7 +371,7 @@ describe Watir::Capabilities do
                                              url: 'https://ondemand.us-west-1.saucelabs.com')
 
       se_caps = capabilities.to_args.last[:capabilities]
-      expect(se_caps).to include(Selenium::WebDriver::Chrome::Options.new)
+      expect(se_caps).to include(Selenium::WebDriver::Chrome::Options.new(unhandled_prompt_behavior: :ignore))
       expect(se_caps).to include(Selenium::WebDriver::Remote::Capabilities.new(sauce_options))
       expect(se_caps).to include(Selenium::WebDriver::Remote::Capabilities.new(other_options))
     end
