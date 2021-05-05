@@ -1,3 +1,9 @@
+### 7.0.0.beta3 (2021-05-05)
+
+* Fix Bug preventing proper use of vendor extension capabilities
+* Changed how timeouts are supported in Watir Capabilities (#932)
+* Changed the default Alert Behavior not to automatically get dismissed when an exception happens (#931)
+
 ### 7.0.0.beta2 (2021-03-28)
 
 * Replace Watir Logger implementation with Selenium Logger subclass
