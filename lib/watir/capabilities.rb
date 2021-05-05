@@ -69,6 +69,7 @@ module Watir
       options = if browser_options.is_a? Selenium::WebDriver::Options
                   browser_options
                 else
+                  convert_timeouts(browser_options)
                   Selenium::WebDriver::Options.send(@browser, **browser_options)
                 end
 
@@ -83,6 +84,24 @@ module Watir
 
       vendor = opts.select { |key, _val| key.to_s.include?(':') && opts.delete(key) }
       vendor.map { |k, v| Selenium::WebDriver::Remote::Capabilities.new(k => v) }
+    end
+
+    def convert_timeouts(browser_options)
+      browser_options[:timeouts] ||= {}
+      browser_options[:timeouts].keys.each do |key|
+        raise(ArgumentError, 'do not set implicit wait, Watir handles waiting automatically') if key.to_s == 'implicit'
+
+        Watir.logger.deprecate('using timeouts directly in options',
+                               ":#{key}_timeout",
+                               id: 'timeouts')
+      end
+      if browser_options.key?(:page_load_timeout)
+        browser_options[:timeouts][:page_load] = browser_options.delete(:page_load_timeout) * 1000
+      end
+
+      return unless browser_options.key?(:script_timeout)
+
+      browser_options[:timeouts][:script] = browser_options.delete(:script_timeout) * 1000
     end
 
     def browser_specific_options(options)

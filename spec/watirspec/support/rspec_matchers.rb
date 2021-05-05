@@ -1,5 +1,5 @@
 if defined?(RSpec)
-  DEPRECATION_WARNINGS = %i[use_capabilities].freeze
+  DEPRECATION_WARNINGS = %i[timeouts].freeze
 
   DEPRECATION_WARNINGS.each do |deprecation|
     RSpec::Matchers.define "have_deprecated_#{deprecation}" do

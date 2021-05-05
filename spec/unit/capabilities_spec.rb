@@ -152,6 +152,43 @@ describe Watir::Capabilities do
         Watir::Capabilities.new(browser_symbol, capabilities: caps, options: opts)
       }.to raise_exception(ArgumentError, ':capabilities and :options are not both allowed')
     end
+
+    context 'timeout options' do
+      it 'accepts page load and script timeouts in seconds' do
+        options = {page_load_timeout: 11,
+                   script_timeout: 12}
+        capabilities = Watir::Capabilities.new(browser_symbol, options: options)
+        args = capabilities.to_args
+        actual_options = args.last[:capabilities].first
+        expect(actual_options.timeouts[:page_load]).to eq 11_000
+        expect(actual_options.timeouts[:script]).to eq 12_000
+      end
+
+      it 'has deprecated timeouts key with page load warning' do
+        options = {timeouts: {page_load: 11}}
+        capabilities = Watir::Capabilities.new(browser_symbol, options: options)
+        msg = 'timeouts has been deprecated, use page_load_timeout (in seconds) directly instead'
+        expect {
+          capabilities.to_args
+        }.to have_deprecated_timeouts(msg)
+      end
+
+      it 'has deprecated timeouts key with script warning' do
+        options = {timeouts: {script: 11}}
+        expect {
+          capabilities = Watir::Capabilities.new(browser_symbol, options: options)
+          capabilities.to_args
+        }.to have_deprecated_timeouts('timeouts has been deprecated, use script_timeout (in seconds) directly instead')
+      end
+
+      it 'does not allow implicit wait timeout in timeouts hash' do
+        options = {timeouts: {implicit: 1}}
+        capabilities = Watir::Capabilities.new(browser_symbol, options: options)
+        expect {
+          capabilities.to_args
+        }.to raise_exception(ArgumentError, 'do not set implicit wait, Watir handles waiting automatically')
+      end
+    end
   end
 
   # Options:
@@ -171,7 +208,7 @@ describe Watir::Capabilities do
       expect(actual_options.browser_name).to eq 'chrome'
     end
 
-    it 'browser name with url has capabilities and client but not service' do
+    it 'just url & browser name has capabilities and client but not service' do
       capabilities = Watir::Capabilities.new(:firefox,
                                              url: 'https://example.com/wd/hub/')
       args = capabilities.to_args
@@ -192,7 +229,7 @@ describe Watir::Capabilities do
       expect(args.last[:listener]).to eq listener
     end
 
-    it 'browser name with url and http client object' do
+    it 'accepts http client object' do
       client = Watir::HttpClient.new
       capabilities = Watir::Capabilities.new(:chrome,
                                              url: 'https://example.com/wd/hub',
@@ -204,7 +241,7 @@ describe Watir::Capabilities do
       expect(actual_options.browser_name).to eq 'chrome'
     end
 
-    it 'browser name with url and http client Hash' do
+    it 'accepts http client Hash' do
       capabilities = Watir::Capabilities.new(:chrome,
                                              url: 'https://example.com/wd/hub',
                                              http_client: {read_timeout: 30})
@@ -215,7 +252,7 @@ describe Watir::Capabilities do
       expect(actual_options.browser_name).to eq 'chrome'
     end
 
-    it 'browser name with url and options object' do
+    it 'accepts options object' do
       capabilities = Watir::Capabilities.new(:chrome,
                                              url: 'https://example.com/wd/hub',
                                              options: Selenium::WebDriver::Chrome::Options.new(args: ['--foo']))
@@ -226,7 +263,7 @@ describe Watir::Capabilities do
       expect(actual_options.args).to include('--foo')
     end
 
-    it 'browser name with url and options hash' do
+    it 'accepts options hash' do
       options = {prefs: {foo: 'bar'}}
       capabilities = Watir::Capabilities.new(:chrome,
                                              url: 'http://example.com',
@@ -239,7 +276,7 @@ describe Watir::Capabilities do
       expect(actual_options.prefs).to eq(foo: 'bar')
     end
 
-    it 'browser name with url and capabilities' do
+    it 'accepts capabilities object' do
       caps = Watir::Capabilities.new(:chrome,
                                      url: 'https://example.com/wd/hub',
                                      capabilities: Selenium::WebDriver::Remote::Capabilities.chrome)
@@ -250,7 +287,7 @@ describe Watir::Capabilities do
       expect(actual_capabilities.browser_name).to eq 'chrome'
     end
 
-    it 'browser name with http client & capabilities' do
+    it 'accepts http client & capabilities objects' do
       client = Watir::HttpClient.new
       caps = Watir::Capabilities.new(:chrome,
                                      url: 'https://example.com/wd/hub',
@@ -265,7 +302,7 @@ describe Watir::Capabilities do
       expect(actual_capabilities.browser_name).to eq 'chrome'
     end
 
-    it 'browser name with http client & options object' do
+    it 'accepts http client & options objects' do
       client = Watir::HttpClient.new
       options = Selenium::WebDriver::Chrome::Options.new(prefs: {foo: 'bar'})
       caps = Watir::Capabilities.new(:chrome,
@@ -281,7 +318,7 @@ describe Watir::Capabilities do
       expect(actual_options.prefs).to eq(foo: 'bar')
     end
 
-    it 'browser name with options & capabilities' do
+    it 'raises exception when both options & capabilities defined' do
       options = {prefs: {foo: 'bar'}}
 
       expect {
