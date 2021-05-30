@@ -1,3 +1,7 @@
+### 7.0.0.beta4 (2021-05-29)
+
+* Fix Bug in using negative class names within a collection (#934)
+
 ### 7.0.0.beta3 (2021-05-05)
 
 * Fix Bug preventing proper use of vendor extension capabilities
