@@ -218,7 +218,8 @@ module Watir
 
           def equal_pair(key, value)
             if key == :class
-              negate_xpath = value =~ /^!/ && value.slice!(0)
+              negate_xpath = value =~ /^!/
+              value = value[1..-1] if negate_xpath
               expression = "contains(concat(' ', @class, ' '), #{XpathSupport.escape " #{value} "})"
 
               negate_xpath ? "not(#{expression})" : expression
