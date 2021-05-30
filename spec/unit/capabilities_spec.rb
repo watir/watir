@@ -43,7 +43,7 @@ describe Watir::Capabilities do
   # :capabilities (incompatible with options)
 
   supported_browsers.each do |browser_symbol|
-    it 'just browser has client & capabilities not service' do
+    it 'just browser has client & options not service' do
       capabilities = Watir::Capabilities.new(browser_symbol)
 
       args = capabilities.to_args
