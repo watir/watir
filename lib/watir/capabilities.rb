@@ -74,10 +74,24 @@ module Watir
                 end
 
       options.unhandled_prompt_behavior ||= :ignore
+      process_proxy_options(options)
       browser_specific_options(options)
       raise ArgumentError, "#{@options} are unrecognized arguments for Browser constructor" unless @options.empty?
 
       vendor_caps << options
+    end
+
+    def process_proxy_options(options)
+      proxy = @options.delete(:proxy)
+      return if proxy.nil?
+
+      proxy &&= Selenium::WebDriver::Proxy.new(proxy) if proxy.is_a?(Hash)
+
+      unless proxy.is_a?(Selenium::WebDriver::Proxy)
+        raise TypeError, "#{proxy} needs to be Selenium Proxy or Hash instance"
+      end
+
+      options.proxy = proxy
     end
 
     def process_vendor_capabilities(opts)

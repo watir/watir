@@ -39,6 +39,7 @@ describe Watir::Capabilities do
   # :listener
   # :service      (Built from Hash)
   # :http_client  (Generated or Built from Hash)
+  # :proxy        (Built from Hash and added to :options)
   # :options      (Generated or Built from Hash)
   # :capabilities (incompatible with options)
 
@@ -74,7 +75,7 @@ describe Watir::Capabilities do
       expect(args.last).not_to include(:service)
     end
 
-    context 'service' do
+    describe 'service' do
       it 'uses provided service' do
         halt_service(browser_symbol)
 
@@ -106,7 +107,7 @@ describe Watir::Capabilities do
       end
     end
 
-    context 'http_client' do
+    describe 'http_client' do
       it 'uses default HTTP Client' do
         capabilities = Watir::Capabilities.new(browser_symbol)
         args = capabilities.to_args
@@ -153,7 +154,7 @@ describe Watir::Capabilities do
       }.to raise_exception(ArgumentError, ':capabilities and :options are not both allowed')
     end
 
-    context 'timeout options' do
+    describe 'timeout options' do
       it 'accepts page load and script timeouts in seconds' do
         options = {page_load_timeout: 11,
                    script_timeout: 12}
@@ -203,6 +204,63 @@ describe Watir::Capabilities do
       actual_options = args.last[:capabilities].first
       expect(actual_options.unhandled_prompt_behavior).to eq :accept_and_notify
     end
+
+    describe 'proxy' do
+      it 'adds Selenium Proxy to empty Options' do
+        proxy = Selenium::WebDriver::Proxy.new(http: '127.0.0.1:8080', ssl: '127.0.0.1:443')
+        capabilities = Watir::Capabilities.new(browser_symbol, proxy: proxy)
+        args = capabilities.to_args
+        proxy = args.last[:capabilities].first.proxy
+
+        expect(proxy).to be_a Selenium::WebDriver::Proxy
+        expect(proxy.type).to eq(:manual)
+        expect(proxy.http).to eq('127.0.0.1:8080')
+        expect(proxy.ssl).to eq('127.0.0.1:443')
+      end
+
+      it 'builds a Proxy from Hash for Options' do
+        proxy = {http: '127.0.0.1:8080', ssl: '127.0.0.1:443'}
+        capabilities = Watir::Capabilities.new(browser_symbol, proxy: proxy)
+        args = capabilities.to_args
+        proxy = args.last[:capabilities].first.proxy
+
+        expect(proxy).to be_a Selenium::WebDriver::Proxy
+        expect(proxy.type).to eq(:manual)
+        expect(proxy.http).to eq('127.0.0.1:8080')
+        expect(proxy.ssl).to eq('127.0.0.1:443')
+      end
+
+      it 'builds a Proxy from Hash and adds to Options' do
+        proxy = {http: '127.0.0.1:8080', ssl: '127.0.0.1:443'}
+        options = {unhandled_prompt_behavior: :accept,
+                   page_load_strategy: :eager}
+
+        capabilities = Watir::Capabilities.new(browser_symbol, options: options, proxy: proxy)
+        args = capabilities.to_args
+        actual_options = args.last[:capabilities].first
+
+        expect(actual_options.proxy).to be_a Selenium::WebDriver::Proxy
+        expect(actual_options.proxy.type).to eq(:manual)
+        expect(actual_options.proxy.http).to eq('127.0.0.1:8080')
+        expect(actual_options.proxy.ssl).to eq('127.0.0.1:443')
+        expect(actual_options.unhandled_prompt_behavior).to eq :accept
+        expect(actual_options.page_load_strategy).to eq :eager
+      end
+    end
+
+    it 'errors on bad proxy key' do
+      proxy = {bad_key: 'foo'}
+      capabilities = Watir::Capabilities.new(browser_symbol, proxy: proxy)
+
+      expect { capabilities.to_args }.to raise_error(ArgumentError, /unknown option/)
+    end
+
+    it 'errors on bad proxy object' do
+      capabilities = Watir::Capabilities.new(browser_symbol, proxy: 7)
+      expect {
+        capabilities.to_args
+      }.to raise_exception(TypeError, '7 needs to be Selenium Proxy or Hash instance')
+    end
   end
 
   # Options:
@@ -210,6 +268,7 @@ describe Watir::Capabilities do
   # :service      (Errors)
   # :listener
   # :http_client  (Generated or Built from Hash)
+  # :proxy        (Built from Hash and added to :options)
   # :options      (Generated or Built from Hash)
   # :capabilities (incompatible with options)
 
@@ -266,6 +325,34 @@ describe Watir::Capabilities do
       expect(actual_options.browser_name).to eq 'chrome'
     end
 
+    it 'accepts proxy object' do
+      proxy = Selenium::WebDriver::Proxy.new(http: '127.0.0.1:8080', ssl: '127.0.0.1:443')
+      capabilities = Watir::Capabilities.new(:chrome,
+                                             url: 'https://example.com/wd/hub',
+                                             proxy: proxy)
+      args = capabilities.to_args
+      expect(args.first).to eq :remote
+      proxy = args.last[:capabilities].first.proxy
+      expect(proxy).to be_a Selenium::WebDriver::Proxy
+      expect(proxy.type).to eq(:manual)
+      expect(proxy.http).to eq('127.0.0.1:8080')
+      expect(proxy.ssl).to eq('127.0.0.1:443')
+    end
+
+    it 'accepts proxy Hash' do
+      proxy = {http: '127.0.0.1:8080', ssl: '127.0.0.1:443'}
+      capabilities = Watir::Capabilities.new(:chrome,
+                                             url: 'https://example.com/wd/hub',
+                                             proxy: proxy)
+      args = capabilities.to_args
+      expect(args.first).to eq :remote
+      proxy = args.last[:capabilities].first.proxy
+      expect(proxy).to be_a Selenium::WebDriver::Proxy
+      expect(proxy.type).to eq(:manual)
+      expect(proxy.http).to eq('127.0.0.1:8080')
+      expect(proxy.ssl).to eq('127.0.0.1:443')
+    end
+
     it 'accepts options object' do
       capabilities = Watir::Capabilities.new(:chrome,
                                              url: 'https://example.com/wd/hub',
@@ -316,11 +403,13 @@ describe Watir::Capabilities do
       expect(actual_capabilities.browser_name).to eq 'chrome'
     end
 
-    it 'accepts http client & options objects' do
+    it 'accepts http client & proxy & options objects' do
       client = Watir::HttpClient.new
+      proxy = {http: '127.0.0.1:8080', ssl: '127.0.0.1:443'}
       options = Selenium::WebDriver::Chrome::Options.new(prefs: {foo: 'bar'})
       caps = Watir::Capabilities.new(:chrome,
                                      url: 'https://example.com/wd/hub',
+                                     proxy: proxy,
                                      options: options,
                                      http_client: client)
 
@@ -330,6 +419,11 @@ describe Watir::Capabilities do
       actual_options = args.last[:capabilities].first
       expect(actual_options).to be_a(Selenium::WebDriver::Chrome::Options)
       expect(actual_options.prefs).to eq(foo: 'bar')
+      proxy = args.last[:capabilities].first.proxy
+      expect(proxy).to be_a Selenium::WebDriver::Proxy
+      expect(proxy.type).to eq(:manual)
+      expect(proxy.http).to eq('127.0.0.1:8080')
+      expect(proxy.ssl).to eq('127.0.0.1:443')
     end
 
     it 'raises exception when both options & capabilities defined' do
