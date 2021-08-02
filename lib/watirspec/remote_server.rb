@@ -20,14 +20,10 @@ module WatirSpec
     private
 
     def jar
-      if ENV['LOCAL_SELENIUM']
-        local = File.expand_path('../selenium/buck-out/gen/java/server/src/org/openqa/grid/selenium/selenium.jar')
-      end
-
       if File.exist?(ENV['REMOTE_SERVER_BINARY'] || '')
         ENV['REMOTE_SERVER_BINARY']
-      elsif ENV['LOCAL_SELENIUM'] && File.exist?(local)
-        local
+      elsif ENV['LOCAL_SELENIUM']
+        File.expand_path('../selenium/bazel-bin/java/server/src/org/openqa/selenium/grid/selenium_server_deploy.jar')
       elsif !Dir.glob('*selenium*.jar').empty?
         Dir.glob('*selenium*.jar').first
       else
