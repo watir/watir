@@ -12,7 +12,7 @@ module Watir
     include Scrolling
 
     attr_writer :default_context, :original_window, :locator_namespace, :timer
-    attr_reader :driver, :after_hooks
+    attr_reader :driver, :after_hooks, :capabilities
     alias wd driver # ensures duck typing with Watir::Element
 
     class << self
@@ -42,8 +42,8 @@ module Watir
     def initialize(browser = :chrome, *args)
       case browser
       when ::Symbol, String
-        selenium_args = Capabilities.new(browser, *args).to_args
-        @driver = Selenium::WebDriver.for(*selenium_args)
+        @capabilities = Capabilities.new(browser, *args)
+        @driver = Selenium::WebDriver.for(*@capabilities.to_args)
       when Selenium::WebDriver::Driver
         @driver = browser
       else
