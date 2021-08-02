@@ -11,7 +11,10 @@ module Watir
       raise ArgumentError, message unless [Date, ::Time].include?(date.class)
 
       date_string = date.strftime('%Y-%m-%d')
-      element_call(:wait_for_writable) { execute_js(:setValue, @element, date_string) }
+      element_call(:wait_for_writable) do
+        execute_js(:setValue, @element, date_string)
+        execute_js(:fireEvent, @element, :change)
+      end
     end
     alias set set!
     alias value= set
