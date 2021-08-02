@@ -1,3 +1,9 @@
+### 7.0.0.beta5 (2021-08-02)
+
+* Add support for passing in Proxy and proxy Hash to Capabilities (#933)
+* Trigger change event when setting values on date and date-time fields (#938)
+* Allow user to obtain Capabilities instance from Browser instance
+
 ### 7.0.0.beta4 (2021-05-29)
 
 * Fix Bug in using negative class names within a collection (#934)
