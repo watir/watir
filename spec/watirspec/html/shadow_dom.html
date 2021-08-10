@@ -1,33 +1,28 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <title>Shadow DOM</title>
-    </head>
-    <body>
-        <div id="non_host"></div>
-        <div id="shadow_host"></div>
-        <script>
-            let shadow = document.getElementById('shadow_host').attachShadow({mode: 'open'});
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Shadow DOM</title>
+  </head>
+  <body>
+    <div id="non_host"></div>
+    <div id="shadow_host"></div>
+    <a href="scroll.html">scroll.html</a>
+    <script>
+      let shadowRoot = document.getElementById('shadow_host').attachShadow({mode: 'open'});
+      shadowRoot.innerHTML = `
+              <span class="wrapper" id="shadow_dom_first_element"><span class="info">some text</span></span>
+              <div id="nested_shadow_host"></div>
+              <a href="scroll.html">scroll.html</a>
+              <input type="text" />
+              <input type="checkbox" />
+              <input type="file" />
+            `;
 
-            let wrapper = document.createElement('span');
-            wrapper.setAttribute('class', 'wrapper');
-            let info = document.createElement('span');
-            info.setAttribute('class', 'info');
-            info.textContent = 'some text';
-
-            let wrapper2 = document.createElement('div');
-            wrapper2.id = 'nested_shadow_host';
-
-            shadow.appendChild(wrapper);
-            wrapper.appendChild(info);
-            shadow.appendChild(wrapper2);
-
-            let nested_shadow = shadow.getElementById('nested_shadow_host').attachShadow({mode: 'open'});
-            let nested_wrapper = document.createElement('div');
-            nested_wrapper.id = 'nested_shadow_dom_first_element'
-            nested_wrapper.innerHTML = '<div>nested text</div>'
-            nested_shadow.appendChild(nested_wrapper)
-        </script>
-    </body>
+      let nestedShadowRoot = shadowRoot.getElementById('nested_shadow_host').attachShadow({mode: 'open'});
+      nestedShadowRoot.innerHTML = `
+              <div id="nested_shadow_dom_first_element"><div>nested text</div></div>
+            `;
+    </script>
+  </body>
 </html>

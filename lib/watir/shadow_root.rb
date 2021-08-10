@@ -1,9 +1,17 @@
 module Watir
-  class ShadowRoot < HTMLElement
+  class ShadowRoot < Element
     def locate_in_context
-      # TODO: Move to ShadowRoot::Locator?
       @element = driver.execute_script('return arguments[0].shadowRoot;', @query_scope.wd)
     end
+
+    def stale_in_context?
+      # TODO: detect when stale
+      false
+    end
+
+    #
+    # @api private
+    #
 
     def selector_string
       "#{@query_scope.selector_string} --> shadow_root"
