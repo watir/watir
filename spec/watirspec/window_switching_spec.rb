@@ -462,6 +462,15 @@ describe Watir::Window do
       expect(final_size.height).to be > new_size.height
     end
 
+    it 'should make the window full screen', except: {browser: :firefox, window_manager: false} do
+      browser.window.full_screen
+      browser.wait_until { |b| b.window.size != @initial_size }
+
+      final_size = browser.window.size
+      expect(final_size.width).to be >= @initial_size.width
+      expect(final_size.height).to be > @initial_size.height
+    end
+
     it 'should minimize the window', except: {browser: :firefox, window_manager: false} do
       browser.window.minimize
 

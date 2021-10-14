@@ -104,6 +104,17 @@ module Watir
     end
 
     #
+    # Make window full screen.
+    #
+    # @example
+    #   browser.window.full_screen
+    #
+
+    def full_screen
+      use { @driver.manage.window.full_screen }
+    end
+
+    #
     # Returns true if window exists.
     #
     # @return [Boolean]
