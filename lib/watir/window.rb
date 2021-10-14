@@ -93,6 +93,17 @@ module Watir
     end
 
     #
+    # Minimize window.
+    #
+    # @example
+    #   browser.window.minimize
+    #
+
+    def minimize
+      use { @driver.manage.window.minimize }
+    end
+
+    #
     # Returns true if window exists.
     #
     # @return [Boolean]
