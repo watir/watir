@@ -84,8 +84,6 @@ jobs:
       - uses: ./.github/actions/setup-linux
         if:  matrix.os == 'ubuntu-latest'
       - uses: browser-actions/setup-firefox@latest
-        with:
-          firefox-version: '86.0'
         if: matrix.task == 'firefox'
       - uses: ./.github/actions/enable-safari
         if: matrix.task == 'safari'
