@@ -478,7 +478,11 @@ describe Watir::Window do
     end
 
     it 'should minimize the window', except: {window_manager: false} do
+      expect(browser.execute_script('return document.visibilityState;')).to eq 'visible'
+
       browser.window.minimize
+
+      browser.wait_until { |b| b.execute_script('return document.visibilityState;') != 'visible' }
 
       expect(browser.execute_script('return document.visibilityState;')).to eq 'hidden'
     end

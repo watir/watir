@@ -39,6 +39,7 @@ class LocalConfig
                          Webdrivers::Geckodriver.update
                          "geckodriver version: #{Webdrivers::Geckodriver.current_version.version}"
                        when :ie
+                         Webdrivers::IEdriver.required_version = '3.150.1'
                          Webdrivers::IEdriver.update
                          "iedriver version: #{Webdrivers::IEdriver.current_version.version}"
                        end
@@ -154,6 +155,8 @@ RSpec.configure do |config|
 
     headless = WatirSpec.implementation.browser_args.last[:headless]
     guards.add_condition(:headless, headless)
+
+    guards.add_condition(:ci, ENV['DESKTOP_SESSION'].nil?)
 
     window_manager = !Selenium::WebDriver::Platform.linux? || !ENV['DESKTOP_SESSION'].nil?
     guards.add_condition(:window_manager, window_manager)

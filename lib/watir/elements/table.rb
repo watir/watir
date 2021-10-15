@@ -29,7 +29,7 @@ module Watir
       all_rows = rows.locate
       header_row = all_rows.first || raise(Error, 'no rows in table')
 
-      all_rows.entries[1..-1].map do |row|
+      all_rows.entries[1..].map do |row|
         cell_size_check(header_row, row)
         Hash[headers(header_row).map(&:text).zip(row.cells.map(&:text))]
       end

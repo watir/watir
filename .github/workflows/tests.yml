@@ -25,7 +25,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ruby: ['2.5', '2.6', '2.7', '3.0']
+        ruby: ['2.6', '2.7', '3.0']
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
@@ -84,6 +84,8 @@ jobs:
       - uses: ./.github/actions/setup-linux
         if:  matrix.os == 'ubuntu-latest'
       - uses: browser-actions/setup-firefox@latest
+        with:
+          firefox-version: '93.0'
         if: matrix.task == 'firefox'
       - uses: ./.github/actions/enable-safari
         if: matrix.task == 'safari'

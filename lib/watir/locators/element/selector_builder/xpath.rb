@@ -172,7 +172,7 @@ module Watir
           end
 
           def starts_with?(results, regexp)
-            regexp.source[0] == '^' && results.first == regexp.source[1..-1]
+            regexp.source[0] == '^' && results.first == regexp.source[1..]
           end
 
           def add_to_matching(key, regexp, results = nil)
@@ -219,7 +219,7 @@ module Watir
           def equal_pair(key, value)
             if key == :class
               negate_xpath = value =~ /^!/
-              value = value[1..-1] if negate_xpath
+              value = value[1..] if negate_xpath
               expression = "contains(concat(' ', @class, ' '), #{XpathSupport.escape " #{value} "})"
 
               negate_xpath ? "not(#{expression})" : expression
