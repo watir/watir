@@ -463,18 +463,24 @@ describe Watir::Window do
     end
 
     it 'should make the window full screen', except: {browser: :firefox, window_manager: false} do
+      browser.window.resize_to(
+        @initial_size.width - 40,
+        @initial_size.height - 40
+      )
+      new_size = browser.window.size
+
       browser.window.full_screen
-      browser.wait_until { |b| b.window.size != @initial_size }
+      browser.wait_until { |b| b.window.size != new_size }
 
       final_size = browser.window.size
-      expect(final_size.width).to be >= @initial_size.width
-      expect(final_size.height).to be > @initial_size.height
+      expect(final_size.width).to be >= new_size.width
+      expect(final_size.height).to be > new_size.height
     end
 
-    it 'should minimize the window', except: {browser: :firefox, window_manager: false} do
+    it 'should minimize the window', except: {window_manager: false} do
       browser.window.minimize
 
-      expect(browser.execute_script("return document.visibilityState;")).to eq 'hidden'
+      expect(browser.execute_script('return document.visibilityState;')).to eq 'hidden'
     end
   end
 end
