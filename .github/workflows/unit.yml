@@ -1,0 +1,52 @@
+name: Unit Tests
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  documentation-test:
+    name: Yard Doctest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+      - run: bundle install
+      - uses: ./.github/actions/install-chrome
+      - uses: ./.github/actions/setup-linux
+      - run: |
+          bundle exec rake yard:doctest
+
+
+  unit-test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby: ['2.6', '2.7', '3.0']
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+      - run: bundle install
+      - uses: ./.github/actions/install-chrome
+      - uses: ./.github/actions/setup-linux
+      - run: |
+          bundle exec rake spec:unit
+        env:
+          DISPLAY: :99
+
+  linter-test:
+    name: Rubocop Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+      - run: bundle install
+      - run: bundle exec rubocop

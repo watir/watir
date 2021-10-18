@@ -1,0 +1,28 @@
+name: Edge Tests
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  local-tests:
+    name: Local Tests
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest]
+        ruby: [ 2.6, 3.0 ]
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          echo "COVERAGE=true" >> $GITHUB_ENV
+        if: matrix.os == 'macos-latest'
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+      - run: bundle install
+      - run: |
+          bundle exec rake spec:edge
+        env:
+          DISPLAY: :99

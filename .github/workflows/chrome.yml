@@ -1,0 +1,34 @@
+name: Chrome Tests
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  local-tests:
+    name: Local Tests
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        ruby: [ 2.6, 3.0 ]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/setup-linux
+        if:  matrix.os == 'ubuntu-latest'
+      - uses: ./.github/actions/install-chrome
+        if:  matrix.os == 'ubuntu-latest'
+      - run: |
+          echo "COVERAGE=true" >> $GITHUB_ENV
+        if: |
+          matrix.os == 'ubuntu-latest' ||
+          matrix.os == 'macos-latest'
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+      - run: bundle install
+      - run: |
+          bundle exec rake spec:chrome
+        env:
+          DISPLAY: :99

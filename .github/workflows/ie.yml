@@ -1,0 +1,24 @@
+name: IE Tests
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  local-tests:
+    name: Local Tests
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby: [ 2.6, 3.0 ]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+      - run: bundle install
+      - run: |
+          bundle exec rake spec:ie
+        env:
+          DISPLAY: :99
