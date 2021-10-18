@@ -1,3 +1,10 @@
+### 7.0.0 (2021-10-18)
+
+* Requires Selenium 4.0.0+
+* Requires Ruby 2.6+
+* Implement `Window#minimize`
+* Implement `Window#full_screen`
+
 ### 7.0.0.beta5 (2021-08-02)
 
 * Add support for passing in Proxy and proxy Hash to Capabilities (#933)
