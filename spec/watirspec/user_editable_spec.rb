@@ -118,7 +118,8 @@ describe Watir::UserEditable do
       expect(browser.text_field(id: 'new_user_email').value).to eq 'ByeCruelWorld'
     end
 
-    it 'sets the value to blank when no arguments are provided' do
+    it 'sets the value to blank when no arguments are provided', except: {remote: true,
+                                                                          reason: 'bug in Se 4.0.2'} do
       browser.text_field(id: 'new_user_email').set
       expect(browser.text_field(id: 'new_user_email').value).to eq ''
     end
