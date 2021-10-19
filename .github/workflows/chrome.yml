@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        test: [chrome remote_chrome]
+        test: [chrome, remote_chrome]
         os: [ubuntu-latest, macos-latest, windows-latest]
         ruby: [ 2.6, 3.0 ]
     steps:

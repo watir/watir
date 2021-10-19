@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        test: [safari remote_safari]
+        test: [safari, remote_safari]
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/enable-safari

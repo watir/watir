@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        test: [edge remote_edge]
+        test: [edge, remote_edge]
         os: [macos-latest, windows-latest]
     steps:
       - uses: actions/checkout@v2
