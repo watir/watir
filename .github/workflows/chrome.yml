@@ -6,7 +6,7 @@ on:
 
 jobs:
   tests:
-    name: ${{ matrix.test }} Tests
+    name: ${{ matrix.test }} - ${{ matrix.os }} - Ruby ${{ matrix.ruby }} Tests
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
