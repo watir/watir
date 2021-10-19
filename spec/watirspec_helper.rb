@@ -122,19 +122,6 @@ class RemoteConfig < LocalConfig
     end
     super
   end
-
-  private
-
-  def add_guards
-    matching_guards = common_guards
-    matching_guards << :remote
-    matching_guards << [:remote, browser]
-    matching_guards
-  end
-
-  def create_args
-    super.merge(url: @url)
-  end
 end
 
 if ENV['REMOTE_SERVER_URL'] || ENV['USE_REMOTE']
