@@ -27,11 +27,11 @@ module WatirSpec
       elsif !Dir.glob('*selenium*.jar').empty?
         Dir.glob('*selenium*.jar').first
       else
-        Selenium::Server.download :latest
+        Selenium::Server.download
       end
     rescue SocketError
       # not connected to internet
-      raise Error, 'unable to find or download selenium-server-standalone jar'
+      raise Error, 'unable to find or download selenium-server jar'
     end
   end
 end
