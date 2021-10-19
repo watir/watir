@@ -5,20 +5,20 @@ on:
   - pull_request
 
 jobs:
-  local-tests:
-    name: Local Tests
+  tests:
+    name: ${{ matrix.test }} Tests
     runs-on: windows-latest
     strategy:
       fail-fast: false
       matrix:
-        ruby: [ 2.6, 3.0 ]
+        test: [ie remote_ie]
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: ${{ matrix.ruby }}
+          ruby-version: 2.6
       - run: bundle install
       - run: |
-          bundle exec rake spec:ie
+          bundle exec rake spec:${{ matrix.test }}
         env:
           DISPLAY: :99

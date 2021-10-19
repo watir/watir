@@ -5,12 +5,13 @@ on:
   - pull_request
 
 jobs:
-  local-tests:
-    name: Local Tests
+  tests:
+    name: ${{ matrix.test }} Tests
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
+        test: [chrome remote_chrome]
         os: [ubuntu-latest, macos-latest, windows-latest]
         ruby: [ 2.6, 3.0 ]
     steps:
@@ -29,6 +30,6 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
       - run: bundle install
       - run: |
-          bundle exec rake spec:chrome
+          bundle exec rake spec:${{ matrix.text }}
         env:
           DISPLAY: :99
