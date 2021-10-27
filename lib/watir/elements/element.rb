@@ -205,7 +205,7 @@ module Watir
     # @example
     #   browser.element(name: "new_user_button").double_click(:center)
     #
-    
+
     def double_click(scroll_position = :top)
       element_call(:wait_for_present) do
         scroll.to(scroll_position)
@@ -243,14 +243,15 @@ module Watir
     # @example Click an element with several modifier keys pressed and scroll position
     #   browser.element(name: "new_user_button").right_click(:shift, :alt, :center)
     #
-    # @param [:shift, :alt, :control, :command, :meta, :top, :start, :center, :bottom, :end] modifiers to press while right clicking and scroll position.
+    # @param [:shift, :alt, :control, :command, :meta, :top, :start, :center, :bottom, :end]
+    # modifiers to press while right clicking and scroll position.
     #
 
     def right_click(*modifiers)
-      available_scroll_positions = [:top, :start, :center, :bottom, :end]
+      available_scroll_positions = %i[top start center bottom end]
 
       scroll_position = modifiers.find { |mod| available_scroll_positions.include?(mod) }
-      keys_modifiers = modifiers.select { |mod| !available_scroll_positions.include?(mod) }
+      keys_modifiers = modifiers.reject { |mod| available_scroll_positions.include?(mod) }
 
       element_call(:wait_for_present) do
         scroll.to(scroll_position || :top)
@@ -278,7 +279,7 @@ module Watir
     # @example
     #   browser.element(name: "new_user_button").hover(:center)
     #
-    
+
     def hover(scroll_position = :top)
       element_call(:wait_for_present) do
         scroll.to(scroll_position)
@@ -297,7 +298,7 @@ module Watir
     #   a.drag_and_drop_on :center, b
     #
 
-    def drag_and_drop_on(scroll_position = :top, other)
+    def drag_and_drop_on(other, scroll_position = :top)
       assert_is_element other
 
       value = element_call(:wait_for_present) do
@@ -325,7 +326,7 @@ module Watir
     # @param [Integer] down_by
     #
 
-    def drag_and_drop_by(scroll_position = :top, right_by, down_by)
+    def drag_and_drop_by(right_by, down_by, scroll_position = :top)
       element_call(:wait_for_present) do
         scroll.to(scroll_position)
         driver.action
