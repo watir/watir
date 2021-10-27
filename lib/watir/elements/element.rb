@@ -202,10 +202,13 @@ module Watir
     # @example
     #   browser.element(name: "new_user_button").double_click
     #
-
-    def double_click
+    # @example
+    #   browser.element(name: "new_user_button").double_click(:center)
+    #
+    
+    def double_click(scroll_position = :top)
       element_call(:wait_for_present) do
-        scroll.to
+        scroll.to(scroll_position)
         driver.action.double_click(@element).perform
       end
       browser.after_hooks.run
@@ -237,17 +240,25 @@ module Watir
     # @example Click an element with several modifier keys pressed
     #   browser.element(name: "new_user_button").right_click(:shift, :alt)
     #
-    # @param [:shift, :alt, :control, :command, :meta] modifiers to press while right clicking.
+    # @example Click an element with several modifier keys pressed and scroll position
+    #   browser.element(name: "new_user_button").right_click(:shift, :alt, :center)
+    #
+    # @param [:shift, :alt, :control, :command, :meta, :top, :start, :center, :bottom, :end] modifiers to press while right clicking and scroll position.
     #
 
     def right_click(*modifiers)
+      available_scroll_positions = [:top, :start, :center, :bottom, :end]
+
+      scroll_position = modifiers.find { |mod| available_scroll_positions.include?(mod) }
+      keys_modifiers = modifiers.select { |mod| !available_scroll_positions.include?(mod) }
+
       element_call(:wait_for_present) do
-        scroll.to
+        scroll.to(scroll_position || :top)
         action = driver.action
-        if modifiers.any?
-          modifiers.each { |mod| action.key_down mod }
+        if keys_modifiers.any?
+          keys_modifiers.each { |mod| action.key_down mod }
           action.context_click(@element)
-          modifiers.each { |mod| action.key_up mod }
+          keys_modifiers.each { |mod| action.key_up mod }
           action.perform
         else
           action.context_click(@element).perform
@@ -264,10 +275,13 @@ module Watir
     # @example
     #   browser.element(name: "new_user_button").hover
     #
-
-    def hover
+    # @example
+    #   browser.element(name: "new_user_button").hover(:center)
+    #
+    
+    def hover(scroll_position = :top)
       element_call(:wait_for_present) do
-        scroll.to
+        scroll.to(scroll_position)
         driver.action.move_to(@element).perform
       end
     end
@@ -280,13 +294,14 @@ module Watir
     #   a = browser.div(id: "draggable")
     #   b = browser.div(id: "droppable")
     #   a.drag_and_drop_on b
+    #   a.drag_and_drop_on :center, b
     #
 
-    def drag_and_drop_on(other)
+    def drag_and_drop_on(scroll_position = :top, other)
       assert_is_element other
 
       value = element_call(:wait_for_present) do
-        scroll.to
+        scroll.to(scroll_position)
         driver.action
               .drag_and_drop(@element, other.wd)
               .perform
@@ -302,13 +317,17 @@ module Watir
     # @example
     #   browser.div(id: "draggable").drag_and_drop_by 100, 25
     #
+    # @example
+    #   browser.div(id: "draggable").drag_and_drop_by :center, 100, 25
+    #
+    # @param [Symbol] scroll_position
     # @param [Integer] right_by
     # @param [Integer] down_by
     #
 
-    def drag_and_drop_by(right_by, down_by)
+    def drag_and_drop_by(scroll_position = :top, right_by, down_by)
       element_call(:wait_for_present) do
-        scroll.to
+        scroll.to(scroll_position)
         driver.action
               .drag_and_drop_by(@element, right_by, down_by)
               .perform
@@ -526,11 +545,11 @@ module Watir
     # @return [Boolean]
     #
 
-    def obscured?
+    def obscured?(scroll_position = :top)
       element_call do
         return true unless present?
 
-        scroll.to
+        scroll.to(scroll_position)
         execute_js(:elementObscured, self)
       end
     end
