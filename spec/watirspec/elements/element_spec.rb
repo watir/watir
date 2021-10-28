@@ -638,7 +638,7 @@ describe 'Element' do
       link = browser.a
 
       expect(link.style('font-size')).to eq '10px'
-      link.hover(:center)
+      link.hover(scroll_pos: :center)
       link.wait_until { |l| l.style('font-size') == '20px' }
       expect(link.style('font-size')).to eq '20px'
     end

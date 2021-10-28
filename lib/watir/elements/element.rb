@@ -203,12 +203,12 @@ module Watir
     #   browser.element(name: "new_user_button").double_click
     #
     # @example
-    #   browser.element(name: "new_user_button").double_click(:center)
+    #   browser.element(name: "new_user_button").double_click(scroll_pos: :center)
     #
 
-    def double_click(scroll_position = :top)
+    def double_click(scroll_pos: :center)
       element_call(:wait_for_present) do
-        scroll.to(scroll_position)
+        scroll.to(scroll_pos)
         driver.action.double_click(@element).perform
       end
       browser.after_hooks.run
@@ -241,25 +241,20 @@ module Watir
     #   browser.element(name: "new_user_button").right_click(:shift, :alt)
     #
     # @example Click an element with several modifier keys pressed and scroll position
-    #   browser.element(name: "new_user_button").right_click(:shift, :alt, :center)
+    #   browser.element(name: "new_user_button").right_click(:shift, :alt, scroll_pos: :center)
     #
-    # @param [:shift, :alt, :control, :command, :meta, :top, :start, :center, :bottom, :end]
+    # @param [:shift, :alt, :control, :command, :meta, scroll_pos: :center]
     # modifiers to press while right clicking and scroll position.
     #
 
-    def right_click(*modifiers)
-      available_scroll_positions = %i[top start center bottom end]
-
-      scroll_position = modifiers.find { |mod| available_scroll_positions.include?(mod) }
-      keys_modifiers = modifiers.reject { |mod| available_scroll_positions.include?(mod) }
-
+    def right_click(*modifiers, scroll_pos: :center)
       element_call(:wait_for_present) do
-        scroll.to(scroll_position || :top)
+        scroll.to(scroll_pos)
         action = driver.action
-        if keys_modifiers.any?
-          keys_modifiers.each { |mod| action.key_down mod }
+        if modifiers.any?
+          modifiers.each { |mod| action.key_down mod }
           action.context_click(@element)
-          keys_modifiers.each { |mod| action.key_up mod }
+          modifiers.each { |mod| action.key_up mod }
           action.perform
         else
           action.context_click(@element).perform
@@ -277,12 +272,12 @@ module Watir
     #   browser.element(name: "new_user_button").hover
     #
     # @example
-    #   browser.element(name: "new_user_button").hover(:center)
+    #   browser.element(name: "new_user_button").hover(scroll_pos: :center)
     #
 
-    def hover(scroll_position = :top)
+    def hover(scroll_pos: :center)
       element_call(:wait_for_present) do
-        scroll.to(scroll_position)
+        scroll.to(scroll_pos)
         driver.action.move_to(@element).perform
       end
     end
@@ -295,14 +290,14 @@ module Watir
     #   a = browser.div(id: "draggable")
     #   b = browser.div(id: "droppable")
     #   a.drag_and_drop_on b
-    #   a.drag_and_drop_on :center, b
+    #   a.drag_and_drop_on b, scroll_pos: :center
     #
 
-    def drag_and_drop_on(other, scroll_position = :top)
+    def drag_and_drop_on(other, scroll_pos: :center)
       assert_is_element other
 
       value = element_call(:wait_for_present) do
-        scroll.to(scroll_position)
+        scroll.to(scroll_pos)
         driver.action
               .drag_and_drop(@element, other.wd)
               .perform
@@ -319,16 +314,16 @@ module Watir
     #   browser.div(id: "draggable").drag_and_drop_by 100, 25
     #
     # @example
-    #   browser.div(id: "draggable").drag_and_drop_by :center, 100, 25
+    #   browser.div(id: "draggable").drag_and_drop_by 100, 25, scroll_pos: :center
     #
-    # @param [Symbol] scroll_position
     # @param [Integer] right_by
     # @param [Integer] down_by
+    # @param [Symbol] scroll_position: [:]
     #
 
-    def drag_and_drop_by(right_by, down_by, scroll_position = :top)
+    def drag_and_drop_by(right_by, down_by, scroll_pos: :center)
       element_call(:wait_for_present) do
-        scroll.to(scroll_position)
+        scroll.to(scroll_pos)
         driver.action
               .drag_and_drop_by(@element, right_by, down_by)
               .perform
@@ -546,11 +541,11 @@ module Watir
     # @return [Boolean]
     #
 
-    def obscured?(scroll_position = :top)
+    def obscured?(scroll_pos: :center)
       element_call do
         return true unless present?
 
-        scroll.to(scroll_position)
+        scroll.to(scroll_pos)
         execute_js(:elementObscured, self)
       end
     end
