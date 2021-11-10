@@ -98,7 +98,6 @@ describe 'Browser::AfterHooks' do
       @page_after_hook = proc { @yield = browser.title == 'Non-control elements' }
       browser.after_hooks.add @page_after_hook
       div = browser.div(id: 'html_test')
-      div.scroll.to
       div.double_click
       expect(@yield).to be true
     end
@@ -108,7 +107,6 @@ describe 'Browser::AfterHooks' do
       @page_after_hook = proc { @yield = browser.title == 'Right Click Test' }
       browser.after_hooks.add @page_after_hook
       div = browser.div(id: 'click')
-      div.scroll.to
       div.right_click
       expect(@yield).to be true
     end
