@@ -133,7 +133,6 @@ describe 'Div' do
       expect(browser.div(id: 'best_language').text).to_not eq 'Ruby!'
 
       div = browser.div(id: 'best_language')
-      div.scroll.to
       div.click
       expect(browser.div(id: 'best_language').text).to eq 'Ruby!'
     end
@@ -173,12 +172,6 @@ describe 'Div' do
       div.double_click
       expect(messages).to include('double clicked')
     end
-
-    it 'fires the ondblclick event with specified scroll position' do
-      div = browser.div(id: 'html_test')
-      div.double_click(scroll_pos: :center)
-      expect(messages).to include('double clicked')
-    end
   end
 
   describe '#double_click!' do
@@ -199,17 +192,6 @@ describe 'Div' do
       browser.goto(WatirSpec.url_for('right_click.html'))
       browser.div(id: 'click-logger').right_click(:control, :alt)
       expect(event_log.first).to eq('control=true alt=true')
-    end
-
-    it 'accepts modifiers with scroll position', except: {browser: :ie} do
-      browser.goto(WatirSpec.url_for('right_click.html'))
-      browser.div(id: 'click-logger').right_click(:control, :alt, scroll_pos: :center)
-      expect(event_log.first).to eq('control=true alt=true')
-    end
-
-    it 'scrolls' do
-      browser.del(class: 'footer').double_click
-      puts 'yes?'
     end
   end
 

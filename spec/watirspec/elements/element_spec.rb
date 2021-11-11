@@ -632,16 +632,6 @@ describe 'Element' do
       link.wait_until { |l| l.style('font-size') == '20px' }
       expect(link.style('font-size')).to eq '20px'
     end
-
-    it 'should hover over the element with specified scroll position', except: {browser: :ie} do
-      browser.goto WatirSpec.url_for('hover.html')
-      link = browser.a
-
-      expect(link.style('font-size')).to eq '10px'
-      link.hover(scroll_pos: :center)
-      link.wait_until { |l| l.style('font-size') == '20px' }
-      expect(link.style('font-size')).to eq '20px'
-    end
   end
 
   describe '#inspect' do
