@@ -39,7 +39,6 @@ class LocalConfig
                          Webdrivers::Geckodriver.update
                          "geckodriver version: #{Webdrivers::Geckodriver.current_version.version}"
                        when :ie
-                         Webdrivers::IEdriver.required_version = '3.150.1'
                          Webdrivers::IEdriver.update
                          "iedriver version: #{Webdrivers::IEdriver.current_version.version}"
                        end
