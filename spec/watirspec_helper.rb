@@ -86,6 +86,10 @@ class LocalConfig
     opts
   end
 
+  def ie_args
+    {options: {require_window_focus: true}}
+  end
+
   class SelectorListener < Selenium::WebDriver::Support::AbstractEventListener
     def initialize
       super
