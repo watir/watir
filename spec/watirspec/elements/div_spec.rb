@@ -176,7 +176,7 @@ describe 'Div' do
 
     it 'fires the ondblclick event with specified scroll position' do
       div = browser.div(id: 'html_test')
-      div.double_click(scroll_pos: :center)
+      div.double_click(scroll_to: :center)
       expect(messages).to include('double clicked')
     end
   end
@@ -203,7 +203,7 @@ describe 'Div' do
 
     it 'accepts modifiers with scroll position', except: {browser: :ie} do
       browser.goto(WatirSpec.url_for('right_click.html'))
-      browser.div(id: 'click-logger').right_click(:control, :alt, scroll_pos: :center)
+      browser.div(id: 'click-logger').right_click(:control, :alt, scroll_to: :center)
       expect(event_log.first).to eq('control=true alt=true')
     end
 

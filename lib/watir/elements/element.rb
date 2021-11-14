@@ -146,9 +146,10 @@ module Watir
     # @param [:shift, :alt, :control, :command, :meta] modifiers to press while clicking.
     #
 
-    def click(*modifiers)
+    def click(*modifiers, scroll_to: :center)
       element_call(:wait_for_enabled) do
         if modifiers.any?
+          scroll.to(scroll_to) if scroll_to
           action = driver.action
           modifiers.each { |mod| action.key_down mod }
           action.click @element
@@ -203,12 +204,12 @@ module Watir
     #   browser.element(name: "new_user_button").double_click
     #
     # @example
-    #   browser.element(name: "new_user_button").double_click(scroll_pos: :center)
+    #   browser.element(name: "new_user_button").double_click(scroll_to: :center)
     #
 
-    def double_click(scroll_pos: :center)
+    def double_click(scroll_to: :center)
       element_call(:wait_for_present) do
-        scroll.to(scroll_pos)
+        scroll.to(scroll_to) if scroll_to
         driver.action.double_click(@element).perform
       end
       browser.after_hooks.run
@@ -241,15 +242,15 @@ module Watir
     #   browser.element(name: "new_user_button").right_click(:shift, :alt)
     #
     # @example Click an element with several modifier keys pressed and scroll position
-    #   browser.element(name: "new_user_button").right_click(:shift, :alt, scroll_pos: :center)
+    #   browser.element(name: "new_user_button").right_click(:shift, :alt, scroll_to: :center)
     #
-    # @param [:shift, :alt, :control, :command, :meta, scroll_pos: :center]
+    # @param [:shift, :alt, :control, :command, :meta, scroll_to: :center]
     # modifiers to press while right clicking and scroll position.
     #
 
-    def right_click(*modifiers, scroll_pos: :center)
+    def right_click(*modifiers, scroll_to: :center)
       element_call(:wait_for_present) do
-        scroll.to(scroll_pos)
+        scroll.to(scroll_to) if scroll_to
         action = driver.action
         if modifiers.any?
           modifiers.each { |mod| action.key_down mod }
@@ -272,12 +273,12 @@ module Watir
     #   browser.element(name: "new_user_button").hover
     #
     # @example
-    #   browser.element(name: "new_user_button").hover(scroll_pos: :center)
+    #   browser.element(name: "new_user_button").hover(scroll_to: :center)
     #
 
-    def hover(scroll_pos: :center)
+    def hover(scroll_to: :center)
       element_call(:wait_for_present) do
-        scroll.to(scroll_pos)
+        scroll.to(scroll_to) if scroll_to
         driver.action.move_to(@element).perform
       end
     end
@@ -290,14 +291,14 @@ module Watir
     #   a = browser.div(id: "draggable")
     #   b = browser.div(id: "droppable")
     #   a.drag_and_drop_on b
-    #   a.drag_and_drop_on b, scroll_pos: :center
+    #   a.drag_and_drop_on b, scroll_to: :center
     #
 
-    def drag_and_drop_on(other, scroll_pos: :center)
+    def drag_and_drop_on(other, scroll_to: :center)
       assert_is_element other
 
       value = element_call(:wait_for_present) do
-        scroll.to(scroll_pos)
+        scroll.to(scroll_to) if scroll_to
         driver.action
               .drag_and_drop(@element, other.wd)
               .perform
@@ -314,16 +315,16 @@ module Watir
     #   browser.div(id: "draggable").drag_and_drop_by 100, 25
     #
     # @example
-    #   browser.div(id: "draggable").drag_and_drop_by 100, 25, scroll_pos: :center
+    #   browser.div(id: "draggable").drag_and_drop_by 100, 25, scroll_to: :center
     #
     # @param [Integer] right_by
     # @param [Integer] down_by
-    # @param [Symbol] scroll_position: [:]
+    # @param [Symbol] scroll_to
     #
 
-    def drag_and_drop_by(right_by, down_by, scroll_pos: :center)
+    def drag_and_drop_by(right_by, down_by, scroll_to: :center)
       element_call(:wait_for_present) do
-        scroll.to(scroll_pos)
+        scroll.to(scroll_to) if scroll_to
         driver.action
               .drag_and_drop_by(@element, right_by, down_by)
               .perform

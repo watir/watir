@@ -622,8 +622,7 @@ describe 'Element' do
     end
   end
 
-  describe '#hover', except: {browser: :ie,
-                              reason: 'needs require_window_focus'} do
+  describe '#hover' do
     def element_color(element)
       case element.style('color')
       when 'rgba(0, 0, 255, 1)'
@@ -635,18 +634,20 @@ describe 'Element' do
       end
     end
 
-    it 'allows scrolling to top' do
+    it 'allows scrolling to top', except: {browser: :ie,
+                                           reason: 'needs require_window_focus'} do
       browser.goto(WatirSpec.url_for('scroll.html'))
       element = browser.div(id: 'center')
 
-      element.hover(scroll_pos: :top)
+      element.hover(scroll_to: :top)
       expect(element_color(element)).to eq :orange
 
       element_top = browser.execute_script('return arguments[0].getBoundingClientRect().top', element)
       expect(element_top).to be_within(1).of(0)
     end
 
-    it 'scrolls to center by default' do
+    it 'scrolls to center by default', except: {browser: :ie,
+                                                reason: 'needs require_window_focus'} do
       browser.goto(WatirSpec.url_for('scroll.html'))
       element = browser.div(id: 'center')
 
@@ -658,17 +659,29 @@ describe 'Element' do
       expect(element_rect['top']).to eq(element_rect['bottom'] - element_rect['height'])
     end
 
-    it 'allows scrolling to bottom' do
+    it 'allows scrolling to bottom', except: {browser: :ie,
+                                              reason: 'needs require_window_focus'} do
       browser.goto(WatirSpec.url_for('scroll.html'))
       element = browser.div(id: 'center')
 
-      element.hover(scroll_pos: :bottom)
+      element.hover(scroll_to: :bottom)
       expect(element_color(element)).to eq :orange
 
       element_bottom = browser.execute_script('return arguments[0].getBoundingClientRect().bottom', element)
       window_height = browser.execute_script('return window.innerHeight')
 
       expect(element_bottom).to be_within(1).of(window_height)
+    end
+
+    it 'allows not scrolling', except: {browser: %i[chrome edge],
+                                        reason: 'https://bugs.chromium.org/p/chromedriver/issues/detail?id=3955'} do
+      browser.goto(WatirSpec.url_for('scroll.html'))
+      element = browser.div(id: 'center')
+
+      browser.execute_script('return window.pageYOffset;')
+      browser.execute_script('return window.innerHeight;')
+
+      expect { element.hover(scroll_to: nil) }.to raise_exception Selenium::WebDriver::Error::MoveTargetOutOfBoundsError
     end
   end
 
