@@ -964,40 +964,63 @@ describe 'Element' do
 
     it 'returns false if element center is not covered' do
       btn = browser.button(id: 'not_obscured')
-      expect(btn).not_to be_obscured
+      btn.scroll.to :center
       expect { btn.click }.not_to raise_exception
+      expect(btn).not_to be_obscured
     end
 
     it 'returns false if element center is covered by its descendant' do
       btn = browser.button(id: 'has_descendant')
-      expect(btn).not_to be_obscured
+      btn.scroll.to :center
       expect { btn.click }.not_to raise_exception
+      expect(btn).not_to be_obscured
     end
 
     it 'returns true if element center is covered by a non-descendant',
        except: {browser: :safari, reason: 'not getting element click intercepted'} do
       btn = browser.button(id: 'obscured')
-      expect(btn).to be_obscured
-
+      btn.scroll.to :center
       expect { btn.click }.to raise_exception(Selenium::WebDriver::Error::ElementClickInterceptedError)
+      expect(btn).to be_obscured
     end
 
     it 'returns false if element center is surrounded by non-descendants' do
       btn = browser.button(id: 'surrounded')
-      expect(btn).not_to be_obscured
+      btn.scroll.to :center
       expect { btn.click }.not_to raise_exception
+      expect(btn).not_to be_obscured
     end
 
-    it 'scrolls interactive element into view before checking if obscured' do
-      btn = browser.button(id: 'requires_scrolling')
-      expect(btn).not_to be_obscured
-      expect { btn.click }.not_to raise_exception
+    it 'correctly scrolls element below viewport' do
+      browser.goto WatirSpec.url_for('sticky_elements.html')
+
+      element = browser.div(id: 'center')
+
+      browser.scroll.to :top
+      expect { element.click }.not_to raise_exception
+
+      browser.scroll.to :top
+      expect(element).not_to be_obscured
+    end
+
+    it 'correctly scrolls element above viewport',
+       except: {browser: %i[chrome edge],
+                reason: 'https://bugs.chromium.org/p/chromedriver/issues/detail?id=3954'} do
+      browser.goto WatirSpec.url_for('sticky_elements.html')
+      element = browser.div(id: 'center')
+
+      browser.scroll.to :bottom
+      expect { element.click }.not_to raise_exception
+
+      browser.scroll.to :bottom
+      expect(element).not_to be_obscured
     end
 
     it 'scrolls non-interactive element into view before checking if obscured' do
       div = browser.div(id: 'requires_scrolling_container')
-      expect(div).not_to be_obscured
       expect { div.click }.not_to raise_exception
+      browser.scroll.to :top
+      expect(div).not_to be_obscured
     end
 
     it 'returns true if element cannot be scrolled into view' do

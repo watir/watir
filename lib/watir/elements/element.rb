@@ -542,11 +542,11 @@ module Watir
     # @return [Boolean]
     #
 
-    def obscured?(scroll_pos: :center)
+    def obscured?
       element_call do
         return true unless present?
 
-        scroll.to(scroll_pos)
+        scroll.to :bottom unless in_viewport?
         execute_js(:elementObscured, self)
       end
     end
