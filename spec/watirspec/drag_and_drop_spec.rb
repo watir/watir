@@ -15,7 +15,7 @@ describe 'Element' do
 
     it 'can drag and drop an element onto another with specified scroll position' do
       expect(droppable.text).to include 'Drop here'
-      draggable.drag_and_drop_on droppable, scroll_pos: :center
+      draggable.drag_and_drop_on droppable, scroll_to: :center
       expect(droppable.text).to include 'Dropped!'
     end
 
@@ -27,7 +27,7 @@ describe 'Element' do
 
     it 'can drag an element by the given offset with specified scroll position' do
       expect(droppable.text).to include 'Drop here'
-      draggable.drag_and_drop_by 200, 50, scroll_pos: :center
+      draggable.drag_and_drop_by 200, 50, scroll_to: :center
       expect(droppable.text).to include 'Dropped!'
     end
   end
