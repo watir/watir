@@ -622,25 +622,53 @@ describe 'Element' do
     end
   end
 
-  describe '#hover' do
-    it 'should hover over the element', except: {browser: :ie} do
-      browser.goto WatirSpec.url_for('hover.html')
-      link = browser.a
-
-      expect(link.style('font-size')).to eq '10px'
-      link.hover
-      link.wait_until { |l| l.style('font-size') == '20px' }
-      expect(link.style('font-size')).to eq '20px'
+  describe '#hover', except: {browser: :ie,
+                              reason: 'needs require_window_focus'} do
+    def element_color(element)
+      case element.style('color')
+      when 'rgba(0, 0, 255, 1)'
+        :blue
+      when 'rgba(255, 165, 0, 1)', 'rgb(255, 165, 0)'
+        :orange
+      else
+        raise rgba
+      end
     end
 
-    it 'should hover over the element with specified scroll position', except: {browser: :ie} do
-      browser.goto WatirSpec.url_for('hover.html')
-      link = browser.a
+    it 'allows scrolling to top' do
+      browser.goto(WatirSpec.url_for('scroll.html'))
+      element = browser.div(id: 'center')
 
-      expect(link.style('font-size')).to eq '10px'
-      link.hover(scroll_pos: :center)
-      link.wait_until { |l| l.style('font-size') == '20px' }
-      expect(link.style('font-size')).to eq '20px'
+      element.hover(scroll_pos: :top)
+      expect(element_color(element)).to eq :orange
+
+      element_top = browser.execute_script('return arguments[0].getBoundingClientRect().top', element)
+      expect(element_top).to be_within(1).of(0)
+    end
+
+    it 'scrolls to center by default' do
+      browser.goto(WatirSpec.url_for('scroll.html'))
+      element = browser.div(id: 'center')
+
+      element.hover
+      expect(element_color(element)).to eq :orange
+
+      element_rect = browser.execute_script('return arguments[0].getBoundingClientRect()', element)
+
+      expect(element_rect['top']).to eq(element_rect['bottom'] - element_rect['height'])
+    end
+
+    it 'allows scrolling to bottom' do
+      browser.goto(WatirSpec.url_for('scroll.html'))
+      element = browser.div(id: 'center')
+
+      element.hover(scroll_pos: :bottom)
+      expect(element_color(element)).to eq :orange
+
+      element_bottom = browser.execute_script('return arguments[0].getBoundingClientRect().bottom', element)
+      window_height = browser.execute_script('return window.innerHeight')
+
+      expect(element_bottom).to be_within(1).of(window_height)
     end
   end
 
