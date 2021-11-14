@@ -551,6 +551,16 @@ module Watir
     end
 
     #
+    # Returns true if the top of the element is visible in the viewport.
+    #
+    # @return [Boolean]
+    #
+
+    def in_viewport?
+      element_call { execute_js(:isElementInViewport, @element) }
+    end
+
+    #
     # Returns given style property of this element.
     #
     # @example

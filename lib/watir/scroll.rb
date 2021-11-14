@@ -58,7 +58,8 @@ module Watir
       when :top, :start
         'window.scrollTo(0, 0);'
       when :center
-        'window.scrollTo(window.outerWidth / 2, window.outerHeight / 2);'
+        y = '(document.body.scrollHeight - window.innerHeight) / 2 + document.body.getBoundingClientRect().top'
+        "window.scrollTo(window.outerWidth / 2, #{y});"
       when :bottom, :end
         'window.scrollTo(0, document.body.scrollHeight);'
       when Array
