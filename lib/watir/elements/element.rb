@@ -551,6 +551,16 @@ module Watir
     end
 
     #
+    # Returns true if the element's center point is covered by a non-descendant element.
+    #
+    # @return [Boolean]
+    #
+
+    def in_viewport?
+      element_call { execute_js(:isElementInViewport, @element) }
+    end
+
+    #
     # Returns given style property of this element.
     #
     # @example
