@@ -1,3 +1,12 @@
+### 7.1.0 (2021-11-15)
+
+* Add automatic scroll to `Element#click` with method parameters to ensure element is in viewport
+* Provide `:scroll_to` parameter for element methods implemented with `Actions` class (thanks osadasami #948, #949)
+* Allow `:scroll_to` parameter to accept `nil` argument to avoid automatic scrolling
+* Implement `Element#in_viewport?`
+* Fix but where `Scroll#to` for `Browser` with `:center` argument did not scroll to center of page
+* Change `Element#obscured?` to only scroll when element out of viewport and then scroll to bottom instead of top
+
 ### 7.0.0 (2021-10-18)
 
 * Requires Selenium 4.0.0+
