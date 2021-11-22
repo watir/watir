@@ -741,6 +741,7 @@ describe Watir::Locators::Element::SelectorBuilder do
         allow(query_scope).to receive(:selector_builder).and_return(selector_builder)
         allow(query_scope).to receive(:browser).and_return(browser)
         allow(query_scope).to receive(:is_a?).with(Watir::Browser).and_return(false)
+        allow(query_scope).to receive(:is_a?).with(Watir::ShadowRoot).and_return(false)
         allow(query_scope).to receive(:is_a?).with(Watir::IFrame).and_return(true)
 
         selector = {tag_name: 'div'}

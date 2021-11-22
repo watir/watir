@@ -4,7 +4,7 @@
 * Provide `:scroll_to` parameter for element methods implemented with `Actions` class (thanks osadasami #948, #949)
 * Allow `:scroll_to` parameter to accept `nil` argument to avoid automatic scrolling
 * Implement `Element#in_viewport?`
-* Fix but where `Scroll#to` for `Browser` with `:center` argument did not scroll to center of page
+* Fix bug where `Scroll#to` for `Browser` with `:center` argument did not scroll to center of page
 * Change `Element#obscured?` to only scroll when element out of viewport and then scroll to bottom instead of top
 
 ### 7.0.0 (2021-10-18)

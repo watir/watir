@@ -24,6 +24,7 @@ module Watir
           @query_scope = query_scope
         end
 
+        # rubocop:disable Metrics/PerceivedComplexity:
         def build(selector)
           @selector = selector
 
@@ -32,20 +33,21 @@ module Watir
           scope = @query_scope unless @selector.key?(:scope) || @query_scope.is_a?(Watir::Browser)
 
           @built =
-              if scope.kind_of? Watir::ShadowRoot
-                raise ArgumentError, ":xpath not supported when locating elements from shadow root" if @selector[:xpath]
+            if scope.is_a? Watir::ShadowRoot
+              raise ArgumentError, ':xpath not supported when locating elements from shadow root' if @selector[:xpath]
 
-                @selector[:css] ||= '*'
-                @selector
-              else
-                wd_locators.empty? ? build_wd_selector(@selector) : @selector
-              end
+              @selector[:css] ||= '*'
+              @selector
+            else
+              wd_locators.empty? ? build_wd_selector(@selector) : @selector
+            end
           @built.delete(:index) if @built[:index]&.zero?
           @built[:scope] = scope if scope
 
           Watir.logger.info "Converted #{inspected} to #{@built.inspect}"
           @built
         end
+        # rubocop:enable Metrics/PerceivedComplexity:
 
         def wd_locators
           Watir::Locators::W3C_FINDERS & @selector.keys
