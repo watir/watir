@@ -1,6 +1,7 @@
 require 'selenium-webdriver'
 require 'time'
 
+require 'watir/search_context'
 require 'watir/scroll'
 require 'watir/wait'
 require 'watir/exception'

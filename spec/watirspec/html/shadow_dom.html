@@ -11,7 +11,7 @@
     <script>
       let shadowRoot = document.getElementById('shadow_host').attachShadow({mode: 'open'});
       shadowRoot.innerHTML = `
-              <span class="wrapper" id="shadow_dom_first_element"><span class="info">some text</span></span>
+              <span class="wrapper" id="shadow_content"><span class="info">some text</span></span>
               <div id="nested_shadow_host"></div>
               <a href="scroll.html">scroll.html</a>
               <input type="text" />
@@ -21,7 +21,7 @@
 
       let nestedShadowRoot = shadowRoot.getElementById('nested_shadow_host').attachShadow({mode: 'open'});
       nestedShadowRoot.innerHTML = `
-              <div id="nested_shadow_dom_first_element"><div>nested text</div></div>
+              <div id="nested_shadow_content"><div>nested text</div></div>
             `;
     </script>
   </body>

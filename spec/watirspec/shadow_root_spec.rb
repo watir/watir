@@ -24,7 +24,7 @@ describe 'ShadowRoot' do
 
   it 'locates a nested element' do
     shadow_root = browser.div(id: 'shadow_host').shadow_root
-    expect(shadow_root.element.id).to eq('shadow_dom_first_element')
+    expect(shadow_root.element.id).to eq('shadow_content')
     expect(shadow_root.element(id: 'nested_shadow_host').id).to eq('nested_shadow_host')
     expect(shadow_root.element(id: /nested_shadow_.+/).id).to eq('nested_shadow_host')
     expect(shadow_root.element(css: 'div').id).to eq('nested_shadow_host')
@@ -43,14 +43,14 @@ describe 'ShadowRoot' do
   it 'locates a nested element within a nested shadow DOM' do
     shadow_root = browser.div(id: 'shadow_host').shadow_root
     nested_shadow_root = shadow_root.element(id: 'nested_shadow_host').shadow_root
-    expect(nested_shadow_root.element.id).to eq('nested_shadow_dom_first_element')
+    expect(nested_shadow_root.element.id).to eq('nested_shadow_content')
   end
 
   it 'locates a collection of nested elements within a nested shadow DOM' do
     shadow_root = browser.div(id: 'shadow_host').shadow_root
     nested_shadow_root = shadow_root.element(id: 'nested_shadow_host').shadow_root
     expect(nested_shadow_root.elements.count).to eq(2)
-    expect(nested_shadow_root.elements.map(&:id)).to include('nested_shadow_dom_first_element')
+    expect(nested_shadow_root.elements.map(&:id)).to include('nested_shadow_content')
   end
 
   it 'raises ArgumentError when using :xpath to locate elements directly from the shadow root' do
