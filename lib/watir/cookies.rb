@@ -106,8 +106,6 @@ module Watir
     end
 
     #
-    # TODO: Use :permitted_classes keyword when minimum supported Ruby is 2.6
-    #
     # Load cookies from file
     #
     # @example
@@ -117,7 +115,7 @@ module Watir
     #
 
     def load(file = '.cookies')
-      YAML.safe_load(IO.read(file), [::Symbol, ::Time]).each do |c|
+      YAML.safe_load(IO.read(file), permitted_classes: [::Symbol, ::Time]).each do |c|
         add(c.delete(:name), c.delete(:value), c)
       end
     end
