@@ -70,7 +70,7 @@ $ bundle exec rake svg:update
 
 #### Github Actions
 
-Watir specs are run with [Github Actions](https://github.com/watir/watir/workflows).
+Watir specs are run with [Github Actions](https://github.com/watir/watir/tree/main/.github/workflows).
 
 Watir code is tested on Linux with latest versions of supported browsers and all active Ruby versions.
 
@@ -92,7 +92,7 @@ to ensure all paths in their code have tests associated with them.
 
 #### Rubocop
 
-Watir is using [Rubocop](https://github.com/rubocop-hq/rubocop) to ensure a consistent style across the
+Watir is using [Rubocop](https://github.com/rubocop/rubocop) to ensure a consistent style across the
 code base. It is run with our minimum supported Ruby version (2.3) 
 We have some [established exceptions](https://github.com/watir/watir/blob/main/.rubocop.yml) 
 that might need to be tweaked for new code submissions. This can be addressed in the PR as necessary.
