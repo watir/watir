@@ -3,9 +3,12 @@
 Watir Powered By Selenium!
 
 [![Gem Version](https://badge.fury.io/rb/watir.svg)](http://badge.fury.io/rb/watir)
-[![All Tests](https://github.com/watir/watir/actions/workflows/tests.yml/badge.svg)](https://github.com/watir/watir/actions/workflows/tests.yml)
-[![Code Climate](https://codeclimate.com/github/watir/watir.svg)](https://codeclimate.com/github/watir/watir)
-[![Coverage Status](https://coveralls.io/repos/github/watir/watir/badge.svg?branch=main)](https://coveralls.io/github/watir/watir?branch=main)
+[![Chrome Tests](https://github.com/watir/watir/actions/workflows/chrome.yml/badge.svg)](https://github.com/watir/watir/actions/workflows/chrome.yml)
+[![Edge Tests](https://github.com/watir/watir/actions/workflows/edge.yml/badge.svg)](https://github.com/watir/watir/actions/workflows/edge.yml)
+[![Firefox Tests](https://github.com/watir/watir/actions/workflows/firefox.yml/badge.svg)](https://github.com/watir/watir/actions/workflows/firefox.yml)
+[![IE Tests](https://github.com/watir/watir/actions/workflows/ie.yml/badge.svg)](https://github.com/watir/watir/actions/workflows/ie.yml)
+[![Safari Tests](https://github.com/watir/watir/actions/workflows/safari.yml/badge.svg)](https://github.com/watir/watir/actions/workflows/safari.yml)
+[![Unit Tests](https://github.com/watir/watir/actions/workflows/unit.yml/badge.svg)](https://github.com/watir/watir/actions/workflows/unit.yml)
 
 ## Using Watir
 
