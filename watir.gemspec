@@ -36,7 +36,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rake', '>= 12.3.3'
   s.add_development_dependency 'rspec', '~> 3.0'
   s.add_development_dependency 'rspec-retry'
-  s.add_development_dependency 'rubocop', '~> 0.59'
+  s.add_development_dependency 'rubocop', '~> 1.32.0'
   s.add_development_dependency 'selenium_statistics'
   s.add_development_dependency 'simplecov-console'
   s.add_development_dependency 'webdrivers', '~> 4.7'
