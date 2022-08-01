@@ -758,7 +758,7 @@ module Watir
     end
 
     def ensure_context
-      if @query_scope.is_a?(Browser) || !@query_scope.located? && @query_scope.is_a?(IFrame)
+      if @query_scope.is_a?(Browser) || (!@query_scope.located? && @query_scope.is_a?(IFrame))
         @query_scope.browser.locate
       elsif @query_scope.located? && @query_scope.stale?
         @query_scope.locate
@@ -790,7 +790,7 @@ module Watir
 
     def raise_present
       message = "element located, but timed out after #{Watir.default_timeout} seconds, " \
-                               "waiting for #{inspect} to be present"
+                "waiting for #{inspect} to be present"
       raise unknown_exception, message
     end
 

@@ -4,7 +4,7 @@ module Watir
       keys = dts.map(&:text)
       values = dds.map(&:text)
 
-      Hash[keys.zip(values)]
+      keys.zip(values).to_h
     end
   end # DList
 end # Watir

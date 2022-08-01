@@ -54,7 +54,7 @@ describe Watir::Locators::Cell::SelectorBuilder do
       it 'attribute and text' do
         selector = {headers: /before_tax/, text: '5 934'}
         built = {xpath: "./*[local-name()='th' or local-name()='td']" \
-"[normalize-space()='5 934'][contains(@headers, 'before_tax')]"}
+                        "[normalize-space()='5 934'][contains(@headers, 'before_tax')]"}
 
         expect(selector_builder.build(selector)).to eq built
       end

@@ -135,7 +135,7 @@ module Watir
           end
 
           def equal_or_contains(value)
-            return nil if value.nil? || value.is_a?(String) && value.empty? || value.inspect == '//'
+            return nil if value.nil? || (value.is_a?(String) && value.empty?) || value.inspect == '//'
 
             process_attribute(:text, value)
           end

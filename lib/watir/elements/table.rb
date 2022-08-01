@@ -31,7 +31,7 @@ module Watir
 
       all_rows.entries[1..].map do |row|
         cell_size_check(header_row, row)
-        Hash[headers(header_row).map(&:text).zip(row.cells.map(&:text))]
+        headers(header_row).map(&:text).zip(row.cells.map(&:text)).to_h
       end
     end
 

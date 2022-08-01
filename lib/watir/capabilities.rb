@@ -16,7 +16,7 @@ module Watir
       end
       raise(ArgumentError, ':url and :service are not both allowed') if @options.key?(:service) && @options.key?(:url)
 
-      @browser = browser.nil? && infer_browser || browser
+      @browser = (browser.nil? && infer_browser) || browser
 
       @selenium_browser = @options.key?(:url) ? :remote : @browser
     end
