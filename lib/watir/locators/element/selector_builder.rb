@@ -66,7 +66,7 @@ module Watir
         end
 
         def merge_scope?
-          return false unless (Watir::Locators::W3C_FINDERS + [:adjacent] & @selector.keys).empty?
+          return false unless ((Watir::Locators::W3C_FINDERS + [:adjacent]) & @selector.keys).empty?
 
           return false if [Watir::Browser, Watir::IFrame].any? { |k| @query_scope.is_a?(k) }
 

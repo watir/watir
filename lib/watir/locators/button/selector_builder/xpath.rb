@@ -54,9 +54,7 @@ module Watir
           def input_types(type = nil)
             types = if type.eql?(nil)
                       Watir::Button::VALID_TYPES
-                    elsif Watir::Button::VALID_TYPES.include?(type)
-                      [type]
-                    elsif type.eql?(true) || type.eql?(false)
+                    elsif Watir::Button::VALID_TYPES.include?(type) || type.eql?(true) || type.eql?(false)
                       [type]
                     else
                       msg = "Button Elements can not be located by input type: #{type}"

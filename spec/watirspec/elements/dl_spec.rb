@@ -104,12 +104,10 @@ describe 'Dl' do
 
   describe '#to_hash' do
     it 'converts the dl to a Hash' do
-      expect(browser.dl(id: 'experience-list').to_hash).to eq Hash[
-        'Experience' => '11 years',
-        'Education' => 'Master',
-        'Current industry' => 'Architecture',
-        'Previous industry experience' => 'Architecture'
-      ]
+      expect(browser.dl(id: 'experience-list').to_hash).to eq({'Experience' => '11 years',
+                                                               'Education' => 'Master',
+                                                               'Current industry' => 'Architecture',
+                                                               'Previous industry experience' => 'Architecture'})
     end
   end
 end

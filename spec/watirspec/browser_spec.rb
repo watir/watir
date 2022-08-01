@@ -385,7 +385,7 @@ describe 'Browser' do
     end
 
     it 'returns correct Ruby objects' do
-      expect(browser.execute_script('return {a: 1, "b": 2}')).to eq Hash['a' => 1, 'b' => 2]
+      expect(browser.execute_script('return {a: 1, "b": 2}')).to eq({'a' => 1, 'b' => 2})
       expect(browser.execute_script('return [1, 2, "3"]')).to match_array([1, 2, '3'])
       expect(browser.execute_script('return 1.2 + 1.3')).to eq 2.5
       expect(browser.execute_script('return 2 + 2')).to eq 4

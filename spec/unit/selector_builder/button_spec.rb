@@ -8,9 +8,9 @@ describe Watir::Locators::Button::SelectorBuilder do
   let(:lowercase) { 'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ' }
   let(:default_types) do
     "translate(@type,'#{uppercase}','#{lowercase}')=translate('button','#{uppercase}','#{lowercase}') or " \
-    "translate(@type,'#{uppercase}','#{lowercase}')=translate('reset','#{uppercase}','#{lowercase}') or "\
-    "translate(@type,'#{uppercase}','#{lowercase}')=translate('submit','#{uppercase}','#{lowercase}') or "\
-    "translate(@type,'#{uppercase}','#{lowercase}')=translate('image','#{uppercase}','#{lowercase}')"
+      "translate(@type,'#{uppercase}','#{lowercase}')=translate('reset','#{uppercase}','#{lowercase}') or " \
+      "translate(@type,'#{uppercase}','#{lowercase}')=translate('submit','#{uppercase}','#{lowercase}') or " \
+      "translate(@type,'#{uppercase}','#{lowercase}')=translate('image','#{uppercase}','#{lowercase}')"
   end
 
   describe '#build' do
@@ -30,7 +30,7 @@ describe Watir::Locators::Button::SelectorBuilder do
       it 'true locates button or input with a type' do
         selector = {type: true}
         built = {xpath: ".//*[(local-name()='button' and @type) or " \
-"(local-name()='input' and (#{default_types}))]"}
+                        "(local-name()='input' and (#{default_types}))]"}
         expect(selector_builder.build(selector)).to eq built
       end
 
@@ -38,8 +38,8 @@ describe Watir::Locators::Button::SelectorBuilder do
         selector = {type: 'reset'}
         type = "translate('reset','#{uppercase}','#{lowercase}')"
         built = {xpath: ".//*[(local-name()='button' and " \
-"translate(@type,'#{uppercase}','#{lowercase}')=#{type}) or " \
-"(local-name()='input' and (translate(@type,'#{uppercase}','#{lowercase}')=#{type}))]"}
+                        "translate(@type,'#{uppercase}','#{lowercase}')=#{type}) or " \
+                        "(local-name()='input' and (translate(@type,'#{uppercase}','#{lowercase}')=#{type}))]"}
         expect(selector_builder.build(selector)).to eq built
       end
 
@@ -63,49 +63,49 @@ describe Watir::Locators::Button::SelectorBuilder do
       it 'locates value of input element with String' do
         selector = {text: 'Button'}
         built = {xpath: ".//*[(local-name()='button' and normalize-space()='Button') or " \
-"(local-name()='input' and (#{default_types}) and @value='Button')]"}
+                        "(local-name()='input' and (#{default_types}) and @value='Button')]"}
         expect(selector_builder.build(selector)).to eq built
       end
 
       it 'locates text of button element with String' do
         selector = {text: 'Button 2'}
         built = {xpath: ".//*[(local-name()='button' and normalize-space()='Button 2') or " \
-"(local-name()='input' and (#{default_types}) and @value='Button 2')]"}
+                        "(local-name()='input' and (#{default_types}) and @value='Button 2')]"}
         expect(selector_builder.build(selector)).to eq built
       end
 
       it 'locates value of input element with simple Regexp' do
         selector = {text: /Button/}
         built = {xpath: ".//*[(local-name()='button' and contains(normalize-space(), 'Button')) or " \
-"(local-name()='input' and (#{default_types}) and contains(@value, 'Button'))]"}
+                        "(local-name()='input' and (#{default_types}) and contains(@value, 'Button'))]"}
         expect(selector_builder.build(selector)).to eq built
       end
 
       it 'locates text of button element with simple Regexp' do
         selector = {text: /Button 2/}
         built = {xpath: ".//*[(local-name()='button' and contains(normalize-space(), 'Button 2')) or " \
-"(local-name()='input' and (#{default_types}) and contains(@value, 'Button 2'))]"}
+                        "(local-name()='input' and (#{default_types}) and contains(@value, 'Button 2'))]"}
         expect(selector_builder.build(selector)).to eq built
       end
 
       it 'Simple Regexp for text' do
         selector = {text: /n 2/}
         built = {xpath: ".//*[(local-name()='button' and contains(normalize-space(), 'n 2')) or " \
-"(local-name()='input' and (#{default_types}) and contains(@value, 'n 2'))]"}
+                        "(local-name()='input' and (#{default_types}) and contains(@value, 'n 2'))]"}
         expect(selector_builder.build(selector)).to eq built
       end
 
       it 'Simple Regexp for value' do
         selector = {text: /Prev/}
         built = {xpath: ".//*[(local-name()='button' and contains(normalize-space(), 'Prev')) or " \
-"(local-name()='input' and (#{default_types}) and contains(@value, 'Prev'))]"}
+                        "(local-name()='input' and (#{default_types}) and contains(@value, 'Prev'))]"}
         expect(selector_builder.build(selector)).to eq built
       end
 
       it 'returns complex Regexp to the locator' do
         selector = {text: /^foo$/}
         built = {xpath: ".//*[(local-name()='button' and contains(normalize-space(), 'foo')) or " \
-"(local-name()='input' and (#{default_types}) and contains(@value, 'foo'))]", text: /^foo$/}
+                        "(local-name()='input' and (#{default_types}) and contains(@value, 'foo'))]", text: /^foo$/}
         expect(selector_builder.build(selector)).to eq built
       end
     end
@@ -114,49 +114,49 @@ describe Watir::Locators::Button::SelectorBuilder do
       it 'input element value with String' do
         selector = {value: 'Preview'}
         built = {xpath: ".//*[(local-name()='button') or (local-name()='input' and (#{default_types}))]" \
-"[normalize-space()='Preview' or @value='Preview']"}
+                        "[normalize-space()='Preview' or @value='Preview']"}
         expect(selector_builder.build(selector)).to eq built
       end
 
       it 'button element value with String' do
         selector = {value: 'button_2'}
         built = {xpath: ".//*[(local-name()='button') or (local-name()='input' and (#{default_types}))]" \
-"[normalize-space()='button_2' or @value='button_2']"}
+                        "[normalize-space()='button_2' or @value='button_2']"}
         expect(selector_builder.build(selector)).to eq built
       end
 
       it 'input element value with simple Regexp' do
         selector = {value: /Prev/}
         built = {xpath: ".//*[(local-name()='button') or (local-name()='input' and (#{default_types}))]" \
-"[contains(normalize-space(), 'Prev') or contains(@value, 'Prev')]"}
+                        "[contains(normalize-space(), 'Prev') or contains(@value, 'Prev')]"}
         expect(selector_builder.build(selector)).to eq built
       end
 
       it 'button element value with simple Regexp' do
         selector = {value: /on_2/}
         built = {xpath: ".//*[(local-name()='button') or (local-name()='input' and (#{default_types}))]" \
-"[contains(normalize-space(), 'on_2') or contains(@value, 'on_2')]"}
+                        "[contains(normalize-space(), 'on_2') or contains(@value, 'on_2')]"}
         expect(selector_builder.build(selector)).to eq built
       end
 
       it 'button element text with String' do
         selector = {value: 'Button 2'}
         built = {xpath: ".//*[(local-name()='button') or (local-name()='input' and (#{default_types}))]" \
-"[normalize-space()='Button 2' or @value='Button 2']"}
+                        "[normalize-space()='Button 2' or @value='Button 2']"}
         expect(selector_builder.build(selector)).to eq built
       end
 
       it 'button element text with simple Regexp' do
         selector = {value: /ton 2/}
         built = {xpath: ".//*[(local-name()='button') or (local-name()='input' and (#{default_types}))]" \
-"[contains(normalize-space(), 'ton 2') or contains(@value, 'ton 2')]"}
+                        "[contains(normalize-space(), 'ton 2') or contains(@value, 'ton 2')]"}
         expect(selector_builder.build(selector)).to eq built
       end
 
       it 'returns complex Regexp to the locator' do
         selector = {value: /^foo$/}
         built = {xpath: ".//*[(local-name()='button') or (local-name()='input' and (#{default_types}))]" \
-"[contains(normalize-space(), 'foo') or contains(@value, 'foo')]", value: /^foo$/}
+                        "[contains(normalize-space(), 'foo') or contains(@value, 'foo')]", value: /^foo$/}
         expect(selector_builder.build(selector)).to eq built
       end
     end
@@ -171,14 +171,14 @@ describe Watir::Locators::Button::SelectorBuilder do
       it 'negative' do
         selector = {index: -4}
         built = {xpath: "(.//*[(local-name()='button') or " \
-"(local-name()='input' and (#{default_types}))])[last()-3]"}
+                        "(local-name()='input' and (#{default_types}))])[last()-3]"}
         expect(selector_builder.build(selector)).to eq built
       end
 
       it 'last' do
         selector = {index: -1}
         built = {xpath: "(.//*[(local-name()='button') or " \
-"(local-name()='input' and (#{default_types}))])[last()]"}
+                        "(local-name()='input' and (#{default_types}))])[last()]"}
         expect(selector_builder.build(selector)).to eq built
       end
 
@@ -199,7 +199,7 @@ describe Watir::Locators::Button::SelectorBuilder do
       it 'locates using class and attributes' do
         selector = {class: 'image', name: 'new_user_image', src: true}
         built = {xpath: ".//*[(local-name()='button') or (local-name()='input' and (#{default_types}))]" \
-"[contains(concat(' ', @class, ' '), ' image ')][@name='new_user_image' and @src]"}
+                        "[contains(concat(' ', @class, ' '), ' image ')][@name='new_user_image' and @src]"}
         expect(selector_builder.build(selector)).to eq built
       end
     end

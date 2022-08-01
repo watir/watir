@@ -182,16 +182,16 @@ describe Watir::Locators::Element::Matcher do
       end
 
       it 'by visibility true' do
-        elements = [wd_element(tag_name: 'div', "displayed?": false),
-                    wd_element(tag_name: 'span', "displayed?": true)]
+        elements = [wd_element(tag_name: 'div', displayed?: false),
+                    wd_element(tag_name: 'span', displayed?: true)]
         @values_to_match = {visible: true}
 
         expect(matcher.match(elements, values_to_match, @filter)).to eq elements[1]
       end
 
       it 'by visibility false' do
-        elements = [wd_element(tag_name: 'div', "displayed?": true),
-                    wd_element(tag_name: 'span', "displayed?": false)]
+        elements = [wd_element(tag_name: 'div', displayed?: true),
+                    wd_element(tag_name: 'span', displayed?: false)]
         @values_to_match = {visible: false}
 
         expect(matcher.match(elements, values_to_match, @filter)).to eq elements[1]
@@ -287,9 +287,9 @@ describe Watir::Locators::Element::Matcher do
       end
 
       it 'by visibility false' do
-        elements = [wd_element("displayed?": false),
-                    wd_element("displayed?": true),
-                    wd_element("displayed?": false)]
+        elements = [wd_element(displayed?: false),
+                    wd_element(displayed?: true),
+                    wd_element(displayed?: false)]
         @values_to_match = {visible: false}
 
         expect(matcher.match(elements, values_to_match, @filter)).to eq [elements[0], elements[2]]
@@ -416,7 +416,7 @@ describe Watir::Locators::Element::Matcher do
         expect(matcher.match(elements, values_to_match, filter)).to eq nil
       end
 
-      # Note: This will work after:text_regexp deprecation removed
+      # NOTE: This will work after:text_regexp deprecation removed
       it 'keeps element from being located' do
         @values_to_match = {text: /some visible some hidden/}
         allow(browser).to receive(:execute_script).and_return('all visible', 'some visible')

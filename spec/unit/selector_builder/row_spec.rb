@@ -13,7 +13,8 @@ describe Watir::Locators::Row::SelectorBuilder do
         @query_scope = element(tag_name: 'table')
 
         built = {xpath: "./*[local-name()='tr'] | ./*[local-name()='tbody']/*[local-name()='tr'] | " \
-"./*[local-name()='thead']/*[local-name()='tr'] | ./*[local-name()='tfoot']/*[local-name()='tr']"}
+                        "./*[local-name()='thead']/*[local-name()='tr'] | " \
+                        "./*[local-name()='tfoot']/*[local-name()='tr']"}
 
         expect(selector_built).to eq built
       end
@@ -49,7 +50,8 @@ describe Watir::Locators::Row::SelectorBuilder do
         it 'positive' do
           @selector = {index: 1}
           built = {xpath: "(./*[local-name()='tr'] | ./*[local-name()='tbody']/*[local-name()='tr'] | " \
-"./*[local-name()='thead']/*[local-name()='tr'] | ./*[local-name()='tfoot']/*[local-name()='tr'])[2]"}
+                          "./*[local-name()='thead']/*[local-name()='tr'] | " \
+                          "./*[local-name()='tfoot']/*[local-name()='tr'])[2]"}
 
           expect(selector_built).to eq built
         end
@@ -57,7 +59,8 @@ describe Watir::Locators::Row::SelectorBuilder do
         it 'negative' do
           @selector = {index: -3}
           built = {xpath: "(./*[local-name()='tr'] | ./*[local-name()='tbody']/*[local-name()='tr'] | " \
-"./*[local-name()='thead']/*[local-name()='tr'] | ./*[local-name()='tfoot']/*[local-name()='tr'])[last()-2]"}
+                          "./*[local-name()='thead']/*[local-name()='tr'] | " \
+                          "./*[local-name()='tfoot']/*[local-name()='tr'])[last()-2]"}
 
           expect(selector_built).to eq built
         end
@@ -65,7 +68,8 @@ describe Watir::Locators::Row::SelectorBuilder do
         it 'last' do
           @selector = {index: -1}
           built = {xpath: "(./*[local-name()='tr'] | ./*[local-name()='tbody']/*[local-name()='tr'] | " \
-"./*[local-name()='thead']/*[local-name()='tr'] | ./*[local-name()='tfoot']/*[local-name()='tr'])[last()]"}
+                          "./*[local-name()='thead']/*[local-name()='tr'] | " \
+                          "./*[local-name()='tfoot']/*[local-name()='tr'])[last()]"}
 
           expect(selector_built).to eq built
         end
@@ -73,7 +77,8 @@ describe Watir::Locators::Row::SelectorBuilder do
         it 'does not return index if it is zero' do
           @selector = {index: 0}
           built = {xpath: "./*[local-name()='tr'] | ./*[local-name()='tbody']/*[local-name()='tr'] | " \
-"./*[local-name()='thead']/*[local-name()='tr'] | ./*[local-name()='tfoot']/*[local-name()='tr']"}
+                          "./*[local-name()='thead']/*[local-name()='tr'] | " \
+                          "./*[local-name()='tfoot']/*[local-name()='tr']"}
 
           expect(selector_built).to eq built
         end
@@ -89,9 +94,11 @@ describe Watir::Locators::Row::SelectorBuilder do
         it 'attribute and class' do
           @selector = {id: 'gregory', class: /brick/}
           built = {xpath: "./*[local-name()='tr'][contains(@class, 'brick')][@id='gregory'] | " \
-"./*[local-name()='tbody']/*[local-name()='tr'][contains(@class, 'brick')][@id='gregory'] | " \
-"./*[local-name()='thead']/*[local-name()='tr'][contains(@class, 'brick')][@id='gregory'] | " \
-"./*[local-name()='tfoot']/*[local-name()='tr'][contains(@class, 'brick')][@id='gregory']"}
+                          "./*[local-name()='tbody']/*[local-name()='tr']" \
+                          "[contains(@class, 'brick')][@id='gregory'] | " \
+                          "./*[local-name()='thead']/*[local-name()='tr']" \
+                          "[contains(@class, 'brick')][@id='gregory'] | " \
+                          "./*[local-name()='tfoot']/*[local-name()='tr'][contains(@class, 'brick')][@id='gregory']"}
 
           expect(selector_built).to eq built
         end
@@ -101,7 +108,8 @@ describe Watir::Locators::Row::SelectorBuilder do
         it 'any text value' do
           @selector = {text: 'Gregory'}
           built = {xpath: "./*[local-name()='tr'] | ./*[local-name()='tbody']/*[local-name()='tr'] | " \
-"./*[local-name()='thead']/*[local-name()='tr'] | ./*[local-name()='tfoot']/*[local-name()='tr']", text: 'Gregory'}
+                          "./*[local-name()='thead']/*[local-name()='tr'] | " \
+                          "./*[local-name()='tfoot']/*[local-name()='tr']", text: 'Gregory'}
 
           expect(selector_built).to eq built
         end

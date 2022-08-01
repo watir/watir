@@ -14,7 +14,7 @@ module Watir
       #
 
       def wait(timeout, &block)
-        end_time = @end_time || current_time + timeout
+        end_time = @end_time || (current_time + timeout)
         loop do
           yield(block)
           @remaining_time = end_time - current_time

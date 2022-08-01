@@ -102,7 +102,7 @@ module Watir
     #
 
     def save(file = '.cookies')
-      IO.write(file, to_a.to_yaml)
+      File.write(file, to_a.to_yaml)
     end
 
     #
@@ -115,7 +115,7 @@ module Watir
     #
 
     def load(file = '.cookies')
-      YAML.safe_load(IO.read(file), permitted_classes: [::Symbol, ::Time]).each do |c|
+      YAML.safe_load(File.read(file), permitted_classes: [::Symbol, ::Time]).each do |c|
         add(c.delete(:name), c.delete(:value), c)
       end
     end

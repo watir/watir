@@ -23,7 +23,7 @@ describe 'Watir::Screenshot' do
       expect(File).to_not exist(path)
       browser.screenshot.save(path)
       expect(File).to exist(path)
-      expect(File.open(path, 'rb', &:read)[0..3]).to eq png_header
+      expect(File.binread(path)[0..3]).to eq png_header
     end
   end
 end

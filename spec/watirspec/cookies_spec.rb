@@ -133,7 +133,7 @@ describe 'Browser#cookies' do
 
     describe '#save' do
       it 'saves cookies to file' do
-        expect(IO.read(file)).to eq(browser.cookies.to_a.to_yaml)
+        expect(File.read(file)).to eq(browser.cookies.to_a.to_yaml)
       end
     end
 
@@ -142,7 +142,7 @@ describe 'Browser#cookies' do
         browser.cookies.clear
         browser.cookies.load file
         expected = browser.cookies.to_a
-        actual = YAML.safe_load(IO.read(file), [::Symbol])
+        actual = YAML.safe_load(File.read(file), [::Symbol])
 
         expected.each { |cookie| cookie.delete(:expires) }
         actual.each { |cookie| cookie.delete(:expires) }

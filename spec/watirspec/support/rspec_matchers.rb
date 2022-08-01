@@ -91,7 +91,7 @@ if defined?(RSpec)
       failure_message do
         if @time_difference
           "expected action to take more than provided timeout (#{timeout} seconds), " \
-          "instead it took #{@time_difference} seconds"
+            "instead it took #{@time_difference} seconds"
         else
           "expected #{exception} but nothing was raised"
         end
@@ -120,12 +120,12 @@ if defined?(RSpec)
 
     failure_message_when_negated do
       "expected action to take less than #{min} seconds or more than #{max} seconds, " \
-      "instead it took #{@time_difference} seconds"
+        "instead it took #{@time_difference} seconds"
     end
 
     failure_message do
       "expected action to take more than #{min} seconds and less than #{max} seconds, " \
-      "instead it took #{@time_difference} seconds"
+        "instead it took #{@time_difference} seconds"
     end
 
     def supports_block_expectations?

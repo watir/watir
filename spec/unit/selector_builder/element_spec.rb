@@ -105,7 +105,7 @@ describe Watir::Locators::Element::SelectorBuilder do
       it 'Array of String concatenates with and' do
         selector = {class: %w[multiple here]}
         built = {xpath: ".//*[contains(concat(' ', @class, ' '), ' multiple ') and " \
-"contains(concat(' ', @class, ' '), ' here ')]"}
+                        "contains(concat(' ', @class, ' '), ' here ')]"}
 
         expect(selector_builder.build(selector)).to eq built
       end
@@ -113,7 +113,7 @@ describe Watir::Locators::Element::SelectorBuilder do
       it 'merges values when class and class_name are both used' do
         selector = {class: 'foo', class_name: 'bar'}
         built = {xpath: ".//*[contains(concat(' ', @class, ' '), ' foo ') and " \
-"contains(concat(' ', @class, ' '), ' bar ')]"}
+                        "contains(concat(' ', @class, ' '), ' bar ')]"}
 
         expect(selector_builder.build(selector)).to eq built
       end
@@ -156,7 +156,7 @@ describe Watir::Locators::Element::SelectorBuilder do
       it 'Array of mixed String, Regexp and Boolean contains and concatenates with and and not' do
         selector = {class: [/mult/, 'classes', '!here']}
         built = {xpath: ".//*[contains(@class, 'mult') and contains(concat(' ', @class, ' '), ' classes ') " \
-"and not(contains(concat(' ', @class, ' '), ' here '))]"}
+                        "and not(contains(concat(' ', @class, ' '), ' here '))]"}
 
         expect(selector_builder.build(selector)).to eq built
       end
@@ -327,8 +327,8 @@ describe Watir::Locators::Element::SelectorBuilder do
     context 'with labels' do
       it 'locates the element associated with the label element located by the text of the provided label key' do
         selector = {label: 'Cars'}
-        built = {xpath: ".//*[@id=//label[normalize-space()='Cars']/@for "\
-"or parent::label[normalize-space()='Cars']]"}
+        built = {xpath: ".//*[@id=//label[normalize-space()='Cars']/@for " \
+                        "or parent::label[normalize-space()='Cars']]"}
 
         expect(selector_builder.build(selector)).to eq built
       end
@@ -390,8 +390,8 @@ describe Watir::Locators::Element::SelectorBuilder do
 
         it 'with multiple locators' do
           selector = {adjacent: :ancestor, id: true, tag_name: 'div', class: 'ancestor', index: 1}
-          built = {xpath: "./ancestor::*[local-name()='div']"\
-"[contains(concat(' ', @class, ' '), ' ancestor ')][@id][2]"}
+          built = {xpath: "./ancestor::*[local-name()='div']" \
+                          "[contains(concat(' ', @class, ' '), ' ancestor ')][@id][2]"}
 
           expect(selector_builder.build(selector)).to eq built
         end
@@ -421,8 +421,8 @@ describe Watir::Locators::Element::SelectorBuilder do
 
         it 'with multiple locators' do
           selector = {adjacent: :following, tag_name: 'div', class: 'b', index: 0, id: true}
-          built = {xpath: "./following-sibling::*[local-name()='div']"\
-"[contains(concat(' ', @class, ' '), ' b ')][@id][1]"}
+          built = {xpath: "./following-sibling::*[local-name()='div']" \
+                          "[contains(concat(' ', @class, ' '), ' b ')][@id][1]"}
 
           expect(selector_builder.build(selector)).to eq built
         end
@@ -452,8 +452,8 @@ describe Watir::Locators::Element::SelectorBuilder do
 
         it 'with multiple locators' do
           selector = {adjacent: :preceding, tag_name: 'div', class: 'b', id: true, index: 0}
-          built = {xpath: "./preceding-sibling::*[local-name()='div']"\
-"[contains(concat(' ', @class, ' '), ' b ')][@id][1]"}
+          built = {xpath: "./preceding-sibling::*[local-name()='div']" \
+                          "[contains(concat(' ', @class, ' '), ' b ')][@id][1]"}
 
           expect(selector_builder.build(selector)).to eq built
         end
@@ -483,8 +483,8 @@ describe Watir::Locators::Element::SelectorBuilder do
 
         it 'with multiple locators' do
           selector = {adjacent: :child, tag_name: 'div', class: 'b', id: true, index: 0}
-          built = {xpath: "./child::*[local-name()='div']"\
-"[contains(concat(' ', @class, ' '), ' b ')][@id][1]"}
+          built = {xpath: "./child::*[local-name()='div']" \
+                          "[contains(concat(' ', @class, ' '), ' b ')][@id][1]"}
 
           expect(selector_builder.build(selector)).to eq built
         end
@@ -502,7 +502,7 @@ describe Watir::Locators::Element::SelectorBuilder do
       it 'locates using tag name, class, attributes and text' do
         selector = {tag_name: 'div', class: 'content', contenteditable: 'true', text: 'Foo'}
         built = {xpath: ".//*[local-name()='div'][contains(concat(' ', @class, ' '), ' content ')]" \
-"[normalize-space()='Foo'][@contenteditable='true']"}
+                        "[normalize-space()='Foo'][@contenteditable='true']"}
 
         expect(selector_builder.build(selector)).to eq built
       end
@@ -563,11 +563,11 @@ describe Watir::Locators::Element::SelectorBuilder do
       it 'handles case insensitive' do
         selector = {action: /ME/i}
         built = {xpath: './/*[contains(translate(@action,' \
-"'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'," \
-"'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ'), " \
-"translate('me'," \
-"'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'," \
-"'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ'))]"}
+                        "'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'," \
+                        "'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ'), " \
+                        "translate('me'," \
+                        "'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'," \
+                        "'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ'))]"}
 
         expect(selector_builder.build(selector)).to eq built
       end
@@ -757,11 +757,11 @@ describe Watir::Locators::Element::SelectorBuilder do
 
       it 'ignores case when locating uknown element with defined attribute' do
         lhs = 'translate(@lang,' \
-  "'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'," \
-  "'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ')"
+              "'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'," \
+              "'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ')"
         rhs = "translate('en'," \
-  "'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'," \
-  "'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ')"
+              "'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'," \
+              "'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ')"
         expect(selector_builder.build(lang: 'en')).to eq(xpath: ".//*[#{lhs}=#{rhs}]")
         expect(selector_builder.build(lang: /en/)).to eq(xpath: ".//*[contains(#{lhs}, #{rhs})]")
         expect(selector_builder.build(tag_name: /a/, lang: 'en'))
@@ -772,11 +772,11 @@ describe Watir::Locators::Element::SelectorBuilder do
 
       it 'ignores case when attribute is defined for element' do
         lhs = 'translate(@hreflang,' \
-  "'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'," \
-  "'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ')"
+              "'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'," \
+              "'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ')"
         rhs = "translate('en'," \
-  "'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'," \
-  "'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ')"
+              "'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'," \
+              "'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ')"
         expect(selector_builder.build(tag_name: 'a', hreflang: 'en'))
           .to eq(xpath: ".//*[local-name()='a'][#{lhs}=#{rhs}]")
         expect(selector_builder.build(tag_name: 'a', hreflang: /en/))
