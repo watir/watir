@@ -142,7 +142,7 @@ describe 'Browser#cookies' do
         browser.cookies.clear
         browser.cookies.load file
         expected = browser.cookies.to_a
-        actual = YAML.safe_load(IO.read(file), [::Symbol])
+        actual = YAML.safe_load(IO.read(file), permitted_classes: [::Symbol])
 
         expected.each { |cookie| cookie.delete(:expires) }
         actual.each { |cookie| cookie.delete(:expires) }
