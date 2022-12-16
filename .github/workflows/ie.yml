@@ -1,6 +1,7 @@
 name: IE Tests
 
 on:
+  - workflow_dispatch
   - push
   - pull_request
 
