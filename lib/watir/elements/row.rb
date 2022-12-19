@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Watir
   #
   # Custom class representing table row (tr).

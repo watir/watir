@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Watir
   class Screenshot
     def initialize(browser)

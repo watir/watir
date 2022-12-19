@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module WatirSpec
   class RemoteServer
     include Watir::Exception

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 gem 'webidl', path: File.expand_path('../webidl') if ENV['LOCAL_WEBIDL']

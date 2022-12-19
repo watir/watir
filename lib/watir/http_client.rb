@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Watir
   class HttpClient < Selenium::WebDriver::Remote::Http::Default
     def request(verb, url, headers, payload, redirects = 0)

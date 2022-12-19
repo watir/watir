@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'watirspec_helper'
 
 describe 'Spans' do

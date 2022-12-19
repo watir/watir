@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'watir'
 require 'watirspec'
 require 'webdrivers'

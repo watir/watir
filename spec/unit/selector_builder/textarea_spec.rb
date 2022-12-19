@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../unit_helper'
 
 describe Watir::Locators::TextArea::SelectorBuilder do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Source: https://github.com/teamcapybara/capybara/blob/xpath_regexp/lib/capybara/selector/regexp_disassembler.rb
 require 'regexp_parser'
 

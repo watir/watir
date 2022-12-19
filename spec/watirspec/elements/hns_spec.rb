@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'watirspec_helper'
 
 describe ['H1s', 'H2s', 'H3s', 'H4s', 'H5s', 'H6s'] do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module WatirSpec
   class Implementation
     attr_writer :name, :guard_proc, :browser_class
