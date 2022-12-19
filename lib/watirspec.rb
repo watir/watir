@@ -78,7 +78,7 @@ module WatirSpec
       caps = instance.driver.capabilities
 
       info << caps.browser_name.to_s
-      info << caps.version.to_s
+      info << caps.browser_version.to_s
       info << @implementation.driver_info
 
       Watir.logger.warn "running watirspec against #{info.join ' '} using:\n#{WatirSpec.implementation.inspect_args}",
