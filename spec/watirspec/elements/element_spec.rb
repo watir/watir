@@ -204,7 +204,7 @@ describe 'Element' do
 
   describe '#focused?',
            except: {browser: :firefox,
-                    remote: true,
+                    driver: :remote_driver,
                     reason: 'https://github.com/SeleniumHQ/selenium/issues/2555'} do
     it 'knows if the element is focused' do
       expect(browser.element(id: 'new_user_first_name')).to be_focused

@@ -20,6 +20,7 @@ class LocalConfig
   end
 
   def configure
+    @imp.browser_class = Watir::Browser
     set_webdriver
     set_browser_args
     load_webdrivers
@@ -45,8 +46,7 @@ class LocalConfig
   end
 
   def set_webdriver
-    @imp.name          = :webdriver
-    @imp.browser_class = Watir::Browser
+    @imp.name = :local_driver
   end
 
   def set_browser_args
@@ -134,15 +134,12 @@ class RemoteConfig < LocalConfig
 
   private
 
-  def add_guards
-    matching_guards = common_guards
-    matching_guards << :remote
-    matching_guards << [:remote, browser]
-    matching_guards
-  end
-
   def create_args
     super.merge(url: @url)
+  end
+
+  def set_webdriver
+    @imp.name = :remote_driver
   end
 end
 
@@ -161,6 +158,7 @@ RSpec.configure do |config|
 
     guards.add_condition(:browser, WatirSpec.implementation.browser_args.first)
     guards.add_condition(:platform, Selenium::WebDriver::Platform.os)
+    guards.add_condition(:driver, WatirSpec.implementation.name)
 
     headless = WatirSpec.implementation.browser_args.last[:headless]
     guards.add_condition(:headless, headless)
@@ -169,9 +167,6 @@ RSpec.configure do |config|
 
     window_manager = !Selenium::WebDriver::Platform.linux? || !ENV['DESKTOP_SESSION'].nil?
     guards.add_condition(:window_manager, window_manager)
-
-    remote = ENV['USE_REMOTE'] == 'true'
-    guards.add_condition(:remote, remote)
 
     results = guards.disposition
     send(*results) if results
