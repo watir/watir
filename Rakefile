@@ -18,13 +18,6 @@ RuboCop::RakeTask.new(:rubocop) do |t|
   t.options = ['--display-cop-names']
 end
 
-namespace :spec do
-  RSpec::Core::RakeTask.new(:html) do |spec|
-    spec.rspec_opts = "--format html --out #{ENV['SPEC_REPORT'] || 'specs.html'}"
-    spec.pattern = 'spec/**/*_spec.rb'
-  end
-end
-
 {
   html: 'https://www.w3.org/TR/html52/single-page.html',
   svg: 'https://www.w3.org/TR/2018/CR-SVG2-20180807/single-page.html'
@@ -32,6 +25,7 @@ end
   namespace type do
     spec_path = "support/#{type}.html"
 
+    desc 'require generator'
     task generator_lib: :lib do
       require 'watir/generator'
     end
@@ -101,6 +95,7 @@ YARD::Doctest::RakeTask.new do |task|
 end
 
 namespace :changes do
+  desc 'Show how versions differ'
   task :differ do
     require './support/version_differ'
   end
@@ -124,6 +119,11 @@ end
 task default: [:spec, 'yard:doctest']
 
 namespace :spec do
+  RSpec::Core::RakeTask.new(:html) do |spec|
+    spec.rspec_opts = "--format html --out #{ENV['SPEC_REPORT'] || 'specs.html'}"
+    spec.pattern = 'spec/**/*_spec.rb'
+  end
+
   require 'selenium-webdriver'
 
   desc 'Run specs in all browsers'
