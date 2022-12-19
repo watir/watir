@@ -86,7 +86,7 @@ describe Watir::Capabilities do
         args = capabilities.to_args
         expect(args.first).to eq browser_symbol
         actual_service = args.last[:service]
-        expect(actual_service.instance_variable_get('@port')).to eq 1234
+        expect(actual_service.instance_variable_get(:@port)).to eq 1234
       end
 
       it 'builds service from a Hash' do
@@ -97,9 +97,9 @@ describe Watir::Capabilities do
         args = capabilities.to_args
         expect(args.first).to eq browser_symbol
         actual_service = args.last[:service]
-        expect(actual_service.instance_variable_get('@port')).to eq 1234
-        expect(actual_service.instance_variable_get('@executable_path')).to eq '/path/to/driver'
-        expect(actual_service.instance_variable_get('@extra_args')).to include '--foo', '--bar'
+        expect(actual_service.instance_variable_get(:@port)).to eq 1234
+        expect(actual_service.instance_variable_get(:@executable_path)).to eq '/path/to/driver'
+        expect(actual_service.instance_variable_get(:@extra_args)).to include '--foo', '--bar'
       end
 
       it 'is a bad argument to service' do
@@ -129,8 +129,8 @@ describe Watir::Capabilities do
         args = capabilities.to_args
         actual_client = args.last[:http_client]
         expect(actual_client).to be_a Watir::HttpClient
-        expect(actual_client.instance_variable_get('@read_timeout')).to eq 10
-        expect(actual_client.instance_variable_get('@open_timeout')).to eq 10
+        expect(actual_client.instance_variable_get(:@read_timeout)).to eq 10
+        expect(actual_client.instance_variable_get(:@open_timeout)).to eq 10
       end
 
       it 'raises an exception if :client receives something other than Hash or Client object' do
@@ -322,7 +322,7 @@ describe Watir::Capabilities do
                                              http_client: {read_timeout: 30})
       args = capabilities.to_args
       expect(args.first).to eq :remote
-      expect(args.last[:http_client].instance_variable_get('@read_timeout')).to eq 30
+      expect(args.last[:http_client].instance_variable_get(:@read_timeout)).to eq 30
       actual_options = args.last[:capabilities].first
       expect(actual_options.browser_name).to eq 'chrome'
     end

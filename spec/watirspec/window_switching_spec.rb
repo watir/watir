@@ -559,7 +559,7 @@ describe Watir::WindowCollection do
     wins = browser.windows
     expect(wins.size).to eq 2
     wins.reset!
-    expect(wins.instance_variable_get('@window_list')).to be_nil
+    expect(wins.instance_variable_get(:@window_list)).to be_nil
   end
 
   describe '#restore!' do

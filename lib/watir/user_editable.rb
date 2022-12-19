@@ -36,7 +36,7 @@ module Watir
 
     def set!(*args)
       msg = '#set! does not support special keys, use #set instead'
-      raise ArgumentError, msg if args.any? { |v| v.is_a?(::Symbol) }
+      raise ArgumentError, msg if args.any?(::Symbol)
 
       input_value = args.join
       set input_value[0]

@@ -29,7 +29,7 @@ module Watir
     def window(opts = {}, &blk)
       win = Window.new self, opts
 
-      win.use(&blk) if block_given?
+      win.use(&blk) if blk
 
       win
     end

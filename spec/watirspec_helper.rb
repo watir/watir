@@ -109,7 +109,7 @@ class LocalConfig
     end
 
     def report
-      total = @counts.values.inject(0) { |mem, var| mem + var }
+      total = @counts.values.sum
       str = "Selenium selector stats: \n"
       @counts.each do |how, count|
         str << "\t#{how.to_s.ljust(20)}: #{count * 100 / total} (#{count})\n"

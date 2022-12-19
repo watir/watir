@@ -6,7 +6,8 @@ module Watir
     include Waitable
 
     def initialize(browser, selector = {})
-      unless selector.keys.all? { |k| %i[title url element].include? k }
+      types = %i[title url element]
+      unless selector.keys.all? { |k| types.include? k }
         raise ArgumentError, "invalid window selector: #{selector.inspect}"
       end
 

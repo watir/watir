@@ -13,7 +13,7 @@ module Watir
     #
 
     def goto(uri)
-      uri = "http://#{uri}" unless uri =~ URI::DEFAULT_PARSER.make_regexp
+      uri = "http://#{uri}" unless uri&.match?(URI::DEFAULT_PARSER.make_regexp)
 
       @driver.navigate.to uri
       @after_hooks.run

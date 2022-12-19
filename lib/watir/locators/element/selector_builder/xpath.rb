@@ -114,7 +114,7 @@ module Watir
 
             @built[:class] = []
 
-            predicates = [class_name].flatten.map { |value| process_attribute(:class, value) }.compact
+            predicates = [class_name].flatten.filter_map { |value| process_attribute(:class, value) }
 
             @built.delete(:class) if @built[:class].empty?
 
@@ -255,7 +255,7 @@ module Watir
           end
 
           def process_string(name)
-            if name =~ /^[a-zA-Z_:][a-zA-Z0-9_:.-]*$/
+            if /^[a-zA-Z_:][a-zA-Z0-9_:.-]*$/.match?(name)
               "@#{name}"
             else
               "(attribute::*[local-name(.) = '#{name}'])"

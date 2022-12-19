@@ -184,7 +184,7 @@ describe 'Browser' do
         @opts[:url] = url
         @new_browser = WatirSpec.new_browser
 
-        server_url = @new_browser.driver.instance_variable_get('@bridge').http.instance_variable_get('@server_url')
+        server_url = @new_browser.driver.instance_variable_get(:@bridge).http.instance_variable_get(:@server_url)
         expect(server_url).to eq URI.parse(url)
       end
 
@@ -192,7 +192,7 @@ describe 'Browser' do
         @opts.merge!(url: url, open_timeout: 44, read_timeout: 47)
         @new_browser = WatirSpec.new_browser
 
-        http = @new_browser.driver.instance_variable_get('@bridge').http
+        http = @new_browser.driver.instance_variable_get(:@bridge).http
 
         expect(http.open_timeout).to eq 44
         expect(http.read_timeout).to eq 47
@@ -204,7 +204,7 @@ describe 'Browser' do
         @opts[:http_client] = http_client
         @new_browser = WatirSpec.new_browser
 
-        expect(@new_browser.driver.instance_variable_get('@bridge').http).to eq http_client
+        expect(@new_browser.driver.instance_variable_get(:@bridge).http).to eq http_client
       end
 
       it 'accepts Remote::Capabilities instance as :desired_capabilities', only: {browser: :firefox} do
@@ -252,7 +252,7 @@ describe 'Browser' do
           WatirSpec.implementation.browser_args = [:remote, opts]
           msg = /You can pass values directly into Watir::Browser opt without needing to use :desired_capabilities/
           expect { @new_browser = WatirSpec.new_browser }.to output(msg).to_stdout_from_any_process
-          server_url = @new_browser.driver.instance_variable_get('@bridge').http.instance_variable_get('@server_url')
+          server_url = @new_browser.driver.instance_variable_get(:@bridge).http.instance_variable_get(:@server_url)
           expect(server_url).to eq URI.parse(url)
         end
 
@@ -287,16 +287,16 @@ describe 'Browser' do
 
       service = Selenium::WebDriver::Service.send(browser_name, port: '2314', args: ['foo'])
 
-      @opts.merge!(service: service,
-                   listener: LocalConfig::SelectorListener.new)
+      @opts[:service] = service
+      @opts[:listener] = LocalConfig::SelectorListener.new
 
       @new_browser = WatirSpec.new_browser
 
-      bridge = @new_browser.wd.instance_variable_get('@bridge')
+      bridge = @new_browser.wd.instance_variable_get(:@bridge)
       expect(bridge).to be_a Selenium::WebDriver::Support::EventFiringBridge
-      service = @new_browser.wd.instance_variable_get('@service')
-      expect(service.instance_variable_get('@extra_args')).to eq ['foo']
-      expect(service.instance_variable_get('@port')).to eq 2314
+      service = @new_browser.wd.instance_variable_get(:@service)
+      expect(service.instance_variable_get(:@extra_args)).to eq ['foo']
+      expect(service.instance_variable_get(:@port)).to eq 2314
 
       @new_browser.close
     ensure

@@ -58,9 +58,9 @@ module Watir
                       msg = "Button Elements can not be located by input type: #{type}"
                       raise LocatorException, msg
                     end
-            types.map { |button_type|
+            types.filter_map { |button_type|
               predicate_expression(:type, button_type)
-            }.compact.join(' or ')
+            }.join(' or ')
           end
         end
       end

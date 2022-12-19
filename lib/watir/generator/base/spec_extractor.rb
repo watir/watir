@@ -34,9 +34,9 @@ module Watir
         def sorted_interfaces
           process if @interfaces.nil?
 
-          idl_sorter.sort.map { |name|
+          idl_sorter.sort.filter_map do |name|
             @interfaces.find { |i| i.name == name } || puts("ignoring interface: #{name}")
-          }.compact
+          end
         end
 
         def print_hierarchy
@@ -55,7 +55,7 @@ module Watir
         end
 
         def extract_idl_parts
-          parsed = @doc.search(IDL_SELECTOR).map { |e| parse_idl(e.inner_text) }.compact
+          parsed = @doc.search(IDL_SELECTOR).filter_map { |e| parse_idl(e.inner_text) }
 
           implements = []
           includes = []

@@ -22,7 +22,7 @@ describe 'IFrame' do
 
   it 'locates an element defined by Selenium Element' do
     iframe = browser.iframe(id: 'iframe_1').locate
-    se_element = iframe.instance_variable_get('@element')
+    se_element = iframe.instance_variable_get(:@element)
     iframe2 = browser.element(element: se_element).to_subtype
     expect(iframe2).to eq iframe
   end

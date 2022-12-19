@@ -35,7 +35,7 @@ module Watir
     #
 
     def add(after_hook = nil, &block)
-      if block_given?
+      if block
         @after_hooks << block
       elsif after_hook.respond_to? :call
         @after_hooks << after_hook
@@ -101,8 +101,8 @@ module Watir
     # @yieldparam [#call] after_hook Object responding to call
     #
 
-    def each(&blk)
-      @after_hooks.each { |after_hook| blk.call(after_hook) }
+    def each(&block)
+      @after_hooks.each(&block)
     end
 
     #

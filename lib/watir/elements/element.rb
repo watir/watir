@@ -861,7 +861,7 @@ module Watir
 
     def method_missing(meth, *args, &blk)
       method = meth.to_s
-      if method =~ Locators::Element::SelectorBuilder::WILDCARD_ATTRIBUTE
+      if Locators::Element::SelectorBuilder::WILDCARD_ATTRIBUTE.match?(method)
         attribute_value(meth, *args)
       elsif UserEditable.instance_methods(false).include?(meth) && content_editable?
         @content_editable = true

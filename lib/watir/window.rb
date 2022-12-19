@@ -17,7 +17,8 @@ module Watir
       elsif selector.key? :handle
         @handle = selector.delete :handle
       else
-        return if selector.keys.all? { |k| %i[title url element].include? k }
+        types = %i[title url element]
+        return if selector.keys.all? { |k| types.include? k }
 
         raise ArgumentError, "invalid window selector: #{selector_string}"
       end

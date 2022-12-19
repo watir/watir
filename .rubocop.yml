@@ -1,5 +1,8 @@
 inherit_from: .rubocop_todo.yml
 
+require:
+  - rubocop-performance
+
 AllCops:
   TargetRubyVersion: 2.7
   NewCops: enable
@@ -58,6 +61,9 @@ Metrics/MethodLength:
 
 Metrics/PerceivedComplexity:
   Max: 10
+
+Performance/CollectionLiteralInLoop:
+  MinSize: 3
 
 Style/BlockDelimiters:
   EnforcedStyle: braces_for_chaining
