@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.6
+          ruby-version: 2.7
       - run: bundle install
       - uses: ./.github/actions/install-chrome
       - uses: ./.github/actions/setup-linux
@@ -27,7 +27,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ruby: ['2.6', '2.7', '3.0']
+        ruby: ['2.7', '3.0', '3.1']
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
@@ -48,6 +48,6 @@ jobs:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.6
+          ruby-version: 2.7
       - run: bundle install
       - run: bundle exec rubocop

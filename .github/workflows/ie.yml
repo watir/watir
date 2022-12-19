@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ruby: [ 2.6, 3.0 ]
+        ruby: [ 2.7, 3.1 ]
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1

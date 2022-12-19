@@ -6,7 +6,7 @@ require 'watir/version'
 Gem::Specification.new do |s|
   s.name = 'watir'
   s.version = Watir::VERSION
-  s.required_ruby_version = '>= 2.6.0'
+  s.required_ruby_version = '>= 2.7.0'
 
   s.platform = Gem::Platform::RUBY
   s.authors = ['Alex Rodionov', 'Titus Fortner', 'Justin Ko']
@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
   s.executables = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
   s.require_paths = ['lib']
 
-  s.add_dependency 'selenium-webdriver', '~> 4.0'
+  s.add_dependency 'selenium-webdriver', '~> 4.2'
   s.add_runtime_dependency 'regexp_parser', '>= 1.2', '< 3'
 
   s.add_development_dependency 'activesupport', '~> 4.0', '>= 4.1.11' # for pluralization during code generation
