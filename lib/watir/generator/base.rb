@@ -1,6 +1,5 @@
 require 'nokogiri'
 require 'open-uri'
-require 'pp'
 require 'webidl'
 require 'active_support/inflector'
 

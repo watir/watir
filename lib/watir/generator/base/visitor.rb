@@ -9,7 +9,7 @@ module Watir
                         'DOMStringMap', 'HTMLPropertiesCollection', /HTML.*Element/, /HTML.*Collection/,
                         'CSSStyleDeclaration', /.+List$/, 'Date', 'Element', /DOM.+ReadOnly/,
                         /SVGAnimated.+/, /SVG.*Element/, /SVG.*Collection/, 'SVGViewSpec',
-                        'Object', 'USVString'].freeze
+                        'Object', 'USVString', 'DOMString', 'any'].freeze
         def initialize
           super
 
@@ -111,7 +111,8 @@ module Watir
 
         def ruby_type_for(type)
           case type.name.to_s
-          when 'DOMString', 'any'
+          when *STRING_TYPES
+            # probably completely wrong.
             String
           when 'UnsignedLong', 'Long', 'Integer', 'Short', 'UnsignedShort',
               'SVGAnimatedLength'
@@ -120,9 +121,6 @@ module Watir
             Float
           when 'Boolean'
             'Boolean'
-          when *STRING_TYPES
-            # probably completely wrong.
-            String
           else
             raise "unknown type: #{type.name}"
           end

@@ -19,9 +19,9 @@ Gem::Specification.new do |s|
   DESCRIPTION_MESSAGE
 
   s.license = 'MIT'
+  s.metadata['rubygems_mfa_required'] = 'true'
 
   s.files = `git ls-files`.split("\n")
-  s.test_files = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
   s.require_paths = ['lib']
 
@@ -30,17 +30,16 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'activesupport', '~> 4.0', '>= 4.1.11' # for pluralization during code generation
   s.add_development_dependency 'coveralls_reborn'
-  s.add_development_dependency 'fuubar'
   s.add_development_dependency 'nokogiri'
-  s.add_development_dependency 'pry'
+  s.add_development_dependency 'pry', '~> 0.14'
   s.add_development_dependency 'rake', '>= 12.3.3'
   s.add_development_dependency 'rspec', '~> 3.0'
   s.add_development_dependency 'rspec-retry'
-  s.add_development_dependency 'rubocop', '~> 1.32.0'
+  s.add_development_dependency 'rubocop', '~> 1.40'
   s.add_development_dependency 'selenium_statistics'
   s.add_development_dependency 'simplecov-console'
   s.add_development_dependency 'webdrivers', '~> 4.7'
   s.add_development_dependency 'webidl', '>= 0.2.2'
-  s.add_development_dependency 'yard', '> 0.8.2.1'
+  s.add_development_dependency 'yard', '> 0.9.11'
   s.add_development_dependency 'yard-doctest', '~> 0.1.14'
 end

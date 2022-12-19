@@ -372,7 +372,7 @@ module Watir
     def attribute_values
       result = element_call { execute_js(:attributeValues, @element) }
       result.keys.each do |key|
-        next unless key == key[/[a-zA-Z\-]*/]
+        next unless key == key[/[a-zA-Z-]*/]
 
         result[key.tr('-', '_').to_sym] = result.delete(key)
       end

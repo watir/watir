@@ -98,7 +98,8 @@ describe Watir::Locators::Row::SelectorBuilder do
                           "[contains(@class, 'brick')][@id='gregory'] | " \
                           "./*[local-name()='thead']/*[local-name()='tr']" \
                           "[contains(@class, 'brick')][@id='gregory'] | " \
-                          "./*[local-name()='tfoot']/*[local-name()='tr'][contains(@class, 'brick')][@id='gregory']"}
+                          "./*[local-name()='tfoot']/*[local-name()='tr']" \
+                          "[contains(@class, 'brick')][@id='gregory']"}
 
           expect(selector_built).to eq built
         end

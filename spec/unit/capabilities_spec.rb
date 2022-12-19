@@ -456,8 +456,8 @@ describe Watir::Capabilities do
     end
 
     it 'supports multiple vendor capabilities' do
-      sauce_options = {'sauce:options': {username: ENV['SAUCE_USERNAME'],
-                                         access_key: ENV['SAUCE_ACCESS_KEY']}}
+      sauce_options = {'sauce:options': {username: ENV.fetch('SAUCE_USERNAME', nil),
+                                         access_key: ENV.fetch('SAUCE_ACCESS_KEY', nil)}}
       other_options = {'other:options': {foo: 'bar'}}
 
       capabilities = Watir::Capabilities.new(:chrome,

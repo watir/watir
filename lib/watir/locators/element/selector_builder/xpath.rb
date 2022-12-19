@@ -254,7 +254,7 @@ module Watir
           end
 
           def process_string(name)
-            if name =~ /^[a-zA-Z_:][a-zA-Z0-9_:.\-]*$/
+            if name =~ /^[a-zA-Z_:][a-zA-Z0-9_:.-]*$/
               "@#{name}"
             else
               "(attribute::*[local-name(.) = '#{name}'])"

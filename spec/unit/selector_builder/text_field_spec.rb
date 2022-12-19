@@ -33,8 +33,8 @@ describe Watir::Locators::TextField::SelectorBuilder do
       it 'specified text field type that is text' do
         selector = {type: 'text'}
         built = {xpath: ".//*[local-name()='input']" \
-                        "[translate(@type,'#{uppercase}'," \
-                        "'#{lowercase}')=translate('text','#{uppercase}','#{lowercase}')]"}
+                        "[translate(@type,'#{uppercase}','#{lowercase}')=" \
+                        "translate('text','#{uppercase}','#{lowercase}')]"}
 
         expect(selector_builder.build(selector)).to eq built
       end
@@ -42,8 +42,8 @@ describe Watir::Locators::TextField::SelectorBuilder do
       it 'specified text field type that is not text' do
         selector = {type: 'number'}
         built = {xpath: ".//*[local-name()='input']" \
-                        "[translate(@type,'#{uppercase}'," \
-                        "'#{lowercase}')=translate('number','#{uppercase}','#{lowercase}')]"}
+                        "[translate(@type,'#{uppercase}','#{lowercase}')=" \
+                        "translate('number','#{uppercase}','#{lowercase}')]"}
 
         expect(selector_builder.build(selector)).to eq built
       end
@@ -145,8 +145,8 @@ describe Watir::Locators::TextField::SelectorBuilder do
       it 'using String' do
         selector = {label: 'First name'}
         built = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]" \
-                        "[@id=//label[normalize-space()='First name']/@for " \
-                        "or parent::label[normalize-space()='First name']]"}
+                        "[@id=//label[normalize-space()='First name']" \
+                        "/@for or parent::label[normalize-space()='First name']]"}
 
         expect(selector_builder.build(selector)).to eq built
       end
@@ -154,8 +154,8 @@ describe Watir::Locators::TextField::SelectorBuilder do
       it 'uses String with hidden text' do
         selector = {label: 'With hidden text'}
         built = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]" \
-                        "[@id=//label[normalize-space()='With hidden text']/@for " \
-                        "or parent::label[normalize-space()='With hidden text']]"}
+                        "[@id=//label[normalize-space()='With hidden text']" \
+                        "/@for or parent::label[normalize-space()='With hidden text']]"}
 
         expect(selector_builder.build(selector)).to eq built
       end
@@ -163,8 +163,8 @@ describe Watir::Locators::TextField::SelectorBuilder do
       it 'using simple Regexp' do
         selector = {label: /First/}
         built = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]" \
-                        "[@id=//label[contains(normalize-space(), 'First')]/@for " \
-                        "or parent::label[contains(normalize-space(), 'First')]]"}
+                        "[@id=//label[contains(normalize-space(), 'First')]" \
+                        "/@for or parent::label[contains(normalize-space(), 'First')]]"}
 
         expect(selector_builder.build(selector)).to eq built
       end
@@ -172,9 +172,9 @@ describe Watir::Locators::TextField::SelectorBuilder do
       it 'using complex Regexp' do
         selector = {label: /([qa])st? name/}
         built = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]" \
-                        "[@id=//label[contains(normalize-space(), 's') and " \
-                        "contains(normalize-space(), ' name')]/@for or " \
-                        "parent::label[contains(normalize-space(), 's') and contains(normalize-space(), ' name')]]",
+                        "[@id=//label[contains(normalize-space(), 's') and contains(normalize-space(), ' name')]" \
+                        "/@for or parent::label[contains(normalize-space(), 's') " \
+                        "and contains(normalize-space(), ' name')]]",
                  label_element: /([qa])st? name/}
 
         expect(selector_builder.build(selector)).to eq built

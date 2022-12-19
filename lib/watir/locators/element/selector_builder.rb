@@ -136,10 +136,8 @@ module Watir
           keys.reject! { |key| %i[visible visible_text index].include? key }
           if (keys - [:tag_name]).empty?
             true
-          elsif selector[:tag_name] == 'input' && keys == %i[tag_name type]
-            true
           else
-            false
+            selector[:tag_name] == 'input' && keys == %i[tag_name type]
           end
         end
 

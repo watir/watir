@@ -72,11 +72,11 @@ if defined?(RSpec)
         original_timeout = Watir.default_timeout
         Watir.default_timeout = timeout
         begin
-          start_time = ::Time.now
+          start_time = Time.now
           actual.call
           false
         rescue exception => e
-          finish_time = ::Time.now
+          finish_time = Time.now
           unless message.nil? || e.message.match(message)
             raise exception, "expected '#{message}' to be included in: '#{e.message}'"
           end
@@ -109,9 +109,9 @@ if defined?(RSpec)
       original_timeout = Watir.default_timeout
       Watir.default_timeout = max
       begin
-        start_time = ::Time.now
+        start_time = Time.now
         actual.call
-        @time_difference = ::Time.now - start_time
+        @time_difference = Time.now - start_time
         @time_difference > min && @time_difference < max
       ensure
         Watir.default_timeout = original_timeout

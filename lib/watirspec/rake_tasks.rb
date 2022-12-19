@@ -27,12 +27,10 @@ module WatirSpec
     private
 
     def init_watirspec
-      Dir.mkdir('spec') unless Dir.exist?('spec')
+      FileUtils.mkdir_p('spec')
       return if File.exist?('spec/watirspec_helper.rb')
 
-      File.open('spec/watirspec_helper.rb', 'w') do |file|
-        file.write(watirspec_helper_template)
-      end
+      File.write('spec/watirspec_helper.rb', watirspec_helper_template)
     end
 
     def print_specs

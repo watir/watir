@@ -148,7 +148,7 @@ module Watir
     alias eql? ==
 
     def hash
-      handle.hash ^ self.class.hash
+      [handle, self.class].hash
     end
 
     #
