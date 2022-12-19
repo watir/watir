@@ -2,7 +2,7 @@ require 'base64'
 require 'watirspec_helper'
 
 describe 'Watir::Screenshot' do
-  let(:png_header) { "\211PNG".force_encoding('ASCII-8BIT') }
+  let(:png_header) { (+"\211PNG").force_encoding('ASCII-8BIT') }
 
   describe '#png' do
     it 'gets png representation of screenshot' do

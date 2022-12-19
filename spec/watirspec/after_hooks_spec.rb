@@ -7,45 +7,40 @@ describe 'Browser::AfterHooks' do
     end
 
     it 'runs the given proc on each page load' do
-      output = ''
-      proc = proc { |browser| output << browser.text }
+      proc = proc { |browser| @output = browser.text }
 
       begin
         browser.alert.dismiss if browser.alert.exists?
         browser.after_hooks.add(proc)
         browser.goto(WatirSpec.url_for('non_control_elements.html'))
 
-        expect(output).to include('Dubito, ergo cogito, ergo sum')
+        expect(@output).to include('Dubito, ergo cogito, ergo sum')
       ensure
         browser.after_hooks.delete(proc)
       end
     end
 
     it 'runs the given block on each page load' do
-      output = ''
-      begin
-        browser.after_hooks.add { |browser| output << browser.text }
-        browser.goto(WatirSpec.url_for('non_control_elements.html'))
+      browser.after_hooks.add { |browser| @output = browser.text }
+      browser.goto(WatirSpec.url_for('non_control_elements.html'))
 
-        expect(output).to include('Dubito, ergo cogito, ergo sum')
-      ensure
-        browser.after_hooks.delete browser.after_hooks[0]
-      end
+      expect(@output).to include('Dubito, ergo cogito, ergo sum')
+    ensure
+      browser.after_hooks.delete browser.after_hooks[0]
     end
   end
 
   describe '#delete' do
     it 'removes a previously added after_hook' do
-      output = ''
-      after_hook = ->(browser) { output << browser.text }
+      after_hook = ->(browser) { @output = browser.text }
 
       browser.after_hooks.add(after_hook)
       browser.goto(WatirSpec.url_for('non_control_elements.html'))
-      expect(output).to include('Dubito, ergo cogito, ergo sum')
+      expect(@output).to include('Dubito, ergo cogito, ergo sum')
 
       browser.after_hooks.delete(after_hook)
       browser.goto(WatirSpec.url_for('definition_lists.html'))
-      expect(output).to_not include('definition_lists')
+      expect(@output).to_not include('definition_lists')
     end
   end
 

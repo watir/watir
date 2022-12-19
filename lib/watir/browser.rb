@@ -56,17 +56,18 @@ module Watir
     end
 
     # rubocop:disable Metrics/AbcSize
-    # TODO: w3c default behavior does not like checking if alert exists
     def inspect
       if alert.exists?
-        format('#<%s:0x%x alert=true>', self.class, hash * 2)
+        format('#<%<class>s:0x%<hash>x alert=true>', class: self.class, hash: hash * 2)
       else
-        format('#<%s:0x%x url=%s title=%s>', self.class, hash * 2, url.inspect, title.inspect)
+        format('#<%<class>s:0x%<hash>x url=%<url>s title=%<title>s>',
+               class: self.class, hash: hash * 2, url: url.inspect, title: title.inspect)
       end
     rescue Selenium::WebDriver::Error::NoSuchWindowError
-      format('#<%s:0x%x closed=%s>', self.class, hash * 2, closed?)
+      format('#<%<class>s:0x%<hash>x closed=%<closed>s>',
+             class: self.class, hash: hash * 2, closed: closed?)
     rescue Errno::ECONNREFUSED
-      format('#<%s:0x%x closed=true>', self.class, hash * 2)
+      format('#<%<class>s:0x%<hash>x closed=true>', class: self.class, hash: hash * 2)
     end
     alias selector_string inspect
     # rubocop:enable Metrics/AbcSize

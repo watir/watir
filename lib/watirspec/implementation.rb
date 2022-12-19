@@ -37,16 +37,18 @@ module WatirSpec
     end
 
     def inspect_args
-      hash = browser_args.last
-      desired_capabilities = hash.delete(:desired_capabilities)
-      string = ''
-      hash.each { |arg| string << "#{arg.inspect}\n" }
-      return "#{string} default capabilities" unless desired_capabilities
+      selenium_opts = browser_args.last
 
-      string << "\tcapabilities:\n"
-      caps.each { |k, v| string << "\t\t#{k}: #{v}\n" }
-      hash[:desired_capabilities] = desired_capabilities
-      string
+      options = selenium_opts.delete(:options)
+      args = ["#{browser_args.first} tests:\n"]
+      selenium_opts.each { |opt| args << "#{opt.inspect}\n" }
+
+      return "#{browser_args.first} default options" if selenium_opts.empty? && options.nil?
+
+      args << "\toptions:\n"
+      options.each { |k, v| args << "\t\t#{k}: #{v}\n" }
+
+      args.join
     end
   end # Implementation
 end # WatirSpec

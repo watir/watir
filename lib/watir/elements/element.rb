@@ -76,16 +76,10 @@ module Watir
     alias exist? exists?
 
     def inspect
-      string = "#<#{self.class}: "
-      string << "keyword: #{keyword} " if keyword
-      string << "located: #{located?}; "
-      string << if @selector.empty?
-                  '{element: (selenium element)}'
-                else
-                  selector_string
-                end
-      string << '>'
-      string
+      keyword_string = keyword ? "keyword: #{keyword} " : ''
+      located = "located: #{located?}; "
+      element_string = @selector.empty? ? '{element: (selenium element)}' : selector_string
+      "#<#{self.class}: #{keyword_string}#{located}#{element_string}>"
     end
 
     #

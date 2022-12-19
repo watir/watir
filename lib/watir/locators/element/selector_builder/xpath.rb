@@ -22,14 +22,14 @@ module Watir
             @adjacent = @selector.delete(:adjacent)
             @scope = @selector.delete(:scope)
 
-            xpath = start_string
-            xpath << adjacent_string
-            xpath << tag_string
-            xpath << class_string
-            xpath << text_string
-            xpath << additional_string
-            xpath << label_element_string
-            xpath << attribute_string
+            xpath = "#{start_string}" \
+                    "#{adjacent_string}" \
+                    "#{tag_string}" \
+                    "#{class_string}" \
+                    "#{text_string}" \
+                    "#{additional_string}" \
+                    "#{label_element_string}" \
+                    "#{attribute_string}"
 
             @built[:xpath] = index ? add_index(xpath, index) : xpath
             @built
@@ -158,8 +158,7 @@ module Watir
             elsif index&.positive? && @built.empty?
               "(#{xpath})[#{index + 1}]"
             elsif index&.negative? && @built.empty?
-              last_value = 'last()'
-              last_value << (index + 1).to_s if index < -1
+              last_value = "last()#{index < -1 ? index + 1 : ''}"
               "(#{xpath})[#{last_value}]"
             else
               @built[:index] = index

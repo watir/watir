@@ -62,11 +62,9 @@ module Watir
       private
 
       def message_for(timeout, object, message)
-        message = message.call(object) if message.is_a?(Proc)
-        err = "timed out after #{timeout} seconds"
-        err << ", #{message}" if message
-
-        err
+        message = message.is_a?(Proc) ? message.call(object) : message || ''
+        additional = message.empty? ? '' : ", #{message}"
+        "timed out after #{timeout} seconds#{additional}"
       end
 
       def run_with_timer(timeout, interval)

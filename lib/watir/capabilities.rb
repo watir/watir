@@ -103,7 +103,7 @@ module Watir
 
     def convert_timeouts(browser_options)
       browser_options[:timeouts] ||= {}
-      browser_options[:timeouts].keys.each do |key|
+      browser_options[:timeouts].each_key do |key|
         raise(ArgumentError, 'do not set implicit wait, Watir handles waiting automatically') if key.to_s == 'implicit'
 
         Watir.logger.deprecate('using timeouts directly in options',

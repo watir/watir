@@ -7,9 +7,6 @@ AllCops:
     - 'lib/watir/elements/html_elements.rb'
     - 'lib/watir/elements/svg_elements.rb'
 
-Layout/LineLength:
-  Max: 120
-
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
 
@@ -17,7 +14,6 @@ Lint/UnifiedInteger:
   Exclude:
   - 'lib/watir/locators/element/selector_builder.rb'
 
-# Default: 17
 Metrics/AbcSize:
   Max: 22
   Exclude:
@@ -47,7 +43,6 @@ Metrics/ClassLength:
     - 'lib/watir/generator/base/spec_extractor.rb'
     - 'lib/watir/element_collection.rb'
 
-# Default: 7
 Metrics/CyclomaticComplexity:
   Max: 9
   Exclude:
@@ -61,7 +56,6 @@ Metrics/MethodLength:
     - 'lib/watir/locators/element/selector_builder/xpath.rb'
     - 'lib/watir/locators/element/selector_builder/regexp_disassembler.rb'
 
-# Default: 8
 Metrics/PerceivedComplexity:
   Max: 10
 
@@ -71,6 +65,7 @@ Style/BlockDelimiters:
 Style/CommentedKeyword:
   Enabled: false
 
+# truthy is not true
 Style/DoubleNegation:
   Enabled: false
 
@@ -78,6 +73,7 @@ Style/GlobalVars:
   AllowedVariables:
     - $browser
 
+# Need to add new keys into hash during iteration
 Style/HashEachMethods:
   Enabled: false
 

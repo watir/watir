@@ -22,7 +22,8 @@ module Watir
     end
 
     def inspect
-      format('#<%s:0x%x located=%s>', self.class, hash * 2, !!@handle)
+      format('#<%<class>s:0x%<hash>x located=%<handle>s>',
+             class: self.class, hash: hash * 2, handle: !!@handle)
     end
 
     #

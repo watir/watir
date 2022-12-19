@@ -14,27 +14,23 @@ module Watir
             type = @selector.delete(:type)
             text = @selector.delete(:text)
 
-            string = "(#{button_string(text: text, type: type)})"
-            string << " or (#{input_string(text: text, type: type)})" unless type.eql?(false)
-            "[#{string}]"
+            button = "(#{button_string(text: text, type: type)})"
+            input = type.eql?(false) ? '' : " or (#{input_string(text: text, type: type)})"
+
+            "[#{button}#{input}]"
           end
 
           def button_string(text: nil, type: nil)
-            string = process_attribute(:tag_name, 'button')
-            string << " and #{process_attribute(:text, text)}" unless text.nil?
-            string << " and #{input_types(type)}" unless type.nil?
-            string
+            input = type.nil? ? '' : " and #{input_types(type)}"
+            attribute = text.nil? ? '' : " and #{process_attribute(:text, text)}"
+            "#{process_attribute(:tag_name, 'button')}#{input}#{attribute}"
           end
 
           def input_string(text: nil, type: nil)
-            string = process_attribute(:tag_name, 'input')
             type = nil if type.eql?(true)
-            string << " and (#{input_types(type)})"
-            if text
-              string << " and #{process_attribute(:value, text)}"
-              @built.delete(:value)
-            end
-            string
+            text_value = text.nil? ? '' : " and #{process_attribute(:value, text)}"
+            @built.delete(:value) unless text.nil?
+            "#{process_attribute(:tag_name, 'input')} and (#{input_types(type)})#{text_value}"
           end
 
           # value locator needs to match input value, button text or button value
