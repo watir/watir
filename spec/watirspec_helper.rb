@@ -72,7 +72,10 @@ class LocalConfig
   end
 
   def firefox_args
-    ENV['FIREFOX_BINARY'] ? {options: {binary: ENV['FIREFOX_BINARY']}} : {}
+    opts = {options: {}}
+    opts[:headless] = true if ENV['HEADLESS']
+    opts[:options][:binary] = ENV['FIREFOX_BINARY'] if ENV['FIREFOX_BINARY']
+    opts
   end
 
   def safari_preview_args
@@ -81,8 +84,15 @@ class LocalConfig
 
   def chrome_args
     opts = {options: {args: ['--disable-translate']}}
-    opts[:headless] = true if ENV['HEADLESS'] == 'true'
+    opts[:headless] = true if ENV['HEADLESS']
     opts[:options][:binary] = ENV['CHROME_BINARY'] if ENV['CHROME_BINARY']
+    opts
+  end
+
+  def edge_args
+    opts = {options: {args: ['--disable-translate']}}
+    opts[:headless] = true if ENV['HEADLESS']
+    opts[:options][:binary] = ENV['EDGE_BINARY'] if ENV['EDGE_BINARY']
     opts
   end
 
