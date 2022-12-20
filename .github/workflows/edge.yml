@@ -16,9 +16,6 @@ jobs:
         ruby: [ 2.7, 3.1 ]
     steps:
       - uses: actions/checkout@v2
-      - run: |
-          echo "COVERAGE=true" >> $GITHUB_ENV
-        if: matrix.os == 'macos-latest'
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}

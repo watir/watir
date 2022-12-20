@@ -16,8 +16,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/enable-safari
-      - run: |
-          echo "COVERAGE=true" >> $GITHUB_ENV
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}

@@ -20,11 +20,6 @@ jobs:
         if:  matrix.os == 'ubuntu-latest'
       - uses: ./.github/actions/install-chrome
         if:  matrix.os == 'ubuntu-latest'
-      - run: |
-          echo "COVERAGE=true" >> $GITHUB_ENV
-        if: |
-          matrix.os == 'ubuntu-latest' ||
-          matrix.os == 'macos-latest'
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
