@@ -155,15 +155,16 @@ module Watir
     end
 
     def infer_browser
-      if @options.key?(:browser)
-        @options.delete(:browser)
-      elsif @options.key?(:capabilities)
-        @options[:capabilities].browser_name.tr(' ', '_').downcase.to_sym
-      elsif @options.key?(:options)
-        @options[:options].class.to_s.split('::')[-2].downcase.to_sym
-      else
-        :chrome
-      end
+      inferred = if @options.key?(:browser)
+                   @options.delete(:browser)
+                 elsif @options.key?(:capabilities)
+                   @options[:capabilities].browser_name.tr(' ', '_').downcase.to_sym
+                 elsif @options.key?(:options)
+                   @options[:options].class.to_s.split('::')[-2].downcase.to_sym
+                 else
+                   :chrome
+                 end
+      %i[msedge microsoftedge].include?(inferred) ? :edge : inferred
     end
   end
 end
