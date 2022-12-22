@@ -2,7 +2,7 @@
 
 module Watir
   class Capabilities
-    attr_reader :options
+    attr_reader :options, :selenium_browser, :selenium_args
 
     def initialize(browser = nil, options = {})
       if browser.is_a?(Hash)
@@ -24,7 +24,8 @@ module Watir
     end
 
     def to_args
-      [@selenium_browser, process_arguments]
+      @selenium_args = process_arguments
+      [@selenium_browser, @selenium_args]
     end
 
     private
