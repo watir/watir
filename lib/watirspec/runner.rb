@@ -27,7 +27,7 @@ module WatirSpec
     end
 
     def execute
-      start_server
+      start_server unless ENV['WATIR_PUBLIC_SERVER']
       configure
       add_guard_hook
 

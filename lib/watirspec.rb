@@ -24,7 +24,7 @@ module WatirSpec
     end
 
     def host
-      @host ||= "http://#{Server.bind}:#{Server.port}"
+      @host ||= ENV['WATIR_PUBLIC_SERVER'] ? 'http://watir.com/examples' : "http://#{Server.bind}:#{Server.port}"
     end
 
     def unguarded?
