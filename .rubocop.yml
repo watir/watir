@@ -33,6 +33,10 @@ Metrics/BlockLength:
     - 'watir.gemspec'
     - 'Rakefile'
 
+Metrics/ModuleLength:
+  Exclude:
+    - 'spec/**/*'
+
 Metrics/ClassLength:
   Max: 93
   Exclude:
