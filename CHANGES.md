@@ -1,3 +1,18 @@
+### 7.2.0 (2022-12-22)
+
+* Implement Shadow DOM support (#953)
+* Implement existing `Scroll#by` with Selenium Actions Class instead of JavaScript
+* Implement `Scroll#from` to set origin points
+* Implement `Scroll#to(:viewport)` for elements using Selenium Actions Class
+* Fix bug for regex matching on single quotes (#957)
+* Fix bug for unexpected whitespace in classes (#956)
+* Fix bug for inferring Edge browser name from Capabilities parameter
+* Allow starting `Browser` with `Watir::Capabilities`
+* Allow starting `Browser` with just a `Hash` for generating a `Watir::Capabilities`
+* Have `Capabilities` use `:options` to generate Selenium `Options` instance
+* Deprecate allowing `:capabilities` argument in `Browser` constructor
+* Require Ruby 2.7 and Selenium 4.2
+
 ### 7.1.0 (2021-11-15)
 
 * Add automatic scroll to `Element#click` with method parameters to ensure element is in viewport
