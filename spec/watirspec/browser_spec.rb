@@ -11,7 +11,9 @@ describe 'Browser' do
 
     it 'returns false if window is closed',
        except: {browser: :safari,
-                reason: 'Clicking an Element that Closes a Window is returning NoMatchingWindowFoundException'} do
+                reason: 'Clicking an Element that Closes a Window is returning NoMatchingWindowFoundException'},
+       exclude: {browser: :ie,
+                 reason: 'IE does not like switching windows'} do
       browser.goto WatirSpec.url_for('window_switching.html')
       browser.a(id: 'open').click
       browser.windows.wait_until(size: 2)
