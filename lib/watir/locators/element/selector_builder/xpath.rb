@@ -75,7 +75,7 @@ module Watir
             add_to_matching(key, regexp, results)
 
             results.map { |rhs|
-              rhs = "'#{rhs}'"
+              rhs = "\"#{rhs}\""
               rhs = XpathSupport.downcase(rhs) if downcase
               "contains(#{lhs}, #{rhs})"
             }.flatten.compact.join(' and ')

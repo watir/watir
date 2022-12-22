@@ -69,7 +69,7 @@ describe Watir::Locators::Element::SelectorBuilder do
 
       it 'with simple Regexp contains' do
         selector = {tag_name: /div/}
-        built = {xpath: ".//*[contains(local-name(), 'div')]"}
+        built = {xpath: './/*[contains(local-name(), "div")]'}
 
         expect(selector_builder.build(selector)).to eq built
       end
@@ -122,14 +122,14 @@ describe Watir::Locators::Element::SelectorBuilder do
 
       it 'simple Regexp contains' do
         selector = {class_name: /use/}
-        built = {xpath: ".//*[contains(@class, 'use')]"}
+        built = {xpath: './/*[contains(@class, "use")]'}
 
         expect(selector_builder.build(selector)).to eq built
       end
 
       it 'Array of Regexp contains with and' do
         selector = {class: [/mult/, /her/]}
-        built = {xpath: ".//*[contains(@class, 'mult') and contains(@class, 'her')]"}
+        built = {xpath: './/*[contains(@class, "mult") and contains(@class, "her")]'}
 
         expect(selector_builder.build(selector)).to eq built
       end
@@ -157,7 +157,8 @@ describe Watir::Locators::Element::SelectorBuilder do
 
       it 'Array of mixed String, Regexp and Boolean contains and concatenates with and and not' do
         selector = {class: [/mult/, 'classes', '!here']}
-        built = {xpath: ".//*[contains(@class, 'mult') and contains(concat(' ', normalize-space(@class), ' '), ' classes ') " \
+        built = {xpath: './/*[contains(@class, "mult") ' \
+                        "and contains(concat(' ', normalize-space(@class), ' '), ' classes ') " \
                         "and not(contains(concat(' ', normalize-space(@class), ' '), ' here '))]"}
 
         expect(selector_builder.build(selector)).to eq built
@@ -253,14 +254,14 @@ describe Watir::Locators::Element::SelectorBuilder do
     context 'with attributes as partials' do
       it 'with Regexp' do
         selector = {name: /user/}
-        built = {xpath: ".//*[contains(@name, 'user')]"}
+        built = {xpath: './/*[contains(@name, "user")]'}
 
         expect(selector_builder.build(selector)).to eq built
       end
 
       it 'with multiple Regexp attributes separated by and' do
         selector = {readonly: /read/, id: /good/}
-        built = {xpath: ".//*[contains(@readonly, 'read') and contains(@id, 'good')]"}
+        built = {xpath: './/*[contains(@readonly, "read") and contains(@id, "good")]'}
 
         expect(selector_builder.build(selector)).to eq built
       end
@@ -276,7 +277,7 @@ describe Watir::Locators::Element::SelectorBuilder do
 
       it 'Regexp uses contains normalize space' do
         selector = {text: /Add/}
-        built = {xpath: ".//*[contains(normalize-space(), 'Add')]"}
+        built = {xpath: './/*[contains(normalize-space(), "Add")]'}
 
         expect(selector_builder.build(selector)).to eq built
       end
@@ -513,14 +514,14 @@ describe Watir::Locators::Element::SelectorBuilder do
     context 'with simple Regexp' do
       it 'handles spaces' do
         selector = {title: /od Lu/}
-        built = {xpath: ".//*[contains(@title, 'od Lu')]"}
+        built = {xpath: './/*[contains(@title, "od Lu")]'}
 
         expect(selector_builder.build(selector)).to eq built
       end
 
       it 'handles escaped characters' do
         selector = {src: %r{ages/but}}
-        built = {xpath: ".//*[contains(@src, 'ages/but')]"}
+        built = {xpath: './/*[contains(@src, "ages/but")]'}
 
         expect(selector_builder.build(selector)).to eq built
       end
@@ -529,21 +530,21 @@ describe Watir::Locators::Element::SelectorBuilder do
     context 'with complex Regexp' do
       it 'handles wildcards' do
         selector = {src: /ages.*but/}
-        built = {xpath: ".//*[contains(@src, 'ages') and contains(@src, 'but')]", src: /ages.*but/}
+        built = {xpath: './/*[contains(@src, "ages") and contains(@src, "but")]', src: /ages.*but/}
 
         expect(selector_builder.build(selector)).to eq built
       end
 
       it 'handles optional characters' do
         selector = {src: /ages ?but/}
-        built = {xpath: ".//*[contains(@src, 'ages') and contains(@src, 'but')]", src: /ages ?but/}
+        built = {xpath: './/*[contains(@src, "ages") and contains(@src, "but")]', src: /ages ?but/}
 
         expect(selector_builder.build(selector)).to eq built
       end
 
       it 'handles anchors' do
         selector = {name: /^new_user_image$/}
-        built = {xpath: ".//*[contains(@name, 'new_user_image')]", name: /^new_user_image$/}
+        built = {xpath: './/*[contains(@name, "new_user_image")]', name: /^new_user_image$/}
 
         expect(selector_builder.build(selector)).to eq built
       end
@@ -557,7 +558,7 @@ describe Watir::Locators::Element::SelectorBuilder do
 
       it 'does not use starts-with if visible locator used' do
         selector = {id: /^vis/, visible_text: 'shown div'}
-        built = {xpath: ".//*[contains(@id, 'vis')]", id: /^vis/, visible_text: 'shown div'}
+        built = {xpath: './/*[contains(@id, "vis")]', id: /^vis/, visible_text: 'shown div'}
 
         expect(selector_builder.build(selector)).to eq built
       end
@@ -567,7 +568,7 @@ describe Watir::Locators::Element::SelectorBuilder do
         built = {xpath: './/*[contains(translate(@action,' \
                         "'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'," \
                         "'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ'), " \
-                        "translate('me'," \
+                        'translate("me",' \
                         "'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'," \
                         "'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ'))]"}
 
@@ -608,14 +609,14 @@ describe Watir::Locators::Element::SelectorBuilder do
     context 'returns locators that can not be directly translated' do
       it 'attribute with complicated Regexp at end' do
         selector = {action: /me$/}
-        built = {xpath: ".//*[contains(@action, 'me')]", action: /me$/}
+        built = {xpath: './/*[contains(@action, "me")]', action: /me$/}
 
         expect(selector_builder.build(selector)).to eq built
       end
 
       it 'class with complicated Regexp' do
         selector = {class: /he?r/}
-        built = {xpath: ".//*[contains(@class, 'h') and contains(@class, 'r')]", class: [/he?r/]}
+        built = {xpath: './/*[contains(@class, "h") and contains(@class, "r")]', class: [/he?r/]}
 
         expect(selector_builder.build(selector)).to eq built
       end
@@ -752,48 +753,45 @@ describe Watir::Locators::Element::SelectorBuilder do
     end
 
     context 'with case-insensitive attributes' do
+      let(:upper) { "'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'" }
+      let(:lower) { "'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ'" }
+
       it 'respects case when locating uknown element with uknown attribute' do
         expect(selector_builder.build(hreflang: 'en')).to eq(xpath: ".//*[@hreflang='en']")
-        expect(selector_builder.build(hreflang: /en/)).to eq(xpath: ".//*[contains(@hreflang, 'en')]")
+        expect(selector_builder.build(hreflang: /en/)).to eq(xpath: './/*[contains(@hreflang, "en")]')
       end
 
       it 'ignores case when locating uknown element with defined attribute' do
-        lhs = 'translate(@lang,' \
-              "'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'," \
-              "'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ')"
-        rhs = "translate('en'," \
-              "'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'," \
-              "'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ')"
+        lhs = "translate(@lang,#{upper},#{lower})"
+        rhs = "translate('en',#{upper},#{lower})"
+        rhs_regex = "translate(\"en\",#{upper},#{lower})"
         expect(selector_builder.build(lang: 'en')).to eq(xpath: ".//*[#{lhs}=#{rhs}]")
-        expect(selector_builder.build(lang: /en/)).to eq(xpath: ".//*[contains(#{lhs}, #{rhs})]")
+        expect(selector_builder.build(lang: /en/)).to eq(xpath: ".//*[contains(#{lhs}, #{rhs_regex})]")
         expect(selector_builder.build(tag_name: /a/, lang: 'en'))
-          .to eq(xpath: ".//*[contains(local-name(), 'a')][#{lhs}=#{rhs}]")
+          .to eq(xpath: ".//*[contains(local-name(), \"a\")][#{lhs}=#{rhs}]")
         expect(selector_builder.build(tag_name: /a/, lang: /en/))
-          .to eq(xpath: ".//*[contains(local-name(), 'a')][contains(#{lhs}, #{rhs})]")
+          .to eq(xpath: ".//*[contains(local-name(), \"a\")][contains(#{lhs}, #{rhs_regex})]")
       end
 
       it 'ignores case when attribute is defined for element' do
-        lhs = 'translate(@hreflang,' \
-              "'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'," \
-              "'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ')"
-        rhs = "translate('en'," \
-              "'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŽŠŒ'," \
-              "'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿžšœ')"
+        lhs = "translate(@hreflang,#{upper},#{lower})"
+        rhs = "translate('en',#{upper},#{lower})"
+        rhs_regex = "translate(\"en\",#{upper},#{lower})"
         expect(selector_builder.build(tag_name: 'a', hreflang: 'en'))
           .to eq(xpath: ".//*[local-name()='a'][#{lhs}=#{rhs}]")
         expect(selector_builder.build(tag_name: 'a', hreflang: /en/))
-          .to eq(xpath: ".//*[local-name()='a'][contains(#{lhs}, #{rhs})]")
+          .to eq(xpath: ".//*[local-name()='a'][contains(#{lhs}, #{rhs_regex})]")
       end
 
       it 'respects case when attribute is not defined for element' do
         expect(selector_builder.build(tag_name: 'table', hreflang: 'en'))
           .to eq(xpath: ".//*[local-name()='table'][@hreflang='en']")
         expect(selector_builder.build(tag_name: 'table', hreflang: /en/))
-          .to eq(xpath: ".//*[local-name()='table'][contains(@hreflang, 'en')]")
+          .to eq(xpath: ".//*[local-name()='table'][contains(@hreflang, \"en\")]")
         expect(selector_builder.build(tag_name: /a/, hreflang: 'en'))
-          .to eq(xpath: ".//*[contains(local-name(), 'a')][@hreflang='en']")
+          .to eq(xpath: ".//*[contains(local-name(), \"a\")][@hreflang='en']")
         expect(selector_builder.build(tag_name: /a/, hreflang: /en/))
-          .to eq(xpath: ".//*[contains(local-name(), 'a')][contains(@hreflang, 'en')]")
+          .to eq(xpath: './/*[contains(local-name(), "a")][contains(@hreflang, "en")]')
       end
     end
   end

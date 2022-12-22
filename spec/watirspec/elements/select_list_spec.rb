@@ -410,8 +410,12 @@ describe 'SelectList' do
       expect(browser.select_list(id: 'obsolete').select('sweden')).to eq ''
     end
 
-    it 'selects options with a single-quoted value' do
+    it 'selects options with a single-quoted value as String' do
       browser.select_list(id: 'single-quote').select("'foo'")
+    end
+
+    it 'selects options with a single-quoted value as Regexp' do
+      browser.select_list(id: 'single-quote').select(/'foo'/)
     end
 
     it 'waits to select an option' do

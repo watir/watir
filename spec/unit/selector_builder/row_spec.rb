@@ -95,13 +95,13 @@ describe Watir::Locators::Row::SelectorBuilder do
       context 'with multiple locators' do
         it 'attribute and class' do
           @selector = {id: 'gregory', class: /brick/}
-          built = {xpath: "./*[local-name()='tr'][contains(@class, 'brick')][@id='gregory'] | " \
+          built = {xpath: "./*[local-name()='tr'][contains(@class, \"brick\")][@id='gregory'] | " \
                           "./*[local-name()='tbody']/*[local-name()='tr']" \
-                          "[contains(@class, 'brick')][@id='gregory'] | " \
+                          "[contains(@class, \"brick\")][@id='gregory'] | " \
                           "./*[local-name()='thead']/*[local-name()='tr']" \
-                          "[contains(@class, 'brick')][@id='gregory'] | " \
+                          "[contains(@class, \"brick\")][@id='gregory'] | " \
                           "./*[local-name()='tfoot']/*[local-name()='tr']" \
-                          "[contains(@class, 'brick')][@id='gregory']"}
+                          "[contains(@class, \"brick\")][@id='gregory']"}
 
           expect(selector_built).to eq built
         end

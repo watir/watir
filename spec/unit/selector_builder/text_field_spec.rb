@@ -165,8 +165,8 @@ describe Watir::Locators::TextField::SelectorBuilder do
       it 'using simple Regexp' do
         selector = {label: /First/}
         built = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]" \
-                        "[@id=//label[contains(normalize-space(), 'First')]" \
-                        "/@for or parent::label[contains(normalize-space(), 'First')]]"}
+                        '[@id=//label[contains(normalize-space(), "First")]' \
+                        '/@for or parent::label[contains(normalize-space(), "First")]]'}
 
         expect(selector_builder.build(selector)).to eq built
       end
@@ -174,9 +174,9 @@ describe Watir::Locators::TextField::SelectorBuilder do
       it 'using complex Regexp' do
         selector = {label: /([qa])st? name/}
         built = {xpath: ".//*[local-name()='input'][not(@type) or (#{negative_types})]" \
-                        "[@id=//label[contains(normalize-space(), 's') and contains(normalize-space(), ' name')]" \
-                        "/@for or parent::label[contains(normalize-space(), 's') " \
-                        "and contains(normalize-space(), ' name')]]",
+                        '[@id=//label[contains(normalize-space(), "s") and contains(normalize-space(), " name")]' \
+                        '/@for or parent::label[contains(normalize-space(), "s") ' \
+                        'and contains(normalize-space(), " name")]]',
                  label_element: /([qa])st? name/}
 
         expect(selector_builder.build(selector)).to eq built
@@ -186,7 +186,7 @@ describe Watir::Locators::TextField::SelectorBuilder do
     context 'with multiple locators' do
       it 'locates using tag name, class, attributes and text' do
         selector = {text: 'Developer', class: /c/, id: true}
-        built = {xpath: ".//*[local-name()='input'][contains(@class, 'c')]" \
+        built = {xpath: ".//*[local-name()='input'][contains(@class, \"c\")]" \
                         "[not(@type) or (#{negative_types})][@id]", text: 'Developer'}
 
         expect(selector_builder.build(selector)).to eq built
