@@ -159,8 +159,10 @@ module Watir
                    @options.delete(:browser)
                  elsif @options.key?(:capabilities)
                    @options[:capabilities].browser_name.tr(' ', '_').downcase.to_sym
-                 elsif @options.key?(:options)
+                 elsif @options[:options].is_a?(Selenium::WebDriver::Options)
                    @options[:options].class.to_s.split('::')[-2].downcase.to_sym
+                 elsif @options.key?(:options)
+                   @options.dig(:options, :browser_name).downcase.to_sym
                  else
                    :chrome
                  end

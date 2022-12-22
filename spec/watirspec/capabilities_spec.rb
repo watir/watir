@@ -57,17 +57,14 @@ module Watir
     context 'when local', exclusive: {driver: :local_driver} do
       context 'all browsers' do
         it 'accepts watir capabilities object' do
-          # This was not properly implemented
-          expect {
-            service = Service.send(browser_symbol)
-            client = Remote::Http::Default.new
-            capabilities = Watir::Capabilities.new(browser_symbol, service: service, client: client)
+          service = Service.send(browser_symbol, port: 1234)
+          client = Remote::Http::Default.new
+          capabilities = Watir::Capabilities.new(browser_symbol, service: service, http_client: client)
 
-            @browser = Browser.new(capabilities)
+          @browser = Browser.new(capabilities)
 
-            expect(actual_service).to eq service
-            expect(actual_http).to eq client
-          }.to raise_exception(ArgumentError, /expected Symbol or Selenium::WebDriver::Driver, got Watir::Capabilities/)
+          expect(actual_service.instance_variable_get(:@port)).to eq 1234
+          expect(actual_http).to eq client
         end
 
         it 'browser symbol uses designated options and watir client without service' do
@@ -79,27 +76,31 @@ module Watir
         end
 
         describe 'capabilities' do
-          it 'just options has options and watir client without capabilities or service' do
-            # This was not properly implemented
-            expect {
-              @browser = Browser.new(options: Options.send(browser_symbol))
+          it 'just options object has options and watir client without capabilities or service' do
+            @browser = Browser.new(options: Options.send(browser_symbol))
 
-              expect(generated_options).to be_a Options.send(browser_symbol).class
-              expect(selenium_args).not_to include(:service)
-              expect(actual_http).to be_a HttpClient
-            }.to raise_exception(ArgumentError, /expected Symbol or Selenium::WebDriver::Driver, got Hash/)
+            expect(generated_options).to be_a Options.send(browser_symbol).class
+            expect(selenium_args).not_to include(:service)
+            expect(actual_http).to be_a HttpClient
+          end
+
+          it 'just options hash has options and watir client without capabilities or service' do
+            options = {browser_name: browser_name, unhandled_prompt_behavior: :accept_and_notify}
+            @browser = Browser.new(options: options)
+
+            expect(generated_options).to be_a Options.send(browser_symbol).class
+            expect(selenium_args).not_to include(:service)
+            expect(actual_capabilities.unhandled_prompt_behavior).to eq 'accept and notify'
+            expect(actual_http).to be_a HttpClient
           end
 
           it 'just capabilities has capabilities and watir client without service' do
-            # This was not properly implemented
-            expect {
-              caps = Remote::Capabilities.new(browser_name: browser_name)
-              @browser = Browser.new(capabilities: caps)
+            caps = Remote::Capabilities.new(browser_name: browser_name)
+            @browser = Browser.new(capabilities: caps)
 
-              expect(selenium_args[:capabilities]).to eq(caps)
-              expect(selenium_args).not_to include(:service)
-              expect(actual_http).to be_a HttpClient
-            }.to raise_exception(ArgumentError, /expected Symbol or Selenium::WebDriver::Driver, got Hash/)
+            expect(selenium_args[:capabilities]).to eq(caps)
+            expect(selenium_args).not_to include(:service)
+            expect(actual_http).to be_a HttpClient
           end
 
           it 'accepts page load and script timeouts in seconds' do
@@ -375,17 +376,14 @@ module Watir
       let(:url) { "#{WatirSpec.implementation.browser_args.last[:url]}/" }
 
       it 'with just url' do
-        # This was not properly implemented
-        expect {
-          @browser = Browser.new(url: url)
+        @browser = Browser.new(url: url)
 
-          expect(selenium_browser).to eq :remote
-          expect(selenium_args).not_to include(:service)
-          expect(generated_options).to be_a Options.send(browser_symbol).class
-          expect(actual_capabilities.browser_name).to eq browser_name
-          expect(actual_http).to be_a HttpClient
-          expect(actual_http.instance_variable_get(:@server_url).to_s).to eq url
-        }.to raise_exception(ArgumentError, /expected Symbol or Selenium::WebDriver::Driver/)
+        expect(selenium_browser).to eq :remote
+        expect(selenium_args).not_to include(:service)
+        expect(generated_options).to be_a Options.send(browser_symbol).class
+        expect(actual_capabilities.browser_name).to eq browser_name
+        expect(actual_http).to be_a HttpClient
+        expect(actual_http.instance_variable_get(:@server_url).to_s).to eq url
       end
 
       it 'just url & browser name has options and client but not service' do
