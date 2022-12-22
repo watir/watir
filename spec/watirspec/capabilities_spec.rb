@@ -56,6 +56,13 @@ module Watir
 
     context 'when local', exclusive: {driver: :local_driver} do
       context 'all browsers' do
+        it 'accepts driver instance' do
+          driver = Selenium::WebDriver.for browser_symbol
+          @browser = Watir::Browser.new(driver)
+
+          expect(actual_http).not_to be_a(Watir::HttpClient)
+        end
+
         it 'accepts watir capabilities object' do
           service = Service.send(browser_symbol, port: 1234)
           client = Remote::Http::Default.new
@@ -84,14 +91,16 @@ module Watir
             expect(actual_http).to be_a HttpClient
           end
 
-          it 'just options hash has options and watir client without capabilities or service' do
+          it 'without browser argument, just Hash with options service and client' do
+            service = Service.send(browser_symbol, port: 1234)
+            client = Remote::Http::Default.new
             options = {browser_name: browser_name, unhandled_prompt_behavior: :accept_and_notify}
-            @browser = Browser.new(options: options)
+            @browser = Browser.new(options: options, service: service, http_client: client)
 
             expect(generated_options).to be_a Options.send(browser_symbol).class
-            expect(selenium_args).not_to include(:service)
+            expect(selenium_args[:service]).to eq service
             expect(actual_capabilities.unhandled_prompt_behavior).to eq 'accept and notify'
-            expect(actual_http).to be_a HttpClient
+            expect(actual_http).to eq client
           end
 
           it 'just capabilities has capabilities and watir client without service' do

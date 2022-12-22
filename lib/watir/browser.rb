@@ -42,17 +42,8 @@ module Watir
     #
 
     def initialize(browser = :chrome, *args)
-      @driver = case browser
-                when Capabilities
-                  Selenium::WebDriver.for(*browser.to_args)
-                when ::Symbol, String, Hash
-                  @capabilities = Capabilities.new(browser, *args)
-                  Selenium::WebDriver.for(*@capabilities.to_args)
-                when Selenium::WebDriver::Driver
-                  browser
-                else
-                  raise ArgumentError, "expected Symbol or Selenium::WebDriver::Driver, got #{browser.class}"
-                end
+      @capabilities = browser.is_a?(Capabilities) ? browser : Capabilities.new(browser, *args)
+      @driver = browser.is_a?(Selenium::WebDriver::Driver) ? browser : Selenium::WebDriver.for(*@capabilities.to_args)
 
       @after_hooks = AfterHooks.new(self)
       @closed = false
