@@ -92,30 +92,30 @@ describe Watir::Locators::Element::SelectorBuilder do
     context 'with class names' do
       it 'class_name is converted to class' do
         selector = {class_name: 'user'}
-        built = {xpath: ".//*[contains(concat(' ', @class, ' '), ' user ')]"}
+        built = {xpath: ".//*[contains(concat(' ', normalize-space(@class), ' '), ' user ')]"}
 
         expect(selector_builder.build(selector)).to eq built
       end
 
       it 'single String concatenates' do
         selector = {class: 'user'}
-        built = {xpath: ".//*[contains(concat(' ', @class, ' '), ' user ')]"}
+        built = {xpath: ".//*[contains(concat(' ', normalize-space(@class), ' '), ' user ')]"}
 
         expect(selector_builder.build(selector)).to eq built
       end
 
       it 'Array of String concatenates with and' do
         selector = {class: %w[multiple here]}
-        built = {xpath: ".//*[contains(concat(' ', @class, ' '), ' multiple ') and " \
-                        "contains(concat(' ', @class, ' '), ' here ')]"}
+        built = {xpath: ".//*[contains(concat(' ', normalize-space(@class), ' '), ' multiple ') and " \
+                        "contains(concat(' ', normalize-space(@class), ' '), ' here ')]"}
 
         expect(selector_builder.build(selector)).to eq built
       end
 
       it 'merges values when class and class_name are both used' do
         selector = {class: 'foo', class_name: 'bar'}
-        built = {xpath: ".//*[contains(concat(' ', @class, ' '), ' foo ') and " \
-                        "contains(concat(' ', @class, ' '), ' bar ')]"}
+        built = {xpath: ".//*[contains(concat(' ', normalize-space(@class), ' '), ' foo ') and " \
+                        "contains(concat(' ', normalize-space(@class), ' '), ' bar ')]"}
 
         expect(selector_builder.build(selector)).to eq built
       end
@@ -136,7 +136,7 @@ describe Watir::Locators::Element::SelectorBuilder do
 
       it 'single negated String concatenates with not' do
         selector = {class: '!multiple'}
-        built = {xpath: ".//*[not(contains(concat(' ', @class, ' '), ' multiple '))]"}
+        built = {xpath: ".//*[not(contains(concat(' ', normalize-space(@class), ' '), ' multiple '))]"}
 
         expect(selector_builder.build(selector)).to eq built
       end
@@ -157,8 +157,8 @@ describe Watir::Locators::Element::SelectorBuilder do
 
       it 'Array of mixed String, Regexp and Boolean contains and concatenates with and and not' do
         selector = {class: [/mult/, 'classes', '!here']}
-        built = {xpath: ".//*[contains(@class, 'mult') and contains(concat(' ', @class, ' '), ' classes ') " \
-                        "and not(contains(concat(' ', @class, ' '), ' here '))]"}
+        built = {xpath: ".//*[contains(@class, 'mult') and contains(concat(' ', normalize-space(@class), ' '), ' classes ') " \
+                        "and not(contains(concat(' ', normalize-space(@class), ' '), ' here '))]"}
 
         expect(selector_builder.build(selector)).to eq built
       end
@@ -393,7 +393,7 @@ describe Watir::Locators::Element::SelectorBuilder do
         it 'with multiple locators' do
           selector = {adjacent: :ancestor, id: true, tag_name: 'div', class: 'ancestor', index: 1}
           built = {xpath: "./ancestor::*[local-name()='div']" \
-                          "[contains(concat(' ', @class, ' '), ' ancestor ')][@id][2]"}
+                          "[contains(concat(' ', normalize-space(@class), ' '), ' ancestor ')][@id][2]"}
 
           expect(selector_builder.build(selector)).to eq built
         end
@@ -424,7 +424,7 @@ describe Watir::Locators::Element::SelectorBuilder do
         it 'with multiple locators' do
           selector = {adjacent: :following, tag_name: 'div', class: 'b', index: 0, id: true}
           built = {xpath: "./following-sibling::*[local-name()='div']" \
-                          "[contains(concat(' ', @class, ' '), ' b ')][@id][1]"}
+                          "[contains(concat(' ', normalize-space(@class), ' '), ' b ')][@id][1]"}
 
           expect(selector_builder.build(selector)).to eq built
         end
@@ -455,7 +455,7 @@ describe Watir::Locators::Element::SelectorBuilder do
         it 'with multiple locators' do
           selector = {adjacent: :preceding, tag_name: 'div', class: 'b', id: true, index: 0}
           built = {xpath: "./preceding-sibling::*[local-name()='div']" \
-                          "[contains(concat(' ', @class, ' '), ' b ')][@id][1]"}
+                          "[contains(concat(' ', normalize-space(@class), ' '), ' b ')][@id][1]"}
 
           expect(selector_builder.build(selector)).to eq built
         end
@@ -486,7 +486,7 @@ describe Watir::Locators::Element::SelectorBuilder do
         it 'with multiple locators' do
           selector = {adjacent: :child, tag_name: 'div', class: 'b', id: true, index: 0}
           built = {xpath: "./child::*[local-name()='div']" \
-                          "[contains(concat(' ', @class, ' '), ' b ')][@id][1]"}
+                          "[contains(concat(' ', normalize-space(@class), ' '), ' b ')][@id][1]"}
 
           expect(selector_builder.build(selector)).to eq built
         end
@@ -503,7 +503,7 @@ describe Watir::Locators::Element::SelectorBuilder do
     context 'with multiple locators' do
       it 'locates using tag name, class, attributes and text' do
         selector = {tag_name: 'div', class: 'content', contenteditable: 'true', text: 'Foo'}
-        built = {xpath: ".//*[local-name()='div'][contains(concat(' ', @class, ' '), ' content ')]" \
+        built = {xpath: ".//*[local-name()='div'][contains(concat(' ', normalize-space(@class), ' '), ' content ')]" \
                         "[normalize-space()='Foo'][@contenteditable='true']"}
 
         expect(selector_builder.build(selector)).to eq built

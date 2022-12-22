@@ -408,6 +408,12 @@ describe 'Element' do
           expect(e).to exist
           expect(e.class_name).to eq 'a b'
         end
+
+        it 'matches with any whitespace' do
+          e = browser.div(class: %w[newline tabbed])
+          expect(e).to exist
+          expect(e.class_name).to eq "first\nnewline\ttabbed last"
+        end
       end
     end
 

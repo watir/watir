@@ -201,7 +201,7 @@ describe Watir::Locators::Button::SelectorBuilder do
       it 'locates using class and attributes' do
         selector = {class: 'image', name: 'new_user_image', src: true}
         built = {xpath: ".//*[(local-name()='button') or (local-name()='input' and (#{default_types}))]" \
-                        "[contains(concat(' ', @class, ' '), ' image ')][@name='new_user_image' and @src]"}
+                        "[contains(concat(' ', normalize-space(@class), ' '), ' image ')][@name='new_user_image' and @src]"}
         expect(selector_builder.build(selector)).to eq built
       end
     end

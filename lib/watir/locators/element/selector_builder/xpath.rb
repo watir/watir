@@ -221,7 +221,7 @@ module Watir
             if key == :class
               negate_xpath = value =~ /^!/
               value = value[1..] if negate_xpath
-              expression = "contains(concat(' ', @class, ' '), #{XpathSupport.escape " #{value} "})"
+              expression = "contains(concat(' ', normalize-space(@class), ' '), #{XpathSupport.escape " #{value} "})"
 
               negate_xpath ? "not(#{expression})" : expression
             else
