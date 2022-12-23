@@ -22,7 +22,7 @@ module Watir
       if @origin
         @driver.action.scroll_from(@origin, left, top).perform
       else
-        @driver.action.scroll_by(left, top).perform
+        @object.browser.execute_script('window.scrollBy(arguments[0], arguments[1]);', Integer(left), Integer(top))
       end
       self
     end
