@@ -81,6 +81,8 @@ class LocalConfig
   end
 
   def safari_preview_args
+    @browser = :safari
+    Selenium::WebDriver::Safari.technology_preview!
     {technology_preview: true}
   end
 
