@@ -76,8 +76,10 @@ describe Watir::Capabilities do
     it 'just capabilities has client & capabilities but not service' do
       caps = Selenium::WebDriver::Remote::Capabilities.send(browser_symbol)
       capabilities = Watir::Capabilities.new(capabilities: caps)
-
-      args = capabilities.to_args
+      args = []
+      expect {
+        args = capabilities.to_args
+      }.to have_deprecated(:capabilities)
 
       expect(args.last[:http_client]).to be_a Watir::HttpClient
       expect(args.last[:capabilities]).to be_a(Selenium::WebDriver::Remote::Capabilities)
@@ -390,7 +392,11 @@ describe Watir::Capabilities do
       caps = Watir::Capabilities.new(:chrome,
                                      url: 'https://example.com/wd/hub',
                                      capabilities: Selenium::WebDriver::Remote::Capabilities.chrome)
-      args = caps.to_args
+      args = []
+      expect {
+        args = caps.to_args
+      }.to have_deprecated(:capabilities)
+
       expect(args.first).to eq :remote
       actual_capabilities = args.last[:capabilities]
       expect(actual_capabilities).to be_a(Selenium::WebDriver::Remote::Capabilities)
@@ -403,8 +409,11 @@ describe Watir::Capabilities do
                                      url: 'https://example.com/wd/hub',
                                      capabilities: Selenium::WebDriver::Remote::Capabilities.chrome,
                                      http_client: client)
+      args = []
+      expect {
+        args = caps.to_args
+      }.to have_deprecated(:capabilities)
 
-      args = caps.to_args
       expect(args.first).to eq :remote
       expect(args.last[:http_client]).to eq client
       actual_capabilities = args.last[:capabilities]

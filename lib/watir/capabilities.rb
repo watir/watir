@@ -47,6 +47,9 @@ module Watir
 
       selenium_opts[:http_client] = process_http_client
       if @options.key?(:capabilities)
+        Watir.logger.deprecate(':capabilities argument in Browser constructor',
+                               ':options argument with Selenium Options instance or Hash',
+                               id: :capabilities)
         selenium_opts[:capabilities] = @options.delete(:capabilities)
       else
         selenium_opts[:options] = process_browser_options

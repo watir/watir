@@ -105,7 +105,10 @@ module Watir
 
           it 'just capabilities has capabilities and watir client without service' do
             caps = Remote::Capabilities.new(browser_name: browser_name)
-            @browser = Browser.new(capabilities: caps)
+
+            expect {
+              @browser = Browser.new(capabilities: caps)
+            }.to have_deprecated(:capabilities)
 
             expect(selenium_args[:capabilities]).to eq(caps)
             expect(selenium_args).not_to include(:service)
