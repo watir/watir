@@ -19,7 +19,7 @@ Lint/UnifiedInteger:
   - 'lib/watir/locators/element/selector_builder.rb'
 
 Metrics/AbcSize:
-  Max: 23
+  Max: 22
   Exclude:
     - 'lib/watir/locators/element/selector_builder.rb'
     - 'lib/watir/locators/element/selector_builder/*.rb'

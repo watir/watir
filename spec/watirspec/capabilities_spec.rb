@@ -17,7 +17,7 @@ module Watir
   describe Browser do
     let(:selenium_browser) { @browser.capabilities.selenium_browser }
     let(:selenium_args) { @browser.capabilities.selenium_args }
-    let(:generated_options) { selenium_args[:capabilities].first }
+    let(:generated_options) { selenium_args[:options] }
     let(:browser_symbol) { WatirSpec.implementation.browser_args.first }
     let(:actual_capabilities) { @browser.wd.capabilities }
     let(:actual_http) { @browser.wd.instance_variable_get(:@bridge).instance_variable_get(:@http) }

@@ -211,7 +211,6 @@ describe 'Div' do
 
     it 'scrolls' do
       browser.del(class: 'footer').double_click
-      puts 'yes?'
     end
   end
 
