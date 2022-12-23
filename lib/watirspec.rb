@@ -63,6 +63,7 @@ module WatirSpec
 
       instance = klass.new(*args)
       print_browser_info_once(instance)
+      instance.window.maximize
 
       instance
     end
@@ -85,8 +86,8 @@ module WatirSpec
 
       Watir.logger.warn "running watirspec against #{info.join ' '} using:\n#{WatirSpec.implementation.inspect_args}",
                         id: [:browser_info]
-    rescue StandardError
-      # ignored
+    rescue StandardError => e
+      Watir.logger.warn("Unable to print browser info: #{e}")
     end
   end # class << WatirSpec
 end # WatirSpec

@@ -402,13 +402,34 @@ describe Watir::Window do
   end
 
   context 'manipulating size and position', except: {headless: true} do
+    before(:all) do
+      maximized_size = browser.window.size
+
+      browser.window.resize_to(
+        maximized_size.width - 100,
+        maximized_size.height - 100
+      )
+      browser.wait_until { |b| b.window.size != maximized_size }
+
+      current_position = browser.window.position
+
+      browser.window.move_to(
+        current_position.x + 40,
+        current_position.y + 40
+      )
+      browser.wait_until { |b| b.window.position != current_position }
+
+      @initial_size = browser.window.size
+      @initial_position = browser.window.position
+    end
+
     before do
       browser.goto WatirSpec.url_for('window_switching.html')
-      @initial_size = browser.window.size
     end
 
     after do
       browser.window.resize_to @initial_size.width, @initial_size.height
+      browser.window.move_to @initial_position.x, @initial_position.y
     end
 
     it 'should get the size of the current window' do
@@ -417,10 +438,8 @@ describe Watir::Window do
     end
 
     it 'should get the position of the current window' do
-      pos = browser.window.position
-
-      expect(pos.x).to eq browser.execute_script('return window.screenX;')
-      expect(pos.y).to eq browser.execute_script('return window.screenY;')
+      expect(@initial_position.x).to eq browser.execute_script('return window.screenX;')
+      expect(@initial_position.y).to eq browser.execute_script('return window.screenY;')
     end
 
     it 'should resize the window' do
@@ -429,54 +448,42 @@ describe Watir::Window do
         @initial_size.height - 20
       )
 
-      new_size = browser.window.size
+      browser.wait_until { |b| b.window.size != @initial_size }
 
+      new_size = browser.window.size
       expect(new_size.width).to eq @initial_size.width - 20
       expect(new_size.height).to eq @initial_size.height - 20
     end
 
     it 'should move the window' do
-      initial_pos = browser.window.position
-
       browser.window.move_to(
-        initial_pos.x + 2,
-        initial_pos.y + 2
+        @initial_position.x + 5,
+        @initial_position.y + 5
       )
 
-      new_pos = browser.window.position
-      expect(new_pos.x).to eq initial_pos.x + 2
-      expect(new_pos.y).to eq initial_pos.y + 2
+      browser.wait_until { |b| b.window.position != @initial_position }
+
+      new_position = browser.window.position
+      expect(new_position.x).to eq @initial_position.x + 5
+      expect(new_position.y).to eq @initial_position.y + 5
     end
 
     it 'should maximize the window', except: {browser: :firefox, window_manager: false} do
-      browser.window.resize_to(
-        @initial_size.width - 40,
-        @initial_size.height - 40
-      )
-      browser.wait_until { |b| b.window.size != @initial_size }
-      new_size = browser.window.size
-
       browser.window.maximize
-      browser.wait_until { |b| b.window.size != new_size }
+      browser.wait_until { |b| b.window.size != @initial_size }
 
-      final_size = browser.window.size
-      expect(final_size.width).to be >= new_size.width
-      expect(final_size.height).to be > new_size.height
+      new_size = browser.window.size
+      expect(new_size.width).to be >= @initial_size.width
+      expect(new_size.height).to be > @initial_size.height
     end
 
     it 'should make the window full screen', except: {browser: :firefox, window_manager: false} do
-      browser.window.resize_to(
-        @initial_size.width - 40,
-        @initial_size.height - 40
-      )
-      new_size = browser.window.size
-
       browser.window.full_screen
-      browser.wait_until { |b| b.window.size != new_size }
+      browser.wait_until { |b| b.window.size != @initial_size }
 
-      final_size = browser.window.size
-      expect(final_size.width).to be >= new_size.width
-      expect(final_size.height).to be > new_size.height
+      new_size = browser.window.size
+      expect(new_size.width).to be >= @initial_size.width
+      expect(new_size.height).to be > @initial_size.height
     end
 
     it 'should minimize the window', except: {window_manager: false} do
@@ -487,6 +494,7 @@ describe Watir::Window do
       browser.wait_until { |b| b.execute_script('return document.visibilityState;') != 'visible' }
 
       expect(browser.execute_script('return document.visibilityState;')).to eq 'hidden'
+      browser.window.maximize
     end
   end
 end

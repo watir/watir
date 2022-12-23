@@ -147,8 +147,7 @@ describe 'Link' do
       expect { browser.link(index: 1337).click }.to raise_unknown_object_exception
     end
 
-    it 'clicks a link with no text content but an img child',
-       except: {browser: :safari, reason: 'Safari throws a not interactable error'} do
+    it 'clicks a link with no text content but an img child' do
       browser.goto WatirSpec.url_for('images.html')
       browser.link(href: /definition_lists.html/).click
       browser.wait_while(title: /^(Images|)$/)
@@ -168,8 +167,7 @@ describe 'Link' do
       expect(browser.link(visible_text: /Link 2/, class: 'external')).to exist
     end
 
-    it 'finds links in spite of hidden text',
-       except: {browser: :safari, reason: 'Safari is not filtering out hidden text'} do
+    it 'finds links in spite of hidden text' do
       browser.goto WatirSpec.url_for('non_control_elements.html')
 
       expect(browser.link(visible_text: 'some visible')).to exist

@@ -15,16 +15,33 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
         ruby: [ 2.7, 3.1 ]
     steps:
-      - uses: actions/checkout@v2
-      - uses: ./.github/actions/setup-linux
-        if:  matrix.os == 'ubuntu-latest'
-      - uses: ./.github/actions/install-chrome
-        if:  matrix.os == 'ubuntu-latest'
-      - uses: ruby/setup-ruby@v1
+      - name: Checkout source tree
+        uses: actions/checkout@v2
+      - name: Setup Fluxbox
+        if: matrix.os == 'ubuntu-latest'
+        run: sudo apt-get -y install fluxbox
+      - name: Start XVFB
+        if: matrix.os == 'ubuntu-latest'
+        run: Xvfb :99 -screen 0 1920x1280x24 > /dev/null 2>&1 &
+      - name: Start Fluxbox
+        if: matrix.os == 'ubuntu-latest'
+        run: fluxbox -display :99 &
+      - name: Set Windows resolution
+        if: matrix.os == 'windows-latest'
+        run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
+      - name: Set Mac resolution
+        if: ${{ matrix.os == 'macos-latest' }}
+        run: |
+          system_profiler SPDisplaysDataType | grep Resolution
+          "/Library/Application Support/VMware Tools/vmware-resolutionSet" 2560 1440
+          system_profiler SPDisplaysDataType | grep Resolution
+      - name: Install Ruby
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-      - run: bundle install
-      - run: |
-          bundle exec rake spec:chrome
+      - name: Install gems
+        run: bundle install
+      - name: Run tests
+        run: bundle exec rake spec:chrome
         env:
-          DISPLAY: :99
+          DISPLAY: :99.0

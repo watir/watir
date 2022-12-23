@@ -176,7 +176,10 @@ describe Watir::Scrolling do
       it 'scrolls from an element with an offset' do
         browser.goto(WatirSpec.url_for('scroll_nested_offscreen.html'))
 
-        browser.footer.scroll.from(0, -50).by(0, 200)
+        move_left = browser.execute_script('return arguments[0].getBoundingClientRect().width/2', browser.footer) -
+                    browser.execute_script('return arguments[0].getBoundingClientRect().right/2', browser.iframe.we)
+
+        browser.footer.scroll.from(-move_left.round, -50).by(0, 200)
 
         checkbox = browser.iframe.checkbox(name: 'scroll_checkbox')
         expect(in_viewport?(checkbox)).to eq true

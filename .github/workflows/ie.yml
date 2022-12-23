@@ -14,12 +14,17 @@ jobs:
       matrix:
         ruby: [ 2.7, 3.1 ]
     steps:
-      - uses: actions/checkout@v2
-      - uses: ruby/setup-ruby@v1
+      - name: Checkout source tree
+        uses: actions/checkout@v2
+      - name: Set Windows resolution
+        run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
+      - name: Install Ruby
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-      - run: bundle install
-      - run: |
-          bundle exec rake spec:ie
+      - name: Install gems
+        run: bundle install
+      - name: Run tests
+        run: bundle exec rake spec:ie
         env:
-          DISPLAY: :99
+          GITHUB_TOKEN: ${{ github.token }}

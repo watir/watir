@@ -10,16 +10,22 @@ jobs:
     name: Yard Doctest
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: ruby/setup-ruby@v1
+      - name: Checkout source tree
+        uses: actions/checkout@v2
+      - name: Setup Fluxbox
+        run: sudo apt-get -y install fluxbox
+      - name: Start XVFB
+        run: Xvfb :99 -screen 0 1920x1280x24 > /dev/null 2>&1 &
+      - name: Start Fluxbox
+        run: fluxbox -display :99 &
+      - name: Install Ruby
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7
-      - run: bundle install
-      - uses: ./.github/actions/install-chrome
-      - uses: ./.github/actions/setup-linux
-      - run: |
-          bundle exec rake yard:doctest
-
+      - name: Install gems
+        run: bundle install
+      - name: Run tests
+        run: bundle exec rake yard:doctest
 
   unit-test:
     name: Unit Tests
@@ -29,25 +35,26 @@ jobs:
       matrix:
         ruby: ['2.7', '3.0', '3.1']
     steps:
-      - uses: actions/checkout@v2
-      - uses: ruby/setup-ruby@v1
+      - name: Checkout source tree
+        uses: actions/checkout@v2
+      - name: Install Ruby
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-      - run: bundle install
-      - uses: ./.github/actions/install-chrome
-      - uses: ./.github/actions/setup-linux
-      - run: |
-          bundle exec rake spec:unit
-        env:
-          DISPLAY: :99
+      - name: Install gems
+        run: bundle install
+      - run: bundle exec rake spec:unit
 
   linter-test:
     name: Rubocop Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: ruby/setup-ruby@v1
+      - name: Checkout source tree
+        uses: actions/checkout@v2
+      - name: Install Ruby
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7
-      - run: bundle install
+      - name: Install gems
+        run: bundle install
       - run: bundle exec rubocop
