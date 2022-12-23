@@ -178,10 +178,9 @@ describe Watir::Capabilities do
       it 'has deprecated timeouts key with page load warning' do
         options = {timeouts: {page_load: 11}}
         capabilities = Watir::Capabilities.new(browser_symbol, options: options)
-        msg = 'timeouts has been deprecated, use page_load_timeout (in seconds) directly instead'
         expect {
           capabilities.to_args
-        }.to have_deprecated_timeouts(msg)
+        }.to have_deprecated(:timeouts)
       end
 
       it 'has deprecated timeouts key with script warning' do
@@ -189,7 +188,7 @@ describe Watir::Capabilities do
         expect {
           capabilities = Watir::Capabilities.new(browser_symbol, options: options)
           capabilities.to_args
-        }.to have_deprecated_timeouts('timeouts has been deprecated, use script_timeout (in seconds) directly instead')
+        }.to have_deprecated(:timeouts)
       end
 
       it 'does not allow implicit wait timeout in timeouts hash' do

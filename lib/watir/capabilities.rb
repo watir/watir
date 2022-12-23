@@ -119,7 +119,7 @@ module Watir
 
         Watir.logger.deprecate('using timeouts directly in options',
                                ":#{key}_timeout",
-                               id: 'timeouts')
+                               id: :timeouts)
       end
       if browser_options.key?(:page_load_timeout)
         browser_options[:timeouts][:page_load] = browser_options.delete(:page_load_timeout) * 1000

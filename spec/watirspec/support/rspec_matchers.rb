@@ -1,35 +1,36 @@
 # frozen_string_literal: true
 
 if defined?(RSpec)
-  DEPRECATION_WARNINGS = %i[timeouts].freeze
+  RSpec::Matchers.define :have_deprecated do |deprecation|
+    match do |actual|
+      # Suppresses logging output to stdout while ensuring that it is still happening
+      default_output = Selenium::WebDriver.logger.io
+      io = StringIO.new
+      Watir.logger.output = io
 
-  DEPRECATION_WARNINGS.each do |deprecation|
-    RSpec::Matchers.define "have_deprecated_#{deprecation}" do
-      match do |actual|
-        return actual.call if ENV['IGNORE_DEPRECATIONS']
+      actual.call
 
-        warning = /\[DEPRECATION\] \["#{deprecation}"/
-        expect {
-          actual.call
-          @stdout_message = File.read $stdout if $stdout.is_a?(File)
-        }.to output(warning).to_stdout_from_any_process
-      end
+      Watir.logger.output = default_output
+      @deprecations_found = (io.rewind && io.read).scan(/DEPRECATION\] \[:([^\]]*)\]/).flatten.map(&:to_sym)
+      expect(Array(deprecation).sort).to eq(@deprecations_found.sort)
+    end
 
-      failure_message do |_actual|
-        return 'unexpected exception in the custom matcher block' unless @stdout_message
+    failure_message do
+      but_message = if @deprecations_found.nil? || @deprecations_found.empty?
+                      'no deprecations were found'
+                    else
+                      "instead these deprecations were found: [#{@deprecations_found.join(', ')}]"
+                    end
+      "expected :#{deprecation} to have been deprecated, but #{but_message}"
+    end
 
-        deprecations_found = @stdout_message[/WARN Watir \[DEPRECATION\] ([^.*\ ]*)/, 1]
-        but_message = if deprecations_found.nil?
-                        'no Warnings were found'
-                      else
-                        "deprecation Warning of #{deprecations_found} was found instead"
-                      end
-        "expected Warning message of \"#{deprecation}\" being deprecated, but #{but_message}"
-      end
+    failure_message_when_negated do
+      but_message = "it was found among these deprecations: [#{@deprecations_found.join(', ')}]"
+      "expected :#{deprecation} not to have been deprecated, but #{but_message}"
+    end
 
-      def supports_block_expectations?
-        true
-      end
+    def supports_block_expectations?
+      true
     end
   end
 
