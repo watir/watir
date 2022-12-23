@@ -481,6 +481,7 @@ module Watir
       assert_exists
       @element
     end
+    alias we wd
 
     #
     # Returns shadow root of element

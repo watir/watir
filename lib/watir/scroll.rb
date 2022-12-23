@@ -9,7 +9,9 @@ module Watir
 
   class Scroll
     def initialize(object)
+      @driver = object.browser.wd
       @object = object
+      @origin = nil
     end
 
     # Scrolls by offset.
@@ -17,15 +19,20 @@ module Watir
     # @param [Fixnum] top Vertical offset
     #
     def by(left, top)
-      @object.browser.execute_script('window.scrollBy(arguments[0], arguments[1]);', Integer(left), Integer(top))
+      if @origin
+        @driver.action.scroll_from(@origin, left, top).perform
+      else
+        @driver.action.scroll_by(left, top).perform
+      end
       self
     end
 
-    #
     # Scrolls to specified location.
     # @param [Symbol] param
     #
     def to(param = :top)
+      return scroll_to_element if param == :viewport
+
       args = @object.is_a?(Watir::Element) ? element_scroll(param) : browser_scroll(param)
       raise ArgumentError, "Don't know how to scroll #{@object} to: #{param}!" if args.nil?
 
@@ -33,7 +40,23 @@ module Watir
       self
     end
 
+    # Sets an origin point for a future scroll
+    # @param [Integer] x_offset
+    # @param [Integer] y_offset
+    def from(x_offset = 0, y_offset = 0)
+      @origin = if @object.is_a?(Watir::Element)
+                  Selenium::WebDriver::WheelActions::ScrollOrigin.element(@object.we, x_offset, y_offset)
+                else
+                  Selenium::WebDriver::WheelActions::ScrollOrigin.viewport(x_offset, y_offset)
+                end
+      self
+    end
+
     private
+
+    def scroll_to_element
+      @driver.action.scroll_to(@object.we).perform
+    end
 
     def element_scroll(param)
       script = case param
