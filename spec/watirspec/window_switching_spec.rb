@@ -468,7 +468,7 @@ describe Watir::Window do
       expect(new_position.y).to eq @initial_position.y + 5
     end
 
-    it 'should maximize the window', except: {browser: :firefox, window_manager: false} do
+    it 'should maximize the window' do
       browser.window.maximize
       browser.wait_until { |b| b.window.size != @initial_size }
 
@@ -477,7 +477,7 @@ describe Watir::Window do
       expect(new_size.height).to be > @initial_size.height
     end
 
-    it 'should make the window full screen', except: {browser: :firefox, window_manager: false} do
+    it 'should make the window full screen' do
       browser.window.full_screen
       browser.wait_until { |b| b.window.size != @initial_size }
 
@@ -486,7 +486,7 @@ describe Watir::Window do
       expect(new_size.height).to be > @initial_size.height
     end
 
-    it 'should minimize the window', except: {window_manager: false} do
+    it 'should minimize the window' do
       expect(browser.execute_script('return document.visibilityState;')).to eq 'visible'
 
       browser.window.minimize

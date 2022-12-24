@@ -169,9 +169,6 @@ RSpec.configure do |config|
 
     guards.add_condition(:ci, ENV['DESKTOP_SESSION'].nil?)
 
-    window_manager = !Selenium::WebDriver::Platform.linux? || !ENV['DESKTOP_SESSION'].nil?
-    guards.add_condition(:window_manager, window_manager)
-
     results = guards.disposition
     send(*results) if results
 
