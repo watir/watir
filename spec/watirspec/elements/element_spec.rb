@@ -160,12 +160,12 @@ describe 'Element' do
   describe '#to_subtype' do
     it 'returns a CheckBox instance' do
       e = browser.input(xpath: "//input[@type='checkbox']").to_subtype
-      expect(e).to be_kind_of(Watir::CheckBox)
+      expect(e).to be_a(Watir::CheckBox)
     end
 
     it 'returns a Radio instance' do
       e = browser.input(xpath: "//input[@type='radio']").to_subtype
-      expect(e).to be_kind_of(Watir::Radio)
+      expect(e).to be_a(Watir::Radio)
     end
 
     it 'returns a Button instance' do
@@ -176,22 +176,22 @@ describe 'Element' do
         browser.input(xpath: "//input[@type='image']").to_subtype
       ]
 
-      es.all? { |e| expect(e).to be_kind_of(Watir::Button) }
+      es.all? { |e| expect(e).to be_a(Watir::Button) }
     end
 
     it 'returns a TextField instance' do
       e = browser.input(xpath: "//input[@type='text']").to_subtype
-      expect(e).to be_kind_of(Watir::TextField)
+      expect(e).to be_a(Watir::TextField)
     end
 
     it 'returns a FileField instance' do
       e = browser.input(xpath: "//input[@type='file']").to_subtype
-      expect(e).to be_kind_of(Watir::FileField)
+      expect(e).to be_a(Watir::FileField)
     end
 
     it 'returns a Div instance' do
       el = browser.element(xpath: "//*[@id='messages']").to_subtype
-      expect(el).to be_kind_of(Watir::Div)
+      expect(el).to be_a(Watir::Div)
     end
   end
 

@@ -24,17 +24,6 @@ RSpec/BeforeAfterAll:
     - 'spec/watirspec/capabilities_spec.rb'
     - 'spec/watirspec/window_switching_spec.rb'
 
-# Offense count: 14
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: be_a, be_kind_of
-RSpec/ClassCheck:
-  Exclude:
-    - 'spec/watirspec/browser_spec.rb'
-    - 'spec/watirspec/cookies_spec.rb'
-    - 'spec/watirspec/elements/element_spec.rb'
-    - 'spec/watirspec/elements/frame_spec.rb'
-
 # Offense count: 30
 # Configuration parameters: Prefixes, AllowedPatterns.
 # Prefixes: when, with, without

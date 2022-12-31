@@ -91,7 +91,7 @@ describe 'Frame' do
   it "can access the frame's parent element after use" do
     el = browser.frameset
     el.frame.text_field.value
-    expect(el.attribute_value('cols')).to be_kind_of(String)
+    expect(el.attribute_value('cols')).to be_a(String)
   end
 
   describe '#execute_script' do

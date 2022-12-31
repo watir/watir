@@ -59,7 +59,7 @@ describe 'Browser#cookies' do
     browser.cookies.add 'foo', 'bar', expires: expire_time.to_s
 
     cookie = browser.cookies[:foo]
-    expect(cookie[:expires]).to be_kind_of(Time)
+    expect(cookie[:expires]).to be_a(Time)
   end
 
   it 'adds a cookie with path',

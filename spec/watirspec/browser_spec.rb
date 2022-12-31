@@ -415,25 +415,25 @@ describe 'Browser' do
 
     it 'wraps elements as Watir objects' do
       returned = browser.execute_script('return document.body')
-      expect(returned).to be_kind_of(Watir::Body)
+      expect(returned).to be_a(Watir::Body)
     end
 
     it 'wraps elements in an array' do
       list = browser.execute_script('return [document.body];')
       expect(list.size).to eq 1
-      expect(list.first).to be_kind_of(Watir::Body)
+      expect(list.first).to be_a(Watir::Body)
     end
 
     it 'wraps elements in a Hash' do
       hash = browser.execute_script('return {element: document.body};')
-      expect(hash['element']).to be_kind_of(Watir::Body)
+      expect(hash['element']).to be_a(Watir::Body)
     end
 
     it 'wraps elements in a deep object' do
       hash = browser.execute_script('return {elements: [document.body], body: {element: document.body }}')
 
-      expect(hash['elements'].first).to be_kind_of(Watir::Body)
-      expect(hash['body']['element']).to be_kind_of(Watir::Body)
+      expect(hash['elements'].first).to be_a(Watir::Body)
+      expect(hash['body']['element']).to be_a(Watir::Body)
     end
   end
 
@@ -530,7 +530,7 @@ describe 'Browser' do
 
   describe '#screenshot' do
     it 'returns an instance of of Watir::Screenshot' do
-      expect(browser.screenshot).to be_kind_of(Watir::Screenshot)
+      expect(browser.screenshot).to be_a(Watir::Screenshot)
     end
   end
 end
