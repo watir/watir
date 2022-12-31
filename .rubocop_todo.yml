@@ -69,13 +69,6 @@ RSpec/ExampleLength:
 RSpec/FilePath:
   Enabled: false
 
-# Offense count: 99
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: implicit, each, example
-RSpec/HookArgument:
-  Enabled: false
-
 # Offense count: 220
 # Configuration parameters: AssignmentOnly.
 RSpec/InstanceVariable:

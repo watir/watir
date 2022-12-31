@@ -30,7 +30,7 @@ module Watir
       Watir.logger.ignore(:watir_client)
     end
 
-    after(:each) { @browser&.close }
+    after { @browser&.close }
 
     after(:all) { $browser = nil }
 
@@ -355,7 +355,7 @@ module Watir
       end
 
       context 'safari', exclusive: {browser: :safari} do
-        after(:each) { Selenium::WebDriver::Safari.use_technology_preview = false }
+        after { Selenium::WebDriver::Safari.use_technology_preview = false }
 
         it 'sets Technology Preview', exclude: {browser: :safari,
                                                 reason: 'Broken in Selenium'} do

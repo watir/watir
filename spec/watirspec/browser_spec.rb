@@ -175,11 +175,11 @@ describe 'Browser' do
         browser.close
       end
 
-      before(:each) do
+      before do
         @opts = WatirSpec.implementation.browser_args.last
       end
 
-      after(:each) do
+      after do
         @new_browser.close
         WatirSpec.implementation = @original.clone
       end

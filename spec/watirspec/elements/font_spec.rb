@@ -3,7 +3,7 @@
 require 'watirspec_helper'
 
 describe 'Font' do
-  before :each do
+  before do
     browser.goto(WatirSpec.url_for('font.html'))
   end
 

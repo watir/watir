@@ -3,7 +3,7 @@
 require 'watirspec_helper'
 
 describe 'Dts' do
-  before :each do
+  before do
     browser.goto(WatirSpec.url_for('definition_lists.html'))
   end
 

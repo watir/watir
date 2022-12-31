@@ -3,7 +3,7 @@
 require 'watirspec_helper'
 
 describe 'Element' do
-  before :each do
+  before do
     @c = Selenium::WebDriver::Platform.mac? ? :command : :control
     browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
   end
@@ -471,7 +471,7 @@ describe 'Element' do
   end
 
   describe '#send_keys' do
-    before(:each) do
+    before do
       browser.goto(WatirSpec.url_for('keylogger.html'))
     end
 
@@ -691,7 +691,7 @@ describe 'Element' do
   end
 
   describe '#inspect' do
-    before(:each) { browser.goto(WatirSpec.url_for('nested_iframes.html')) }
+    before { browser.goto(WatirSpec.url_for('nested_iframes.html')) }
 
     it 'does displays specified element type' do
       expect(browser.div.inspect).to include('Watir::Div')

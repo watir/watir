@@ -3,7 +3,7 @@
 require 'watirspec_helper'
 
 describe Watir::Scrolling do
-  before(:each) do
+  before do
     browser.goto(WatirSpec.url_for('scroll.html'))
     pause
   end

@@ -49,7 +49,7 @@ describe 'Browser::AfterHooks' do
   describe '#run' do
     before { @yield = nil }
 
-    after(:each) do
+    after do
       browser.after_hooks.delete @page_after_hook
     end
 

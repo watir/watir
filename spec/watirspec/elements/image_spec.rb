@@ -3,7 +3,7 @@
 require 'watirspec_helper'
 
 describe 'Image' do
-  before :each do
+  before do
     browser.goto(WatirSpec.url_for('images.html'))
   end
 

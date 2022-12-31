@@ -3,7 +3,7 @@
 require 'watirspec_helper'
 
 describe ['H1', 'H2', 'H3', 'H4', 'H5', 'H6'] do
-  before :each do
+  before do
     browser.goto(WatirSpec.url_for('non_control_elements.html'))
   end
 

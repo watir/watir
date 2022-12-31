@@ -3,7 +3,7 @@
 require 'watirspec_helper'
 
 describe Watir::UserEditable do
-  before :each do
+  before do
     browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
   end
 

@@ -7,7 +7,7 @@ require 'watirspec_helper'
 #
 
 describe 'IFrame' do
-  before :each do
+  before do
     browser.goto(WatirSpec.url_for('iframes.html'))
   end
 

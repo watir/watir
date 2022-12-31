@@ -3,12 +3,12 @@
 require 'watirspec_helper'
 
 describe 'TextArea' do
-  before :each do
+  before do
     browser.goto WatirSpec.url_for('forms_with_input_elements.html')
   end
 
   context 'when locating by :value' do
-    before(:each) do
+    before do
       browser.textarea(index: 0).set 'foo1'
       browser.textarea(index: 1).set 'foo2'
     end

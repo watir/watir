@@ -3,7 +3,7 @@
 require 'watirspec_helper'
 
 describe 'Tables' do
-  before :each do
+  before do
     browser.goto(WatirSpec.url_for('tables.html'))
   end
 

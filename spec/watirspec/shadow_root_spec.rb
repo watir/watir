@@ -3,7 +3,7 @@
 require 'watirspec_helper'
 
 describe 'ShadowRoot' do
-  before :each do
+  before do
     browser.goto(WatirSpec.url_for('shadow_dom.html'))
   end
 
