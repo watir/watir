@@ -2,7 +2,6 @@
 
 require 'watirspec'
 require 'spec_helper'
-require 'webdrivers'
 require 'selenium/webdriver/support/guards'
 
 Watir.default_timeout = 5
@@ -25,27 +24,9 @@ class LocalConfig
     @imp.browser_class = Watir::Browser
     set_webdriver
     set_browser_args
-    load_webdrivers
   end
 
   private
-
-  def load_webdrivers
-    @imp.driver_info = case browser
-                       when :chrome
-                         Webdrivers::Chromedriver.update
-                         "chromedriver version: #{Webdrivers::Chromedriver.current_version.version}"
-                       when :edge
-                         Webdrivers::Edgedriver.update
-                         "edgedriver version: #{Webdrivers::Edgedriver.current_version.version}"
-                       when :firefox
-                         Webdrivers::Geckodriver.update
-                         "geckodriver version: #{Webdrivers::Geckodriver.current_version.version}"
-                       when :ie
-                         Webdrivers::IEdriver.update
-                         "iedriver version: #{Webdrivers::IEdriver.current_version.version}"
-                       end
-  end
 
   def set_webdriver
     @imp.name = :local_driver
@@ -123,14 +104,11 @@ end
 
 class RemoteConfig < LocalConfig
   def configure
-    load_webdrivers
     @url = ENV['REMOTE_SERVER_URL'] || begin
       require 'watirspec/remote_server'
 
       remote_server = WatirSpec::RemoteServer.new
-      args = ["-Dwebdriver.chrome.driver=#{Webdrivers::Chromedriver.driver_path}",
-              "-Dwebdriver.gecko.driver=#{Webdrivers::Geckodriver.driver_path}"]
-      remote_server.start(4444, args: args)
+      remote_server.start(4444)
       remote_server.server.webdriver_url
     end
     super
