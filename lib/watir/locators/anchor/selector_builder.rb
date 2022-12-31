@@ -4,6 +4,9 @@ module Watir
   module Locators
     class Anchor
       class SelectorBuilder < Element::SelectorBuilder
+        class XPath < Element::SelectorBuilder::XPath
+        end
+
         private
 
         def build_wd_selector(selector)
