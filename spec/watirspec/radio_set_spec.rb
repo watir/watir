@@ -141,7 +141,7 @@ describe 'RadioSet' do
       expect(browser.radio_set(xpath: "//input[@id='new_user_newsletter_none']")).to be_disabled
     end
 
-    it 'should raise UnknownObjectException when the radio set does not exist' do
+    it 'raises UnknownObjectException when the radio set does not exist' do
       expect { browser.radio_set(index: 1337).disabled? }.to raise_unknown_object_exception
     end
   end
@@ -216,7 +216,7 @@ describe 'RadioSet' do
   end
 
   describe '#selected' do
-    it "should raise UnknownObjectException if the radio set doesn't exist" do
+    it "raises UnknownObjectException if the radio set doesn't exist" do
       expect { browser.radio_set(name: 'no_such_name').selected }.to raise_unknown_object_exception
     end
 

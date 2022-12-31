@@ -215,7 +215,7 @@ describe 'Element' do
   end
 
   describe '#fire_event' do
-    it 'should fire the given event' do
+    it 'fires the given event' do
       expect(browser.div(id: 'onfocus_test').text).to be_empty
       browser.text_field(id: 'new_user_occupation').fire_event('onfocus')
       expect(browser.div(id: 'onfocus_test').text).to eq 'changed by onfocus event'
@@ -617,12 +617,12 @@ describe 'Element' do
       expect(h2.flash).to eq h2
     end
 
-    it 'should keep the element background color after flashing' do
+    it 'keeps the element background color after flashing' do
       expect(h2.style('background-color')).to eq h2.flash(:rainbow).style('background-color')
       expect(h1.style('background-color')).to eq h1.flash.style('background-color')
     end
 
-    it 'should respond to preset symbols like :fast and :slow' do
+    it 'responds to preset symbols like :fast and :slow' do
       expect(h1.flash(:rainbow)).to eq h1
       expect(h2.flash(:slow)).to eq h2
       expect(h1.flash(:fast)).to eq h1

@@ -52,7 +52,7 @@ describe Watir::Browser, exclude: {browser: :ie, reason: 'Cannot call #restore!'
       expect(browser.window(title: 'closeable window', url: /closeable\.html/).use).to be_a(Watir::Window)
     end
 
-    it 'should not find incorrect handle' do
+    it 'does not find incorrect handle' do
       expect(browser.window(handle: 'bar')).to_not be_present
     end
 
@@ -66,7 +66,7 @@ describe Watir::Browser, exclude: {browser: :ie, reason: 'Cannot call #restore!'
       expect(original_window.url).to match(/window_switching\.html/)
     end
 
-    it 'it executes the given block in the window',
+    it 'executes the given block in the window',
        except: {browser: :safari,
                 reason: 'Clicking an Element that Closes a Window is returning NoMatchingWindowFoundException'} do
       browser.window(title: 'closeable window') do
@@ -281,7 +281,7 @@ describe Watir::Window, exclude: {browser: :ie, reason: 'Cannot call #restore!'}
     end
 
     describe '#eql?' do
-      it 'should return false when checking equivalence to a closed window' do
+      it 'returns false when checking equivalence to a closed window' do
         expect(browser.window).not_to eq @closed_widow
       end
     end
@@ -353,15 +353,15 @@ describe Watir::Window, exclude: {browser: :ie, reason: 'Cannot call #restore!'}
     end
 
     describe '#present?' do
-      it 'should find window by url' do
+      it 'finds window by url' do
         expect(browser.window(url: /window_switching\.html/)).to be_present
       end
 
-      it 'should find window by title' do
+      it 'finds window by title' do
         expect(browser.window(title: 'window switching')).to be_present
       end
 
-      it 'should find window by element' do
+      it 'finds window by element' do
         expect(browser.window(element: browser.link(id: 'open'))).to be_present
       end
     end
@@ -432,17 +432,17 @@ describe Watir::Window, exclude: {browser: :ie, reason: 'Cannot call #restore!'}
       browser.window.move_to @initial_position.x, @initial_position.y
     end
 
-    it 'should get the size of the current window' do
+    it 'gets the size of the current window' do
       expect(@initial_size.width).to eq browser.execute_script('return window.outerWidth;')
       expect(@initial_size.height).to eq browser.execute_script('return window.outerHeight;')
     end
 
-    it 'should get the position of the current window' do
+    it 'gets the position of the current window' do
       expect(@initial_position.x).to eq browser.execute_script('return window.screenX;')
       expect(@initial_position.y).to eq browser.execute_script('return window.screenY;')
     end
 
-    it 'should resize the window' do
+    it 'resizes the window' do
       browser.window.resize_to(
         @initial_size.width - 20,
         @initial_size.height - 20
@@ -455,7 +455,7 @@ describe Watir::Window, exclude: {browser: :ie, reason: 'Cannot call #restore!'}
       expect(new_size.height).to eq @initial_size.height - 20
     end
 
-    it 'should move the window' do
+    it 'moves the window' do
       browser.window.move_to(
         @initial_position.x + 5,
         @initial_position.y + 5
@@ -468,7 +468,7 @@ describe Watir::Window, exclude: {browser: :ie, reason: 'Cannot call #restore!'}
       expect(new_position.y).to eq @initial_position.y + 5
     end
 
-    it 'should maximize the window' do
+    it 'maximizes the window' do
       browser.window.maximize
       browser.wait_until { |b| b.window.size != @initial_size }
 
@@ -477,7 +477,7 @@ describe Watir::Window, exclude: {browser: :ie, reason: 'Cannot call #restore!'}
       expect(new_size.height).to be > @initial_size.height
     end
 
-    it 'should make the window full screen' do
+    it 'makes the window full screen' do
       browser.window.full_screen
       browser.wait_until { |b| b.window.size != @initial_size }
 
@@ -486,7 +486,7 @@ describe Watir::Window, exclude: {browser: :ie, reason: 'Cannot call #restore!'}
       expect(new_size.height).to be > @initial_size.height
     end
 
-    it 'should minimize the window' do
+    it 'minimizes the window' do
       expect(browser.execute_script('return document.visibilityState;')).to eq 'visible'
 
       browser.window.minimize

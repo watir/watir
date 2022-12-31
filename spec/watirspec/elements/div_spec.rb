@@ -65,12 +65,12 @@ describe 'Div' do
       expect { browser.div(index: 1337).id }.to raise_unknown_object_exception
     end
 
-    it 'should take all conditions into account when locating by id' do
+    it 'takes all conditions into account when locating by id' do
       browser.goto WatirSpec.url_for 'multiple_ids.html'
       expect(browser.div(id: 'multiple', class: 'bar').class_name).to eq 'bar'
     end
 
-    it 'should find the id with the correct tag name' do
+    it 'finds the id with the correct tag name' do
       browser.goto WatirSpec.url_for 'multiple_ids.html'
       expect(browser.span(id: 'multiple').class_name).to eq 'foobar'
     end

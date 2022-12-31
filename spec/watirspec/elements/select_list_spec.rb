@@ -146,7 +146,7 @@ describe 'SelectList' do
       expect(browser.select_list(index: 0)).to_not be_disabled
     end
 
-    it 'should raise UnknownObjectException when the select list does not exist' do
+    it 'raises UnknownObjectException when the select list does not exist' do
       expect { browser.select_list(index: 1337).disabled? }.to raise_unknown_object_exception
     end
   end
@@ -168,7 +168,7 @@ describe 'SelectList' do
   end
 
   describe '#selected_options' do
-    it "should raise UnknownObjectException if the select list doesn't exist" do
+    it "raises UnknownObjectException if the select list doesn't exist" do
       expect { browser.select_list(name: 'no_such_name').selected_options }.to raise_unknown_object_exception
     end
 
