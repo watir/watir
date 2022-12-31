@@ -18,10 +18,10 @@ describe Watir do
       end
 
       it 'ensures all checks happen once even if time has expired' do
-        Watir.default_timeout = -1
+        described_class.default_timeout = -1
         expect { browser.link.click }.to_not raise_exception
       ensure
-        Watir.default_timeout = 5
+        described_class.default_timeout = 5
       end
     end
   end

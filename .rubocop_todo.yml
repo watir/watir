@@ -58,18 +58,6 @@ RSpec/DescribeClass:
     - 'spec/watirspec/elements/hn_spec.rb'
     - 'spec/watirspec/elements/hns_spec.rb'
 
-# Offense count: 143
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: SkipBlocks, EnforcedStyle.
-# SupportedStyles: described_class, explicit
-RSpec/DescribedClass:
-  Exclude:
-    - 'spec/unit/capabilities_spec.rb'
-    - 'spec/unit/wait_spec.rb'
-    - 'spec/watirspec/capabilities_spec.rb'
-    - 'spec/watirspec/wait_spec.rb'
-    - 'spec/watirspec/window_switching_spec.rb'
-
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: AllowConsecutiveOneLiners.

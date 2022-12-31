@@ -160,7 +160,7 @@ describe Watir::Window, exclude: {browser: :ie, reason: 'Cannot call #restore!'}
         browser.a(id: 'open').click
         browser.windows.wait_until(size: 3)
 
-        Watir::Window.new(browser, title: 'closeable window').close
+        described_class.new(browser, title: 'closeable window').close
 
         expect { browser.windows.wait_until(size: 2) }.to_not raise_timeout_exception
       end
@@ -171,7 +171,7 @@ describe Watir::Window, exclude: {browser: :ie, reason: 'Cannot call #restore!'}
         browser.a(id: 'open').click
         browser.windows.wait_until(size: 3)
 
-        Watir::Window.new(browser, title: 'closeable window').use.close
+        described_class.new(browser, title: 'closeable window').use.close
 
         expect { browser.windows.wait_until(size: 2) }.to_not raise_timeout_exception
       end
@@ -179,18 +179,18 @@ describe Watir::Window, exclude: {browser: :ie, reason: 'Cannot call #restore!'}
 
     describe '#use' do
       it 'switches to the window' do
-        Watir::Window.new(browser, title: 'closeable window').use
+        described_class.new(browser, title: 'closeable window').use
         expect(browser.title).to eq 'closeable window'
       end
     end
 
     describe '#current?' do
       it 'returns true if it is the current window' do
-        expect(Watir::Window.new(browser, title: browser.title)).to be_current
+        expect(described_class.new(browser, title: browser.title)).to be_current
       end
 
       it 'returns false if it is not the current window' do
-        expect(Watir::Window.new(browser, title: 'closeable window')).to_not be_current
+        expect(described_class.new(browser, title: 'closeable window')).to_not be_current
       end
     end
 
@@ -213,15 +213,15 @@ describe Watir::Window, exclude: {browser: :ie, reason: 'Cannot call #restore!'}
 
     describe '#eql?' do
       it 'knows when two windows are equal' do
-        win1 = Watir::Window.new browser, {}
-        win2 = Watir::Window.new browser, title: 'window switching'
+        win1 = described_class.new browser, {}
+        win2 = described_class.new browser, title: 'window switching'
 
         expect(win1).to eq win2
       end
 
       it 'knows when two windows are not equal' do
-        win1 = Watir::Window.new browser, title: 'closeable window'
-        win2 = Watir::Window.new browser, title: 'window switching'
+        win1 = described_class.new browser, title: 'closeable window'
+        win2 = described_class.new browser, title: 'window switching'
 
         expect(win1).to_not eq win2
       end
@@ -512,52 +512,52 @@ describe Watir::WindowCollection, exclude: {browser: :ie, reason: 'Cannot call #
 
   it '#to_a raises exception' do
     expect {
-      Watir::WindowCollection.new(browser).to_a
+      described_class.new(browser).to_a
     }.to raise_exception(NoMethodError, 'indexing not reliable on WindowCollection')
   end
 
   describe '#new' do
     it 'returns all windows by default' do
-      windows = Watir::WindowCollection.new(browser)
+      windows = described_class.new(browser)
 
       expect(windows.size).to eq 2
     end
 
     it 'filters available windows by url' do
-      windows = Watir::WindowCollection.new(browser, url: /closeable\.html/)
+      windows = described_class.new(browser, url: /closeable\.html/)
 
       expect(windows.size).to eq 1
     end
 
     it 'filters available windows by title' do
-      windows = Watir::WindowCollection.new(browser, title: /closeable/)
+      windows = described_class.new(browser, title: /closeable/)
 
       expect(windows.size).to eq 1
     end
 
     it 'filters available windows by element' do
-      windows = Watir::WindowCollection.new(browser, element: browser.element(id: 'close'))
+      windows = described_class.new(browser, element: browser.element(id: 'close'))
 
       expect(windows.size).to eq 1
     end
 
     it 'raises ArgumentError if unrecognized locator' do
       expect {
-        Watir::WindowCollection.new(browser, foo: /closeable/)
+        described_class.new(browser, foo: /closeable/)
       }.to raise_error(ArgumentError)
     end
   end
 
   describe '#size' do
     it 'counts the number of matching windows' do
-      expect(Watir::WindowCollection.new(browser).size).to eq 2
+      expect(described_class.new(browser).size).to eq 2
     end
   end
 
   describe '#eq?' do
     it 'compares the equivalence of window handles' do
-      windows1 = Watir::WindowCollection.new(browser, title: //)
-      windows2 = Watir::WindowCollection.new(browser, url: //)
+      windows1 = described_class.new(browser, title: //)
+      windows2 = described_class.new(browser, url: //)
 
       expect(windows1).to eq windows2
     end
