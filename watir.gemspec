@@ -40,6 +40,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rubocop', '= 1.40'
   s.add_development_dependency 'rubocop-performance', '~> 1.15'
   s.add_development_dependency 'rubocop-rake', '~> 0.6'
+  s.add_development_dependency 'rubocop-rspec', '~> 2.16'
   s.add_development_dependency 'selenium_statistics'
   s.add_development_dependency 'selenium-webdriver', '~> 4.7'
   s.add_development_dependency 'simplecov-console'
