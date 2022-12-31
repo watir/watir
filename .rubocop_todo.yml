@@ -58,24 +58,10 @@ RSpec/DescribeClass:
     - 'spec/watirspec/elements/hn_spec.rb'
     - 'spec/watirspec/elements/hns_spec.rb'
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowConsecutiveOneLiners.
-RSpec/EmptyLineAfterHook:
-  Exclude:
-    - 'spec/watirspec/shadow_root_spec.rb'
-
 # Offense count: 274
 # Configuration parameters: CountAsOne.
 RSpec/ExampleLength:
   Max: 23
-
-# Offense count: 2
-# This cop supports safe autocorrection (--autocorrect).
-RSpec/ExcessiveDocstringSpacing:
-  Exclude:
-    - 'spec/watirspec/elements/date_field_spec.rb'
-    - 'spec/watirspec/elements/date_time_field_spec.rb'
 
 # Offense count: 18
 # Configuration parameters: Include, CustomTransform, IgnoreMethods, SpecSuffixOnly.

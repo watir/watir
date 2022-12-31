@@ -122,7 +122,7 @@ describe 'DateTimeField' do
   end
 
   # Manipulation methods
-  describe '#value= ' do
+  describe '#value=' do
     it 'sets the value of the element' do
       date_time = Time.now
       date_time_field = browser.date_time_field(id: 'html5_datetime-local')

@@ -6,6 +6,7 @@ describe 'ShadowRoot' do
   before :each do
     browser.goto(WatirSpec.url_for('shadow_dom.html'))
   end
+
   context 'with errors' do
     it 'returns false when element does not exist' do
       missing_shadow_root = browser.div(id: 'does_not_exist').shadow_root

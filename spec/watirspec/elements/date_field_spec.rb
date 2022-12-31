@@ -122,7 +122,7 @@ describe 'DateField' do
   end
 
   # Manipulation methods
-  describe '#value= ' do
+  describe '#value=' do
     it 'sets the value of the element' do
       date = browser.date_field(id: 'html5_date')
       date.value = Date.today
