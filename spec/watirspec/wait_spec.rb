@@ -225,7 +225,7 @@ describe Watir::Element do
       expect {
         browser.a(id: 'show_bar').click
         browser.div(id: 'bar').click
-      }.to execute_when_satisfied(min: 1)
+      }.to execute_when_satisfied(min: 1, max: 4)
       expect(browser.div(id: 'bar').text).to eq 'changed'
     end
 
@@ -233,7 +233,7 @@ describe Watir::Element do
       expect {
         browser.a(id: 'show_textfield').click
         browser.text_field(id: 'textfield').set 'Foo'
-      }.to execute_when_satisfied(min: 1)
+      }.to execute_when_satisfied(min: 1, max: 4)
     end
   end
 
@@ -246,7 +246,7 @@ describe Watir::Element do
       expect {
         browser.a(id: 'make-writable').click
         browser.text_field(id: 'writable').set 'foo'
-      }.to execute_when_satisfied(min: 1)
+      }.to execute_when_satisfied(min: 1, max: 4)
     end
   end
 
@@ -259,7 +259,7 @@ describe Watir::Element do
       expect {
         browser.a(id: 'enable_btn').click
         browser.button(id: 'btn').click
-      }.to execute_when_satisfied(min: 1)
+      }.to execute_when_satisfied(min: 1, max: 4)
     end
   end
 

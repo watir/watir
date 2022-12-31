@@ -78,7 +78,7 @@ describe Watir::Scrolling do
     end
 
     describe '#from' do
-      it 'scrolls by given amount with offset' do
+      it 'scrolls by given amount with offset', except: {browser: :ie, reason: 'Not implemented'} do
         browser.goto(WatirSpec.url_for('scroll_nested.html'))
 
         browser.scroll.from(10, 10).by(0, 225)
@@ -91,7 +91,8 @@ describe Watir::Scrolling do
   context 'when scrolling Element' do
     describe '#to' do
       it 'scrolls element into view (viewport)',
-         except: {browser: %i[firefox safari], reason: 'incorrect MoveTargetOutOfBoundsError'} do
+         except: [{browser: %i[firefox safari], reason: 'incorrect MoveTargetOutOfBoundsError'},
+                  {browser: :ie, reason: 'Not implemented'}] do
         browser.goto(WatirSpec.url_for('scroll_nested_offscreen.html'))
         iframe = browser.iframe
 
@@ -162,7 +163,8 @@ describe Watir::Scrolling do
     end
 
     describe '#from',
-             except: {browser: %i[firefox safari], reason: 'incorrect MoveTargetOutOfBoundsError'} do
+             except: [{browser: %i[firefox safari], reason: 'incorrect MoveTargetOutOfBoundsError'},
+                      {browser: :ie, reason: 'Not implemented'}] do
       it 'scrolls from element by given amount' do
         browser.goto(WatirSpec.url_for('scroll_nested_offscreen.html'))
         iframe = browser.iframe

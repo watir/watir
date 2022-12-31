@@ -2,7 +2,7 @@
 
 require 'watirspec_helper'
 
-describe Watir::Browser do
+describe Watir::Browser, exclude: {browser: :ie, reason: 'Cannot call #restore!'} do
   before do
     browser.goto WatirSpec.url_for('window_switching.html')
     browser.a(id: 'open').click
@@ -13,10 +13,10 @@ describe Watir::Browser do
     browser.windows.restore!
   end
 
-  describe '#windows' do
-    it 'returns a WindowCollection' do
-      expect(browser.windows).to be_a(Watir::WindowCollection)
-    end
+    describe '#windows' do
+      it 'returns a WindowCollection' do
+        expect(browser.windows).to be_a(WindowCollection)
+      end
 
     it 'stores Window instances' do
       expect(browser.windows(title: 'closeable window')).to all(be_a(Watir::Window))
@@ -125,7 +125,7 @@ describe Watir::Browser do
       expect(browser.original_window).to_not be_nil
     end
 
-    it 'waits for second window', except: {browser: :ie} do
+    it 'waits for second window' do
       browser.windows.restore!
       expect {
         browser.a(id: 'delayed').click
@@ -135,7 +135,7 @@ describe Watir::Browser do
   end
 end
 
-describe Watir::Window do
+describe Watir::Window, exclude: {browser: :ie, reason: 'Cannot call #restore!'} do
   after do
     browser.windows.restore!
   end
@@ -148,13 +148,13 @@ describe Watir::Window do
     end
 
     it 'allows actions on first window after opening second',
-       except: {browser: %i[ie safari]}, reason: 'Focus is on newly opened window instead of the first' do
+       except: {browser: :safari, reason: 'Focus is on newly opened window instead of the first'} do
       browser.a(id: 'open').click
 
       expect { browser.windows.wait_until(size: 3) }.to_not raise_timeout_exception
     end
 
-    describe '#close', except: {browser: :ie, reason: 'Click is not opening window'} do
+    describe '#close' do
       it 'closes a window' do
         browser.window(title: 'window switching').use
         browser.a(id: 'open').click
@@ -166,7 +166,7 @@ describe Watir::Window do
       end
 
       it 'closes the current window',
-         except: {browser: %i[ie safari]},
+         except: {browser: :safari},
          reason: 'Focus is on newly opened window instead of the first' do
         browser.a(id: 'open').click
         browser.windows.wait_until(size: 3)
@@ -499,7 +499,7 @@ describe Watir::Window do
   end
 end
 
-describe Watir::WindowCollection do
+describe Watir::WindowCollection, exclude: {browser: :ie, reason: 'Cannot call #restore!'} do
   before do
     browser.goto WatirSpec.url_for('window_switching.html')
     browser.a(id: 'open').click
@@ -572,7 +572,7 @@ describe Watir::WindowCollection do
 
   describe '#restore!' do
     it 'when on other window',
-       except: {browser: %i[ie safari], reason: 'Focus is on newly opened window instead of the first'} do
+       except: {browser: :safari, reason: 'Focus is on newly opened window instead of the first'} do
       browser.a(id: 'open').click
       browser.windows.wait_until(size: 3)
       browser.window(title: 'closeable window').use

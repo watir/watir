@@ -3,7 +3,7 @@
 require 'watirspec_helper'
 
 describe 'Element' do
-  context 'drag and drop', except: {browser: :ie} do
+  describe 'using drag and drop', except: {browser: :ie} do
     before { browser.goto WatirSpec.url_for('drag_and_drop.html') }
 
     let(:draggable) { browser.div id: 'draggable' }

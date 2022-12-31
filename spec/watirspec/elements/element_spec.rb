@@ -642,8 +642,7 @@ describe 'Element' do
       end
     end
 
-    it 'allows scrolling to top', except: {browser: :ie,
-                                           reason: 'needs require_window_focus'} do
+    it 'allows scrolling to top', except: {browser: :ie} do
       browser.goto(WatirSpec.url_for('scroll.html'))
       element = browser.div(id: 'center')
 
@@ -654,8 +653,7 @@ describe 'Element' do
       expect(element_top).to be_within(1).of(0)
     end
 
-    it 'scrolls to center by default', except: {browser: :ie,
-                                                reason: 'needs require_window_focus'} do
+    it 'scrolls to center by default', except: {browser: :ie} do
       browser.goto(WatirSpec.url_for('scroll.html'))
       element = browser.div(id: 'center')
 
@@ -667,8 +665,7 @@ describe 'Element' do
       expect(element_rect['top']).to eq(element_rect['bottom'] - element_rect['height'])
     end
 
-    it 'allows scrolling to bottom', except: {browser: :ie,
-                                              reason: 'needs require_window_focus'} do
+    it 'allows scrolling to bottom', except: {browser: :ie} do
       browser.goto(WatirSpec.url_for('scroll.html'))
       element = browser.div(id: 'center')
 

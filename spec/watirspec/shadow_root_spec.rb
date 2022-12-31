@@ -18,7 +18,7 @@ describe 'ShadowRoot' do
     end
 
     it 'returns false when locating element in shadow root that does not exist',
-       except: {browser: :safari, reason: 'shadow endpoint not recognized'} do
+       except: {browser: %i[ie safari], reason: 'shadow endpoint not recognized'} do
       missing_shadow_root = browser.div(id: 'non_host').shadow_root
       expect(missing_shadow_root.element).not_to exist
     end
