@@ -20,7 +20,7 @@ describe Watir::Locators::Element::Locator do
         @locator = {xpath: './/div'}
 
         expect_one(*@locator.to_a.flatten).and_raise(Selenium::WebDriver::Error::NoSuchElementError)
-        expect(locate_one).to eq nil
+        expect(locate_one).to be_nil
       end
     end
 

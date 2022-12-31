@@ -135,7 +135,7 @@ describe 'Browser::AfterHooks' do
       expect(@yield).to be_nil
 
       browser.alert.ok
-      expect(@yield).to eq true
+      expect(@yield).to be true
     end
 
     it 'does not raise error when running error checks using #after_hooks#without with alert present' do

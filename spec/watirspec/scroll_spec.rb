@@ -83,7 +83,7 @@ describe Watir::Scrolling do
 
         browser.scroll.from(10, 10).by(0, 225)
 
-        expect(in_viewport?(browser.iframe.checkbox(name: 'scroll_checkbox'))).to eq true
+        expect(in_viewport?(browser.iframe.checkbox(name: 'scroll_checkbox'))).to be true
       end
     end
   end
@@ -96,11 +96,11 @@ describe Watir::Scrolling do
         browser.goto(WatirSpec.url_for('scroll_nested_offscreen.html'))
         iframe = browser.iframe
 
-        expect(in_viewport?(iframe)).to eq false
+        expect(in_viewport?(iframe)).to be false
 
         iframe.scroll.to(:viewport)
 
-        expect(in_viewport?(iframe)).to eq true
+        expect(in_viewport?(iframe)).to be true
       end
 
       it 'scrolls to element (top) by default' do
@@ -172,7 +172,7 @@ describe Watir::Scrolling do
         iframe.scroll.from.by(0, 200)
 
         checkbox = iframe.checkbox(name: 'scroll_checkbox')
-        expect(in_viewport?(checkbox)).to eq true
+        expect(in_viewport?(checkbox)).to be true
       end
 
       it 'scrolls from an element with an offset' do
@@ -184,7 +184,7 @@ describe Watir::Scrolling do
         browser.footer.scroll.from(-move_left.round, -50).by(0, 200)
 
         checkbox = browser.iframe.checkbox(name: 'scroll_checkbox')
-        expect(in_viewport?(checkbox)).to eq true
+        expect(in_viewport?(checkbox)).to be true
       end
     end
   end

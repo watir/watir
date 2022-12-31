@@ -232,7 +232,7 @@ describe Watir::Locators::Element::Matcher do
 
         @values_to_match = {tag_name: 'span'}
 
-        expect(matcher.match(elements, values_to_match, @filter)).to eq nil
+        expect(matcher.match(elements, values_to_match, @filter)).to be_nil
       end
     end
 
@@ -415,7 +415,7 @@ describe Watir::Locators::Element::Matcher do
         @values_to_match = {text: /definitely not there/}
         allow(browser).to receive(:execute_script).and_return('all visible', 'some visible')
 
-        expect(matcher.match(elements, values_to_match, filter)).to eq nil
+        expect(matcher.match(elements, values_to_match, filter)).to be_nil
       end
 
       # NOTE: This will work after:text_regexp deprecation removed

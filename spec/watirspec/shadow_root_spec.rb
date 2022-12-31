@@ -93,7 +93,7 @@ describe 'ShadowRoot' do
         expect(shadow_root.text_field.value).to eq('abc')
 
         shadow_root.checkbox.set
-        expect(shadow_root.checkbox.set?).to eq(true)
+        expect(shadow_root.checkbox.set?).to be(true)
 
         shadow_root.file_field.set(File.expand_path(__FILE__))
         expect(shadow_root.file_field.value).to include('shadow_root_spec.rb')

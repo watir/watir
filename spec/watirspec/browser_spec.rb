@@ -218,14 +218,14 @@ describe 'Browser' do
 
         msg = /You can pass values directly into Watir::Browser opt without needing to use :desired_capabilities/
         expect { @new_browser = WatirSpec.new_browser }.to output(msg).to_stdout_from_any_process
-        expect(@new_browser.driver.capabilities.accept_insecure_certs).to eq true
+        expect(@new_browser.driver.capabilities.accept_insecure_certs).to be true
       end
 
       it 'accepts individual driver capabilities', only: {browser: :firefox} do
         @opts[:accept_insecure_certs] = true
         @new_browser = WatirSpec.new_browser
 
-        expect(@new_browser.driver.capabilities[:accept_insecure_certs]).to eq true
+        expect(@new_browser.driver.capabilities[:accept_insecure_certs]).to be true
       end
 
       it 'accepts profile', only: {browser: :firefox} do

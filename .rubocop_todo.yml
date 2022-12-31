@@ -12,22 +12,6 @@ RSpec/AnyInstance:
     - 'spec/unit/match_elements/element_spec.rb'
     - 'spec/watirspec/elements/collections_spec.rb'
 
-# Offense count: 30
-# This cop supports unsafe autocorrection (--autocorrect-all).
-RSpec/BeEq:
-  Exclude:
-    - 'spec/unit/capabilities_spec.rb'
-    - 'spec/unit/element_locator_spec.rb'
-    - 'spec/unit/match_elements/element_spec.rb'
-    - 'spec/watirspec/adjacent_spec.rb'
-    - 'spec/watirspec/after_hooks_spec.rb'
-    - 'spec/watirspec/browser_spec.rb'
-    - 'spec/watirspec/capabilities_spec.rb'
-    - 'spec/watirspec/cookies_spec.rb'
-    - 'spec/watirspec/elements/collections_spec.rb'
-    - 'spec/watirspec/scroll_spec.rb'
-    - 'spec/watirspec/shadow_root_spec.rb'
-
 # Offense count: 6
 RSpec/BeforeAfterAll:
   Exclude:

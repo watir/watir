@@ -16,7 +16,7 @@ describe 'Collections' do
   it 'returns correct subtype of elements' do
     browser.goto(WatirSpec.url_for('collections.html'))
     collection = browser.span(id: 'a_span').spans
-    expect(collection.all?(Watir::Span)).to eq true
+    expect(collection.all?(Watir::Span)).to be true
   end
 
   it 'returns correct subtype of elements without tag_name' do
@@ -30,8 +30,8 @@ describe 'Collections' do
   it 'can contain more than one type of element' do
     browser.goto(WatirSpec.url_for('nested_elements.html'))
     collection = browser.div(id: 'parent').children
-    expect(collection.any?(Watir::Span)).to eq true
-    expect(collection.any?(Watir::Div)).to eq true
+    expect(collection.any?(Watir::Span)).to be true
+    expect(collection.any?(Watir::Div)).to be true
   end
 
   it 'relocates the same element' do
@@ -44,12 +44,12 @@ describe 'Collections' do
 
   it 'returns value for #empty?' do
     browser.goto(WatirSpec.url_for('collections.html'))
-    expect(browser.span(id: 'a_span').options.empty?).to eq true
+    expect(browser.span(id: 'a_span').options.empty?).to be true
   end
 
   it 'returns value for #any?' do
     browser.goto(WatirSpec.url_for('collections.html'))
-    expect(browser.span(id: 'a_span').spans.any?).to eq true
+    expect(browser.span(id: 'a_span').spans.any?).to be true
   end
 
   it 'locates elements' do

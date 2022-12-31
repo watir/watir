@@ -622,7 +622,7 @@ describe Watir::Capabilities do
 
       Watir::Capabilities.new(:safari, technology_preview: true).to_args
 
-      expect(Selenium::WebDriver::Safari.technology_preview?).to eq true
+      expect(Selenium::WebDriver::Safari.technology_preview?).to be true
     end
 
     it 'generates options from Hash' do
@@ -631,7 +631,7 @@ describe Watir::Capabilities do
       args = capabilities.to_args
       actual_options = args.last[:options]
       expect(actual_options).to be_a Selenium::WebDriver::Safari::Options
-      expect(actual_options.automatic_inspection).to eq true
+      expect(actual_options.automatic_inspection).to be true
     end
 
     it 'accepts browser and w3c capabilities in options Hash' do
@@ -641,7 +641,7 @@ describe Watir::Capabilities do
                                              options: opts)
       args = capabilities.to_args
       actual_options = args.last[:options]
-      expect(actual_options.automatic_inspection).to eq true
+      expect(actual_options.automatic_inspection).to be true
       expect(actual_options.page_load_strategy).to eq 'eager'
     end
   end
@@ -662,7 +662,7 @@ describe Watir::Capabilities do
       args = capabilities.to_args
       actual_options = args.last[:options]
       expect(actual_options).to be_a Selenium::WebDriver::IE::Options
-      expect(actual_options.options[:browser_attach_timeout]).to eq true
+      expect(actual_options.options[:browser_attach_timeout]).to be true
     end
 
     it 'accepts browser and w3c capabilities in options Hash' do

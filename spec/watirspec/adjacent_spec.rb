@@ -55,13 +55,13 @@ describe 'Adjacent Elements' do
     it 'accepts a tag name argument' do
       siblings = browser.div(id: 'second_sibling').siblings(tag_name: 'div')
       expect(siblings.size).to eq 3
-      expect(siblings.all?(Watir::Div)).to eq true
+      expect(siblings.all?(Watir::Div)).to be true
     end
 
     it 'accepts custom tag name argument' do
       siblings = browser.div(id: 'regular_child').siblings(tag_name: 'childelement')
       expect(siblings.size).to eq 3
-      expect(siblings.all?(Watir::HTMLElement)).to eq true
+      expect(siblings.all?(Watir::HTMLElement)).to be true
     end
 
     it 'accepts a class_name argument' do
@@ -69,7 +69,7 @@ describe 'Adjacent Elements' do
       expect(siblings.first).to be_a Watir::Div
       expect(siblings[0]).to be_a Watir::Div
       expect(siblings.size).to eq 2
-      expect(siblings.all?(Watir::Div)).to eq true
+      expect(siblings.all?(Watir::Div)).to be true
     end
   end
 
@@ -236,19 +236,19 @@ describe 'Adjacent Elements' do
     it 'accepts tag_name argument' do
       children = browser.div(id: 'parent').children(tag_name: 'div')
       expect(children.size).to eq 3
-      expect(children.all?(Watir::Div)).to eq true
+      expect(children.all?(Watir::Div)).to be true
     end
 
     it 'accepts custom tag_name argument' do
       children = browser.element(id: 'custom_parent').children(tag_name: 'childelement')
       expect(children.size).to eq 3
-      expect(children.all?(Watir::HTMLElement)).to eq true
+      expect(children.all?(Watir::HTMLElement)).to be true
     end
 
     it 'accepts a class_name argument' do
       children = browser.div(id: 'parent').children(class_name: 'b')
       expect(children.size).to eq 2
-      expect(children.all?(Watir::Div)).to eq true
+      expect(children.all?(Watir::Div)).to be true
     end
   end
 end

@@ -361,7 +361,7 @@ module Watir
                                                 reason: 'Broken in Selenium'} do
           @browser = Browser.new(:safari, technology_preview: true)
 
-          expect(Selenium::WebDriver::Safari.technology_preview?).to eq true
+          expect(Selenium::WebDriver::Safari.technology_preview?).to be true
         end
 
         it 'generates options from Hash with custom option' do
@@ -370,7 +370,7 @@ module Watir
 
           expect(generated_options).to be_a Options.send(browser_symbol).class
           expect(actual_capabilities.page_load_strategy).to eq 'eager'
-          expect(actual_capabilities['safari:automaticInspection']).to eq true
+          expect(actual_capabilities['safari:automaticInspection']).to be true
         end
       end
     end

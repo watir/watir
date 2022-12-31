@@ -39,7 +39,7 @@ describe 'Browser#cookies' do
     end
 
     it 'returns nil if there is no cookie with such name' do
-      expect(browser.cookies[:non_monster]).to eq(nil)
+      expect(browser.cookies[:non_monster]).to be_nil
     end
   end
 
