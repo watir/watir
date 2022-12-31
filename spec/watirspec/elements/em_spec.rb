@@ -21,7 +21,7 @@ describe 'Em' do
     end
 
     it 'returns false if the element does not exist' do
-      expect(browser.em(id: 'no_such_id')).to_not exist
+      expect(browser.em(id: 'no_such_id')).not_to exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do

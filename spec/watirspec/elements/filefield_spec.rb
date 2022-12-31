@@ -28,14 +28,14 @@ describe 'FileField' do
     end
 
     it "returns false if the file field doesn't exist" do
-      expect(browser.file_field(id: 'no_such_id')).to_not exist
-      expect(browser.file_field(id: /no_such_id/)).to_not exist
-      expect(browser.file_field(name: 'no_such_name')).to_not exist
-      expect(browser.file_field(name: /no_such_name/)).to_not exist
-      expect(browser.file_field(class: 'no_such_class')).to_not exist
-      expect(browser.file_field(class: /no_such_class/)).to_not exist
-      expect(browser.file_field(index: 1337)).to_not exist
-      expect(browser.file_field(xpath: "//input[@id='no_such_id']")).to_not exist
+      expect(browser.file_field(id: 'no_such_id')).not_to exist
+      expect(browser.file_field(id: /no_such_id/)).not_to exist
+      expect(browser.file_field(name: 'no_such_name')).not_to exist
+      expect(browser.file_field(name: /no_such_name/)).not_to exist
+      expect(browser.file_field(class: 'no_such_class')).not_to exist
+      expect(browser.file_field(class: /no_such_class/)).not_to exist
+      expect(browser.file_field(index: 1337)).not_to exist
+      expect(browser.file_field(xpath: "//input[@id='no_such_id']")).not_to exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do

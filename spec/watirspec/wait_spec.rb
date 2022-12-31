@@ -19,7 +19,7 @@ describe Watir do
 
       it 'ensures all checks happen once even if time has expired' do
         described_class.default_timeout = -1
-        expect { browser.link.click }.to_not raise_exception
+        expect { browser.link.click }.not_to raise_exception
       ensure
         described_class.default_timeout = 5
       end
@@ -41,27 +41,27 @@ describe Watir::Element do
     it 'accepts self in block' do
       element = browser.div(id: 'bar')
       browser.a(id: 'show_bar').click
-      expect { element.wait_until { |el| el.text == 'bar' } }.to_not raise_exception
+      expect { element.wait_until { |el| el.text == 'bar' } }.not_to raise_exception
     end
 
     it 'accepts any values in block' do
       element = browser.div(id: 'bar')
-      expect { element.wait_until { true } }.to_not raise_exception
+      expect { element.wait_until { true } }.not_to raise_exception
     end
 
     it 'accepts just a timeout parameter' do
       element = browser.div(id: 'bar')
-      expect { element.wait_until(timeout: 0) { true } }.to_not raise_exception
+      expect { element.wait_until(timeout: 0) { true } }.not_to raise_exception
     end
 
     it 'accepts just a message parameter' do
       element = browser.div(id: 'bar')
-      expect { element.wait_until(message: 'no') { true } }.to_not raise_exception
+      expect { element.wait_until(message: 'no') { true } }.not_to raise_exception
     end
 
     it 'accepts just an interval parameter' do
       element = browser.div(id: 'bar')
-      expect { element.wait_until(interval: 0.1) { true } }.to_not raise_exception
+      expect { element.wait_until(interval: 0.1) { true } }.not_to raise_exception
     end
 
     context 'accepts keywords instead of block' do
@@ -70,25 +70,25 @@ describe Watir::Element do
       it 'accepts text keyword' do
         element = browser.div(id: 'bar')
         browser.a(id: 'show_bar').click
-        expect { element.wait_until(text: 'bar') }.to_not raise_exception
+        expect { element.wait_until(text: 'bar') }.not_to raise_exception
       end
 
       it 'accepts regular expression value' do
         element = browser.div(id: 'bar')
         browser.a(id: 'show_bar').click
-        expect { element.wait_until(style: /block/) }.to_not raise_exception
+        expect { element.wait_until(style: /block/) }.not_to raise_exception
       end
 
       it 'accepts multiple keywords' do
         element = browser.div(id: 'bar')
         browser.a(id: 'show_bar').click
-        expect { element.wait_until(text: 'bar', style: /block/) }.to_not raise_exception
+        expect { element.wait_until(text: 'bar', style: /block/) }.not_to raise_exception
       end
 
       it 'accepts custom keyword' do
         element = browser.div(id: 'bar')
         browser.a(id: 'show_bar').click
-        expect { element.wait_until(custom: 'bar') }.to_not raise_exception
+        expect { element.wait_until(custom: 'bar') }.not_to raise_exception
       end
 
       it 'times out when single keyword not met' do
@@ -117,22 +117,22 @@ describe Watir::Element do
 
     it 'accepts any values in block' do
       element = browser.div(id: 'foo')
-      expect { element.wait_while { false } }.to_not raise_exception
+      expect { element.wait_while { false } }.not_to raise_exception
     end
 
     it 'accepts just a timeout parameter' do
       element = browser.div(id: 'foo')
-      expect { element.wait_while(timeout: 0) { false } }.to_not raise_exception
+      expect { element.wait_while(timeout: 0) { false } }.not_to raise_exception
     end
 
     it 'accepts just a message parameter' do
       element = browser.div(id: 'foo')
-      expect { element.wait_while(message: 'no') { false } }.to_not raise_exception
+      expect { element.wait_while(message: 'no') { false } }.not_to raise_exception
     end
 
     it 'accepts just an interval parameter' do
       element = browser.div(id: 'foo')
-      expect { element.wait_while(interval: 0.1) { false } }.to_not raise_exception
+      expect { element.wait_while(interval: 0.1) { false } }.not_to raise_exception
     end
 
     context 'accepts keywords instead of block' do
@@ -140,35 +140,35 @@ describe Watir::Element do
                                           reason: 'Safari does not recognize date type'} do
         element = browser.div(id: 'foo')
         browser.a(id: 'hide_foo').click
-        expect { element.wait_while(text: 'foo') }.to_not raise_exception
+        expect { element.wait_while(text: 'foo') }.not_to raise_exception
       end
 
       it 'accepts regular expression value' do
         element = browser.div(id: 'foo')
         browser.a(id: 'hide_foo').click
-        expect { element.wait_while(style: /block/) }.to_not raise_exception
+        expect { element.wait_while(style: /block/) }.not_to raise_exception
       end
 
       it 'accepts multiple keywords' do
         element = browser.div(id: 'foo')
         browser.a(id: 'hide_foo').click
-        expect { element.wait_while(text: 'foo', style: /block/) }.to_not raise_exception
+        expect { element.wait_while(text: 'foo', style: /block/) }.not_to raise_exception
       end
 
       it 'accepts custom attributes' do
         element = browser.div(id: 'foo')
         browser.a(id: 'hide_foo').click
-        expect { element.wait_while(custom: '') }.to_not raise_exception
+        expect { element.wait_while(custom: '') }.not_to raise_exception
       end
 
       it 'accepts keywords and block' do
         element = browser.div(id: 'foo')
         browser.a(id: 'hide_foo').click
-        expect { element.wait_while(custom: '', &:present?) }.to_not raise_exception
+        expect { element.wait_while(custom: '', &:present?) }.not_to raise_exception
       end
 
       it 'browser accepts keywords' do
-        expect { browser.wait_until(title: 'wait test') }.to_not raise_exception
+        expect { browser.wait_until(title: 'wait test') }.not_to raise_exception
         expect { browser.wait_until(title: 'wrong') }.to raise_timeout_exception
       end
 
@@ -177,7 +177,7 @@ describe Watir::Element do
 
         begin
           browser.button(id: 'alert').click
-          expect { browser.alert.wait_until(text: 'ok') }.to_not raise_exception
+          expect { browser.alert.wait_until(text: 'ok') }.not_to raise_exception
           expect { browser.alert.wait_until(text: 'not ok') }.to raise_timeout_exception
         ensure
           browser.alert.ok
@@ -185,7 +185,7 @@ describe Watir::Element do
       end
 
       it 'window accepts keywords' do
-        expect { browser.window.wait_until(title: 'wait test') }.to_not raise_exception
+        expect { browser.window.wait_until(title: 'wait test') }.not_to raise_exception
         expect { browser.window.wait_until(title: 'wrong') }.to raise_timeout_exception
       end
 

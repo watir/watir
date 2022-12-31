@@ -38,27 +38,27 @@ describe 'Option' do
     end
 
     it 'returns false if the element does not exist (page context)' do
-      expect(browser.option(id: 'no_such_id')).to_not exist
-      expect(browser.option(id: /no_such_id/)).to_not exist
-      expect(browser.option(value: 'no_such_value')).to_not exist
-      expect(browser.option(value: /no_such_value/)).to_not exist
-      expect(browser.option(text: 'no_such_text')).to_not exist
-      expect(browser.option(text: /no_such_text/)).to_not exist
-      expect(browser.option(class: 'no_such_class')).to_not exist
-      expect(browser.option(index: 1337)).to_not exist
-      expect(browser.option(xpath: "//option[@id='no_such_id']")).to_not exist
+      expect(browser.option(id: 'no_such_id')).not_to exist
+      expect(browser.option(id: /no_such_id/)).not_to exist
+      expect(browser.option(value: 'no_such_value')).not_to exist
+      expect(browser.option(value: /no_such_value/)).not_to exist
+      expect(browser.option(text: 'no_such_text')).not_to exist
+      expect(browser.option(text: /no_such_text/)).not_to exist
+      expect(browser.option(class: 'no_such_class')).not_to exist
+      expect(browser.option(index: 1337)).not_to exist
+      expect(browser.option(xpath: "//option[@id='no_such_id']")).not_to exist
     end
 
     it 'returns false if the element does not exist (select_list context)' do
-      expect(browser.select_list(name: 'new_user_country').option(id: 'no_such_id')).to_not exist
-      expect(browser.select_list(name: 'new_user_country').option(id: /no_such_id/)).to_not exist
-      expect(browser.select_list(name: 'new_user_country').option(value: 'no_such_value')).to_not exist
-      expect(browser.select_list(name: 'new_user_country').option(value: /no_such_value/)).to_not exist
-      expect(browser.select_list(name: 'new_user_country').option(text: 'no_such_text')).to_not exist
-      expect(browser.select_list(name: 'new_user_country').option(text: /no_such_text/)).to_not exist
-      expect(browser.select_list(name: 'new_user_country').option(class: 'no_such_class')).to_not exist
-      expect(browser.select_list(name: 'new_user_country').option(index: 1337)).to_not exist
-      expect(browser.select_list(name: 'new_user_country').option(xpath: "//option[@id='no_such_id']")).to_not exist
+      expect(browser.select_list(name: 'new_user_country').option(id: 'no_such_id')).not_to exist
+      expect(browser.select_list(name: 'new_user_country').option(id: /no_such_id/)).not_to exist
+      expect(browser.select_list(name: 'new_user_country').option(value: 'no_such_value')).not_to exist
+      expect(browser.select_list(name: 'new_user_country').option(value: /no_such_value/)).not_to exist
+      expect(browser.select_list(name: 'new_user_country').option(text: 'no_such_text')).not_to exist
+      expect(browser.select_list(name: 'new_user_country').option(text: /no_such_text/)).not_to exist
+      expect(browser.select_list(name: 'new_user_country').option(class: 'no_such_class')).not_to exist
+      expect(browser.select_list(name: 'new_user_country').option(index: 1337)).not_to exist
+      expect(browser.select_list(name: 'new_user_country').option(xpath: "//option[@id='no_such_id']")).not_to exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do

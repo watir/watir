@@ -29,7 +29,7 @@ describe 'Alert API' do
 
     describe '#exists?' do
       it 'returns false if alert is not present' do
-        expect(browser.alert).to_not exist
+        expect(browser.alert).not_to exist
       end
 
       it 'returns true if alert is present' do
@@ -42,7 +42,7 @@ describe 'Alert API' do
       it 'closes alert' do
         browser.button(id: 'alert').click
         browser.alert.ok
-        expect(browser.alert).to_not exist
+        expect(browser.alert).not_to exist
       end
     end
 
@@ -50,7 +50,7 @@ describe 'Alert API' do
       it 'closes alert' do
         browser.button(id: 'alert').click
         browser.alert.close
-        expect(browser.alert).to_not exist
+        expect(browser.alert).not_to exist
       end
     end
   end

@@ -33,7 +33,7 @@ describe 'CheckBox' do
       expect(browser.checkbox(label: /some visible/)).to exist
       expect(browser.checkbox(label: /some (visible|Jeff)/)).to exist
       expect(browser.checkbox(label: /none visible/)).to exist
-      expect(browser.checkbox(label: /this will not match/)).to_not exist
+      expect(browser.checkbox(label: /this will not match/)).not_to exist
     end
 
     it 'handles text_regexp deprecation in spite of hidden text' do
@@ -50,25 +50,25 @@ describe 'CheckBox' do
     end
 
     it 'returns false if the checkbox button does not exist' do
-      expect(browser.checkbox(id: 'no_such_id')).to_not exist
-      expect(browser.checkbox(id: /no_such_id/)).to_not exist
-      expect(browser.checkbox(name: 'no_such_name')).to_not exist
-      expect(browser.checkbox(name: /no_such_name/)).to_not exist
-      expect(browser.checkbox(value: 'no_such_value')).to_not exist
-      expect(browser.checkbox(value: /no_such_value/)).to_not exist
-      expect(browser.checkbox(text: 'no_such_text')).to_not exist
-      expect(browser.checkbox(text: /no_such_text/)).to_not exist
-      expect(browser.checkbox(class: 'no_such_class')).to_not exist
-      expect(browser.checkbox(class: /no_such_class/)).to_not exist
-      expect(browser.checkbox(index: 1337)).to_not exist
-      expect(browser.checkbox(xpath: "//input[@id='no_such_id']")).to_not exist
+      expect(browser.checkbox(id: 'no_such_id')).not_to exist
+      expect(browser.checkbox(id: /no_such_id/)).not_to exist
+      expect(browser.checkbox(name: 'no_such_name')).not_to exist
+      expect(browser.checkbox(name: /no_such_name/)).not_to exist
+      expect(browser.checkbox(value: 'no_such_value')).not_to exist
+      expect(browser.checkbox(value: /no_such_value/)).not_to exist
+      expect(browser.checkbox(text: 'no_such_text')).not_to exist
+      expect(browser.checkbox(text: /no_such_text/)).not_to exist
+      expect(browser.checkbox(class: 'no_such_class')).not_to exist
+      expect(browser.checkbox(class: /no_such_class/)).not_to exist
+      expect(browser.checkbox(index: 1337)).not_to exist
+      expect(browser.checkbox(xpath: "//input[@id='no_such_id']")).not_to exist
     end
 
     it 'returns false if the checkbox button does not exist (search by name and value)' do
-      expect(browser.checkbox(name: 'new_user_interests', value: 'no_such_value')).to_not exist
-      expect(browser.checkbox(xpath: "//input[@name='new_user_interests' and @value='no_such_value']")).to_not exist
-      expect(browser.checkbox(name: 'no_such_name', value: 'cars')).to_not exist
-      expect(browser.checkbox(xpath: "//input[@name='no_such_name' and @value='cars']")).to_not exist
+      expect(browser.checkbox(name: 'new_user_interests', value: 'no_such_value')).not_to exist
+      expect(browser.checkbox(xpath: "//input[@name='new_user_interests' and @value='no_such_value']")).not_to exist
+      expect(browser.checkbox(name: 'no_such_name', value: 'cars')).not_to exist
+      expect(browser.checkbox(xpath: "//input[@name='no_such_name' and @value='cars']")).not_to exist
     end
 
     it 'returns true for checkboxes with a string value' do
@@ -168,8 +168,8 @@ describe 'CheckBox' do
     end
 
     it 'returns false if the checkbox button is disabled' do
-      expect(browser.checkbox(id: 'new_user_interests_dentistry')).to_not be_enabled
-      expect(browser.checkbox(xpath: "//input[@id='new_user_interests_dentistry']")).to_not be_enabled
+      expect(browser.checkbox(id: 'new_user_interests_dentistry')).not_to be_enabled
+      expect(browser.checkbox(xpath: "//input[@id='new_user_interests_dentistry']")).not_to be_enabled
     end
 
     it "raises UnknownObjectException if the checkbox button doesn't exist" do
@@ -184,7 +184,7 @@ describe 'CheckBox' do
     end
 
     it 'returns false if the checkbox is enabled' do
-      expect(browser.checkbox(id: 'new_user_interests_books')).to_not be_disabled
+      expect(browser.checkbox(id: 'new_user_interests_books')).not_to be_disabled
     end
 
     it "raises UnknownObjectException if the checkbox doesn't exist" do
@@ -196,7 +196,7 @@ describe 'CheckBox' do
 
   describe '#clear' do
     it 'raises ObjectDisabledException if the checkbox is disabled' do
-      expect(browser.checkbox(id: 'new_user_interests_dentistry')).to_not be_set
+      expect(browser.checkbox(id: 'new_user_interests_dentistry')).not_to be_set
       expect { browser.checkbox(id: 'new_user_interests_dentistry').clear }
         .to raise_object_disabled_exception
       expect { browser.checkbox(xpath: "//input[@id='new_user_interests_dentistry']").clear }
@@ -205,12 +205,12 @@ describe 'CheckBox' do
 
     it 'clears the checkbox button if it is set' do
       browser.checkbox(id: 'new_user_interests_books').clear
-      expect(browser.checkbox(id: 'new_user_interests_books')).to_not be_set
+      expect(browser.checkbox(id: 'new_user_interests_books')).not_to be_set
     end
 
     it 'clears the checkbox button when found by :xpath' do
       browser.checkbox(xpath: "//input[@id='new_user_interests_books']").clear
-      expect(browser.checkbox(xpath: "//input[@id='new_user_interests_books']")).to_not be_set
+      expect(browser.checkbox(xpath: "//input[@id='new_user_interests_books']")).not_to be_set
     end
 
     it "raises UnknownObjectException if the checkbox button doesn't exist" do
@@ -233,7 +233,7 @@ describe 'CheckBox' do
     it 'fires the onclick event' do
       expect(browser.button(id: 'disabled_button')).to be_disabled
       browser.checkbox(id: 'toggle_button_checkbox').set
-      expect(browser.button(id: 'disabled_button')).to_not be_disabled
+      expect(browser.button(id: 'disabled_button')).not_to be_disabled
       browser.checkbox(id: 'toggle_button_checkbox').clear
       expect(browser.button(id: 'disabled_button')).to be_disabled
     end
@@ -259,15 +259,15 @@ describe 'CheckBox' do
     end
 
     it 'returns false if the checkbox button unset' do
-      expect(browser.checkbox(id: 'new_user_interests_cars')).to_not be_set
+      expect(browser.checkbox(id: 'new_user_interests_cars')).not_to be_set
     end
 
     it 'returns the state for checkboxes with string values' do
-      expect(browser.checkbox(name: 'new_user_interests', value: 'cars')).to_not be_set
+      expect(browser.checkbox(name: 'new_user_interests', value: 'cars')).not_to be_set
       browser.checkbox(name: 'new_user_interests', value: 'cars').set
       expect(browser.checkbox(name: 'new_user_interests', value: 'cars')).to be_set
       browser.checkbox(name: 'new_user_interests', value: 'cars').clear
-      expect(browser.checkbox(name: 'new_user_interests', value: 'cars')).to_not be_set
+      expect(browser.checkbox(name: 'new_user_interests', value: 'cars')).not_to be_set
     end
 
     it "raises UnknownObjectException if the checkbox button doesn't exist" do

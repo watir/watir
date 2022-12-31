@@ -37,16 +37,16 @@ describe 'Frame' do
     end
 
     it "returns false if the frame doesn't exist" do
-      expect(browser.frame(id: 'no_such_id')).to_not exist
-      expect(browser.frame(name: 'no_such_text')).to_not exist
-      expect(browser.frame(index: 1337)).to_not exist
-      expect(browser.frame(src: 'no_such_src')).to_not exist
-      expect(browser.frame(class: 'no_such_class')).to_not exist
-      expect(browser.frame(id: /no_such_id/)).to_not exist
-      expect(browser.frame(name: /no_such_text/)).to_not exist
-      expect(browser.frame(src: /no_such_src/)).to_not exist
-      expect(browser.frame(class: /no_such_class/)).to_not exist
-      expect(browser.frame(xpath: "//frame[@id='no_such_id']")).to_not exist
+      expect(browser.frame(id: 'no_such_id')).not_to exist
+      expect(browser.frame(name: 'no_such_text')).not_to exist
+      expect(browser.frame(index: 1337)).not_to exist
+      expect(browser.frame(src: 'no_such_src')).not_to exist
+      expect(browser.frame(class: 'no_such_class')).not_to exist
+      expect(browser.frame(id: /no_such_id/)).not_to exist
+      expect(browser.frame(name: /no_such_text/)).not_to exist
+      expect(browser.frame(src: /no_such_src/)).not_to exist
+      expect(browser.frame(class: /no_such_class/)).not_to exist
+      expect(browser.frame(xpath: "//frame[@id='no_such_id']")).not_to exist
     end
 
     it 'handles nested frames' do
@@ -55,7 +55,7 @@ describe 'Frame' do
       browser.frame(id: 'two').frame(id: 'three').link(id: 'four').click
 
       browser.wait_until(title: 'definition_lists')
-      expect { browser.goto(WatirSpec.url_for('nested_frames.html')) }.to_not raise_exception
+      expect { browser.goto(WatirSpec.url_for('nested_frames.html')) }.not_to raise_exception
     end
 
     it "raises TypeError when 'what' argument is invalid" do

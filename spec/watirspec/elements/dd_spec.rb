@@ -21,7 +21,7 @@ describe 'Dd' do
     end
 
     it 'returns false if the element does not exist' do
-      expect(browser.dd(id: 'no_such_id')).to_not exist
+      expect(browser.dd(id: 'no_such_id')).not_to exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do
@@ -83,7 +83,7 @@ describe 'Dd' do
   # Manipulation methods
   describe '#click' do
     it 'fires events when clicked' do
-      expect(browser.dd(title: 'education').text).to_not eq 'changed'
+      expect(browser.dd(title: 'education').text).not_to eq 'changed'
       browser.dd(title: 'education').click
       expect(browser.dd(title: 'education').text).to eq 'changed'
     end
@@ -100,7 +100,7 @@ describe 'Dd' do
     it 'returns the HTML of the element' do
       html = browser.dd(id: 'someone').html
       expect(html).to match(/John Doe/m)
-      expect(html).to_not include('</body>')
+      expect(html).not_to include('</body>')
     end
   end
 end

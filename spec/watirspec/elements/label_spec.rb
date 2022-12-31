@@ -25,12 +25,12 @@ describe 'Label' do
     end
 
     it 'returns false if the element does not exist' do
-      expect(browser.label(id: 'no_such_id')).to_not exist
-      expect(browser.label(id: /no_such_id/)).to_not exist
-      expect(browser.label(text: 'no_such_text')).to_not exist
-      expect(browser.label(text: /no_such_text/)).to_not exist
-      expect(browser.label(index: 1337)).to_not exist
-      expect(browser.label(xpath: "//input[@id='no_such_id']")).to_not exist
+      expect(browser.label(id: 'no_such_id')).not_to exist
+      expect(browser.label(id: /no_such_id/)).not_to exist
+      expect(browser.label(text: 'no_such_text')).not_to exist
+      expect(browser.label(text: /no_such_text/)).not_to exist
+      expect(browser.label(index: 1337)).not_to exist
+      expect(browser.label(xpath: "//input[@id='no_such_id']")).not_to exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do

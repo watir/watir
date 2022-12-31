@@ -27,17 +27,17 @@ describe 'TableFooter' do
     end
 
     it "returns false if the table tfoot doesn't exist (page context)" do
-      expect(browser.tfoot(id: 'no_such_id')).to_not exist
-      expect(browser.tfoot(id: /no_such_id/)).to_not exist
-      expect(browser.tfoot(index: 1337)).to_not exist
-      expect(browser.tfoot(xpath: "//tfoot[@id='no_such_id']")).to_not exist
+      expect(browser.tfoot(id: 'no_such_id')).not_to exist
+      expect(browser.tfoot(id: /no_such_id/)).not_to exist
+      expect(browser.tfoot(index: 1337)).not_to exist
+      expect(browser.tfoot(xpath: "//tfoot[@id='no_such_id']")).not_to exist
     end
 
     it "returns false if the table tfoot doesn't exist (table context)" do
-      expect(browser.table(index: 0).tfoot(id: 'no_such_id')).to_not exist
-      expect(browser.table(index: 0).tfoot(id: /no_such_id/)).to_not exist
-      expect(browser.table(index: 0).tfoot(index: 1337)).to_not exist
-      expect(browser.table(index: 0).tfoot(xpath: "//tfoot[@id='no_such_id']")).to_not exist
+      expect(browser.table(index: 0).tfoot(id: 'no_such_id')).not_to exist
+      expect(browser.table(index: 0).tfoot(id: /no_such_id/)).not_to exist
+      expect(browser.table(index: 0).tfoot(index: 1337)).not_to exist
+      expect(browser.table(index: 0).tfoot(xpath: "//tfoot[@id='no_such_id']")).not_to exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do

@@ -50,24 +50,24 @@ describe 'Button' do
     end
 
     it "returns false if the button doesn't exist" do
-      expect(browser.button(id: 'no_such_id')).to_not exist
-      expect(browser.button(id: /no_such_id/)).to_not exist
-      expect(browser.button(name: 'no_such_name')).to_not exist
-      expect(browser.button(name: /no_such_name/)).to_not exist
-      expect(browser.button(value: 'no_such_value')).to_not exist
-      expect(browser.button(value: /no_such_value/)).to_not exist
-      expect(browser.button(src: 'no_such_src')).to_not exist
-      expect(browser.button(src: /no_such_src/)).to_not exist
-      expect(browser.button(text: 'no_such_text')).to_not exist
-      expect(browser.button(text: /no_such_text/)).to_not exist
-      expect(browser.button(class: 'no_such_class')).to_not exist
-      expect(browser.button(class: /no_such_class/)).to_not exist
-      expect(browser.button(index: 1337)).to_not exist
-      expect(browser.button(xpath: "//input[@id='no_such_id']")).to_not exist
+      expect(browser.button(id: 'no_such_id')).not_to exist
+      expect(browser.button(id: /no_such_id/)).not_to exist
+      expect(browser.button(name: 'no_such_name')).not_to exist
+      expect(browser.button(name: /no_such_name/)).not_to exist
+      expect(browser.button(value: 'no_such_value')).not_to exist
+      expect(browser.button(value: /no_such_value/)).not_to exist
+      expect(browser.button(src: 'no_such_src')).not_to exist
+      expect(browser.button(src: /no_such_src/)).not_to exist
+      expect(browser.button(text: 'no_such_text')).not_to exist
+      expect(browser.button(text: /no_such_text/)).not_to exist
+      expect(browser.button(class: 'no_such_class')).not_to exist
+      expect(browser.button(class: /no_such_class/)).not_to exist
+      expect(browser.button(index: 1337)).not_to exist
+      expect(browser.button(xpath: "//input[@id='no_such_id']")).not_to exist
     end
 
     it 'checks the tag name and type attribute when locating by xpath' do
-      expect(browser.button(xpath: "//input[@type='text']")).to_not exist
+      expect(browser.button(xpath: "//input[@type='text']")).not_to exist
       expect(browser.button(xpath: "//input[@type='button']")).to exist
     end
 
@@ -211,7 +211,7 @@ describe 'Button' do
     end
 
     it 'returns false if the button is disabled' do
-      expect(browser.button(name: 'new_user_submit_disabled')).to_not be_enabled
+      expect(browser.button(name: 'new_user_submit_disabled')).not_to be_enabled
     end
 
     it "raises UnknownObjectException if the button doesn't exist" do
@@ -225,7 +225,7 @@ describe 'Button' do
 
   describe '#disabled?' do
     it 'returns false when button is enabled' do
-      expect(browser.button(name: 'new_user_submit')).to_not be_disabled
+      expect(browser.button(name: 'new_user_submit')).not_to be_disabled
     end
 
     it 'returns true when button is disabled' do

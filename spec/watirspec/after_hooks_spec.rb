@@ -42,7 +42,7 @@ describe 'Browser::AfterHooks' do
 
       browser.after_hooks.delete(after_hook)
       browser.goto(WatirSpec.url_for('definition_lists.html'))
-      expect(@output).to_not include('definition_lists')
+      expect(@output).not_to include('definition_lists')
     end
   end
 
@@ -143,7 +143,7 @@ describe 'Browser::AfterHooks' do
       @page_after_hook = proc { browser.url }
       browser.after_hooks.add @page_after_hook
       browser.goto url
-      expect { browser.after_hooks.without { browser.button(id: 'alert').click } }.to_not raise_error
+      expect { browser.after_hooks.without { browser.button(id: 'alert').click } }.not_to raise_error
       browser.alert.ok
     end
 
@@ -153,7 +153,7 @@ describe 'Browser::AfterHooks' do
       browser.after_hooks.add @page_after_hook
       browser.goto url
       browser.after_hooks.delete @page_after_hook
-      expect { browser.button(id: 'alert').click }.to_not raise_error
+      expect { browser.button(id: 'alert').click }.not_to raise_error
       browser.alert.ok
     end
 
@@ -173,7 +173,7 @@ describe 'Browser::AfterHooks' do
 
       window = browser.window(title: 'closeable window')
       window.use
-      expect { browser.a(id: 'close').click }.to_not raise_error
+      expect { browser.a(id: 'close').click }.not_to raise_error
       browser.original_window.use
     end
   end

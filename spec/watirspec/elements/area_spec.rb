@@ -26,16 +26,16 @@ describe 'Area' do
     end
 
     it "returns false if the area doesn't exist" do
-      expect(browser.area(id: 'no_such_id')).to_not exist
-      expect(browser.area(id: /no_such_id/)).to_not exist
-      expect(browser.area(title: 'no_such_title')).to_not exist
-      expect(browser.area(title: /no_such_title/)).to_not exist
+      expect(browser.area(id: 'no_such_id')).not_to exist
+      expect(browser.area(id: /no_such_id/)).not_to exist
+      expect(browser.area(title: 'no_such_title')).not_to exist
+      expect(browser.area(title: /no_such_title/)).not_to exist
 
-      expect(browser.area(href: 'no-tables.html')).to_not exist
-      expect(browser.area(href: /no-tables/)).to_not exist
+      expect(browser.area(href: 'no-tables.html')).not_to exist
+      expect(browser.area(href: /no-tables/)).not_to exist
 
-      expect(browser.area(index: 1337)).to_not exist
-      expect(browser.area(xpath: "//area[@id='no_such_id']")).to_not exist
+      expect(browser.area(index: 1337)).not_to exist
+      expect(browser.area(xpath: "//area[@id='no_such_id']")).not_to exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do

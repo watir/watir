@@ -27,18 +27,18 @@ describe 'Form' do
     end
 
     it "returns false if the form doesn't exist" do
-      expect(browser.form(id: 'no_such_id')).to_not exist
-      expect(browser.form(id: /no_such_id/)).to_not exist
+      expect(browser.form(id: 'no_such_id')).not_to exist
+      expect(browser.form(id: /no_such_id/)).not_to exist
 
-      expect(browser.form(class: 'no_such_class')).to_not exist
-      expect(browser.form(class: /no_such_class/)).to_not exist
+      expect(browser.form(class: 'no_such_class')).not_to exist
+      expect(browser.form(class: /no_such_class/)).not_to exist
 
-      expect(browser.form(method: 'no_such_method')).to_not exist
-      expect(browser.form(method: /no_such_method/)).to_not exist
-      expect(browser.form(action: 'no_such_action')).to_not exist
-      expect(browser.form(action: /no_such_action/)).to_not exist
-      expect(browser.form(index: 1337)).to_not exist
-      expect(browser.form(xpath: "//form[@id='no_such_id']")).to_not exist
+      expect(browser.form(method: 'no_such_method')).not_to exist
+      expect(browser.form(method: /no_such_method/)).not_to exist
+      expect(browser.form(action: 'no_such_action')).not_to exist
+      expect(browser.form(action: /no_such_action/)).not_to exist
+      expect(browser.form(index: 1337)).not_to exist
+      expect(browser.form(xpath: "//form[@id='no_such_id']")).not_to exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do

@@ -24,12 +24,12 @@ describe ['H1', 'H2', 'H3', 'H4', 'H5', 'H6'] do
     end
 
     it 'returns true if the element exists' do
-      expect(browser.h1(id: 'no_such_id')).to_not exist
-      expect(browser.h1(id: /no_such_id/)).to_not exist
-      expect(browser.h1(text: 'no_such_text')).to_not exist
-      expect(browser.h1(text: /no_such_text 1/)).to_not exist
-      expect(browser.h1(index: 1337)).to_not exist
-      expect(browser.h1(xpath: "//p[@id='no_such_id']")).to_not exist
+      expect(browser.h1(id: 'no_such_id')).not_to exist
+      expect(browser.h1(id: /no_such_id/)).not_to exist
+      expect(browser.h1(text: 'no_such_text')).not_to exist
+      expect(browser.h1(text: /no_such_text 1/)).not_to exist
+      expect(browser.h1(index: 1337)).not_to exist
+      expect(browser.h1(xpath: "//p[@id='no_such_id']")).not_to exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do

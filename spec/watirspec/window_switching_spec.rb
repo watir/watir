@@ -53,7 +53,7 @@ describe Watir::Browser, exclude: {browser: :ie, reason: 'Cannot call #restore!'
     end
 
     it 'does not find incorrect handle' do
-      expect(browser.window(handle: 'bar')).to_not be_present
+      expect(browser.window(handle: 'bar')).not_to be_present
     end
 
     it 'returns the current window if no argument is given' do
@@ -75,7 +75,7 @@ describe Watir::Browser, exclude: {browser: :ie, reason: 'Cannot call #restore!'
         link.click
       end
 
-      expect { browser.windows.wait_until(size: 1) }.to_not raise_error
+      expect { browser.windows.wait_until(size: 1) }.not_to raise_error
     end
 
     it 'raises ArgumentError if the selector is invalid' do
@@ -106,7 +106,7 @@ describe Watir::Browser, exclude: {browser: :ie, reason: 'Cannot call #restore!'
       browser.switch_window
       new_window = browser.window
 
-      expect(original_window).to_not eq new_window
+      expect(original_window).not_to eq new_window
       expect(browser.windows).to include(original_window, new_window)
     end
 
@@ -122,7 +122,7 @@ describe Watir::Browser, exclude: {browser: :ie, reason: 'Cannot call #restore!'
 
     it 'provides previous window value to #original_window' do
       browser.switch_window
-      expect(browser.original_window).to_not be_nil
+      expect(browser.original_window).not_to be_nil
     end
 
     it 'waits for second window' do
@@ -151,7 +151,7 @@ describe Watir::Window, exclude: {browser: :ie, reason: 'Cannot call #restore!'}
        except: {browser: :safari, reason: 'Focus is on newly opened window instead of the first'} do
       browser.a(id: 'open').click
 
-      expect { browser.windows.wait_until(size: 3) }.to_not raise_timeout_exception
+      expect { browser.windows.wait_until(size: 3) }.not_to raise_timeout_exception
     end
 
     describe '#close' do
@@ -162,7 +162,7 @@ describe Watir::Window, exclude: {browser: :ie, reason: 'Cannot call #restore!'}
 
         described_class.new(browser, title: 'closeable window').close
 
-        expect { browser.windows.wait_until(size: 2) }.to_not raise_timeout_exception
+        expect { browser.windows.wait_until(size: 2) }.not_to raise_timeout_exception
       end
 
       it 'closes the current window',
@@ -173,7 +173,7 @@ describe Watir::Window, exclude: {browser: :ie, reason: 'Cannot call #restore!'}
 
         described_class.new(browser, title: 'closeable window').use.close
 
-        expect { browser.windows.wait_until(size: 2) }.to_not raise_timeout_exception
+        expect { browser.windows.wait_until(size: 2) }.not_to raise_timeout_exception
       end
     end
 
@@ -190,7 +190,7 @@ describe Watir::Window, exclude: {browser: :ie, reason: 'Cannot call #restore!'}
       end
 
       it 'returns false if it is not the current window' do
-        expect(described_class.new(browser, title: 'closeable window')).to_not be_current
+        expect(described_class.new(browser, title: 'closeable window')).not_to be_current
       end
     end
 
@@ -223,7 +223,7 @@ describe Watir::Window, exclude: {browser: :ie, reason: 'Cannot call #restore!'}
         win1 = described_class.new browser, title: 'closeable window'
         win2 = described_class.new browser, title: 'window switching'
 
-        expect(win1).to_not eq win2
+        expect(win1).not_to eq win2
       end
     end
 
@@ -233,19 +233,19 @@ describe Watir::Window, exclude: {browser: :ie, reason: 'Cannot call #restore!'}
       end
 
       it 'finds window by :url' do
-        expect(browser.window(url: /closeable\.html/).handle).to_not be_nil
+        expect(browser.window(url: /closeable\.html/).handle).not_to be_nil
       end
 
       it 'finds window by :title' do
-        expect(browser.window(title: 'closeable window').handle).to_not be_nil
+        expect(browser.window(title: 'closeable window').handle).not_to be_nil
       end
 
       it 'finds window by :element' do
-        expect(browser.window(element: browser.a(id: 'close')).handle).to_not be_nil
+        expect(browser.window(element: browser.a(id: 'close')).handle).not_to be_nil
       end
 
       it 'finds window by multiple values' do
-        expect(browser.window(url: /closeable\.html/, title: 'closeable window').handle).to_not be_nil
+        expect(browser.window(url: /closeable\.html/, title: 'closeable window').handle).not_to be_nil
       end
     end
   end
@@ -266,17 +266,17 @@ describe Watir::Window, exclude: {browser: :ie, reason: 'Cannot call #restore!'}
 
     describe '#exists?' do
       it 'returns false if previously referenced window is closed' do
-        expect(@closed_window).to_not be_present
+        expect(@closed_window).not_to be_present
       end
 
       it 'returns false if closed window is referenced' do
-        expect(browser.window).to_not exist
+        expect(browser.window).not_to exist
       end
     end
 
     describe '#current?' do
       it 'returns false if the referenced window is closed' do
-        expect(@original_window).to_not be_current
+        expect(@original_window).not_to be_current
       end
     end
 

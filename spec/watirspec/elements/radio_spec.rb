@@ -38,25 +38,25 @@ describe 'Radio' do
     end
 
     it 'returns false if the radio button does not exist' do
-      expect(browser.radio(id: 'no_such_id')).to_not exist
-      expect(browser.radio(id: /no_such_id/)).to_not exist
-      expect(browser.radio(name: 'no_such_name')).to_not exist
-      expect(browser.radio(name: /no_such_name/)).to_not exist
-      expect(browser.radio(value: 'no_such_value')).to_not exist
-      expect(browser.radio(value: /no_such_value/)).to_not exist
-      expect(browser.radio(text: 'no_such_text')).to_not exist
-      expect(browser.radio(text: /no_such_text/)).to_not exist
-      expect(browser.radio(class: 'no_such_class')).to_not exist
-      expect(browser.radio(class: /no_such_class/)).to_not exist
-      expect(browser.radio(index: 1337)).to_not exist
-      expect(browser.radio(xpath: "input[@id='no_such_id']")).to_not exist
+      expect(browser.radio(id: 'no_such_id')).not_to exist
+      expect(browser.radio(id: /no_such_id/)).not_to exist
+      expect(browser.radio(name: 'no_such_name')).not_to exist
+      expect(browser.radio(name: /no_such_name/)).not_to exist
+      expect(browser.radio(value: 'no_such_value')).not_to exist
+      expect(browser.radio(value: /no_such_value/)).not_to exist
+      expect(browser.radio(text: 'no_such_text')).not_to exist
+      expect(browser.radio(text: /no_such_text/)).not_to exist
+      expect(browser.radio(class: 'no_such_class')).not_to exist
+      expect(browser.radio(class: /no_such_class/)).not_to exist
+      expect(browser.radio(index: 1337)).not_to exist
+      expect(browser.radio(xpath: "input[@id='no_such_id']")).not_to exist
     end
 
     it 'returns false if the radio button does not exist (search by name and value)' do
-      expect(browser.radio(name: 'new_user_newsletter', value: 'no_such_value')).to_not exist
-      expect(browser.radio(xpath: "//input[@name='new_user_newsletter' and @value='no_such_value']")).to_not exist
-      expect(browser.radio(name: 'no_such_name', value: 'yes')).to_not exist
-      expect(browser.radio(xpath: "//input[@name='no_such_name' and @value='yes']")).to_not exist
+      expect(browser.radio(name: 'new_user_newsletter', value: 'no_such_value')).not_to exist
+      expect(browser.radio(xpath: "//input[@name='new_user_newsletter' and @value='no_such_value']")).not_to exist
+      expect(browser.radio(name: 'no_such_name', value: 'yes')).not_to exist
+      expect(browser.radio(xpath: "//input[@name='no_such_name' and @value='yes']")).not_to exist
     end
 
     it 'returns true for radios with a string value' do
@@ -166,8 +166,8 @@ describe 'Radio' do
     end
 
     it 'returns false if the radio button is disabled' do
-      expect(browser.radio(id: 'new_user_newsletter_nah')).to_not be_enabled
-      expect(browser.radio(xpath: "//input[@id='new_user_newsletter_nah']")).to_not be_enabled
+      expect(browser.radio(id: 'new_user_newsletter_nah')).not_to be_enabled
+      expect(browser.radio(xpath: "//input[@id='new_user_newsletter_nah']")).not_to be_enabled
     end
 
     it "raises UnknownObjectException if the radio button doesn't exist" do
@@ -182,7 +182,7 @@ describe 'Radio' do
     end
 
     it 'returns false if the radio is enabled' do
-      expect(browser.radio(id: 'new_user_newsletter_yes')).to_not be_disabled
+      expect(browser.radio(id: 'new_user_newsletter_yes')).not_to be_disabled
     end
 
     it "raises UnknownObjectException if the radio doesn't exist" do
@@ -238,15 +238,15 @@ describe 'Radio' do
     end
 
     it 'returns false if the radio button unset' do
-      expect(browser.radio(id: 'new_user_newsletter_no')).to_not be_set
+      expect(browser.radio(id: 'new_user_newsletter_no')).not_to be_set
     end
 
     it 'returns the state for radios with string values' do
-      expect(browser.radio(name: 'new_user_newsletter', value: 'no')).to_not be_set
+      expect(browser.radio(name: 'new_user_newsletter', value: 'no')).not_to be_set
       browser.radio(name: 'new_user_newsletter', value: 'no').set
       expect(browser.radio(name: 'new_user_newsletter', value: 'no')).to be_set
       browser.radio(name: 'new_user_newsletter', value: 'yes').set
-      expect(browser.radio(name: 'new_user_newsletter', value: 'no')).to_not be_set
+      expect(browser.radio(name: 'new_user_newsletter', value: 'no')).not_to be_set
     end
 
     it "raises UnknownObjectException if the radio button doesn't exist" do

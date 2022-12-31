@@ -61,7 +61,7 @@ describe 'Collections' do
 
   it 'lazy loads collections referenced with #[]' do
     browser.goto(WatirSpec.url_for('collections.html'))
-    expect(browser.wd).to_not receive(:find_elements)
+    expect(browser.wd).not_to receive(:find_elements)
     browser.spans[3]
   end
 
@@ -69,7 +69,7 @@ describe 'Collections' do
     browser.goto(WatirSpec.url_for('collections.html'))
     elements = browser.spans.tap(&:to_a)
 
-    expect(browser.wd).to_not receive(:find_elements)
+    expect(browser.wd).not_to receive(:find_elements)
     elements[1].id
   end
 
@@ -79,14 +79,14 @@ describe 'Collections' do
 
     browser.refresh
     expect(elements[1]).to be_stale
-    expect { elements[1] }.to_not raise_unknown_object_exception
+    expect { elements[1] }.not_to raise_unknown_object_exception
   end
 
   it 'does not retrieve tag_name on elements when specifying tag_name' do
     browser.goto(WatirSpec.url_for('collections.html'))
     collection = browser.span(id: 'a_span').spans
 
-    expect_any_instance_of(Selenium::WebDriver::Element).to_not receive(:tag_name)
+    expect_any_instance_of(Selenium::WebDriver::Element).not_to receive(:tag_name)
     collection.locate
   end
 
@@ -94,7 +94,7 @@ describe 'Collections' do
     browser.goto(WatirSpec.url_for('collections.html'))
     collection = browser.span(id: 'a_span').elements
 
-    expect_any_instance_of(Selenium::WebDriver::Element).to_not receive(:tag_name)
+    expect_any_instance_of(Selenium::WebDriver::Element).not_to receive(:tag_name)
     collection.locate
   end
 
@@ -102,7 +102,7 @@ describe 'Collections' do
     browser.goto(WatirSpec.url_for('collections.html'))
     collection = browser.span(id: 'a_span').spans
 
-    expect(browser.wd).to_not receive(:execute_script)
+    expect(browser.wd).not_to receive(:execute_script)
     collection.locate
   end
 

@@ -24,7 +24,7 @@ describe 'SelectLists' do
     it 'returns the correct item' do
       expect(browser.select_lists[0].value).to eq '2'
       expect(browser.select_lists[0].name).to eq 'new_user_country'
-      expect(browser.select_lists[0]).to_not be_multiple
+      expect(browser.select_lists[0]).not_to be_multiple
       expect(browser.select_lists[1]).to be_multiple
     end
   end

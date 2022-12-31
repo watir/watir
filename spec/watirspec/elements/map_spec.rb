@@ -23,12 +23,12 @@ describe 'Map' do
     end
 
     it "returns false if the 'map' doesn't exist" do
-      expect(browser.map(id: 'no_such_id')).to_not exist
-      expect(browser.map(id: /no_such_id/)).to_not exist
-      expect(browser.map(name: 'no_such_id')).to_not exist
-      expect(browser.map(name: /no_such_id/)).to_not exist
-      expect(browser.map(index: 1337)).to_not exist
-      expect(browser.map(xpath: "//map[@id='no_such_id']")).to_not exist
+      expect(browser.map(id: 'no_such_id')).not_to exist
+      expect(browser.map(id: /no_such_id/)).not_to exist
+      expect(browser.map(name: 'no_such_id')).not_to exist
+      expect(browser.map(name: /no_such_id/)).not_to exist
+      expect(browser.map(index: 1337)).not_to exist
+      expect(browser.map(xpath: "//map[@id='no_such_id']")).not_to exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do

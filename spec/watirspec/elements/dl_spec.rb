@@ -21,7 +21,7 @@ describe 'Dl' do
     end
 
     it 'returns false if the element does not exist' do
-      expect(browser.dl(id: 'no_such_id')).to_not exist
+      expect(browser.dl(id: 'no_such_id')).not_to exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do
@@ -83,7 +83,7 @@ describe 'Dl' do
   # Manipulation methods
   describe '#click' do
     it 'fires events when clicked' do
-      expect(browser.dt(id: 'name').text).to_not eq 'changed!'
+      expect(browser.dt(id: 'name').text).not_to eq 'changed!'
       browser.dt(id: 'name').click
       expect(browser.dt(id: 'name').text).to eq 'changed!'
     end
@@ -100,7 +100,7 @@ describe 'Dl' do
     it 'returns the HTML of the element' do
       html = browser.dl(id: 'experience-list').html.downcase
       expect(html).to match(/<dt class=?"current-industry?">/)
-      expect(html).to_not include('</body>')
+      expect(html).not_to include('</body>')
     end
   end
 

@@ -27,13 +27,13 @@ describe 'Browser' do
 
     it 'returns false after Browser#close' do
       browser.close
-      expect(browser).to_not exist
+      expect(browser).not_to exist
     end
   end
 
   describe '#closed?' do
     it 'returns false if not closed' do
-      expect(browser).to_not be_closed
+      expect(browser).not_to be_closed
     end
 
     it 'returns false if window is closed but browser is not',
@@ -47,7 +47,7 @@ describe 'Browser' do
       browser.window(title: 'closeable window').use
       browser.a(id: 'close').click
       browser.windows.wait_until(size: 1)
-      expect(browser).to_not be_closed
+      expect(browser).not_to be_closed
     ensure
       browser.windows.restore!
     end
@@ -310,7 +310,7 @@ describe 'Browser' do
     it 'takes a driver instance as argument' do
       mock_driver = double(Selenium::WebDriver::Driver)
       expect(Selenium::WebDriver::Driver).to receive(:===).with(mock_driver).and_return(true)
-      expect { Watir::Browser.new(mock_driver) }.to_not raise_error
+      expect { Watir::Browser.new(mock_driver) }.not_to raise_error
     end
 
     it 'raises ArgumentError for invalid args' do
@@ -334,26 +334,26 @@ describe 'Browser' do
   describe '#goto' do
     it 'adds http:// to URLs with no URL scheme specified' do
       url = WatirSpec.host[%r{http://(.*)}, 1]
-      expect(url).to_not be_nil
+      expect(url).not_to be_nil
       browser.goto(url)
       expect(browser.url).to match(%r{http://#{url}/?})
     end
 
     it 'goes to the given url without raising errors' do
-      expect { browser.goto(WatirSpec.url_for('non_control_elements.html')) }.to_not raise_error
+      expect { browser.goto(WatirSpec.url_for('non_control_elements.html')) }.not_to raise_error
     end
 
     it "goes to the url 'about:blank' without raising errors" do
-      expect { browser.goto('about:blank') }.to_not raise_error
+      expect { browser.goto('about:blank') }.not_to raise_error
     end
 
     it 'goes to a data URL scheme address without raising errors' do
-      expect { browser.goto('data:text/html;content-type=utf-8,foobar') }.to_not raise_error
+      expect { browser.goto('data:text/html;content-type=utf-8,foobar') }.not_to raise_error
     end
 
     it "goes to internal Chrome URL 'chrome://settings/browser' without raising errors",
        exclusive: {browser: %i[chrome edge]} do
-      expect { browser.goto('chrome://settings/browser') }.to_not raise_error
+      expect { browser.goto('chrome://settings/browser') }.not_to raise_error
     end
 
     it 'updates the page when location is changed with setTimeout + window.location' do
@@ -372,7 +372,7 @@ describe 'Browser' do
       expect(browser.div(id: 'best_language').text).to include('Ruby!')
       browser.refresh
       browser.div(id: 'best_language').wait_until(&:present?)
-      expect(browser.div(id: 'best_language').text).to_not include('Ruby!')
+      expect(browser.div(id: 'best_language').text).not_to include('Ruby!')
     end
   end
 
@@ -380,7 +380,7 @@ describe 'Browser' do
     before { browser.goto(WatirSpec.url_for('non_control_elements.html')) }
 
     it 'executes the given JavaScript on the current page' do
-      expect(browser.pre(id: 'rspec').text).to_not eq 'javascript text'
+      expect(browser.pre(id: 'rspec').text).not_to eq 'javascript text'
       browser.execute_script("document.getElementById('rspec').innerHTML = 'javascript text'")
       expect(browser.pre(id: 'rspec').text).to eq 'javascript text'
     end
@@ -443,7 +443,7 @@ describe 'Browser' do
       orig_url = browser.url
       browser.goto WatirSpec.url_for('tables.html')
       new_url = browser.url
-      expect(orig_url).to_not eq new_url
+      expect(orig_url).not_to eq new_url
       browser.back
       expect(orig_url).to eq browser.url
     end
@@ -524,7 +524,7 @@ describe 'Browser' do
   describe '#inspect' do
     it 'works even if browser is closed' do
       expect(browser).to receive(:url).and_raise(Errno::ECONNREFUSED)
-      expect { browser.inspect }.to_not raise_error
+      expect { browser.inspect }.not_to raise_error
     end
   end
 

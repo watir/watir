@@ -20,9 +20,9 @@ describe 'TableRow' do
     end
 
     it "returns false if the table row doesn't exist" do
-      expect(browser.tr(id: 'no_such_id')).to_not exist
-      expect(browser.tr(id: /no_such_id/)).to_not exist
-      expect(browser.tr(index: 1337)).to_not exist
+      expect(browser.tr(id: 'no_such_id')).not_to exist
+      expect(browser.tr(id: /no_such_id/)).not_to exist
+      expect(browser.tr(index: 1337)).not_to exist
       browser.tr(xpath: "//tr[@id='no_such_id']")
     end
 
@@ -54,8 +54,8 @@ describe 'TableRow' do
     end
 
     it 'does not find cells from nested tables' do
-      expect(table[1].cell(id: 't2_r1_c1')).to_not exist
-      expect(table[1].cell(id: /t2_r1_c1/)).to_not exist
+      expect(table[1].cell(id: 't2_r1_c1')).not_to exist
+      expect(table[1].cell(id: /t2_r1_c1/)).not_to exist
     end
 
     it 'iterates correctly through the cells of the row' do

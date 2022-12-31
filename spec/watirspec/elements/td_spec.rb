@@ -23,12 +23,12 @@ describe 'TableCell' do
     end
 
     it 'returns false when the table cell does not exist' do
-      expect(browser.td(id: 'no_such_id')).to_not exist
-      expect(browser.td(id: /no_such_id/)).to_not exist
-      expect(browser.td(text: 'no_such_text')).to_not exist
-      expect(browser.td(text: /no_such_text/)).to_not exist
-      expect(browser.td(index: 1337)).to_not exist
-      expect(browser.td(xpath: "//td[@id='no_such_id']")).to_not exist
+      expect(browser.td(id: 'no_such_id')).not_to exist
+      expect(browser.td(id: /no_such_id/)).not_to exist
+      expect(browser.td(text: 'no_such_text')).not_to exist
+      expect(browser.td(text: /no_such_text/)).not_to exist
+      expect(browser.td(index: 1337)).not_to exist
+      expect(browser.td(xpath: "//td[@id='no_such_id']")).not_to exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do

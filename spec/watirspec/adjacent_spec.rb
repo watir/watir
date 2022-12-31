@@ -38,11 +38,11 @@ describe 'Adjacent Elements' do
     end
 
     it 'does not error when no parent element of an index exists' do
-      expect(browser.body.parent(index: 2)).to_not exist
+      expect(browser.body.parent(index: 2)).not_to exist
     end
 
     it 'does not error when no parent element of a tag_name exists' do
-      expect(browser.div(id: 'first_sibling').parent(tag_name: 'table')).to_not exist
+      expect(browser.div(id: 'first_sibling').parent(tag_name: 'table')).not_to exist
     end
   end
 
@@ -107,11 +107,11 @@ describe 'Adjacent Elements' do
     end
 
     it 'does not error when no next sibling of an index exists' do
-      expect(browser.body.following_sibling(index: 1)).to_not exist
+      expect(browser.body.following_sibling(index: 1)).not_to exist
     end
 
     it 'does not error when no next sibling of a tag_name exists' do
-      expect(browser.div(id: 'first_sibling').following_sibling(tag_name: 'table')).to_not exist
+      expect(browser.div(id: 'first_sibling').following_sibling(tag_name: 'table')).not_to exist
     end
   end
 
@@ -163,11 +163,11 @@ describe 'Adjacent Elements' do
     end
 
     it 'does not error when no next sibling of an index exists' do
-      expect(browser.body.previous_sibling(index: 1)).to_not exist
+      expect(browser.body.previous_sibling(index: 1)).not_to exist
     end
 
     it 'does not error when no next sibling of a tag_name exists' do
-      expect(browser.div(id: 'third_sibling').previous_sibling(tag_name: 'table')).to_not exist
+      expect(browser.div(id: 'third_sibling').previous_sibling(tag_name: 'table')).not_to exist
     end
   end
 
@@ -219,11 +219,11 @@ describe 'Adjacent Elements' do
     end
 
     it 'does not error when no next sibling of an index exists' do
-      expect(browser.div(id: 'second_sibling').child(index: 1)).to_not exist
+      expect(browser.div(id: 'second_sibling').child(index: 1)).not_to exist
     end
 
     it 'does not error when no next sibling of a tag_name exists' do
-      expect(browser.div(id: 'parent').child(tag_name: 'table')).to_not exist
+      expect(browser.div(id: 'parent').child(tag_name: 'table')).not_to exist
     end
   end
 

@@ -31,17 +31,17 @@ describe 'Div' do
     end
 
     it 'returns false if the element does not exist' do
-      expect(browser.div(id: 'no_such_id')).to_not exist
-      expect(browser.div(id: /no_such_id/)).to_not exist
-      expect(browser.div(title: 'no_such_title')).to_not exist
-      expect(browser.div(title: /no_such_title/)).to_not exist
-      expect(browser.div(text: 'no_such_text')).to_not exist
-      expect(browser.div(text: /no_such_text/)).to_not exist
-      expect(browser.div(class: 'no_such_class')).to_not exist
-      expect(browser.div(class: /no_such_class/)).to_not exist
+      expect(browser.div(id: 'no_such_id')).not_to exist
+      expect(browser.div(id: /no_such_id/)).not_to exist
+      expect(browser.div(title: 'no_such_title')).not_to exist
+      expect(browser.div(title: /no_such_title/)).not_to exist
+      expect(browser.div(text: 'no_such_text')).not_to exist
+      expect(browser.div(text: /no_such_text/)).not_to exist
+      expect(browser.div(class: 'no_such_class')).not_to exist
+      expect(browser.div(class: /no_such_class/)).not_to exist
       expect(browser.div(text: /some visible some hidden/)).to exist
-      expect(browser.div(index: 1337)).to_not exist
-      expect(browser.div(xpath: "//div[@id='no_such_id']")).to_not exist
+      expect(browser.div(index: 1337)).not_to exist
+      expect(browser.div(xpath: "//div[@id='no_such_id']")).not_to exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do
@@ -132,7 +132,7 @@ describe 'Div' do
   # Manipulation methods
   describe '#click' do
     it 'fires events when clicked' do
-      expect(browser.div(id: 'best_language').text).to_not eq 'Ruby!'
+      expect(browser.div(id: 'best_language').text).not_to eq 'Ruby!'
 
       div = browser.div(id: 'best_language')
       div.scroll.to
@@ -155,7 +155,7 @@ describe 'Div' do
 
   describe '#click!' do
     it 'fires events when clicked' do
-      expect(browser.div(id: 'best_language').text).to_not eq 'Ruby!'
+      expect(browser.div(id: 'best_language').text).not_to eq 'Ruby!'
       browser.div(id: 'best_language').click!
       expect(browser.div(id: 'best_language').text).to eq 'Ruby!'
     end
@@ -221,8 +221,8 @@ describe 'Div' do
       expect(html).to include('title="closing remarks"')
       expect(html).to include('class="profile"')
 
-      expect(html).to_not include('<div id="content">')
-      expect(html).to_not include('</body>')
+      expect(html).not_to include('<div id="content">')
+      expect(html).not_to include('</body>')
     end
   end
 end

@@ -21,14 +21,14 @@ describe 'Table' do
     end
 
     it 'returns false if the table does not exist' do
-      expect(browser.table(id: 'no_such_id')).to_not exist
-      expect(browser.table(id: /no_such_id/)).to_not exist
-      expect(browser.table(index: 1337)).to_not exist
-      expect(browser.table(xpath: "//table[@id='no_such_id']")).to_not exist
+      expect(browser.table(id: 'no_such_id')).not_to exist
+      expect(browser.table(id: /no_such_id/)).not_to exist
+      expect(browser.table(index: 1337)).not_to exist
+      expect(browser.table(xpath: "//table[@id='no_such_id']")).not_to exist
     end
 
     it 'checks the tag name when locating by xpath' do
-      expect(browser.table(xpath: '//table//td')).to_not exist
+      expect(browser.table(xpath: '//table//td')).not_to exist
       expect(browser.table(xpath: '//table')).to exist
     end
 
@@ -107,8 +107,8 @@ describe 'Table' do
     end
 
     it 'does not find rows from a nested table' do
-      expect(table.row(id: 'inner_first')).to_not exist
-      expect(table.row(text: /\ATable 2, Row 1, Cell 1 Table 2, Row 1, Cell 2\z/)).to_not exist
+      expect(table.row(id: 'inner_first')).not_to exist
+      expect(table.row(text: /\ATable 2, Row 1, Cell 1 Table 2, Row 1, Cell 2\z/)).not_to exist
     end
   end
 

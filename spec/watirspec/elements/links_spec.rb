@@ -25,7 +25,7 @@ describe 'Links' do
     end
 
     it 'returns a Link object also when the index is out of bounds' do
-      expect(browser.links[2000]).to_not be_nil
+      expect(browser.links[2000]).not_to be_nil
     end
   end
 

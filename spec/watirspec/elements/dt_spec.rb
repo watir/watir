@@ -21,7 +21,7 @@ describe 'Dt' do
     end
 
     it 'returns false if the element does not exist' do
-      expect(browser.dt(id: 'no_such_id')).to_not exist
+      expect(browser.dt(id: 'no_such_id')).not_to exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do
@@ -82,7 +82,7 @@ describe 'Dt' do
   # Manipulation methods
   describe '#click' do
     it 'fires events when clicked' do
-      expect(browser.dt(id: 'education').text).to_not eq 'changed'
+      expect(browser.dt(id: 'education').text).not_to eq 'changed'
       browser.dt(id: 'education').click
       expect(browser.dt(id: 'education').text).to eq 'changed'
     end
@@ -99,7 +99,7 @@ describe 'Dt' do
     it 'returns the HTML of the element' do
       html = browser.dt(id: 'name').html
       expect(html).to match(%r{<div>.*Name.*</div>}mi)
-      expect(html).to_not include('</body>')
+      expect(html).not_to include('</body>')
     end
   end
 end

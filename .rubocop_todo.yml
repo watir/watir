@@ -128,13 +128,6 @@ RSpec/NoExpectationExample:
     - 'spec/watirspec/elements/iframe_spec.rb'
     - 'spec/watirspec/elements/select_list_spec.rb'
 
-# Offense count: 528
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: not_to, to_not
-RSpec/NotToNot:
-  Enabled: false
-
 # Offense count: 1
 RSpec/PendingWithoutReason:
   Exclude:

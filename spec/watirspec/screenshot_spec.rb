@@ -22,7 +22,7 @@ describe 'Watir::Screenshot' do
   describe '#save' do
     it 'saves screenshot to given file' do
       path = "#{Dir.tmpdir}/test#{Time.now.to_i}.png"
-      expect(File).to_not exist(path)
+      expect(File).not_to exist(path)
       browser.screenshot.save(path)
       expect(File).to exist(path)
       expect(File.binread(path)[0..3]).to eq png_header

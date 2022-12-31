@@ -25,14 +25,14 @@ describe 'P' do
     end
 
     it "returns false if the 'p' doesn't exist" do
-      expect(browser.p(id: 'no_such_id')).to_not exist
-      expect(browser.p(id: /no_such_id/)).to_not exist
-      expect(browser.p(text: 'no_such_text')).to_not exist
-      expect(browser.p(text: /no_such_text/)).to_not exist
-      expect(browser.p(class: 'no_such_class')).to_not exist
-      expect(browser.p(class: /no_such_class/)).to_not exist
-      expect(browser.p(index: 1337)).to_not exist
-      expect(browser.p(xpath: "//p[@id='no_such_id']")).to_not exist
+      expect(browser.p(id: 'no_such_id')).not_to exist
+      expect(browser.p(id: /no_such_id/)).not_to exist
+      expect(browser.p(text: 'no_such_text')).not_to exist
+      expect(browser.p(text: /no_such_text/)).not_to exist
+      expect(browser.p(class: 'no_such_class')).not_to exist
+      expect(browser.p(class: /no_such_class/)).not_to exist
+      expect(browser.p(index: 1337)).not_to exist
+      expect(browser.p(xpath: "//p[@id='no_such_id']")).not_to exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do

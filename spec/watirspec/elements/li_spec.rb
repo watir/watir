@@ -25,14 +25,14 @@ describe 'Li' do
     end
 
     it "returns false if the 'li' doesn't exist" do
-      expect(browser.li(id: 'no_such_id')).to_not exist
-      expect(browser.li(id: /no_such_id/)).to_not exist
-      expect(browser.li(text: 'no_such_text')).to_not exist
-      expect(browser.li(text: /no_such_text/)).to_not exist
-      expect(browser.li(class: 'no_such_class')).to_not exist
-      expect(browser.li(class: /no_such_class/)).to_not exist
-      expect(browser.li(index: 1337)).to_not exist
-      expect(browser.li(xpath: "//li[@id='no_such_id']")).to_not exist
+      expect(browser.li(id: 'no_such_id')).not_to exist
+      expect(browser.li(id: /no_such_id/)).not_to exist
+      expect(browser.li(text: 'no_such_text')).not_to exist
+      expect(browser.li(text: /no_such_text/)).not_to exist
+      expect(browser.li(class: 'no_such_class')).not_to exist
+      expect(browser.li(class: /no_such_class/)).not_to exist
+      expect(browser.li(index: 1337)).not_to exist
+      expect(browser.li(xpath: "//li[@id='no_such_id']")).not_to exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do

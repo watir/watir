@@ -25,14 +25,14 @@ describe 'Pre' do
     end
 
     it "returns false if the 'p' doesn't exist" do
-      expect(browser.pre(id: 'no_such_id')).to_not exist
-      expect(browser.pre(id: /no_such_id/)).to_not exist
-      expect(browser.pre(text: 'no_such_text')).to_not exist
-      expect(browser.pre(text: /no_such_text/)).to_not exist
-      expect(browser.pre(class: 'no_such_class')).to_not exist
-      expect(browser.pre(class: /no_such_class/)).to_not exist
-      expect(browser.pre(index: 1337)).to_not exist
-      expect(browser.pre(xpath: "//pre[@id='no_such_id']")).to_not exist
+      expect(browser.pre(id: 'no_such_id')).not_to exist
+      expect(browser.pre(id: /no_such_id/)).not_to exist
+      expect(browser.pre(text: 'no_such_text')).not_to exist
+      expect(browser.pre(text: /no_such_text/)).not_to exist
+      expect(browser.pre(class: 'no_such_class')).not_to exist
+      expect(browser.pre(class: /no_such_class/)).not_to exist
+      expect(browser.pre(index: 1337)).not_to exist
+      expect(browser.pre(xpath: "//pre[@id='no_such_id']")).not_to exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do

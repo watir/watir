@@ -24,14 +24,14 @@ describe 'Image' do
     end
 
     it "returns false when the image doesn't exist" do
-      expect(browser.image(id: 'no_such_id')).to_not exist
-      expect(browser.image(id: /no_such_id/)).to_not exist
-      expect(browser.image(src: 'no_such_src')).to_not exist
-      expect(browser.image(src: /no_such_src/)).to_not exist
-      expect(browser.image(alt: 'no_such_alt')).to_not exist
-      expect(browser.image(alt: /no_such_alt/)).to_not exist
-      expect(browser.image(title: 'no_such_title')).to_not exist
-      expect(browser.image(title: /no_such_title/)).to_not exist
+      expect(browser.image(id: 'no_such_id')).not_to exist
+      expect(browser.image(id: /no_such_id/)).not_to exist
+      expect(browser.image(src: 'no_such_src')).not_to exist
+      expect(browser.image(src: /no_such_src/)).not_to exist
+      expect(browser.image(alt: 'no_such_alt')).not_to exist
+      expect(browser.image(alt: /no_such_alt/)).not_to exist
+      expect(browser.image(title: 'no_such_title')).not_to exist
+      expect(browser.image(title: /no_such_title/)).not_to exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do
@@ -145,7 +145,7 @@ describe 'Image' do
     end
 
     it 'returns false if the image has not been loaded' do
-      expect(browser.image(id: 'no_such_file')).to_not be_loaded
+      expect(browser.image(id: 'no_such_file')).not_to be_loaded
     end
 
     it "raises UnknownObjectException if the image doesn't exist" do

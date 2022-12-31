@@ -678,7 +678,7 @@ describe Watir::Locators::Element::SelectorBuilder do
         selector = {css: 'div'}
 
         build_selector = selector_builder.build(selector)
-        expect(build_selector.delete(:scope)).to_not be_nil
+        expect(build_selector.delete(:scope)).not_to be_nil
         expect(build_selector).to eq selector
       end
 
@@ -686,7 +686,7 @@ describe Watir::Locators::Element::SelectorBuilder do
         selector = {xpath: './/*'}
 
         build_selector = selector_builder.build(selector)
-        expect(build_selector.delete(:scope)).to_not be_nil
+        expect(build_selector.delete(:scope)).not_to be_nil
         expect(build_selector).to eq selector
       end
 
@@ -695,7 +695,7 @@ describe Watir::Locators::Element::SelectorBuilder do
         built = {xpath: './ancestor::*[1]'}
 
         build_selector = selector_builder.build(selector)
-        expect(build_selector.delete(:scope)).to_not be_nil
+        expect(build_selector.delete(:scope)).not_to be_nil
         expect(build_selector).to eq built
       end
     end
@@ -712,7 +712,7 @@ describe Watir::Locators::Element::SelectorBuilder do
         built = {xpath: ".//*[local-name()='div']"}
 
         build_selector = selector_builder.build(selector)
-        expect(build_selector.delete(:scope)).to_not be_nil
+        expect(build_selector.delete(:scope)).not_to be_nil
         expect(build_selector).to eq built
       end
 
@@ -725,7 +725,7 @@ describe Watir::Locators::Element::SelectorBuilder do
         built = {xpath: ".//*[local-name()='div']"}
 
         build_selector = selector_builder.build(selector)
-        expect(build_selector.delete(:scope)).to_not be_nil
+        expect(build_selector.delete(:scope)).not_to be_nil
         expect(build_selector).to eq built
       end
     end
@@ -748,7 +748,7 @@ describe Watir::Locators::Element::SelectorBuilder do
         built = {xpath: ".//*[local-name()='div']"}
 
         build_selector = selector_builder.build(selector)
-        expect(build_selector.delete(:scope)).to_not be_nil
+        expect(build_selector.delete(:scope)).not_to be_nil
         expect(build_selector).to eq built
       end
     end

@@ -34,7 +34,7 @@ describe 'Element' do
       browser.refresh
 
       expect(element).to be_stale
-      expect { element.text }.to_not raise_error
+      expect { element.text }.not_to raise_error
     end
 
     it 'relocates stale element when taking an action on it' do
@@ -60,12 +60,12 @@ describe 'Element' do
       a = browser.dls[0]
       b = browser.dls[1]
 
-      expect(a).to_not eq b
-      expect(a).to_not eql(b)
+      expect(a).not_to eq b
+      expect(a).not_to eql(b)
     end
 
     it 'returns false if the other object is not an Element' do
-      expect(browser.dl).to_not eq 1
+      expect(browser.dl).not_to eq 1
     end
   end
 
@@ -210,7 +210,7 @@ describe 'Element' do
                     reason: 'https://github.com/SeleniumHQ/selenium/issues/2555'} do
     it 'knows if the element is focused' do
       expect(browser.element(id: 'new_user_first_name')).to be_focused
-      expect(browser.element(id: 'new_user_last_name')).to_not be_focused
+      expect(browser.element(id: 'new_user_last_name')).not_to be_focused
     end
   end
 
@@ -241,7 +241,7 @@ describe 'Element' do
       element.cache = wd
 
       browser.refresh
-      expect(element).to_not exist
+      expect(element).not_to exist
     end
   end
 
@@ -284,7 +284,7 @@ describe 'Element' do
 
     it 'returns false when tag name does not match id' do
       watir_element = browser.span(id: 'text')
-      expect(watir_element).to_not exist
+      expect(watir_element).not_to exist
     end
   end
 
@@ -298,11 +298,11 @@ describe 'Element' do
     end
 
     it 'returns false if the element exists but is not visible' do
-      expect(browser.div(id: 'bar')).to_not be_present
+      expect(browser.div(id: 'bar')).not_to be_present
     end
 
     it 'returns false if the element does not exist' do
-      expect(browser.div(id: 'should-not-exist')).to_not be_present
+      expect(browser.div(id: 'should-not-exist')).not_to be_present
     end
 
     it 'handles staleness' do
@@ -324,7 +324,7 @@ describe 'Element' do
     end
 
     it 'returns false if the element is disabled' do
-      expect(browser.button(name: 'new_user_submit_disabled')).to_not be_enabled
+      expect(browser.button(name: 'new_user_submit_disabled')).not_to be_enabled
     end
 
     it "raises UnknownObjectException if the element doesn't exist" do
@@ -354,7 +354,7 @@ describe 'Element' do
     it 'returns false if the element is not stale' do
       element = browser.button(name: 'new_user_submit_disabled').locate
 
-      expect(element).to_not be_stale
+      expect(element).not_to be_stale
     end
   end
 
@@ -377,7 +377,7 @@ describe 'Element' do
       end
 
       it 'does not match only part of the class name' do
-        expect(browser.div(class: 'bc')).to_not exist
+        expect(browser.div(class: 'bc')).not_to exist
       end
 
       it 'matches part of the class name when given a regexp' do
@@ -448,7 +448,7 @@ describe 'Element' do
     end
 
     it "doesn't raise when called on nested elements" do
-      expect(browser.div(id: 'no_such_div').link(id: 'no_such_id')).to_not exist
+      expect(browser.div(id: 'no_such_div').link(id: 'no_such_id')).not_to exist
     end
 
     it "doesn't raise when selector has with :xpath has :index" do
@@ -466,7 +466,7 @@ describe 'Element' do
 
     it 'returns false when tag name does not match id' do
       watir_element = browser.span(id: 'text')
-      expect(watir_element).to_not exist
+      expect(watir_element).not_to exist
     end
   end
 
@@ -519,7 +519,7 @@ describe 'Element' do
   describe '#click' do
     it 'accepts modifiers', except: {browser: :ie} do
       browser.a.click(@c)
-      expect { browser.windows.wait_until(size: 2) }.to_not raise_exception
+      expect { browser.windows.wait_until(size: 2) }.not_to raise_exception
     ensure
       browser.windows.restore!
     end
@@ -574,7 +574,7 @@ describe 'Element' do
     it 'unchecks a checkbox' do
       browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
       browser.element(id: 'new_user_interests_books').set(false)
-      expect(browser.checkbox(id: 'new_user_interests_books')).to_not be_set
+      expect(browser.checkbox(id: 'new_user_interests_books')).not_to be_set
     end
 
     it 'clicks a Radio' do
@@ -710,7 +710,7 @@ describe 'Element' do
 
     it 'does not display keyword if not specified' do
       element = browser.h3
-      expect(element.inspect).to_not include('keyword')
+      expect(element.inspect).not_to include('keyword')
     end
 
     it 'locate is false when not located' do
@@ -888,7 +888,7 @@ describe 'Element' do
 
   describe '#located?' do
     it 'returns true if element has been located' do
-      expect(browser.form(id: 'new_user')).to_not be_located
+      expect(browser.form(id: 'new_user')).not_to be_located
     end
 
     it 'returns false if element has not been located' do
@@ -910,7 +910,7 @@ describe 'Element' do
       hash2 = element.locate.hash
       expect(hash1).to be_a Integer
       expect(hash2).to be_a Integer
-      expect(hash1).to_not eq hash2
+      expect(hash1).not_to eq hash2
     end
   end
 

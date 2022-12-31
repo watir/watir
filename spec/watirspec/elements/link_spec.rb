@@ -31,16 +31,16 @@ describe 'Link' do
     end
 
     it "returns false if the link doesn't exist" do
-      expect(browser.link(id: 'no_such_id')).to_not exist
-      expect(browser.link(id: /no_such_id/)).to_not exist
-      expect(browser.link(title: 'no_such_title')).to_not exist
-      expect(browser.link(title: /no_such_title/)).to_not exist
-      expect(browser.link(text: 'no_such_text')).to_not exist
-      expect(browser.link(text: /no_such_text/i)).to_not exist
-      expect(browser.link(href: 'no_such_href')).to_not exist
-      expect(browser.link(href: /no_such_href/)).to_not exist
-      expect(browser.link(index: 1337)).to_not exist
-      expect(browser.link(xpath: "//a[@id='no_such_id']")).to_not exist
+      expect(browser.link(id: 'no_such_id')).not_to exist
+      expect(browser.link(id: /no_such_id/)).not_to exist
+      expect(browser.link(title: 'no_such_title')).not_to exist
+      expect(browser.link(title: /no_such_title/)).not_to exist
+      expect(browser.link(text: 'no_such_text')).not_to exist
+      expect(browser.link(text: /no_such_text/i)).not_to exist
+      expect(browser.link(href: 'no_such_href')).not_to exist
+      expect(browser.link(href: /no_such_href/)).not_to exist
+      expect(browser.link(index: 1337)).not_to exist
+      expect(browser.link(xpath: "//a[@id='no_such_id']")).not_to exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do

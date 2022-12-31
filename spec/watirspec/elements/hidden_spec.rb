@@ -27,18 +27,18 @@ describe 'Hidden' do
     end
 
     it 'returns false if the element does not exist' do
-      expect(browser.hidden(id: 'no_such_id')).to_not exist
-      expect(browser.hidden(id: /no_such_id/)).to_not exist
-      expect(browser.hidden(name: 'no_such_name')).to_not exist
-      expect(browser.hidden(name: /no_such_name/)).to_not exist
-      expect(browser.hidden(value: 'no_such_value')).to_not exist
-      expect(browser.hidden(value: /no_such_value/)).to_not exist
-      expect(browser.hidden(text: 'no_such_text')).to_not exist
-      expect(browser.hidden(text: /no_such_text/)).to_not exist
-      expect(browser.hidden(class: 'no_such_class')).to_not exist
-      expect(browser.hidden(class: /no_such_class/)).to_not exist
-      expect(browser.hidden(index: 1337)).to_not exist
-      expect(browser.hidden(xpath: "//input[@id='no_such_id']")).to_not exist
+      expect(browser.hidden(id: 'no_such_id')).not_to exist
+      expect(browser.hidden(id: /no_such_id/)).not_to exist
+      expect(browser.hidden(name: 'no_such_name')).not_to exist
+      expect(browser.hidden(name: /no_such_name/)).not_to exist
+      expect(browser.hidden(value: 'no_such_value')).not_to exist
+      expect(browser.hidden(value: /no_such_value/)).not_to exist
+      expect(browser.hidden(text: 'no_such_text')).not_to exist
+      expect(browser.hidden(text: /no_such_text/)).not_to exist
+      expect(browser.hidden(class: 'no_such_class')).not_to exist
+      expect(browser.hidden(class: /no_such_class/)).not_to exist
+      expect(browser.hidden(index: 1337)).not_to exist
+      expect(browser.hidden(xpath: "//input[@id='no_such_id']")).not_to exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do

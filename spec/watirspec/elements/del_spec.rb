@@ -25,14 +25,14 @@ describe 'Del' do
     end
 
     it "returns false if the element doesn't exist" do
-      expect(browser.del(id: 'no_such_id')).to_not exist
-      expect(browser.del(id: /no_such_id/)).to_not exist
-      expect(browser.del(text: 'no_such_text')).to_not exist
-      expect(browser.del(text: /no_such_text/)).to_not exist
-      expect(browser.del(class: 'no_such_class')).to_not exist
-      expect(browser.del(class: /no_such_class/)).to_not exist
-      expect(browser.del(index: 1337)).to_not exist
-      expect(browser.del(xpath: "//del[@id='no_such_id']")).to_not exist
+      expect(browser.del(id: 'no_such_id')).not_to exist
+      expect(browser.del(id: /no_such_id/)).not_to exist
+      expect(browser.del(text: 'no_such_text')).not_to exist
+      expect(browser.del(text: /no_such_text/)).not_to exist
+      expect(browser.del(class: 'no_such_class')).not_to exist
+      expect(browser.del(class: /no_such_class/)).not_to exist
+      expect(browser.del(index: 1337)).not_to exist
+      expect(browser.del(xpath: "//del[@id='no_such_id']")).not_to exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do
@@ -98,7 +98,7 @@ describe 'Del' do
   # Other
   describe '#click', except: {headless: true} do
     it 'fires events' do
-      expect(browser.del(class: 'footer').text).to_not include('Javascript')
+      expect(browser.del(class: 'footer').text).not_to include('Javascript')
       browser.del(class: 'footer').click
       expect(browser.del(class: 'footer').text).to include('Javascript')
     end

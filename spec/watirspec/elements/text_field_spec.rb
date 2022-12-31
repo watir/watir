@@ -74,23 +74,23 @@ describe 'TextField' do
     end
 
     it 'returns false if the element does not exist' do
-      expect(browser.text_field(id: 'no_such_id')).to_not exist
-      expect(browser.text_field(id: /no_such_id/)).to_not exist
-      expect(browser.text_field(name: 'no_such_name')).to_not exist
-      expect(browser.text_field(name: /no_such_name/)).to_not exist
-      expect(browser.text_field(value: 'no_such_value')).to_not exist
-      expect(browser.text_field(value: /no_such_value/)).to_not exist
-      expect(browser.text_field(text: 'no_such_text')).to_not exist
-      expect(browser.text_field(text: /no_such_text/)).to_not exist
-      expect(browser.text_field(class: 'no_such_class')).to_not exist
-      expect(browser.text_field(class: /no_such_class/)).to_not exist
-      expect(browser.text_field(index: 1337)).to_not exist
-      expect(browser.text_field(xpath: "//input[@id='no_such_id']")).to_not exist
-      expect(browser.text_field(label: 'bad label')).to_not exist
-      expect(browser.text_field(label: /bad label/)).to_not exist
+      expect(browser.text_field(id: 'no_such_id')).not_to exist
+      expect(browser.text_field(id: /no_such_id/)).not_to exist
+      expect(browser.text_field(name: 'no_such_name')).not_to exist
+      expect(browser.text_field(name: /no_such_name/)).not_to exist
+      expect(browser.text_field(value: 'no_such_value')).not_to exist
+      expect(browser.text_field(value: /no_such_value/)).not_to exist
+      expect(browser.text_field(text: 'no_such_text')).not_to exist
+      expect(browser.text_field(text: /no_such_text/)).not_to exist
+      expect(browser.text_field(class: 'no_such_class')).not_to exist
+      expect(browser.text_field(class: /no_such_class/)).not_to exist
+      expect(browser.text_field(index: 1337)).not_to exist
+      expect(browser.text_field(xpath: "//input[@id='no_such_id']")).not_to exist
+      expect(browser.text_field(label: 'bad label')).not_to exist
+      expect(browser.text_field(label: /bad label/)).not_to exist
 
       # input type='hidden' should not be found by #text_field
-      expect(browser.text_field(id: 'new_user_interests_dolls')).to_not exist
+      expect(browser.text_field(id: 'new_user_interests_dolls')).not_to exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do
@@ -178,7 +178,7 @@ describe 'TextField' do
     end
 
     it 'returns false for disabled text fields' do
-      expect(browser.text_field(name: 'new_user_species')).to_not be_enabled
+      expect(browser.text_field(name: 'new_user_species')).not_to be_enabled
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -192,7 +192,7 @@ describe 'TextField' do
     end
 
     it 'returns false if the text field is enabled' do
-      expect(browser.text_field(index: 0)).to_not be_disabled
+      expect(browser.text_field(index: 0)).not_to be_disabled
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do
@@ -207,7 +207,7 @@ describe 'TextField' do
     end
 
     it 'returns false for writable text fields' do
-      expect(browser.text_field(name: 'new_user_email')).to_not be_readonly
+      expect(browser.text_field(name: 'new_user_email')).not_to be_readonly
     end
 
     it "raises UnknownObjectException if the text field doesn't exist" do

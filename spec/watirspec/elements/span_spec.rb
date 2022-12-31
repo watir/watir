@@ -28,14 +28,14 @@ describe 'Span' do
     end
 
     it "returns false if the element doesn't exist" do
-      expect(browser.span(id: 'no_such_id')).to_not exist
-      expect(browser.span(id: /no_such_id/)).to_not exist
-      expect(browser.span(text: 'no_such_text')).to_not exist
-      expect(browser.span(text: /no_such_text/)).to_not exist
-      expect(browser.span(class: 'no_such_class')).to_not exist
-      expect(browser.span(class: /no_such_class/)).to_not exist
-      expect(browser.span(index: 1337)).to_not exist
-      expect(browser.span(xpath: "//span[@id='no_such_id']")).to_not exist
+      expect(browser.span(id: 'no_such_id')).not_to exist
+      expect(browser.span(id: /no_such_id/)).not_to exist
+      expect(browser.span(text: 'no_such_text')).not_to exist
+      expect(browser.span(text: /no_such_text/)).not_to exist
+      expect(browser.span(class: 'no_such_class')).not_to exist
+      expect(browser.span(class: /no_such_class/)).not_to exist
+      expect(browser.span(index: 1337)).not_to exist
+      expect(browser.span(xpath: "//span[@id='no_such_id']")).not_to exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do
@@ -104,7 +104,7 @@ describe 'Span' do
   # Other
   describe '#click', except: {headless: true} do
     it 'fires events' do
-      expect(browser.span(class: 'footer').text).to_not include('Javascript')
+      expect(browser.span(class: 'footer').text).not_to include('Javascript')
       browser.span(class: 'footer').click
       expect(browser.span(class: 'footer').text).to include('Javascript')
     end

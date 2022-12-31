@@ -25,18 +25,18 @@ describe 'SelectList' do
     end
 
     it "returns false if the select list doesn't exist" do
-      expect(browser.select_list(id: 'no_such_id')).to_not exist
-      expect(browser.select_list(id: /no_such_id/)).to_not exist
-      expect(browser.select_list(name: 'no_such_name')).to_not exist
-      expect(browser.select_list(name: /no_such_name/)).to_not exist
-      expect(browser.select_list(value: 'no_such_value')).to_not exist
-      expect(browser.select_list(value: /no_such_value/)).to_not exist
-      expect(browser.select_list(text: 'no_such_text')).to_not exist
-      expect(browser.select_list(text: /no_such_text/)).to_not exist
-      expect(browser.select_list(class: 'no_such_class')).to_not exist
-      expect(browser.select_list(class: /no_such_class/)).to_not exist
-      expect(browser.select_list(index: 1337)).to_not exist
-      expect(browser.select_list(xpath: "//select[@id='no_such_id']")).to_not exist
+      expect(browser.select_list(id: 'no_such_id')).not_to exist
+      expect(browser.select_list(id: /no_such_id/)).not_to exist
+      expect(browser.select_list(name: 'no_such_name')).not_to exist
+      expect(browser.select_list(name: /no_such_name/)).not_to exist
+      expect(browser.select_list(value: 'no_such_value')).not_to exist
+      expect(browser.select_list(value: /no_such_value/)).not_to exist
+      expect(browser.select_list(text: 'no_such_text')).not_to exist
+      expect(browser.select_list(text: /no_such_text/)).not_to exist
+      expect(browser.select_list(class: 'no_such_class')).not_to exist
+      expect(browser.select_list(class: /no_such_class/)).not_to exist
+      expect(browser.select_list(index: 1337)).not_to exist
+      expect(browser.select_list(xpath: "//select[@id='no_such_id']")).not_to exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do
@@ -67,7 +67,7 @@ describe 'SelectList' do
 
   describe '#multiple?' do
     it 'knows whether the select list allows multiple selections' do
-      expect(browser.select_list(index: 0)).to_not be_multiple
+      expect(browser.select_list(index: 0)).not_to be_multiple
       expect(browser.select_list(index: 1)).to be_multiple
     end
 
@@ -129,7 +129,7 @@ describe 'SelectList' do
     end
 
     it 'returns false if the select list is disabled' do
-      expect(browser.select_list(name: 'new_user_role')).to_not be_enabled
+      expect(browser.select_list(name: 'new_user_role')).not_to be_enabled
     end
 
     it "raises UnknownObjectException if the select_list doesn't exist" do
@@ -143,7 +143,7 @@ describe 'SelectList' do
     end
 
     it 'returns false if the select list is enabled' do
-      expect(browser.select_list(index: 0)).to_not be_disabled
+      expect(browser.select_list(index: 0)).not_to be_disabled
     end
 
     it 'raises UnknownObjectException when the select list does not exist' do
@@ -217,7 +217,7 @@ describe 'SelectList' do
     end
 
     it "returns false if the given option doesn't exist" do
-      expect(browser.select_list(name: 'new_user_country')).to_not include('Ireland')
+      expect(browser.select_list(name: 'new_user_country')).not_to include('Ireland')
     end
   end
 
@@ -228,7 +228,7 @@ describe 'SelectList' do
     end
 
     it 'evaluates false by text' do
-      expect(browser.select_list(name: 'new_user_country')).to_not be_selected('Sweden')
+      expect(browser.select_list(name: 'new_user_country')).not_to be_selected('Sweden')
     end
 
     it 'evaluates true exclusively by text' do
@@ -237,7 +237,7 @@ describe 'SelectList' do
     end
 
     it 'evaluates false exclusively by text' do
-      expect(browser.select_list(name: 'new_user_country')).to_not be_selected(text: 'Sweden')
+      expect(browser.select_list(name: 'new_user_country')).not_to be_selected(text: 'Sweden')
     end
 
     it 'evaluates true by label' do
@@ -246,7 +246,7 @@ describe 'SelectList' do
     end
 
     it 'evaluates false by label' do
-      expect(browser.select_list(name: 'new_user_country')).to_not be_selected('Germany')
+      expect(browser.select_list(name: 'new_user_country')).not_to be_selected('Germany')
     end
 
     it 'evaluates true exclusively by label' do
@@ -255,7 +255,7 @@ describe 'SelectList' do
     end
 
     it 'evaluates false exclusively by label' do
-      expect(browser.select_list(name: 'new_user_country')).to_not be_selected(label: 'Germany')
+      expect(browser.select_list(name: 'new_user_country')).not_to be_selected(label: 'Germany')
     end
 
     it 'evaluates true by value' do
@@ -264,7 +264,7 @@ describe 'SelectList' do
     end
 
     it 'evaluates false by value' do
-      expect(browser.select_list(name: 'new_user_country')).to_not be_selected('5')
+      expect(browser.select_list(name: 'new_user_country')).not_to be_selected('5')
     end
 
     it 'evaluates true exclusively by value' do
@@ -273,7 +273,7 @@ describe 'SelectList' do
     end
 
     it 'evaluates false exclusively by value' do
-      expect(browser.select_list(name: 'new_user_country')).to_not be_selected(value: '5')
+      expect(browser.select_list(name: 'new_user_country')).not_to be_selected(value: '5')
     end
 
     it "raises NoValueFoundException if the option doesn't exist" do

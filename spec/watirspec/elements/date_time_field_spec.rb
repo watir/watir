@@ -36,20 +36,20 @@ describe 'DateTimeField' do
     end
 
     it 'returns false if the element does not exist' do
-      expect(browser.date_time_field(id: 'no_such_id')).to_not exist
-      expect(browser.date_time_field(id: /no_such_id/)).to_not exist
-      expect(browser.date_time_field(name: 'no_such_name')).to_not exist
-      expect(browser.date_time_field(name: /no_such_name/)).to_not exist
-      expect(browser.date_time_field(value: 'no_such_value')).to_not exist
-      expect(browser.date_time_field(value: /no_such_value/)).to_not exist
-      expect(browser.date_time_field(text: 'no_such_text')).to_not exist
-      expect(browser.date_time_field(text: /no_such_text/)).to_not exist
-      expect(browser.date_time_field(class: 'no_such_class')).to_not exist
-      expect(browser.date_time_field(class: /no_such_class/)).to_not exist
-      expect(browser.date_time_field(index: 1337)).to_not exist
-      expect(browser.date_time_field(xpath: "//input[@id='no_such_id']")).to_not exist
-      expect(browser.date_time_field(label: 'bad label')).to_not exist
-      expect(browser.date_time_field(label: /bad label/)).to_not exist
+      expect(browser.date_time_field(id: 'no_such_id')).not_to exist
+      expect(browser.date_time_field(id: /no_such_id/)).not_to exist
+      expect(browser.date_time_field(name: 'no_such_name')).not_to exist
+      expect(browser.date_time_field(name: /no_such_name/)).not_to exist
+      expect(browser.date_time_field(value: 'no_such_value')).not_to exist
+      expect(browser.date_time_field(value: /no_such_value/)).not_to exist
+      expect(browser.date_time_field(text: 'no_such_text')).not_to exist
+      expect(browser.date_time_field(text: /no_such_text/)).not_to exist
+      expect(browser.date_time_field(class: 'no_such_class')).not_to exist
+      expect(browser.date_time_field(class: /no_such_class/)).not_to exist
+      expect(browser.date_time_field(index: 1337)).not_to exist
+      expect(browser.date_time_field(xpath: "//input[@id='no_such_id']")).not_to exist
+      expect(browser.date_time_field(label: 'bad label')).not_to exist
+      expect(browser.date_time_field(label: /bad label/)).not_to exist
     end
 
     it "raises TypeError when 'what' argument is invalid" do

@@ -63,16 +63,16 @@ describe 'IFrame' do
     end
 
     it "returns false if the iframe doesn't exist" do
-      expect(browser.iframe(id: 'no_such_id')).to_not exist
-      expect(browser.iframe(name: 'no_such_text')).to_not exist
-      expect(browser.iframe(index: 1337)).to_not exist
-      expect(browser.iframe(src: 'no_such_src')).to_not exist
-      expect(browser.iframe(class: 'no_such_class')).to_not exist
-      expect(browser.iframe(id: /no_such_id/)).to_not exist
-      expect(browser.iframe(name: /no_such_text/)).to_not exist
-      expect(browser.iframe(src: /no_such_src/)).to_not exist
-      expect(browser.iframe(class: /no_such_class/)).to_not exist
-      expect(browser.iframe(xpath: "//iframe[@id='no_such_id']")).to_not exist
+      expect(browser.iframe(id: 'no_such_id')).not_to exist
+      expect(browser.iframe(name: 'no_such_text')).not_to exist
+      expect(browser.iframe(index: 1337)).not_to exist
+      expect(browser.iframe(src: 'no_such_src')).not_to exist
+      expect(browser.iframe(class: 'no_such_class')).not_to exist
+      expect(browser.iframe(id: /no_such_id/)).not_to exist
+      expect(browser.iframe(name: /no_such_text/)).not_to exist
+      expect(browser.iframe(src: /no_such_src/)).not_to exist
+      expect(browser.iframe(class: /no_such_class/)).not_to exist
+      expect(browser.iframe(xpath: "//iframe[@id='no_such_id']")).not_to exist
     end
 
     it 'returns true if an element in an iframe does exist' do
@@ -86,8 +86,8 @@ describe 'IFrame' do
     end
 
     it 'returns false if an element in an iframe does not exist' do
-      expect(browser.iframe.element(css: '#no_such_id')).to_not exist
-      expect(browser.iframe.element(id: 'no_such_id')).to_not exist
+      expect(browser.iframe.element(css: '#no_such_id')).not_to exist
+      expect(browser.iframe.element(id: 'no_such_id')).not_to exist
     end
 
     it 'returns true if an element outside an iframe exists after checking for one inside that does exist' do
@@ -100,7 +100,7 @@ describe 'IFrame' do
     it 'returns true if an element outside an iframe exists after checking for one inside that does not exist' do
       existing_element = browser.element(css: '#iframe_1')
       expect(existing_element).to exist
-      expect(browser.iframe.element(css: '#no_such_id')).to_not exist
+      expect(browser.iframe.element(css: '#no_such_id')).not_to exist
       expect(existing_element).to exist
     end
 
@@ -110,7 +110,7 @@ describe 'IFrame' do
     end
 
     it 'returns false for sub-element of a non-existing iframe' do
-      expect(browser.iframe(id: 'no_such_id').element).to_not exist
+      expect(browser.iframe(id: 'no_such_id').element).not_to exist
     end
 
     it 'handles nested iframes' do
@@ -128,7 +128,7 @@ describe 'IFrame' do
   end
 
   it 'handles all locators for element which do not exist' do
-    expect(browser.iframe(index: 0).div(id: 'invalid')).to_not exist
+    expect(browser.iframe(index: 0).div(id: 'invalid')).not_to exist
   end
 
   describe '#present?' do
@@ -150,7 +150,7 @@ describe 'IFrame' do
 
   it 'switches when the frame is created by subtype' do
     subtype = browser.iframe.to_subtype
-    expect { subtype.element.locate }.to_not raise_exception
+    expect { subtype.element.locate }.not_to raise_exception
   end
 
   it 'switches back to top level browsing context' do

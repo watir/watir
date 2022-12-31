@@ -30,8 +30,8 @@ describe 'Elements' do
       a = browser.select_list(name: 'new_user_languages').options
       b = browser.select_list(id: 'new_user_role').options
 
-      expect(a).to_not eq b
-      expect(a).to_not eql(b)
+      expect(a).not_to eq b
+      expect(a).not_to eql(b)
     end
   end
 
