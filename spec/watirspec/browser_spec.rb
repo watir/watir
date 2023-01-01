@@ -309,7 +309,7 @@ module Watir
       end
 
       it 'takes a driver instance as argument' do
-        mock_driver = double(Selenium::WebDriver::Driver)
+        mock_driver = instance_double(Selenium::WebDriver::Driver)
         allow(Selenium::WebDriver::Driver).to receive(:===).and_return(true)
         expect { described_class.new(mock_driver) }.not_to raise_error
         expect(Selenium::WebDriver::Driver).to have_received(:===).with(mock_driver)

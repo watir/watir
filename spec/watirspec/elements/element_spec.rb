@@ -20,8 +20,7 @@ module Watir
       end
 
       it 'raises ArgumentError if given the wrong number of arguments' do
-        container = double('container').as_null_object
-        expect { described_class.new(container, 'foo') }.to raise_error(ArgumentError)
+        expect { described_class.new(browser.wd, 'foo') }.to raise_error(ArgumentError)
       end
     end
 

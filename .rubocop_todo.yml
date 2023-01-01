@@ -49,15 +49,6 @@ RSpec/StubbedMock:
     - 'spec/watirspec/browser_spec.rb'
     - 'spec/watirspec/elements/collections_spec.rb'
 
-# Offense count: 4
-# Configuration parameters: IgnoreNameless, IgnoreSymbolicNames.
-RSpec/VerifiedDoubles:
-  Exclude:
-    - 'spec/unit/match_elements/button_spec.rb'
-    - 'spec/unit/match_elements/text_field_spec.rb'
-    - 'spec/watirspec/browser_spec.rb'
-    - 'spec/watirspec/elements/element_spec.rb'
-
 # Offense count: 114
 # Configuration parameters: AllowedConstants.
 Style/Documentation:

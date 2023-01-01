@@ -8,7 +8,7 @@ module Watir
       describe Matcher do
         include LocatorSpecHelper
 
-        let(:query_scope) { @query_scope || double(Watir::Browser) }
+        let(:query_scope) { @query_scope || instance_double(Watir::Browser) }
         let(:matcher) { described_class.new(query_scope, @selector) }
 
         describe '#match?' do
