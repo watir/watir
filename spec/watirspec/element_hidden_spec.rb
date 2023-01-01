@@ -4,7 +4,7 @@ require 'watirspec_helper'
 
 module Watir
   module Locators
-    module Element
+    class Element
       describe Locator do
         describe 'Visible Elements' do
           before do

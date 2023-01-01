@@ -15,10 +15,6 @@ AllCops:
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
 
-Lint/UnifiedInteger:
-  Exclude:
-  - 'lib/watir/locators/element/selector_builder.rb'
-
 Metrics/AbcSize:
   Max: 22
   Exclude:
@@ -29,14 +25,9 @@ Metrics/AbcSize:
 
 Metrics/BlockLength:
   Exclude:
-    - 'spec/**/*'
     - 'support/doctest_helper.rb'
     - 'watir.gemspec'
     - 'Rakefile'
-
-Metrics/ModuleLength:
-  Exclude:
-    - 'spec/**/*'
 
 Metrics/ClassLength:
   Max: 93
@@ -63,14 +54,14 @@ Metrics/MethodLength:
   Max: 18
   Exclude:
     - 'lib/watir/locators/element/selector_builder.rb'
-    - 'lib/watir/locators/element/selector_builder/xpath.rb'
     - 'lib/watir/locators/element/selector_builder/regexp_disassembler.rb'
+
+Metrics/ModuleLength:
+  Exclude:
+    - 'spec/**/*'
 
 Metrics/PerceivedComplexity:
   Max: 10
-
-Performance/CollectionLiteralInLoop:
-  MinSize: 3
 
 RSpec/AnyInstance:
   Enabled: false
@@ -87,6 +78,10 @@ RSpec/MultipleExpectations:
 RSpec/MultipleMemoizedHelpers:
   Exclude:
     - 'spec/watirspec/capabilities_spec.rb'
+
+RSpec/NoExpectationExample:
+  Exclude:
+    - 'spec/watirspec/cookies_spec.rb'
 
 Style/BlockDelimiters:
   EnforcedStyle: braces_for_chaining

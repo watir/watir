@@ -6,48 +6,10 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 9
-# Configuration parameters: AllowedPatterns.
-# AllowedPatterns: ^expect_, ^assert_
-RSpec/NoExpectationExample:
-  Exclude:
-    - 'spec/watirspec/alert_spec.rb'
-    - 'spec/watirspec/cookies_spec.rb'
-    - 'spec/watirspec/elements/div_spec.rb'
-    - 'spec/watirspec/elements/iframe_spec.rb'
-    - 'spec/watirspec/elements/select_list_spec.rb'
-
 # Offense count: 1
 RSpec/PendingWithoutReason:
   Exclude:
     - 'spec/watirspec/browser_spec.rb'
-
-# Offense count: 6
-RSpec/RepeatedDescription:
-  Exclude:
-    - 'spec/watirspec/elements/hn_spec.rb'
-    - 'spec/watirspec/elements/ol_spec.rb'
-    - 'spec/watirspec/elements/tbodys_spec.rb'
-
-# Offense count: 6
-RSpec/RepeatedExample:
-  Exclude:
-    - 'spec/unit/capabilities_spec.rb'
-    - 'spec/watirspec/capabilities_spec.rb'
-    - 'spec/watirspec/elements/ol_spec.rb'
-
-# Offense count: 4
-RSpec/RepeatedExampleGroupDescription:
-  Exclude:
-    - 'spec/watirspec/browser_spec.rb'
-    - 'spec/watirspec/elements/link_spec.rb'
-
-# Offense count: 7
-RSpec/StubbedMock:
-  Exclude:
-    - 'spec/unit/element_locator_spec.rb'
-    - 'spec/watirspec/browser_spec.rb'
-    - 'spec/watirspec/elements/collections_spec.rb'
 
 # Offense count: 114
 # Configuration parameters: AllowedConstants.

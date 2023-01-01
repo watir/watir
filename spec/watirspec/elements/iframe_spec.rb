@@ -143,10 +143,12 @@ module Watir
     end
 
     it 'switches between iframe and parent when needed' do
-      browser.iframe(id: 'iframe_1').elements.each do |element|
-        element.text
-        browser.h1.text
-      end
+      expect {
+        browser.iframe(id: 'iframe_1').elements.each do |element|
+          element.text
+          browser.h1.text
+        end
+      }.not_to raise_exception
     end
 
     it 'switches when the frame is created by subtype' do

@@ -36,12 +36,13 @@ module Watir
           end
 
           def extract_strings(expression, strings)
+            meta_set = %i[meta set]
             expression.each do |exp|
               if optional?(exp)
                 strings.push(+'')
                 next
               end
-              if %i[meta set].include?(exp.type)
+              if meta_set.include?(exp.type)
                 strings.push(+'')
                 next
               end

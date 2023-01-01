@@ -24,7 +24,7 @@ module Watir
         expect(browser.h1).to exist
       end
 
-      it 'returns true if the element exists' do
+      it 'returns false if the element does not exist' do
         expect(browser.h1(id: 'no_such_id')).not_to exist
         expect(browser.h1(id: /no_such_id/)).not_to exist
         expect(browser.h1(text: 'no_such_text')).not_to exist

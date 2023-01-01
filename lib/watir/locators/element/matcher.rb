@@ -58,11 +58,12 @@ module Watir
         end
 
         def elements_match?(element, values_to_match)
+          class_keys = %i[class class_name]
           values_to_match.all? do |how, expected|
             if how == :tag_name
               validate_tag(element, expected)
               # TODO: Can this be class_name here or does that get converted?
-            elsif %i[class class_name].include?(how)
+            elsif class_keys.include?(how)
               value = fetch_value(element, how)
               [expected].flatten.all? do |match|
                 value.split.any? do |class_value|

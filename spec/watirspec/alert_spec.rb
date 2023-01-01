@@ -36,6 +36,7 @@ module Watir
         it 'returns true if alert is present' do
           browser.button(id: 'alert').click
           browser.wait_until(timeout: 10) { browser.alert.exists? }
+          expect(browser.alert.exist?).to be true
         end
       end
 

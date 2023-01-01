@@ -55,12 +55,12 @@ module Watir
     it 'adds a cookie with a string expires value' do
       browser.goto WatirSpec.url_for 'index.html'
 
-      expire_time = Time.now + 10_000
+      expire_time = ::Time.now + 10_000
 
       browser.cookies.add 'foo', 'bar', expires: expire_time.to_s
 
       cookie = browser.cookies[:foo]
-      expect(cookie[:expires]).to be_a(Time)
+      expect(cookie[:expires]).to be_a(::Time)
     end
 
     it 'adds a cookie with path',
@@ -83,7 +83,7 @@ module Watir
     it 'adds a cookie with expiration' do
       browser.goto WatirSpec.url_for 'index.html'
 
-      expires = Time.now + 10_000
+      expires = ::Time.now + 10_000
       options = {expires: expires}
 
       browser.cookies.add 'expiration', 'b', options
@@ -145,7 +145,7 @@ module Watir
           browser.cookies.clear
           browser.cookies.load file
           expected = browser.cookies.to_a
-          actual = YAML.safe_load(File.read(file), permitted_classes: [Symbol])
+          actual = YAML.safe_load(File.read(file), permitted_classes: [::Symbol])
 
           expected.each { |cookie| cookie.delete(:expires) }
           actual.each { |cookie| cookie.delete(:expires) }
@@ -157,7 +157,7 @@ module Watir
 
     def set_cookie_url
       # add timestamp to url to avoid caching in IE8
-      WatirSpec.url_for('set_cookie/index.html') + "?t=#{Time.now.to_i + Time.now.usec}"
+      WatirSpec.url_for('set_cookie/index.html') + "?t=#{::Time.now.to_i + ::Time.now.usec}"
     end
 
     def verify_cookies_count(expected_size)

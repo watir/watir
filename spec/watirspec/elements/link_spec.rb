@@ -64,12 +64,6 @@ module Watir
       end
     end
 
-    describe '#href' do
-      it 'returns the href attribute' do
-        expect(browser.link(index: 1).href).to match(/non_control_elements/)
-      end
-    end
-
     describe '#id' do
       it 'returns the id attribute if the link exists' do
         expect(browser.link(index: 1).id).to eq 'link_2'

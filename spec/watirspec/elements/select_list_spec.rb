@@ -412,11 +412,17 @@ module Watir
       end
 
       it 'selects options with a single-quoted value as String' do
-        browser.select_list(id: 'single-quote').select("'foo'")
+        select_list = browser.select_list(id: 'single-quote')
+        select_list.select("'foo'")
+
+        expect(select_list).to be_selected("'foo'")
       end
 
       it 'selects options with a single-quoted value as Regexp' do
-        browser.select_list(id: 'single-quote').select(/'foo'/)
+        select_list = browser.select_list(id: 'single-quote')
+        select_list.select(/'foo'/)
+
+        expect(select_list).to be_selected("'foo'")
       end
 
       it 'waits to select an option' do
@@ -607,7 +613,10 @@ module Watir
       end
 
       it 'selects options with a single-quoted value' do
-        browser.select_list(id: 'single-quote').select!("'foo'")
+        select_list = browser.select_list(id: 'single-quote')
+        select_list.select!("'foo'")
+
+        expect(select_list).to be_selected("'foo'")
       end
 
       it 'selects exact matches when using String' do

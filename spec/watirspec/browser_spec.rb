@@ -71,13 +71,6 @@ module Watir
       end
     end
 
-    describe '#title' do
-      it 'returns the current page title' do
-        browser.goto(WatirSpec.url_for('non_control_elements.html'))
-        expect(browser.title).to eq 'Non-control elements'
-      end
-    end
-
     describe '#status' do
       it 'returns the current value of window.status',
          except: {browser: :ie, reason: 'Status bar not enabled by default'} do
@@ -510,12 +503,12 @@ module Watir
         @opts[:options] = {page_load_strategy: :none}
         browser = WatirSpec.new_browser
 
-        start_time = Time.now
-        allow(browser).to receive(:ready_state) { Time.now < start_time + 3 ? 'loading' : 'complete' }
+        start_time = ::Time.now
+        allow(browser).to receive(:ready_state) { ::Time.now < start_time + 3 ? 'loading' : 'complete' }
         expect(browser.ready_state).to eq 'loading'
 
         browser.wait(20)
-        expect(Time.now - start_time).to be > 3
+        expect(::Time.now - start_time).to be > 3
         expect(browser.ready_state).to eq 'complete'
 
         browser.close

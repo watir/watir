@@ -560,17 +560,6 @@ module Watir
         expect(actual_options.profile).to eq profile
       end
 
-      it 'puts Profile inside Hash options' do
-        profile = Selenium::WebDriver::Firefox::Profile.new
-        options = {args: ['--foo'], profile: profile}
-
-        capabilities = described_class.new(:firefox, options: options)
-
-        actual_options = capabilities.to_args.last[:options]
-        expect(actual_options.args).to include '--foo'
-        expect(actual_options.profile).to eq profile
-      end
-
       it 'sets headless by creating options' do
         capabilities = described_class.new(:firefox, headless: true)
         args = capabilities.to_args

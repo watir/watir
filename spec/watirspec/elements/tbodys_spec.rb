@@ -35,7 +35,7 @@ module Watir
     end
 
     describe '#each' do
-      it 'iterates through table bodies correctly (table context)' do
+      it 'iterates through table bodies correctly (browser context)' do
         count = 0
 
         browser.tbodys.each_with_index do |body, index|

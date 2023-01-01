@@ -211,7 +211,9 @@ module Watir
       end
 
       it 'scrolls' do
-        browser.del(class: 'footer').double_click
+        expect {
+          browser.del(class: 'footer').double_click
+        }.not_to raise_exception
       end
     end
 
