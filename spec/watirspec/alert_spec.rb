@@ -11,7 +11,7 @@ describe 'Alert API' do
     browser.alert.ok if browser.alert.exists?
   end
 
-  context 'Waits' do
+  describe 'Waits' do
     context 'when acting on an alert' do
       it 'raises exception after timing out' do
         expect { browser.alert.text }.to wait_and_raise_unknown_object_exception
@@ -19,7 +19,7 @@ describe 'Alert API' do
     end
   end
 
-  context 'alert' do
+  describe 'alert' do
     describe '#text' do
       it 'returns text of alert' do
         browser.button(id: 'alert').click
@@ -55,7 +55,7 @@ describe 'Alert API' do
     end
   end
 
-  context 'confirm' do
+  describe 'confirm' do
     describe '#ok' do
       it 'accepts confirm' do
         browser.button(id: 'confirm').click
@@ -73,7 +73,7 @@ describe 'Alert API' do
     end
   end
 
-  context 'prompt' do
+  describe 'prompt' do
     describe '#set' do
       it 'enters text to prompt' do
         browser.button(id: 'prompt').click

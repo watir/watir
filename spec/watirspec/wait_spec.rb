@@ -64,7 +64,7 @@ describe Watir::Element do
       expect { element.wait_until(interval: 0.1) { true } }.not_to raise_exception
     end
 
-    context 'accepts keywords instead of block' do
+    context 'when accepting keywords instead of block' do
       before { browser.refresh }
 
       it 'accepts text keyword' do
@@ -135,7 +135,7 @@ describe Watir::Element do
       expect { element.wait_while(interval: 0.1) { false } }.not_to raise_exception
     end
 
-    context 'accepts keywords instead of block' do
+    context 'when accepting keywords instead of block' do
       it 'accepts text keyword', except: {browser: :safari,
                                           reason: 'Safari does not recognize date type'} do
         element = browser.div(id: 'foo')

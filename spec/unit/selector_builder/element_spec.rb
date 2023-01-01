@@ -606,36 +606,36 @@ describe Watir::Locators::Element::SelectorBuilder do
       end
     end
 
-    context 'returns locators that can not be directly translated' do
-      it 'attribute with complicated Regexp at end' do
+    context 'when can not be directly translated' do
+      it 'returns locator from attribute with complicated Regexp at end' do
         selector = {action: /me$/}
         built = {xpath: './/*[contains(@action, "me")]', action: /me$/}
 
         expect(selector_builder.build(selector)).to eq built
       end
 
-      it 'class with complicated Regexp' do
+      it 'returns locator from class with complicated Regexp' do
         selector = {class: /he?r/}
         built = {xpath: './/*[contains(@class, "h") and contains(@class, "r")]', class: [/he?r/]}
 
         expect(selector_builder.build(selector)).to eq built
       end
 
-      it 'visible' do
+      it 'returns locator from visible' do
         selector = {tag_name: 'div', visible: true}
         built = {xpath: ".//*[local-name()='div']", visible: true}
 
         expect(selector_builder.build(selector)).to eq built
       end
 
-      it 'not visible' do
+      it 'returns locator from not visible' do
         selector = {tag_name: 'span', visible: false}
         built = {xpath: ".//*[local-name()='span']", visible: false}
 
         expect(selector_builder.build(selector)).to eq built
       end
 
-      it 'visible text' do
+      it 'returns locator from visible text' do
         selector = {tag_name: 'span', visible_text: 'foo'}
         built = {xpath: ".//*[local-name()='span']", visible_text: 'foo'}
 

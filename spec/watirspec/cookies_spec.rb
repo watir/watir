@@ -125,7 +125,7 @@ describe 'Browser#cookies' do
     verify_cookies_count 0
   end
 
-  context 'cookie file' do
+  context 'when using file' do
     let(:file) { "#{Dir.tmpdir}/cookies" }
 
     before do

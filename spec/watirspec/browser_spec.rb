@@ -162,7 +162,7 @@ describe 'Browser' do
 
   # TODO: Temporarily disabling this before moving it to unit tests
   xdescribe '#new' do
-    context 'with parameters', except: {remote: true} do
+    context 'when using parameters', except: {remote: true} do
       let(:url) { 'http://localhost:4544/wd/hub/' }
 
       before(:all) do
@@ -240,7 +240,7 @@ describe 'Browser' do
         expect(@new_browser.url).to eq home_page
       end
 
-      context 'chrome arguments', only: {browser: :chrome} do
+      context 'when using chrome arguments', only: {browser: :chrome} do
         it 'accepts browser options' do
           @opts[:options] = {emulation: {userAgent: 'foo;bar'}}
 

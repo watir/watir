@@ -10,7 +10,7 @@ describe Watir::Locators::Element::Matcher do
   let(:matcher) { described_class.new(query_scope, values_to_match) }
 
   describe '#match' do
-    context 'a label element' do
+    context 'when a label element' do
       it 'returns elements with for / id pairs' do
         input_wds = [wd_element(tag_name: 'input', attributes: {id: 'foob_id'}),
                      wd_element(tag_name: 'input', attributes: {id: 'bfoo_id'}),

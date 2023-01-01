@@ -283,7 +283,7 @@ describe 'SelectList' do
   end
 
   describe '#select method' do
-    context 'working with multiple select list' do
+    context 'when working with multiple select list' do
       before do
         @select_list = browser.select_list(name: 'new_user_languages')
         @select_list.clear
@@ -442,7 +442,7 @@ describe 'SelectList' do
       expect { browser.select_list(id: 'new_user_languages').select(true) }.to raise_error(TypeError)
     end
 
-    context 'multiple options' do
+    context 'when multiple options' do
       it 'in an Array' do
         browser.select_list(name: 'new_user_languages').clear
         browser.select_list(name: 'new_user_languages').select(%w[Danish Swedish])
@@ -497,7 +497,7 @@ describe 'SelectList' do
   end
 
   describe '#select!' do
-    context 'working with multiple select list' do
+    context 'when working with multiple select list' do
       before do
         @select_list = browser.select_list(name: 'new_user_languages')
         @select_list.clear
@@ -634,7 +634,7 @@ describe 'SelectList' do
       expect { browser.select_list(id: 'new_user_languages').select!(true) }.to raise_error(TypeError)
     end
 
-    context 'multiple options' do
+    context 'when multiple options' do
       it 'in an Array' do
         browser.select_list(name: 'new_user_languages').clear
         browser.select_list(name: 'new_user_languages').select!(%w[Danish Swedish])

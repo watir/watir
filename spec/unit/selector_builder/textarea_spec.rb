@@ -8,15 +8,17 @@ describe Watir::Locators::TextArea::SelectorBuilder do
   let(:selector_builder) { described_class.new(attributes, query_scope) }
 
   describe '#build' do
-    context 'Always returns value argument' do
-      it 'String' do
+    context 'when String value' do
+      it 'returns value argument' do
         selector = {tag_name: 'textarea', value: 'Foo'}
         built = {xpath: ".//*[local-name()='textarea']", value: 'Foo'}
 
         expect(selector_builder.build(selector)).to eq built
       end
+    end
 
-      it 'Regexp' do
+    context 'when Regexp value' do
+      it 'returns value argument' do
         selector = {tag_name: 'textarea', value: /Foo/}
         built = {xpath: ".//*[local-name()='textarea']", value: /Foo/}
 

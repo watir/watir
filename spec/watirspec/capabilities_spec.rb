@@ -55,7 +55,7 @@ module Watir
     # :capabilities (default Generated; Selenium object, or built from Hash; incompatible with options)
 
     context 'when local', exclusive: {driver: :local_driver} do
-      context 'all browsers' do
+      context 'when any browser' do
         it 'accepts driver instance' do
           driver = Selenium::WebDriver.for browser_symbol
           @browser = described_class.new(driver)
@@ -251,7 +251,7 @@ module Watir
         end
       end
 
-      context 'chrome', exclusive: {browser: :chrome} do
+      context 'when chrome', exclusive: {browser: :chrome} do
         it 'by default uses chrome, has client, options, but not capabilities' do
           @browser = described_class.new
 
@@ -284,7 +284,7 @@ module Watir
         end
       end
 
-      context 'edge', exclusive: {browser: :edge} do
+      context 'when edge', exclusive: {browser: :edge} do
         it 'sets headless by creating options' do
           @browser = described_class.new(:edge, headless: true)
 
@@ -309,7 +309,7 @@ module Watir
         end
       end
 
-      context 'firefox', exclusive: {browser: :firefox} do
+      context 'when firefox', exclusive: {browser: :firefox} do
         it 'puts Profile inside Options as Hash' do
           profile = Selenium::WebDriver::Firefox::Profile.new
           options = {args: ['--foo'], profile: profile}
@@ -354,7 +354,7 @@ module Watir
         end
       end
 
-      context 'safari', exclusive: {browser: :safari} do
+      context 'when safari', exclusive: {browser: :safari} do
         after { Selenium::WebDriver::Safari.use_technology_preview = false }
 
         it 'sets Technology Preview', exclude: {browser: :safari,

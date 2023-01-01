@@ -359,7 +359,7 @@ describe 'Element' do
   end
 
   describe '#exist?' do
-    context ':class locator' do
+    context 'when using :class locator' do
       before do
         browser.goto(WatirSpec.url_for('class_locator.html'))
       end
@@ -417,7 +417,7 @@ describe 'Element' do
       end
     end
 
-    context 'attribute presence' do
+    context 'when using attribute presence' do
       before { browser.goto WatirSpec.url_for('data_attributes.html') }
 
       it 'finds element by attribute presence' do
@@ -431,7 +431,7 @@ describe 'Element' do
       end
     end
 
-    context ':index locator' do
+    context 'when using :index locator' do
       before { browser.goto WatirSpec.url_for('data_attributes.html') }
 
       it 'finds the first element by index: 0' do

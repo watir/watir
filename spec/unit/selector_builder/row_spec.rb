@@ -48,7 +48,7 @@ describe Watir::Locators::Row::SelectorBuilder do
         @query_scope = element(tag_name: 'table')
       end
 
-      context 'with index' do
+      context 'when index' do
         it 'positive' do
           @selector = {index: 1}
           built = {xpath: "(./*[local-name()='tr'] | ./*[local-name()='tbody']/*[local-name()='tr'] | " \
@@ -92,7 +92,7 @@ describe Watir::Locators::Row::SelectorBuilder do
         end
       end
 
-      context 'with multiple locators' do
+      context 'when multiple locators' do
         it 'attribute and class' do
           @selector = {id: 'gregory', class: /brick/}
           built = {xpath: "./*[local-name()='tr'][contains(@class, \"brick\")][@id='gregory'] | " \
@@ -107,8 +107,8 @@ describe Watir::Locators::Row::SelectorBuilder do
         end
       end
 
-      context 'returns locators that can not be directly translated' do
-        it 'any text value' do
+      context 'when a text value' do
+        it 'returns locators that can not be directly translated' do
           @selector = {text: 'Gregory'}
           built = {xpath: "./*[local-name()='tr'] | ./*[local-name()='tbody']/*[local-name()='tr'] | " \
                           "./*[local-name()='thead']/*[local-name()='tr'] | " \

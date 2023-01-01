@@ -6,25 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 30
-# Configuration parameters: Prefixes, AllowedPatterns.
-# Prefixes: when, with, without
-RSpec/ContextWording:
-  Exclude:
-    - 'spec/unit/match_elements/element_spec.rb'
-    - 'spec/unit/selector_builder/element_spec.rb'
-    - 'spec/unit/selector_builder/row_spec.rb'
-    - 'spec/unit/selector_builder/textarea_spec.rb'
-    - 'spec/watirspec/alert_spec.rb'
-    - 'spec/watirspec/browser_spec.rb'
-    - 'spec/watirspec/capabilities_spec.rb'
-    - 'spec/watirspec/cookies_spec.rb'
-    - 'spec/watirspec/drag_and_drop_spec.rb'
-    - 'spec/watirspec/elements/element_spec.rb'
-    - 'spec/watirspec/elements/select_list_spec.rb'
-    - 'spec/watirspec/wait_spec.rb'
-    - 'spec/watirspec/window_switching_spec.rb'
-
 # Offense count: 5
 # Configuration parameters: IgnoredMetadata.
 RSpec/DescribeClass:

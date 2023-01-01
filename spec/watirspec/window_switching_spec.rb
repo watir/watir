@@ -140,7 +140,7 @@ describe Watir::Window, exclude: {browser: :ie, reason: 'Cannot call #restore!'}
     browser.windows.restore!
   end
 
-  context 'multiple windows' do
+  context 'when using multiple windows' do
     before do
       browser.goto WatirSpec.url_for('window_switching.html')
       browser.a(id: 'open').click
@@ -367,7 +367,7 @@ describe Watir::Window, exclude: {browser: :ie, reason: 'Cannot call #restore!'}
     end
 
     describe '#use' do
-      context 'switching windows without blocks' do
+      context 'when switching windows without blocks' do
         it 'by url' do
           browser.window(url: /window_switching\.html/).use
           expect(browser.title).to be == 'window switching'
@@ -384,7 +384,7 @@ describe Watir::Window, exclude: {browser: :ie, reason: 'Cannot call #restore!'}
         end
       end
 
-      context 'Switching windows with blocks' do
+      context 'when switching windows with blocks' do
         it 'by url' do
           browser.window(url: /window_switching\.html/).use { expect(browser.title).to be == 'window switching' }
         end
@@ -401,7 +401,7 @@ describe Watir::Window, exclude: {browser: :ie, reason: 'Cannot call #restore!'}
     end
   end
 
-  context 'manipulating size and position', except: {headless: true} do
+  context 'when manipulating size and position', except: {headless: true} do
     before(:all) do
       maximized_size = browser.window.size
 
