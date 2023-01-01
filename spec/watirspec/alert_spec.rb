@@ -2,7 +2,7 @@
 
 require 'watirspec_helper'
 
-describe 'Alert API' do
+describe Watir::Alert do
   before do
     browser.goto WatirSpec.url_for('alerts.html')
   end

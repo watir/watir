@@ -6,21 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 5
-# Configuration parameters: IgnoredMetadata.
-RSpec/DescribeClass:
-  Exclude:
-    - '**/spec/features/**/*'
-    - '**/spec/requests/**/*'
-    - '**/spec/routing/**/*'
-    - '**/spec/system/**/*'
-    - '**/spec/views/**/*'
-    - 'spec/watirspec/adjacent_spec.rb'
-    - 'spec/watirspec/alert_spec.rb'
-    - 'spec/watirspec/cookies_spec.rb'
-    - 'spec/watirspec/elements/hn_spec.rb'
-    - 'spec/watirspec/elements/hns_spec.rb'
-
 # Offense count: 18
 # Configuration parameters: Include, CustomTransform, IgnoreMethods, SpecSuffixOnly.
 # Include: **/*_spec*rb*, **/spec/**/*

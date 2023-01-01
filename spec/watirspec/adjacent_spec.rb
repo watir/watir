@@ -2,7 +2,7 @@
 
 require 'watirspec_helper'
 
-describe 'Adjacent Elements' do
+describe Watir::Element do
   before(:all) do
     browser.goto(WatirSpec.url_for('nested_elements.html'))
   end

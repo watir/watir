@@ -2,7 +2,7 @@
 
 require 'watirspec_helper'
 
-describe 'Browser#cookies' do
+describe Watir::Cookies do
   after { browser.cookies.clear }
 
   it 'gets an empty list of cookies' do
