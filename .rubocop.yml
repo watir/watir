@@ -51,6 +51,7 @@ Metrics/ClassLength:
     - 'lib/watir/elements/select.rb'
     - 'lib/watir/generator/base/spec_extractor.rb'
     - 'lib/watir/element_collection.rb'
+    - 'spec/**/*_spec.rb'
 
 Metrics/CyclomaticComplexity:
   Max: 9

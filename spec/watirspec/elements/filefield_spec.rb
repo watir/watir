@@ -2,132 +2,134 @@
 
 require 'watirspec_helper'
 
-describe 'FileField' do
-  before do
-    browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
-  end
-
-  describe '#exist?' do
-    it 'returns true if the file field exists' do
-      expect(browser.file_field(id: 'new_user_portrait')).to exist
-      expect(browser.file_field(id: /new_user_portrait/)).to exist
-      expect(browser.file_field(name: 'new_user_portrait')).to exist
-      expect(browser.file_field(name: /new_user_portrait/)).to exist
-      expect(browser.file_field(class: 'portrait')).to exist
-      expect(browser.file_field(class: /portrait/)).to exist
-      expect(browser.file_field(index: 0)).to exist
-      expect(browser.file_field(xpath: "//input[@id='new_user_portrait']")).to exist
+module Watir
+  describe FileField do
+    before do
+      browser.goto(WatirSpec.url_for('forms_with_input_elements.html'))
     end
 
-    it 'returns the first file field if given no args' do
-      expect(browser.file_field).to exist
+    describe '#exist?' do
+      it 'returns true if the file field exists' do
+        expect(browser.file_field(id: 'new_user_portrait')).to exist
+        expect(browser.file_field(id: /new_user_portrait/)).to exist
+        expect(browser.file_field(name: 'new_user_portrait')).to exist
+        expect(browser.file_field(name: /new_user_portrait/)).to exist
+        expect(browser.file_field(class: 'portrait')).to exist
+        expect(browser.file_field(class: /portrait/)).to exist
+        expect(browser.file_field(index: 0)).to exist
+        expect(browser.file_field(xpath: "//input[@id='new_user_portrait']")).to exist
+      end
+
+      it 'returns the first file field if given no args' do
+        expect(browser.file_field).to exist
+      end
+
+      it 'returns true for element with upper case type' do
+        expect(browser.file_field(id: 'new_user_resume')).to exist
+      end
+
+      it "returns false if the file field doesn't exist" do
+        expect(browser.file_field(id: 'no_such_id')).not_to exist
+        expect(browser.file_field(id: /no_such_id/)).not_to exist
+        expect(browser.file_field(name: 'no_such_name')).not_to exist
+        expect(browser.file_field(name: /no_such_name/)).not_to exist
+        expect(browser.file_field(class: 'no_such_class')).not_to exist
+        expect(browser.file_field(class: /no_such_class/)).not_to exist
+        expect(browser.file_field(index: 1337)).not_to exist
+        expect(browser.file_field(xpath: "//input[@id='no_such_id']")).not_to exist
+      end
+
+      it "raises TypeError when 'what' argument is invalid" do
+        expect { browser.file_field(id: 3.14).exists? }.to raise_error(TypeError)
+      end
     end
 
-    it 'returns true for element with upper case type' do
-      expect(browser.file_field(id: 'new_user_resume')).to exist
+    # Attribute methods
+    describe '#id' do
+      it 'returns the id attribute if the text field exists' do
+        expect(browser.file_field(index: 0).id).to eq 'new_user_portrait'
+      end
+
+      it "raises UnknownObjectException if the text field doesn't exist" do
+        expect { browser.file_field(index: 1337).id }.to raise_unknown_object_exception
+      end
     end
 
-    it "returns false if the file field doesn't exist" do
-      expect(browser.file_field(id: 'no_such_id')).not_to exist
-      expect(browser.file_field(id: /no_such_id/)).not_to exist
-      expect(browser.file_field(name: 'no_such_name')).not_to exist
-      expect(browser.file_field(name: /no_such_name/)).not_to exist
-      expect(browser.file_field(class: 'no_such_class')).not_to exist
-      expect(browser.file_field(class: /no_such_class/)).not_to exist
-      expect(browser.file_field(index: 1337)).not_to exist
-      expect(browser.file_field(xpath: "//input[@id='no_such_id']")).not_to exist
+    describe '#name' do
+      it 'returns the name attribute if the text field exists' do
+        expect(browser.file_field(index: 0).name).to eq 'new_user_portrait'
+      end
+
+      it "raises UnknownObjectException if the text field doesn't exist" do
+        expect { browser.file_field(index: 1337).name }.to raise_unknown_object_exception
+      end
     end
 
-    it "raises TypeError when 'what' argument is invalid" do
-      expect { browser.file_field(id: 3.14).exists? }.to raise_error(TypeError)
-    end
-  end
-
-  # Attribute methods
-  describe '#id' do
-    it 'returns the id attribute if the text field exists' do
-      expect(browser.file_field(index: 0).id).to eq 'new_user_portrait'
+    describe '#title' do
+      it 'returns the title attribute if the text field exists' do
+        expect(browser.file_field(id: 'new_user_portrait').title).to eq 'Smile!'
+      end
     end
 
-    it "raises UnknownObjectException if the text field doesn't exist" do
-      expect { browser.file_field(index: 1337).id }.to raise_unknown_object_exception
-    end
-  end
+    describe '#type' do
+      it 'returns the type attribute if the text field exists' do
+        expect(browser.file_field(index: 0).type).to eq 'file'
+      end
 
-  describe '#name' do
-    it 'returns the name attribute if the text field exists' do
-      expect(browser.file_field(index: 0).name).to eq 'new_user_portrait'
-    end
-
-    it "raises UnknownObjectException if the text field doesn't exist" do
-      expect { browser.file_field(index: 1337).name }.to raise_unknown_object_exception
-    end
-  end
-
-  describe '#title' do
-    it 'returns the title attribute if the text field exists' do
-      expect(browser.file_field(id: 'new_user_portrait').title).to eq 'Smile!'
-    end
-  end
-
-  describe '#type' do
-    it 'returns the type attribute if the text field exists' do
-      expect(browser.file_field(index: 0).type).to eq 'file'
+      it "raises UnknownObjectException if the text field doesn't exist" do
+        expect { browser.file_field(index: 1337).type }.to raise_unknown_object_exception
+      end
     end
 
-    it "raises UnknownObjectException if the text field doesn't exist" do
-      expect { browser.file_field(index: 1337).type }.to raise_unknown_object_exception
-    end
-  end
-
-  describe '#respond_to?' do
-    it 'returns true for all attribute methods' do
-      expect(browser.file_field(index: 0)).to respond_to(:class_name)
-      expect(browser.file_field(index: 0)).to respond_to(:id)
-      expect(browser.file_field(index: 0)).to respond_to(:name)
-      expect(browser.file_field(index: 0)).to respond_to(:title)
-      expect(browser.file_field(index: 0)).to respond_to(:type)
-      expect(browser.file_field(index: 0)).to respond_to(:value)
-    end
-  end
-
-  # Manipulation methods
-
-  describe '#set' do
-    it 'is able to set a file path in the field and click the upload button and fire the onchange event' do
-      browser.goto WatirSpec.url_for('forms_with_input_elements.html')
-
-      element = browser.file_field(name: 'new_user_portrait')
-      element.upload __FILE__
-
-      expect(element.value).to include(File.basename(__FILE__)) # only some browser will return the full path
-      expect(messages.first).to include(File.basename(__FILE__))
-
-      browser.button(name: 'new_user_submit').click
+    describe '#respond_to?' do
+      it 'returns true for all attribute methods' do
+        expect(browser.file_field(index: 0)).to respond_to(:class_name)
+        expect(browser.file_field(index: 0)).to respond_to(:id)
+        expect(browser.file_field(index: 0)).to respond_to(:name)
+        expect(browser.file_field(index: 0)).to respond_to(:title)
+        expect(browser.file_field(index: 0)).to respond_to(:type)
+        expect(browser.file_field(index: 0)).to respond_to(:value)
+      end
     end
 
-    it 'raises an error if the file does not exist' do
-      expect {
-        browser.file_field.set(File.join(Dir.tmpdir, 'unlikely-to-exist'))
-      }.to raise_error(Errno::ENOENT)
+    # Manipulation methods
+
+    describe '#set' do
+      it 'is able to set a file path in the field and click the upload button and fire the onchange event' do
+        browser.goto WatirSpec.url_for('forms_with_input_elements.html')
+
+        element = browser.file_field(name: 'new_user_portrait')
+        element.upload __FILE__
+
+        expect(element.value).to include(File.basename(__FILE__)) # only some browser will return the full path
+        expect(messages.first).to include(File.basename(__FILE__))
+
+        browser.button(name: 'new_user_submit').click
+      end
+
+      it 'raises an error if the file does not exist' do
+        expect {
+          browser.file_field.set(File.join(Dir.tmpdir, 'unlikely-to-exist'))
+        }.to raise_error(Errno::ENOENT)
+      end
     end
-  end
 
-  describe '#value=', exclude: {browser: :ie} do
-    it 'is able to set a file path in the field and click the upload button and fire the onchange event' do
-      browser.goto WatirSpec.url_for('forms_with_input_elements.html')
+    describe '#value=', exclude: {browser: :ie} do
+      it 'is able to set a file path in the field and click the upload button and fire the onchange event' do
+        browser.goto WatirSpec.url_for('forms_with_input_elements.html')
 
-      path = File.expand_path(__FILE__)
-      element = browser.file_field(name: 'new_user_portrait')
+        path = File.expand_path(__FILE__)
+        element = browser.file_field(name: 'new_user_portrait')
 
-      element.value = path
-      expect(element.value).to include(File.basename(path)) # only some browser will return the full path
-    end
+        element.value = path
+        expect(element.value).to include(File.basename(path)) # only some browser will return the full path
+      end
 
-    it 'does not alter its argument' do
-      value = File.expand_path '.rubocop.yml'
-      browser.file_field.value = value
-      expect(value).to match(/\.rubocop\.yml$/)
+      it 'does not alter its argument' do
+        value = File.expand_path '.rubocop.yml'
+        browser.file_field.value = value
+        expect(value).to match(/\.rubocop\.yml$/)
+      end
     end
   end
 end
