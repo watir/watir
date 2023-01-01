@@ -317,27 +317,9 @@ module Watir
         browser.windows.wait_until(size: 2)
         browser.window(title: 'closeable window').use
         browser.a(id: 'close-delay').click
+        allow(browser).to receive(:title).and_invoke(-> { sleep(0.5) && browser.wd.title })
 
-        begin
-          module Watir
-            class Browser
-              alias title_old title
-
-              def title
-                sleep 0.5
-                title_old
-              end
-            end
-          end
-
-          expect { browser.window(title: 'closeable window').use }.to raise_no_matching_window_exception
-        ensure
-          module Watir
-            class Browser
-              alias title title_old
-            end
-          end
-        end
+        expect { browser.window(title: 'closeable window').use }.to raise_no_matching_window_exception
       end
     end
 
