@@ -13,16 +13,17 @@ module Watir
             it 'locates without using match' do
               @locator = {xpath: './/div'}
 
-              expect_one(*@locator.to_a.flatten).and_return(el)
-              expect(element_matcher).not_to receive(:match)
+              allow(driver).to receive(:find_element).and_return(el)
+              allow(element_matcher).to receive(:match)
 
               expect(locate_one).to eq el
+              expect(element_matcher).not_to have_received(:match)
             end
 
             it 'returns nil if not found' do
               @locator = {xpath: './/div'}
 
-              expect_one(*@locator.to_a.flatten).and_raise(Selenium::WebDriver::Error::NoSuchElementError)
+              allow(driver).to receive(:find_element).and_raise(Selenium::WebDriver::Error::NoSuchElementError)
               expect(locate_one).to be_nil
             end
           end
@@ -31,32 +32,34 @@ module Watir
             it 'locates using match' do
               @locator = {xpath: './/div', id: 'foo'}
 
-              expect_all(*@locator.to_a.first.flatten).and_return([el])
-              expect(element_matcher).to receive(:match).and_return(el)
+              allow(driver).to receive(:find_elements).and_return([el])
+              allow(element_matcher).to receive(:match).and_return(el)
 
               expect(locate_one).to eq el
+              expect(element_matcher).to have_received(:match).once
             end
 
             it 'relocates if element goes stale' do
               @locator = {xpath: './/div', id: 'foo'}
 
-              expect_all(*@locator.to_a.first.flatten).exactly(2).times.and_return([el])
+              allow(driver).to receive(:find_elements).and_return([el])
               stale_exception = Selenium::WebDriver::Error::StaleElementReferenceError
-              expect(element_matcher).to receive(:match).and_raise(stale_exception)
-              expect(element_matcher).to receive(:match).and_return(el)
+              allow(element_matcher).to receive(:match).and_invoke(proc { raise stale_exception }, proc { el })
 
               expect(locate_one).to eq el
+              expect(element_matcher).to have_received(:match).exactly(2).times
             end
 
             it 'Raises Exception if element continues to go stale' do
               @locator = {xpath: './/div', id: 'foo'}
 
-              expect_all(*@locator.to_a.first.flatten).exactly(3).times.and_return([el])
+              allow(driver).to receive(:find_elements).and_return([el])
               stale_exception = Selenium::WebDriver::Error::StaleElementReferenceError
-              expect(element_matcher).to receive(:match).and_raise(stale_exception).exactly(3).times
+              allow(element_matcher).to receive(:match).and_raise(stale_exception)
 
               msg = 'Unable to locate element from {:xpath=>".//div", :id=>"foo"} due to changing page'
               expect { locate_one }.to raise_exception Watir::Exception::LocatorException, msg
+              expect(element_matcher).to have_received(:match).exactly(3).times
             end
           end
         end
@@ -65,21 +68,23 @@ module Watir
           it 'locates using match' do
             @locator = {xpath: './/div', id: 'foo'}
 
-            expect_all(*@locator.to_a.first.flatten).and_return([el])
-            expect(element_matcher).to receive(:match).and_return([el])
+            allow(driver).to receive(:find_elements).and_return([el])
+            allow(element_matcher).to receive(:match).and_return([el])
 
             expect(locate_all).to eq [el]
+            expect(element_matcher).to have_received(:match).once
           end
 
           it 'raises LocatorException if element continues to go stale' do
             @locator = {xpath: './/div', id: 'foo'}
 
-            expect_all(*@locator.to_a.first.flatten).exactly(3).times.and_return([el])
+            allow(driver).to receive(:find_elements).and_return([el])
             stale_exception = Selenium::WebDriver::Error::StaleElementReferenceError
-            expect(element_matcher).to receive(:match).and_raise(stale_exception).exactly(3).times
+            allow(element_matcher).to receive(:match).and_raise(stale_exception)
 
             msg = 'Unable to locate element collection from {:xpath=>".//div", :id=>"foo"} due to changing page'
             expect { locate_all }.to raise_exception Watir::Exception::LocatorException, msg
+            expect(element_matcher).to have_received(:match).exactly(3).times
           end
 
           it 'raises Argument error if using index key' do

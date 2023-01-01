@@ -31,13 +31,15 @@ module Watir
           end
 
           it 'does not evaluate other parameters if value locator is not satisfied' do
-            elements = [wd_element(text: 'foo', attributes: {value: 'foo'}),
-                        wd_element(text: 'bar', attributes: {value: 'bar'}),
-                        wd_element(text: '', attributes: {value: 'foobar'})]
-            values_to_match = {value: 'nope', visible: true}
-            [0..2].each { |idx| expect(elements[idx]).not_to receive(:displayed?) }
+            elements = [wd_element(text: 'foo', attributes: {value: 'foo'}, displayed?: nil),
+                        wd_element(text: 'bar', attributes: {value: 'bar'}, displayed?: nil),
+                        wd_element(text: '', attributes: {value: 'foobar'}, displayed?: nil)]
 
+            values_to_match = {value: 'nope', visible: true}
             expect(matcher.match(elements, values_to_match, :all)).to eq []
+            expect(elements[0]).not_to have_received(:displayed?)
+            expect(elements[1]).not_to have_received(:displayed?)
+            expect(elements[2]).not_to have_received(:displayed?)
           end
 
           it 'does not calculate value if not passed in' do
@@ -45,12 +47,11 @@ module Watir
                         wd_element(displayed?: true, text: 'bar', attributes: {value: 'bar'})]
             values_to_match = {visible: false}
 
-            expect(elements[0]).not_to receive(:text)
-            expect(elements[0]).not_to receive(:text)
-            expect(elements[1]).not_to receive(:attribute)
-            expect(elements[1]).not_to receive(:attribute)
-
             expect(matcher.match(elements, values_to_match, :all)).to eq []
+            expect(elements[0]).not_to have_received(:text)
+            expect(elements[0]).not_to have_received(:text)
+            expect(elements[1]).not_to have_received(:attribute)
+            expect(elements[1]).not_to have_received(:attribute)
           end
 
           it 'returns empty array if element is not an input or button element' do

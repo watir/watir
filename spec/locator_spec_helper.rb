@@ -39,14 +39,6 @@ module LocatorSpecHelper
     Watir::Locators::Element::Locator.new(element_matcher)
   end
 
-  def expect_one(*args)
-    expect(driver).to receive(:find_element).with(*args)
-  end
-
-  def expect_all(*args)
-    expect(driver).to receive(:find_elements).with(*args)
-  end
-
   def locate_one(selector = nil)
     selector ||= @locator || {}
     locator.locate ordered_hash(selector)

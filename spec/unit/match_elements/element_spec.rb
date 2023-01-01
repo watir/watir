@@ -29,16 +29,14 @@ module Watir
                         element(watir_element: Watir::Label, wd: label_wds[1], for: 'bfoo_id'),
                         element(watir_element: Watir::Label, wd: label_wds[2], for: 'foo_id')]
 
-              # Only the Watir::Label matching the text provided will have wd called
-              expect(labels[0]).not_to receive(:for)
-              expect(labels[1]).not_to receive(:for)
-
               allow(query_scope).to receive(:labels).and_return(labels)
               allow_any_instance_of(Watir::Input).to receive(:wd).and_return(input_wds[2], input_wds[2])
 
               values_to_match = {label_element: 'foo'}
-
               expect(matcher.match(input_wds, values_to_match, :all)).to eq [input_wds[2]]
+              # Only the Watir::Label matching the text provided will have wd called
+              expect(labels[0]).not_to have_received(:for)
+              expect(labels[1]).not_to have_received(:for)
             end
 
             it 'returns elements without for / id pairs' do
@@ -60,15 +58,14 @@ module Watir
                         element(watir_element: Watir::Label, wd: label_wds[1], for: '', input: inputs[1]),
                         element(watir_element: Watir::Label, wd: label_wds[2], for: '', input: inputs[2])]
 
-              # Only the Watir::Label matching the text provided will have wd called
-              expect(labels[0]).not_to receive(:for)
-              expect(labels[1]).not_to receive(:for)
-
               allow(query_scope).to receive(:labels).and_return(labels)
 
               values_to_match = {label_element: 'foo'}
-
               expect(matcher.match(input_wds, values_to_match, :all)).to eq [input_wds[2]]
+
+              # Only the Watir::Label matching the text provided will have wd called
+              expect(labels[0]).not_to have_received(:for)
+              expect(labels[1]).not_to have_received(:for)
             end
 
             it 'returns elements with multiple matching label text but first missing corresponding element' do

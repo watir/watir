@@ -310,12 +310,13 @@ module Watir
 
       it 'takes a driver instance as argument' do
         mock_driver = double(Selenium::WebDriver::Driver)
-        expect(Selenium::WebDriver::Driver).to receive(:===).with(mock_driver).and_return(true)
+        allow(Selenium::WebDriver::Driver).to receive(:===).and_return(true)
         expect { described_class.new(mock_driver) }.not_to raise_error
+        expect(Selenium::WebDriver::Driver).to have_received(:===).with(mock_driver)
       end
 
       it 'raises ArgumentError for invalid args' do
-        expect { described_class.new(Object.new) }.to raise_error(ArgumentError)
+        expect { described_class.new(Struct.new) }.to raise_error(ArgumentError)
       end
     end
 
@@ -492,8 +493,9 @@ module Watir
 
     describe '#ready_state' do
       it "gets the document's readyState property" do
-        expect(browser).to receive(:execute_script).with('return document.readyState')
+        allow(browser).to receive(:execute_script)
         browser.ready_state
+        expect(browser).to have_received(:execute_script).with('return document.readyState')
       end
     end
 
@@ -524,8 +526,9 @@ module Watir
 
     describe '#inspect' do
       it 'works even if browser is closed' do
-        expect(browser).to receive(:url).and_raise(Errno::ECONNREFUSED)
+        allow(browser).to receive(:url).and_raise(Errno::ECONNREFUSED)
         expect { browser.inspect }.not_to raise_error
+        expect(browser).to have_received(:url).once
       end
     end
 

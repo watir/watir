@@ -37,8 +37,9 @@ module Watir
 
       it 'uses timer for waiting' do
         timer = described_class.timer
-        expect(timer).to receive(:wait).with(0.5).and_call_original
+        allow(timer).to receive(:wait).and_call_original
         described_class.until(timeout: 0.5) { true }
+        expect(timer).to have_received(:wait).with(0.5)
       end
     end
 
@@ -73,8 +74,9 @@ module Watir
 
       it 'uses timer for waiting' do
         timer = described_class.timer
-        expect(timer).to receive(:wait).with(0.5).and_call_original
+        allow(timer).to receive(:wait).and_call_original
         described_class.while(timeout: 0.5) { false }
+        expect(timer).to have_received(:wait).with(0.5)
       end
     end
 

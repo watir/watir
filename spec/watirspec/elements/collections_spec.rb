@@ -56,22 +56,25 @@ module Watir
     it 'locates elements' do
       browser.goto(WatirSpec.url_for('collections.html'))
       spans = browser.span(id: 'a_span').spans
-      expect(spans).to receive(:elements).and_return([])
+      allow(spans).to receive(:elements).and_return([])
       expect(spans.locate).to be_a SpanCollection
+      expect(spans).to have_received(:elements).once
     end
 
     it 'lazy loads collections referenced with #[]' do
       browser.goto(WatirSpec.url_for('collections.html'))
-      expect(browser.wd).not_to receive(:find_elements)
+      allow(browser.wd).to receive(:find_elements)
       browser.spans[3]
+      expect(browser.wd).not_to have_received(:find_elements)
     end
 
     it 'does not relocate collections when previously evaluated' do
       browser.goto(WatirSpec.url_for('collections.html'))
       elements = browser.spans.tap(&:to_a)
 
-      expect(browser.wd).not_to receive(:find_elements)
+      allow(browser.wd).to receive(:find_elements)
       elements[1].id
+      expect(browser.wd).not_to have_received(:find_elements)
     end
 
     it 'relocates cached elements that go stale' do
@@ -103,8 +106,9 @@ module Watir
       browser.goto(WatirSpec.url_for('collections.html'))
       collection = browser.span(id: 'a_span').spans
 
-      expect(browser.wd).not_to receive(:execute_script)
+      allow(browser.wd).to receive(:execute_script)
       collection.locate
+      expect(browser.wd).not_to have_received(:execute_script)
     end
 
     it 'returns correct containers without specifying tag_name' do
@@ -118,10 +122,11 @@ module Watir
       browser.goto(WatirSpec.url_for('collections.html'))
 
       stale_exception = Selenium::WebDriver::Error::StaleElementReferenceError
-      expect(browser.wd).to receive(:execute_script).and_raise(stale_exception).exactly(3).times
+      allow(browser.wd).to receive(:execute_script).and_raise(stale_exception)
 
       msg = 'Unable to locate element collection from {:xpath=>".//span"} due to changing page'
       expect { browser.span.elements(xpath: './/span').to_a }.to raise_exception Exception::LocatorException, msg
+      expect(browser.wd).to have_received(:execute_script).exactly(3).times
     end
   end
 end
