@@ -6,24 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 3
-RSpec/AnyInstance:
-  Exclude:
-    - 'spec/unit/match_elements/element_spec.rb'
-    - 'spec/watirspec/elements/collections_spec.rb'
-
-# Offense count: 6
-RSpec/BeforeAfterAll:
-  Exclude:
-    - 'spec/spec_helper.rb'
-    - 'spec/rails_helper.rb'
-    - 'spec/support/**/*.rb'
-    - 'spec/unit/capabilities_spec.rb'
-    - 'spec/watirspec/adjacent_spec.rb'
-    - 'spec/watirspec/browser_spec.rb'
-    - 'spec/watirspec/capabilities_spec.rb'
-    - 'spec/watirspec/window_switching_spec.rb'
-
 # Offense count: 30
 # Configuration parameters: Prefixes, AllowedPatterns.
 # Prefixes: when, with, without
@@ -58,11 +40,6 @@ RSpec/DescribeClass:
     - 'spec/watirspec/elements/hn_spec.rb'
     - 'spec/watirspec/elements/hns_spec.rb'
 
-# Offense count: 274
-# Configuration parameters: CountAsOne.
-RSpec/ExampleLength:
-  Max: 23
-
 # Offense count: 18
 # Configuration parameters: Include, CustomTransform, IgnoreMethods, SpecSuffixOnly.
 # Include: **/*_spec*rb*, **/spec/**/*
@@ -95,27 +72,6 @@ RSpec/LeakyConstantDeclaration:
 # SupportedStyles: have_received, receive
 RSpec/MessageSpies:
   EnforcedStyle: receive
-
-# Offense count: 3
-RSpec/MultipleDescribes:
-  Exclude:
-    - 'spec/watirspec/elements/iframe_spec.rb'
-    - 'spec/watirspec/wait_spec.rb'
-    - 'spec/watirspec/window_switching_spec.rb'
-
-# Offense count: 588
-RSpec/MultipleExpectations:
-  Max: 19
-
-# Offense count: 12
-# Configuration parameters: AllowSubject.
-RSpec/MultipleMemoizedHelpers:
-  Max: 9
-
-# Offense count: 17
-# Configuration parameters: AllowedGroups.
-RSpec/NestedGroups:
-  Max: 4
 
 # Offense count: 9
 # Configuration parameters: AllowedPatterns.

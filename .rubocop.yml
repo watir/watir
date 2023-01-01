@@ -71,6 +71,22 @@ Metrics/PerceivedComplexity:
 Performance/CollectionLiteralInLoop:
   MinSize: 3
 
+RSpec/AnyInstance:
+  Enabled: false
+
+RSpec/BeforeAfterAll:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Exclude:
+    - 'spec/watirspec/capabilities_spec.rb'
+
 Style/BlockDelimiters:
   EnforcedStyle: braces_for_chaining
 
