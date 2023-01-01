@@ -28,16 +28,17 @@ describe 'CheckBox' do
       expect(browser.checkbox(xpath: "//input[@id='new_user_interests_books']")).to exist
     end
 
-    # TODO: More of this for text & labels somewhere central
-    it 'handles text_regexp deprecations for label locators' do
-      expect(browser.checkbox(label: /some visible/)).to exist
-      expect(browser.checkbox(label: /some (visible|Jeff)/)).to exist
-      expect(browser.checkbox(label: /none visible/)).to exist
-      expect(browser.checkbox(label: /this will not match/)).not_to exist
-    end
+    context 'when some text hidden' do
+      it 'locates matching hidden text' do
+        expect(browser.checkbox(label: /some visible/)).to exist
+        expect(browser.checkbox(label: /some (visible|Jeff)/)).to exist
+        expect(browser.checkbox(label: /none visible/)).to exist
+        expect(browser.checkbox(label: /some visible some hidden/)).to exist
+      end
 
-    it 'handles text_regexp deprecation in spite of hidden text' do
-      expect(browser.checkbox(label: /some visible some hidden/)).to exist
+      it 'does not locate when matches without hidden text' do
+        expect(browser.checkbox(label: /some visible$/)).not_to exist
+      end
     end
 
     it 'returns true if the checkbox button exists (search by name and value)' do

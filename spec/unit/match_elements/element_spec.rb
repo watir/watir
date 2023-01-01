@@ -382,48 +382,39 @@ describe Watir::Locators::Element::Matcher do
       end
     end
 
-    # TODO: These should have the same tests for label locators, but the mocking is more complex
-    # See equivalent tests in checkbox_spec
-    context 'text_regexp deprecations' do
-      let(:filter) { :first }
+    context 'when matching text Regexp' do
       let(:elements) { [wd_element, wd_element] }
 
-      it 'not thrown when still matched by text content' do
-        @values_to_match = {text: /some visible/}
-        allow(browser).to receive(:execute_script).and_return('all visible', 'some visible')
+      before { allow(browser).to receive(:execute_script).and_return('all visible', 'some visible') }
 
-        expect(matcher.match(elements, values_to_match, filter)).to eq elements[1]
+      it 'not thrown when still matched by text content' do
+        values_to_match = {text: /some visible/}
+
+        expect(matcher.match(elements, values_to_match, :first)).to eq elements[1]
       end
 
       it 'not thrown with complex regexp matched by text content' do
-        @values_to_match = {text: /some (in|)visible/}
-        allow(browser).to receive(:execute_script).and_return('all visible', 'some visible')
+        values_to_match = {text: /some (in|)visible/}
 
-        expect(matcher.match(elements, values_to_match, filter)).to eq elements[1]
+        expect(matcher.match(elements, values_to_match, :first)).to eq elements[1]
       end
 
       it 'thrown when no longer matched by text content' do
-        @values_to_match = {text: /some visible$/}
-        allow(browser).to receive(:execute_script).and_return('all visible', 'some visible')
-        allow(browser).to receive(:timer).and_return(Watir::Wait::Timer.new)
-        allow(browser).to receive(:timer=).and_return(Watir::Wait::Timer.new)
+        values_to_match = {text: /some visible$/}
 
-        expect(matcher.match(elements, values_to_match, filter)).to eq elements[1]
+        expect(matcher.match(elements, values_to_match, :first)).to eq elements[1]
       end
 
       it 'not thrown when element does not exist' do
-        @values_to_match = {text: /definitely not there/}
-        allow(browser).to receive(:execute_script).and_return('all visible', 'some visible')
+        values_to_match = {text: /definitely not there/}
 
-        expect(matcher.match(elements, values_to_match, filter)).to be_nil
+        expect(matcher.match(elements, values_to_match, :first)).to be_nil
       end
 
-      # NOTE: This will work after:text_regexp deprecation removed
       it 'keeps element from being located' do
-        @values_to_match = {text: /some visible some hidden/}
-        allow(browser).to receive(:execute_script).and_return('all visible', 'some visible')
+        values_to_match = {text: /some visible some hidden/}
 
-        expect(matcher.match(elements, values_to_match, filter)).to be_nil
+        expect(matcher.match(elements, values_to_match, :first)).to be_nil
       end
     end
   end
