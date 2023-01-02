@@ -1,4 +1,9 @@
-### 7.2.0 (2022-12-22)
+### 7.2.1 (2023-01-02)
+
+* Fix bug for building locators with JRuby
+* Fix bug for inferring internet explorer browser name from options
+
+### 7.2.0 (2022-12-24)
 
 * Implement Shadow DOM support (#953)
 * Implement existing `Scroll#by` with Selenium Actions Class instead of JavaScript
