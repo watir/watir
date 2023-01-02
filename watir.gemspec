@@ -32,7 +32,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'activesupport', '~> 4.0', '>= 4.1.11' # for pluralization during code generation
   s.add_development_dependency 'coveralls_reborn'
-  s.add_development_dependency 'nokogiri'
+  s.add_development_dependency 'nokogiri', '>= 1.14.0.rc1'
   s.add_development_dependency 'pry', '~> 0.14'
   s.add_development_dependency 'rake', '>= 12.3.3'
   s.add_development_dependency 'rspec', '~> 3.0'
