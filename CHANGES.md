@@ -1,3 +1,7 @@
+### 7.2.2 (2023-01-03)
+
+* Fix bug with processing vendor name-spaced capabilities
+
 ### 7.2.1 (2023-01-02)
 
 * Fix bug for building locators with JRuby
