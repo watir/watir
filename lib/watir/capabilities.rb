@@ -89,9 +89,6 @@ module Watir
       process_proxy_options(options)
       browser_specific_options(options)
 
-      vendor_opts = process_vendor_options(browser_options)
-      vendor_opts.each { |opts| options.add_option(opts) }
-
       options
     end
 

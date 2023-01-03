@@ -83,6 +83,13 @@ module Watir
         end
 
         describe 'capabilities' do
+          it 'accepts namespaced value' do
+            options = {'key:value' => 'something'}
+            @browser = described_class.new(browser_symbol, options: options)
+
+            expect(generated_options.instance_variable_get(:@options)['key:value']).to eq 'something'
+          end
+
           it 'just options object has options and watir client without capabilities or service' do
             @browser = described_class.new(options: Options.send(browser_symbol))
 
