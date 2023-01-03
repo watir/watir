@@ -105,13 +105,6 @@ module Watir
       options.proxy = proxy
     end
 
-    def process_vendor_options(opts)
-      return [] unless opts.is_a? Hash
-
-      vendor = opts.select { |key, _val| key.to_s.include?(':') && opts.delete(key) }
-      vendor.map { |k, v| Selenium::WebDriver::Remote::Capabilities.new(k => v) }
-    end
-
     def convert_timeouts(browser_options)
       browser_options[:timeouts] ||= {}
       browser_options[:timeouts].each_key do |key|
