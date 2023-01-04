@@ -132,7 +132,7 @@ module Watir
           options.args << '--no-sandbox'
         end
       when :firefox
-        options.headless! if @options.delete(:headless)
+        options.args << '-headless' if @options.delete(:headless)
       when :safari
         Selenium::WebDriver::Safari.technology_preview! if @options.delete(:technology_preview)
       end
