@@ -43,16 +43,19 @@ module Watir
     # Adds new cookie.
     #
     # @example
-    #   browser.cookies.add 'my_session', 'BAh7B0kiD3Nlc3Npb25faWQGOgZFRkk', secure: true
+    #   browser.cookies.add 'my_session', 'BAh7B0kiD3Nlc3Npb25faWQGOgZFRkk', secure: true, http_only: true
     #
     # @param [String] name
     # @param [String] value
     # @param [Hash] opts
     # @option opts [Boolean] :secure
+    # @option opts [Boolean] :http_only
     # @option opts [String] :path
+    # @option opts [String] :same_site
     # @option opts [Time, DateTime, NilClass] :expires
     # @option opts [String] :domain
     #
+    # @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie
 
     def add(name, value, opts = {})
       cookie = {
@@ -60,7 +63,9 @@ module Watir
         value: value
       }
       cookie[:secure] = opts[:secure] if opts.key?(:secure)
+      cookie[:http_only] = opts[:http_only] if opts.key?(:http_only)
       cookie[:path] = opts[:path] if opts.key?(:path)
+      cookie[:same_site] = opts[:same_site] if opts.key?(:same_site)
       expires = opts[:expires]
       if expires
         cookie[:expires] = expires.is_a?(String) ? ::Time.parse(expires) : expires

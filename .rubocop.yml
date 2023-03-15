@@ -19,7 +19,7 @@ Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
 
 Metrics/AbcSize:
-  Max: 22
+  Max: 23
   Exclude:
     - 'lib/watir/locators/element/selector_builder.rb'
     - 'lib/watir/locators/element/selector_builder/*.rb'
