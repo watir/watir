@@ -124,12 +124,31 @@ module Watir
 
     # Manipulation methods
     describe '#value=' do
-      it 'sets the value of the element' do
+      it 'sets the value of the element to a Time' do
         date_time = ::Time.now
         date_time_field = browser.date_time_field(id: 'html5_datetime-local')
         date_time_field.value = date_time
         expect(::Time.parse(date_time_field.value).strftime('%Y-%m-%dT%H:%M'))
           .to eq date_time.strftime('%Y-%m-%dT%H:%M')
+      end
+
+      it 'sets the value of the element to a DateTime' do
+        date_time = DateTime.now
+        date_time_field = browser.date_time_field(id: 'html5_datetime-local')
+        date_time_field.value = date_time
+        expect(::Time.parse(date_time_field.value).strftime('%Y-%m-%dT%H:%M'))
+          .to eq date_time.strftime('%Y-%m-%dT%H:%M')
+      end
+
+      it 'sets the value of the element to an arbitrary class that responds to #strftime' do
+        date_time = ::Object.new
+        def date_time.strftime(_)
+          '2022-10-11T12:13'
+        end
+
+        date_time_field = browser.date_time_field(id: 'html5_datetime-local')
+        date_time_field.value = date_time
+        expect(date_time_field.value).to eq '2022-10-11T12:13'
       end
 
       it 'sets the value when accessed through the enclosing Form' do

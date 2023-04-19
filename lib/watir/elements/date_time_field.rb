@@ -9,8 +9,8 @@ module Watir
     def set!(date)
       date = ::Time.parse date if date.is_a?(String)
 
-      message = "DateTimeField##{__callee__} only accepts instances of DateTime or Time"
-      raise ArgumentError, message unless [DateTime, ::Time].include?(date.class)
+      message = "DateTimeField##{__callee__} only accepts instances that respond to #strftime"
+      raise ArgumentError, message unless date.respond_to?(:strftime)
 
       date_time_string = date.strftime('%Y-%m-%dT%H:%M')
       element_call(:wait_for_writable) do
