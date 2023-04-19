@@ -21,7 +21,7 @@ module Watir
     let(:browser_symbol) { WatirSpec.implementation.browser_args.first }
     let(:actual_capabilities) { @browser.wd.capabilities }
     let(:actual_http) { @browser.wd.instance_variable_get(:@bridge).instance_variable_get(:@http) }
-    let(:actual_service) { @browser.wd.instance_variable_get(:@service) }
+    let(:actual_service) { @browser.wd.instance_variable_get(:@service_manager) }
     let(:actual_listener) { @browser.wd.instance_variable_get(:@bridge).instance_variable_get(:@listener) }
 
     before(:all) do
