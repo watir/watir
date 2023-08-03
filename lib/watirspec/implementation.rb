@@ -39,7 +39,7 @@ module WatirSpec
     end
 
     def inspect_args
-      selenium_opts = browser_args.last
+      selenium_opts = browser_args.last.dup
 
       options = selenium_opts.delete(:options)
       args = ["#{browser_args.first} tests:\n"]

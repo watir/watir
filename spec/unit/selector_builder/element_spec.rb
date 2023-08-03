@@ -666,8 +666,7 @@ module Watir
             let(:scope_built) { {xpath: ".//*[local-name()='div'][@id='table-rows-test']"} }
 
             before do
-              allow(query_scope).to receive(:selector_builder).and_return(selector_builder)
-              allow(query_scope).to receive(:browser).and_return(browser)
+              allow(query_scope).to receive_messages(selector_builder: selector_builder, browser: browser)
               allow(selector_builder).to receive(:built).and_return(scope_built)
             end
 
@@ -742,8 +741,7 @@ module Watir
               selector_builder = described_class.new(attributes, query_scope)
 
               allow(selector_builder).to receive(:built).and_return(scope_built)
-              allow(query_scope).to receive(:selector_builder).and_return(selector_builder)
-              allow(query_scope).to receive(:browser).and_return(browser)
+              allow(query_scope).to receive_messages(selector_builder: selector_builder, browser: browser)
               allow(query_scope).to receive(:is_a?).with(Watir::Browser).and_return(false)
               allow(query_scope).to receive(:is_a?).with(Watir::ShadowRoot).and_return(false)
               allow(query_scope).to receive(:is_a?).with(Watir::IFrame).and_return(true)

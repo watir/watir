@@ -7,7 +7,7 @@ module Watir
         include Exception
         attr_reader :custom_attributes, :built
 
-        WILDCARD_ATTRIBUTE = /^(aria|data)_(.+)$/.freeze
+        WILDCARD_ATTRIBUTE = /^(aria|data)_(.+)$/
         VALID_WHATS = Hash.new([String, Regexp, TrueClass, FalseClass]).merge(adjacent: [::Symbol],
                                                                               xpath: [String],
                                                                               css: [String],

@@ -21,7 +21,7 @@ module Watir
               values_to_match[:text] = values_to_match.delete(key)
             end
           else
-            return
+            return false
           end
 
           super

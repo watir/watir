@@ -39,7 +39,7 @@ module Watir
         end
       end
 
-      describe 'locating', except: {browser: :firefox, reason: 'location not supported yet'} do
+      describe 'locating' do
         it 'locates a nested element' do
           shadow_root = browser.div(id: 'shadow_host').shadow_root
           expect(shadow_root.element.id).to eq('shadow_content')

@@ -6,11 +6,14 @@ require:
   - rubocop-rspec
 
 AllCops:
-  TargetRubyVersion: 2.7
+  TargetRubyVersion: 3.0
   NewCops: enable
   Exclude:
     - 'lib/watir/elements/html_elements.rb'
     - 'lib/watir/elements/svg_elements.rb'
+
+Gemspec/DevelopmentDependencies:
+  Enabled: false
 
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
@@ -72,6 +75,9 @@ RSpec/BeforeAfterAll:
 RSpec/ExampleLength:
   Enabled: false
 
+RSpec/IndexedLet:
+  Enabled: false
+
 RSpec/MultipleExpectations:
   Enabled: false
 
@@ -82,6 +88,9 @@ RSpec/MultipleMemoizedHelpers:
 RSpec/NoExpectationExample:
   Exclude:
     - 'spec/watirspec/cookies_spec.rb'
+
+Style/ArgumentsForwarding:
+  Enabled: false
 
 Style/BlockDelimiters:
   EnforcedStyle: braces_for_chaining

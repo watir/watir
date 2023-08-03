@@ -13,7 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        ruby: [ 2.7, 3.2 ]
+        ruby: [ 3.0, 3.2 ]
     steps:
       - name: Checkout source tree
         uses: actions/checkout@v2
