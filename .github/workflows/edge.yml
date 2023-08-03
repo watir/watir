@@ -32,5 +32,13 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
       - name: Install gems
         run: bundle install
+      - name: Remove driver directories Windows
+        if: matrix.os == 'windows-latest'
+        run: |
+          rm "$env:EdgeWebDriver" -r -v
+      - name: Remove driver directories Non-Windows
+        if: matrix.os != 'windows-latest'
+        run: |
+          sudo rm -rf $EDGEWEBDRIVER
       - name: Run tests
-        run: bundle exec rake spec:chrome
+        run: bundle exec rake spec:edge

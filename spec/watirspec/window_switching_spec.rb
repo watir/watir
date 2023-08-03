@@ -475,7 +475,7 @@ module Watir
 
         browser.window.minimize
 
-        browser.wait_until { |b| b.execute_script('return document.visibilityState;') != 'visible' }
+        browser.wait_until { |b| !%w[visible normal].include?(b.execute_script('return document.visibilityState;')) }
 
         expect(browser.execute_script('return document.visibilityState;')).to eq 'hidden'
         browser.window.maximize

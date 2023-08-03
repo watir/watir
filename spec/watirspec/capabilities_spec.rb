@@ -111,18 +111,6 @@ module Watir
             expect(actual_http).to eq client
           end
 
-          it 'just capabilities has capabilities and watir client without service' do
-            caps = Remote::Capabilities.new(browser_name: browser_name)
-
-            expect {
-              @browser = described_class.new(capabilities: caps)
-            }.to have_deprecated(:capabilities)
-
-            expect(selenium_args[:capabilities]).to eq(caps)
-            expect(selenium_args).not_to include(:service)
-            expect(actual_http).to be_a HttpClient
-          end
-
           it 'accepts page load and script timeouts in seconds' do
             options = {page_load_timeout: 11,
                        script_timeout: 12}
