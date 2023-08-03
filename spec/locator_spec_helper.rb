@@ -3,9 +3,8 @@
 module LocatorSpecHelper
   def browser
     @browser ||= instance_double(Watir::Browser, wd: driver)
-    allow(@browser).to receive(:browser).and_return(@browser)
+    allow(@browser).to receive_messages(browser: @browser, locator_namespace: @locator_namespace || Watir::Locators)
     allow(@browser).to receive(:is_a?).with(Watir::Browser).and_return(true)
-    allow(@browser).to receive(:locator_namespace).and_return(@locator_namespace || Watir::Locators)
     @browser
   end
 
@@ -30,8 +29,7 @@ module LocatorSpecHelper
 
   def element_matcher
     @element_matcher ||= instance_double(Watir::Locators::Element::Matcher)
-    allow(@element_matcher).to receive(:query_scope).and_return(browser)
-    allow(@element_matcher).to receive(:selector).and_return(@locator || {})
+    allow(@element_matcher).to receive_messages(query_scope: browser, selector: @locator || {})
     @element_matcher
   end
 
@@ -59,10 +57,8 @@ module LocatorSpecHelper
     klass = opts.delete(:watir_element) || Watir::HTMLElement
     el = instance_double(klass, opts)
 
-    allow(el).to receive(:enabled?).and_return true
-    allow(el).to receive(:selector_builder).and_return(selector_builder)
+    allow(el).to receive_messages(enabled?: true, selector_builder: selector_builder, selector: @selector || {})
     allow(el).to receive(:wd).and_return wd_element unless opts.key?(:wd)
-    allow(el).to receive(:selector).and_return(@selector || {})
     el
   end
 

@@ -353,7 +353,7 @@ module Watir
 
       it 'updates the page when location is changed with setTimeout + window.location' do
         browser.goto(WatirSpec.url_for('timeout_window_location.html'))
-        browser.wait_while { |b| b.url.include? 'timeout_window_location.html' }
+        browser.wait_while { |b| b.url.match?(/timeout_window_location|blank/) }
         expect(browser.url).to include('non_control_elements.html')
       end
     end
@@ -387,7 +387,7 @@ module Watir
 
       it 'returns correct Ruby objects' do
         expect(browser.execute_script('return {a: 1, "b": 2}')).to eq({'a' => 1, 'b' => 2})
-        expect(browser.execute_script('return [1, 2, "3"]')).to match_array([1, 2, '3'])
+        expect(browser.execute_script('return [1, 2, "3"]')).to contain_exactly(1, 2, '3')
         expect(browser.execute_script('return 1.2 + 1.3')).to eq 2.5
         expect(browser.execute_script('return 2 + 2')).to eq 4
         expect(browser.execute_script('return "hello"')).to eq 'hello'
@@ -424,7 +424,9 @@ module Watir
         expect(hash['element']).to be_a(Watir::Body)
       end
 
-      it 'wraps elements in a deep object' do
+      it 'wraps elements in a deep object',
+         except: {browser: %i[chrome edge],
+                  reason: 'https://bugs.chromium.org/p/chromedriver/issues/detail?id=4536'} do
         hash = browser.execute_script('return {elements: [document.body], body: {element: document.body }}')
 
         expect(hash['elements'].first).to be_a(Watir::Body)

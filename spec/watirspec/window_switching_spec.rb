@@ -146,6 +146,7 @@ module Watir
         browser.goto WatirSpec.url_for('window_switching.html')
         browser.a(id: 'open').click
         browser.windows.wait_until(size: 2)
+        browser.wait_until { |b| !b.window(title: 'about:blank').exist? }
       end
 
       it 'allows actions on first window after opening second',

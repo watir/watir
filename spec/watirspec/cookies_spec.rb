@@ -145,7 +145,7 @@ module Watir
           browser.cookies.clear
           browser.cookies.load file
           expected = browser.cookies.to_a
-          actual = YAML.safe_load(File.read(file), permitted_classes: [::Symbol])
+          actual = YAML.safe_load_file(file, permitted_classes: [::Symbol])
 
           expected.each { |cookie| cookie.delete(:expires) }
           actual.each { |cookie| cookie.delete(:expires) }

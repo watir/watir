@@ -8,7 +8,7 @@ require 'watir/version'
 Gem::Specification.new do |s|
   s.name = 'watir'
   s.version = Watir::VERSION
-  s.required_ruby_version = '>= 2.7.0'
+  s.required_ruby_version = '>= 3.0.0'
 
   s.platform = Gem::Platform::RUBY
   s.authors = ['Alex Rodionov', 'Titus Fortner', 'Justin Ko']

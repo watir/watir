@@ -117,7 +117,7 @@ module Watir
     #
 
     def load(file = '.cookies')
-      YAML.safe_load(File.read(file), permitted_classes: [::Symbol, ::Time]).each do |c|
+      YAML.safe_load_file(file, permitted_classes: [::Symbol, ::Time]).each do |c|
         add(c.delete(:name), c.delete(:value), c)
       end
     end

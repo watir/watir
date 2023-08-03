@@ -114,9 +114,9 @@ module Watir
     def parse_select_args(str_or_rx, text, value, label)
       selectors = {}
       selectors[:any] = str_or_rx unless str_or_rx.empty?
-      selectors[:text] = Array[text] if text
-      selectors[:value] = Array[value] if value
-      selectors[:label] = Array[label] if label
+      selectors[:text] = [text] if text
+      selectors[:value] = [value] if value
+      selectors[:label] = [label] if label
 
       raise ArgumentError, "too many arguments used for Select#select: #{selectors}" if selectors.size > 1
 

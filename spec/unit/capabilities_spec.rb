@@ -31,8 +31,7 @@ module Watir
 
     def halt_service(browser)
       allow(Selenium::WebDriver::Platform).to receive(:find_binary).and_return(true)
-      allow(File).to receive(:file?).and_return(true)
-      allow(File).to receive(:executable?).and_return(true)
+      allow(File).to receive_messages(file?: true, executable?: true)
       service_class(browser).driver_path = nil
     end
 
