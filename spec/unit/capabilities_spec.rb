@@ -74,7 +74,7 @@ module Watir
       end
 
       it 'just capabilities has client & capabilities but not service' do
-        caps = Selenium::WebDriver::Remote::Capabilities.send(browser_symbol)
+        caps = Selenium::WebDriver::Remote::Capabilities.new(browser_name: expected_browser(browser_symbol))
         capabilities = described_class.new(capabilities: caps)
         args = []
         expect {
@@ -109,7 +109,7 @@ module Watir
           actual_service = args.last[:service]
           expect(actual_service.instance_variable_get(:@port)).to eq 1234
           expect(actual_service.instance_variable_get(:@executable_path)).to eq '/path/to/driver'
-          expect(actual_service.instance_variable_get(:@extra_args)).to include '--foo', '--bar'
+          expect(actual_service.instance_variable_get(:@args)).to include '--foo', '--bar'
         end
 
         it 'is a bad argument to service' do
@@ -158,7 +158,7 @@ module Watir
       end
 
       it 'accepts both capabilities and Options' do
-        caps = Selenium::WebDriver::Remote::Capabilities.send(browser_symbol)
+        caps = Selenium::WebDriver::Remote::Capabilities.new(browser_name: expected_browser(browser_symbol))
         opts = options_class(browser_symbol).new
 
         expect {
@@ -391,7 +391,7 @@ module Watir
       it 'accepts capabilities object' do
         caps = described_class.new(:chrome,
                                    url: 'https://example.com/wd/hub',
-                                   capabilities: Selenium::WebDriver::Remote::Capabilities.chrome)
+                                   capabilities: Selenium::WebDriver::Remote::Capabilities.new(browser_name: 'chrome'))
         args = []
         expect {
           args = caps.to_args
@@ -407,7 +407,7 @@ module Watir
         client = HttpClient.new
         caps = described_class.new(:chrome,
                                    url: 'https://example.com/wd/hub',
-                                   capabilities: Selenium::WebDriver::Remote::Capabilities.chrome,
+                                   capabilities: Selenium::WebDriver::Remote::Capabilities.new(browser_name: 'chrome'),
                                    http_client: client)
         args = []
         expect {
@@ -450,7 +450,7 @@ module Watir
         expect {
           described_class.new(:chrome,
                               url: 'https://example.com/wd/hub',
-                              capabilities: Selenium::WebDriver::Remote::Capabilities.chrome,
+                              capabilities: Selenium::WebDriver::Remote::Capabilities.new(browser_name: 'chrome'),
                               options: options)
         }.to raise_exception(ArgumentError, ':capabilities and :options are not both allowed')
       end

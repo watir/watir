@@ -21,7 +21,7 @@ module Watir
     let(:browser_symbol) { WatirSpec.implementation.browser_args.first }
     let(:actual_capabilities) { @browser.wd.capabilities }
     let(:actual_http) { @browser.wd.instance_variable_get(:@bridge).instance_variable_get(:@http) }
-    let(:actual_service) { @browser.wd.instance_variable_get(:@service) }
+    let(:actual_service) { @browser.wd.instance_variable_get(:@service_manager) }
     let(:actual_listener) { @browser.wd.instance_variable_get(:@bridge).instance_variable_get(:@listener) }
 
     before(:all) do
@@ -108,18 +108,6 @@ module Watir
             expect(selenium_args[:service]).to eq service
             expect(actual_capabilities.unhandled_prompt_behavior).to eq 'accept and notify'
             expect(actual_http).to eq client
-          end
-
-          it 'just capabilities has capabilities and watir client without service' do
-            caps = Remote::Capabilities.new(browser_name: browser_name)
-
-            expect {
-              @browser = described_class.new(capabilities: caps)
-            }.to have_deprecated(:capabilities)
-
-            expect(selenium_args[:capabilities]).to eq(caps)
-            expect(selenium_args).not_to include(:service)
-            expect(actual_http).to be_a HttpClient
           end
 
           it 'accepts page load and script timeouts in seconds' do
