@@ -1,3 +1,10 @@
+### 7.3.0 (2023-08-04)
+
+* Fix implementation of headless to work with Selenium 4.11
+* Remove support for Ruby 2.7
+* `DateField` and `DateTimeField` accept inputs that behave like Date (#969)
+* Add support for `http_only` and `same_site` cookie values (thanks Alexandre ZANNI #968)
+
 ### 7.2.2 (2023-01-03)
 
 * Fix bug with processing vendor name-spaced capabilities
