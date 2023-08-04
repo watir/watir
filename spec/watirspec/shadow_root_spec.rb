@@ -86,7 +86,7 @@ module Watir
           shadow_root = browser.div(id: 'shadow_host').shadow_root
           shadow_root.link.click!
 
-          browser.wait_while(url: /shadow_dom\.html$/)
+          browser.wait_while(url: /shadow_dom|blank/)
           expect(browser.url).to include('scroll.html')
         end
 
