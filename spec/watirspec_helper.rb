@@ -75,7 +75,7 @@ class LocalConfig
   end
 
   def edge_args
-    opts = {options: {browser_version: '115', args: ['--disable-translate']}}
+    opts = {options: {args: ['--disable-translate']}}
     opts[:headless] = true if ENV['HEADLESS']
     opts[:options][:binary] = ENV['EDGE_BINARY'] if ENV['EDGE_BINARY']
     opts
