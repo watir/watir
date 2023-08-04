@@ -80,6 +80,33 @@ module Watir
       expect(cookie[:path]).to eq '/set_cookie'
     end
 
+    it 'adds a cookie with samesite value' do
+      browser.goto WatirSpec.url_for 'index.html'
+
+      options = {same_site: 'Strict'}
+      browser.cookies.add 'samesite', 'strict', options
+
+      cookie = browser.cookies.to_a.find { |e| e[:name] == 'samesite' }
+
+      expect(cookie[:name]).to eq 'samesite'
+      expect(cookie[:value]).to eq 'strict'
+      expect(cookie[:same_site]).to eq 'Strict'
+    end
+
+    it 'adds a cookie with httponly value' do
+      browser.goto WatirSpec.url_for 'index.html'
+
+      options = {http_only: true}
+      browser.cookies.add 'httponly', 'true', options
+
+      cookie = browser.cookies.to_a.find { |e| e[:name] == 'httponly' }
+
+      expect(cookie[:name]).to eq 'httponly'
+      expect(cookie[:value]).to eq 'true'
+      expect(cookie[:http_only]).to be true
+      expect(browser.execute_script('return document.cookie')).to be_empty
+    end
+
     it 'adds a cookie with expiration' do
       browser.goto WatirSpec.url_for 'index.html'
 
