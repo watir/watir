@@ -85,6 +85,8 @@ module Watir
         it 'click! elements within the shadow dom' do
           shadow_root = browser.div(id: 'shadow_host').shadow_root
           shadow_root.link.click!
+
+          browser.wait_while(url: /shadow_dom\.html$/)
           expect(browser.url).to include('scroll.html')
         end
 
