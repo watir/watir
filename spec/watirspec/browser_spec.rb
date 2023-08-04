@@ -353,7 +353,7 @@ module Watir
 
       it 'updates the page when location is changed with setTimeout + window.location' do
         browser.goto(WatirSpec.url_for('timeout_window_location.html'))
-        browser.wait_while { |b| b.url.include? 'timeout_window_location.html' }
+        browser.wait_while { |b| b.url.match?(/timeout_window_location|blank/) }
         expect(browser.url).to include('non_control_elements.html')
       end
     end

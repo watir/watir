@@ -83,7 +83,8 @@ module Watir
         end
 
         describe 'capabilities' do
-          it 'accepts namespaced value' do
+          it 'accepts namespaced value', except: {browser: :ie,
+                                                  reason: 'IE is more strict'} do
             options = {'key:value' => 'something'}
             @browser = described_class.new(browser_symbol, options: options)
 
@@ -193,7 +194,8 @@ module Watir
           expect(actual_listener).to eq listener
         end
 
-        describe 'proxy' do
+        describe 'proxy', except: {browser: :ie,
+                                   reason: 'Bug in Selenium 4.11 Selenium Manager'} do
           it 'adds Selenium Proxy to empty Options', except: {browser: :safari,
                                                               reason: 'Safari does not like proxies'} do
             proxy = Selenium::WebDriver::Proxy.new(http: '127.0.0.1:8080', ssl: '127.0.0.1:443')
