@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest, windows-latest]
+        os: [macos-13, windows-latest]
         ruby: [ 3.0, 3.2 ]
     steps:
       - name: Checkout source tree
@@ -21,7 +21,7 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
       - name: Set Mac resolution
-        if: ${{ matrix.os == 'macos-latest' }}
+        if: ${{ matrix.os == 'macos-13' }}
         run: |
           system_profiler SPDisplaysDataType | grep Resolution
           "/Library/Application Support/VMware Tools/vmware-resolutionSet" 2560 1440
