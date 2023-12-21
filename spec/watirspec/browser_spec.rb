@@ -424,9 +424,7 @@ module Watir
         expect(hash['element']).to be_a(Watir::Body)
       end
 
-      it 'wraps elements in a deep object',
-         except: {browser: %i[chrome edge],
-                  reason: 'https://bugs.chromium.org/p/chromedriver/issues/detail?id=4536'} do
+      it 'wraps elements in a deep object' do
         hash = browser.execute_script('return {elements: [document.body], body: {element: document.body }}')
 
         expect(hash['elements'].first).to be_a(Watir::Body)

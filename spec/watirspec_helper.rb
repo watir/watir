@@ -145,7 +145,7 @@ RSpec.configure do |config|
     headless = WatirSpec.implementation.browser_args.last[:headless]
     guards.add_condition(:headless, headless)
 
-    guards.add_condition(:ci, ENV['DESKTOP_SESSION'].nil?)
+    guards.add_condition(:ci, Selenium::WebDriver::Platform.ci)
 
     results = guards.disposition
     send(*results) if results
