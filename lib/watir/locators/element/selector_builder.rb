@@ -110,7 +110,7 @@ module Watir
             [how, what]
           when :label, :visible_label
             if should_use_label_element?
-              ["#{how}_element".to_sym, what]
+              [:"#{how}_element", what]
             else
               [how, what]
             end

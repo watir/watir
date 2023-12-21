@@ -46,7 +46,7 @@ module Watir
     def headers(row = nil)
       row ||= rows.first
       header_type = row.th.exist? ? 'th' : 'td'
-      row.send("#{header_type}s")
+      row.send(:"#{header_type}s")
     end
 
     #

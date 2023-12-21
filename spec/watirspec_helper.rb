@@ -38,7 +38,7 @@ class LocalConfig
   end
 
   def create_args
-    method = "#{browser}_args".to_sym
+    method = :"#{browser}_args"
     args = if private_methods.include?(method)
              send method
            else

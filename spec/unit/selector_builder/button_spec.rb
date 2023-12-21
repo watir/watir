@@ -194,7 +194,7 @@ module Watir
               expect(selector_builder.build(selector)).to eq built
             end
 
-            it 'raises exception when index is not an Integer', skip_after: true do
+            it 'raises exception when index is not an Integer', :skip_after do
               selector = {index: 'foo'}
               msg = /expected one of \[(Integer|Fixnum)\], got "foo":String/
               expect { selector_builder.build(selector) }.to raise_exception TypeError, msg

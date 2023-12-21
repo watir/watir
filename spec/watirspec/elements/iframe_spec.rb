@@ -160,7 +160,7 @@ module Watir
       # Point driver to browsing context of first iframe
       browser.iframes.first.ps.locate
 
-      expect(browser.h1s.first.text).to be == 'Iframes'
+      expect(browser.h1s.first.text).to eq 'Iframes'
     end
 
     it 'raises UnknownFrameException when accessing elements inside non-existing iframe' do

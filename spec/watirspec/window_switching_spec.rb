@@ -354,7 +354,7 @@ module Watir
         context 'when switching windows without blocks' do
           it 'by url' do
             browser.window(url: /window_switching\.html/).use
-            expect(browser.title).to be == 'window switching'
+            expect(browser.title).to eq 'window switching'
           end
 
           it 'by title' do
@@ -370,7 +370,7 @@ module Watir
 
         context 'when switching windows with blocks' do
           it 'by url' do
-            browser.window(url: /window_switching\.html/).use { expect(browser.title).to be == 'window switching' }
+            browser.window(url: /window_switching\.html/).use { expect(browser.title).to eq 'window switching' }
           end
 
           it 'by title' do
