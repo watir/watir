@@ -472,7 +472,7 @@ module Watir
         expect(new_size.height).to be > @initial_size.height
       end
 
-      it 'minimizes the window', except: {browser: :chrome, platform: :macosx, ci: :github} do
+      it 'minimizes the window' do
         expect(browser.execute_script('return document.visibilityState;')).to eq 'visible'
 
         browser.window.minimize
