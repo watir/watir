@@ -4,6 +4,8 @@ require 'watirspec_helper'
 
 module Watir
   describe Browser, exclude: {browser: :ie, reason: 'Cannot call #restore!'} do
+    before(:all) { browser.windows.restore! }
+
     before do
       browser.goto WatirSpec.url_for('window_switching.html')
       browser.a(id: 'open').click
