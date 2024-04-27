@@ -15,7 +15,7 @@ Watir Powered By Selenium!
 This README is for people interested in writing code for Watir or gems in the Watir ecosystem
 that leverage private-api Watir code.
 
-For our users, everything you'll need is on the [Watir website](http://watir.com):
+For our users, everything you'll need is on the [Watir website](http://watir.github.io/):
 examples, news, guides, additional resources, support information and more.
 
 ## Procedure for Patches/Pull Requests
